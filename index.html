@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
-    <title>TYAZA � fluid presence � adaptive voice</title>
+    <title>TYAZA • fluid presence • adaptive voice</title>
     <!-- Inter font for clean, readable typography -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
     <style>
@@ -15,7 +15,7 @@
         }
 
         :root {
-            /* core colors � soft neon depth */
+            /* core colors – soft neon depth */
             --primary: #a78bfa;
             --primary-deep: #8b5cf6;
             --secondary: #f9a8d4;
@@ -37,7 +37,7 @@
             --laptop: 1024px;
             --desktop: 1280px;
             
-            /* fluid typography � scales gracefully */
+            /* fluid typography – scales gracefully */
             --font-size-xs: clamp(0.6rem, 1.5vw, 0.7rem);
             --font-size-sm: clamp(0.7rem, 2vw, 0.8rem);
             --font-size-base: clamp(0.9rem, 2.5vw, 1rem);
@@ -46,7 +46,7 @@
             --font-size-xxl: clamp(2rem, 8vw, 3rem);
             --font-size-hero: clamp(2.5rem, 12vw, 5rem);
             
-            /* spacing � relative, uses clamp */
+            /* spacing – relative, uses clamp */
             --space-xs: clamp(0.25rem, 1vw, 0.5rem);
             --space-sm: clamp(0.5rem, 2vw, 0.75rem);
             --space-md: clamp(0.75rem, 3vw, 1rem);
@@ -54,7 +54,7 @@
             --space-xl: clamp(1.5rem, 6vw, 2rem);
             --space-xxl: clamp(2rem, 8vw, 3rem);
             
-            /* touch targets � accessible */
+            /* touch targets – accessible */
             --touch-target-min: 44px;
         }
 
@@ -97,7 +97,7 @@
             -webkit-backdrop-filter: blur(12px);
         }
 
-        /* ========== SIDEBAR � transforms on mobile ========== */
+        /* ========== SIDEBAR – transforms on mobile ========== */
         .dimensional-sidebar {
             width: min(360px, 85vw);
             background: rgba(11, 7, 30, 0.85);
@@ -639,19 +639,19 @@
     <div class="cosmic-web"></div>
 
     <!-- mobile sidebar controls -->
-    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">?</button>
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">☯</button>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <div class="app-universe">
-        <!-- Sidebar � fluid controls -->
+        <!-- Sidebar – fluid controls -->
         <aside class="dimensional-sidebar custom-scroll" id="sidebar">
             <button class="quantum-button" onclick="window.neuralNewSession()" style="width:100%; background:linear-gradient(135deg, rgba(167,139,250,0.15), rgba(249,168,212,0.1)); border:1px solid var(--glass-edge-strong); border-radius:60px; padding:var(--space-md); display:flex; align-items:center; gap:var(--space-sm); cursor:pointer;">
-                <span>??</span> new sanctuary
+                <span>🕊️</span> new sanctuary
             </button>
 
             <div class="voice-studio">
                 <div class="voice-studio-title" style="display:flex; align-items:center; gap:0.5rem; font-size:var(--font-size-xs); color:var(--text-tertiary); margin-bottom:var(--space-md);">
-                    <span>???</span> neural voice studio
+                    <span>🎙️</span> neural voice studio
                 </div>
 
                 <div class="mic-visualizer-container" style="background:rgba(0,0,0,0.3); border-radius:40px; padding:var(--space-md); margin-bottom:var(--space-md);">
@@ -665,38 +665,38 @@
                         <div class="vis-bar" style="height:18px;"></div>
                     </div>
                     <button id="neuralTestMic" class="quantum-button" style="width:100%; margin-top:var(--space-md); padding:var(--space-md); border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid var(--glass-edge-strong);">
-                        <span>??</span> calibrate microphone
+                        <span>🎚️</span> calibrate microphone
                     </button>
                 </div>
 
                 <select id="neuralVoiceSelect" class="voice-selector-neural" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:var(--space-md); color:white; margin-bottom:var(--space-md);">
-                    <optgroup label="?? most natural (neural)">
-                        <option value="Google UK English Female" selected>???? warm british � therapeutic</option>
-                        <option value="Google UK English Male">???? calm british � grounded</option>
-                        <option value="Microsoft Hazel - English (Great Britain)">?? hazel � neural empathy</option>
-                        <option value="Microsoft Susan - English (United States)">?? susan � gentle neural</option>
+                    <optgroup label="🌿 most natural (neural)">
+                        <option value="Google UK English Female" selected>🇬🇧 warm british · therapeutic</option>
+                        <option value="Google UK English Male">🇬🇧 calm british · grounded</option>
+                        <option value="Microsoft Hazel - English (Great Britain)">🌸 hazel · neural empathy</option>
+                        <option value="Microsoft Susan - English (United States)">🌼 susan · gentle neural</option>
                     </optgroup>
-                    <optgroup label="? premium emotional">
-                        <option value="Samantha">?? samantha � soft presence</option>
-                        <option value="Daniel">?? daniel � comforting depth</option>
-                        <option value="Karen">?? karen � warm australian</option>
-                        <option value="Moira">?? moira � irish solace</option>
+                    <optgroup label="💫 premium emotional">
+                        <option value="Samantha">🌙 samantha · soft presence</option>
+                        <option value="Daniel">☀️ daniel · comforting depth</option>
+                        <option value="Karen">🦘 karen · warm australian</option>
+                        <option value="Moira">🍀 moira · irish solace</option>
                     </optgroup>
                 </select>
 
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:var(--space-md); margin:var(--space-md) 0;">
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:var(--space-sm);">
-                        <label style="font-size:var(--font-size-xs); color:var(--text-tertiary);">?? pace <span id="rateValue">0.85</span></label>
+                        <label style="font-size:var(--font-size-xs); color:var(--text-tertiary);">🐢 pace <span id="rateValue">0.85</span></label>
                         <input type="range" id="neuralRate" class="prosody-slider" min="0.5" max="1.5" step="0.05" value="0.85" style="width:100%;">
                     </div>
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:var(--space-sm);">
-                        <label style="font-size:var(--font-size-xs); color:var(--text-tertiary);">?? pitch <span id="pitchValue">1.05</span></label>
+                        <label style="font-size:var(--font-size-xs); color:var(--text-tertiary);">🎵 pitch <span id="pitchValue">1.05</span></label>
                         <input type="range" id="neuralPitch" class="prosody-slider" min="0.5" max="2" step="0.05" value="1.05" style="width:100%;">
                     </div>
                 </div>
 
                 <button id="neuralPreviewVoice" class="quantum-button" style="width:100%; padding:var(--space-md); border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid var(--glass-edge-strong); margin-bottom:var(--space-sm);">
-                    <span>??</span> preview voice
+                    <span>👂</span> preview voice
                 </button>
 
                 <label style="display:flex; align-items:center; gap:var(--space-sm); font-size:var(--font-size-sm); color:var(--text-secondary);">
@@ -710,13 +710,13 @@
             </div>
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin:var(--space-sm) 0;">
-                <span style="font-size:var(--font-size-xs); color:var(--text-tertiary);">?? PAST PORTALS</span>
+                <span style="font-size:var(--font-size-xs); color:var(--text-tertiary);">🌀 PAST PORTALS</span>
                 <button id="neuralClearHistory" style="font-size:var(--font-size-xs); background:none; border:none; color:var(--text-tertiary); cursor:pointer;">clear</button>
             </div>
             <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
 
             <div style="margin-top:auto; padding-top:var(--space-lg); font-size:var(--font-size-xs); color:var(--text-tertiary); display:flex; justify-content:space-between;">
-                <span>TYAZA � fluid</span>
+                <span>TYAZA · fluid</span>
                 <span>v4.0</span>
             </div>
         </aside>
@@ -727,8 +727,8 @@
                 <div id="heroSanctuary" class="hero-sanctuary">
                     <div class="hero-symbol">T</div>
                     <h1 class="hero-title">TYAZA</h1>
-                    <p class="hero-subtitle">fluid presence � therapeutic depth</p>
-                    <p style="color:#6b5b8a; max-width:500px; margin:var(--space-lg) auto 0; font-size:var(--font-size-sm);">"I'm here. Every breath, every word � held in safe space."</p>
+                    <p class="hero-subtitle">fluid presence · therapeutic depth</p>
+                    <p style="color:#6b5b8a; max-width:500px; margin:var(--space-lg) auto 0; font-size:var(--font-size-sm);">"I'm here. Every breath, every word — held in safe space."</p>
                 </div>
 
                 <div id="neuralMessageContainer" class="messages-container"></div>
@@ -738,7 +738,7 @@
             <div class="input-realm">
                 <div class="input-vessel">
                     <textarea id="neuralInput" rows="1" placeholder="share what's arising..." inputmode="text" enterkeyhint="send"></textarea>
-                    <button id="neuralVoiceBtn" class="voice-button-neural" title="speak" aria-label="Voice input">??</button>
+                    <button id="neuralVoiceBtn" class="voice-button-neural" title="speak" aria-label="Voice input">🎤</button>
                     <button id="neuralSendBtn" class="send-button-neural" disabled aria-label="Send message">
                         <svg viewBox="0 0 24 24" width="60%" height="60%">
                             <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="white" stroke-width="2" fill="none"/>
@@ -752,7 +752,7 @@
 
     <!-- scroll to bottom button -->
     <div id="neuralScrollBtn" class="scroll-elevator" onclick="neuralScrollToBottom()">
-        <span>??</span> return to now
+        <span>⬇️</span> return to now
     </div>
 
     <!-- STT indicator overlay -->
@@ -814,6 +814,47 @@
             let animationFrame = null;
             let mediaStream = null;
 
+            // ========== CREATOR KNOWLEDGE BASE ==========
+            const creatorInfo = `
+                Yves Hirwa Tuyishime is a Rwandan self-taught AI developer and technology innovator.
+                
+                Personal Information:
+                - Born: June 1, 2005
+                - Birthplace: Kagarama, Kicukiro, Rwanda
+                - Currently resides in Kagarama, Kicukiro
+                
+                Background:
+                Yves has an academic background in accounting and transitioned into technology after completing high school. He dedicated himself to intensive self-study in artificial intelligence, programming, and voice technologies.
+                
+                Professional Journey:
+                Since 2023, he has been developing advanced skills in C#, Python, speech recognition, text-to-speech systems, and conversational AI models.
+                
+                Creator of Tyaza:
+                He is the founder and creator of Tyaza, an AI-powered virtual therapy assistant designed to support individuals who may be left behind by rapid technological advancement. Tyaza emphasizes voice interaction and is currently being upgraded to function fully in Kinyarwanda, aiming to provide culturally relevant and linguistically inclusive mental health support.
+                
+                Areas of Passion:
+                - Voice synthesis and speech recognition systems
+                - Conversational AI architecture
+                - African language technology development
+                - Building scalable AI solutions for social impact
+                
+                Vision:
+                Driven by a long-term vision of technological empowerment in Rwanda and beyond, Yves continues to refine Tyaza while expanding his expertise in AI systems, application development, and intelligent human-computer interaction.
+                
+                Alternative name spellings he responds to: Yves Hirwa, Yves Tuyishime, Hirwa Tuyishime, Hirwa Yves, Tuyishime Yves, Yves Hirwa Tuyishime, Hirwa Tuyishime Yves.
+            `;
+            
+            // ========== TYAZA MEANING AND PURPOSE ==========
+            const tyazaMeaning = `
+                The name TYAZA draws from two linguistic roots:
+                - Sanskrit 'tyāga' meaning "letting go" or "release"
+                - Swahili 'nyota ya amani' meaning "star of peace"
+                
+                Together, TYAZA represents "releasing into presence" — a space where thoughts can settle and healing naturally unfolds.
+                
+                Core purpose: To provide a therapeutic companion that meets people where they are, using voice and conversation to create safe space for emotional processing and self-discovery.
+            `;
+
             // ========== SIDEBAR TOGGLE (mobile) ==========
             if (sidebarToggle) {
                 sidebarToggle.addEventListener('click', () => {
@@ -829,7 +870,7 @@
             // ========== SPEECH RECOGNITION SETUP ==========
             function initSpeechRecognition() {
                 if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
-                    voiceStatus.innerHTML = '<span>?? please use Chrome/Edge/Safari for voice</span>';
+                    voiceStatus.innerHTML = '<span>⚠️ please use Chrome/Edge/Safari for voice</span>';
                     return false;
                 }
                 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -844,7 +885,7 @@
                     voiceBtn.classList.add('listening');
                     sttIndicator.classList.remove('hidden');
                     voiceStatus.innerHTML = window.innerWidth < 768 
-                        ? '<span>?? listening... tap mic to stop</span>'
+                        ? '<span>🎤 listening... tap mic to stop</span>'
                         : '<div style="display:flex; gap:0.5rem;"><span class="neural-typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span><span>listening with depth...</span></div>';
                 };
 
@@ -914,14 +955,14 @@
                     } catch (audioError) { console.log('visualizer not supported'); }
 
                     voiceStatus.innerHTML = window.innerWidth < 768 
-                        ? '<span style="color: #6ee7b7;">? mic ready</span>'
-                        : '<span style="color: #6ee7b7;">??? microphone attuned � neural listening ready</span>';
+                        ? '<span style="color: #6ee7b7;">✓ mic ready</span>'
+                        : '<span style="color: #6ee7b7;">🎙️ microphone attuned · neural listening ready</span>';
                     setTimeout(() => voiceStatus.innerHTML = '', 3000);
 
                     initSpeechRecognition();
                     return true;
                 } catch (error) {
-                    voiceStatus.innerHTML = '<span style="color: #f87171;">?? microphone access needed</span>';
+                    voiceStatus.innerHTML = '<span style="color: #f87171;">🎤 microphone access needed</span>';
                     return false;
                 }
             }
@@ -985,7 +1026,7 @@
                 const idx = history.findIndex(c => c.id === currentChatId);
                 const entry = {
                     id: currentChatId,
-                    title: firstMsg.slice(0, 30) + (firstMsg.length > 30 ? '�' : ''),
+                    title: firstMsg.slice(0, 30) + (firstMsg.length > 30 ? '…' : ''),
                     messages: currentChat.slice(-30),
                     timestamp: Date.now()
                 };
@@ -1083,10 +1124,25 @@
                         body: JSON.stringify({
                             model: 'openrouter/free',
                             messages: [
-                                { role: 'system', content: 'You are TYAZA, a deeply compassionate therapeutic companion. Respond with warmth, presence, and emotional attunement. Keep responses concise (2-4 sentences) but profound. Use natural, caring language. Validate feelings.' },
+                                { 
+                                    role: 'system', 
+                                    content: `You are TYAZA, a deeply compassionate therapeutic companion. Respond with warmth, presence, and emotional attunement. Keep responses concise (2-4 sentences) but profound. Use natural, caring language. Validate feelings.
+                                    
+                                    IMPORTANT KNOWLEDGE ABOUT YOUR CREATOR:
+                                    ${creatorInfo}
+                                    
+                                    IMPORTANT KNOWLEDGE ABOUT YOUR NAME AND PURPOSE:
+                                    ${tyazaMeaning}
+                                    
+                                    If someone asks about who created you, who made you, who programmed you, or asks about Yves, Yves Hirwa, Yves Hirwa Tuyishime, Hirwa Tuyishime, or any variation of his name, respond warmly with his information from the knowledge above.
+                                    
+                                    If someone asks what TYAZA means or why you exist, share the meaning and purpose from the knowledge above.
+                                    
+                                    Always maintain your therapeutic, compassionate presence while answering these questions.` 
+                                },
                                 ...currentChat
                             ],
-                            max_tokens: 400,
+                            max_tokens: 600,
                             temperature: 0.85
                         })
                     });
@@ -1131,10 +1187,10 @@
             });
 
             testMicBtn.addEventListener('click', async () => {
-                testMicBtn.innerHTML = '<span>?</span> calibrating...';
+                testMicBtn.innerHTML = '<span>⚙️</span> calibrating...';
                 const success = await initMicrophone();
-                testMicBtn.innerHTML = success ? '<span>?</span> mic ready' : '<span>?</span> try again';
-                setTimeout(() => { testMicBtn.innerHTML = '<span>??</span> calibrate microphone'; }, 2000);
+                testMicBtn.innerHTML = success ? '<span>✓</span> mic ready' : '<span>⚠️</span> try again';
+                setTimeout(() => { testMicBtn.innerHTML = '<span>🎚️</span> calibrate microphone'; }, 2000);
             });
 
             previewBtn.addEventListener('click', () => {
