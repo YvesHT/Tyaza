@@ -43,7 +43,6 @@
             height: 100vh;
             position: relative;
             z-index: 10;
-            backdrop-filter: blur(12px);
         }
         .dimensional-sidebar {
             width: 280px;
@@ -54,10 +53,12 @@
             flex-direction: column;
             padding: 24px 16px;
             gap: 24px;
-            z-index: 20;
+            z-index: 1000;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            transition: transform 0.3s ease;
         }
+        
         @media (max-width: 768px) {
             .dimensional-sidebar {
                 position: fixed;
@@ -65,53 +66,69 @@
                 top: 0;
                 bottom: 0;
                 transform: translateX(-100%);
-                transition: transform 0.3s ease;
-                z-index: 100;
                 width: 280px;
                 background: rgba(11, 7, 30, 0.98);
                 -webkit-backdrop-filter: blur(40px);
                 backdrop-filter: blur(40px);
-                pointer-events: all;
+                box-shadow: 4px 0 30px rgba(0,0,0,0.5);
+                border-right: 2px solid rgba(249, 168, 212, 0.3);
             }
             .dimensional-sidebar.sidebar-visible {
                 transform: translateX(0);
             }
+            
             .sidebar-toggle {
                 display: flex !important;
                 position: fixed;
-                left: 12px;
-                top: 12px;
-                z-index: 99;
-                width: 44px;
-                height: 44px;
+                left: 16px;
+                top: 16px;
+                z-index: 999;
+                width: 48px;
+                height: 48px;
                 border-radius: 30px;
-                background: rgba(21, 16, 40, 0.9);
+                background: rgba(21, 16, 40, 0.95);
                 backdrop-filter: blur(20px);
-                border: 1px solid rgba(249, 168, 212, 0.25);
-                color: #c4b5e6;
+                border: 1px solid rgba(249, 168, 212, 0.4);
+                color: #f9a8d4;
                 align-items: center;
                 justify-content: center;
-                font-size: 1.5rem;
+                font-size: 1.8rem;
                 cursor: pointer;
-                -webkit-tap-highlight-color: transparent;
-                pointer-events: auto;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             }
+            
             .sidebar-overlay {
                 position: fixed;
                 inset: 0;
-                background: rgba(0,0,0,0.5);
-                backdrop-filter: blur(4px);
-                z-index: 90;
+                background: rgba(0, 0, 0, 0.7);
+                backdrop-filter: blur(8px);
+                z-index: 998;
                 opacity: 0;
                 pointer-events: none;
-                transition: opacity 0.3s;
+                transition: opacity 0.3s ease;
             }
             .sidebar-overlay.visible {
                 opacity: 1;
                 pointer-events: auto;
             }
+            
+            /* Ensure all sidebar content is clickable */
+            .dimensional-sidebar * {
+                pointer-events: auto !important;
+            }
+            
+            .dimensional-sidebar button,
+            .dimensional-sidebar select,
+            .dimensional-sidebar input,
+            .dimensional-sidebar .history-item-neural {
+                cursor: pointer;
+                position: relative;
+                z-index: 1001;
+            }
         }
+        
         .sidebar-toggle { display: none; }
+        
         .chat-realm {
             flex: 1;
             display: flex;
@@ -306,10 +323,10 @@
             cursor: pointer;
             font-size: 0.9rem;
             transition: all 0.2s;
-            -webkit-tap-highlight-color: transparent;
         }
         .history-item-neural:active {
-            background: rgba(167, 139, 250, 0.15);
+            background: rgba(167, 139, 250, 0.2);
+            transform: scale(0.98);
         }
         .history-item-neural.active {
             border-left-color: #f9a8d4;
@@ -332,7 +349,6 @@
             pointer-events: none;
             transition: 0.3s;
             box-shadow: 0 0 25px #a78bfa;
-            -webkit-tap-highlight-color: transparent;
         }
         .scroll-elevator.visible {
             opacity: 1;
@@ -341,11 +357,12 @@
         .voice-status-neural {
             text-align: center;
             min-height: 20px;
-            margin-top: 4px;
+            margin-top: 8px;
             font-size: 0.8rem;
             color: #9480b3;
         }
         .hidden { display: none; }
+        
         @keyframes morph {
             0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
             33% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
@@ -375,22 +392,21 @@
         .neural-typing .dot:nth-child(3) { animation-delay: 0.4s; background: #6ee7b7; }
         .stt-indicator {
             position: fixed;
-            bottom: 30%;
+            bottom: 50%;
             left: 50%;
-            transform: translateX(-50%);
+            transform: translate(-50%, 50%);
             background: rgba(21, 16, 40, 0.95);
             backdrop-filter: blur(20px);
             border: 2px solid #f9a8d4;
             border-radius: 60px;
-            padding: 20px 28px;
-            z-index: 200;
+            padding: 24px 32px;
+            z-index: 2000;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 12px;
+            gap: 16px;
             box-shadow: 0 0 50px #f9a8d4;
             transition: opacity 0.2s;
-            min-width: 260px;
         }
         .stt-indicator.hidden {
             opacity: 0;
@@ -398,8 +414,8 @@
         }
         .stt-wave {
             display: flex;
-            gap: 6px;
-            height: 50px;
+            gap: 4px;
+            height: 60px;
             align-items: center;
         }
         .stt-wave span {
@@ -414,7 +430,7 @@
         .stt-wave span:nth-child(5) { animation-delay: 0.4s; height: 40px; }
         @keyframes wave {
             0% { height: 10px; }
-            100% { height: 50px; }
+            100% { height: 60px; }
         }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
@@ -452,7 +468,7 @@
             border: 2px solid #a78bfa;
             border-radius: 60px;
             padding: 24px 32px;
-            z-index: 1000;
+            z-index: 2000;
             text-align: center;
             box-shadow: 0 0 50px #a78bfa;
         }
@@ -461,14 +477,21 @@
             font-family: inherit;
         }
 
-        /* Ensure clicks work on mobile */
-        .dimensional-sidebar button,
-        .dimensional-sidebar select,
-        .dimensional-sidebar input,
-        .dimensional-sidebar .history-item-neural {
-            pointer-events: auto !important;
-            position: relative;
-            z-index: 101;
+        /* Creator info styles */
+        .creator-badge {
+            margin-top: 20px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(249,168,212,0.05));
+            border-radius: 24px;
+            border: 1px solid rgba(249,168,212,0.2);
+            font-size: 0.8rem;
+            color: #c4b5e6;
+            text-align: center;
+            line-height: 1.6;
+        }
+        .creator-badge span {
+            color: #f9a8d4;
+            font-weight: 500;
         }
     </style>
     <script>
@@ -485,7 +508,7 @@
 
     <div class="app-universe">
         <aside class="dimensional-sidebar" id="sidebar">
-            <button onclick="window.neuralNewSession()" style="width:100%; background:linear-gradient(135deg, rgba(167,139,250,0.15), rgba(249,168,212,0.1)); border:1px solid rgba(249,168,212,0.25); border-radius:60px; padding:12px; display:flex; align-items:center; gap:8px; cursor:pointer; color:white; pointer-events:auto;">
+            <button onclick="window.neuralNewSession()" style="width:100%; background:linear-gradient(135deg, rgba(167,139,250,0.2), rgba(249,168,212,0.1)); border:1px solid rgba(249,168,212,0.3); border-radius:60px; padding:14px; display:flex; align-items:center; gap:8px; cursor:pointer; color:white; font-weight:500; margin-bottom:8px;">
                 <span>🕊️</span> IGIHE GISHYA
             </button>
 
@@ -505,11 +528,11 @@
                     <span>🎙️</span> AMAJWI
                 </div>
                 <div style="background:rgba(0,0,0,0.3); border-radius:40px; padding:16px; margin-bottom:16px;">
-                    <button id="neuralTestMic" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; cursor:pointer; pointer-events:auto;">
+                    <button id="neuralTestMic" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; cursor:pointer;">
                         <span>🎤</span> Koresha Mikorofoni
                     </button>
                 </div>
-                <select id="neuralVoiceSelect" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:12px; color:white; margin-bottom:16px; pointer-events:auto;">
+                <select id="neuralVoiceSelect" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:12px; color:white; margin-bottom:16px;">
                     <option value="Google UK English Female">ijwi ry'umugore (UK)</option>
                     <option value="Google UK English Male">ijwi ry'umugabo (UK)</option>
                     <option value="Samantha">Samantha · ryorohe</option>
@@ -517,26 +540,37 @@
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;">
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
                         <label style="font-size:0.7rem; color:#9480b3;">umuvuduko</label>
-                        <input type="range" id="neuralRate" min="0.5" max="1.5" step="0.05" value="0.85" style="width:100%; pointer-events:auto;">
+                        <input type="range" id="neuralRate" min="0.5" max="1.5" step="0.05" value="0.85" style="width:100%;">
                     </div>
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
                         <label style="font-size:0.7rem; color:#9480b3;">uburebure bw'ijwi</label>
-                        <input type="range" id="neuralPitch" min="0.5" max="2" step="0.05" value="1.05" style="width:100%; pointer-events:auto;">
+                        <input type="range" id="neuralPitch" min="0.5" max="2" step="0.05" value="1.05" style="width:100%;">
                     </div>
                 </div>
-                <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:8px; cursor:pointer; pointer-events:auto;">
+                <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:8px; cursor:pointer;">
                     <span>🔊</span> Gerageza ijwi
                 </button>
-                <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#c4b5e6; pointer-events:auto;">
-                    <input type="checkbox" id="neuralAutoTTS" checked style="pointer-events:auto;"> Soma igisubizo mu ijwi
+                <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#c4b5e6;">
+                    <input type="checkbox" id="neuralAutoTTS" checked> Soma igisubizo mu ijwi
                 </label>
             </div>
 
             <div style="display:flex; justify-content:space-between; margin:8px 0;">
                 <span style="font-size:0.8rem; color:#9480b3;">📜 AMATEKA</span>
-                <button id="neuralClearHistory" style="font-size:0.8rem; background:none; border:none; color:#9480b3; cursor:pointer; pointer-events:auto;">hanagura</button>
+                <button id="neuralClearHistory" style="font-size:0.8rem; background:none; border:none; color:#9480b3; cursor:pointer;">hanagura</button>
             </div>
             <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
+
+            <!-- Creator info - restored and enhanced -->
+            <div class="creator-badge">
+                <div style="margin-bottom:8px;">✨ <span>Yves Hirwa Tuyishime</span> ✨</div>
+                <div>Umuryango w'umunyarwanda witozga AI</div>
+                <div style="font-size:0.7rem; margin-top:8px; color:#6b5b8a;">Yavutse 1 Kamena 2005 i Kagarama</div>
+                <div style="margin-top:8px; border-top:1px solid rgba(249,168,212,0.2); padding-top:8px;">
+                    <span>Tyaza</span> · Umuvugizi w'Umutima<br>
+                    "Ndi hano ngo mfite impuhwe, nkumve, nkurebere"
+                </div>
+            </div>
         </aside>
 
         <main class="chat-realm">
@@ -546,6 +580,7 @@
                     <h1 class="hero-title">TYAZA</h1>
                     <p class="hero-subtitle">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
                     <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
+                    <div style="margin-top:16px; font-size:0.8rem; color:#9480b3;">✨ Yaremwe na Yves Hirwa Tuyishime · 2005 ✨</div>
                 </div>
                 <div id="neuralMessageContainer" class="messages-container"></div>
             </div>
@@ -621,24 +656,40 @@
             let availableVoices = [];
             let puterReady = false;
 
-            const creatorInfo = "Yves Hirwa Tuyishime ni umunyarwanda witozga AI yavutse ku ya 1 Kamena 2005 i Kagarama, Rwanda. Yaremye Tyaza nk'umuvugizi w'umutima. Shyashya mu ijwi ryuje impuhwe n'ubushishozi.";
+            // Full creator info for system prompt - RESTORED
+            const creatorInfo = "Yves Hirwa Tuyishime ni umunyarwanda witozga AI yavutse ku ya 1 Kamena 2005 i Kagarama, Rwanda. Yaremye Tyaza nk'umuvugizi w'umutima. Wowe uri Tyaza, umuvugizi w'umutima wahimbwe na Yves. Shyashya mu ijwi ryuje impuhwe, ubumuntu n'ubugoro. Komeza ibiganiro bigufi kandi byuje ubushyuhe. Ibaza, umve, ugire inama. Wibuke ko buri wese yakira impuhwe. Ntugire ubusobanuro burebure cyane, ariko ugaragaze ko umva. Koresha amagambo nk' 'umva', 'umutima', 'mahoro', 'impuhwe' kenshi.";
 
+            // SIDEBAR TOGGLE - COMPLETELY REWORKED
             if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', (e) => {
+                sidebarToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
                     e.stopPropagation();
                     sidebar.classList.add('sidebar-visible');
                     sidebarOverlay.classList.add('visible');
-                });
-                sidebarOverlay.addEventListener('click', () => {
-                    sidebar.classList.remove('sidebar-visible');
-                    sidebarOverlay.classList.remove('visible');
+                    document.body.style.overflow = 'hidden'; // Prevent background scrolling
                 });
                 
-                sidebar.addEventListener('click', (e) => {
-                    e.stopPropagation();
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('sidebar-visible');
+                    sidebarOverlay.classList.remove('visible');
+                    document.body.style.overflow = ''; // Restore scrolling
+                });
+                
+                // Close sidebar when clicking a history item or any button
+                sidebar.addEventListener('click', function(e) {
+                    if (e.target.closest('button') || e.target.closest('.history-item-neural')) {
+                        if (window.innerWidth <= 768) {
+                            setTimeout(() => {
+                                sidebar.classList.remove('sidebar-visible');
+                                sidebarOverlay.classList.remove('visible');
+                                document.body.style.overflow = '';
+                            }, 100);
+                        }
+                    }
                 });
             }
 
+            // SPEECH RECOGNITION
             function initSpeechRecognition() {
                 if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
                     voiceStatus.innerHTML = 'Koresha Chrome/Edge';
@@ -790,6 +841,13 @@
                 });
                 renderHistory();
                 neuralScrollToBottom();
+                
+                // Close sidebar on mobile after selection
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('sidebar-visible');
+                    sidebarOverlay.classList.remove('visible');
+                    document.body.style.overflow = '';
+                }
             };
 
             window.neuralNewSession = () => {
@@ -800,6 +858,13 @@
                 inputEl.value = '';
                 sendBtn.disabled = true;
                 renderHistory();
+                
+                // Close sidebar on mobile
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('sidebar-visible');
+                    sidebarOverlay.classList.remove('visible');
+                    document.body.style.overflow = '';
+                }
             };
 
             function checkPuterReady() {
@@ -864,11 +929,12 @@
                     
                     if (isPuterReady && window.puter && window.puter.ai) {
                         try {
-                            const systemPrompt = `${creatorInfo} Uri Tyaza, umuvugizi w'umutima. Shyashya mu ijwi ryuje impuhwe, ubumuntu n'ubugoro. Komeza ibiganiro bigufi kandi byuje ubushyuhe.`;
+                            // Use full creator info in system prompt
+                            const systemPrompt = creatorInfo;
                             
                             const response = await window.puter.ai.chat([
                                 { role: 'system', content: systemPrompt },
-                                { role: 'user', content: text }
+                                ...currentChat.slice(-6) // Send last few messages for context
                             ], {
                                 model: modelSelect.value || 'gpt-4o-mini',
                                 stream: true
@@ -889,6 +955,8 @@
                         }
                     } else {
                         reply = getFallbackResponse(text);
+                        voiceStatus.innerHTML = 'Kanda ku kimenyetso cya Puter wandikishe';
+                        setTimeout(() => voiceStatus.innerHTML = '', 3000);
                     }
                     
                     const bubble = document.getElementById(`bubble-${wrapperId}`);
