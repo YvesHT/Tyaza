@@ -2,8 +2,8 @@
 <html lang="rw">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TYAZA · Ushyigikire mu Mutima</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>TYAZA · Umuvugizi w'Umutima</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -19,6 +19,7 @@
             --text-primary: #f3eaff;
             --text-secondary: #c4b5e6;
             --text-tertiary: #9480b3;
+            --sidebar-width: 280px;
         }
         body {
             font-family: 'Inter', sans-serif;
@@ -46,7 +47,7 @@
             backdrop-filter: blur(12px);
         }
         .dimensional-sidebar {
-            width: 280px;
+            width: var(--sidebar-width);
             background: rgba(11, 7, 30, 0.85);
             backdrop-filter: blur(40px);
             border-right: 1px solid rgba(167, 139, 250, 0.2);
@@ -56,6 +57,7 @@
             gap: 24px;
             z-index: 20;
             overflow-y: auto;
+            transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
         }
         @media (max-width: 768px) {
             .dimensional-sidebar {
@@ -64,9 +66,8 @@
                 top: 0;
                 bottom: 0;
                 transform: translateX(-100%);
-                transition: transform 0.3s;
-                z-index: 100;
-                width: 280px;
+                box-shadow: 4px 0 30px rgba(0,0,0,0.6);
+                width: min(85vw, 320px); /* adaptable to screen size */
             }
             .dimensional-sidebar.sidebar-visible {
                 transform: translateX(0);
@@ -77,23 +78,24 @@
                 left: 12px;
                 top: 12px;
                 z-index: 99;
-                width: 44px;
-                height: 44px;
-                border-radius: 30px;
+                width: 48px;
+                height: 48px;
+                border-radius: 40px;
                 background: rgba(21, 16, 40, 0.8);
                 backdrop-filter: blur(20px);
-                border: 1px solid rgba(249, 168, 212, 0.25);
-                color: #c4b5e6;
+                border: 1px solid rgba(249, 168, 212, 0.4);
+                color: #f9a8d4;
                 align-items: center;
                 justify-content: center;
-                font-size: 1.5rem;
+                font-size: 1.8rem;
                 cursor: pointer;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.5);
             }
             .sidebar-overlay {
                 position: fixed;
                 inset: 0;
-                background: rgba(0,0,0,0.5);
-                backdrop-filter: blur(4px);
+                background: rgba(0,0,0,0.6);
+                backdrop-filter: blur(6px);
                 z-index: 90;
                 opacity: 0;
                 pointer-events: none;
@@ -104,18 +106,23 @@
                 pointer-events: auto;
             }
         }
-        .sidebar-toggle { display: none; }
+        .sidebar-toggle { 
+            display: none; 
+            font-size: 1.8rem;
+            line-height: 1;
+        }
         .chat-realm {
             flex: 1;
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
+            width: 100%; /* ensures proper width on mobile */
         }
         .messages-vessel {
             flex: 1;
             overflow-y: auto;
-            padding: 24px 20px 120px;
+            padding: 24px 16px 120px; /* consistent padding */
             scroll-behavior: smooth;
         }
         .messages-container {
@@ -127,30 +134,30 @@
         }
         .hero-sanctuary {
             text-align: center;
-            padding: 40px 24px;
-            margin: 24px auto;
+            padding: 32px 20px;
+            margin: 16px auto;
             max-width: 600px;
             background: rgba(21, 16, 40, 0.4);
             backdrop-filter: blur(20px);
             border: 1px solid rgba(167, 139, 250, 0.2);
-            border-radius: 60px;
+            border-radius: 48px;
             box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
         }
         .hero-symbol {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 20px;
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 16px;
             background: linear-gradient(135deg, #a78bfa, #f9a8d4);
             border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
             animation: morph 10s infinite;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 2.8rem;
             color: white;
         }
         .hero-title {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 10vw, 3.5rem);
             font-weight: 700;
             background: linear-gradient(135deg, #fff, #f9a8d4, #a78bfa);
             -webkit-background-clip: text;
@@ -158,37 +165,33 @@
             color: transparent;
             margin-bottom: 8px;
         }
-        .hero-subtitle {
-            color: #9480b3;
-            font-size: 1rem;
-        }
         .message-user {
             align-self: flex-end;
             background: linear-gradient(135deg, #2a1e3c, #1f1630);
             border: 1px solid rgba(255,255,255,0.05);
             border-radius: 24px 24px 8px 24px;
-            padding: 14px 20px;
-            max-width: 80%;
+            padding: 12px 18px;
+            max-width: 85%;
             color: #f3eaff;
             font-size: 1rem;
-            box-shadow: 0 20px 30px -10px black;
+            word-break: break-word;
         }
         .message-tyaza-wrapper {
             display: flex;
-            gap: 16px;
+            gap: 14px;
             width: 100%;
         }
         .tyaza-avatar-neural {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             background: linear-gradient(145deg, #a78bfa, #f9a8d4);
-            border-radius: 24px;
+            border-radius: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: white;
-            box-shadow: 0 0 30px #a78bfa;
+            box-shadow: 0 0 25px #a78bfa;
             flex-shrink: 0;
         }
         .tyaza-bubble-neural {
@@ -196,20 +199,20 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(167, 139, 250, 0.2);
             border-radius: 24px 24px 24px 8px;
-            padding: 16px 24px;
+            padding: 14px 20px;
             color: #c4b5e6;
-            line-height: 1.7;
+            line-height: 1.6;
             font-size: 1rem;
             width: 100%;
-            box-shadow: 0 20px 40px -12px black;
+            word-break: break-word;
         }
         .input-realm {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 20px 20px 25px;
-            background: linear-gradient(to top, #030014 70%, transparent);
+            padding: 16px 16px 20px;
+            background: linear-gradient(to top, #030014 80%, transparent);
             z-index: 30;
         }
         .input-vessel {
@@ -237,9 +240,6 @@
             max-height: 120px;
             line-height: 1.5;
         }
-        .input-vessel textarea::placeholder {
-            color: #9480b3;
-        }
         .send-button-neural {
             width: 52px;
             height: 52px;
@@ -255,220 +255,92 @@
             box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4);
             flex-shrink: 0;
         }
-        .send-button-neural:active {
-            transform: scale(0.9);
-        }
-        .send-button-neural:disabled {
-            opacity: 0.4;
-            pointer-events: none;
-        }
-        /* New microphone button styling */
         .voice-button-neural {
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: rgba(167, 139, 250, 0.2);
-            border: 2px solid rgba(249, 168, 212, 0.6);
+            background: rgba(167, 139, 250, 0.15);
+            border: 1px solid rgba(249, 168, 212, 0.4);
             color: #f9a8d4;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             flex-shrink: 0;
-            position: relative;
-            box-shadow: 0 0 15px rgba(249, 168, 212, 0.3);
         }
-        .voice-button-neural:hover {
-            background: rgba(249, 168, 212, 0.2);
-            border-color: #ec4899;
-            transform: scale(1.05);
+        .voice-status-neural {
+            text-align: center;
+            min-height: 24px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: #f9a8d4;
+            padding: 0 8px;
         }
-        .voice-button-neural.listening {
-            background: #ec4899;
-            color: white;
-            border-color: white;
-            animation: pulse-mic 1.5s infinite;
-            box-shadow: 0 0 30px #ec4899;
-        }
-        .voice-button-neural svg {
-            width: 24px;
-            height: 24px;
-            fill: currentColor;
-        }
-        .voice-studio {
-            background: rgba(21, 16, 40, 0.6);
+        .stt-indicator {
+            position: fixed;
+            bottom: 30%;
+            left: 50%;
+            transform: translate(-50%, 0);
+            background: rgba(21, 16, 40, 0.95);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(167, 139, 250, 0.2);
-            border-radius: 24px;
-            padding: 20px 16px;
-        }
-        .history-item-neural {
-            padding: 12px;
-            border-radius: 16px;
-            background: rgba(167, 139, 250, 0.05);
-            border-left: 4px solid transparent;
-            margin-bottom: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-        .history-item-neural.active {
-            border-left-color: #f9a8d4;
-            background: rgba(249, 168, 212, 0.1);
+            border: 2px solid #f9a8d4;
+            border-radius: 60px;
+            padding: 20px 28px;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 0 50px #f9a8d4;
+            width: 90%;
+            max-width: 380px;
         }
         .scroll-elevator {
             position: absolute;
-            bottom: 120px;
-            right: 20px;
+            bottom: 110px;
+            right: 16px;
             background: rgba(21, 16, 40, 0.9);
             backdrop-filter: blur(10px);
             border: 1px solid #f9a8d4;
             border-radius: 50px;
-            padding: 8px 16px;
+            padding: 10px 16px;
             color: #c4b5e6;
             font-size: 0.9rem;
             cursor: pointer;
             z-index: 40;
             opacity: 0;
             pointer-events: none;
-            transition: 0.3s;
+            transition: 0.2s;
             box-shadow: 0 0 25px #a78bfa;
         }
-        .scroll-elevator.visible {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .voice-status-neural {
-            text-align: center;
-            min-height: 30px;
-            margin-top: 8px;
-            font-size: 0.9rem;
-            color: #f9a8d4;
-        }
-        .hidden { display: none; }
-        @keyframes morph {
-            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-            33% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
-            66% { border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%; }
-        }
-        @keyframes pulse-mic {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(236,72,153,0.7); }
-            50% { box-shadow: 0 0 0 20px rgba(236,72,153,0); }
-        }
-        @keyframes typing {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
-            30% { transform: translateY(-8px); opacity: 1; }
-        }
-        .neural-typing {
-            display: flex;
-            gap: 6px;
-            padding: 8px 0;
-        }
-        .neural-typing .dot {
-            width: 8px;
-            height: 8px;
-            background: #a78bfa;
-            border-radius: 50%;
-            animation: typing 1.4s infinite;
-        }
-        .neural-typing .dot:nth-child(2) { animation-delay: 0.2s; background: #f9a8d4; }
-        .neural-typing .dot:nth-child(3) { animation-delay: 0.4s; background: #6ee7b7; }
-        .stt-indicator {
-            position: fixed;
-            bottom: 50%;
-            left: 50%;
-            transform: translate(-50%, 50%);
-            background: rgba(21, 16, 40, 0.95);
-            backdrop-filter: blur(20px);
-            border: 2px solid #f9a8d4;
-            border-radius: 60px;
-            padding: 24px 32px;
-            z-index: 200;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 16px;
-            box-shadow: 0 0 50px #f9a8d4;
-            transition: opacity 0.3s;
-        }
-        .stt-indicator.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .stt-wave {
-            display: flex;
-            gap: 4px;
-            height: 60px;
-            align-items: center;
-        }
-        .stt-wave span {
-            width: 5px;
-            background: linear-gradient(to top, #a78bfa, #f9a8d4);
-            border-radius: 10px;
-            animation: wave 0.8s infinite alternate;
-        }
-        .stt-wave span:nth-child(2) { animation-delay: 0.1s; height: 30px; }
-        .stt-wave span:nth-child(3) { animation-delay: 0.2s; height: 45px; }
-        .stt-wave span:nth-child(4) { animation-delay: 0.3s; height: 25px; }
-        .stt-wave span:nth-child(5) { animation-delay: 0.4s; height: 40px; }
-        @keyframes wave {
-            0% { height: 10px; }
-            100% { height: 60px; }
-        }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #a78bfa; border-radius: 20px; }
-        
-        .model-selector {
-            background: rgba(21, 16, 40, 0.6);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(167, 139, 250, 0.2);
-            border-radius: 24px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-        .model-select {
-            width: 100%;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(167, 139, 250, 0.3);
-            border-radius: 30px;
-            padding: 10px;
-            color: white;
-            font-size: 0.9rem;
-            margin-top: 8px;
-        }
-        .model-select option {
-            background: #151032;
-        }
-        
         .puter-loading {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(21, 16, 40, 0.95);
+            background: rgba(21, 16, 40, 0.96);
             backdrop-filter: blur(20px);
             border: 2px solid #a78bfa;
             border-radius: 60px;
-            padding: 24px 32px;
+            padding: 28px 36px;
             z-index: 1000;
             text-align: center;
-            box-shadow: 0 0 50px #a78bfa;
+            box-shadow: 0 0 60px #a78bfa;
+            width: 80%;
+            max-width: 340px;
         }
-
-        .retry-button {
-            background: linear-gradient(135deg, #a78bfa, #ec4899);
-            border: none;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 30px;
-            margin-top: 12px;
-            cursor: pointer;
-            font-size: 0.9rem;
+        /* Make sidebar content scrollable on small screens */
+        .dimensional-sidebar {
+            overflow-y: auto;
+        }
+        @keyframes morph {
+            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            33% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
+            66% { border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%; }
         }
     </style>
-    <!-- Load Puter.js -->
+    <script>window.puter = window.puter || null;</script>
     <script src="https://js.puter.com/v2/"></script>
 </head>
 <body>
@@ -479,89 +351,67 @@
 
     <div class="app-universe">
         <aside class="dimensional-sidebar" id="sidebar">
-            <button onclick="window.neuralNewSession()" style="width:100%; background:linear-gradient(135deg, rgba(167,139,250,0.15), rgba(249,168,212,0.1)); border:1px solid rgba(249,168,212,0.25); border-radius:60px; padding:12px; display:flex; align-items:center; gap:8px; cursor:pointer; color:white;">
-                <span>🕊️</span> Ikiganiro Gishya
+            <button onclick="window.neuralNewSession()" style="width:100%; background:linear-gradient(135deg, rgba(167,139,250,0.15), rgba(249,168,212,0.1)); border:1px solid rgba(249,168,212,0.25); border-radius:60px; padding:12px; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer; color:white; font-weight:500;">
+                <span>✨</span> IGIHE GISHYA
             </button>
 
-            <!-- Model Selector - Kinyarwanda -->
             <div class="model-selector">
                 <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:#9480b3; margin-bottom:8px;">
-                    <span>🧠</span> Ubwoko bwa AI
+                    <span>🧠</span> UBUHANGA
                 </div>
-                <select id="modelSelect" class="model-select">
-                    <option value="gpt-4o-mini">GPT-4o Mini (Yihuta)</option>
-                    <option value="claude-3-haiku">Claude 3 Haiku (Yoroheje)</option>
-                    <option value="gemini-1.5-flash">Gemini Flash (Ingirakamaro)</option>
+                <select id="modelSelect" class="model-select" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:10px; color:white;">
+                    <option value="gpt-4o-mini">GPT-4o Mini (vuba · impuhwe)</option>
+                    <option value="claude-3-haiku">Claude 3 Haiku (ubugoro)</option>
+                    <option value="gemini-1.5-flash">Gemini Flash (ringing)</option>
                 </select>
             </div>
 
-            <!-- Voice Studio - Kinyarwanda -->
-            <div class="voice-studio">
+            <div class="voice-studio" style="background:rgba(21,16,40,0.4); border-radius:24px; padding:16px;">
                 <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:#9480b3; margin-bottom:16px;">
-                    <span>🎙️</span> Amajwi
+                    <span>🎙️</span> AMAJWI
                 </div>
-                <div style="background:rgba(0,0,0,0.3); border-radius:40px; padding:16px; margin-bottom:16px;">
-                    <button id="neuralTestMic" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; cursor:pointer;">
-                        <span>🎤</span> Koresha Makirofoni
-                    </button>
-                </div>
-                <select id="neuralVoiceSelect" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:12px; color:white; margin-bottom:16px;">
-                    <option value="Google UK English Female">Ijwi ry'Umugore</option>
-                    <option value="Google UK English Male">Ijwi ry'Umugabo</option>
-                    <option value="Samantha">Ijwi Ryoroheje</option>
+                <button id="neuralTestMic" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; cursor:pointer; margin-bottom:12px;">
+                    <span>🎤</span> Koresha Mikorofoni
+                </button>
+                <select id="neuralVoiceSelect" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:10px; color:white; margin-bottom:16px;">
+                    <option value="Google UK English Female">ijwi ry'umugore (UK)</option>
+                    <option value="Google UK English Male">ijwi ry'umugabo (UK)</option>
+                    <option value="Samantha">Samantha · ryorohe</option>
                 </select>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;">
-                    <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
-                        <label style="font-size:0.7rem; color:#9480b3;">Umuvuduko</label>
-                        <input type="range" id="neuralRate" min="0.5" max="1.5" step="0.05" value="0.85" style="width:100%;">
-                    </div>
-                    <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
-                        <label style="font-size:0.7rem; color:#9480b3;">Uburebure bw'Ijwi</label>
-                        <input type="range" id="neuralPitch" min="0.5" max="2" step="0.05" value="1.05" style="width:100%;">
-                    </div>
+                    <div><label style="font-size:0.7rem; color:#9480b3;">umuvuduko</label><input type="range" id="neuralRate" min="0.5" max="1.5" step="0.05" value="0.85" style="width:100%;"></div>
+                    <div><label style="font-size:0.7rem; color:#9480b3;">uburebure</label><input type="range" id="neuralPitch" min="0.5" max="2" step="0.05" value="1.05" style="width:100%;"></div>
                 </div>
-                <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:8px; cursor:pointer;">
-                    <span>🔮</span> Gerageza Ijwi
+                <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:12px; cursor:pointer;">
+                    <span>🔊</span> Gerageza ijwi
                 </button>
-                <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#c4b5e6;">
-                    <input type="checkbox" id="neuralAutoTTS" checked> Vuga ibisubizo mu ijwi
-                </label>
+                <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#c4b5e6;"><input type="checkbox" id="neuralAutoTTS" checked> Soma igisubizo mu ijwi</label>
             </div>
 
-            <!-- History - Kinyarwanda -->
-            <div style="display:flex; justify-content:space-between; margin:8px 0;">
-                <span style="font-size:0.8rem; color:#9480b3;">📜 AMATEKA Y'IBIGANIRO</span>
+            <div style="display:flex; justify-content:space-between; margin:12px 0 8px;">
+                <span style="font-size:0.8rem; color:#9480b3;">📜 AMATEKA</span>
                 <button id="neuralClearHistory" style="font-size:0.8rem; background:none; border:none; color:#9480b3; cursor:pointer;">hanagura</button>
             </div>
-            <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
+            <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto; min-height:100px;"></div>
         </aside>
 
         <main class="chat-realm">
             <div id="chatViewport" class="messages-vessel">
-                <!-- Hero - Kinyarwanda -->
                 <div id="heroSanctuary" class="hero-sanctuary">
                     <div class="hero-symbol">T</div>
                     <h1 class="hero-title">TYAZA</h1>
-                    <p class="hero-subtitle">uhagaze neza · umutuzo w'umutima</p>
-                    <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri gitekerezo, buri jambo — mbikuye mu mutima."</p>
+                    <p class="hero-subtitle" style="color:#9480b3;">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
+                    <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
                 </div>
                 <div id="neuralMessageContainer" class="messages-container"></div>
             </div>
 
-            <!-- Input Area - Kinyarwanda -->
             <div class="input-realm">
                 <div class="input-vessel">
-                    <textarea id="neuralInput" rows="1" placeholder="sangiza ibiri ku mutima..."></textarea>
-                    <button id="neuralVoiceBtn" class="voice-button-neural">
-                        <svg viewBox="0 0 24 24">
-                            <path d="M12 2C10.9 2 10 2.9 10 4V12C10 13.1 10.9 14 12 14C13.1 14 14 13.1 14 12V4C14 2.9 13.1 2 12 2Z" fill="currentColor"/>
-                            <path d="M19 12C19 15.9 15.9 19 12 19C8.1 19 5 15.9 5 12H3C3 16.4 6.6 20 11 20.9V23H13V20.9C17.4 20 21 16.4 21 12H19Z" fill="currentColor"/>
-                        </svg>
-                    </button>
+                    <textarea id="neuralInput" rows="1" placeholder="sangiza icyo utekereza..."></textarea>
+                    <button id="neuralVoiceBtn" class="voice-button-neural">🎤</button>
                     <button id="neuralSendBtn" class="send-button-neural" disabled>
-                        <svg viewBox="0 0 24 24" width="24" height="24">
-                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="white" stroke-width="2" fill="none"/>
-                        </svg>
+                        <svg viewBox="0 0 24 24" width="24" height="24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="white" stroke-width="2" fill="none"/></svg>
                     </button>
                 </div>
                 <div id="neuralVoiceStatus" class="voice-status-neural"></div>
@@ -569,32 +419,12 @@
         </main>
     </div>
 
-    <!-- Scroll Button - Kinyarwanda -->
-    <div id="neuralScrollBtn" class="scroll-elevator" onclick="neuralScrollToBottom()">
-        <span>⬇️</span> subira hasi
-    </div>
-
-    <!-- STT Indicator -->
-    <div id="sttIndicator" class="stt-indicator hidden">
-        <div class="stt-wave">
-            <span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <div style="color:#f9a8d4;">ndakumva...</div>
-        <div style="font-size:0.8rem; color:#9480b3;" id="sttTranscript"></div>
-    </div>
-
-    <!-- Loading -->
-    <div id="puterLoading" class="puter-loading hidden">
-        <div class="neural-typing" style="justify-content:center;">
-            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
-        </div>
-        <div style="margin-top:16px;">Ihuza na Puter...</div>
-        <button id="retryPuter" class="retry-button hidden">Ongera ugerageze</button>
-    </div>
+    <div id="neuralScrollBtn" class="scroll-elevator" onclick="neuralScrollToBottom()"><span>⬇️</span> subira hasi</div>
+    <div id="sttIndicator" class="stt-indicator hidden"><div class="stt-wave" style="display:flex; gap:6px;">🔴🎤⚪</div><div style="color:#f9a8d4;">ndakumva...</div><div id="sttTranscript" style="font-size:0.9rem;"></div></div>
+    <div id="puterLoading" class="puter-loading hidden"><div>⏳ Ihuza na Puter...</div></div>
 
     <script>
         (function() {
-            // === DOM ELEMENTS ===
             const viewport = document.getElementById('chatViewport');
             const msgContainer = document.getElementById('neuralMessageContainer');
             const hero = document.getElementById('heroSanctuary');
@@ -615,13 +445,11 @@
             const sttTranscript = document.getElementById('sttTranscript');
             const modelSelect = document.getElementById('modelSelect');
             const puterLoading = document.getElementById('puterLoading');
-            const retryBtn = document.getElementById('retryPuter');
-            
             const sidebar = document.getElementById('sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-            // === STATE ===
+            // --- state ---
             let currentChat = [];
             let currentChatId = Date.now();
             let isGenerating = false;
@@ -630,14 +458,13 @@
             let isListening = false;
             let synth = window.speechSynthesis;
             let availableVoices = [];
-            let puterReady = false;
-            let useLocalAI = false;
 
-            const creatorInfo = "Yves Hirwa Tuyishime ni umunyarwanda wigishije ubwenge bw'ikoranabuhanga, yavutse ku ya 1 Kamena 2005 i Kagarama, Rwanda. Yakoze Tyaza nk'umuvugizi w'umutima. Shyigikira abakoresha bayo mu ijambo ryuje urukundo n'ubushyikirano.";
+            const creatorInfo = "Yves Hirwa Tuyishime ni umunyarwanda witozga AI yavutse ku ya 1 Kamena 2005 i Kagarama, Rwanda. Yaremye Tyaza nk'umuvugizi w'umutima. Shyashya mu ijwi ryuje impuhwe n'ubushishozi.";
 
-            // === SIDEBAR TOGGLE ===
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', () => {
+            // --- sidebar toggle (fixed) ---
+            if (sidebarToggle && sidebarOverlay) {
+                sidebarToggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     sidebar.classList.add('sidebar-visible');
                     sidebarOverlay.classList.add('visible');
                 });
@@ -645,34 +472,36 @@
                     sidebar.classList.remove('sidebar-visible');
                     sidebarOverlay.classList.remove('visible');
                 });
+                // close on swipe or any click outside
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && sidebar.classList.contains('sidebar-visible')) {
+                        sidebar.classList.remove('sidebar-visible');
+                        sidebarOverlay.classList.remove('visible');
+                    }
+                });
             }
 
-            // === SPEECH RECOGNITION ===
+            // --- speech ---
             function initSpeechRecognition() {
-                if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
-                    voiceStatus.innerHTML = 'Koresha Chrome cyangwa Edge';
-                    return false;
-                }
+                if (!window.SpeechRecognition && !window.webkitSpeechRecognition) return false;
                 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
                 recognition = new SR();
                 recognition.continuous = false;
                 recognition.interimResults = true;
-                recognition.lang = 'rw-RW,en-US'; // Kinyarwanda and English
+                recognition.lang = 'rw-RW,en-US'; // fallback
 
                 recognition.onstart = () => {
                     isListening = true;
                     voiceBtn.classList.add('listening');
                     sttIndicator.classList.remove('hidden');
-                    voiceStatus.innerHTML = 'Ndayumva...';
+                    voiceStatus.innerHTML = 'Ndakumva...';
                 };
-
                 recognition.onend = () => {
                     isListening = false;
                     voiceBtn.classList.remove('listening');
                     sttIndicator.classList.add('hidden');
                     if (inputEl.value.trim()) sendMessage();
                 };
-
                 recognition.onresult = (event) => {
                     let transcript = '';
                     for (let i = 0; i < event.results.length; i++) {
@@ -682,7 +511,6 @@
                     sendBtn.disabled = !transcript.trim() || isGenerating;
                     sttTranscript.textContent = transcript;
                 };
-
                 recognition.onerror = (e) => {
                     voiceStatus.innerHTML = `Ikosa: ${e.error}`;
                     isListening = false;
@@ -692,403 +520,157 @@
                 return true;
             }
 
-            // === MICROPHONE ===
             async function initMicrophone() {
                 try {
                     await navigator.mediaDevices.getUserMedia({ audio: true });
                     micPermission = true;
-                    voiceStatus.innerHTML = 'Makirofoni ikora';
+                    voiceStatus.innerHTML = 'Mikorofoni yiteguye';
                     setTimeout(() => voiceStatus.innerHTML = '', 2000);
                     initSpeechRecognition();
                     return true;
-                } catch (error) {
-                    voiceStatus.innerHTML = 'Makirofoni irakenewe';
+                } catch {
+                    voiceStatus.innerHTML = 'Emera mikorofoni';
                     return false;
                 }
             }
 
-            // === TEXT TO SPEECH ===
+            // --- TTS ---
             function speakNeural(text) {
                 if (!synth || !autoTTS.checked) return;
                 synth.cancel();
                 const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
                 const utterance = new SpeechSynthesisUtterance(cleanText);
-                
-                if (availableVoices.length > 0) {
-                    const selectedVoiceName = voiceSelect.value;
-                    const voice = availableVoices.find(v => v.name.includes(selectedVoiceName)) || availableVoices[0];
+                if (availableVoices.length) {
+                    const selected = voiceSelect.value;
+                    const voice = availableVoices.find(v => v.name.includes(selected)) || availableVoices[0];
                     utterance.voice = voice;
                 }
-                
                 utterance.rate = parseFloat(rateRange.value);
                 utterance.pitch = parseFloat(pitchRange.value);
                 synth.speak(utterance);
             }
 
-            function loadVoices() {
-                availableVoices = synth.getVoices();
-            }
+            function loadVoices() { availableVoices = synth.getVoices(); }
+            if (synth) { loadVoices(); synth.onvoiceschanged = loadVoices; }
 
-            if (synth) {
-                loadVoices();
-                synth.onvoiceschanged = loadVoices;
-            }
-
-            // === FORMATTING ===
-            function escapeHtml(text) {
-                return text.replace(/[&<>]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' })[c]);
-            }
-
+            // --- helpers ---
+            function escapeHtml(t) { return t.replace(/[&<>]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' })[c]); }
             function formatNeural(text) {
                 if (!text) return '';
                 let escaped = escapeHtml(text);
-                
-                const emotions = ['understand', 'feel', 'hear', 'safe', 'comfort', 'sorry', 'alone', 'pain', 'sad', 'anxious', 'afraid', 'grateful', 'hope'];
+                const emotions = ['umva','umutima','mahoro','impuhwe','mbabarwe','wigitsa','ubwoba','agahinda','ibyishimo','ishinga','komeza'];
                 emotions.forEach(word => {
                     const regex = new RegExp(`\\b(${word})\\b`, 'gi');
                     escaped = escaped.replace(regex, '<span style="color:#f9a8d4;font-weight:500;">$1</span>');
                 });
-                
-                escaped = escaped.replace(/\n/g, '<br>');
-                return `<div>${escaped}</div>`;
+                return escaped.replace(/\n/g, '<br>');
             }
 
-            // === HISTORY ===
             function saveNeuralSession(firstMsg) {
                 if (!firstMsg || currentChat.length === 0) return;
                 const history = JSON.parse(localStorage.getItem('tyaza_history') || '[]');
-                const entry = {
-                    id: currentChatId,
-                    title: firstMsg.slice(0, 30),
-                    messages: currentChat.slice(-10),
-                    timestamp: Date.now()
-                };
-                history.unshift(entry);
-                localStorage.setItem('tyaza_history', JSON.stringify(history.slice(0, 10)));
+                history.unshift({ id: currentChatId, title: firstMsg.slice(0,30), messages: currentChat.slice(-10), timestamp: Date.now() });
+                localStorage.setItem('tyaza_history', JSON.stringify(history.slice(0,10)));
                 renderHistory();
             }
 
             function renderHistory() {
                 const history = JSON.parse(localStorage.getItem('tyaza_history') || '[]');
-                if (history.length === 0) {
-                    historyContainer.innerHTML = '<div style="color:#9480b3; padding:12px;">Nta mateka</div>';
-                    return;
-                }
+                if (!history.length) { historyContainer.innerHTML = '<div style="color:#9480b3; padding:12px;">Nta mateka</div>'; return; }
                 historyContainer.innerHTML = history.map(c => `
-                    <div class="history-item-neural" onclick="window.restoreNeural('${c.id}')">
+                    <div class="history-item-neural" onclick="window.restoreNeural('${c.id}')" style="padding:10px; background:rgba(167,139,250,0.05); border-radius:16px; margin-bottom:6px; cursor:pointer;">
                         <div style="font-weight:500;">${escapeHtml(c.title)}</div>
                         <div style="font-size:0.7rem; color:#9480b3;">${new Date(c.timestamp).toLocaleDateString()}</div>
-                    </div>
-                `).join('');
+                    </div>`).join('');
             }
-
             window.restoreNeural = (id) => {
                 const history = JSON.parse(localStorage.getItem('tyaza_history') || '[]');
                 const chat = history.find(c => c.id == id);
                 if (!chat) return;
-                currentChatId = chat.id;
-                currentChat = chat.messages;
+                currentChatId = chat.id; currentChat = chat.messages || [];
                 hero.style.display = 'none';
                 msgContainer.innerHTML = '';
-                currentChat.forEach(msg => {
-                    if (msg.role === 'user') {
-                        msgContainer.innerHTML += `<div class="message-user">${escapeHtml(msg.content)}</div>`;
-                    } else {
-                        msgContainer.innerHTML += `
-                            <div class="message-tyaza-wrapper">
-                                <div class="tyaza-avatar-neural">T</div>
-                                <div class="tyaza-bubble-neural">${formatNeural(msg.content)}</div>
-                            </div>
-                        `;
-                    }
+                currentChat.forEach(m => {
+                    if (m.role === 'user') msgContainer.innerHTML += `<div class="message-user">${escapeHtml(m.content)}</div>`;
+                    else msgContainer.innerHTML += `<div class="message-tyaza-wrapper"><div class="tyaza-avatar-neural">T</div><div class="tyaza-bubble-neural">${formatNeural(m.content)}</div></div>`;
                 });
-                renderHistory();
-                neuralScrollToBottom();
+                renderHistory(); neuralScrollToBottom();
             };
+            window.neuralNewSession = () => { hero.style.display = 'block'; msgContainer.innerHTML = ''; currentChat = []; currentChatId = Date.now(); inputEl.value = ''; sendBtn.disabled = true; renderHistory(); };
 
-            window.neuralNewSession = () => {
-                hero.style.display = 'block';
-                msgContainer.innerHTML = '';
-                currentChat = [];
-                currentChatId = Date.now();
-                inputEl.value = '';
-                sendBtn.disabled = true;
-                renderHistory();
-            };
+            function getFallbackResponse() { return ["Ndumva. Urakoze kunsangiza ibi.","Ndi kumwe nawe. Wabona tubyongereho?","Urakoze kundekera. Hari ikindi?"][Math.floor(Math.random()*3)]; }
 
-            // === FALLBACK RESPONSES ===
-            const fallbackResponses = [
-                "Ndakumva. Murakoze kubigambira. Ni iki kindi kiri ku mutima?",
-                "Ibyo twabishakisha hamwe. Wumva umeze ute?",
-                "Ndi hano kugufasha. Wumva iki kuri ibi?",
-                "Murakoze kunyizera. Mbwira ibindi.",
-                "Ndayumva. Buri jambo ryawe rirakomeye.",
-                "Ibyo ni ingenzi. Ibi bimeze rite kuri wowe?",
-                "Murakoze kumbwira. Ni iki cyagufasha ubu?",
-                "Aka ni akanya kawe. Shyira hamwe ibiri mu mutima.",
-                "Ndi kumwe nawe. Nta rwoshye.",
-                "Murakoze kuba hano. Ni iki kiri muri iki gihe?"
-            ];
-
-            function getFallbackResponse(text) {
-                const lowerText = text.toLowerCase();
-                
-                if (lowerText.includes('sad') || lowerText.includes('depress') || lowerText.includes('agahinda')) {
-                    return "Mbyumva ko ufite agahinda. Birakenera ubutwari kubivuga. Twiganye hamwe?";
-                }
-                if (lowerText.includes('anxi') || lowerText.includes('worry') || lowerText.includes('stress') || lowerText.includes('kutekereza')) {
-                    return "Kutekereza bishobora kuremera. Reka duhumekere hamwe. Urumva iki mu mubiri wawe?";
-                }
-                if (lowerText.includes('thank') || lowerText.includes('murakoze')) {
-                    return "Murakoze. Iki kiganiro ni ingenzi. Ni iki wumva gifasha?";
-                }
-                if (lowerText.includes('help') || lowerText.includes('fasha')) {
-                    return "Mfite umutima wo gufasha. Ni iki cyagufasha ubu?";
-                }
-                if (lowerText.includes('alone') || lowerText.includes('wenyine') || lowerText.includes('lonely')) {
-                    return "Ndayumva, kandi ushaka kumenya ko utari wenyine. Ndi hano kugufasha. Wumva umeze ute iyo uri wenyine?";
-                }
-                
-                return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
-            }
-
-            // === CHECK PUTER READY ===
-            function checkPuterReady() {
-                return new Promise((resolve) => {
-                    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                    const maxAttempts = isMobile ? 40 : 20;
-                    
-                    if (window.puter && window.puter.ai) {
-                        resolve(true);
-                        return;
-                    }
-                    
+            async function checkPuterReady() {
+                return new Promise(resolve => {
+                    if (window.puter?.ai) return resolve(true);
                     let attempts = 0;
                     const interval = setInterval(() => {
-                        attempts++;
-                        if (window.puter && window.puter.ai) {
-                            clearInterval(interval);
-                            resolve(true);
-                        } else if (attempts >= maxAttempts) {
-                            clearInterval(interval);
-                            resolve(false);
-                        }
+                        if (window.puter?.ai) { clearInterval(interval); resolve(true); }
+                        else if (++attempts > 20) { clearInterval(interval); resolve(false); }
                     }, 250);
                 });
             }
 
-            // === TRY PUTER ===
-            async function tryPuterWithRetry(text, maxRetries = 2) {
-                for (let i = 0; i < maxRetries; i++) {
-                    try {
-                        if (window.puter && window.puter.ai) {
-                            const systemPrompt = `${creatorInfo} Uri Tyaza, umuvugizi w'umutima. Shyigikira abakoresha mu ijambo ryuje urukundo n'ubushyikirano.`;
-                            
-                            const response = await window.puter.ai.chat([
-                                { role: 'system', content: systemPrompt },
-                                { role: 'user', content: text }
-                            ], {
-                                model: modelSelect.value || 'gpt-4o-mini',
-                                stream: true
-                            });
-                            
-                            return { success: true, response };
-                        }
-                    } catch (err) {
-                        if (i === maxRetries - 1) {
-                            return { success: false, error: err };
-                        }
-                        await new Promise(r => setTimeout(r, 1000));
-                    }
-                }
-                return { success: false, error: 'Max retries exceeded' };
-            }
-
-            // === SEND MESSAGE ===
             async function sendMessage() {
                 const text = inputEl.value.trim();
                 if (!text || isGenerating) return;
-                
                 hero.style.display = 'none';
                 msgContainer.innerHTML += `<div class="message-user">${escapeHtml(text)}</div>`;
                 currentChat.push({ role: 'user', content: text });
-                
                 const wrapperId = 'wrap-' + Date.now();
-                msgContainer.innerHTML += `
-                    <div id="${wrapperId}" class="message-tyaza-wrapper">
-                        <div class="tyaza-avatar-neural">T</div>
-                        <div class="tyaza-bubble-neural" id="bubble-${wrapperId}">
-                            <div class="neural-typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
-                        </div>
-                    </div>
-                `;
-                
+                msgContainer.innerHTML += `<div id="${wrapperId}" class="message-tyaza-wrapper"><div class="tyaza-avatar-neural">T</div><div class="tyaza-bubble-neural" id="bubble-${wrapperId}"><span class="neural-typing">...</span></div></div>`;
                 neuralScrollToBottom();
-                inputEl.value = '';
-                sendBtn.disabled = true;
-                isGenerating = true;
+                inputEl.value = ''; sendBtn.disabled = true; isGenerating = true;
 
                 try {
                     let reply = '';
-                    
-                    if (!useLocalAI) {
-                        const isPuterReady = await checkPuterReady();
-                        
-                        if (isPuterReady && window.puter && window.puter.ai) {
-                            try {
-                                voiceStatus.innerHTML = '✨ Ihuza na AI...';
-                                
-                                const result = await tryPuterWithRetry(text);
-                                
-                                if (result.success) {
-                                    const bubble = document.getElementById(`bubble-${wrapperId}`);
-                                    
-                                    for await (const part of result.response) {
-                                        reply += part.text || part.message?.content || '';
-                                        if (bubble) {
-                                            bubble.innerHTML = formatNeural(reply + ' ✦');
-                                        }
-                                    }
-                                    
-                                    voiceStatus.innerHTML = '';
-                                } else {
-                                    voiceStatus.innerHTML = '📱 Nkoresha uburyo bw\'ibanze';
-                                    reply = getFallbackResponse(text);
-                                }
-                            } catch (puterError) {
-                                voiceStatus.innerHTML = '📱 Nkoresha uburyo bw\'ibanze';
-                                reply = getFallbackResponse(text);
+                    const ready = await checkPuterReady();
+                    if (ready && window.puter?.ai) {
+                        try {
+                            const response = await window.puter.ai.chat([
+                                { role: 'system', content: `${creatorInfo} Uri Tyaza, umuvugizi w'umutima. Shyashya mu ijwi ryuje impuhwe.` },
+                                { role: 'user', content: text }
+                            ], { model: modelSelect.value || 'gpt-4o-mini', stream: true });
+                            const bubble = document.getElementById(`bubble-${wrapperId}`);
+                            for await (const part of response) {
+                                reply += part.text || part.message?.content || '';
+                                if (bubble) bubble.innerHTML = formatNeural(reply + ' ✦');
                             }
-                        } else {
-                            voiceStatus.innerHTML = '📱 Nkoresha uburyo bw\'ibanze';
-                            reply = getFallbackResponse(text);
-                        }
+                        } catch { reply = getFallbackResponse(); }
                     } else {
-                        reply = getFallbackResponse(text);
+                        reply = getFallbackResponse();
+                        voiceStatus.innerHTML = '☁️ Koresha puter.com wandikishe';
                     }
-                    
                     const bubble = document.getElementById(`bubble-${wrapperId}`);
-                    if (bubble) {
-                        bubble.innerHTML = formatNeural(reply);
-                    }
-                    
+                    if (bubble) bubble.innerHTML = formatNeural(reply);
                     if (autoTTS.checked) speakNeural(reply);
-                    
                     currentChat.push({ role: 'assistant', content: reply });
                     if (currentChat.length === 2) saveNeuralSession(text);
-                    
-                } catch (error) {
-                    console.error('Error:', error);
-                    
+                } catch {
                     const bubble = document.getElementById(`bubble-${wrapperId}`);
-                    if (bubble) {
-                        const fallback = "Ndi hano kugufasha. Ikoranabuhanga rimwe na rimwe rirakenera igihe - ariko ndi kumwe nawe.";
-                        bubble.innerHTML = formatNeural(fallback);
-                        currentChat.push({ role: 'assistant', content: fallback });
-                    }
-                } finally {
-                    isGenerating = false;
-                    sendBtn.disabled = !inputEl.value.trim();
-                }
+                    if (bubble) bubble.innerHTML = formatNeural("Ndi kumwe nawe. Ikoranabuhanga rimwe na rimwe riruhuka.");
+                } finally { isGenerating = false; sendBtn.disabled = !inputEl.value.trim(); }
             }
 
-            // === RETRY PUTER ===
-            async function retryPuterConnection() {
+            // --- events ---
+            inputEl.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = Math.min(this.scrollHeight, 120)+'px'; sendBtn.disabled = !this.value.trim() || isGenerating; });
+            inputEl.addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!sendBtn.disabled) sendMessage(); } });
+            sendBtn.addEventListener('click', sendMessage);
+            voiceBtn.addEventListener('click', async () => { if (!micPermission && !(await initMicrophone())) return; if (!recognition) initSpeechRecognition(); if (isListening) recognition.stop(); else recognition.start(); });
+            testMicBtn.addEventListener('click', async () => { testMicBtn.innerHTML = '⏳ ndategura...'; const ok = await initMicrophone(); testMicBtn.innerHTML = ok ? '✅ mikorofoni yiteguye' : '❌ Ongera ugerageze'; setTimeout(() => { testMicBtn.innerHTML = '🎤 Koresha Mikorofoni'; }, 2000); });
+            previewBtn.addEventListener('click', () => speakNeural("Ndi kumwe nawe. Wumva ute ubu?"));
+            viewport.addEventListener('scroll', () => { const atBottom = viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight < 100; scrollBtn.classList.toggle('visible', !atBottom); });
+            window.neuralScrollToBottom = () => viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+            clearHistory.addEventListener('click', () => { if (confirm('Hanagura amateka yose?')) { localStorage.removeItem('tyaza_history'); neuralNewSession(); } });
+
+            // --- init ---
+            window.onload = async () => {
+                neuralNewSession(); renderHistory();
                 puterLoading.classList.remove('hidden');
-                retryBtn.classList.add('hidden');
-                voiceStatus.innerHTML = '🔄 Ngerageza kongera...';
-                
                 const ready = await checkPuterReady();
                 puterLoading.classList.add('hidden');
-                
-                if (ready) {
-                    voiceStatus.innerHTML = '✨ Ihuza na Puter';
-                    useLocalAI = false;
-                } else {
-                    voiceStatus.innerHTML = '📱 Nkoresha uburyo bw\'ibanze';
-                    useLocalAI = true;
-                }
-            }
-
-            // === EVENT LISTENERS ===
-            inputEl.addEventListener('input', function() {
-                this.style.height = 'auto';
-                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-                sendBtn.disabled = !this.value.trim() || isGenerating;
-            });
-            
-            inputEl.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) { 
-                    e.preventDefault(); 
-                    if (!sendBtn.disabled) sendMessage(); 
-                }
-            });
-            
-            sendBtn.addEventListener('click', sendMessage);
-
-            voiceBtn.addEventListener('click', async () => {
-                if (!micPermission && !(await initMicrophone())) return;
-                if (!recognition) initSpeechRecognition();
-                if (isListening) recognition.stop();
-                else recognition.start();
-            });
-
-            testMicBtn.addEventListener('click', async () => {
-                testMicBtn.innerHTML = '⏳ ...';
-                const success = await initMicrophone();
-                testMicBtn.innerHTML = success ? '✅ Makirofoni ikora' : '❌ Ongera ugerageze';
-                setTimeout(() => { testMicBtn.innerHTML = '🎤 Koresha Makirofoni'; }, 2000);
-            });
-
-            previewBtn.addEventListener('click', () => {
-                speakNeural("Ndi hano kugufasha. Wumva umeze ute?");
-            });
-
-            viewport.addEventListener('scroll', () => {
-                const atBottom = viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight < 100;
-                scrollBtn.classList.toggle('visible', !atBottom);
-            });
-            
-            window.neuralScrollToBottom = () => {
-                viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+                voiceStatus.innerHTML = ready ? '✅ Ihuza na Puter ryakunze' : '⚠️ Nta Puter — kanda ku mikorofoni wandikishe';
             };
-
-            clearHistory.addEventListener('click', () => {
-                if (confirm('Hanagura amateka yose?')) { 
-                    localStorage.removeItem('tyaza_history'); 
-                    neuralNewSession(); 
-                }
-            });
-
-            retryBtn.addEventListener('click', retryPuterConnection);
-
-            // === INIT ===
-            window.onload = async () => {
-                neuralNewSession();
-                renderHistory();
-                
-                puterLoading.classList.remove('hidden');
-                voiceStatus.innerHTML = '🔄 Ihuza...';
-                
-                const ready = await checkPuterReady();
-                
-                if (ready) {
-                    voiceStatus.innerHTML = '✨ Ihuza na Puter AI';
-                    puterLoading.classList.add('hidden');
-                    useLocalAI = false;
-                } else {
-                    voiceStatus.innerHTML = '📱 Nkoresha uburyo bw\'ibanze';
-                    puterLoading.classList.add('hidden');
-                    useLocalAI = true;
-                    retryBtn.classList.remove('hidden');
-                }
-            };
-
-            window.addEventListener('online', () => {
-                if (!puterReady && !useLocalAI) {
-                    retryPuterConnection();
-                }
-            });
         })();
     </script>
 </body>
