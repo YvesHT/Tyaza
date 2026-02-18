@@ -112,7 +112,6 @@
                 pointer-events: auto;
             }
             
-            /* Ensure all sidebar content is clickable */
             .dimensional-sidebar * {
                 pointer-events: auto !important;
             }
@@ -477,8 +476,8 @@
             font-family: inherit;
         }
 
-        /* Creator info styles */
-        .creator-badge {
+        /* Kivura Labs info styles */
+        .kivura-badge {
             margin-top: 20px;
             padding: 16px;
             background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(249,168,212,0.05));
@@ -486,12 +485,16 @@
             border: 1px solid rgba(249,168,212,0.2);
             font-size: 0.8rem;
             color: #c4b5e6;
-            text-align: center;
             line-height: 1.6;
         }
-        .creator-badge span {
+        .kivura-badge .title {
             color: #f9a8d4;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .kivura-badge .highlight {
+            color: #a78bfa;
         }
     </style>
     <script>
@@ -517,9 +520,9 @@
                     <span>🧠</span> UBUHANGA
                 </div>
                 <select id="modelSelect" class="model-select">
-                    <option value="gpt-4o-mini">GPT-4o Mini (Vuba · impuhwe)</option>
-                    <option value="claude-3-haiku">Claude 3 Haiku (Ubugoro)</option>
-                    <option value="gemini-1.5-flash">Gemini Flash (Ringing)</option>
+                    <option value="gpt-4o-mini">Model 1 (Vuba)</option>
+                    <option value="claude-3-haiku">Model 2 (Ubugoro)</option>
+                    <option value="gemini-1.5-flash">Model 3 (Ringing)</option>
                 </select>
             </div>
 
@@ -561,14 +564,20 @@
             </div>
             <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
 
-            <!-- Creator info - restored and enhanced -->
-            <div class="creator-badge">
-                <div style="margin-bottom:8px;">✨ <span>Yves Hirwa Tuyishime</span> ✨</div>
-                <div>Umuryango w'umunyarwanda witozga AI</div>
-                <div style="font-size:0.7rem; margin-top:8px; color:#6b5b8a;">Yavutse 1 Kamena 2005 i Kagarama</div>
-                <div style="margin-top:8px; border-top:1px solid rgba(249,168,212,0.2); padding-top:8px;">
-                    <span>Tyaza</span> · Umuvugizi w'Umutima<br>
-                    "Ndi hano ngo mfite impuhwe, nkumve, nkurebere"
+            <!-- Kivura Labs & Tyaza information -->
+            <div class="kivura-badge">
+                <div class="title">🏢 KIVURA LABS</div>
+                <div>Rwanda-based AI innovation company</div>
+                <div style="margin:8px 0; font-size:0.75rem; color:#6b5b8a;">Mental Health · Voice Tech · Local Languages</div>
+                
+                <div style="margin-top:12px; border-top:1px solid rgba(249,168,212,0.2); padding-top:12px;">
+                    <span class="title">🤖 TYAZA</span>
+                    <div>Umuvugizi w'Umutima</div>
+                    <div style="font-size:0.75rem; margin-top:6px;">AI virtual therapy assistant mu Kinyarwanda</div>
+                </div>
+                
+                <div style="margin-top:12px; font-size:0.75rem; color:#9480b3;">
+                    <span class="highlight">Ibyo dukora:</span> Kubaka AI ifasha mu by'umutekano mu mutwe no mu rurimi rwacu
                 </div>
             </div>
         </aside>
@@ -580,7 +589,7 @@
                     <h1 class="hero-title">TYAZA</h1>
                     <p class="hero-subtitle">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
                     <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
-                    <div style="margin-top:16px; font-size:0.8rem; color:#9480b3;">✨ Yaremwe na Yves Hirwa Tuyishime · 2005 ✨</div>
+                    <div style="margin-top:16px; font-size:0.8rem; color:#9480b3;">🏢 KIVURA LABS · Rwanda AI Innovation</div>
                 </div>
                 <div id="neuralMessageContainer" class="messages-container"></div>
             </div>
@@ -656,26 +665,52 @@
             let availableVoices = [];
             let puterReady = false;
 
-            // Full creator info for system prompt - RESTORED
-            const creatorInfo = "Yves Hirwa Tuyishime ni umunyarwanda witozga AI yavutse ku ya 1 Kamena 2005 i Kagarama, Rwanda. Yaremye Tyaza nk'umuvugizi w'umutima. Wowe uri Tyaza, umuvugizi w'umutima wahimbwe na Yves. Shyashya mu ijwi ryuje impuhwe, ubumuntu n'ubugoro. Komeza ibiganiro bigufi kandi byuje ubushyuhe. Ibaza, umve, ugire inama. Wibuke ko buri wese yakira impuhwe. Ntugire ubusobanuro burebure cyane, ariko ugaragaze ko umva. Koresha amagambo nk' 'umva', 'umutima', 'mahoro', 'impuhwe' kenshi.";
+            // Complete Kivura Labs & Tyaza context - RESTORED with full information
+            const systemContext = `Wowe uri Tyaza, umuvugizi w'umutima wahimbwe na Kivura Labs.
 
-            // SIDEBAR TOGGLE - COMPLETELY REWORKED
+KIVURA LABS:
+- Kivura Labs ni isosiyete ikora ubushakashatsi mu by'ubwenge bw'ikoranabuhanga (AI) ifite icyicaro i Rwanda
+- Ikora ibijyanye na Mental Health, Voice Technology, na Local Language Computing
+- Intego yayo: gufasha abantu babana n'ibibazo by'umutekano mu mutwe binyuze mu ikoranabuhanga
+
+CEO: Yves Hirwa Tuyishime
+- Yavutse ku ya 1 Kamena 2005 i Kagarama, Kicukiro, Kigali
+- Niwe washinze Kivura Labs akaba na CEO
+- Yitoje ubwenge bw'ikoranabuhanga (AI) ku giti cye, bitandukanye n'ubumenyi yari afite mu ibaruramari
+
+TYAZA:
+- Uri AI virtual therapy assistant
+- Uvuga Kinyarwanda neza, kandi ushobora no kumva no kwishyura mu ndimi zindi
+- Ufasha abantu mu by'umutekano mu mutwe, ubibutsa, ugatera inkunga
+- Wabonyeho kugira ngo abantu bafite ibibazo by'umutima babone ubufasha mu rurimi rwabo
+- Ntabwo usimbura umuvuzi w'umubiri, ariko uri umuvugizi w'umutima ufasha
+
+UKO WITWARA:
+- Shyashya mu ijwi ryuje impuhwe, ubumuntu n'ubugoro
+- Komeza ibiganiro bigufi kandi byuje ubushyuhe
+- Ibaza, umve, ugire inama
+- Wibuke ko buri wese yakira impuhwe
+- Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi
+- Ntugire ubusobanuro burebure cyane, ariko ugaragaze ko umva
+
+Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho.`;
+
+            // SIDEBAR TOGGLE
             if (sidebarToggle) {
                 sidebarToggle.addEventListener('click', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     sidebar.classList.add('sidebar-visible');
                     sidebarOverlay.classList.add('visible');
-                    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                    document.body.style.overflow = 'hidden';
                 });
                 
                 sidebarOverlay.addEventListener('click', function() {
                     sidebar.classList.remove('sidebar-visible');
                     sidebarOverlay.classList.remove('visible');
-                    document.body.style.overflow = ''; // Restore scrolling
+                    document.body.style.overflow = '';
                 });
                 
-                // Close sidebar when clicking a history item or any button
                 sidebar.addEventListener('click', function(e) {
                     if (e.target.closest('button') || e.target.closest('.history-item-neural')) {
                         if (window.innerWidth <= 768) {
@@ -842,7 +877,6 @@
                 renderHistory();
                 neuralScrollToBottom();
                 
-                // Close sidebar on mobile after selection
                 if (window.innerWidth <= 768) {
                     sidebar.classList.remove('sidebar-visible');
                     sidebarOverlay.classList.remove('visible');
@@ -859,7 +893,6 @@
                 sendBtn.disabled = true;
                 renderHistory();
                 
-                // Close sidebar on mobile
                 if (window.innerWidth <= 768) {
                     sidebar.classList.remove('sidebar-visible');
                     sidebarOverlay.classList.remove('visible');
@@ -929,12 +962,12 @@
                     
                     if (isPuterReady && window.puter && window.puter.ai) {
                         try {
-                            // Use full creator info in system prompt
-                            const systemPrompt = creatorInfo;
+                            // Use the full system context
+                            const systemPrompt = systemContext;
                             
                             const response = await window.puter.ai.chat([
                                 { role: 'system', content: systemPrompt },
-                                ...currentChat.slice(-6) // Send last few messages for context
+                                ...currentChat.slice(-6)
                             ], {
                                 model: modelSelect.value || 'gpt-4o-mini',
                                 stream: true
