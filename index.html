@@ -286,26 +286,70 @@
             opacity: 0.4;
             pointer-events: none;
         }
+        /* ========== REFINED VOICE BUTTON ========== */
         .voice-button-neural {
-            width: 48px;
-            height: 48px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            background: rgba(167, 139, 250, 0.15);
-            border: 1px solid rgba(249, 168, 212, 0.4);
-            color: #f9a8d4;
+            background: radial-gradient(circle at 30% 30%, rgba(167, 139, 250, 0.9), rgba(236, 72, 153, 0.6));
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s;
-            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-size: 1.6rem;
             flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(249, 168, 212, 0.3), 0 0 0 0 rgba(249,168,212,0.5);
+            backdrop-filter: blur(2px);
+            position: relative;
+            overflow: hidden;
+        }
+        .voice-button-neural::before {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            background: inherit;
+            filter: blur(12px);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+            border-radius: inherit;
+        }
+        .voice-button-neural:hover {
+            transform: scale(1.05);
+            border-color: rgba(255,255,255,0.8);
+            box-shadow: 0 0 25px #f9a8d4, 0 0 5px #a78bfa;
+        }
+        .voice-button-neural:active {
+            transform: scale(0.94);
         }
         .voice-button-neural.listening {
-            background: #ec4899;
-            color: white;
-            animation: pulse 1.5s infinite;
+            background: radial-gradient(circle at 70% 30%, #ec4899, #a78bfa);
+            border-color: white;
+            box-shadow: 0 0 0 4px rgba(236,72,153,0.3), 0 0 30px #ec4899;
+            animation: soft-throb 1.2s infinite alternate;
         }
+        .voice-button-neural.listening::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid white;
+            animation: ring-pulse 1.8s infinite;
+        }
+        @keyframes soft-throb {
+            0% { box-shadow: 0 0 0 0 rgba(236,72,153,0.6), 0 0 30px #ec4899; }
+            100% { box-shadow: 0 0 0 12px rgba(236,72,153,0.1), 0 0 40px #a78bfa; }
+        }
+        @keyframes ring-pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            70% { transform: scale(1.45); opacity: 0; }
+            100% { transform: scale(1.45); opacity: 0; }
+        }
+        /* ========================================= */
         .voice-studio {
             background: rgba(21, 16, 40, 0.6);
             backdrop-filter: blur(20px);
@@ -366,10 +410,6 @@
             0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
             33% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
             66% { border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%; }
-        }
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(236,72,153,0.7); }
-            50% { box-shadow: 0 0 0 15px rgba(236,72,153,0); }
         }
         @keyframes typing {
             0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
