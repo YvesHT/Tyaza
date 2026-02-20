@@ -505,7 +505,7 @@
             color: #a78bfa;
         }
 
-        .kokoro-badge {
+        .browser-tts-badge {
             position: fixed;
             bottom: 100px;
             right: 20px;
@@ -518,21 +518,6 @@
             color: #a78bfa;
             z-index: 50;
             pointer-events: none;
-        }
-        
-        .loading-indicator {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(167,139,250,0.3);
-            border-radius: 50%;
-            border-top-color: #f9a8d4;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 8px;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
         }
     </style>
     <script>
@@ -566,7 +551,7 @@
 
             <div class="voice-studio">
                 <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:#9480b3; margin-bottom:16px;">
-                    <span>🎙️</span> VOICE (KOKORO · NO API KEY)
+                    <span>🎙️</span> VOICE (BROWSER TTS · INSTANT)
                 </div>
                 <div style="background:rgba(0,0,0,0.3); border-radius:40px; padding:16px; margin-bottom:16px;">
                     <button id="neuralTestMic" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; cursor:pointer;">
@@ -575,40 +560,33 @@
                 </div>
                 
                 <div style="margin-bottom:16px; padding:8px; background:rgba(167,139,250,0.1); border-radius:20px; text-align:center;">
-                    <span style="font-size:0.8rem; color:#f9a8d4;">⚡ 100% Local · No API Key Needed</span>
+                    <span style="font-size:0.8rem; color:#f9a8d4;">⚡ Instant · No Download · No API Keys</span>
                 </div>
                 
                 <select id="neuralVoiceSelect" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:12px; color:white; margin-bottom:16px;">
-                    <option value="af_bella">Bella (Warm Female) ⭐ BEST</option>
-                    <option value="af_heart">Heart (Gentle Female)</option>
-                    <option value="af_nicole">Nicole (Calm Female)</option>
-                    <option value="af_sarah">Sarah (Caring Female)</option>
-                    <option value="af_sky">Sky (Light Female)</option>
-                    <option value="am_adam">Adam (Warm Male)</option>
-                    <option value="am_echo">Echo (Gentle Male)</option>
-                    <option value="am_fenrir">Fenrir (Deep Male)</option>
-                    <option value="am_liam">Liam (Friendly Male)</option>
-                    <option value="am_michael">Michael (Professional Male)</option>
-                    <option value="bf_emma">Emma (British Female)</option>
-                    <option value="bm_george">George (British Male)</option>
+                    <option value="Google UK English Female">Female (UK) - Warm</option>
+                    <option value="Google UK English Male">Male (UK) - Calm</option>
+                    <option value="Microsoft David Desktop">David (US) - Professional</option>
+                    <option value="Microsoft Zira Desktop">Zira (US) - Friendly</option>
+                    <option value="Google français">French - Doux</option>
                 </select>
                 
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;">
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
                         <label style="font-size:0.7rem; color:#9480b3;">Speed</label>
-                        <input type="range" id="neuralRate" min="0.5" max="2.0" step="0.05" value="1.0" style="width:100%;">
+                        <input type="range" id="neuralRate" min="0.5" max="2.0" step="0.05" value="0.95" style="width:100%;">
                     </div>
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
-                        <label style="font-size:0.7rem; color:#9480b3;">Model Load</label>
-                        <div id="modelLoadStatus" style="font-size:0.7rem; color:#f9a8d4; text-align:center;">⏳ Loading...</div>
+                        <label style="font-size:0.7rem; color:#9480b3;">Pitch</label>
+                        <input type="range" id="neuralPitch" min="0.5" max="2.0" step="0.05" value="1.0" style="width:100%;">
                     </div>
                 </div>
                 
                 <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:8px; cursor:pointer;">
-                    <span>🔊</span> Test Kokoro Voice
+                    <span>🔊</span> Test Browser Voice
                 </button>
                 <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#c4b5e6;">
-                    <input type="checkbox" id="neuralAutoTTS" checked> Auto-speak responses (Kokoro)
+                    <input type="checkbox" id="neuralAutoTTS" checked> Auto-speak responses (Instant)
                 </label>
             </div>
 
@@ -630,7 +608,7 @@
                 </div>
                 
                 <div style="margin-top:12px; font-size:0.75rem; color:#9480b3;">
-                    <span class="highlight">Powered by Kokoro TTS</span> · 100% Local · No API Keys
+                    <span class="highlight">Powered by Browser TTS</span> · Instant · No API Keys
                 </div>
             </div>
         </aside>
@@ -643,7 +621,7 @@
                     <p class="hero-subtitle">DEEP LISTENING · peace of mind</p>
                     <p style="color:#6b5b8a; margin-top:24px;">"I'm here. Every moment, every word — received in peace."</p>
                     <div style="margin-top:16px; font-size:0.8rem; color:#9480b3;">🏢 KIVURA LABS · Rwanda AI Innovation</div>
-                    <div style="margin-top:8px; font-size:0.8rem; color:#f9a8d4;">⚡ Kokoro TTS · 100% Local · No API Keys</div>
+                    <div style="margin-top:8px; font-size:0.8rem; color:#f9a8d4;">⚡ Instant Browser TTS · No Downloads</div>
                 </div>
                 <div id="neuralMessageContainer" class="messages-container"></div>
             </div>
@@ -682,22 +660,9 @@
         <div style="margin-top:16px;">Connecting...</div>
     </div>
 
-    <div id="kokoroBadge" class="kokoro-badge">⚡ Kokoro TTS · 100% Local</div>
+    <div id="browserTTSBadge" class="browser-tts-badge">⚡ Browser TTS · Instant</div>
 
-    <!-- Import HeadTTS for Kokoro integration -->
-    <script type="importmap">
-        {
-            "imports": {
-                "@met4citizen/headtts": "https://cdn.jsdelivr.net/npm/@met4citizen/headtts@1.2/+esm"
-            }
-        }
-    </script>
-
-    <script type="module">
-        // Import HeadTTS
-        import { HeadTTS } from "@met4citizen/headtts";
-        
-        // Main application code
+    <script>
         (function() {
             const viewport = document.getElementById('chatViewport');
             const msgContainer = document.getElementById('neuralMessageContainer');
@@ -709,6 +674,7 @@
             const testMicBtn = document.getElementById('neuralTestMic');
             const voiceSelect = document.getElementById('neuralVoiceSelect');
             const rateRange = document.getElementById('neuralRate');
+            const pitchRange = document.getElementById('neuralPitch');
             const autoTTS = document.getElementById('neuralAutoTTS');
             const previewBtn = document.getElementById('neuralPreviewVoice');
             const clearHistory = document.getElementById('neuralClearHistory');
@@ -718,7 +684,6 @@
             const sttTranscript = document.getElementById('sttTranscript');
             const modelSelect = document.getElementById('modelSelect');
             const puterLoading = document.getElementById('puterLoading');
-            const modelLoadStatus = document.getElementById('modelLoadStatus');
             
             const sidebar = document.getElementById('sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
@@ -730,11 +695,10 @@
             let micPermission = false;
             let recognition = null;
             let isListening = false;
-            let headtts = null;
-            let ttsReady = false;
-            let audioContext = null;
-            let ttsQueue = []; // Queue for TTS requests
+            let synth = window.speechSynthesis;
+            let voices = [];
             let isSpeaking = false;
+            let speechQueue = [];
 
             // Complete Kivura Labs & Tyaza context in English
             const systemContext = `You are Tyaza, a voice of the heart created by Kivura Labs.
@@ -795,150 +759,78 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                 });
             }
 
-            // Initialize AudioContext (needed for Web Audio API)
-            function initAudioContext() {
-                if (!audioContext) {
-                    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                return audioContext;
-            }
-
-            // KOKORO TTS INITIALIZATION using HeadTTS
-            async function initKokoroTTS() {
-                try {
-                    modelLoadStatus.innerHTML = '<span class="loading-indicator"></span> Loading model...';
-                    voiceStatus.innerHTML = '⏳ Loading Kokoro TTS (first time may take 30s)...';
-                    
-                    // Initialize HeadTTS with WebGPU first, fallback to WASM 
-                    headtts = new HeadTTS({
-                        endpoints: ["webgpu", "wasm"], // Try WebGPU first, fallback to WASM 
-                        languages: ['en-us'],
-                        voices: ["af_bella", "af_heart", "am_adam", "am_echo"], // Preload common voices 
-                        defaultVoice: "af_bella",
-                        defaultSpeed: 1.0,
-                        audioSampleRate: 24000, // 24kHz for good quality 
-                        // CDN configuration for HeadTTS 
-                        workerModule: "https://cdn.jsdelivr.net/npm/@met4citizen/headtts@1.2/modules/worker-tts.mjs",
-                        dictionaryURL: "https://cdn.jsdelivr.net/npm/@met4citizen/headtts@1.2/dictionaries/"
-                    });
-                    
-                    // Set up message handler for audio output
-                    headtts.onmessage = (message) => {
-                        if (message.type === "audio") {
-                            // Audio data received from TTS
-                            playAudioBuffer(message.data);
-                        } else if (message.type === "error") {
-                            console.error("TTS error:", message.data.error);
-                            voiceStatus.innerHTML = '❌ TTS error';
-                            setTimeout(() => voiceStatus.innerHTML = '', 3000);
-                        }
-                    };
-                    
-                    // Connect to WebGPU/WASM backend 
-                    await headtts.connect();
-                    
-                    // Setup default voice 
-                    await headtts.setup({
-                        voice: voiceSelect.value,
-                        language: "en-us",
-                        speed: parseFloat(rateRange.value),
-                        audioEncoding: "wav"
-                    });
-                    
-                    ttsReady = true;
-                    modelLoadStatus.innerHTML = '✅ Model ready';
-                    voiceStatus.innerHTML = '✅ Kokoro TTS ready';
-                    setTimeout(() => voiceStatus.innerHTML = '', 2000);
-                    
-                    console.log("Kokoro TTS initialized successfully");
-                    
-                } catch (error) {
-                    console.error("Failed to initialize Kokoro TTS:", error);
-                    modelLoadStatus.innerHTML = '❌ Failed to load';
-                    voiceStatus.innerHTML = '❌ Kokoro TTS failed to load';
+            // Load available voices
+            function loadVoices() {
+                voices = synth.getVoices();
+                if (voices.length > 0) {
+                    console.log('Voices loaded:', voices.length);
                 }
             }
 
-            // Play audio from HeadTTS
-            function playAudioBuffer(audioData) {
-                try {
-                    // Initialize audio context if needed
-                    const ctx = initAudioContext();
-                    
-                    // Resume if suspended (browser autoplay policy)
-                    if (ctx.state === 'suspended') {
-                        ctx.resume();
-                    }
-                    
-                    // Create audio buffer from the data
-                    // audioData contains AudioBuffer from HeadTTS 
-                    const source = ctx.createBufferSource();
-                    source.buffer = audioData.audio;
-                    source.connect(ctx.destination);
-                    
-                    source.onended = () => {
-                        isSpeaking = false;
-                        voiceStatus.innerHTML = '';
-                        // Check if there are more in queue
-                        processQueue();
-                    };
-                    
-                    source.start();
+            if (synth) {
+                loadVoices();
+                synth.onvoiceschanged = loadVoices;
+            }
+
+            // Process speech queue
+            function processSpeechQueue() {
+                if (speechQueue.length > 0 && !isSpeaking) {
+                    const text = speechQueue.shift();
+                    speakNow(text);
+                }
+            }
+
+            // Speak immediately (internal)
+            function speakNow(text) {
+                if (!synth) return;
+                
+                // Cancel any current speech
+                synth.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                
+                // Set voice
+                const selectedVoiceName = voiceSelect.value;
+                const voice = voices.find(v => v.name.includes(selectedVoiceName)) || voices[0];
+                if (voice) utterance.voice = voice;
+                
+                // Set rate and pitch
+                utterance.rate = parseFloat(rateRange.value);
+                utterance.pitch = parseFloat(pitchRange.value);
+                
+                utterance.onstart = () => {
                     isSpeaking = true;
                     voiceStatus.innerHTML = '🔊 speaking...';
-                    
-                } catch (error) {
-                    console.error("Audio playback error:", error);
-                    isSpeaking = false;
-                    voiceStatus.innerHTML = '❌ Playback error';
-                    setTimeout(() => voiceStatus.innerHTML = '', 2000);
-                    processQueue();
-                }
-            }
-
-            // Process TTS queue
-            function processQueue() {
-                if (ttsQueue.length > 0 && !isSpeaking && ttsReady) {
-                    const nextText = ttsQueue.shift();
-                    synthesizeSpeech(nextText);
-                }
-            }
-
-            // Synthesize speech (internal)
-            async function synthesizeSpeech(text) {
-                if (!headtts) return;
+                };
                 
-                try {
-                    // Clean text but preserve all characters
-                    const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
-                    
-                    // Synthesize speech 
-                    headtts.synthesize({
-                        input: cleanText
-                    });
-                    
-                } catch (error) {
-                    console.error("Kokoro TTS error:", error);
+                utterance.onend = () => {
                     isSpeaking = false;
-                    voiceStatus.innerHTML = '❌ TTS error';
-                    setTimeout(() => voiceStatus.innerHTML = '', 3000);
-                    processQueue();
-                }
+                    voiceStatus.innerHTML = '';
+                    processSpeechQueue();
+                };
+                
+                utterance.onerror = () => {
+                    isSpeaking = false;
+                    voiceStatus.innerHTML = '';
+                    processSpeechQueue();
+                };
+                
+                synth.speak(utterance);
             }
 
-            // PUBLIC SPEAK FUNCTION - Add to queue
-            async function speakWithKokoro(text) {
-                if (!ttsReady || !headtts) {
-                    voiceStatus.innerHTML = '⏳ TTS not ready yet...';
-                    return;
-                }
+            // Public speak function - adds to queue
+            function speakWithBrowser(text) {
+                if (!synth) return;
+                
+                // Clean text
+                const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
                 
                 // Add to queue
-                ttsQueue.push(text);
+                speechQueue.push(cleanText);
                 
-                // If not already speaking, start processing
+                // Process queue if not already speaking
                 if (!isSpeaking) {
-                    processQueue();
+                    processSpeechQueue();
                 }
             }
 
@@ -958,11 +850,6 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                     isListening = true;
                     voiceBtn.classList.add('listening');
                     sttIndicator.classList.remove('hidden');
-                    
-                    // Resume audio context if needed (for Chrome autoplay policy)
-                    if (audioContext && audioContext.state === 'suspended') {
-                        audioContext.resume();
-                    }
                 };
 
                 recognition.onend = () => {
@@ -1183,7 +1070,7 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                                 neuralScrollToBottom();
                             }
                             
-                            // Final update without the cursor
+                            // Final update without cursor
                             if (bubble) {
                                 bubble.innerHTML = formatNeural(reply);
                             }
@@ -1212,9 +1099,9 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                     // Save to history if this is the first exchange
                     if (currentChat.length === 2) saveNeuralSession(text);
                     
-                    // Speak the response using Kokoro TTS
-                    if (autoTTS.checked && reply && ttsReady) {
-                        await speakWithKokoro(reply);
+                    // Speak the response using Browser TTS
+                    if (autoTTS.checked && reply) {
+                        speakWithBrowser(reply);
                     }
                     
                 } catch (error) {
@@ -1227,8 +1114,8 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                         currentChat.push({ role: 'assistant', content: errorMsg });
                         
                         // Speak error message
-                        if (autoTTS.checked && ttsReady) {
-                            await speakWithKokoro(errorMsg);
+                        if (autoTTS.checked) {
+                            speakWithBrowser(errorMsg);
                         }
                     }
                 } finally {
@@ -1257,10 +1144,6 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                 if (!recognition) initSpeechRecognition();
                 if (isListening) recognition.stop();
                 else {
-                    // Resume audio context if needed before starting recognition
-                    if (audioContext && audioContext.state === 'suspended') {
-                        await audioContext.resume();
-                    }
                     recognition.start();
                 }
             });
@@ -1272,15 +1155,12 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                 setTimeout(() => { testMicBtn.innerHTML = '🎤 Use Microphone'; }, 2000);
             });
 
-            previewBtn.addEventListener('click', async () => {
-                if (ttsReady) {
-                    // Clear queue and speak test message
-                    ttsQueue = [];
-                    isSpeaking = false;
-                    await speakWithKokoro("Hello, I'm Tyaza. I'm here with you. How are you feeling today?");
-                } else {
-                    voiceStatus.innerHTML = '⏳ TTS not ready yet...';
-                }
+            previewBtn.addEventListener('click', () => {
+                // Clear queue and speak test message
+                speechQueue = [];
+                isSpeaking = false;
+                synth.cancel();
+                speakWithBrowser("Hello, I'm Tyaza. I'm here with you. How are you feeling today?");
             });
 
             viewport.addEventListener('scroll', () => {
@@ -1299,26 +1179,9 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                 }
             });
 
-            // Voice selection change - update Kokoro voice
-            voiceSelect.addEventListener('change', async () => {
-                if (ttsReady && headtts) {
-                    await headtts.setup({ voice: voiceSelect.value });
-                }
-            });
-
-            // Rate change - update Kokoro speed
-            rateRange.addEventListener('input', async () => {
-                if (ttsReady && headtts) {
-                    await headtts.setup({ speed: parseFloat(rateRange.value) });
-                }
-            });
-
             window.onload = async () => {
                 neuralNewSession();
                 renderHistory();
-                
-                // Initialize audio context (needs user gesture to start)
-                initAudioContext();
                 
                 puterLoading.classList.remove('hidden');
                 
@@ -1327,13 +1190,17 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                 puterLoading.classList.add('hidden');
                 
                 if (ready) {
-                    voiceStatus.innerHTML = '';
+                    voiceStatus.innerHTML = '✅ Browser TTS Ready';
                 } else {
                     voiceStatus.innerHTML = '✋ Please sign up/sign in to Puter';
                 }
                 
-                // Initialize Kokoro TTS (this will take a moment on first load)
-                await initKokoroTTS();
+                // Voices will load automatically
+                setTimeout(() => {
+                    if (voices.length > 0) {
+                        voiceStatus.innerHTML = '✅ Browser TTS Ready';
+                    }
+                }, 1000);
             };
         })();
     </script>
