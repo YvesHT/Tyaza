@@ -733,6 +733,8 @@
             let headtts = null;
             let ttsReady = false;
             let audioContext = null;
+            let ttsQueue = []; // Queue for TTS requests
+            let isSpeaking = false;
 
             // Complete Kivura Labs & Tyaza context in English
             const systemContext = `You are Tyaza, a voice of the heart created by Kivura Labs.
@@ -756,7 +758,7 @@ TYAZA:
 
 YOUR BEHAVIOR:
 - Speak gently, with empathy and warmth
-- Keep responses concise but caring
+- Keep responses concise but caring (2-3 sentences maximum)
 - Ask questions, listen, offer support
 - Remember: everyone deserves compassion
 - Use words like "listen", "heart", "peace", "compassion" often
@@ -807,15 +809,15 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                     modelLoadStatus.innerHTML = '<span class="loading-indicator"></span> Loading model...';
                     voiceStatus.innerHTML = '⏳ Loading Kokoro TTS (first time may take 30s)...';
                     
-                    // Initialize HeadTTS with WebGPU first, fallback to WASM [citation:2]
+                    // Initialize HeadTTS with WebGPU first, fallback to WASM 
                     headtts = new HeadTTS({
-                        endpoints: ["webgpu", "wasm"], // Try WebGPU first, fallback to WASM [citation:2]
+                        endpoints: ["webgpu", "wasm"], // Try WebGPU first, fallback to WASM 
                         languages: ['en-us'],
-                        voices: ["af_bella", "af_heart", "am_adam", "am_echo"], // Preload common voices [citation:1]
+                        voices: ["af_bella", "af_heart", "am_adam", "am_echo"], // Preload common voices 
                         defaultVoice: "af_bella",
                         defaultSpeed: 1.0,
-                        audioSampleRate: 24000, // 24kHz for good quality [citation:3]
-                        // CDN configuration for HeadTTS [citation:2]
+                        audioSampleRate: 24000, // 24kHz for good quality 
+                        // CDN configuration for HeadTTS 
                         workerModule: "https://cdn.jsdelivr.net/npm/@met4citizen/headtts@1.2/modules/worker-tts.mjs",
                         dictionaryURL: "https://cdn.jsdelivr.net/npm/@met4citizen/headtts@1.2/dictionaries/"
                     });
@@ -832,10 +834,10 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                         }
                     };
                     
-                    // Connect to WebGPU/WASM backend [citation:4]
+                    // Connect to WebGPU/WASM backend 
                     await headtts.connect();
                     
-                    // Setup default voice [citation:2]
+                    // Setup default voice 
                     await headtts.setup({
                         voice: voiceSelect.value,
                         language: "en-us",
@@ -869,51 +871,74 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                     }
                     
                     // Create audio buffer from the data
-                    // audioData contains AudioBuffer from HeadTTS [citation:4]
+                    // audioData contains AudioBuffer from HeadTTS 
                     const source = ctx.createBufferSource();
                     source.buffer = audioData.audio;
                     source.connect(ctx.destination);
-                    source.start();
                     
-                    voiceStatus.innerHTML = '🔊 speaking...';
                     source.onended = () => {
+                        isSpeaking = false;
                         voiceStatus.innerHTML = '';
+                        // Check if there are more in queue
+                        processQueue();
                     };
+                    
+                    source.start();
+                    isSpeaking = true;
+                    voiceStatus.innerHTML = '🔊 speaking...';
                     
                 } catch (error) {
                     console.error("Audio playback error:", error);
+                    isSpeaking = false;
                     voiceStatus.innerHTML = '❌ Playback error';
                     setTimeout(() => voiceStatus.innerHTML = '', 2000);
+                    processQueue();
                 }
             }
 
-            // KOKORO SPEAK FUNCTION
-            async function speakWithKokoro(text) {
-                if (!ttsReady || !headtts) {
-                    voiceStatus.innerHTML = '⏳ TTS not ready yet...';
-                    return;
+            // Process TTS queue
+            function processQueue() {
+                if (ttsQueue.length > 0 && !isSpeaking && ttsReady) {
+                    const nextText = ttsQueue.shift();
+                    synthesizeSpeech(nextText);
                 }
+            }
+
+            // Synthesize speech (internal)
+            async function synthesizeSpeech(text) {
+                if (!headtts) return;
                 
                 try {
                     // Clean text but preserve all characters
                     const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
                     
-                    // Update voice and speed settings [citation:2]
-                    await headtts.setup({
-                        voice: voiceSelect.value,
-                        speed: parseFloat(rateRange.value)
-                    });
-                    
-                    // Synthesize speech [citation:2]
-                    // Using synthesize without awaiting messages to get streaming
+                    // Synthesize speech 
                     headtts.synthesize({
                         input: cleanText
                     });
                     
                 } catch (error) {
                     console.error("Kokoro TTS error:", error);
+                    isSpeaking = false;
                     voiceStatus.innerHTML = '❌ TTS error';
                     setTimeout(() => voiceStatus.innerHTML = '', 3000);
+                    processQueue();
+                }
+            }
+
+            // PUBLIC SPEAK FUNCTION - Add to queue
+            async function speakWithKokoro(text) {
+                if (!ttsReady || !headtts) {
+                    voiceStatus.innerHTML = '⏳ TTS not ready yet...';
+                    return;
+                }
+                
+                // Add to queue
+                ttsQueue.push(text);
+                
+                // If not already speaking, start processing
+                if (!isSpeaking) {
+                    processQueue();
                 }
             }
 
@@ -1158,37 +1183,53 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                                 neuralScrollToBottom();
                             }
                             
+                            // Final update without the cursor
+                            if (bubble) {
+                                bubble.innerHTML = formatNeural(reply);
+                            }
+                            
                         } catch (puterError) {
                             console.warn('Puter error, using fallback:', puterError);
                             reply = getFallbackResponse(text);
+                            const bubble = document.getElementById(`bubble-${wrapperId}`);
+                            if (bubble) {
+                                bubble.innerHTML = formatNeural(reply);
+                            }
                         }
                     } else {
                         reply = getFallbackResponse(text);
+                        const bubble = document.getElementById(`bubble-${wrapperId}`);
+                        if (bubble) {
+                            bubble.innerHTML = formatNeural(reply);
+                        }
                         voiceStatus.innerHTML = 'Please sign up/sign in to Puter';
                         setTimeout(() => voiceStatus.innerHTML = '', 3000);
                     }
                     
-                    const bubble = document.getElementById(`bubble-${wrapperId}`);
-                    if (bubble) {
-                        bubble.innerHTML = formatNeural(reply);
-                    }
+                    // Add to chat history
+                    currentChat.push({ role: 'assistant', content: reply });
                     
-                    // Use Kokoro TTS if enabled
+                    // Save to history if this is the first exchange
+                    if (currentChat.length === 2) saveNeuralSession(text);
+                    
+                    // Speak the response using Kokoro TTS
                     if (autoTTS.checked && reply && ttsReady) {
                         await speakWithKokoro(reply);
-                    } else if (autoTTS.checked && !ttsReady) {
-                        voiceStatus.innerHTML = '⏳ TTS still loading...';
                     }
-                    
-                    currentChat.push({ role: 'assistant', content: reply });
-                    if (currentChat.length === 2) saveNeuralSession(text);
                     
                 } catch (error) {
                     console.error('Error:', error);
                     
                     const bubble = document.getElementById(`bubble-${wrapperId}`);
                     if (bubble) {
-                        bubble.innerHTML = formatNeural("I'm here with you. Technology sometimes pauses, but I'm still listening.");
+                        const errorMsg = "I'm here with you. Technology sometimes pauses, but I'm still listening.";
+                        bubble.innerHTML = formatNeural(errorMsg);
+                        currentChat.push({ role: 'assistant', content: errorMsg });
+                        
+                        // Speak error message
+                        if (autoTTS.checked && ttsReady) {
+                            await speakWithKokoro(errorMsg);
+                        }
                     }
                 } finally {
                     isGenerating = false;
@@ -1233,6 +1274,9 @@ Your goal: Ensure no one is left behind in technology — whether in language or
 
             previewBtn.addEventListener('click', async () => {
                 if (ttsReady) {
+                    // Clear queue and speak test message
+                    ttsQueue = [];
+                    isSpeaking = false;
                     await speakWithKokoro("Hello, I'm Tyaza. I'm here with you. How are you feeling today?");
                 } else {
                     voiceStatus.innerHTML = '⏳ TTS not ready yet...';
