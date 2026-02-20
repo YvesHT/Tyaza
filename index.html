@@ -280,7 +280,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4);
             flex-shrink: 0;
-            font-size: 1.4rem; /* for icon size */
+            font-size: 1.4rem;
         }
         .send-button-neural:active {
             transform: scale(0.9);
@@ -289,7 +289,6 @@
             opacity: 0.4;
             pointer-events: none;
         }
-        /* ========== FIXED MIC ICON — now Font Awesome premium style ========= */
         .voice-button-neural {
             width: 48px;
             height: 48px;
@@ -302,7 +301,7 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 1.5rem; /* perfect for FA solid mic */
+            font-size: 1.5rem;
             flex-shrink: 0;
         }
         .voice-button-neural i {
@@ -317,7 +316,6 @@
         .voice-button-neural.listening i {
             filter: drop-shadow(0 0 10px white);
         }
-        /* end mic fix */
         .voice-studio {
             background: rgba(21, 16, 40, 0.6);
             backdrop-filter: blur(20px);
@@ -508,6 +506,22 @@
         .kivura-badge .highlight {
             color: #a78bfa;
         }
+
+        /* Cartesia TTS indicator */
+        .cartesia-badge {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: rgba(21, 16, 40, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #a78bfa;
+            border-radius: 40px;
+            padding: 6px 16px;
+            font-size: 0.7rem;
+            color: #a78bfa;
+            z-index: 50;
+            pointer-events: none;
+        }
     </style>
     <script>
         window.puter = null;
@@ -540,33 +554,43 @@
 
             <div class="voice-studio">
                 <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:#9480b3; margin-bottom:16px;">
-                    <span>🎙️</span> AMAJWI
+                    <span>🎙️</span> AMAJWI (CARTESIA SONIC 3)
                 </div>
                 <div style="background:rgba(0,0,0,0.3); border-radius:40px; padding:16px; margin-bottom:16px;">
                     <button id="neuralTestMic" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; cursor:pointer;">
                         <span>🎤</span> Koresha Mikorofoni
                     </button>
                 </div>
+                
+                <!-- Cartesia API Key Input -->
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:0.7rem; color:#9480b3; display:block; margin-bottom:4px;">🔑 CARTESIA API KEY</label>
+                    <input type="password" id="cartesiaApiKey" placeholder="sk_car_..." style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:12px; color:white;">
+                </div>
+                
                 <select id="neuralVoiceSelect" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:12px; color:white; margin-bottom:16px;">
-                    <option value="Google UK English Female">ijwi ry'umugore (UK)</option>
-                    <option value="Google UK English Male">ijwi ry'umugabo (UK)</option>
-                    <option value="Samantha">Samantha · ryorohe</option>
+                    <option value="694f9389-aac1-45b6-b726-9d9369183238">Ijwi ry'umugabo (Barbershop)</option>
+                    <option value="a0e99841-418c-4b52-b22f-416a880c1ddf">Ijwi ry'umugore (Sweet Lady)</option>
+                    <option value="156fb9d2-caaa-4f09-b678-93bd02b9b119">Ijwi rirenga (Deep Narrator)</option>
+                    <option value="b99d7a0d-12ec-44c6-bc7d-83636bb7a470">Ijwi ryuje impuhwe (Calm Woman)</option>
                 </select>
+                
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;">
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
                         <label style="font-size:0.7rem; color:#9480b3;">umuvuduko</label>
-                        <input type="range" id="neuralRate" min="0.5" max="1.5" step="0.05" value="0.85" style="width:100%;">
+                        <input type="range" id="neuralRate" min="0.7" max="1.3" step="0.05" value="0.95" style="width:100%;">
                     </div>
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
-                        <label style="font-size:0.7rem; color:#9480b3;">uburebure bw'ijwi</label>
-                        <input type="range" id="neuralPitch" min="0.5" max="2" step="0.05" value="1.05" style="width:100%;">
+                        <label style="font-size:0.7rem; color:#9480b3;">ikibonezamvugo</label>
+                        <input type="range" id="neuralPitch" min="0.8" max="1.2" step="0.05" value="1.0" style="width:100%;">
                     </div>
                 </div>
+                
                 <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:8px; cursor:pointer;">
-                    <span>🔊</span> Gerageza ijwi
+                    <span>🔊</span> Gerageza Cartesia (Kinyarwanda)
                 </button>
                 <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#c4b5e6;">
-                    <input type="checkbox" id="neuralAutoTTS" checked> Soma igisubizo mu ijwi
+                    <input type="checkbox" id="neuralAutoTTS" checked> Soma igisubizo mu ijwi (Cartesia)
                 </label>
             </div>
 
@@ -609,7 +633,6 @@
             <div class="input-realm">
                 <div class="input-vessel">
                     <textarea id="neuralInput" rows="1" placeholder="sangiza icyo utekereza..."></textarea>
-                    <!-- ========== FIXED MIC BUTTON with Font Awesome solid mic ========= -->
                     <button id="neuralVoiceBtn" class="voice-button-neural">
                         <i class="fas fa-microphone"></i>
                     </button>
@@ -641,6 +664,8 @@
         <div style="margin-top:16px;">Ihuza...</div>
     </div>
 
+    <div id="cartesiaBadge" class="cartesia-badge">⚡ Cartesia Sonic 3 TTS</div>
+
     <script>
         (function() {
             const viewport = document.getElementById('chatViewport');
@@ -663,6 +688,7 @@
             const sttTranscript = document.getElementById('sttTranscript');
             const modelSelect = document.getElementById('modelSelect');
             const puterLoading = document.getElementById('puterLoading');
+            const cartesiaApiKey = document.getElementById('cartesiaApiKey');
             
             const sidebar = document.getElementById('sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
@@ -674,11 +700,10 @@
             let micPermission = false;
             let recognition = null;
             let isListening = false;
-            let synth = window.speechSynthesis;
-            let availableVoices = [];
-            let puterReady = false;
+            let audioContext = null;
+            let isPlaying = false;
 
-            // Complete Kivura Labs & Tyaza context - RESTORED with full information
+            // Complete Kivura Labs & Tyaza context
             const systemContext = `Wowe uri Tyaza, umuvugizi w'umutima wahimbwe na Kivura Labs.
 
 KIVURA LABS:
@@ -737,6 +762,83 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 });
             }
 
+            // CARTESIA TTS FUNCTION
+            async function speakWithCartesia(text) {
+                const apiKey = cartesiaApiKey.value.trim();
+                if (!apiKey) {
+                    voiceStatus.innerHTML = '⚠️ Shyiramo API Key ya Cartesia';
+                    setTimeout(() => voiceStatus.innerHTML = '', 3000);
+                    return;
+                }
+
+                if (isPlaying) {
+                    console.log('Already playing');
+                    return;
+                }
+
+                try {
+                    isPlaying = true;
+                    
+                    // Clean text for TTS
+                    const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
+                    
+                    const response = await fetch('https://api.cartesia.ai/tts/bytes', {
+                        method: 'POST',
+                        headers: {
+                            'Cartesia-Version': '2025-04-16',
+                            'X-API-Key': apiKey,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            transcript: cleanText,
+                            model_id: 'sonic-3',
+                            voice: {
+                                mode: 'id',
+                                id: voiceSelect.value
+                            },
+                            output_format: {
+                                container: 'wav',
+                                encoding: 'pcm_s16le',
+                                sample_rate: 44100
+                            },
+                            language: 'rw' // Try Kinyarwanda
+                        })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Cartesia error: ${response.status}`);
+                    }
+
+                    // Get audio as blob
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    
+                    // Apply rate and pitch (using playbackRate)
+                    audio.playbackRate = parseFloat(rateRange.value);
+                    
+                    audio.onended = () => {
+                        URL.revokeObjectURL(audioUrl);
+                        isPlaying = false;
+                    };
+                    
+                    audio.onerror = () => {
+                        URL.revokeObjectURL(audioUrl);
+                        isPlaying = false;
+                        voiceStatus.innerHTML = '❌ Ikosa mu majwi';
+                        setTimeout(() => voiceStatus.innerHTML = '', 2000);
+                    };
+                    
+                    await audio.play();
+                    
+                } catch (error) {
+                    console.error('Cartesia TTS error:', error);
+                    voiceStatus.innerHTML = '❌ Ikosa: ' + error.message;
+                    setTimeout(() => voiceStatus.innerHTML = '', 3000);
+                    isPlaying = false;
+                }
+            }
+
             // SPEECH RECOGNITION
             function initSpeechRecognition() {
                 if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
@@ -793,32 +895,6 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     voiceStatus.innerHTML = 'Emera mikorofoni';
                     return false;
                 }
-            }
-
-            function speakNeural(text) {
-                if (!synth || !autoTTS.checked) return;
-                synth.cancel();
-                const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
-                const utterance = new SpeechSynthesisUtterance(cleanText);
-                
-                if (availableVoices.length > 0) {
-                    const selectedVoiceName = voiceSelect.value;
-                    const voice = availableVoices.find(v => v.name.includes(selectedVoiceName)) || availableVoices[0];
-                    utterance.voice = voice;
-                }
-                
-                utterance.rate = parseFloat(rateRange.value);
-                utterance.pitch = parseFloat(pitchRange.value);
-                synth.speak(utterance);
-            }
-
-            function loadVoices() {
-                availableVoices = synth.getVoices();
-            }
-
-            if (synth) {
-                loadVoices();
-                synth.onvoiceschanged = loadVoices;
             }
 
             function escapeHtml(text) {
@@ -975,11 +1051,8 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     
                     if (isPuterReady && window.puter && window.puter.ai) {
                         try {
-                            // Use the full system context
-                            const systemPrompt = systemContext;
-                            
                             const response = await window.puter.ai.chat([
-                                { role: 'system', content: systemPrompt },
+                                { role: 'system', content: systemContext },
                                 ...currentChat.slice(-6)
                             ], {
                                 model: modelSelect.value || 'gpt-4o-mini',
@@ -1010,7 +1083,10 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                         bubble.innerHTML = formatNeural(reply);
                     }
                     
-                    if (autoTTS.checked) speakNeural(reply);
+                    // Use Cartesia TTS if enabled
+                    if (autoTTS.checked && reply) {
+                        await speakWithCartesia(reply);
+                    }
                     
                     currentChat.push({ role: 'assistant', content: reply });
                     if (currentChat.length === 2) saveNeuralSession(text);
@@ -1057,8 +1133,8 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 setTimeout(() => { testMicBtn.innerHTML = '🎤 Koresha Mikorofoni'; }, 2000);
             });
 
-            previewBtn.addEventListener('click', () => {
-                speakNeural("Ndi kumwe nawe. Wumva ute ubu?");
+            previewBtn.addEventListener('click', async () => {
+                await speakWithCartesia("Muraho, ndi Tyaza. Ndi kumwe nawe. Wumva ute ubu?");
             });
 
             viewport.addEventListener('scroll', () => {
@@ -1077,9 +1153,22 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 }
             });
 
+            // Save API key to localStorage
+            cartesiaApiKey.addEventListener('change', () => {
+                if (cartesiaApiKey.value.trim()) {
+                    localStorage.setItem('cartesia_api_key', cartesiaApiKey.value.trim());
+                }
+            });
+
             window.onload = async () => {
                 neuralNewSession();
                 renderHistory();
+                
+                // Load saved API key
+                const savedKey = localStorage.getItem('cartesia_api_key');
+                if (savedKey) {
+                    cartesiaApiKey.value = savedKey;
+                }
                 
                 puterLoading.classList.remove('hidden');
                 
@@ -1096,4 +1185,3 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
     </script>
 </body>
 </html>
-
