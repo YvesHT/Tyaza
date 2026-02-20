@@ -1,144 +1,1196 @@
 <!DOCTYPE html>
-<html>
+<html lang="rw">
 <head>
-    <title>Cartesia Sonic 3 Kinyarwanda Test</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>TYAZA · Umuvugizi w'Umutima</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        :root {
+            --primary: #a78bfa;
+            --primary-deep: #8b5cf6;
+            --secondary: #f9a8d4;
+            --secondary-deep: #ec4899;
+            --tertiary: #6ee7b7;
+            --bg-deepest: #030014;
+            --bg-deep: #0b0720;
+            --bg-surface: #151032;
+            --text-primary: #f3eaff;
+            --text-secondary: #c4b5e6;
+            --text-tertiary: #9480b3;
+        }
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(circle at 30% 20%, #2d1b44, #030014 80%);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+            line-height: 1.5;
+        }
+        .cosmic-web {
+            position: fixed;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(167, 139, 250, 0.08) 0%, transparent 30%),
+                radial-gradient(circle at 80% 70%, rgba(249, 168, 212, 0.08) 0%, transparent 35%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        .app-universe {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            z-index: 10;
+        }
+        .dimensional-sidebar {
+            width: 280px;
+            background: rgba(11, 7, 30, 0.95);
+            backdrop-filter: blur(40px);
+            border-right: 1px solid rgba(167, 139, 250, 0.2);
+            display: flex;
+            flex-direction: column;
+            padding: 24px 16px;
+            gap: 24px;
+            z-index: 1000;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            transition: transform 0.3s ease;
+        }
+        
+        @media (max-width: 768px) {
+            .dimensional-sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                transform: translateX(-100%);
+                width: 280px;
+                background: rgba(11, 7, 30, 0.98);
+                -webkit-backdrop-filter: blur(40px);
+                backdrop-filter: blur(40px);
+                box-shadow: 4px 0 30px rgba(0,0,0,0.5);
+                border-right: 2px solid rgba(249, 168, 212, 0.3);
+            }
+            .dimensional-sidebar.sidebar-visible {
+                transform: translateX(0);
+            }
+            
+            .sidebar-toggle {
+                display: flex !important;
+                position: fixed;
+                left: 16px;
+                top: 16px;
+                z-index: 999;
+                width: 48px;
+                height: 48px;
+                border-radius: 30px;
+                background: rgba(21, 16, 40, 0.95);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(249, 168, 212, 0.4);
+                color: #f9a8d4;
+                align-items: center;
+                justify-content: center;
+                font-size: 1.8rem;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            }
+            
+            .sidebar-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.7);
+                backdrop-filter: blur(8px);
+                z-index: 998;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s ease;
+            }
+            .sidebar-overlay.visible {
+                opacity: 1;
+                pointer-events: auto;
+            }
+            
+            .dimensional-sidebar * {
+                pointer-events: auto !important;
+            }
+            
+            .dimensional-sidebar button,
+            .dimensional-sidebar select,
+            .dimensional-sidebar input,
+            .dimensional-sidebar .history-item-neural {
+                cursor: pointer;
+                position: relative;
+                z-index: 1001;
+            }
+        }
+        
+        .sidebar-toggle { display: none; }
+        
+        .chat-realm {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .messages-vessel {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 20px 120px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+        .messages-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .hero-sanctuary {
+            text-align: center;
+            padding: 40px 24px;
+            margin: 24px auto;
             max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #1a1a2e;
+            background: rgba(21, 16, 40, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 60px;
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
+        }
+        .hero-symbol {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #a78bfa, #f9a8d4);
+            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            animation: morph 10s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
             color: white;
         }
-        textarea, select, button {
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #fff, #f9a8d4, #a78bfa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 8px;
+        }
+        .hero-subtitle {
+            color: #9480b3;
+            font-size: 1rem;
+        }
+        .message-user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #2a1e3c, #1f1630);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 24px 24px 8px 24px;
+            padding: 14px 20px;
+            max-width: 80%;
+            color: #f3eaff;
+            font-size: 1rem;
+            box-shadow: 0 20px 30px -10px black;
+        }
+        .message-tyaza-wrapper {
+            display: flex;
+            gap: 16px;
             width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: none;
         }
-        button {
-            background: linear-gradient(135deg, #a78bfa, #ec4899);
+        .tyaza-avatar-neural {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(145deg, #a78bfa, #f9a8d4);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
             color: white;
-            cursor: pointer;
-            font-size: 16px;
+            box-shadow: 0 0 30px #a78bfa;
+            flex-shrink: 0;
         }
-        .status {
+        .tyaza-bubble-neural {
+            background: rgba(21, 16, 40, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 24px 24px 24px 8px;
+            padding: 16px 24px;
+            color: #c4b5e6;
+            line-height: 1.7;
+            font-size: 1rem;
+            width: 100%;
+            box-shadow: 0 20px 40px -12px black;
+        }
+        .input-realm {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 20px 25px;
+            background: linear-gradient(to top, #030014 70%, transparent);
+            z-index: 30;
+        }
+        .input-vessel {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(21, 16, 40, 0.9);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 60px;
+            padding: 4px 4px 4px 20px;
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+        }
+        .input-vessel textarea {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            padding: 12px 0;
+            resize: none;
+            max-height: 120px;
+            line-height: 1.5;
+        }
+        .input-vessel textarea::placeholder {
+            color: #9480b3;
+        }
+        .send-button-neural {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #a78bfa, #ec4899);
+            border: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4);
+            flex-shrink: 0;
+            font-size: 1.4rem;
+        }
+        .send-button-neural:active {
+            transform: scale(0.9);
+        }
+        .send-button-neural:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .voice-button-neural {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(167, 139, 250, 0.15);
+            border: 1px solid rgba(249, 168, 212, 0.4);
+            color: #f9a8d4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        .voice-button-neural i {
+            filter: drop-shadow(0 0 6px rgba(249,168,212,0.6));
+        }
+        .voice-button-neural.listening {
+            background: #ec4899;
+            color: white;
+            animation: pulse 1.5s infinite;
+            border-color: #ec4899;
+        }
+        .voice-button-neural.listening i {
+            filter: drop-shadow(0 0 10px white);
+        }
+        .voice-studio {
+            background: rgba(21, 16, 40, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 24px;
+            padding: 20px 16px;
+        }
+        .history-item-neural {
+            padding: 12px;
+            border-radius: 16px;
+            background: rgba(167, 139, 250, 0.05);
+            border-left: 4px solid transparent;
+            margin-bottom: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .history-item-neural:active {
+            background: rgba(167, 139, 250, 0.2);
+            transform: scale(0.98);
+        }
+        .history-item-neural.active {
+            border-left-color: #f9a8d4;
+            background: rgba(249, 168, 212, 0.1);
+        }
+        .scroll-elevator {
+            position: absolute;
+            bottom: 120px;
+            right: 20px;
+            background: rgba(21, 16, 40, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid #f9a8d4;
+            border-radius: 50px;
+            padding: 8px 16px;
+            color: #c4b5e6;
+            font-size: 0.9rem;
+            cursor: pointer;
+            z-index: 40;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+            box-shadow: 0 0 25px #a78bfa;
+        }
+        .scroll-elevator.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .voice-status-neural {
+            text-align: center;
+            min-height: 20px;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: #9480b3;
+        }
+        .hidden { display: none; }
+        
+        @keyframes morph {
+            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            33% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
+            66% { border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%; }
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(236,72,153,0.7); }
+            50% { box-shadow: 0 0 0 15px rgba(236,72,153,0); }
+        }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
+            30% { transform: translateY(-8px); opacity: 1; }
+        }
+        .neural-typing {
+            display: flex;
+            gap: 6px;
+            padding: 8px 0;
+        }
+        .neural-typing .dot {
+            width: 8px;
+            height: 8px;
+            background: #a78bfa;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .neural-typing .dot:nth-child(2) { animation-delay: 0.2s; background: #f9a8d4; }
+        .neural-typing .dot:nth-child(3) { animation-delay: 0.4s; background: #6ee7b7; }
+        .stt-indicator {
+            position: fixed;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            background: rgba(21, 16, 40, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid #f9a8d4;
+            border-radius: 60px;
+            padding: 24px 32px;
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 0 50px #f9a8d4;
+            transition: opacity 0.2s;
+        }
+        .stt-indicator.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .stt-wave {
+            display: flex;
+            gap: 4px;
+            height: 60px;
+            align-items: center;
+        }
+        .stt-wave span {
+            width: 5px;
+            background: linear-gradient(to top, #a78bfa, #f9a8d4);
+            border-radius: 10px;
+            animation: wave 0.8s infinite alternate;
+        }
+        .stt-wave span:nth-child(2) { animation-delay: 0.1s; height: 30px; }
+        .stt-wave span:nth-child(3) { animation-delay: 0.2s; height: 45px; }
+        .stt-wave span:nth-child(4) { animation-delay: 0.3s; height: 25px; }
+        .stt-wave span:nth-child(5) { animation-delay: 0.4s; height: 40px; }
+        @keyframes wave {
+            0% { height: 10px; }
+            100% { height: 60px; }
+        }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #a78bfa; border-radius: 20px; }
+        
+        .model-selector {
+            background: rgba(21, 16, 40, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+            border-radius: 24px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .model-select {
+            width: 100%;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(167, 139, 250, 0.3);
+            border-radius: 30px;
             padding: 10px;
-            background: #16213e;
-            border-radius: 8px;
+            color: white;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+        .model-select option {
+            background: #151032;
+        }
+        
+        .puter-loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(21, 16, 40, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid #a78bfa;
+            border-radius: 60px;
+            padding: 24px 32px;
+            z-index: 2000;
+            text-align: center;
+            box-shadow: 0 0 50px #a78bfa;
+        }
+
+        button, select, input, textarea {
+            font-family: inherit;
+        }
+
+        .kivura-badge {
+            margin-top: 20px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(249,168,212,0.05));
+            border-radius: 24px;
+            border: 1px solid rgba(249,168,212,0.2);
+            font-size: 0.8rem;
+            color: #c4b5e6;
+            line-height: 1.6;
+        }
+        .kivura-badge .title {
+            color: #f9a8d4;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .kivura-badge .highlight {
+            color: #a78bfa;
+        }
+
+        .cartesia-badge {
+            position: fixed;
+            bottom: 100px;
+            right: 20px;
+            background: rgba(21, 16, 40, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid #a78bfa;
+            border-radius: 40px;
+            padding: 6px 16px;
+            font-size: 0.7rem;
+            color: #a78bfa;
+            z-index: 50;
+            pointer-events: none;
         }
     </style>
+    <script>
+        window.puter = null;
+        window.puterError = null;
+    </script>
+    <script src="https://js.puter.com/v2/"></script>
 </head>
 <body>
-    <h1>🎤 Cartesia Sonic 3 - Kinyarwanda Test</h1>
-    
-    <div class="status" id="status">Ready</div>
-    
-    <select id="voiceSelect">
-        <option value="694f9389-aac1-45b6-b726-9d9369183238">Barbershop Man (Umugabo)</option>
-        <option value="a0e99841-418c-4b52-b22f-416a880c1ddf">Sweet Lady (Umugore)</option>
-        <option value="156fb9d2-caaa-4f09-b678-93bd02b9b119">Deep Narrator (Ijwi rirenga)</option>
-        <option value="b99d7a0d-12ec-44c6-bc7d-83636bb7a470">Calm Woman (Impuhwe)</option>
-    </select>
-    
-    <textarea id="textToSpeak" rows="4" placeholder="Andika icyo ushaka ko Tyaza avuga...">Muraho, ndi Tyaza. Ndi kumwe nawe. Umeze ute uyu munsi?</textarea>
-    
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-        <div>
-            <label>Speed: <span id="rateValue">0.95</span></label>
-            <input type="range" id="rate" min="0.7" max="1.3" step="0.05" value="0.95">
-        </div>
-        <div>
-            <label>Pitch: <span id="pitchValue">1.0</span></label>
-            <input type="range" id="pitch" min="0.8" max="1.2" step="0.05" value="1.0">
-        </div>
+    <div class="cosmic-web"></div>
+
+    <button class="sidebar-toggle" id="sidebarToggle">☯</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <div class="app-universe">
+        <aside class="dimensional-sidebar" id="sidebar">
+            <button onclick="window.neuralNewSession()" style="width:100%; background:linear-gradient(135deg, rgba(167,139,250,0.2), rgba(249,168,212,0.1)); border:1px solid rgba(249,168,212,0.3); border-radius:60px; padding:14px; display:flex; align-items:center; gap:8px; cursor:pointer; color:white; font-weight:500; margin-bottom:8px;">
+                <span>🕊️</span> IGIHE GISHYA
+            </button>
+
+            <div class="model-selector">
+                <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:#9480b3; margin-bottom:8px;">
+                    <span>🧠</span> UBUHANGA
+                </div>
+                <select id="modelSelect" class="model-select">
+                    <option value="gpt-4o-mini">Model 1 (Vuba)</option>
+                    <option value="claude-3-haiku">Model 2 (Umugore)</option>
+                    <option value="gemini-1.5-flash">Model 3 (Ringing)</option>
+                </select>
+            </div>
+
+            <div class="voice-studio">
+                <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:#9480b3; margin-bottom:16px;">
+                    <span>🎙️</span> AMAJWI (CARTESIA SONIC 3)
+                </div>
+                <div style="background:rgba(0,0,0,0.3); border-radius:40px; padding:16px; margin-bottom:16px;">
+                    <button id="neuralTestMic" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; cursor:pointer;">
+                        <span>🎤</span> Koresha Mikorofoni
+                    </button>
+                </div>
+                
+                <!-- Cartesia API Key Input - Pre-filled -->
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:0.7rem; color:#9480b3; display:block; margin-bottom:4px;">🔑 CARTESIA API KEY</label>
+                    <input type="password" id="cartesiaApiKey" value="sk_car_XGNsH6i7UMW91HGwjfML1E" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:12px; color:white;">
+                </div>
+                
+                <select id="neuralVoiceSelect" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:12px; color:white; margin-bottom:16px;">
+                    <option value="694f9389-aac1-45b6-b726-9d9369183238">Ijwi ry'umugabo (Barbershop)</option>
+                    <option value="a0e99841-418c-4b52-b22f-416a880c1ddf">Ijwi ry'umugore (Sweet Lady)</option>
+                    <option value="156fb9d2-caaa-4f09-b678-93bd02b9b119">Ijwi rirenga (Deep Narrator)</option>
+                    <option value="b99d7a0d-12ec-44c6-bc7d-83636bb7a470">Ijwi ryuje impuhwe (Calm Woman)</option>
+                </select>
+                
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;">
+                    <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
+                        <label style="font-size:0.7rem; color:#9480b3;">umuvuduko</label>
+                        <input type="range" id="neuralRate" min="0.7" max="1.3" step="0.05" value="0.95" style="width:100%;">
+                    </div>
+                    <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
+                        <label style="font-size:0.7rem; color:#9480b3;">ikibonezamvugo</label>
+                        <input type="range" id="neuralPitch" min="0.8" max="1.2" step="0.05" value="1.0" style="width:100%;">
+                    </div>
+                </div>
+                
+                <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:8px; cursor:pointer;">
+                    <span>🔊</span> Gerageza Cartesia (Kinyarwanda)
+                </button>
+                <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#c4b5e6;">
+                    <input type="checkbox" id="neuralAutoTTS" checked> Soma igisubizo mu ijwi (Cartesia)
+                </label>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; margin:8px 0;">
+                <span style="font-size:0.8rem; color:#9480b3;">📜 AMATEKA</span>
+                <button id="neuralClearHistory" style="font-size:0.8rem; background:none; border:none; color:#9480b3; cursor:pointer;">hanagura</button>
+            </div>
+            <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
+
+            <div class="kivura-badge">
+                <div class="title">🏢 KIVURA LABS</div>
+                <div>Rwanda-based AI innovation company</div>
+                <div style="margin:8px 0; font-size:0.75rem; color:#6b5b8a;">Mental Health · Voice Tech · Local Languages</div>
+                
+                <div style="margin-top:12px; border-top:1px solid rgba(249,168,212,0.2); padding-top:12px;">
+                    <span class="title">🤖 TYAZA</span>
+                    <div>Umuvugizi w'Umutima</div>
+                    <div style="font-size:0.75rem; margin-top:6px;">AI virtual therapy assistant mu Kinyarwanda</div>
+                </div>
+                
+                <div style="margin-top:12px; font-size:0.75rem; color:#9480b3;">
+                    <span class="highlight">Ibyo dukora:</span> Kubaka AI ifasha mu by'umutekano mu mutwe no mu rurimi rwacu
+                </div>
+            </div>
+        </aside>
+
+        <main class="chat-realm">
+            <div id="chatViewport" class="messages-vessel">
+                <div id="heroSanctuary" class="hero-sanctuary">
+                    <div class="hero-symbol">T</div>
+                    <h1 class="hero-title">TYAZA</h1>
+                    <p class="hero-subtitle">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
+                    <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
+                    <div style="margin-top:16px; font-size:0.8rem; color:#9480b3;">🏢 KIVURA LABS · Rwanda AI Innovation</div>
+                </div>
+                <div id="neuralMessageContainer" class="messages-container"></div>
+            </div>
+
+            <div class="input-realm">
+                <div class="input-vessel">
+                    <textarea id="neuralInput" rows="1" placeholder="sangiza icyo utekereza..."></textarea>
+                    <button id="neuralVoiceBtn" class="voice-button-neural">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                    <button id="neuralSendBtn" class="send-button-neural" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div id="neuralVoiceStatus" class="voice-status-neural"></div>
+            </div>
+        </main>
     </div>
-    
-    <button onclick="speak()">🔊 Vuga (Speak)</button>
-    <button onclick="testKinyarwanda()">🇷🇼 Test Kinyarwanda Phrases</button>
+
+    <div id="neuralScrollBtn" class="scroll-elevator" onclick="neuralScrollToBottom()">
+        <span>⬇️</span> subira hasi
+    </div>
+
+    <div id="sttIndicator" class="stt-indicator hidden">
+        <div class="stt-wave">
+            <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div style="color:#f9a8d4;">ndakumva...</div>
+        <div style="font-size:0.8rem; color:#9480b3;" id="sttTranscript"></div>
+    </div>
+
+    <div id="puterLoading" class="puter-loading hidden">
+        <div class="neural-typing" style="justify-content:center;">
+            <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+        </div>
+        <div style="margin-top:16px;">Ihuza...</div>
+    </div>
+
+    <div id="cartesiaBadge" class="cartesia-badge">⚡ Cartesia Sonic 3 TTS</div>
 
     <script>
-        const API_KEY = "sk_car_XGNsH6i7UMW91HGwjfML1E";
-        
-        document.getElementById('rate').addEventListener('input', (e) => {
-            document.getElementById('rateValue').textContent = e.target.value;
-        });
-        
-        document.getElementById('pitch').addEventListener('input', (e) => {
-            document.getElementById('pitchValue').textContent = e.target.value;
-        });
+        (function() {
+            const viewport = document.getElementById('chatViewport');
+            const msgContainer = document.getElementById('neuralMessageContainer');
+            const hero = document.getElementById('heroSanctuary');
+            const inputEl = document.getElementById('neuralInput');
+            const sendBtn = document.getElementById('neuralSendBtn');
+            const voiceBtn = document.getElementById('neuralVoiceBtn');
+            const voiceStatus = document.getElementById('neuralVoiceStatus');
+            const testMicBtn = document.getElementById('neuralTestMic');
+            const voiceSelect = document.getElementById('neuralVoiceSelect');
+            const rateRange = document.getElementById('neuralRate');
+            const pitchRange = document.getElementById('neuralPitch');
+            const autoTTS = document.getElementById('neuralAutoTTS');
+            const previewBtn = document.getElementById('neuralPreviewVoice');
+            const clearHistory = document.getElementById('neuralClearHistory');
+            const historyContainer = document.getElementById('neuralHistoryContainer');
+            const scrollBtn = document.getElementById('neuralScrollBtn');
+            const sttIndicator = document.getElementById('sttIndicator');
+            const sttTranscript = document.getElementById('sttTranscript');
+            const modelSelect = document.getElementById('modelSelect');
+            const puterLoading = document.getElementById('puterLoading');
+            const cartesiaApiKey = document.getElementById('cartesiaApiKey');
+            
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-        async function speak() {
-            const text = document.getElementById('textToSpeak').value;
-            const voiceId = document.getElementById('voiceSelect').value;
-            const rate = parseFloat(document.getElementById('rate').value);
-            
-            document.getElementById('status').innerHTML = '⏳ Generating...';
-            
-            try {
-                const response = await fetch('https://api.cartesia.ai/tts/bytes', {
-                    method: 'POST',
-                    headers: {
-                        'Cartesia-Version': '2025-04-16',
-                        'X-API-Key': API_KEY,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        transcript: text,
+            let currentChat = [];
+            let currentChatId = Date.now();
+            let isGenerating = false;
+            let micPermission = false;
+            let recognition = null;
+            let isListening = false;
+            let isPlaying = false;
+
+            // Complete Kivura Labs & Tyaza context
+            const systemContext = `Wowe uri Tyaza, umuvugizi w'umutima wahimbwe na Kivura Labs.
+
+KIVURA LABS:
+- Kivura Labs ni isosiyete ikora ubushakashatsi mu by'ubwenge bw'ikoranabuhanga (AI) ifite icyicaro i Rwanda
+- Ikora ibijyanye na Mental Health, Voice Technology, na Local Language Computing
+- Intego yayo: gufasha abantu babana n'ibibazo by'umutekano mu mutwe binyuze mu ikoranabuhanga
+
+CEO: Yves Hirwa Tuyishime
+- Yavutse ku ya 1 Kamena 2005 i Kagarama, Kicukiro, Kigali
+- Niwe washinze Kivura Labs akaba na CEO
+- Yitoje ubwenge bw'ikoranabuhanga (AI) ku giti cye, bitandukanye n'ubumenyi yari afite mu ibaruramari
+
+TYAZA:
+- Uri AI virtual therapy assistant
+- Uvuga Kinyarwanda neza, kandi ushobora no kumva no kwishyura mu ndimi zindi
+- Ufasha abantu mu by'umutekano mu mutwe, ubibutsa, ugatera inkunga
+- Wabonyeho kugira ngo abantu bafite ibibazo by'umutima babone ubufasha mu rurimi rwabo
+- Ntabwo usimbura umuvuzi w'umubiri, ariko uri umuvugizi w'umutima ufasha
+
+UKO WITWARA:
+- Shyashya mu ijwi ryuje impuhwe, ubumuntu n'ubugoro
+- Komeza ibiganiro bigufi kandi byuje ubushyuhe
+- Ibaza, umve, ugire inama
+- Wibuke ko buri wese yakira impuhwe
+- Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi
+- Ntugire ubusobanuro burebure cyane, ariko ugaragaze ko umva
+
+Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho.`;
+
+            // SIDEBAR TOGGLE
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    sidebar.classList.add('sidebar-visible');
+                    sidebarOverlay.classList.add('visible');
+                    document.body.style.overflow = 'hidden';
+                });
+                
+                sidebarOverlay.addEventListener('click', function() {
+                    sidebar.classList.remove('sidebar-visible');
+                    sidebarOverlay.classList.remove('visible');
+                    document.body.style.overflow = '';
+                });
+                
+                sidebar.addEventListener('click', function(e) {
+                    if (e.target.closest('button') || e.target.closest('.history-item-neural')) {
+                        if (window.innerWidth <= 768) {
+                            setTimeout(() => {
+                                sidebar.classList.remove('sidebar-visible');
+                                sidebarOverlay.classList.remove('visible');
+                                document.body.style.overflow = '';
+                            }, 100);
+                        }
+                    }
+                });
+            }
+
+            // FIXED CARTESIA TTS FUNCTION - Properly handles Unicode
+            async function speakWithCartesia(text) {
+                const apiKey = cartesiaApiKey.value.trim();
+                if (!apiKey) {
+                    voiceStatus.innerHTML = '⚠️ Shyiramo API Key ya Cartesia';
+                    setTimeout(() => voiceStatus.innerHTML = '', 3000);
+                    return;
+                }
+
+                if (isPlaying) {
+                    console.log('Already playing');
+                    return;
+                }
+
+                try {
+                    isPlaying = true;
+                    voiceStatus.innerHTML = '⏳ ndategura ijwi...';
+                    
+                    // Clean text but preserve Kinyarwanda characters
+                    const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
+                    
+                    // Properly encode the text for JSON
+                    const requestBody = {
+                        transcript: cleanText,
                         model_id: 'sonic-3',
                         voice: {
                             mode: 'id',
-                            id: voiceId
+                            id: voiceSelect.value
                         },
                         output_format: {
                             container: 'wav',
                             encoding: 'pcm_s16le',
                             sample_rate: 44100
+                        }
+                    };
+                    
+                    const response = await fetch('https://api.cartesia.ai/tts/bytes', {
+                        method: 'POST',
+                        headers: {
+                            'Cartesia-Version': '2025-04-16',
+                            'X-API-Key': apiKey,
+                            'Content-Type': 'application/json'
                         },
-                        language: 'rw'
-                    })
-                });
+                        body: JSON.stringify(requestBody)
+                    });
 
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.status}`);
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        throw new Error(`Cartesia error: ${response.status} - ${errorText}`);
+                    }
+
+                    const audioBlob = await response.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    
+                    audio.playbackRate = parseFloat(rateRange.value);
+                    
+                    audio.onplay = () => {
+                        voiceStatus.innerHTML = '🔊 ndavuga...';
+                    };
+                    
+                    audio.onended = () => {
+                        URL.revokeObjectURL(audioUrl);
+                        isPlaying = false;
+                        voiceStatus.innerHTML = '';
+                    };
+                    
+                    audio.onerror = (e) => {
+                        console.error('Audio error:', e);
+                        URL.revokeObjectURL(audioUrl);
+                        isPlaying = false;
+                        voiceStatus.innerHTML = '❌ Ikosa mu majwi';
+                        setTimeout(() => voiceStatus.innerHTML = '', 2000);
+                    };
+                    
+                    await audio.play();
+                    
+                } catch (error) {
+                    console.error('Cartesia TTS error:', error);
+                    voiceStatus.innerHTML = '❌ Ikosa: ' + error.message;
+                    setTimeout(() => voiceStatus.innerHTML = '', 3000);
+                    isPlaying = false;
                 }
-
-                const audioBlob = await response.blob();
-                const audioUrl = URL.createObjectURL(audioBlob);
-                const audio = new Audio(audioUrl);
-                
-                audio.playbackRate = rate;
-                
-                audio.onplay = () => document.getElementById('status').innerHTML = '🔊 Playing...';
-                audio.onended = () => {
-                    document.getElementById('status').innerHTML = '✅ Done';
-                    URL.revokeObjectURL(audioUrl);
-                };
-                
-                await audio.play();
-                
-            } catch (error) {
-                document.getElementById('status').innerHTML = '❌ Error: ' + error.message;
             }
-        }
 
-        function testKinyarwanda() {
-            const phrases = [
-                "Muraho, nitwa Tyaza.",
-                "Umeze ute?",
-                "Ndakumva neza.",
-                "Umutima wuje amahoro.",
-                "Murakoze kunsura.",
-                "Ndi kumwe nawe.",
-                "Ibyishimo n'ibyiza."
-            ];
+            // SPEECH RECOGNITION
+            function initSpeechRecognition() {
+                if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
+                    voiceStatus.innerHTML = 'Koresha Chrome/Edge';
+                    return false;
+                }
+                const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SR();
+                recognition.continuous = false;
+                recognition.interimResults = true;
+                recognition.lang = 'rw-RW';
+
+                recognition.onstart = () => {
+                    isListening = true;
+                    voiceBtn.classList.add('listening');
+                    sttIndicator.classList.remove('hidden');
+                };
+
+                recognition.onend = () => {
+                    isListening = false;
+                    voiceBtn.classList.remove('listening');
+                    sttIndicator.classList.add('hidden');
+                    if (inputEl.value.trim()) sendMessage();
+                };
+
+                recognition.onresult = (event) => {
+                    let transcript = '';
+                    for (let i = 0; i < event.results.length; i++) {
+                        transcript += event.results[i][0].transcript;
+                    }
+                    inputEl.value = transcript;
+                    sendBtn.disabled = !transcript.trim() || isGenerating;
+                    sttTranscript.textContent = transcript;
+                    
+                    // Auto-adjust height
+                    inputEl.style.height = 'auto';
+                    inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
+                };
+
+                recognition.onerror = (e) => {
+                    voiceStatus.innerHTML = `Ikosa: ${e.error}`;
+                    isListening = false;
+                    voiceBtn.classList.remove('listening');
+                    sttIndicator.classList.add('hidden');
+                };
+                return true;
+            }
+
+            async function initMicrophone() {
+                try {
+                    await navigator.mediaDevices.getUserMedia({ audio: true });
+                    micPermission = true;
+                    voiceStatus.innerHTML = 'Mikorofoni yiteguye';
+                    setTimeout(() => voiceStatus.innerHTML = '', 2000);
+                    initSpeechRecognition();
+                    return true;
+                } catch (error) {
+                    voiceStatus.innerHTML = 'Emera mikorofoni';
+                    return false;
+                }
+            }
+
+            function escapeHtml(text) {
+                return text.replace(/[&<>]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' })[c]);
+            }
+
+            function formatNeural(text) {
+                if (!text) return '';
+                let escaped = escapeHtml(text);
+                
+                const emotions = ['umva', 'umutima', 'mahoro', 'impuhwe', 'mbabarwe', 'wigitsa', 'ubwoba', 'agahinda', 'ibyishimo', 'ishinga', 'komeza'];
+                emotions.forEach(word => {
+                    const regex = new RegExp(`\\b(${word})\\b`, 'gi');
+                    escaped = escaped.replace(regex, '<span style="color:#f9a8d4;font-weight:500;">$1</span>');
+                });
+                
+                escaped = escaped.replace(/\n/g, '<br>');
+                return `<div>${escaped}</div>`;
+            }
+
+            function saveNeuralSession(firstMsg) {
+                if (!firstMsg || currentChat.length === 0) return;
+                const history = JSON.parse(localStorage.getItem('tyaza_history') || '[]');
+                const entry = {
+                    id: currentChatId,
+                    title: firstMsg.slice(0, 30),
+                    messages: currentChat.slice(-10),
+                    timestamp: Date.now()
+                };
+                history.unshift(entry);
+                localStorage.setItem('tyaza_history', JSON.stringify(history.slice(0, 10)));
+                renderHistory();
+            }
+
+            function renderHistory() {
+                const history = JSON.parse(localStorage.getItem('tyaza_history') || '[]');
+                if (history.length === 0) {
+                    historyContainer.innerHTML = '<div style="color:#9480b3; padding:12px;">Nta mateka</div>';
+                    return;
+                }
+                historyContainer.innerHTML = history.map(c => `
+                    <div class="history-item-neural" onclick="window.restoreNeural('${c.id}')">
+                        <div style="font-weight:500;">${escapeHtml(c.title)}</div>
+                        <div style="font-size:0.7rem; color:#9480b3;">${new Date(c.timestamp).toLocaleDateString()}</div>
+                    </div>
+                `).join('');
+            }
+
+            window.restoreNeural = (id) => {
+                const history = JSON.parse(localStorage.getItem('tyaza_history') || '[]');
+                const chat = history.find(c => c.id == id);
+                if (!chat) return;
+                currentChatId = chat.id;
+                currentChat = chat.messages;
+                hero.style.display = 'none';
+                msgContainer.innerHTML = '';
+                currentChat.forEach(msg => {
+                    if (msg.role === 'user') {
+                        msgContainer.innerHTML += `<div class="message-user">${escapeHtml(msg.content)}</div>`;
+                    } else {
+                        msgContainer.innerHTML += `
+                            <div class="message-tyaza-wrapper">
+                                <div class="tyaza-avatar-neural">T</div>
+                                <div class="tyaza-bubble-neural">${formatNeural(msg.content)}</div>
+                            </div>
+                        `;
+                    }
+                });
+                renderHistory();
+                neuralScrollToBottom();
+                
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('sidebar-visible');
+                    sidebarOverlay.classList.remove('visible');
+                    document.body.style.overflow = '';
+                }
+            };
+
+            window.neuralNewSession = () => {
+                hero.style.display = 'block';
+                msgContainer.innerHTML = '';
+                currentChat = [];
+                currentChatId = Date.now();
+                inputEl.value = '';
+                sendBtn.disabled = true;
+                renderHistory();
+                
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('sidebar-visible');
+                    sidebarOverlay.classList.remove('visible');
+                    document.body.style.overflow = '';
+                }
+            };
+
+            function checkPuterReady() {
+                return new Promise((resolve) => {
+                    if (window.puter && window.puter.ai) {
+                        resolve(true);
+                        return;
+                    }
+                    
+                    let attempts = 0;
+                    const interval = setInterval(() => {
+                        attempts++;
+                        if (window.puter && window.puter.ai) {
+                            clearInterval(interval);
+                            resolve(true);
+                        } else if (attempts > 20) {
+                            clearInterval(interval);
+                            resolve(false);
+                        }
+                    }, 250);
+                });
+            }
+
+            function getFallbackResponse(text) {
+                const responses = [
+                    "Ndumva. Urakoze kunsangiza ibi.",
+                    "Ibyo twabishakashaka hamwe. Wumva ute?",
+                    "Ndi kumwe nawe. Wabona tubyongereho?",
+                    "Urakoze kundekera. Hari ikindi wongeraho?",
+                    "Ndakumva. Buri jambo rifite agaciro."
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+
+            async function sendMessage() {
+                const text = inputEl.value.trim();
+                if (!text || isGenerating) return;
+                
+                hero.style.display = 'none';
+                msgContainer.innerHTML += `<div class="message-user">${escapeHtml(text)}</div>`;
+                currentChat.push({ role: 'user', content: text });
+                
+                const wrapperId = 'wrap-' + Date.now();
+                msgContainer.innerHTML += `
+                    <div id="${wrapperId}" class="message-tyaza-wrapper">
+                        <div class="tyaza-avatar-neural">T</div>
+                        <div class="tyaza-bubble-neural" id="bubble-${wrapperId}">
+                            <div class="neural-typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+                        </div>
+                    </div>
+                `;
+                
+                neuralScrollToBottom();
+                inputEl.value = '';
+                inputEl.style.height = 'auto';
+                sendBtn.disabled = true;
+                isGenerating = true;
+
+                try {
+                    let reply = '';
+                    
+                    const isPuterReady = await checkPuterReady();
+                    
+                    if (isPuterReady && window.puter && window.puter.ai) {
+                        try {
+                            const response = await window.puter.ai.chat([
+                                { role: 'system', content: systemContext },
+                                ...currentChat.slice(-6)
+                            ], {
+                                model: modelSelect.value || 'gpt-4o-mini',
+                                stream: true
+                            });
+                            
+                            const bubble = document.getElementById(`bubble-${wrapperId}`);
+                            
+                            for await (const part of response) {
+                                reply += part.text || part.message?.content || '';
+                                if (bubble) {
+                                    bubble.innerHTML = formatNeural(reply + ' ¦');
+                                }
+                                neuralScrollToBottom();
+                            }
+                            
+                        } catch (puterError) {
+                            console.warn('Puter error, using fallback:', puterError);
+                            reply = getFallbackResponse(text);
+                        }
+                    } else {
+                        reply = getFallbackResponse(text);
+                        voiceStatus.innerHTML = 'Kanda ku kimenyetso cya Puter wandikishe';
+                        setTimeout(() => voiceStatus.innerHTML = '', 3000);
+                    }
+                    
+                    const bubble = document.getElementById(`bubble-${wrapperId}`);
+                    if (bubble) {
+                        bubble.innerHTML = formatNeural(reply);
+                    }
+                    
+                    // Use Cartesia TTS if enabled
+                    if (autoTTS.checked && reply) {
+                        await speakWithCartesia(reply);
+                    }
+                    
+                    currentChat.push({ role: 'assistant', content: reply });
+                    if (currentChat.length === 2) saveNeuralSession(text);
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    
+                    const bubble = document.getElementById(`bubble-${wrapperId}`);
+                    if (bubble) {
+                        bubble.innerHTML = formatNeural("Ndi kumwe nawe. Ikoranabuhanga rimwe na rimwe riruhuka, ariko njye nkumva.");
+                    }
+                } finally {
+                    isGenerating = false;
+                    sendBtn.disabled = !inputEl.value.trim();
+                }
+            }
+
+            inputEl.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+                sendBtn.disabled = !this.value.trim() || isGenerating;
+            });
             
-            const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
-            document.getElementById('textToSpeak').value = randomPhrase;
-            speak();
-        }
+            inputEl.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) { 
+                    e.preventDefault(); 
+                    if (!sendBtn.disabled) sendMessage(); 
+                }
+            });
+            
+            sendBtn.addEventListener('click', sendMessage);
+
+            voiceBtn.addEventListener('click', async () => {
+                if (!micPermission && !(await initMicrophone())) return;
+                if (!recognition) initSpeechRecognition();
+                if (isListening) recognition.stop();
+                else recognition.start();
+            });
+
+            testMicBtn.addEventListener('click', async () => {
+                testMicBtn.innerHTML = '⏳ ndategura...';
+                const success = await initMicrophone();
+                testMicBtn.innerHTML = success ? '✅ mikorofoni yiteguye' : '❌ Ongera ugerageze';
+                setTimeout(() => { testMicBtn.innerHTML = '🎤 Koresha Mikorofoni'; }, 2000);
+            });
+
+            previewBtn.addEventListener('click', async () => {
+                await speakWithCartesia("Muraho, ndi Tyaza. Ndi kumwe nawe. Wumva ute ubu?");
+            });
+
+            viewport.addEventListener('scroll', () => {
+                const atBottom = viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight < 100;
+                scrollBtn.classList.toggle('visible', !atBottom);
+            });
+            
+            window.neuralScrollToBottom = () => {
+                viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+            };
+
+            clearHistory.addEventListener('click', () => {
+                if (confirm('Hanagura amateka yose?')) { 
+                    localStorage.removeItem('tyaza_history'); 
+                    neuralNewSession(); 
+                }
+            });
+
+            // Save API key to localStorage
+            cartesiaApiKey.addEventListener('change', () => {
+                if (cartesiaApiKey.value.trim()) {
+                    localStorage.setItem('cartesia_api_key', cartesiaApiKey.value.trim());
+                }
+            });
+
+            window.onload = async () => {
+                neuralNewSession();
+                renderHistory();
+                
+                // Load saved API key
+                const savedKey = localStorage.getItem('cartesia_api_key');
+                if (savedKey) {
+                    cartesiaApiKey.value = savedKey;
+                }
+                
+                puterLoading.classList.remove('hidden');
+                
+                const ready = await checkPuterReady();
+                puterLoading.classList.add('hidden');
+                
+                if (ready) {
+                    voiceStatus.innerHTML = '';
+                } else {
+                    voiceStatus.innerHTML = '✋ Kanda ku kimenyetso cya Puter wandikishe';
+                }
+            };
+        })();
     </script>
 </body>
 </html>
