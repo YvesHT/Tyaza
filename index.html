@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>TYAZA · Umuvugizi w'Umutima</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (free) for premium mic & send icons -->
+    <!-- Font Awesome 6 (free) for mic, send & speaker icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -217,6 +217,7 @@
             box-shadow: 0 0 30px #a78bfa;
             flex-shrink: 0;
         }
+        /* Updated bubble with relative positioning for speaker icon */
         .tyaza-bubble-neural {
             background: rgba(21, 16, 40, 0.7);
             backdrop-filter: blur(20px);
@@ -228,6 +229,37 @@
             font-size: 1rem;
             width: 100%;
             box-shadow: 0 20px 40px -12px black;
+            position: relative;
+        }
+        /* small speaker icon at left-down corner of bubble */
+        .tts-speaker-icon {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;  /* traditionally left-down, but right feels more natural — if you prefer left: 12px, change here */
+            left: auto;    /* change to left:12px and right:auto if you want left-down */
+            background: rgba(167, 139, 250, 0.25);
+            border: 1px solid rgba(249, 168, 212, 0.5);
+            border-radius: 30px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f9a8d4;
+            font-size: 1rem;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            z-index: 5;
+        }
+        .tts-speaker-icon:hover {
+            background: rgba(249, 168, 212, 0.4);
+            color: white;
+            transform: scale(1.1);
+        }
+        .tts-speaker-icon i {
+            pointer-events: none;
         }
         .input-realm {
             position: absolute;
@@ -280,7 +312,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4);
             flex-shrink: 0;
-            font-size: 1.4rem; /* for icon size */
+            font-size: 1.4rem;
         }
         .send-button-neural:active {
             transform: scale(0.9);
@@ -289,7 +321,6 @@
             opacity: 0.4;
             pointer-events: none;
         }
-        /* ========== FIXED MIC ICON — now Font Awesome premium style ========= */
         .voice-button-neural {
             width: 48px;
             height: 48px;
@@ -302,7 +333,7 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 1.5rem; /* perfect for FA solid mic */
+            font-size: 1.5rem;
             flex-shrink: 0;
         }
         .voice-button-neural i {
@@ -317,7 +348,6 @@
         .voice-button-neural.listening i {
             filter: drop-shadow(0 0 10px white);
         }
-        /* end mic fix */
         .voice-studio {
             background: rgba(21, 16, 40, 0.6);
             backdrop-filter: blur(20px);
@@ -488,7 +518,6 @@
             font-family: inherit;
         }
 
-        /* Kivura Labs info styles */
         .kivura-badge {
             margin-top: 20px;
             padding: 16px;
@@ -565,9 +594,7 @@
                 <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:8px; cursor:pointer;">
                     <span>🔊</span> Gerageza ijwi
                 </button>
-                <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#c4b5e6;">
-                    <input type="checkbox" id="neuralAutoTTS" checked> Soma igisubizo mu ijwi
-                </label>
+                <!-- AUTO TTS REMOVED – no checkbox anymore -->
             </div>
 
             <div style="display:flex; justify-content:space-between; margin:8px 0;">
@@ -654,7 +681,6 @@
             const voiceSelect = document.getElementById('neuralVoiceSelect');
             const rateRange = document.getElementById('neuralRate');
             const pitchRange = document.getElementById('neuralPitch');
-            const autoTTS = document.getElementById('neuralAutoTTS');
             const previewBtn = document.getElementById('neuralPreviewVoice');
             const clearHistory = document.getElementById('neuralClearHistory');
             const historyContainer = document.getElementById('neuralHistoryContainer');
@@ -678,7 +704,7 @@
             let availableVoices = [];
             let puterReady = false;
 
-            // Complete Kivura Labs & Tyaza context - RESTORED with full information
+            // Complete Kivura Labs & Tyaza context
             const systemContext = `Wowe uri Tyaza, umuvugizi w'umutima wahimbwe na Kivura Labs.
 
 KIVURA LABS:
@@ -795,9 +821,10 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 }
             }
 
+            // TTS function (manual via speaker icon)
             function speakNeural(text) {
-                if (!synth || !autoTTS.checked) return;
-                synth.cancel();
+                if (!synth) return;
+                synth.cancel(); // avoid overlapping
                 const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
                 const utterance = new SpeechSynthesisUtterance(cleanText);
                 
@@ -879,10 +906,17 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     if (msg.role === 'user') {
                         msgContainer.innerHTML += `<div class="message-user">${escapeHtml(msg.content)}</div>`;
                     } else {
+                        // assistant messages will be rendered via display function (but we reconstruct with speaker icon)
+                        const bubbleId = 'restore-' + Date.now() + Math.random();
                         msgContainer.innerHTML += `
                             <div class="message-tyaza-wrapper">
                                 <div class="tyaza-avatar-neural">T</div>
-                                <div class="tyaza-bubble-neural">${formatNeural(msg.content)}</div>
+                                <div class="tyaza-bubble-neural" id="${bubbleId}">
+                                    ${formatNeural(msg.content)}
+                                    <div class="tts-speaker-icon" onclick="window.speakMessage('${escapeHtml(msg.content).replace(/'/g, "\\'")}')">
+                                        <i class="fas fa-volume-low"></i>
+                                    </div>
+                                </div>
                             </div>
                         `;
                     }
@@ -895,6 +929,11 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     sidebarOverlay.classList.remove('visible');
                     document.body.style.overflow = '';
                 }
+            };
+
+            // Expose speak for inline icon
+            window.speakMessage = (text) => {
+                speakNeural(text);
             };
 
             window.neuralNewSession = () => {
@@ -954,10 +993,11 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 currentChat.push({ role: 'user', content: text });
                 
                 const wrapperId = 'wrap-' + Date.now();
+                const bubbleId = 'bubble-' + wrapperId;
                 msgContainer.innerHTML += `
                     <div id="${wrapperId}" class="message-tyaza-wrapper">
                         <div class="tyaza-avatar-neural">T</div>
-                        <div class="tyaza-bubble-neural" id="bubble-${wrapperId}">
+                        <div class="tyaza-bubble-neural" id="${bubbleId}">
                             <div class="neural-typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
                         </div>
                     </div>
@@ -975,7 +1015,6 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     
                     if (isPuterReady && window.puter && window.puter.ai) {
                         try {
-                            // Use the full system context
                             const systemPrompt = systemContext;
                             
                             const response = await window.puter.ai.chat([
@@ -986,7 +1025,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                                 stream: true
                             });
                             
-                            const bubble = document.getElementById(`bubble-${wrapperId}`);
+                            const bubble = document.getElementById(bubbleId);
                             
                             for await (const part of response) {
                                 reply += part.text || part.message?.content || '';
@@ -1005,12 +1044,17 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                         setTimeout(() => voiceStatus.innerHTML = '', 3000);
                     }
                     
-                    const bubble = document.getElementById(`bubble-${wrapperId}`);
+                    const bubble = document.getElementById(bubbleId);
                     if (bubble) {
-                        bubble.innerHTML = formatNeural(reply);
+                        // Add formatted text + speaker icon (no auto TTS)
+                        bubble.innerHTML = formatNeural(reply) + `
+                            <div class="tts-speaker-icon" onclick="window.speakMessage('${reply.replace(/'/g, "\\'")}')">
+                                <i class="fas fa-volume-low"></i>
+                            </div>
+                        `;
                     }
                     
-                    if (autoTTS.checked) speakNeural(reply);
+                    // No auto TTS call here – removed
                     
                     currentChat.push({ role: 'assistant', content: reply });
                     if (currentChat.length === 2) saveNeuralSession(text);
@@ -1018,9 +1062,13 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 } catch (error) {
                     console.error('Error:', error);
                     
-                    const bubble = document.getElementById(`bubble-${wrapperId}`);
+                    const bubble = document.getElementById(bubbleId);
                     if (bubble) {
-                        bubble.innerHTML = formatNeural("Ndi kumwe nawe. Ikoranabuhanga rimwe na rimwe riruhuka, ariko njye nkumva.");
+                        bubble.innerHTML = formatNeural("Ndi kumwe nawe. Ikoranabuhanga rimwe na rimwe riruhuka, ariko njye nkumva.") + `
+                            <div class="tts-speaker-icon" onclick="window.speakMessage('Ndi kumwe nawe. Ikoranabuhanga rimwe na rimwe riruhuka, ariko njye nkumva.')">
+                                <i class="fas fa-volume-low"></i>
+                            </div>
+                        `;
                     }
                 } finally {
                     isGenerating = false;
@@ -1096,5 +1144,3 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
     </script>
 </body>
 </html>
-
-
