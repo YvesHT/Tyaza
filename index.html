@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>TYAZA · Umuvugizi w'Umutima (MMS-TTS)</title>
+    <title>TYAZA · Umuvugizi w'Umutima (MMS-TTS Default)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -557,43 +557,41 @@
                     </button>
                 </div>
                 
-                <!-- MMS TTS Options -->
+                <!-- MMS TTS Options - Facebook MMS ni default -->
                 <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
                     <span style="color:#6ee7b7;">🌍</span>
-                    <span style="color:#c4b5e6; font-size:0.8rem;">Facebook MMS-TTS (Kinyarwanda)</span>
+                    <span style="color:#c4b5e6; font-size:0.8rem;">Facebook MMS-TTS (Kinyarwanda) - DEFAULT</span>
                 </div>
                 
                 <select id="neuralVoiceSelect" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:12px; color:white; margin-bottom:16px;">
-                    <option value="rw-RW">Kinyarwanda - MMS (Ubuntu)</option>
-                    <option value="rw-RW-female">Kinyarwanda - Umugore</option>
-                    <option value="rw-RW-male">Kinyarwanda - Umugabo</option>
-                    <option value="Google UK English Female">ijwi ry'umugore (UK)</option>
-                    <option value="Google UK English Male">ijwi ry'umugabo (UK)</option>
-                    <option value="Samantha">Samantha · ryorohe</option>
+                    <option value="mms-rw" selected>🌍 Facebook MMS (Kinyarwanda) - DEFAULT</option>
+                    <option value="Google UK English Female">🇬🇧 ijwi ry'umugore (UK)</option>
+                    <option value="Google UK English Male">🇬🇧 ijwi ry'umugabo (UK)</option>
+                    <option value="Samantha">🇺🇸 Samantha · ryorohe</option>
                 </select>
                 
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;">
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
                         <label style="font-size:0.7rem; color:#9480b3;">umuvuduko</label>
-                        <input type="range" id="neuralRate" min="0.5" max="1.5" step="0.05" value="0.85" style="width:100%;">
+                        <input type="range" id="neuralRate" min="0.5" max="1.5" step="0.05" value="0.9" style="width:100%;">
                     </div>
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
                         <label style="font-size:0.7rem; color:#9480b3;">uburebure bw'ijwi</label>
-                        <input type="range" id="neuralPitch" min="0.5" max="2" step="0.05" value="1.05" style="width:100%;">
+                        <input type="range" id="neuralPitch" min="0.5" max="2" step="0.05" value="1.0" style="width:100%;">
                     </div>
                 </div>
                 
                 <!-- MMS Status -->
                 <div id="mmsStatus" class="mms-status">
-                    <i class="fas fa-circle"></i> MMS-TTS yiteguye
+                    <i class="fas fa-circle" style="color:#6ee7b7;"></i> MMS-TTS yiteguye (DEFAULT)
                 </div>
                 
                 <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:8px; cursor:pointer;">
-                    <span>🔊</span> Gerageza ijwi (MMS)
+                    <span>🔊</span> Gerageza MMS (Kinyarwanda)
                 </button>
                 
                 <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#c4b5e6;">
-                    <input type="checkbox" id="neuralAutoTTS" checked> Soma igisubizo mu ijwi (MMS)
+                    <input type="checkbox" id="neuralAutoTTS" checked> Soma igisubizo mu ijwi (MMS ni DEFAULT)
                 </label>
             </div>
 
@@ -618,7 +616,7 @@
                     <span class="highlight">Ibyo dukora:</span> Kubaka AI ifasha mu by'umutekano mu mutwe no mu rurimi rwacu
                 </div>
                 <div style="margin-top:8px; font-size:0.7rem; color:#6ee7b7;">
-                    <i class="fas fa-check-circle"></i> Facebook MMS-TTS (Kinyarwanda) yinjijwemo
+                    <i class="fas fa-check-circle"></i> Facebook MMS-TTS (DEFAULT) - Kinyarwanda
                 </div>
             </div>
         </aside>
@@ -797,14 +795,17 @@
                 }
             }
 
-            // ========== FACEBOOK MMS-TTS FUNCTION ==========
+            // ========== FACEBOOK MMS-TTS - IYI NI DEFAULT ==========
             async function speakMMSTTS(text) {
                 if (!autoTTS.checked) return;
                 
                 const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
                 
                 try {
-                    voiceStatus.innerHTML = 'MMS: ndategura ijwi...';
+                    voiceStatus.innerHTML = '⏳ MMS: ndategura ijwi rya Kinyarwanda...';
+                    mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#f9a8d4;"></i> MMS: irakora...';
+                    
+                    console.log('Sending request to MMS-TTS...');
                     
                     const response = await fetch('https://api-inference.huggingface.co/models/facebook/mms-tts-rw', {
                         method: 'POST',
@@ -813,13 +814,11 @@
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({ 
-                            inputs: cleanText,
-                            options: { 
-                                wait_for_model: true,
-                                use_cache: false
-                            }
+                            inputs: cleanText
                         })
                     });
+                    
+                    console.log('MMS Response status:', response.status);
                     
                     if (!response.ok) {
                         const errorText = await response.text();
@@ -827,8 +826,8 @@
                         
                         if (response.status === 503) {
                             voiceStatus.innerHTML = 'MMS: model iracyikora, ndetegereza...';
-                            // Try browser TTS
-                            speakBrowserTTS(cleanText);
+                            // Retry after 2 seconds
+                            setTimeout(() => speakMMSTTS(text), 2000);
                             return;
                         }
                         
@@ -836,10 +835,12 @@
                     }
                     
                     const audioBlob = await response.blob();
+                    console.log('Audio blob size:', audioBlob.size);
                     
                     if (audioBlob.size < 100) {
                         console.warn('MMS: audio ntoya cyane');
                         voiceStatus.innerHTML = 'MMS: ikibazo, nkoresha browser TTS';
+                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS: ntanji';
                         speakBrowserTTS(cleanText);
                         return;
                     }
@@ -848,37 +849,34 @@
                     const audio = new Audio(audioUrl);
                     
                     audio.onplay = () => {
-                        voiceStatus.innerHTML = 'MMS: ndavuga...';
-                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#f9a8d4;"></i> MMS-TTS irakora';
+                        voiceStatus.innerHTML = '🔊 MMS: ndavuga mu Kinyarwanda...';
+                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#f9a8d4;"></i> MMS: iravuga';
                     };
                     
                     audio.onended = () => {
                         voiceStatus.innerHTML = '';
-                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#6ee7b7;"></i> MMS-TTS yiteguye';
+                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#6ee7b7;"></i> MMS yiteguye (DEFAULT)';
                         URL.revokeObjectURL(audioUrl);
                     };
                     
                     audio.onerror = (e) => {
                         console.error('Audio playback error:', e);
                         voiceStatus.innerHTML = 'MMS: ntanji, nkoresha browser TTS';
-                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS-TTS yananive';
+                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS: yananive';
                         speakBrowserTTS(cleanText);
                     };
                     
-                    audio.play().catch(e => {
-                        console.error('Play error:', e);
-                        speakBrowserTTS(cleanText);
-                    });
+                    await audio.play();
                     
                 } catch (error) {
                     console.warn('MMS-TTS error, using browser TTS:', error);
                     voiceStatus.innerHTML = 'MMS: ikibazo, nkoresha browser';
-                    mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS-TTS yananive';
+                    mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS: yananive';
                     speakBrowserTTS(cleanText);
                 }
             }
 
-            // Browser TTS (fallback)
+            // Browser TTS (fallback only)
             function speakBrowserTTS(text) {
                 if (!synth) return;
                 
@@ -887,16 +885,22 @@
                     const utterance = new SpeechSynthesisUtterance(text);
                     
                     if (availableVoices.length > 0) {
+                        // Only use browser TTS for non-Kinyarwanda or when MMS fails
                         const selectedVoiceName = voiceSelect.value;
-                        const voice = availableVoices.find(v => v.name.includes(selectedVoiceName)) || availableVoices[0];
-                        utterance.voice = voice;
+                        if (selectedVoiceName !== 'mms-rw') {
+                            const voice = availableVoices.find(v => v.name.includes(selectedVoiceName)) || availableVoices[0];
+                            utterance.voice = voice;
+                        } else {
+                            // Use first available voice for fallback
+                            utterance.voice = availableVoices[0];
+                        }
                     }
                     
                     utterance.rate = parseFloat(rateRange.value);
                     utterance.pitch = parseFloat(pitchRange.value);
                     
                     utterance.onstart = () => {
-                        voiceStatus.innerHTML = 'Browser TTS: ndavuga...';
+                        voiceStatus.innerHTML = '🌐 Browser TTS: ndavuga...';
                     };
                     
                     utterance.onend = () => {
@@ -914,20 +918,25 @@
                 }
             }
 
-            // Main speak function (uses MMS first, falls back to browser)
+            // ========== MAIN SPEAK FUNCTION - MMS NI DEFAULT ==========
             async function speakNeural(text) {
+                if (!autoTTS.checked) return;
+                
                 const selectedVoice = voiceSelect.value;
                 
-                // If Kinyarwanda is selected, try MMS first
-                if (selectedVoice === 'rw-RW' || selectedVoice === 'rw-RW-female' || selectedVoice === 'rw-RW-male') {
+                // MMS ni DEFAULT - Always try MMS first for Kinyarwanda
+                if (selectedVoice === 'mms-rw') {
+                    console.log('Using MMS-TTS (DEFAULT)');
                     await speakMMSTTS(text);
                 } else {
+                    console.log('Using Browser TTS for:', selectedVoice);
                     speakBrowserTTS(text);
                 }
             }
 
             function loadVoices() {
                 availableVoices = synth.getVoices();
+                console.log('Browser voices loaded:', availableVoices.length);
             }
 
             if (synth) {
@@ -1153,7 +1162,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                         bubble.innerHTML = formatNeural(reply);
                     }
                     
-                    // Use MMS-TTS for response
+                    // Use MMS-TTS for response (DEFAULT)
                     if (autoTTS.checked) {
                         await speakNeural(reply);
                     }
@@ -1203,9 +1212,9 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 setTimeout(() => { testMicBtn.innerHTML = '🎤 Koresha Mikorofoni'; }, 2000);
             });
 
-            // Preview voice with MMS
+            // Preview voice with MMS (DEFAULT)
             previewBtn.addEventListener('click', () => {
-                const previewText = "Ndi kumwe nawe. Wumva ute ubu?";
+                const previewText = "Muraho, ndi Tyaza. Ndi kumwe nawe. Wumva ute uyu munsi?";
                 speakNeural(previewText);
             });
 
@@ -1228,6 +1237,9 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
             // Test MMS connection on load
             async function testMMSConnection() {
                 try {
+                    mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#f9a8d4;"></i> MMS: ndagerageza...';
+                    
+                    // Lightweight test - just check if API responds
                     const response = await fetch('https://api-inference.huggingface.co/models/facebook/mms-tts-rw', {
                         method: 'HEAD',
                         headers: {
@@ -1236,13 +1248,16 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     });
                     
                     if (response.ok) {
-                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#6ee7b7;"></i> MMS-TTS yiteguye';
+                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#6ee7b7;"></i> MMS yiteguye (DEFAULT)';
+                        voiceStatus.innerHTML = '✅ MMS-TTS DEFAULT';
+                        setTimeout(() => voiceStatus.innerHTML = '', 2000);
                     } else {
-                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS-TTS: ikibazo cyo guhuza';
+                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS: ikibazo cyo guhuza';
+                        voiceStatus.innerHTML = '⚠️ MMS ntabwo ikora, browser TTS izakoreshwa';
                     }
                 } catch (e) {
                     console.warn('MMS connection test failed:', e);
-                    mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS-TTS: nta interineti';
+                    mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS: nta interineti';
                 }
             }
 
@@ -1256,7 +1271,8 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 puterLoading.classList.add('hidden');
                 
                 if (ready) {
-                    voiceStatus.innerHTML = '';
+                    voiceStatus.innerHTML = '✅ MMS-TTS DEFAULT';
+                    setTimeout(() => voiceStatus.innerHTML = '', 2000);
                 } else {
                     voiceStatus.innerHTML = '✋ Kanda ku kimenyetso cya Puter wandikishe';
                 }
