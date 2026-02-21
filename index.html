@@ -1195,7 +1195,13 @@
             font-size: 1.5rem;
             color: white;
             box-shadow: var(--shadow-glow-primary);
-            animation: logoFloat 6s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         @keyframes logoFloat {
@@ -1346,6 +1352,8 @@
             border-radius: var(--radius-lg);
             cursor: pointer;
             transition: all var(--transition-fast);
+            max-height: 60px;
+            overflow: hidden;
         }
 
         .history-item:hover {
@@ -1366,6 +1374,9 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
         }
 
         .history-meta {
@@ -1413,6 +1424,12 @@
             gap: var(--space-2);
         }
 
+        .info-card-logo {
+            width: 24px;
+            height: 24px;
+            margin-right: var(--space-2);
+        }
+
         .info-card-divider {
             height: 1px;
             background: rgba(139, 92, 246, 0.1);
@@ -1422,6 +1439,15 @@
         .info-highlight {
             color: var(--color-primary-300);
             font-weight: 500;
+        }
+
+        .info-card-footer {
+            font-size: 0.65rem;
+            color: var(--color-text-muted);
+            text-align: center;
+            margin-top: var(--space-3);
+            padding-top: var(--space-3);
+            border-top: 1px solid rgba(139, 92, 246, 0.1);
         }
 
         /* ----------------------------------------------------------------
@@ -2359,7 +2385,9 @@
                 <!-- Header -->
                 <div class="sidebar-header">
                     <div class="logo-container">
-                        <div class="logo-icon">🕊️</div>
+                        <div class="logo-icon">
+                            <img src="https://raw.githubusercontent.com/kivuralabs/tyaza/main/tyaza-logo.png" alt="TYAZA" style="width:100%;height:100%;object-fit:contain;" onerror="this.innerHTML='🕊️'">
+                        </div>
                         <div class="logo-text">
                             <div class="logo-title">TYAZA</div>
                             <div class="logo-subtitle">Umuvugizi w'Umutima</div>
@@ -2472,17 +2500,21 @@
                     <!-- Info Card -->
                     <div class="info-card">
                         <div class="info-card-title">
+                            <img src="https://raw.githubusercontent.com/kivuralabs/tyaza/main/kivura-logo.png" alt="Kivura Labs" class="info-card-logo" onerror="this.style.display='none'">
                             🏢 KIVURA LABS
                         </div>
-                        <div style="margin-bottom: var(--space-2);">
-                            <span class="info-highlight">Intego:</span> Kubaka AI ifasha mu 
-                            by'umutekano mu mutwe no mu rurimi rwacu
+                        <div>
+                            <span class="info-highlight">Intego:</span> AI ifasha mu 
+                            by'umutekano mu mutwe
                         </div>
                         <div class="info-card-divider"></div>
                         <div class="info-card-title" style="font-size: var(--text-xs);">
                             🤖 TYAZA
                         </div>
-                        <div>Umuvugizi w'Umutima — AI virtual therapy assistant mu Kinyarwanda</div>
+                        <div>Umuvugizi w'Umutima — AI therapy mu Kinyarwanda</div>
+                        <div class="info-card-footer">
+                            © 2025 Kivura Labs · Rwanda
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -2496,7 +2528,9 @@
                             <i class="fas fa-bars"></i>
                         </button>
                         <div class="chat-title">
-                            <div class="chat-avatar">T</div>
+                            <div class="chat-avatar">
+                                <img src="https://raw.githubusercontent.com/kivuralabs/tyaza/main/tyaza-logo.png" alt="TYAZA" style="width:100%;height:100%;object-fit:contain;" onerror="this.parentElement.innerHTML='T'">
+                            </div>
                             <div class="chat-info">
                                 <h1>TYAZA</h1>
                                 <div class="chat-status">
@@ -2523,7 +2557,9 @@
                 <div class="messages-wrapper" id="messagesWrapper">
                     <!-- Welcome Screen -->
                     <div class="welcome-screen" id="welcomeScreen">
-                        <div class="welcome-icon">T</div>
+                        <div class="welcome-icon">
+                            <img src="https://raw.githubusercontent.com/kivuralabs/tyaza/main/tyaza-logo.png" alt="TYAZA" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;" onerror="this.parentElement.innerHTML='T'">
+                        </div>
                         <h1 class="welcome-title">TYAZA</h1>
                         <p class="welcome-subtitle">igisubizo cy'umutima</p>
                         <div class="welcome-quote">
@@ -2847,16 +2883,22 @@
                  */
                 saveToHistory(chat) {
                     const history = this.getHistory();
-                    const existingIndex = history.findIndex(c => c.id === chat.id);
+                    
+                    // Filter out invalid entries
+                    const validHistory = history.filter(h => 
+                        h && h.title && h.title.length > 0 && h.title.length < 50
+                    );
+                    
+                    const existingIndex = validHistory.findIndex(c => c.id === chat.id);
                     
                     if (existingIndex >= 0) {
-                        history[existingIndex] = chat;
+                        validHistory[existingIndex] = chat;
                     } else {
-                        history.unshift(chat);
+                        validHistory.unshift(chat);
                     }
                     
                     // Keep only last 20 chats
-                    const trimmed = history.slice(0, 20);
+                    const trimmed = validHistory.slice(0, 20);
                     localStorage.setItem('tyaza_history', JSON.stringify(trimmed));
                     return trimmed;
                 },
@@ -3377,7 +3419,18 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                  * Render chat history
                  */
                 renderHistory() {
-                    const history = StorageService.getHistory();
+                    let history = StorageService.getHistory();
+                    
+                    // Filter out invalid/empty entries
+                    history = history.filter(chat => 
+                        chat && 
+                        chat.title && 
+                        chat.title.length > 0 &&
+                        chat.title.length < 50 &&
+                        !chat.title.includes('🏢') &&
+                        !chat.title.includes('KIVURA') &&
+                        !chat.title.includes('Intego')
+                    );
                     
                     if (history.length === 0) {
                         this.elements.historyList.innerHTML = `
@@ -3455,6 +3508,14 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                  * Speak message
                  */
                 speakMessage(content) {
+                    const settings = StateManager.get('settings');
+                    
+                    // Check if TTS is enabled in settings
+                    if (!settings.autoTTS) {
+                        ToastService.info('Fungura TTS mububiko ibiro - Soma igisubizo mu ijwi');
+                        return;
+                    }
+                    
                     SpeechService.speak(content.replace(/<[^>]*>/g, ''));
                 },
 
@@ -3785,10 +3846,9 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                         // Save to history
                         this.saveToHistory(text);
 
-                        // Speak response if enabled
-                        if (StateManager.get('settings.autoTTS')) {
-                            SpeechService.speak(reply);
-                        }
+                    // Speak response if enabled - USER MUST CLICK TO LISTEN
+                    // Auto-speak is disabled by default for privacy
+                    // User clicks the speaker button on the message to listen
                     } catch (error) {
                         console.error('Send message error:', error);
                         UI.removeTypingIndicator(typingId);
