@@ -162,7 +162,7 @@
             border-radius: 60px;
             box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
         }
-        /* Hero symbol - T enlarged (reference size) */
+        /* Hero symbol - T enlarged via image size */
         .hero-symbol {
             width: 100px;
             height: 100px;
@@ -181,7 +181,7 @@
             height: 100%;
             object-fit: contain;
             filter: brightness(0) invert(1);
-            transform: scale(1.3);  /* T at this scale */
+            /* T image now larger via width/height 100% + larger source */
         }
         .hero-title {
             font-size: 3.5rem;
@@ -212,7 +212,7 @@
             gap: 16px;
             width: 100%;
         }
-        /* Tyaza avatar - T enlarged */
+        /* Tyaza avatar - T enlarged via image size */
         .tyaza-avatar-neural {
             width: 48px;
             height: 48px;
@@ -231,7 +231,7 @@
             height: 100%;
             object-fit: contain;
             filter: brightness(0) invert(1);
-            transform: scale(1.3);
+            /* T image fills container, no extra scale */
         }
         /* Updated bubble with relative positioning for speaker icon */
         .tyaza-bubble-neural {
@@ -534,7 +534,7 @@
             font-family: inherit;
         }
 
-        /* Kivura badge - Kivura logo scaled BIG to match T (finally!) */
+        /* Kivura badge - image size increased directly (no transform scale) */
         .kivura-badge {
             margin-top: 20px;
             padding: 16px;
@@ -555,40 +555,36 @@
             gap: 8px;
         }
         .kivura-badge .title img {
-            width: 40px;
-            height: 40px;
+            width: 80px;           /* image itself made much larger */
+            height: 80px;
             object-fit: contain;
-            /* BOOST scale factor to match T's presence */
-            transform: scale(2.8);
             background: rgba(255,255,255,0.1);
             border-radius: 8px;
-            padding: 2px;
+            padding: 4px;
             margin-left: 4px;
         }
         .kivura-badge .highlight {
             color: #a78bfa;
         }
 
-        /* General logo styles - Kivura now scaled BIG to match T */
+        /* General logo styles - Kivura image size increased everywhere */
         .logo-kivura-small {
-            width: 28px;
-            height: 28px;
+            width: 70px;            /* big image */
+            height: 70px;
             object-fit: contain;
-            transform: scale(2.8);  /* finally big enough */
             vertical-align: middle;
             margin-right: 6px;
             filter: drop-shadow(0 0 4px #a78bfa);
         }
         .logo-tyaza-small {
-            width: 24px;
-            height: 24px;
+            width: 50px;            /* T also bigger but consistent */
+            height: 50px;
             object-fit: contain;
             vertical-align: middle;
             margin-right: 4px;
             filter: brightness(0) invert(0.9);
-            transform: scale(1.3);
         }
-        /* New session button */
+        /* New session button - T image size increased */
         .new-session-btn {
             width:100%; 
             background:linear-gradient(135deg, rgba(167,139,250,0.2), rgba(249,168,212,0.1)); 
@@ -604,18 +600,16 @@
             margin-bottom:8px;
         }
         .new-session-btn img {
-            width: 28px;
-            height: 28px;
+            width: 60px;            /* T image bigger */
+            height: 60px;
             object-fit: contain;
             filter: brightness(0) invert(1);
-            transform: scale(1.4);
         }
-        /* Hero footer kivura logo - massive scale to match T */
+        /* Hero footer kivura logo - image size increased */
         .hero-footer-kivura {
-            height: 32px;
-            width: 32px;
+            height: 80px;
+            width: 80px;
             object-fit: contain;
-            transform: scale(3.0); /* even bigger for hero */
         }
     </style>
     <script>
@@ -632,7 +626,7 @@
 
     <div class="app-universe">
         <aside class="dimensional-sidebar" id="sidebar">
-            <!-- new session button with tyaza logo - T enlarged -->
+            <!-- new session button with tyaza logo - T image bigger -->
             <button class="new-session-btn" onclick="window.neuralNewSession()">
                 <img src="tyaza-logo.png" alt="tyaza"> IGIHE GISHYA
             </button>
@@ -684,17 +678,17 @@
             </div>
             <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
 
-            <!-- Kivura Labs & Tyaza information - Kivura now BIG like T -->
+            <!-- Kivura Labs & Tyaza information - Kivura image made larger directly -->
             <div class="kivura-badge">
                 <div class="title">
-                    <img src="kivura-logo.png" alt="Kivura Labs" style="transform:scale(2.8);"> KIVURA LABS
+                    <img src="kivura-logo.png" alt="Kivura Labs" style="width:80px; height:80px;"> KIVURA LABS
                 </div>
                 <div>Rwanda-based AI innovation company</div>
                 <div style="margin:8px 0; font-size:0.75rem; color:#6b5b8a;">Mental Health · Voice Tech · Local Languages</div>
                 
                 <div style="margin-top:12px; border-top:1px solid rgba(249,168,212,0.2); padding-top:12px;">
                     <span class="title" style="gap:8px;">
-                        <img src="tyaza-logo.png" alt="tyaza" style="width:30px; height:30px; filter: brightness(0) invert(1); transform:scale(1.3);"> TYAZA
+                        <img src="tyaza-logo.png" alt="tyaza" style="width:50px; height:50px; filter: brightness(0) invert(1);"> TYAZA
                     </span>
                     <div>Umuvugizi w'Umutima</div>
                     <div style="font-size:0.75rem; margin-top:6px;">AI virtual therapy assistant mu Kinyarwanda</div>
@@ -709,16 +703,16 @@
         <main class="chat-realm">
             <div id="chatViewport" class="messages-vessel">
                 <div id="heroSanctuary" class="hero-sanctuary">
-                    <!-- Hero symbol: T enlarged -->
+                    <!-- Hero symbol: T enlarged via image size -->
                     <div class="hero-symbol">
-                        <img src="tyaza-logo.png" alt="TYAZA" style="transform:scale(1.3);">
+                        <img src="tyaza-logo.png" alt="TYAZA" style="width:100%; height:100%;">
                     </div>
                     <h1 class="hero-title">TYAZA</h1>
                     <p class="hero-subtitle">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
                     <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
                     <div style="margin-top:16px; font-size:0.8rem; color:#9480b3; display:flex; align-items:center; justify-content:center; gap:6px;">
-                        <!-- Kivura logo in hero footer now BIG like T -->
-                        <img src="kivura-logo.png" alt="KIVURA" style="height:32px; width:32px; object-fit:contain; transform:scale(2.8);"> 
+                        <!-- Kivura logo image made larger directly -->
+                        <img src="kivura-logo.png" alt="KIVURA" style="height:80px; width:80px; object-fit:contain;"> 
                         KIVURA LABS · Rwanda AI Innovation
                     </div>
                 </div>
@@ -1003,7 +997,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                         msgContainer.innerHTML += `
                             <div class="message-tyaza-wrapper">
                                 <div class="tyaza-avatar-neural">
-                                    <img src="tyaza-logo.png" alt="T" style="transform:scale(1.3);">
+                                    <img src="tyaza-logo.png" alt="T">
                                 </div>
                                 <div class="tyaza-bubble-neural" id="${bubbleId}">
                                     ${formatNeural(msg.content)}
@@ -1091,7 +1085,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 msgContainer.innerHTML += `
                     <div id="${wrapperId}" class="message-tyaza-wrapper">
                         <div class="tyaza-avatar-neural">
-                            <img src="tyaza-logo.png" alt="T" style="transform:scale(1.3);">
+                            <img src="tyaza-logo.png" alt="T">
                         </div>
                         <div class="tyaza-bubble-neural" id="${bubbleId}">
                             <div class="neural-typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
