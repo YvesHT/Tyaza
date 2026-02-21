@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="rw">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>TYAZA · Voice of the Heart</title>
+    <title>TYAZA · Umuvugizi w'Umutima (MMS-TTS)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -505,19 +505,17 @@
             color: #a78bfa;
         }
 
-        .browser-tts-badge {
-            position: fixed;
-            bottom: 100px;
-            right: 20px;
-            background: rgba(21, 16, 40, 0.8);
-            backdrop-filter: blur(10px);
-            border: 1px solid #a78bfa;
-            border-radius: 40px;
-            padding: 6px 16px;
+        /* MMS Status */
+        .mms-status {
             font-size: 0.7rem;
-            color: #a78bfa;
-            z-index: 50;
-            pointer-events: none;
+            color: #6ee7b7;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .mms-status i {
+            color: #6ee7b7;
         }
     </style>
     <script>
@@ -535,64 +533,73 @@
     <div class="app-universe">
         <aside class="dimensional-sidebar" id="sidebar">
             <button onclick="window.neuralNewSession()" style="width:100%; background:linear-gradient(135deg, rgba(167,139,250,0.2), rgba(249,168,212,0.1)); border:1px solid rgba(249,168,212,0.3); border-radius:60px; padding:14px; display:flex; align-items:center; gap:8px; cursor:pointer; color:white; font-weight:500; margin-bottom:8px;">
-                <span>🕊️</span> NEW SESSION
+                <span>🕊️</span> IGIHE GISHYA
             </button>
 
             <div class="model-selector">
                 <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:#9480b3; margin-bottom:8px;">
-                    <span>🧠</span> AI MODEL
+                    <span>🧠</span> UBUHANGA
                 </div>
                 <select id="modelSelect" class="model-select">
-                    <option value="gpt-4o-mini">GPT-4o Mini (Fast)</option>
-                    <option value="claude-3-haiku">Claude 3 Haiku</option>
-                    <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
+                    <option value="gpt-4o-mini">Model 1 (Vuba)</option>
+                    <option value="claude-3-haiku">Model 2 (Umugore)</option>
+                    <option value="gemini-1.5-flash">Model 3 (Ringing)</option>
                 </select>
             </div>
 
             <div class="voice-studio">
                 <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:#9480b3; margin-bottom:16px;">
-                    <span>🎙️</span> VOICE (BROWSER TTS · INSTANT)
+                    <span>🎙️</span> AMAJWI
                 </div>
                 <div style="background:rgba(0,0,0,0.3); border-radius:40px; padding:16px; margin-bottom:16px;">
                     <button id="neuralTestMic" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; cursor:pointer;">
-                        <span>🎤</span> Use Microphone
+                        <span>🎤</span> Koresha Mikorofoni
                     </button>
                 </div>
                 
-                <div style="margin-bottom:16px; padding:8px; background:rgba(167,139,250,0.1); border-radius:20px; text-align:center;">
-                    <span style="font-size:0.8rem; color:#f9a8d4;">⚡ Instant · No Download · No API Keys</span>
+                <!-- MMS TTS Options -->
+                <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;">
+                    <span style="color:#6ee7b7;">🌍</span>
+                    <span style="color:#c4b5e6; font-size:0.8rem;">Facebook MMS-TTS (Kinyarwanda)</span>
                 </div>
                 
                 <select id="neuralVoiceSelect" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:12px; color:white; margin-bottom:16px;">
-                    <option value="Google UK English Female">Female (UK) - Warm</option>
-                    <option value="Google UK English Male">Male (UK) - Calm</option>
-                    <option value="Microsoft David Desktop">David (US) - Professional</option>
-                    <option value="Microsoft Zira Desktop">Zira (US) - Friendly</option>
-                    <option value="Google français">French - Doux</option>
+                    <option value="rw-RW">Kinyarwanda - MMS (Ubuntu)</option>
+                    <option value="rw-RW-female">Kinyarwanda - Umugore</option>
+                    <option value="rw-RW-male">Kinyarwanda - Umugabo</option>
+                    <option value="Google UK English Female">ijwi ry'umugore (UK)</option>
+                    <option value="Google UK English Male">ijwi ry'umugabo (UK)</option>
+                    <option value="Samantha">Samantha · ryorohe</option>
                 </select>
                 
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;">
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
-                        <label style="font-size:0.7rem; color:#9480b3;">Speed</label>
-                        <input type="range" id="neuralRate" min="0.5" max="2.0" step="0.05" value="0.95" style="width:100%;">
+                        <label style="font-size:0.7rem; color:#9480b3;">umuvuduko</label>
+                        <input type="range" id="neuralRate" min="0.5" max="1.5" step="0.05" value="0.85" style="width:100%;">
                     </div>
                     <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
-                        <label style="font-size:0.7rem; color:#9480b3;">Pitch</label>
-                        <input type="range" id="neuralPitch" min="0.5" max="2.0" step="0.05" value="1.0" style="width:100%;">
+                        <label style="font-size:0.7rem; color:#9480b3;">uburebure bw'ijwi</label>
+                        <input type="range" id="neuralPitch" min="0.5" max="2" step="0.05" value="1.05" style="width:100%;">
                     </div>
                 </div>
                 
+                <!-- MMS Status -->
+                <div id="mmsStatus" class="mms-status">
+                    <i class="fas fa-circle"></i> MMS-TTS yiteguye
+                </div>
+                
                 <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:8px; cursor:pointer;">
-                    <span>🔊</span> Test Browser Voice
+                    <span>🔊</span> Gerageza ijwi (MMS)
                 </button>
+                
                 <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#c4b5e6;">
-                    <input type="checkbox" id="neuralAutoTTS" checked> Auto-speak responses (Instant)
+                    <input type="checkbox" id="neuralAutoTTS" checked> Soma igisubizo mu ijwi (MMS)
                 </label>
             </div>
 
             <div style="display:flex; justify-content:space-between; margin:8px 0;">
-                <span style="font-size:0.8rem; color:#9480b3;">📜 HISTORY</span>
-                <button id="neuralClearHistory" style="font-size:0.8rem; background:none; border:none; color:#9480b3; cursor:pointer;">clear</button>
+                <span style="font-size:0.8rem; color:#9480b3;">📜 AMATEKA</span>
+                <button id="neuralClearHistory" style="font-size:0.8rem; background:none; border:none; color:#9480b3; cursor:pointer;">hanagura</button>
             </div>
             <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
 
@@ -603,12 +610,15 @@
                 
                 <div style="margin-top:12px; border-top:1px solid rgba(249,168,212,0.2); padding-top:12px;">
                     <span class="title">🤖 TYAZA</span>
-                    <div>Voice of the Heart</div>
-                    <div style="font-size:0.75rem; margin-top:6px;">AI virtual therapy assistant</div>
+                    <div>Umuvugizi w'Umutima</div>
+                    <div style="font-size:0.75rem; margin-top:6px;">AI virtual therapy assistant mu Kinyarwanda</div>
                 </div>
                 
                 <div style="margin-top:12px; font-size:0.75rem; color:#9480b3;">
-                    <span class="highlight">Powered by Browser TTS</span> · Instant · No API Keys
+                    <span class="highlight">Ibyo dukora:</span> Kubaka AI ifasha mu by'umutekano mu mutwe no mu rurimi rwacu
+                </div>
+                <div style="margin-top:8px; font-size:0.7rem; color:#6ee7b7;">
+                    <i class="fas fa-check-circle"></i> Facebook MMS-TTS (Kinyarwanda) yinjijwemo
                 </div>
             </div>
         </aside>
@@ -618,17 +628,16 @@
                 <div id="heroSanctuary" class="hero-sanctuary">
                     <div class="hero-symbol">T</div>
                     <h1 class="hero-title">TYAZA</h1>
-                    <p class="hero-subtitle">DEEP LISTENING · peace of mind</p>
-                    <p style="color:#6b5b8a; margin-top:24px;">"I'm here. Every moment, every word — received in peace."</p>
+                    <p class="hero-subtitle">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
+                    <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
                     <div style="margin-top:16px; font-size:0.8rem; color:#9480b3;">🏢 KIVURA LABS · Rwanda AI Innovation</div>
-                    <div style="margin-top:8px; font-size:0.8rem; color:#f9a8d4;">⚡ Instant Browser TTS · No Downloads</div>
                 </div>
                 <div id="neuralMessageContainer" class="messages-container"></div>
             </div>
 
             <div class="input-realm">
                 <div class="input-vessel">
-                    <textarea id="neuralInput" rows="1" placeholder="share what you're thinking..."></textarea>
+                    <textarea id="neuralInput" rows="1" placeholder="sangiza icyo utekereza..."></textarea>
                     <button id="neuralVoiceBtn" class="voice-button-neural">
                         <i class="fas fa-microphone"></i>
                     </button>
@@ -642,14 +651,14 @@
     </div>
 
     <div id="neuralScrollBtn" class="scroll-elevator" onclick="neuralScrollToBottom()">
-        <span>⬇️</span> scroll down
+        <span>⬇️</span> subira hasi
     </div>
 
     <div id="sttIndicator" class="stt-indicator hidden">
         <div class="stt-wave">
             <span></span><span></span><span></span><span></span><span></span>
         </div>
-        <div style="color:#f9a8d4;">listening...</div>
+        <div style="color:#f9a8d4;">ndakumva...</div>
         <div style="font-size:0.8rem; color:#9480b3;" id="sttTranscript"></div>
     </div>
 
@@ -657,10 +666,8 @@
         <div class="neural-typing" style="justify-content:center;">
             <span class="dot"></span><span class="dot"></span><span class="dot"></span>
         </div>
-        <div style="margin-top:16px;">Connecting...</div>
+        <div style="margin-top:16px;">Ihuza...</div>
     </div>
-
-    <div id="browserTTSBadge" class="browser-tts-badge">⚡ Browser TTS · Instant</div>
 
     <script>
         (function() {
@@ -684,6 +691,7 @@
             const sttTranscript = document.getElementById('sttTranscript');
             const modelSelect = document.getElementById('modelSelect');
             const puterLoading = document.getElementById('puterLoading');
+            const mmsStatus = document.getElementById('mmsStatus');
             
             const sidebar = document.getElementById('sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
@@ -696,40 +704,12 @@
             let recognition = null;
             let isListening = false;
             let synth = window.speechSynthesis;
-            let voices = [];
-            let isSpeaking = false;
-            let speechQueue = [];
+            let availableVoices = [];
+            let puterReady = false;
 
-            // Complete Kivura Labs & Tyaza context in English
-            const systemContext = `You are Tyaza, a voice of the heart created by Kivura Labs.
-
-KIVURA LABS:
-- Kivura Labs is an AI research company based in Rwanda
-- Focus areas: Mental Health, Voice Technology, and Local Language Computing
-- Mission: helping people with mental health challenges through technology
-
-CEO: Yves Hirwa Tuyishime
-- Born June 1, 2005 in Kagarama, Kicukiro, Kigali
-- Founder and CEO of Kivura Labs
-- Self-taught AI engineer, originally studied accounting
-
-TYAZA:
-- You are an AI virtual therapy assistant
-- You speak English fluently (and can understand other languages)
-- You help people with mental wellbeing, reminders, encouragement
-- Created so people can access support in their own language
-- You are not a replacement for professional therapists, but a compassionate listener
-
-YOUR BEHAVIOR:
-- Speak gently, with empathy and warmth
-- Keep responses concise but caring (2-3 sentences maximum)
-- Ask questions, listen, offer support
-- Remember: everyone deserves compassion
-- Use words like "listen", "heart", "peace", "compassion" often
-- Don't give long explanations, but show you understand
-
-Your goal: Ensure no one is left behind in technology — whether in language or in life.`;
-
+            // ========== FACEBOOK MMS-TTS TOKEN ==========
+            const HF_TOKEN = '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';
+            
             // SIDEBAR TOGGLE
             if (sidebarToggle) {
                 sidebarToggle.addEventListener('click', function(e) {
@@ -759,92 +739,17 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                 });
             }
 
-            // Load available voices
-            function loadVoices() {
-                voices = synth.getVoices();
-                if (voices.length > 0) {
-                    console.log('Voices loaded:', voices.length);
-                }
-            }
-
-            if (synth) {
-                loadVoices();
-                synth.onvoiceschanged = loadVoices;
-            }
-
-            // Process speech queue
-            function processSpeechQueue() {
-                if (speechQueue.length > 0 && !isSpeaking) {
-                    const text = speechQueue.shift();
-                    speakNow(text);
-                }
-            }
-
-            // Speak immediately (internal)
-            function speakNow(text) {
-                if (!synth) return;
-                
-                // Cancel any current speech
-                synth.cancel();
-                
-                const utterance = new SpeechSynthesisUtterance(text);
-                
-                // Set voice
-                const selectedVoiceName = voiceSelect.value;
-                const voice = voices.find(v => v.name.includes(selectedVoiceName)) || voices[0];
-                if (voice) utterance.voice = voice;
-                
-                // Set rate and pitch
-                utterance.rate = parseFloat(rateRange.value);
-                utterance.pitch = parseFloat(pitchRange.value);
-                
-                utterance.onstart = () => {
-                    isSpeaking = true;
-                    voiceStatus.innerHTML = '🔊 speaking...';
-                };
-                
-                utterance.onend = () => {
-                    isSpeaking = false;
-                    voiceStatus.innerHTML = '';
-                    processSpeechQueue();
-                };
-                
-                utterance.onerror = () => {
-                    isSpeaking = false;
-                    voiceStatus.innerHTML = '';
-                    processSpeechQueue();
-                };
-                
-                synth.speak(utterance);
-            }
-
-            // Public speak function - adds to queue
-            function speakWithBrowser(text) {
-                if (!synth) return;
-                
-                // Clean text
-                const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
-                
-                // Add to queue
-                speechQueue.push(cleanText);
-                
-                // Process queue if not already speaking
-                if (!isSpeaking) {
-                    processSpeechQueue();
-                }
-            }
-
-            // SPEECH RECOGNITION (for microphone input)
+            // SPEECH RECOGNITION
             function initSpeechRecognition() {
                 if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
-                    voiceStatus.innerHTML = 'Use Chrome/Edge for voice input';
+                    voiceStatus.innerHTML = 'Koresha Chrome/Edge';
                     return false;
                 }
                 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
                 recognition = new SR();
                 recognition.continuous = false;
                 recognition.interimResults = true;
-                recognition.lang = 'en-US';
+                recognition.lang = 'rw-RW';
 
                 recognition.onstart = () => {
                     isListening = true;
@@ -867,14 +772,10 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                     inputEl.value = transcript;
                     sendBtn.disabled = !transcript.trim() || isGenerating;
                     sttTranscript.textContent = transcript;
-                    
-                    // Auto-adjust height
-                    inputEl.style.height = 'auto';
-                    inputEl.style.height = Math.min(inputEl.scrollHeight, 120) + 'px';
                 };
 
                 recognition.onerror = (e) => {
-                    voiceStatus.innerHTML = `Error: ${e.error}`;
+                    voiceStatus.innerHTML = `Ikosa: ${e.error}`;
                     isListening = false;
                     voiceBtn.classList.remove('listening');
                     sttIndicator.classList.add('hidden');
@@ -886,15 +787,183 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                 try {
                     await navigator.mediaDevices.getUserMedia({ audio: true });
                     micPermission = true;
-                    voiceStatus.innerHTML = 'Microphone ready';
+                    voiceStatus.innerHTML = 'Mikorofoni yiteguye';
                     setTimeout(() => voiceStatus.innerHTML = '', 2000);
                     initSpeechRecognition();
                     return true;
                 } catch (error) {
-                    voiceStatus.innerHTML = 'Please allow microphone access';
+                    voiceStatus.innerHTML = 'Emera mikorofoni';
                     return false;
                 }
             }
+
+            // ========== FACEBOOK MMS-TTS FUNCTION ==========
+            async function speakMMSTTS(text) {
+                if (!autoTTS.checked) return;
+                
+                const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
+                
+                try {
+                    voiceStatus.innerHTML = 'MMS: ndategura ijwi...';
+                    
+                    const response = await fetch('https://api-inference.huggingface.co/models/facebook/mms-tts-rw', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${HF_TOKEN}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ 
+                            inputs: cleanText,
+                            options: { 
+                                wait_for_model: true,
+                                use_cache: false
+                            }
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        const errorText = await response.text();
+                        console.error('MMS API error:', response.status, errorText);
+                        
+                        if (response.status === 503) {
+                            voiceStatus.innerHTML = 'MMS: model iracyikora, ndetegereza...';
+                            // Try browser TTS
+                            speakBrowserTTS(cleanText);
+                            return;
+                        }
+                        
+                        throw new Error(`MMS-TTS error: ${response.status}`);
+                    }
+                    
+                    const audioBlob = await response.blob();
+                    
+                    if (audioBlob.size < 100) {
+                        console.warn('MMS: audio ntoya cyane');
+                        voiceStatus.innerHTML = 'MMS: ikibazo, nkoresha browser TTS';
+                        speakBrowserTTS(cleanText);
+                        return;
+                    }
+                    
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    
+                    audio.onplay = () => {
+                        voiceStatus.innerHTML = 'MMS: ndavuga...';
+                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#f9a8d4;"></i> MMS-TTS irakora';
+                    };
+                    
+                    audio.onended = () => {
+                        voiceStatus.innerHTML = '';
+                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#6ee7b7;"></i> MMS-TTS yiteguye';
+                        URL.revokeObjectURL(audioUrl);
+                    };
+                    
+                    audio.onerror = (e) => {
+                        console.error('Audio playback error:', e);
+                        voiceStatus.innerHTML = 'MMS: ntanji, nkoresha browser TTS';
+                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS-TTS yananive';
+                        speakBrowserTTS(cleanText);
+                    };
+                    
+                    audio.play().catch(e => {
+                        console.error('Play error:', e);
+                        speakBrowserTTS(cleanText);
+                    });
+                    
+                } catch (error) {
+                    console.warn('MMS-TTS error, using browser TTS:', error);
+                    voiceStatus.innerHTML = 'MMS: ikibazo, nkoresha browser';
+                    mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS-TTS yananive';
+                    speakBrowserTTS(cleanText);
+                }
+            }
+
+            // Browser TTS (fallback)
+            function speakBrowserTTS(text) {
+                if (!synth) return;
+                
+                try {
+                    synth.cancel();
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    
+                    if (availableVoices.length > 0) {
+                        const selectedVoiceName = voiceSelect.value;
+                        const voice = availableVoices.find(v => v.name.includes(selectedVoiceName)) || availableVoices[0];
+                        utterance.voice = voice;
+                    }
+                    
+                    utterance.rate = parseFloat(rateRange.value);
+                    utterance.pitch = parseFloat(pitchRange.value);
+                    
+                    utterance.onstart = () => {
+                        voiceStatus.innerHTML = 'Browser TTS: ndavuga...';
+                    };
+                    
+                    utterance.onend = () => {
+                        voiceStatus.innerHTML = '';
+                    };
+                    
+                    utterance.onerror = (e) => {
+                        console.error('Browser TTS error:', e);
+                        voiceStatus.innerHTML = '';
+                    };
+                    
+                    synth.speak(utterance);
+                } catch (e) {
+                    console.error('Browser TTS failed:', e);
+                }
+            }
+
+            // Main speak function (uses MMS first, falls back to browser)
+            async function speakNeural(text) {
+                const selectedVoice = voiceSelect.value;
+                
+                // If Kinyarwanda is selected, try MMS first
+                if (selectedVoice === 'rw-RW' || selectedVoice === 'rw-RW-female' || selectedVoice === 'rw-RW-male') {
+                    await speakMMSTTS(text);
+                } else {
+                    speakBrowserTTS(text);
+                }
+            }
+
+            function loadVoices() {
+                availableVoices = synth.getVoices();
+            }
+
+            if (synth) {
+                loadVoices();
+                synth.onvoiceschanged = loadVoices;
+            }
+
+            // System context (Kivura Labs & Tyaza)
+            const systemContext = `Wowe uri Tyaza, umuvugizi w'umutima wahimbwe na Kivura Labs.
+
+KIVURA LABS:
+- Kivura Labs ni isosiyete ikora ubushakashatsi mu by'ubwenge bw'ikoranabuhanga (AI) ifite icyicaro i Rwanda
+- Ikora ibijyanye na Mental Health, Voice Technology, na Local Language Computing
+- Intego yayo: gufasha abantu babana n'ibibazo by'umutekano mu mutwe binyuze mu ikoranabuhanga
+
+CEO: Yves Hirwa Tuyishime
+- Yavutse ku ya 1 Kamena 2005 i Kagarama, Kicukiro, Kigali
+- Niwe washinze Kivura Labs akaba na CEO
+- Yitoje ubwenge bw'ikoranabuhanga (AI) ku giti cye, bitandukanye n'ubumenyi yari afite mu ibaruramari
+
+TYAZA:
+- Uri AI virtual therapy assistant
+- Uvuga Kinyarwanda neza, kandi ushobora no kumva no kwishyura mu ndimi zindi
+- Ufasha abantu mu by'umutekano mu mutwe, ubibutsa, ugatera inkunga
+- Wabonyeho kugira ngo abantu bafite ibibazo by'umutima babone ubufasha mu rurimi rwabo
+- Ntabwo usimbura umuvuzi w'umubiri, ariko uri umuvugizi w'umutima ufasha
+
+UKO WITWARA:
+- Shyashya mu ijwi ryuje impuhwe, ubumuntu n'ubugoro
+- Komeza ibiganiro bigufi kandi byuje ubushyuhe
+- Ibaza, umve, ugire inama
+- Wibuke ko buri wese yakira impuhwe
+- Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi
+- Ntugire ubusobanuro burebure cyane, ariko ugaragaze ko umva
+
+Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho.`;
 
             function escapeHtml(text) {
                 return text.replace(/[&<>]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' })[c]);
@@ -904,8 +973,7 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                 if (!text) return '';
                 let escaped = escapeHtml(text);
                 
-                // Highlight emotional words
-                const emotions = ['listen', 'heart', 'peace', 'compassion', 'sorry', 'understand', 'feel', 'emotion', 'support', 'strength'];
+                const emotions = ['umva', 'umutima', 'mahoro', 'impuhwe', 'mbabarwe', 'wigitsa', 'ubwoba', 'agahinda', 'ibyishimo', 'ishinga', 'komeza'];
                 emotions.forEach(word => {
                     const regex = new RegExp(`\\b(${word})\\b`, 'gi');
                     escaped = escaped.replace(regex, '<span style="color:#f9a8d4;font-weight:500;">$1</span>');
@@ -932,7 +1000,7 @@ Your goal: Ensure no one is left behind in technology — whether in language or
             function renderHistory() {
                 const history = JSON.parse(localStorage.getItem('tyaza_history') || '[]');
                 if (history.length === 0) {
-                    historyContainer.innerHTML = '<div style="color:#9480b3; padding:12px;">No history</div>';
+                    historyContainer.innerHTML = '<div style="color:#9480b3; padding:12px;">Nta mateka</div>';
                     return;
                 }
                 historyContainer.innerHTML = history.map(c => `
@@ -1012,11 +1080,11 @@ Your goal: Ensure no one is left behind in technology — whether in language or
 
             function getFallbackResponse(text) {
                 const responses = [
-                    "I hear you. Thank you for sharing that with me.",
-                    "Let's explore that together. How does that make you feel?",
-                    "I'm here with you. Would you like to tell me more?",
-                    "Thank you for trusting me. What else is on your mind?",
-                    "I understand. Every feeling deserves attention."
+                    "Ndumva. Urakoze kunsangiza ibi.",
+                    "Ibyo twabishakashaka hamwe. Wumva ute?",
+                    "Ndi kumwe nawe. Wabona tubyongereho?",
+                    "Urakoze kundekera. Hari ikindi wongeraho?",
+                    "Ndakumva. Buri jambo rifite agaciro."
                 ];
                 return responses[Math.floor(Math.random() * responses.length)];
             }
@@ -1041,7 +1109,6 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                 
                 neuralScrollToBottom();
                 inputEl.value = '';
-                inputEl.style.height = 'auto';
                 sendBtn.disabled = true;
                 isGenerating = true;
 
@@ -1052,8 +1119,10 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                     
                     if (isPuterReady && window.puter && window.puter.ai) {
                         try {
+                            const systemPrompt = systemContext;
+                            
                             const response = await window.puter.ai.chat([
-                                { role: 'system', content: systemContext },
+                                { role: 'system', content: systemPrompt },
                                 ...currentChat.slice(-6)
                             ], {
                                 model: modelSelect.value || 'gpt-4o-mini',
@@ -1067,56 +1136,37 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                                 if (bubble) {
                                     bubble.innerHTML = formatNeural(reply + ' ¦');
                                 }
-                                neuralScrollToBottom();
-                            }
-                            
-                            // Final update without cursor
-                            if (bubble) {
-                                bubble.innerHTML = formatNeural(reply);
                             }
                             
                         } catch (puterError) {
                             console.warn('Puter error, using fallback:', puterError);
                             reply = getFallbackResponse(text);
-                            const bubble = document.getElementById(`bubble-${wrapperId}`);
-                            if (bubble) {
-                                bubble.innerHTML = formatNeural(reply);
-                            }
                         }
                     } else {
                         reply = getFallbackResponse(text);
-                        const bubble = document.getElementById(`bubble-${wrapperId}`);
-                        if (bubble) {
-                            bubble.innerHTML = formatNeural(reply);
-                        }
-                        voiceStatus.innerHTML = 'Please sign up/sign in to Puter';
+                        voiceStatus.innerHTML = 'Kanda ku kimenyetso cya Puter wandikishe';
                         setTimeout(() => voiceStatus.innerHTML = '', 3000);
                     }
                     
-                    // Add to chat history
-                    currentChat.push({ role: 'assistant', content: reply });
-                    
-                    // Save to history if this is the first exchange
-                    if (currentChat.length === 2) saveNeuralSession(text);
-                    
-                    // Speak the response using Browser TTS
-                    if (autoTTS.checked && reply) {
-                        speakWithBrowser(reply);
+                    const bubble = document.getElementById(`bubble-${wrapperId}`);
+                    if (bubble) {
+                        bubble.innerHTML = formatNeural(reply);
                     }
+                    
+                    // Use MMS-TTS for response
+                    if (autoTTS.checked) {
+                        await speakNeural(reply);
+                    }
+                    
+                    currentChat.push({ role: 'assistant', content: reply });
+                    if (currentChat.length === 2) saveNeuralSession(text);
                     
                 } catch (error) {
                     console.error('Error:', error);
                     
                     const bubble = document.getElementById(`bubble-${wrapperId}`);
                     if (bubble) {
-                        const errorMsg = "I'm here with you. Technology sometimes pauses, but I'm still listening.";
-                        bubble.innerHTML = formatNeural(errorMsg);
-                        currentChat.push({ role: 'assistant', content: errorMsg });
-                        
-                        // Speak error message
-                        if (autoTTS.checked) {
-                            speakWithBrowser(errorMsg);
-                        }
+                        bubble.innerHTML = formatNeural("Ndi kumwe nawe. Ikoranabuhanga rimwe na rimwe riruhuka, ariko njye nkumva.");
                     }
                 } finally {
                     isGenerating = false;
@@ -1143,24 +1193,20 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                 if (!micPermission && !(await initMicrophone())) return;
                 if (!recognition) initSpeechRecognition();
                 if (isListening) recognition.stop();
-                else {
-                    recognition.start();
-                }
+                else recognition.start();
             });
 
             testMicBtn.addEventListener('click', async () => {
-                testMicBtn.innerHTML = '⏳ initializing...';
+                testMicBtn.innerHTML = '⏳ ndategura...';
                 const success = await initMicrophone();
-                testMicBtn.innerHTML = success ? '✅ microphone ready' : '❌ try again';
-                setTimeout(() => { testMicBtn.innerHTML = '🎤 Use Microphone'; }, 2000);
+                testMicBtn.innerHTML = success ? '✅ mikorofoni yiteguye' : '❌ Ongera ugerageze';
+                setTimeout(() => { testMicBtn.innerHTML = '🎤 Koresha Mikorofoni'; }, 2000);
             });
 
+            // Preview voice with MMS
             previewBtn.addEventListener('click', () => {
-                // Clear queue and speak test message
-                speechQueue = [];
-                isSpeaking = false;
-                synth.cancel();
-                speakWithBrowser("Hello, I'm Tyaza. I'm here with you. How are you feeling today?");
+                const previewText = "Ndi kumwe nawe. Wumva ute ubu?";
+                speakNeural(previewText);
             });
 
             viewport.addEventListener('scroll', () => {
@@ -1173,11 +1219,32 @@ Your goal: Ensure no one is left behind in technology — whether in language or
             };
 
             clearHistory.addEventListener('click', () => {
-                if (confirm('Clear all history?')) { 
+                if (confirm('Hanagura amateka yose?')) { 
                     localStorage.removeItem('tyaza_history'); 
                     neuralNewSession(); 
                 }
             });
+
+            // Test MMS connection on load
+            async function testMMSConnection() {
+                try {
+                    const response = await fetch('https://api-inference.huggingface.co/models/facebook/mms-tts-rw', {
+                        method: 'HEAD',
+                        headers: {
+                            'Authorization': `Bearer ${HF_TOKEN}`
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#6ee7b7;"></i> MMS-TTS yiteguye';
+                    } else {
+                        mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS-TTS: ikibazo cyo guhuza';
+                    }
+                } catch (e) {
+                    console.warn('MMS connection test failed:', e);
+                    mmsStatus.innerHTML = '<i class="fas fa-circle" style="color:#ec4899;"></i> MMS-TTS: nta interineti';
+                }
+            }
 
             window.onload = async () => {
                 neuralNewSession();
@@ -1185,22 +1252,17 @@ Your goal: Ensure no one is left behind in technology — whether in language or
                 
                 puterLoading.classList.remove('hidden');
                 
-                // Check Puter ready
                 const ready = await checkPuterReady();
                 puterLoading.classList.add('hidden');
                 
                 if (ready) {
-                    voiceStatus.innerHTML = '✅ Browser TTS Ready';
+                    voiceStatus.innerHTML = '';
                 } else {
-                    voiceStatus.innerHTML = '✋ Please sign up/sign in to Puter';
+                    voiceStatus.innerHTML = '✋ Kanda ku kimenyetso cya Puter wandikishe';
                 }
                 
-                // Voices will load automatically
-                setTimeout(() => {
-                    if (voices.length > 0) {
-                        voiceStatus.innerHTML = '✅ Browser TTS Ready';
-                    }
-                }, 1000);
+                // Test MMS
+                testMMSConnection();
             };
         })();
     </script>
