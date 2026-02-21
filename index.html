@@ -162,7 +162,7 @@
             border-radius: 60px;
             box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
         }
-        /* Hero symbol - keep container size, but make the T (logo) fill more */
+        /* Hero symbol - T enlarged */
         .hero-symbol {
             width: 100px;
             height: 100px;
@@ -174,14 +174,14 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            padding: 4px; /* reduced padding so image fills more */
+            padding: 4px;
         }
         .hero-symbol img {
-            width: 100%;  /* was 70%, now full width to enlarge the T */
+            width: 100%;
             height: 100%;
-            object-fit: contain; /* keeps aspect ratio, but now larger */
+            object-fit: contain;
             filter: brightness(0) invert(1);
-            transform: scale(1.2); /* additional scale to make T bigger inside */
+            transform: scale(1.3);
         }
         .hero-title {
             font-size: 3.5rem;
@@ -212,7 +212,7 @@
             gap: 16px;
             width: 100%;
         }
-        /* Tyaza avatar - keep container size, but enlarge the T image inside */
+        /* Tyaza avatar - T enlarged */
         .tyaza-avatar-neural {
             width: 48px;
             height: 48px;
@@ -224,14 +224,14 @@
             box-shadow: 0 0 30px #a78bfa;
             flex-shrink: 0;
             overflow: hidden;
-            padding: 4px; /* minimal padding */
+            padding: 4px;
         }
         .tyaza-avatar-neural img {
             width: 100%;
             height: 100%;
             object-fit: contain;
             filter: brightness(0) invert(1);
-            transform: scale(1.3); /* makes the T larger inside the circle */
+            transform: scale(1.3);
         }
         /* Updated bubble with relative positioning for speaker icon */
         .tyaza-bubble-neural {
@@ -534,7 +534,7 @@
             font-family: inherit;
         }
 
-        /* Kivura badge - make logo fill the space */
+        /* Kivura badge - now Kivura logo gets the same scale treatment */
         .kivura-badge {
             margin-top: 20px;
             padding: 16px;
@@ -555,24 +555,25 @@
             gap: 8px;
         }
         .kivura-badge .title img {
-            width: 32px;          /* fixed size, but we make it fill via object-fit */
-            height: 32px;
-            object-fit: cover;    /* cover ensures it fills the box (might crop, but fills) */
-            object-position: center;
-            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            object-fit: contain;  /* keep aspect, but we scale up */
+            transform: scale(1.5); /* makes Kivura logo fill the space like T logo */
             background: rgba(255,255,255,0.1);
+            border-radius: 8px;
             padding: 2px;
+            margin-left: 4px;
         }
         .kivura-badge .highlight {
             color: #a78bfa;
         }
 
-        /* General logo styles - make Kivura fill its containers everywhere */
+        /* General logo styles - apply scale to all Kivura logos */
         .logo-kivura-small {
             width: 28px;
             height: 28px;
-            object-fit: cover;     /* fills the box */
-            object-position: center;
+            object-fit: contain;
+            transform: scale(1.5);
             vertical-align: middle;
             margin-right: 6px;
             filter: drop-shadow(0 0 4px #a78bfa);
@@ -584,7 +585,7 @@
             vertical-align: middle;
             margin-right: 4px;
             filter: brightness(0) invert(0.9);
-            transform: scale(1.3); /* larger T */
+            transform: scale(1.3);
         }
         /* New session button */
         .new-session-btn {
@@ -606,14 +607,14 @@
             height: 28px;
             object-fit: contain;
             filter: brightness(0) invert(1);
-            transform: scale(1.4); /* larger T inside button */
+            transform: scale(1.4);
         }
-        /* Hero footer kivura logo - fill the allocated space */
+        /* Hero footer kivura logo - big scale */
         .hero-footer-kivura {
             height: 32px;
             width: 32px;
-            object-fit: cover;
-            object-position: center;
+            object-fit: contain;
+            transform: scale(1.6);
         }
     </style>
     <script>
@@ -630,7 +631,7 @@
 
     <div class="app-universe">
         <aside class="dimensional-sidebar" id="sidebar">
-            <!-- new session button with tyaza logo - T enlarged via scale -->
+            <!-- new session button with tyaza logo - T enlarged -->
             <button class="new-session-btn" onclick="window.neuralNewSession()">
                 <img src="tyaza-logo.png" alt="tyaza"> IGIHE GISHYA
             </button>
@@ -682,10 +683,10 @@
             </div>
             <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
 
-            <!-- Kivura Labs & Tyaza information with both logos - Kivura now fills the space -->
+            <!-- Kivura Labs & Tyaza information - Kivura now scaled like T logo -->
             <div class="kivura-badge">
                 <div class="title">
-                    <img src="kivura-logo.png" alt="Kivura Labs" style="width:40px; height:40px; object-fit:cover;"> KIVURA LABS
+                    <img src="kivura-logo.png" alt="Kivura Labs" style="transform:scale(1.6);"> KIVURA LABS
                 </div>
                 <div>Rwanda-based AI innovation company</div>
                 <div style="margin:8px 0; font-size:0.75rem; color:#6b5b8a;">Mental Health · Voice Tech · Local Languages</div>
@@ -707,7 +708,7 @@
         <main class="chat-realm">
             <div id="chatViewport" class="messages-vessel">
                 <div id="heroSanctuary" class="hero-sanctuary">
-                    <!-- Hero symbol: T enlarged (scale + full width) -->
+                    <!-- Hero symbol: T enlarged -->
                     <div class="hero-symbol">
                         <img src="tyaza-logo.png" alt="TYAZA" style="transform:scale(1.3);">
                     </div>
@@ -715,7 +716,8 @@
                     <p class="hero-subtitle">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
                     <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
                     <div style="margin-top:16px; font-size:0.8rem; color:#9480b3; display:flex; align-items:center; justify-content:center; gap:6px;">
-                        <img src="kivura-logo.png" alt="KIVURA" style="height:32px; width:32px; object-fit:cover; object-position:center;"> 
+                        <!-- Kivura logo in hero footer now scaled up -->
+                        <img src="kivura-logo.png" alt="KIVURA" style="height:32px; width:32px; object-fit:contain; transform:scale(1.6);"> 
                         KIVURA LABS · Rwanda AI Innovation
                     </div>
                 </div>
@@ -995,12 +997,12 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     if (msg.role === 'user') {
                         msgContainer.innerHTML += `<div class="message-user">${escapeHtml(msg.content)}</div>`;
                     } else {
-                        // assistant messages will be rendered via display function (but we reconstruct with speaker icon)
+                        // assistant messages with avatar
                         const bubbleId = 'restore-' + Date.now() + Math.random();
                         msgContainer.innerHTML += `
                             <div class="message-tyaza-wrapper">
                                 <div class="tyaza-avatar-neural">
-                                    <img src="tyaza-logo.png" alt="T">
+                                    <img src="tyaza-logo.png" alt="T" style="transform:scale(1.3);">
                                 </div>
                                 <div class="tyaza-bubble-neural" id="${bubbleId}">
                                     ${formatNeural(msg.content)}
