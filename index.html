@@ -534,7 +534,7 @@
             font-family: inherit;
         }
 
-        /* Kivura badge - Kivura logo scaled to match T size (7:7 ratio) */
+        /* Kivura badge - Kivura logo scaled BIG to match T (finally!) */
         .kivura-badge {
             margin-top: 20px;
             padding: 16px;
@@ -558,8 +558,8 @@
             width: 40px;
             height: 40px;
             object-fit: contain;
-            /* Scale factor increased to match T's visual size (1.3 was T, now Kivura gets 2.0 to appear same size) */
-            transform: scale(2.0);
+            /* BOOST scale factor to match T's presence */
+            transform: scale(2.8);
             background: rgba(255,255,255,0.1);
             border-radius: 8px;
             padding: 2px;
@@ -569,12 +569,12 @@
             color: #a78bfa;
         }
 
-        /* General logo styles - Kivura now scaled to match T size */
+        /* General logo styles - Kivura now scaled BIG to match T */
         .logo-kivura-small {
             width: 28px;
             height: 28px;
             object-fit: contain;
-            transform: scale(2.0);  /* matches T's presence */
+            transform: scale(2.8);  /* finally big enough */
             vertical-align: middle;
             margin-right: 6px;
             filter: drop-shadow(0 0 4px #a78bfa);
@@ -610,12 +610,12 @@
             filter: brightness(0) invert(1);
             transform: scale(1.4);
         }
-        /* Hero footer kivura logo - scale to match T */
+        /* Hero footer kivura logo - massive scale to match T */
         .hero-footer-kivura {
             height: 32px;
             width: 32px;
             object-fit: contain;
-            transform: scale(2.2); /* adjusted for visual parity */
+            transform: scale(3.0); /* even bigger for hero */
         }
     </style>
     <script>
@@ -684,10 +684,10 @@
             </div>
             <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
 
-            <!-- Kivura Labs & Tyaza information - Kivura scaled to match T size -->
+            <!-- Kivura Labs & Tyaza information - Kivura now BIG like T -->
             <div class="kivura-badge">
                 <div class="title">
-                    <img src="kivura-logo.png" alt="Kivura Labs" style="transform:scale(2.0);"> KIVURA LABS
+                    <img src="kivura-logo.png" alt="Kivura Labs" style="transform:scale(2.8);"> KIVURA LABS
                 </div>
                 <div>Rwanda-based AI innovation company</div>
                 <div style="margin:8px 0; font-size:0.75rem; color:#6b5b8a;">Mental Health · Voice Tech · Local Languages</div>
@@ -717,8 +717,8 @@
                     <p class="hero-subtitle">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
                     <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
                     <div style="margin-top:16px; font-size:0.8rem; color:#9480b3; display:flex; align-items:center; justify-content:center; gap:6px;">
-                        <!-- Kivura logo in hero footer now scaled to match T size -->
-                        <img src="kivura-logo.png" alt="KIVURA" style="height:32px; width:32px; object-fit:contain; transform:scale(2.0);"> 
+                        <!-- Kivura logo in hero footer now BIG like T -->
+                        <img src="kivura-logo.png" alt="KIVURA" style="height:32px; width:32px; object-fit:contain; transform:scale(2.8);"> 
                         KIVURA LABS · Rwanda AI Innovation
                     </div>
                 </div>
