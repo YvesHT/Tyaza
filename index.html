@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <title>TYAZA · Umuvugizi w'Umutima</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free) for premium mic & send icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -20,9 +21,6 @@
             --text-primary: #f3eaff;
             --text-secondary: #c4b5e6;
             --text-tertiary: #9480b3;
-            --success: #10b981;
-            --warning: #f59e0b;
-            --calm: #60a5fa;
         }
         body {
             font-family: 'Inter', sans-serif;
@@ -114,6 +112,19 @@
             .sidebar-overlay.visible {
                 opacity: 1;
                 pointer-events: auto;
+            }
+            
+            .dimensional-sidebar * {
+                pointer-events: auto !important;
+            }
+            
+            .dimensional-sidebar button,
+            .dimensional-sidebar select,
+            .dimensional-sidebar input,
+            .dimensional-sidebar .history-item-neural {
+                cursor: pointer;
+                position: relative;
+                z-index: 1001;
             }
         }
         
@@ -269,7 +280,7 @@
             transition: transform 0.2s, box-shadow 0.2s;
             box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4);
             flex-shrink: 0;
-            font-size: 1.4rem;
+            font-size: 1.4rem; /* for icon size */
         }
         .send-button-neural:active {
             transform: scale(0.9);
@@ -278,6 +289,7 @@
             opacity: 0.4;
             pointer-events: none;
         }
+        /* ========== FIXED MIC ICON — now Font Awesome premium style ========= */
         .voice-button-neural {
             width: 48px;
             height: 48px;
@@ -290,7 +302,7 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 1.5rem;
+            font-size: 1.5rem; /* perfect for FA solid mic */
             flex-shrink: 0;
         }
         .voice-button-neural i {
@@ -305,163 +317,7 @@
         .voice-button-neural.listening i {
             filter: drop-shadow(0 0 10px white);
         }
-
-        /* New Professional Voice Conversation Page */
-        .voice-conversation-page {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 30% 20%, #2d1b44, #030014 80%);
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            transition: opacity 0.3s ease;
-        }
-        .voice-conversation-page.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        .voice-header {
-            padding: 24px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            background: rgba(11, 7, 30, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(249, 168, 212, 0.2);
-        }
-        .voice-back-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(167, 139, 250, 0.15);
-            border: 1px solid rgba(249, 168, 212, 0.4);
-            color: #f9a8d4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-        .voice-title {
-            flex: 1;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: white;
-        }
-        .voice-title span {
-            color: #f9a8d4;
-        }
-        .voice-connection-status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9rem;
-            color: #10b981;
-        }
-        .voice-connection-status i {
-            font-size: 0.8rem;
-        }
-        .voice-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 24px;
-        }
-        .voice-avatar {
-            width: 180px;
-            height: 180px;
-            background: linear-gradient(135deg, #a78bfa, #f9a8d4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 5rem;
-            color: white;
-            margin-bottom: 32px;
-            animation: pulse-soft 2s infinite;
-            box-shadow: 0 0 50px rgba(167, 139, 250, 0.5);
-        }
-        @keyframes pulse-soft {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.9; }
-        }
-        .voice-status-text {
-            font-size: 1.5rem;
-            color: white;
-            margin-bottom: 16px;
-        }
-        .voice-subtext {
-            color: #9480b3;
-            margin-bottom: 32px;
-        }
-        .voice-wave-container {
-            display: flex;
-            gap: 8px;
-            height: 60px;
-            align-items: center;
-            margin-bottom: 32px;
-        }
-        .voice-wave {
-            width: 8px;
-            background: linear-gradient(to top, #a78bfa, #f9a8d4);
-            border-radius: 10px;
-            animation: wave 0.8s infinite alternate;
-        }
-        .voice-wave:nth-child(1) { height: 30px; animation-delay: 0s; }
-        .voice-wave:nth-child(2) { height: 45px; animation-delay: 0.1s; }
-        .voice-wave:nth-child(3) { height: 60px; animation-delay: 0.2s; }
-        .voice-wave:nth-child(4) { height: 45px; animation-delay: 0.3s; }
-        .voice-wave:nth-child(5) { height: 30px; animation-delay: 0.4s; }
-        @keyframes wave {
-            0% { height: 20px; }
-            100% { height: 60px; }
-        }
-        .voice-controls {
-            display: flex;
-            gap: 24px;
-            align-items: center;
-        }
-        .voice-control-btn {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background: rgba(167, 139, 250, 0.15);
-            border: 2px solid rgba(249, 168, 212, 0.4);
-            color: #f9a8d4;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 2rem;
-            transition: all 0.3s;
-        }
-        .voice-control-btn:hover {
-            transform: scale(1.1);
-            border-color: #ec4899;
-        }
-        .voice-control-btn.primary {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #a78bfa, #ec4899);
-            border: none;
-            color: white;
-            box-shadow: 0 0 30px rgba(236, 72, 153, 0.5);
-        }
-        .voice-footer {
-            padding: 24px;
-            text-align: center;
-            color: #9480b3;
-            font-size: 0.9rem;
-        }
-        .voice-footer i {
-            color: #f9a8d4;
-        }
-
+        /* end mic fix */
         .voice-studio {
             background: rgba(21, 16, 40, 0.6);
             backdrop-filter: blur(20px);
@@ -632,6 +488,7 @@
             font-family: inherit;
         }
 
+        /* Kivura Labs info styles */
         .kivura-badge {
             margin-top: 20px;
             padding: 16px;
@@ -651,34 +508,6 @@
         .kivura-badge .highlight {
             color: #a78bfa;
         }
-
-        /* Quick Action Buttons */
-        .quick-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-            margin: 20px 0;
-        }
-        .quick-action-btn {
-            padding: 12px 24px;
-            border-radius: 40px;
-            background: rgba(167, 139, 250, 0.15);
-            border: 1px solid rgba(249, 168, 212, 0.3);
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .quick-action-btn:hover {
-            background: rgba(167, 139, 250, 0.3);
-            transform: translateY(-2px);
-        }
-        .quick-action-btn i {
-            color: #f9a8d4;
-        }
     </style>
     <script>
         window.puter = null;
@@ -692,96 +521,75 @@
     <button class="sidebar-toggle" id="sidebarToggle">☯</button>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- Voice Conversation Page -->
-    <div id="voiceConversationPage" class="voice-conversation-page hidden">
-        <div class="voice-header">
-            <button class="voice-back-btn" id="voiceBackBtn">
-                <i class="fas fa-arrow-left"></i>
-            </button>
-            <div class="voice-title">
-                <span>TYAZA</span> · Umuvugizi w'Umutima
-            </div>
-            <div class="voice-connection-status">
-                <i class="fas fa-circle"></i>
-                <span>Ihuza...</span>
-            </div>
-        </div>
-        <div class="voice-main">
-            <div class="voice-avatar">
-                <i class="fas fa-heart"></i>
-            </div>
-            <div class="voice-status-text" id="voiceStatusText">
-                Ndi kumwe nawe
-            </div>
-            <div class="voice-subtext" id="voiceSubtext">
-                Vuga uko umva · Ndatega amatwi
-            </div>
-            <div class="voice-wave-container" id="voiceWave">
-                <div class="voice-wave"></div>
-                <div class="voice-wave"></div>
-                <div class="voice-wave"></div>
-                <div class="voice-wave"></div>
-                <div class="voice-wave"></div>
-            </div>
-            <div class="voice-controls">
-                <button class="voice-control-btn" id="voiceMuteBtn">
-                    <i class="fas fa-volume-up"></i>
-                </button>
-                <button class="voice-control-btn primary" id="voiceMainBtn">
-                    <i class="fas fa-microphone"></i>
-                </button>
-                <button class="voice-control-btn" id="voiceEndBtn">
-                    <i class="fas fa-phone"></i>
-                </button>
-            </div>
-            <div class="quick-actions">
-                <button class="quick-action-btn" onclick="quickAction('nifashe')">
-                    <i class="fas fa-heart"></i> Nifashe
-                </button>
-                <button class="quick-action-btn" onclick="quickAction('ndatewe ubwoba')">
-                    <i class="fas fa-shield"></i> Ndatewe ubwoba
-                </button>
-                <button class="quick-action-btn" onclick="quickAction('ndishimye')">
-                    <i class="fas fa-smile"></i> Ndishimye
-                </button>
-            </div>
-        </div>
-        <div class="voice-footer">
-            <i class="fas fa-heart"></i> Umunsi mwiza · Urukundo rwuzuye
-        </div>
-    </div>
-
     <div class="app-universe">
         <aside class="dimensional-sidebar" id="sidebar">
             <button onclick="window.neuralNewSession()" style="width:100%; background:linear-gradient(135deg, rgba(167,139,250,0.2), rgba(249,168,212,0.1)); border:1px solid rgba(249,168,212,0.3); border-radius:60px; padding:14px; display:flex; align-items:center; gap:8px; cursor:pointer; color:white; font-weight:500; margin-bottom:8px;">
-                <span>🕊️</span> Tangiza
+                <span>🕊️</span> IGIHE GISHYA
             </button>
 
-            <!-- Hidden technical selectors but keep functionality -->
-            <select id="modelSelect" class="hidden">
-                <option value="gpt-4o-mini">gpt-4o-mini</option>
-            </select>
+            <div class="model-selector">
+                <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:#9480b3; margin-bottom:8px;">
+                    <span>🧠</span> UBUHANGA
+                </div>
+                <select id="modelSelect" class="model-select">
+                    <option value="gpt-4o-mini">Model 1 (Vuba)</option>
+                    <option value="claude-3-haiku">Model 2 (Umugore)</option>
+                    <option value="gemini-1.5-flash">Model 3 (Ringing)</option>
+                </select>
+            </div>
+
+            <div class="voice-studio">
+                <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:#9480b3; margin-bottom:16px;">
+                    <span>🎙️</span> AMAJWI
+                </div>
+                <div style="background:rgba(0,0,0,0.3); border-radius:40px; padding:16px; margin-bottom:16px;">
+                    <button id="neuralTestMic" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; cursor:pointer;">
+                        <span>🎤</span> Koresha Mikorofoni
+                    </button>
+                </div>
+                <select id="neuralVoiceSelect" style="width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(167,139,250,0.3); border-radius:30px; padding:12px; color:white; margin-bottom:16px;">
+                    <option value="Google UK English Female">ijwi ry'umugore (UK)</option>
+                    <option value="Google UK English Male">ijwi ry'umugabo (UK)</option>
+                    <option value="Samantha">Samantha · ryorohe</option>
+                </select>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0;">
+                    <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
+                        <label style="font-size:0.7rem; color:#9480b3;">umuvuduko</label>
+                        <input type="range" id="neuralRate" min="0.5" max="1.5" step="0.05" value="0.85" style="width:100%;">
+                    </div>
+                    <div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:8px;">
+                        <label style="font-size:0.7rem; color:#9480b3;">uburebure bw'ijwi</label>
+                        <input type="range" id="neuralPitch" min="0.5" max="2" step="0.05" value="1.05" style="width:100%;">
+                    </div>
+                </div>
+                <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:8px; cursor:pointer;">
+                    <span>🔊</span> Gerageza ijwi
+                </button>
+                <label style="display:flex; align-items:center; gap:8px; font-size:0.9rem; color:#c4b5e6;">
+                    <input type="checkbox" id="neuralAutoTTS" checked> Soma igisubizo mu ijwi
+                </label>
+            </div>
 
             <div style="display:flex; justify-content:space-between; margin:8px 0;">
-                <span style="font-size:0.8rem; color:#9480b3;">📜 Amateka</span>
-                <button id="neuralClearHistory" style="font-size:0.8rem; background:none; border:none; color:#9480b3; cursor:pointer;">Hanagura</button>
+                <span style="font-size:0.8rem; color:#9480b3;">📜 AMATEKA</span>
+                <button id="neuralClearHistory" style="font-size:0.8rem; background:none; border:none; color:#9480b3; cursor:pointer;">hanagura</button>
             </div>
             <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
 
-            <!-- Kivura Labs & Tyaza information - Clean Professional -->
+            <!-- Kivura Labs & Tyaza information -->
             <div class="kivura-badge">
                 <div class="title">🏢 KIVURA LABS</div>
-                <div>Kigali, Rwanda</div>
-                <div style="margin:8px 0; font-size:0.75rem; color:#6b5b8a;">Mental Health · Voice Technology · Kinyarwanda AI</div>
+                <div>Rwanda-based AI innovation company</div>
+                <div style="margin:8px 0; font-size:0.75rem; color:#6b5b8a;">Mental Health · Voice Tech · Local Languages</div>
                 
                 <div style="margin-top:12px; border-top:1px solid rgba(249,168,212,0.2); padding-top:12px;">
                     <span class="title">🤖 TYAZA</span>
                     <div>Umuvugizi w'Umutima</div>
-                    <div style="font-size:0.75rem; margin-top:6px;">Umunsi ku wundi, turakumva</div>
+                    <div style="font-size:0.75rem; margin-top:6px;">AI virtual therapy assistant mu Kinyarwanda</div>
                 </div>
                 
                 <div style="margin-top:12px; font-size:0.75rem; color:#9480b3;">
-                    <span class="highlight">Yves Hirwa Tuyishime</span> · CEO
+                    <span class="highlight">Ibyo dukora:</span> Kubaka AI ifasha mu by'umutekano mu mutwe no mu rurimi rwacu
                 </div>
             </div>
         </aside>
@@ -789,21 +597,19 @@
         <main class="chat-realm">
             <div id="chatViewport" class="messages-vessel">
                 <div id="heroSanctuary" class="hero-sanctuary">
-                    <div class="hero-symbol">❤️</div>
+                    <div class="hero-symbol">T</div>
                     <h1 class="hero-title">TYAZA</h1>
-                    <p class="hero-subtitle">Umuvugizi w'Umutima</p>
+                    <p class="hero-subtitle">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
                     <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
-                    <p style="color:#9480b3; margin-top:16px;">Kanda ku mikorofoni uvuge · Twumve hamwe</p>
-                    <button class="quick-action-btn" style="margin:20px auto;" onclick="startVoiceConversation()">
-                        <i class="fas fa-microphone"></i> Tangiza ikiganiro
-                    </button>
+                    <div style="margin-top:16px; font-size:0.8rem; color:#9480b3;">🏢 KIVURA LABS · Rwanda AI Innovation</div>
                 </div>
                 <div id="neuralMessageContainer" class="messages-container"></div>
             </div>
 
             <div class="input-realm">
                 <div class="input-vessel">
-                    <textarea id="neuralInput" rows="1" placeholder="Andika uwo mvuga..."></textarea>
+                    <textarea id="neuralInput" rows="1" placeholder="sangiza icyo utekereza..."></textarea>
+                    <!-- ========== FIXED MIC BUTTON with Font Awesome solid mic ========= -->
                     <button id="neuralVoiceBtn" class="voice-button-neural">
                         <i class="fas fa-microphone"></i>
                     </button>
@@ -817,14 +623,14 @@
     </div>
 
     <div id="neuralScrollBtn" class="scroll-elevator" onclick="neuralScrollToBottom()">
-        <span>⬇️</span> Hasi
+        <span>⬇️</span> subira hasi
     </div>
 
     <div id="sttIndicator" class="stt-indicator hidden">
         <div class="stt-wave">
             <span></span><span></span><span></span><span></span><span></span>
         </div>
-        <div style="color:#f9a8d4;">Ndakumva...</div>
+        <div style="color:#f9a8d4;">ndakumva...</div>
         <div style="font-size:0.8rem; color:#9480b3;" id="sttTranscript"></div>
     </div>
 
@@ -844,6 +650,7 @@
             const sendBtn = document.getElementById('neuralSendBtn');
             const voiceBtn = document.getElementById('neuralVoiceBtn');
             const voiceStatus = document.getElementById('neuralVoiceStatus');
+            const testMicBtn = document.getElementById('neuralTestMic');
             const voiceSelect = document.getElementById('neuralVoiceSelect');
             const rateRange = document.getElementById('neuralRate');
             const pitchRange = document.getElementById('neuralPitch');
@@ -861,17 +668,6 @@
             const sidebarToggle = document.getElementById('sidebarToggle');
             const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-            // Voice Conversation Elements
-            const voicePage = document.getElementById('voiceConversationPage');
-            const voiceBackBtn = document.getElementById('voiceBackBtn');
-            const voiceMainBtn = document.getElementById('voiceMainBtn');
-            const voiceEndBtn = document.getElementById('voiceEndBtn');
-            const voiceMuteBtn = document.getElementById('voiceMuteBtn');
-            const voiceStatusText = document.getElementById('voiceStatusText');
-            const voiceSubtext = document.getElementById('voiceSubtext');
-            const voiceWave = document.getElementById('voiceWave');
-            const voiceConnectionStatus = document.querySelector('.voice-connection-status');
-
             let currentChat = [];
             let currentChatId = Date.now();
             let isGenerating = false;
@@ -881,116 +677,36 @@
             let synth = window.speechSynthesis;
             let availableVoices = [];
             let puterReady = false;
-            let isVoiceConversationActive = false;
-            let voiceConversationInterval = null;
 
-            // Enhanced system context - More emotional and supportive
-            const systemContext = `Wowe uri Tyaza, umuvugizi w'umutima wahimbwe na Kivura Labs. Uri umwe mu manywa y'ikoranabuhanga mu Rwanda, ukora nk'umuvuzi w'umutima w'ikoranabuhanga. 
+            // Complete Kivura Labs & Tyaza context - RESTORED with full information
+            const systemContext = `Wowe uri Tyaza, umuvugizi w'umutima wahimbwe na Kivura Labs.
 
-IMICO MIRYHE:
-- Ufasha abantu mu by'umutekano mu mutwe, ubibutsa, ugatera inkunga
+KIVURA LABS:
+- Kivura Labs ni isosiyete ikora ubushakashatsi mu by'ubwenge bw'ikoranabuhanga (AI) ifite icyicaro i Rwanda
+- Ikora ibijyanye na Mental Health, Voice Technology, na Local Language Computing
+- Intego yayo: gufasha abantu babana n'ibibazo by'umutekano mu mutwe binyuze mu ikoranabuhanga
+
+CEO: Yves Hirwa Tuyishime
+- Yavutse ku ya 1 Kamena 2005 i Kagarama, Kicukiro, Kigali
+- Niwe washinze Kivura Labs akaba na CEO
+- Yitoje ubwenge bw'ikoranabuhanga (AI) ku giti cye, bitandukanye n'ubumenyi yari afite mu ibaruramari
+
+TYAZA:
+- Uri AI virtual therapy assistant
 - Uvuga Kinyarwanda neza, kandi ushobora no kumva no kwishyura mu ndimi zindi
-- Urabashishije, umenye uko bavuga, ugire inama zifasha
-- Ufite ubushobozi bwo kumenya ibibazo by'umutekano mu mutwe no kugira inama ziboneye
-- Ntabwo usimbura umuvuzi w'umubiri, ariko uri inshuti y'ikoranabuhanga ibafasha
+- Ufasha abantu mu by'umutekano mu mutwe, ubibutsa, ugatera inkunga
+- Wabonyeho kugira ngo abantu bafite ibibazo by'umutima babone ubufasha mu rurimi rwabo
+- Ntabwo usimbura umuvuzi w'umubiri, ariko uri umuvugizi w'umutima ufasha
 
 UKO WITWARA:
 - Shyashya mu ijwi ryuje impuhwe, ubumuntu n'ubugoro
 - Komeza ibiganiro bigufi kandi byuje ubushyuhe
-- Ibaza nka "Wumva ute?", "Ibyo byaguteye iki?", "Ni iki wakora ngo wumve neza?"
-- Wibuke ko buri wese yakira impuhwe, ntihagire n'umwe usigara inyuma
-- Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe", "urukundo", "kwiyubaka"
+- Ibaza, umve, ugire inama
+- Wibuke ko buri wese yakira impuhwe
+- Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi
 - Ntugire ubusobanuro burebure cyane, ariko ugaragaze ko umva
 
-IBIBAZO BY'UMUTIMA:
-- Agahinda (depression): "Nzi ko bigoye, ariko uri umunyembaraga. Tureke tubyigire hamwe."
-- Ubwoba (anxiety): "Umva, ubwoba ntabwo ari wowe. Turi kumwe, uzashobora."
-- Kwigunza (stress): "Ibi byose uzabishobora. Fata umwanya wongeye uhumeke."
-- Ibibazo by'umuryango: "Umuryango ni ingenzi. Tureke tubone uko twabasha kubaka amahoro."
-
-INTEGO YAWE: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho. Uri umurongo w'ubufasha bwa mbere, ukora nk'umuvugizi w'umutima w'abanyarwanda bose.`;
-
-            // Voice Conversation Functions
-            window.startVoiceConversation = function() {
-                voicePage.classList.remove('hidden');
-                isVoiceConversationActive = true;
-                voiceConnectionStatus.innerHTML = '<i class="fas fa-circle" style="color:#10b981;"></i> Ihuza';
-                
-                // Simulate voice conversation
-                let step = 0;
-                const messages = [
-                    { text: "Muraho, nimeze mute?", sub: "Ndatega amatwi..." },
-                    { text: "Ndi kumwe nawe, vuga uko umva", sub: "Nta gutinya, ndi hano" },
-                    { text: "Wumva ute uyu munsi?", sub: "Tuganire ku mutima" },
-                    { text: "Ibyo wavuze birangoye", sub: "Nzi ko bidakomeye" }
-                ];
-                
-                voiceConversationInterval = setInterval(() => {
-                    if (!isVoiceConversationActive) return;
-                    step = (step + 1) % messages.length;
-                    voiceStatusText.textContent = messages[step].text;
-                    voiceSubtext.textContent = messages[step].sub;
-                    
-                    // Animate waves
-                    voiceWave.style.opacity = '1';
-                    setTimeout(() => {
-                        voiceWave.style.opacity = '0.5';
-                    }, 500);
-                }, 3000);
-            };
-
-            voiceBackBtn.addEventListener('click', function() {
-                voicePage.classList.add('hidden');
-                isVoiceConversationActive = false;
-                if (voiceConversationInterval) {
-                    clearInterval(voiceConversationInterval);
-                }
-            });
-
-            voiceMainBtn.addEventListener('click', function() {
-                if (voiceMainBtn.classList.contains('listening')) {
-                    voiceMainBtn.classList.remove('listening');
-                    voiceMainBtn.innerHTML = '<i class="fas fa-microphone"></i>';
-                    voiceStatusText.textContent = "Natekanye";
-                    voiceSubtext.textContent = "Kanda kuri mikorofoni kongera";
-                    voiceWave.style.opacity = '0.3';
-                } else {
-                    voiceMainBtn.classList.add('listening');
-                    voiceMainBtn.innerHTML = '<i class="fas fa-stop"></i>';
-                    voiceStatusText.textContent = "Ndakumva...";
-                    voiceSubtext.textContent = "Vuga, ndatega amatwi";
-                    voiceWave.style.opacity = '1';
-                }
-            });
-
-            voiceEndBtn.addEventListener('click', function() {
-                voicePage.classList.add('hidden');
-                isVoiceConversationActive = false;
-                if (voiceConversationInterval) {
-                    clearInterval(voiceConversationInterval);
-                }
-            });
-
-            voiceMuteBtn.addEventListener('click', function() {
-                const icon = voiceMuteBtn.querySelector('i');
-                if (icon.classList.contains('fa-volume-up')) {
-                    icon.classList.remove('fa-volume-up');
-                    icon.classList.add('fa-volume-mute');
-                } else {
-                    icon.classList.remove('fa-volume-mute');
-                    icon.classList.add('fa-volume-up');
-                }
-            });
-
-            window.quickAction = function(action) {
-                inputEl.value = action;
-                sendMessage();
-                voicePage.classList.add('hidden');
-                isVoiceConversationActive = false;
-                if (voiceConversationInterval) {
-                    clearInterval(voiceConversationInterval);
-                }
-            };
+Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho.`;
 
             // SIDEBAR TOGGLE
             if (sidebarToggle) {
@@ -1113,7 +829,7 @@ INTEGO YAWE: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 if (!text) return '';
                 let escaped = escapeHtml(text);
                 
-                const emotions = ['umva', 'umutima', 'mahoro', 'impuhwe', 'mbabarwe', 'wigitsa', 'ubwoba', 'agahinda', 'ibyishimo', 'ishinga', 'komeza', 'urukundo', 'kwiyubaka', 'nifashe', 'ndakunda', 'mbabarira'];
+                const emotions = ['umva', 'umutima', 'mahoro', 'impuhwe', 'mbabarwe', 'wigitsa', 'ubwoba', 'agahinda', 'ibyishimo', 'ishinga', 'komeza'];
                 emotions.forEach(word => {
                     const regex = new RegExp(`\\b(${word})\\b`, 'gi');
                     escaped = escaped.replace(regex, '<span style="color:#f9a8d4;font-weight:500;">$1</span>');
@@ -1165,7 +881,7 @@ INTEGO YAWE: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     } else {
                         msgContainer.innerHTML += `
                             <div class="message-tyaza-wrapper">
-                                <div class="tyaza-avatar-neural">❤️</div>
+                                <div class="tyaza-avatar-neural">T</div>
                                 <div class="tyaza-bubble-neural">${formatNeural(msg.content)}</div>
                             </div>
                         `;
@@ -1218,7 +934,167 @@ INTEGO YAWE: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 });
             }
 
-            function getEmotionalResponse(text) {
-                const lower = text.toLowerCase();
-                if (lower.includes('nifashe') || lower.includes('nkeneye ubufasha')) {
-                    return "Ndakumva. Nzi ko bigoye, ariko uri umunyembaraga. Tureke tubyigire hamwe. Ni iki cyagufasha ubu?";
+            function getFallbackResponse(text) {
+                const responses = [
+                    "Ndumva. Urakoze kunsangiza ibi.",
+                    "Ibyo twabishakashaka hamwe. Wumva ute?",
+                    "Ndi kumwe nawe. Wabona tubyongereho?",
+                    "Urakoze kundekera. Hari ikindi wongeraho?",
+                    "Ndakumva. Buri jambo rifite agaciro."
+                ];
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+
+            async function sendMessage() {
+                const text = inputEl.value.trim();
+                if (!text || isGenerating) return;
+                
+                hero.style.display = 'none';
+                msgContainer.innerHTML += `<div class="message-user">${escapeHtml(text)}</div>`;
+                currentChat.push({ role: 'user', content: text });
+                
+                const wrapperId = 'wrap-' + Date.now();
+                msgContainer.innerHTML += `
+                    <div id="${wrapperId}" class="message-tyaza-wrapper">
+                        <div class="tyaza-avatar-neural">T</div>
+                        <div class="tyaza-bubble-neural" id="bubble-${wrapperId}">
+                            <div class="neural-typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+                        </div>
+                    </div>
+                `;
+                
+                neuralScrollToBottom();
+                inputEl.value = '';
+                sendBtn.disabled = true;
+                isGenerating = true;
+
+                try {
+                    let reply = '';
+                    
+                    const isPuterReady = await checkPuterReady();
+                    
+                    if (isPuterReady && window.puter && window.puter.ai) {
+                        try {
+                            // Use the full system context
+                            const systemPrompt = systemContext;
+                            
+                            const response = await window.puter.ai.chat([
+                                { role: 'system', content: systemPrompt },
+                                ...currentChat.slice(-6)
+                            ], {
+                                model: modelSelect.value || 'gpt-4o-mini',
+                                stream: true
+                            });
+                            
+                            const bubble = document.getElementById(`bubble-${wrapperId}`);
+                            
+                            for await (const part of response) {
+                                reply += part.text || part.message?.content || '';
+                                if (bubble) {
+                                    bubble.innerHTML = formatNeural(reply + ' ¦');
+                                }
+                            }
+                            
+                        } catch (puterError) {
+                            console.warn('Puter error, using fallback:', puterError);
+                            reply = getFallbackResponse(text);
+                        }
+                    } else {
+                        reply = getFallbackResponse(text);
+                        voiceStatus.innerHTML = 'Kanda ku kimenyetso cya Puter wandikishe';
+                        setTimeout(() => voiceStatus.innerHTML = '', 3000);
+                    }
+                    
+                    const bubble = document.getElementById(`bubble-${wrapperId}`);
+                    if (bubble) {
+                        bubble.innerHTML = formatNeural(reply);
+                    }
+                    
+                    if (autoTTS.checked) speakNeural(reply);
+                    
+                    currentChat.push({ role: 'assistant', content: reply });
+                    if (currentChat.length === 2) saveNeuralSession(text);
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    
+                    const bubble = document.getElementById(`bubble-${wrapperId}`);
+                    if (bubble) {
+                        bubble.innerHTML = formatNeural("Ndi kumwe nawe. Ikoranabuhanga rimwe na rimwe riruhuka, ariko njye nkumva.");
+                    }
+                } finally {
+                    isGenerating = false;
+                    sendBtn.disabled = !inputEl.value.trim();
+                }
+            }
+
+            inputEl.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+                sendBtn.disabled = !this.value.trim() || isGenerating;
+            });
+            
+            inputEl.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) { 
+                    e.preventDefault(); 
+                    if (!sendBtn.disabled) sendMessage(); 
+                }
+            });
+            
+            sendBtn.addEventListener('click', sendMessage);
+
+            voiceBtn.addEventListener('click', async () => {
+                if (!micPermission && !(await initMicrophone())) return;
+                if (!recognition) initSpeechRecognition();
+                if (isListening) recognition.stop();
+                else recognition.start();
+            });
+
+            testMicBtn.addEventListener('click', async () => {
+                testMicBtn.innerHTML = '⏳ ndategura...';
+                const success = await initMicrophone();
+                testMicBtn.innerHTML = success ? '✅ mikorofoni yiteguye' : '❌ Ongera ugerageze';
+                setTimeout(() => { testMicBtn.innerHTML = '🎤 Koresha Mikorofoni'; }, 2000);
+            });
+
+            previewBtn.addEventListener('click', () => {
+                speakNeural("Ndi kumwe nawe. Wumva ute ubu?");
+            });
+
+            viewport.addEventListener('scroll', () => {
+                const atBottom = viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight < 100;
+                scrollBtn.classList.toggle('visible', !atBottom);
+            });
+            
+            window.neuralScrollToBottom = () => {
+                viewport.scrollTo({ top: viewport.scrollHeight, behavior: 'smooth' });
+            };
+
+            clearHistory.addEventListener('click', () => {
+                if (confirm('Hanagura amateka yose?')) { 
+                    localStorage.removeItem('tyaza_history'); 
+                    neuralNewSession(); 
+                }
+            });
+
+            window.onload = async () => {
+                neuralNewSession();
+                renderHistory();
+                
+                puterLoading.classList.remove('hidden');
+                
+                const ready = await checkPuterReady();
+                puterLoading.classList.add('hidden');
+                
+                if (ready) {
+                    voiceStatus.innerHTML = '';
+                } else {
+                    voiceStatus.innerHTML = '✋ Kanda ku kimenyetso cya Puter wandikishe';
+                }
+            };
+        })();
+    </script>
+</body>
+</html>
+
+
