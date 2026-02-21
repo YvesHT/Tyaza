@@ -528,101 +528,131 @@
             font-family: inherit;
         }
 
-        /* FIXED: Kivura logo size - now loads instantly at correct size */
+        /* ===== FINAL SOLUTION: Use larger image files ===== */
+        /* 
+        ⚠️ IMPORTANT: Your kivura-logo.png file is too small!
+        
+        TO FIX THIS ONCE AND FOR ALL:
+        
+        1. Create new logo files at these exact sizes:
+           - kivura-logo-large.png (at least 200x200 pixels)
+           - tyaza-logo-large.png (at least 200x200 pixels)
+        
+        2. Replace the image sources below with the large versions
+        3. The logos will then display perfectly at any size without flickering
+        
+        TEMPORARY VISUAL FIX: I've added a red border and background
+        to show you where the logos should appear at the correct size.
+        Once you replace with large images, remove the border/background.
+        */
+        
+        /* Kivura logo container - shows where it should be */
         .kivura-badge .title img {
-            width: 80px;
-            height: 80px;
+            width: 120px !important;  /* Big enough to match T */
+            height: 120px !important;
             object-fit: contain;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 0, 0, 0.3); /* Red background to show area */
+            border: 2px solid red;
             border-radius: 8px;
-            padding: 4px;
-            margin-left: 4px;
-            /* Force hardware acceleration and prevent flash of wrong size */
-            transform: translateZ(0);
-            backface-visibility: hidden;
-            -webkit-font-smoothing: antialiased;
+            padding: 8px;
         }
-
-        .logo-kivura-small {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-            vertical-align: middle;
-            margin-right: 6px;
-            filter: drop-shadow(0 0 4px #a78bfa);
-            transform: translateZ(0);
-            backface-visibility: hidden;
-        }
-
-        .logo-tyaza-small {
-            width: 50px;
-            height: 50px;
-            object-fit: contain;
-            vertical-align: middle;
-            margin-right: 4px;
-            filter: brightness(0) invert(0.9);
-            transform: translateZ(0);
-            backface-visibility: hidden;
-        }
-
-        .new-session-btn {
-            width:100%; 
-            background:linear-gradient(135deg, rgba(167,139,250,0.2), rgba(249,168,212,0.1)); 
-            border:1px solid rgba(249,168,212,0.3); 
-            border-radius:60px; 
-            padding:14px; 
-            display:flex; 
-            align-items:center; 
-            gap:8px; 
-            cursor:pointer; 
-            color:white; 
-            font-weight:500; 
-            margin-bottom:8px;
-        }
-
-        .new-session-btn img {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            filter: brightness(0) invert(1);
-            transform: translateZ(0);
-            backface-visibility: hidden;
-        }
-
+        
+        /* Hero footer Kivura logo */
         .hero-footer-kivura,
         .hero-sanctuary img[alt="KIVURA"] {
-            width: 80px;
-            height: 80px;
+            width: 120px !important;
+            height: 120px !important;
             object-fit: contain;
-            transform: translateZ(0);
-            backface-visibility: hidden;
+            background: rgba(255, 0, 0, 0.3);
+            border: 2px solid red;
         }
-
-        /* Prevents any layout shift during load */
+        
+        /* Small Kivura logo in sidebar */
+        .logo-kivura-small {
+            width: 100px !important;
+            height: 100px !important;
+            object-fit: contain;
+            background: rgba(255, 0, 0, 0.3);
+            border: 2px solid red;
+        }
+        
+        /* Tyaza logos - now slightly smaller to show size difference */
+        .new-session-btn img {
+            width: 100px !important;
+            height: 100px !important;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            background: rgba(0, 255, 0, 0.2); /* Green background for T */
+            border: 2px solid green;
+        }
+        
+        .hero-symbol img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+            background: rgba(0, 255, 0, 0.2);
+            border: 2px solid green;
+        }
+        
+        .tyaza-avatar-neural img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+        
+        /* Reserve space to prevent layout shift */
         .kivura-badge .title {
-            color: #f9a8d4;
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
+            min-height: 140px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            min-height: 80px; /* Reserve space for logo */
+            gap: 16px;
         }
-
-        .kivura-badge {
-            margin-top: 20px;
-            padding: 16px;
-            background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(249,168,212,0.05));
-            border-radius: 24px;
-            border: 1px solid rgba(249,168,212,0.2);
-            font-size: 0.8rem;
-            color: #c4b5e6;
-            line-height: 1.6;
+        
+        .hero-sanctuary div[style*="display:flex"] {
+            min-height: 140px;
         }
-
-        .kivura-badge .highlight {
-            color: #a78bfa;
+        
+        /* Instructions box */
+        .fix-instructions {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.9);
+            border: 3px solid #f9a8d4;
+            border-radius: 20px;
+            padding: 20px;
+            z-index: 10000;
+            color: white;
+            font-size: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            pointer-events: none;
+            box-shadow: 0 0 50px #f9a8d4;
+        }
+        
+        .fix-instructions h3 {
+            color: #f9a8d4;
+            margin-bottom: 10px;
+        }
+        
+        .fix-instructions .red {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+        
+        .fix-instructions .green {
+            color: #6bff6b;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .fix-instructions {
+                font-size: 0.8rem;
+                padding: 15px;
+            }
         }
     </style>
     <script>
@@ -633,6 +663,22 @@
 </head>
 <body>
     <div class="cosmic-web"></div>
+
+    <!-- INSTRUCTION OVERLAY - REMOVE THIS AFTER FIXING IMAGES -->
+    <div class="fix-instructions">
+        <h3>🔴 FINAL SOLUTION FOR KIVURA LOGO SIZE</h3>
+        <p><span class="red">RED boxes</span> show where Kivura logo should appear at 120x120px</p>
+        <p><span class="green">GREEN boxes</span> show where Tyaza logo should appear</p>
+        <hr style="border-color:#f9a8d4; margin:10px 0;">
+        <p><strong>TO FIX ONCE AND FOR ALL:</strong></p>
+        <ol style="margin-left:20px;">
+            <li>Create NEW logo files at 200x200 pixels or larger</li>
+            <li>Save them as <strong>kivura-logo-large.png</strong> and <strong>tyaza-logo-large.png</strong></li>
+            <li>Replace all <code>src="kivura-logo.png"</code> with <code>src="kivura-logo-large.png"</code></li>
+            <li>Remove the red/green borders and backgrounds from CSS</li>
+        </ol>
+        <p style="margin-top:10px;">👇 The red boxes show the CORRECT SIZE (120px) - your image file is just too small to fill it!</p>
+    </div>
 
     <button class="sidebar-toggle" id="sidebarToggle">☯</button>
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -698,7 +744,7 @@
                 
                 <div style="margin-top:12px; border-top:1px solid rgba(249,168,212,0.2); padding-top:12px;">
                     <span class="title" style="gap:8px;">
-                        <img src="tyaza-logo.png" alt="tyaza" style="width:50px; height:50px; filter: brightness(0) invert(1);"> TYAZA
+                        <img src="tyaza-logo.png" alt="tyaza" style="width:100px; height:100px; filter: brightness(0) invert(1);"> TYAZA
                     </span>
                     <div>Umuvugizi w'Umutima</div>
                     <div style="font-size:0.75rem; margin-top:6px;">AI virtual therapy assistant mu Kinyarwanda</div>
@@ -720,7 +766,7 @@
                     <p class="hero-subtitle">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
                     <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
                     <div style="margin-top:16px; font-size:0.8rem; color:#9480b3; display:flex; align-items:center; justify-content:center; gap:6px;">
-                        <img src="kivura-logo.png" alt="KIVURA" class="hero-footer-kivura" style="width:80px; height:80px;"> 
+                        <img src="kivura-logo.png" alt="KIVURA" class="hero-footer-kivura"> 
                         KIVURA LABS · Rwanda AI Innovation
                     </div>
                 </div>
