@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVFlBWkEiLCJzaG9ydF9uYW1lIjoidHlhemEiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiLCJzdGFuZGFxvbmUiLCJtb2RlIjoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMGEwNjEyIiwidGhlbWVfY29sb3IiOiIjYTc4YmZhIiwiYWxpYXNlcyI6WyJ0eWF6YSJdLCJzY29wZSI6Ii8iLCJyb3V0ZXMiOlt7InBhdGgiOiIvIiwibW9kZSI6ImdldCJ9XSwiaWNvbnMiOlt7InNyYyI6Imh0dHBzOi8vY2RuLXN0YXRpYy5zaHVzaHVkaW8uY29tL2ljb25zL2FwcC0xMjgucG5nP3Y9MTYzOTY0NDY0NSIsInNpemVzIjoiMTI4eDEyOCJ9XSwic3RydWN0dXJlIjoic3RhbmRhbG9uZSJ9">
+    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiVFlBWkEiLCJzaG9ydF9uYW1lIjoidHlhemEiLCJzdGFydF91cmwiOiIuLyIsImRpc3BsYXkiLCJzdGFuZGFsb25lIiwibW9kZSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzBhMDYxMiIsInRoZW1lX2NvbG9yIjoiI2E3OGJmYSIsImFsaWFzZXMiOlsidHlhemEiXSwic2NvcGUiOiIvIiwicm91dGVzIjpbeyJwYXRoIjoiLyIsIm1vZGUiOiJnZXQifV0sImljb25zIjpbeyJzcmMiOiJodHRwczovL2Nkbi1zdGF0aWMuc2h1c2h1ZGlvLmNvbS9pY29ucy9hcHAtMTI4LnBuZz92PTE2Mzk2NDQ2NDUiLCJzaXplcyI6IjEyOHgxMjgifV0sInN0cnVjdHVyZSI6InN0YW5kYWxvbmUifQ==">
     
     <style>
         /* ================================================================
@@ -1501,6 +1501,13 @@
             border-radius: var(--radius-md);
             color: white;
             font-weight: 600;
+            overflow: hidden;
+        }
+
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .chat-info h1 {
@@ -1600,6 +1607,13 @@
             margin-bottom: var(--space-8);
             box-shadow: var(--shadow-glow-primary), var(--shadow-glow-secondary);
             animation: morphShape 10s ease-in-out infinite, iconFloat 6s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .welcome-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         @keyframes morphShape {
@@ -1708,6 +1722,7 @@
             font-weight: 600;
             font-size: var(--text-base);
             flex-shrink: 0;
+            overflow: hidden;
         }
 
         .message.user .message-avatar {
@@ -1720,6 +1735,12 @@
             background: var(--gradient-primary);
             color: white;
             box-shadow: var(--shadow-glow-primary);
+        }
+
+        .message-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .message-content {
@@ -1815,6 +1836,13 @@
             border-radius: var(--radius-lg);
             color: white;
             font-weight: 600;
+            overflow: hidden;
+        }
+
+        .typing-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .typing-bubble {
@@ -2121,6 +2149,13 @@
             color: white;
             animation: logoFloat 3s ease-in-out infinite;
             box-shadow: var(--shadow-glow-primary);
+            overflow: hidden;
+        }
+
+        .loading-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .loading-spinner {
@@ -2386,7 +2421,7 @@
                 <div class="sidebar-header">
                     <div class="logo-container">
                         <div class="logo-icon">
-                            <img src="https://raw.githubusercontent.com/kivuralabs/tyaza/main/tyaza-logo.png" alt="TYAZA" style="width:100%;height:100%;object-fit:contain;" onerror="this.innerHTML='🕊️'">
+                            <img src="tyaza-logo.png" alt="TYAZA">
                         </div>
                         <div class="logo-text">
                             <div class="logo-title">TYAZA</div>
@@ -2500,7 +2535,7 @@
                     <!-- Info Card -->
                     <div class="info-card">
                         <div class="info-card-title">
-                            <img src="https://raw.githubusercontent.com/kivuralabs/tyaza/main/kivura-logo.png" alt="Kivura Labs" class="info-card-logo" onerror="this.style.display='none'">
+                            <img src="kivura-logo.png" alt="Kivura Labs" class="info-card-logo">
                             🏢 KIVURA LABS
                         </div>
                         <div>
@@ -2529,7 +2564,7 @@
                         </button>
                         <div class="chat-title">
                             <div class="chat-avatar">
-                                <img src="https://raw.githubusercontent.com/kivuralabs/tyaza/main/tyaza-logo.png" alt="TYAZA" style="width:100%;height:100%;object-fit:contain;" onerror="this.parentElement.innerHTML='T'">
+                                <img src="tyaza-logo.png" alt="TYAZA">
                             </div>
                             <div class="chat-info">
                                 <h1>TYAZA</h1>
@@ -2558,7 +2593,7 @@
                     <!-- Welcome Screen -->
                     <div class="welcome-screen" id="welcomeScreen">
                         <div class="welcome-icon">
-                            <img src="https://raw.githubusercontent.com/kivuralabs/tyaza/main/tyaza-logo.png" alt="TYAZA" style="width:100%;height:100%;object-fit:contain;border-radius:inherit;" onerror="this.parentElement.innerHTML='T'">
+                            <img src="tyaza-logo.png" alt="TYAZA">
                         </div>
                         <h1 class="welcome-title">TYAZA</h1>
                         <p class="welcome-subtitle">igisubizo cy'umutima</p>
@@ -2624,7 +2659,9 @@
 
         <!-- Loading Screen -->
         <div class="loading-screen" id="loadingScreen">
-            <div class="loading-logo">🕊️</div>
+            <div class="loading-logo">
+                <img src="tyaza-logo.png" alt="TYAZA">
+            </div>
             <div class="spinner"></div>
             <div class="loading-text">Ihuza kuri Tyaza...</div>
             <div class="loading-progress">
@@ -3335,7 +3372,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     const time = formatMessageTime();
                     
                     messageDiv.innerHTML = `
-                        <div class="message-avatar">${role === 'user' ? '👤' : 'T'}</div>
+                        <div class="message-avatar">${role === 'user' ? '👤' : '<img src="tyaza-logo.png" alt="TYAZA">'}</div>
                         <div class="message-content">
                             <div class="message-bubble" id="bubble-${messageId}">
                                 ${formatMessageContent(content)}
@@ -3393,7 +3430,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     typingDiv.className = 'typing-indicator';
                     typingDiv.id = id;
                     typingDiv.innerHTML = `
-                        <div class="typing-avatar">T</div>
+                        <div class="typing-avatar"><img src="tyaza-logo.png" alt="TYAZA"></div>
                         <div class="typing-bubble">
                             <span class="typing-dot"></span>
                             <span class="typing-dot"></span>
