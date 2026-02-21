@@ -162,6 +162,7 @@
             border-radius: 60px;
             box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
         }
+        /* UPDATED: use tyaza-logo.png inside hero symbol */
         .hero-symbol {
             width: 100px;
             height: 100px;
@@ -174,7 +175,15 @@
             justify-content: center;
             font-size: 3rem;
             color: white;
+            overflow: hidden; /* ensure image fits */
         }
+        .hero-symbol img {
+            width: 70%;
+            height: 70%;
+            object-fit: contain;
+            filter: brightness(0) invert(1); /* make logo white to match original T aesthetic */
+        }
+        /* but we might keep T as fallback: we'll insert image via HTML later */
         .hero-title {
             font-size: 3.5rem;
             font-weight: 700;
@@ -204,6 +213,7 @@
             gap: 16px;
             width: 100%;
         }
+        /* UPDATED: Tyaza avatar now uses tyaza-logo.png */
         .tyaza-avatar-neural {
             width: 48px;
             height: 48px;
@@ -216,6 +226,14 @@
             color: white;
             box-shadow: 0 0 30px #a78bfa;
             flex-shrink: 0;
+            overflow: hidden;
+            padding: 8px;
+        }
+        .tyaza-avatar-neural img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(1); /* make it white, keep consistent */
         }
         /* Updated bubble with relative positioning for speaker icon */
         .tyaza-bubble-neural {
@@ -235,8 +253,8 @@
         .tts-speaker-icon {
             position: absolute;
             bottom: 8px;
-            right: 12px;  /* traditionally left-down, but right feels more natural — if you prefer left: 12px, change here */
-            left: auto;    /* change to left:12px and right:auto if you want left-down */
+            right: 12px;  
+            left: auto;    
             background: rgba(167, 139, 250, 0.25);
             border: 1px solid rgba(249, 168, 212, 0.5);
             border-radius: 30px;
@@ -518,6 +536,7 @@
             font-family: inherit;
         }
 
+        /* UPDATED: Kivura badge now uses kivura-logo.png */
         .kivura-badge {
             margin-top: 20px;
             padding: 16px;
@@ -533,9 +552,38 @@
             font-weight: 600;
             font-size: 0.9rem;
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .kivura-badge .title img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.1);
+            padding: 2px;
         }
         .kivura-badge .highlight {
             color: #a78bfa;
+        }
+
+        /* logo style for sidebar header / other placements */
+        .logo-kivura-small {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 6px;
+            filter: drop-shadow(0 0 4px #a78bfa);
+        }
+        .logo-tyaza-small {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            vertical-align: middle;
+            margin-right: 4px;
+            filter: brightness(0) invert(0.9);
         }
     </style>
     <script>
@@ -552,8 +600,9 @@
 
     <div class="app-universe">
         <aside class="dimensional-sidebar" id="sidebar">
+            <!-- new session button with tyaza logo -->
             <button onclick="window.neuralNewSession()" style="width:100%; background:linear-gradient(135deg, rgba(167,139,250,0.2), rgba(249,168,212,0.1)); border:1px solid rgba(249,168,212,0.3); border-radius:60px; padding:14px; display:flex; align-items:center; gap:8px; cursor:pointer; color:white; font-weight:500; margin-bottom:8px;">
-                <span>🕊️</span> IGIHE GISHYA
+                <img src="tyaza-logo.png" alt="tyaza" class="logo-tyaza-small" style="width:28px; height:28px; filter:brightness(0) invert(1);"> IGIHE GISHYA
             </button>
 
             <div class="model-selector">
@@ -603,14 +652,16 @@
             </div>
             <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
 
-            <!-- Kivura Labs & Tyaza information -->
+            <!-- Kivura Labs & Tyaza information with both logos -->
             <div class="kivura-badge">
-                <div class="title">🏢 KIVURA LABS</div>
+                <div class="title">
+                    <img src="kivura-logo.png" alt="Kivura Labs"> KIVURA LABS
+                </div>
                 <div>Rwanda-based AI innovation company</div>
                 <div style="margin:8px 0; font-size:0.75rem; color:#6b5b8a;">Mental Health · Voice Tech · Local Languages</div>
                 
                 <div style="margin-top:12px; border-top:1px solid rgba(249,168,212,0.2); padding-top:12px;">
-                    <span class="title">🤖 TYAZA</span>
+                    <span class="title" style="gap:4px;"><img src="tyaza-logo.png" alt="tyaza" style="width:22px; height:22px; filter: brightness(0) invert(1);"> TYAZA</span>
                     <div>Umuvugizi w'Umutima</div>
                     <div style="font-size:0.75rem; margin-top:6px;">AI virtual therapy assistant mu Kinyarwanda</div>
                 </div>
@@ -624,11 +675,17 @@
         <main class="chat-realm">
             <div id="chatViewport" class="messages-vessel">
                 <div id="heroSanctuary" class="hero-sanctuary">
-                    <div class="hero-symbol">T</div>
+                    <!-- UPDATED: hero symbol with tyaza-logo.png -->
+                    <div class="hero-symbol">
+                        <img src="tyaza-logo.png" alt="TYAZA">
+                    </div>
                     <h1 class="hero-title">TYAZA</h1>
                     <p class="hero-subtitle">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
                     <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
-                    <div style="margin-top:16px; font-size:0.8rem; color:#9480b3;">🏢 KIVURA LABS · Rwanda AI Innovation</div>
+                    <div style="margin-top:16px; font-size:0.8rem; color:#9480b3; display:flex; align-items:center; justify-content:center; gap:6px;">
+                        <img src="kivura-logo.png" alt="KIVURA" style="height:22px; width:22px; object-fit:contain;"> 
+                        KIVURA LABS · Rwanda AI Innovation
+                    </div>
                 </div>
                 <div id="neuralMessageContainer" class="messages-container"></div>
             </div>
@@ -910,7 +967,9 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                         const bubbleId = 'restore-' + Date.now() + Math.random();
                         msgContainer.innerHTML += `
                             <div class="message-tyaza-wrapper">
-                                <div class="tyaza-avatar-neural">T</div>
+                                <div class="tyaza-avatar-neural">
+                                    <img src="tyaza-logo.png" alt="T">
+                                </div>
                                 <div class="tyaza-bubble-neural" id="${bubbleId}">
                                     ${formatNeural(msg.content)}
                                     <div class="tts-speaker-icon" onclick="window.speakMessage('${escapeHtml(msg.content).replace(/'/g, "\\'")}')">
@@ -996,7 +1055,9 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 const bubbleId = 'bubble-' + wrapperId;
                 msgContainer.innerHTML += `
                     <div id="${wrapperId}" class="message-tyaza-wrapper">
-                        <div class="tyaza-avatar-neural">T</div>
+                        <div class="tyaza-avatar-neural">
+                            <img src="tyaza-logo.png" alt="T">
+                        </div>
                         <div class="tyaza-bubble-neural" id="${bubbleId}">
                             <div class="neural-typing"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
                         </div>
