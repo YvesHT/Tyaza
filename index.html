@@ -162,7 +162,6 @@
             border-radius: 60px;
             box-shadow: 0 0 30px rgba(139, 92, 246, 0.3);
         }
-        /* Hero symbol - T enlarged via image size */
         .hero-symbol {
             width: 100px;
             height: 100px;
@@ -181,7 +180,6 @@
             height: 100%;
             object-fit: contain;
             filter: brightness(0) invert(1);
-            /* T image now larger via width/height 100% + larger source */
         }
         .hero-title {
             font-size: 3.5rem;
@@ -212,7 +210,6 @@
             gap: 16px;
             width: 100%;
         }
-        /* Tyaza avatar - T enlarged via image size */
         .tyaza-avatar-neural {
             width: 48px;
             height: 48px;
@@ -231,9 +228,7 @@
             height: 100%;
             object-fit: contain;
             filter: brightness(0) invert(1);
-            /* T image fills container, no extra scale */
         }
-        /* Updated bubble with relative positioning for speaker icon */
         .tyaza-bubble-neural {
             background: rgba(21, 16, 40, 0.7);
             backdrop-filter: blur(20px);
@@ -247,7 +242,6 @@
             box-shadow: 0 20px 40px -12px black;
             position: relative;
         }
-        /* small speaker icon at left-down corner of bubble */
         .tts-speaker-icon {
             position: absolute;
             bottom: 8px;
@@ -534,57 +528,43 @@
             font-family: inherit;
         }
 
-        /* Kivura badge - image size increased directly (no transform scale) */
-        .kivura-badge {
-            margin-top: 20px;
-            padding: 16px;
-            background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(249,168,212,0.05));
-            border-radius: 24px;
-            border: 1px solid rgba(249,168,212,0.2);
-            font-size: 0.8rem;
-            color: #c4b5e6;
-            line-height: 1.6;
-        }
-        .kivura-badge .title {
-            color: #f9a8d4;
-            font-weight: 600;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+        /* FIXED: Kivura logo size - now loads instantly at correct size */
         .kivura-badge .title img {
-            width: 80px;           /* image itself made much larger */
+            width: 80px;
             height: 80px;
             object-fit: contain;
             background: rgba(255,255,255,0.1);
             border-radius: 8px;
             padding: 4px;
             margin-left: 4px;
-        }
-        .kivura-badge .highlight {
-            color: #a78bfa;
+            /* Force hardware acceleration and prevent flash of wrong size */
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* General logo styles - Kivura image size increased everywhere */
         .logo-kivura-small {
-            width: 70px;            /* big image */
+            width: 70px;
             height: 70px;
             object-fit: contain;
             vertical-align: middle;
             margin-right: 6px;
             filter: drop-shadow(0 0 4px #a78bfa);
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
+
         .logo-tyaza-small {
-            width: 50px;            /* T also bigger but consistent */
+            width: 50px;
             height: 50px;
             object-fit: contain;
             vertical-align: middle;
             margin-right: 4px;
             filter: brightness(0) invert(0.9);
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
-        /* New session button - T image size increased */
+
         .new-session-btn {
             width:100%; 
             background:linear-gradient(135deg, rgba(167,139,250,0.2), rgba(249,168,212,0.1)); 
@@ -599,17 +579,50 @@
             font-weight:500; 
             margin-bottom:8px;
         }
+
         .new-session-btn img {
-            width: 60px;            /* T image bigger */
+            width: 60px;
             height: 60px;
             object-fit: contain;
             filter: brightness(0) invert(1);
+            transform: translateZ(0);
+            backface-visibility: hidden;
         }
-        /* Hero footer kivura logo - image size increased */
-        .hero-footer-kivura {
-            height: 80px;
+
+        .hero-footer-kivura,
+        .hero-sanctuary img[alt="KIVURA"] {
             width: 80px;
+            height: 80px;
             object-fit: contain;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+
+        /* Prevents any layout shift during load */
+        .kivura-badge .title {
+            color: #f9a8d4;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 80px; /* Reserve space for logo */
+        }
+
+        .kivura-badge {
+            margin-top: 20px;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(167,139,250,0.1), rgba(249,168,212,0.05));
+            border-radius: 24px;
+            border: 1px solid rgba(249,168,212,0.2);
+            font-size: 0.8rem;
+            color: #c4b5e6;
+            line-height: 1.6;
+        }
+
+        .kivura-badge .highlight {
+            color: #a78bfa;
         }
     </style>
     <script>
@@ -626,7 +639,6 @@
 
     <div class="app-universe">
         <aside class="dimensional-sidebar" id="sidebar">
-            <!-- new session button with tyaza logo - T image bigger -->
             <button class="new-session-btn" onclick="window.neuralNewSession()">
                 <img src="tyaza-logo.png" alt="tyaza"> IGIHE GISHYA
             </button>
@@ -669,7 +681,6 @@
                 <button id="neuralPreviewVoice" style="width:100%; padding:12px; border-radius:40px; background:rgba(167,139,250,0.15); border:1px solid rgba(249,168,212,0.25); color:white; margin-bottom:8px; cursor:pointer;">
                     <span>🔊</span> Gerageza ijwi
                 </button>
-                <!-- AUTO TTS REMOVED – no checkbox anymore -->
             </div>
 
             <div style="display:flex; justify-content:space-between; margin:8px 0;">
@@ -678,10 +689,9 @@
             </div>
             <div id="neuralHistoryContainer" style="flex:1; overflow-y:auto;"></div>
 
-            <!-- Kivura Labs & Tyaza information - Kivura image made larger directly -->
             <div class="kivura-badge">
                 <div class="title">
-                    <img src="kivura-logo.png" alt="Kivura Labs" style="width:80px; height:80px;"> KIVURA LABS
+                    <img src="kivura-logo.png" alt="Kivura Labs"> KIVURA LABS
                 </div>
                 <div>Rwanda-based AI innovation company</div>
                 <div style="margin:8px 0; font-size:0.75rem; color:#6b5b8a;">Mental Health · Voice Tech · Local Languages</div>
@@ -703,16 +713,14 @@
         <main class="chat-realm">
             <div id="chatViewport" class="messages-vessel">
                 <div id="heroSanctuary" class="hero-sanctuary">
-                    <!-- Hero symbol: T enlarged via image size -->
                     <div class="hero-symbol">
-                        <img src="tyaza-logo.png" alt="TYAZA" style="width:100%; height:100%;">
+                        <img src="tyaza-logo.png" alt="TYAZA">
                     </div>
                     <h1 class="hero-title">TYAZA</h1>
                     <p class="hero-subtitle">IGISUBIZO KINDIMO · umutuzo w'umutima</p>
                     <p style="color:#6b5b8a; margin-top:24px;">"Ndi hano. Buri mwanya, buri jambo — byakiriwe mu mahoro."</p>
                     <div style="margin-top:16px; font-size:0.8rem; color:#9480b3; display:flex; align-items:center; justify-content:center; gap:6px;">
-                        <!-- Kivura logo image made larger directly -->
-                        <img src="kivura-logo.png" alt="KIVURA" style="height:80px; width:80px; object-fit:contain;"> 
+                        <img src="kivura-logo.png" alt="KIVURA" class="hero-footer-kivura" style="width:80px; height:80px;"> 
                         KIVURA LABS · Rwanda AI Innovation
                     </div>
                 </div>
@@ -722,7 +730,6 @@
             <div class="input-realm">
                 <div class="input-vessel">
                     <textarea id="neuralInput" rows="1" placeholder="sangiza icyo utekereza..."></textarea>
-                    <!-- ========== FIXED MIC BUTTON with Font Awesome solid mic ========= -->
                     <button id="neuralVoiceBtn" class="voice-button-neural">
                         <i class="fas fa-microphone"></i>
                     </button>
@@ -790,7 +797,6 @@
             let availableVoices = [];
             let puterReady = false;
 
-            // Complete Kivura Labs & Tyaza context
             const systemContext = `Wowe uri Tyaza, umuvugizi w'umutima wahimbwe na Kivura Labs.
 
 KIVURA LABS:
@@ -820,7 +826,6 @@ UKO WITWARA:
 
 Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho.`;
 
-            // SIDEBAR TOGGLE
             if (sidebarToggle) {
                 sidebarToggle.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -849,7 +854,6 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 });
             }
 
-            // SPEECH RECOGNITION
             function initSpeechRecognition() {
                 if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
                     voiceStatus.innerHTML = 'Koresha Chrome/Edge';
@@ -907,10 +911,9 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 }
             }
 
-            // TTS function (manual via speaker icon)
             function speakNeural(text) {
                 if (!synth) return;
-                synth.cancel(); // avoid overlapping
+                synth.cancel();
                 const cleanText = text.replace(/[#*`_~]/g, '').substring(0, 500);
                 const utterance = new SpeechSynthesisUtterance(cleanText);
                 
@@ -992,7 +995,6 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     if (msg.role === 'user') {
                         msgContainer.innerHTML += `<div class="message-user">${escapeHtml(msg.content)}</div>`;
                     } else {
-                        // assistant messages with avatar
                         const bubbleId = 'restore-' + Date.now() + Math.random();
                         msgContainer.innerHTML += `
                             <div class="message-tyaza-wrapper">
@@ -1019,7 +1021,6 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 }
             };
 
-            // Expose speak for inline icon
             window.speakMessage = (text) => {
                 speakNeural(text);
             };
@@ -1136,15 +1137,12 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     
                     const bubble = document.getElementById(bubbleId);
                     if (bubble) {
-                        // Add formatted text + speaker icon (no auto TTS)
                         bubble.innerHTML = formatNeural(reply) + `
                             <div class="tts-speaker-icon" onclick="window.speakMessage('${reply.replace(/'/g, "\\'")}')">
                                 <i class="fas fa-volume-low"></i>
                             </div>
                         `;
                     }
-                    
-                    // No auto TTS call here – removed
                     
                     currentChat.push({ role: 'assistant', content: reply });
                     if (currentChat.length === 2) saveNeuralSession(text);
