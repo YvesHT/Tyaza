@@ -2925,6 +2925,657 @@
                 transition-duration: 0.01ms !important;
             }
         }
+
+        /* ================================================================
+           NEW FEATURES: PERSONALIZATION & WELLBEING
+           ================================================================ */
+
+        /* User Profile Modal */
+        .profile-modal-content {
+            min-width: 400px;
+            max-width: 500px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            margin-bottom: var(--space-6);
+        }
+
+        .profile-avatar-large {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-full);
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            font-weight: 700;
+        }
+
+        .profile-name-input {
+            flex: 1;
+        }
+
+        .profile-name-input label {
+            display: block;
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+            margin-bottom: var(--space-1);
+        }
+
+        .profile-name-input input {
+            width: 100%;
+            padding: var(--space-3);
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            border-radius: var(--radius-lg);
+            color: var(--color-text-primary);
+            font-size: var(--text-lg);
+            font-weight: 600;
+        }
+
+        .profile-section {
+            margin-bottom: var(--space-5);
+        }
+
+        .profile-section-title {
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-3);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .profile-goals {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+        }
+
+        .profile-goal-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            background: var(--color-surface-700);
+            border-radius: var(--radius-lg);
+        }
+
+        .profile-goal-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--color-primary-500);
+        }
+
+        .profile-goal-text {
+            flex: 1;
+            font-size: var(--text-sm);
+        }
+
+        .profile-goal-input {
+            flex: 1;
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-surface-600);
+            border: 1px solid var(--color-surface-500);
+            border-radius: var(--radius-md);
+            color: var(--color-text-primary);
+            font-size: var(--text-sm);
+        }
+
+        .add-goal-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            padding: var(--space-3);
+            background: transparent;
+            border: 2px dashed var(--color-surface-500);
+            border-radius: var(--radius-lg);
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .add-goal-btn:hover {
+            border-color: var(--color-primary-500);
+            color: var(--color-primary-400);
+        }
+
+        /* Mood Tracker */
+        .mood-tracker {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-4);
+        }
+
+        .mood-scale {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-2);
+        }
+
+        .mood-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-3);
+            background: var(--color-surface-700);
+            border: 2px solid var(--color-surface-500);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .mood-btn:hover {
+            border-color: var(--color-primary-400);
+            transform: translateY(-2px);
+        }
+
+        .mood-btn.selected {
+            border-color: var(--color-primary-500);
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .mood-emoji {
+            font-size: 1.5rem;
+        }
+
+        .mood-label {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+        }
+
+        .mood-notes {
+            width: 100%;
+            padding: var(--space-3);
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            border-radius: var(--radius-lg);
+            color: var(--color-text-primary);
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .mood-history {
+            margin-top: var(--space-4);
+        }
+
+        .mood-history-title {
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        .mood-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--space-1);
+        }
+
+        .mood-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            font-size: var(--text-xs);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .mood-day:hover {
+            transform: scale(1.1);
+        }
+
+        .mood-day-label {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+            text-align: center;
+            padding: var(--space-2);
+        }
+
+        .mood-level-1 { background: rgba(239, 68, 68, 0.3); }
+        .mood-level-2 { background: rgba(245, 158, 11, 0.3); }
+        .mood-level-3 { background: rgba(234, 179, 8, 0.3); }
+        .mood-level-4 { background: rgba(34, 197, 94, 0.3); }
+        .mood-level-5 { background: rgba(16, 185, 129, 0.3); }
+
+        /* Breathing Exercise */
+        .breathing-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-6);
+            padding: var(--space-6);
+        }
+
+        .breathing-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: var(--radius-full);
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-glow-primary);
+            transition: transform 4s ease-in-out;
+        }
+
+        .breathing-circle.inhale {
+            transform: scale(1.3);
+            animation: breatheIn 4s ease-in-out;
+        }
+
+        .breathing-circle.hold {
+            transform: scale(1.3);
+        }
+
+        .breathing-circle.exhale {
+            transform: scale(1);
+            animation: breatheOut 4s ease-in-out;
+        }
+
+        @keyframes breatheIn {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.3); }
+        }
+
+        @keyframes breatheOut {
+            0% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+
+        .breathing-text {
+            font-size: var(--text-2xl);
+            font-weight: 600;
+            color: white;
+            text-align: center;
+        }
+
+        .breathing-instruction {
+            font-size: var(--text-lg);
+            color: var(--color-text-secondary);
+            text-align: center;
+        }
+
+        .breathing-timer {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--color-primary-300);
+        }
+
+        .breathing-patterns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--space-2);
+            justify-content: center;
+        }
+
+        .breathing-pattern-btn {
+            padding: var(--space-2) var(--space-4);
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            border-radius: var(--radius-full);
+            color: var(--color-text-secondary);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .breathing-pattern-btn:hover,
+        .breathing-pattern-btn.active {
+            background: var(--color-primary-600);
+            border-color: var(--color-primary-400);
+            color: white;
+        }
+
+        /* Affirmations */
+        .affirmation-card {
+            background: var(--gradient-primary);
+            border-radius: var(--radius-xl);
+            padding: var(--space-8);
+            text-align: center;
+            box-shadow: var(--shadow-glow-primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .affirmation-card::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 150px;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: serif;
+        }
+
+        .affirmation-text {
+            font-size: var(--text-xl);
+            font-weight: 600;
+            color: white;
+            line-height: var(--leading-relaxed);
+            position: relative;
+            z-index: 1;
+        }
+
+        .affirmation-author {
+            margin-top: var(--space-4);
+            font-size: var(--text-sm);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .affirmation-actions {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-3);
+            margin-top: var(--space-4);
+        }
+
+        .affirmation-nav {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-2);
+            margin-top: var(--space-4);
+        }
+
+        .affirmation-nav-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            border-radius: var(--radius-full);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .affirmation-nav-btn:hover {
+            background: var(--color-surface-600);
+            color: var(--color-text-primary);
+        }
+
+        /* Gratitude Journal */
+        .gratitude-input {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .gratitude-item-input {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .gratitude-number {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            color: white;
+            font-size: var(--text-sm);
+            font-weight: 600;
+        }
+
+        .gratitude-text-input {
+            flex: 1;
+            padding: var(--space-3);
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            border-radius: var(--radius-lg);
+            color: var(--color-text-primary);
+            font-size: var(--text-base);
+        }
+
+        .gratitude-saved-list {
+            margin-top: var(--space-6);
+        }
+
+        .gratitude-saved-title {
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        .gratitude-saved-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            background: var(--color-surface-700);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-2);
+        }
+
+        .gratitude-date {
+            font-size: var(--text-xs);
+            color: var(--color-text-muted);
+        }
+
+        /* Progress Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: var(--space-4);
+        }
+
+        .dashboard-card {
+            background: var(--color-surface-800);
+            border: 1px solid var(--color-surface-600);
+            border-radius: var(--radius-xl);
+            padding: var(--space-4);
+        }
+
+        .dashboard-card-title {
+            font-size: var(--text-sm);
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-3);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .dashboard-stat {
+            display: flex;
+            align-items: baseline;
+            gap: var(--space-2);
+        }
+
+        .dashboard-stat-value {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--color-primary-300);
+        }
+
+        .dashboard-stat-label {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+
+        .emotion-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: var(--space-1);
+            height: 100px;
+            padding: var(--space-2) 0;
+        }
+
+        .emotion-bar {
+            flex: 1;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            min-height: 10px;
+            transition: height var(--transition-slow);
+        }
+
+        .streak-card {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+        }
+
+        .streak-icon {
+            font-size: 3rem;
+        }
+
+        .streak-info {
+            flex: 1;
+        }
+
+        .streak-count {
+            font-size: var(--text-3xl);
+            font-weight: 700;
+            color: var(--color-warning);
+        }
+
+        .streak-label {
+            font-size: var(--text-sm);
+            color: var(--color-text-muted);
+        }
+
+        /* Feature Tabs in Modal */
+        .feature-tabs {
+            display: flex;
+            gap: var(--space-2);
+            margin-bottom: var(--space-4);
+            border-bottom: 1px solid var(--color-surface-600);
+            padding-bottom: var(--space-2);
+        }
+
+        .feature-tab {
+            padding: var(--space-2) var(--space-4);
+            background: transparent;
+            border: none;
+            color: var(--color-text-muted);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .feature-tab:hover {
+            background: var(--color-surface-700);
+            color: var(--color-text-secondary);
+        }
+
+        .feature-tab.active {
+            background: var(--color-primary-600);
+            color: white;
+        }
+
+        .feature-content {
+            display: none;
+        }
+
+        .feature-content.active {
+            display: block;
+        }
+
+        /* Header Wellbeing Button */
+        .wellbeing-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            border-radius: var(--radius-full);
+            color: var(--color-text-secondary);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .wellbeing-btn:hover {
+            background: var(--color-surface-600);
+            border-color: var(--color-primary-400);
+            color: var(--color-primary-300);
+        }
+
+        /* Safety Check-in */
+        .checkin-prompt {
+            position: fixed;
+            bottom: var(--space-6);
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3) var(--space-4);
+            background: var(--color-surface-800);
+            border: 1px solid var(--color-primary-500);
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-glow-primary);
+            z-index: 50;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .checkin-prompt-text {
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .checkin-yes, .checkin-no {
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            font-size: var(--text-sm);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .checkin-yes {
+            background: var(--color-success);
+            color: white;
+            border: none;
+        }
+
+        .checkin-no {
+            background: transparent;
+            color: var(--color-text-muted);
+            border: 1px solid var(--color-surface-500);
+        }
+
+        .checkin-yes:hover {
+            background: var(--color-primary-500);
+        }
+
+        .checkin-no:hover {
+            border-color: var(--color-text-muted);
+            color: var(--color-text-secondary);
+        }
     </style>
 </head>
 <body>
@@ -3116,6 +3767,11 @@
                         </div>
                     </div>
                     <div class="header-actions">
+                        <!-- Wellbeing Button -->
+                        <button class="wellbeing-btn" id="wellbeingBtn">
+                            <i class="fas fa-heart"></i>
+                            <span>Umutima</span>
+                        </button>
                         <!-- Export Dropdown -->
                         <div class="dropdown" id="exportDropdown">
                             <button class="btn btn-icon btn-ghost" id="exportTrigger">
@@ -3158,8 +3814,8 @@
                         </div>
                         <h1 class="welcome-title">TYAZA</h1>
                         <p class="welcome-subtitle">igisubizo cy'umutima</p>
-                        <div class="welcome-quote">
-                            "Ndi hano. Buri mwanya, buri jambo —<br>
+                        <div class="welcome-quote" id="welcomeQuote">
+                            "Ndi hano kugira nkugire. Buri mwanya, buri jambo —<br>
                             byakiriwe mu mahoro n'igondero."
                         </div>
                         <div class="welcome-suggestions">
@@ -3233,7 +3889,265 @@
 
         <!-- Toast Container -->
         <div class="toast-container" id="toastContainer"></div>
-        
+
+        <!-- Wellbeing Modal -->
+        <div class="modal-backdrop" id="wellbeingModal">
+            <div class="modal active profile-modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">💝 Ubuzima bw'Umutima</h3>
+                    <button class="modal-close" id="wellbeingClose">&times;</button>
+                </div>
+
+                <div class="feature-tabs">
+                    <button class="feature-tab active" data-tab="profile">
+                        <i class="fas fa-user"></i> Profile
+                    </button>
+                    <button class="feature-tab" data-tab="mood">
+                        <i class="fas fa-smile"></i> Imimerere
+                    </button>
+                    <button class="feature-tab" data-tab="breathing">
+                        <i class="fas fa-wind"></i> Impessaha
+                    </button>
+                    <button class="feature-tab" data-tab="affirmation">
+                        <i class="fas fa-star"></i> Ibyiringitungo
+                    </button>
+                    <button class="feature-tab" data-tab="gratitude">
+                        <i class="fas fa-heart"></i> Ibyishimo
+                    </button>
+                    <button class="feature-tab" data-tab="progress">
+                        <i class="fas fa-chart-line"></i> Ibitekerezo
+                    </button>
+                </div>
+
+                <!-- Profile Tab -->
+                <div class="feature-content active" id="tab-profile">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large" id="profileAvatar">J</div>
+                        <div class="profile-name-input">
+                            <label>Izina ryawe</label>
+                            <input type="text" id="userNameInput" placeholder="Injira izina ryawe...">
+                        </div>
+                    </div>
+
+                    <div class="profile-section">
+                        <div class="profile-section-title">
+                            <i class="fas fa-bullseye"></i> Ibite goals byawe
+                        </div>
+                        <div class="profile-goals" id="profileGoals">
+                            <div class="profile-goal-item">
+                                <input type="checkbox" checked disabled>
+                                <span class="profile-goal-text">Kuvuga neza ku byanjye</span>
+                            </div>
+                            <div class="profile-goal-item">
+                                <input type="checkbox" checked disabled>
+                                <span class="profile-goal-text">Kwigira impuhwe</span>
+                            </div>
+                            <div class="profile-goal-item">
+                                <input type="checkbox" checked disabled>
+                                <span class="profile-goal-text">Kugira amahoro</span>
+                            </div>
+                        </div>
+                        <button class="add-goal-btn" id="addGoalBtn">
+                            <i class="fas fa-plus"></i> Ongeraho goal
+                        </button>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" id="saveProfileBtn">
+                        <i class="fas fa-save"></i> Bika Profile
+                    </button>
+                </div>
+
+                <!-- Mood Tab -->
+                <div class="feature-content" id="tab-mood">
+                    <div class="mood-tracker">
+                        <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">
+                            Ubu umerera gute? Hitamo ikomere yemerera:
+                        </p>
+
+                        <div class="mood-scale" id="moodScale">
+                            <button class="mood-btn" data-mood="1">
+                                <span class="mood-emoji">😢</span>
+                                <span class="mood-label">Byacye</span>
+                            </button>
+                            <button class="mood-btn" data-mood="2">
+                                <span class="mood-emoji">😔</span>
+                                <span class="mood-label">Ntacyo</span>
+                            </button>
+                            <button class="mood-btn" data-mood="3">
+                                <span class="mood-emoji">😐</span>
+                                <span class="mood-label">Harinkomeye</span>
+                            </button>
+                            <button class="mood-btn" data-mood="4">
+                                <span class="mood-emoji">🙂</span>
+                                <span class="mood-label">Ni meza</span>
+                            </button>
+                            <button class="mood-btn" data-mood="5">
+                                <span class="mood-emoji">😊</span>
+                                <span class="mood-label">Neza cyane</span>
+                            </button>
+                        </div>
+
+                        <textarea class="mood-notes" id="moodNotes" placeholder="Andika icyo uhererwa... (ikinywereri)"></textarea>
+
+                        <button class="btn btn-primary btn-block" id="saveMoodBtn">
+                            <i class="fas fa-save"></i> Bika Imimerere
+                        </button>
+
+                        <div class="mood-history">
+                            <div class="mood-history-title">Imimerere y'icyumweru</div>
+                            <div class="mood-calendar" id="moodCalendar">
+                                <!-- Generated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Breathing Tab -->
+                <div class="feature-content" id="tab-breathing">
+                    <div class="breathing-container">
+                        <div class="breathing-patterns">
+                            <button class="breathing-pattern-btn active" data-pattern="4-7-8">4-7-8</button>
+                            <button class="breathing-pattern-btn" data-pattern="4-4-4">4-4-4</button>
+                            <button class="breathing-pattern-btn" data-pattern="5-5-5">5-5-5</button>
+                            <button class="breathing-pattern-btn" data-pattern="box">Box</button>
+                        </div>
+
+                        <div class="breathing-circle" id="breathingCircle">
+                            <div class="breathing-text" id="breathingText">Bite</div>
+                        </div>
+
+                        <div class="breathing-timer" id="breathingTimer">0</div>
+
+                        <div class="breathing-instruction" id="breathingInstruction">
+                            Kanda "Banzerereze" wishakiye gutangira
+                        </div>
+
+                        <button class="btn btn-primary btn-lg" id="startBreathingBtn">
+                            <i class="fas fa-play"></i> Banzerereze
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Affirmation Tab -->
+                <div class="feature-content" id="tab-affirmation">
+                    <div class="affirmation-card" id="affirmationCard">
+                        <div class="affirmation-text" id="affirmationText">
+                            "Ndi uwizeye kugira nibura ibitego bimwe mu buzima"
+                        </div>
+                        <div class="affirmation-author" id="affirmationAuthor">
+                            — TYAZA
+                        </div>
+                    </div>
+
+                    <div class="affirmation-actions">
+                        <button class="btn btn-secondary" id="speakAffirmationBtn">
+                            <i class="fas fa-volume-up"></i> Soma
+                        </button>
+                        <button class="btn btn-secondary" id="shareAffirmationBtn">
+                            <i class="fas fa-share"></i> Bagirane
+                        </button>
+                    </div>
+
+                    <div class="affirmation-nav">
+                        <button class="affirmation-nav-btn" id="prevAffirmation">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span id="affirmationIndex" style="display: flex; align-items: center; color: var(--color-text-muted);">1 / 10</span>
+                        <button class="affirmation-nav-btn" id="nextAffirmation">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Gratitude Tab -->
+                <div class="feature-content" id="tab-gratitude">
+                    <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">
+                        Hambere nibuka bimwe ushaka kugaragariza ikigira cy'umutima:
+                    </p>
+
+                    <div class="gratitude-input" id="gratitudeInput">
+                        <div class="gratitude-item-input">
+                            <div class="gratitude-number">1</div>
+                            <input type="text" class="gratitude-text-input" id="gratitude1" placeholder="Icyo ushaka kugaragariza...">
+                        </div>
+                        <div class="gratitude-item-input">
+                            <div class="gratitude-number">2</div>
+                            <input type="text" class="gratitude-text-input" id="gratitude2" placeholder="Icyo ushaka kugaragariza...">
+                        </div>
+                        <div class="gratitude-item-input">
+                            <div class="gratitude-number">3</div>
+                            <input type="text" class="gratitude-text-input" id="gratitude3" placeholder="Icyo ushaka kugaragariza...">
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" id="saveGratitudeBtn" style="margin-top: var(--space-4);">
+                        <i class="fas fa-save"></i> Bika Ibyishimo
+                    </button>
+
+                    <div class="gratitude-saved-list" id="gratitudeSavedList">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+
+                <!-- Progress Tab -->
+                <div class="feature-content" id="tab-progress">
+                    <div class="dashboard-grid">
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-title">
+                                <i class="fas fa-fire"></i> Imitsindo
+                            </div>
+                            <div class="streak-card">
+                                <div class="streak-icon">🔥</div>
+                                <div class="streak-info">
+                                    <div class="streak-count" id="streakCount">0</div>
+                                    <div class="streak-label">iminsi</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-title">
+                                <i class="fas fa-comments"></i> Ibibazo
+                            </div>
+                            <div class="dashboard-stat">
+                                <span class="dashboard-stat-value" id="totalMessages">0</span>
+                                <span class="dashboard-stat-label">byavuzwe</span>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-title">
+                                <i class="fas fa-smile"></i> Imimerere
+                            </div>
+                            <div class="dashboard-stat">
+                                <span class="dashboard-stat-value" id="avgMood">-</span>
+                                <span class="dashboard-stat-label">averaje</span>
+                            </div>
+                        </div>
+
+                        <div class="dashboard-card">
+                            <div class="dashboard-card-title">
+                                <i class="fas fa-heart"></i> Ibyishimo
+                            </div>
+                            <div class="dashboard-stat">
+                                <span class="dashboard-stat-value" id="gratitudeCount">0</span>
+                                <span class="dashboard-stat-label">byabitswe</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card" style="margin-top: var(--space-4);">
+                        <div class="dashboard-card-title">
+                            <i class="fas fa-chart-area"></i> Imimerere y'icyumweru
+                        </div>
+                        <div class="emotion-chart" id="emotionChart">
+                            <!-- Generated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Hidden File Input for Import -->
         <input type="file" id="importFile" accept=".json,.txt,.tyaza,.html,.csv" style="display: none;">
     </div>
@@ -3437,6 +4351,13 @@
                             const parsed = JSON.parse(saved);
                             this.state.settings = { ...this.state.settings, ...parsed };
                         }
+                        // Load user data
+                        const userData = localStorage.getItem('tyaza_userdata');
+                        if (userData) this.state.userData = JSON.parse(userData);
+                        const moodData = localStorage.getItem('tyaza_mooddata');
+                        if (moodData) this.state.moodData = JSON.parse(moodData);
+                        const gratitudeData = localStorage.getItem('tyaza_gratitude');
+                        if (gratitudeData) this.state.gratitudeData = JSON.parse(gratitudeData);
                     } catch (e) {
                         console.warn('Failed to load settings:', e);
                     }
@@ -3445,6 +4366,9 @@
                 saveSettings() {
                     try {
                         localStorage.setItem('tyaza_settings_v3', JSON.stringify(this.state.settings));
+                        if (this.state.userData) localStorage.setItem('tyaza_userdata', JSON.stringify(this.state.userData));
+                        if (this.state.moodData) localStorage.setItem('tyaza_mooddata', JSON.stringify(this.state.moodData));
+                        if (this.state.gratitudeData) localStorage.setItem('tyaza_gratitude', JSON.stringify(this.state.gratitudeData));
                     } catch (e) {
                         console.warn('Failed to save settings:', e);
                     }
@@ -4171,6 +5095,436 @@
                     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
                 }
             };
+
+            // ============================================================
+            // PERSONALIZATION & WELLBEING FEATURES
+            // ============================================================
+
+            const WellbeingFeatures = {
+                affirmations: [
+                    "Ndi uwizeye kugira nibura ibitego bimwe mu buzima",
+                    "Ndemerewe kuba mfite agaciro mu buzima",
+                    "Nshobora guhindura ibintu binyuranye",
+                    "Ndi uwizeye kwigira amahoro",
+                    "Nshobora guhangana n'ibibazo byose",
+                    "Ndi uwizeye kugira umutima utahawe",
+                    "Nshobora kugira umushinga wuzuye",
+                    "Ndi uwizeye mu buzima bwanjye",
+                    "Nshobora gufata ib决定 zuzwe",
+                    "Ndi uwizeye kugira ibyiringitungo"
+                ],
+
+                currentAffirmationIndex: 0,
+                isBreathing: false,
+                breathingInterval: null,
+                currentPattern: '4-7-8',
+                patterns: {
+                    '4-7-8': { inhale: 4, hold: 7, exhale: 8 },
+                    '4-4-4': { inhale: 4, hold: 4, exhale: 4 },
+                    '5-5-5': { inhale: 5, hold: 5, exhale: 5 },
+                    'box': { inhale: 4, hold: 4, exhale: 4, holdAfter: 4 }
+                },
+
+                init() {
+                    this.cacheElements();
+                    this.bindEvents();
+                    this.loadUserData();
+                    this.renderMoodCalendar();
+                    this.updateDashboard();
+                    this.startSafetyCheckins();
+                },
+
+                cacheElements() {
+                    this.elements = {
+                        wellbeingBtn: document.getElementById('wellbeingBtn'),
+                        wellbeingModal: document.getElementById('wellbeingModal'),
+                        wellbeingClose: document.getElementById('wellbeingClose'),
+                        profileAvatar: document.getElementById('profileAvatar'),
+                        userNameInput: document.getElementById('userNameInput'),
+                        profileGoals: document.getElementById('profileGoals'),
+                        addGoalBtn: document.getElementById('addGoalBtn'),
+                        saveProfileBtn: document.getElementById('saveProfileBtn'),
+                        moodScale: document.getElementById('moodScale'),
+                        moodNotes: document.getElementById('moodNotes'),
+                        saveMoodBtn: document.getElementById('saveMoodBtn'),
+                        moodCalendar: document.getElementById('moodCalendar'),
+                        breathingCircle: document.getElementById('breathingCircle'),
+                        breathingText: document.getElementById('breathingText'),
+                        breathingTimer: document.getElementById('breathingTimer'),
+                        breathingInstruction: document.getElementById('breathingInstruction'),
+                        startBreathingBtn: document.getElementById('startBreathingBtn'),
+                        affirmationCard: document.getElementById('affirmationCard'),
+                        affirmationText: document.getElementById('affirmationText'),
+                        affirmationAuthor: document.getElementById('affirmationAuthor'),
+                        affirmationIndex: document.getElementById('affirmationIndex'),
+                        prevAffirmation: document.getElementById('prevAffirmation'),
+                        nextAffirmation: document.getElementById('nextAffirmation'),
+                        speakAffirmationBtn: document.getElementById('speakAffirmationBtn'),
+                        shareAffirmationBtn: document.getElementById('shareAffirmationBtn'),
+                        gratitude1: document.getElementById('gratitude1'),
+                        gratitude2: document.getElementById('gratitude2'),
+                        gratitude3: document.getElementById('gratitude3'),
+                        saveGratitudeBtn: document.getElementById('saveGratitudeBtn'),
+                        gratitudeSavedList: document.getElementById('gratitudeSavedList'),
+                        streakCount: document.getElementById('streakCount'),
+                        totalMessages: document.getElementById('totalMessages'),
+                        avgMood: document.getElementById('avgMood'),
+                        gratitudeCount: document.getElementById('gratitudeCount'),
+                        emotionChart: document.getElementById('emotionChart')
+                    };
+                },
+
+                bindEvents() {
+                    this.elements.wellbeingBtn?.addEventListener('click', () => this.openModal());
+                    this.elements.wellbeingClose?.addEventListener('click', () => this.closeModal());
+                    this.elements.wellbeingModal?.addEventListener('click', (e) => {
+                        if (e.target === this.elements.wellbeingModal) this.closeModal();
+                    });
+
+                    document.querySelectorAll('.feature-tab').forEach(tab => {
+                        tab.addEventListener('click', () => this.switchTab(tab.dataset.tab));
+                    });
+
+                    this.elements.saveProfileBtn?.addEventListener('click', () => this.saveProfile());
+                    this.elements.userNameInput?.addEventListener('input', (e) => {
+                        const initial = e.target.value.charAt(0).toUpperCase() || 'J';
+                        this.elements.profileAvatar.textContent = initial;
+                    });
+                    this.elements.addGoalBtn?.addEventListener('click', () => this.addGoal());
+
+                    document.querySelectorAll('.mood-btn').forEach(btn => {
+                        btn.addEventListener('click', () => this.selectMood(btn));
+                    });
+                    this.elements.saveMoodBtn?.addEventListener('click', () => this.saveMood());
+
+                    document.querySelectorAll('.breathing-pattern-btn').forEach(btn => {
+                        btn.addEventListener('click', () => this.selectPattern(btn));
+                    });
+                    this.elements.startBreathingBtn?.addEventListener('click', () => this.toggleBreathing());
+
+                    this.elements.prevAffirmation?.addEventListener('click', () => this.prevAffirmation());
+                    this.elements.nextAffirmation?.addEventListener('click', () => this.nextAffirmation());
+                    this.elements.speakAffirmationBtn?.addEventListener('click', () => this.speakAffirmation());
+                    this.elements.shareAffirmationBtn?.addEventListener('click', () => this.shareAffirmation());
+
+                    this.elements.saveGratitudeBtn?.addEventListener('click', () => this.saveGratitude());
+                },
+
+                loadUserData() {
+                    const userData = StateManager.get('userData') || {};
+                    if (userData.name) {
+                        this.elements.userNameInput.value = userData.name;
+                        this.elements.profileAvatar.textContent = userData.name.charAt(0).toUpperCase();
+                        // Update welcome quote with personalized greeting
+                        const welcomeQuote = document.getElementById('welcomeQuote');
+                        if (welcomeQuote) {
+                            welcomeQuote.innerHTML = `"${userData.name}, ndi hano kugira nkugire. Buri mwanya, buri jambo —<br>byakiriwe mu mahoro n'igondero."`;
+                        }
+                    }
+                    this.renderGratitudeList();
+                },
+
+                openModal() {
+                    this.elements.wellbeingModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                },
+
+                closeModal() {
+                    this.elements.wellbeingModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                    if (this.isBreathing) this.stopBreathing();
+                },
+
+                switchTab(tabName) {
+                    document.querySelectorAll('.feature-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelector(`.feature-tab[data-tab="${tabName}"]`)?.classList.add('active');
+                    document.querySelectorAll('.feature-content').forEach(c => c.classList.remove('active'));
+                    document.getElementById(`tab-${tabName}`)?.classList.add('active');
+                    if (tabName === 'progress') this.updateDashboard();
+                },
+
+                saveProfile() {
+                    const name = this.elements.userNameInput.value.trim();
+                    if (!name) {
+                        ToastService.info('Injira izina ryawe');
+                        return;
+                    }
+                    const userData = StateManager.get('userData') || {};
+                    userData.name = name;
+                    StateManager.set('userData', userData);
+                    StateManager.saveSettings();
+                    ToastService.success('Profile yabitswe!');
+                },
+
+                addGoal() {
+                    const goalItem = document.createElement('div');
+                    goalItem.className = 'profile-goal-item';
+                    goalItem.innerHTML = `<input type="checkbox"><input type="text" class="profile-goal-input" placeholder="Goal nshya...">`;
+                    this.elements.profileGoals.appendChild(goalItem);
+                    goalItem.querySelector('input[type="text"]').focus();
+                },
+
+                selectedMood: null,
+
+                selectMood(btn) {
+                    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    this.selectedMood = parseInt(btn.dataset.mood);
+                },
+
+                saveMood() {
+                    if (!this.selectedMood) {
+                        ToastService.info('Hitamo imimerere yawe');
+                        return;
+                    }
+                    const notes = this.elements.moodNotes.value.trim();
+                    const moodData = StateManager.get('moodData') || [];
+                    moodData.push({ mood: this.selectedMood, notes: notes, timestamp: Date.now() });
+                    StateManager.set('moodData', moodData);
+                    StateManager.saveSettings();
+                    ToastService.success('Imimerere yabitswe!');
+                    this.renderMoodCalendar();
+                    this.elements.moodNotes.value = '';
+                    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+                    this.selectedMood = null;
+                },
+
+                renderMoodCalendar() {
+                    const moodData = StateManager.get('moodData') || [];
+                    const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+                    let html = days.map(d => `<div class="mood-day-label">${d}</div>`).join('');
+
+                    for (let i = 27; i >= 0; i--) {
+                        const date = new Date();
+                        date.setDate(date.getDate() - i);
+                        const dayStart = new Date(date.setHours(0, 0, 0, 0)).getTime();
+                        const dayEnd = new Date(date.setHours(23, 59, 59, 999)).getTime();
+                        const dayMoods = moodData.filter(m => m.timestamp >= dayStart && m.timestamp <= dayEnd);
+                        const avgMood = dayMoods.length > 0 ? Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods.length) : 0;
+                        html += `<div class="mood-day mood-level-${avgMood}" title="${date.toLocaleDateString('rw-RW')}: ${avgMood || 'nta mimerere'}">${date.getDate()}</div>`;
+                    }
+                    this.elements.moodCalendar.innerHTML = html;
+                },
+
+                selectPattern(btn) {
+                    document.querySelectorAll('.breathing-pattern-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    this.currentPattern = btn.dataset.pattern;
+                },
+
+                toggleBreathing() {
+                    if (this.isBreathing) this.stopBreathing();
+                    else this.startBreathing();
+                },
+
+                startBreathing() {
+                    this.isBreathing = true;
+                    this.elements.startBreathingBtn.innerHTML = '<i class="fas fa-stop"></i> Reya';
+                    this.elements.startBreathingBtn.classList.add('btn-secondary');
+                    this.elements.startBreathingBtn.classList.remove('btn-primary');
+
+                    const pattern = this.patterns[this.currentPattern];
+                    let phase = 'inhale';
+                    let count = pattern.inhale;
+                    let cycleCount = 0;
+
+                    this.runBreathingPhase(pattern, phase, count);
+
+                    this.breathingInterval = setInterval(() => {
+                        count--;
+                        this.elements.breathingTimer.textContent = count;
+                        if (count <= 0) {
+                            cycleCount++;
+                            if (cycleCount >= 4) {
+                                this.stopBreathing();
+                                ToastService.success('Uracyumva neza! Murakoze.');
+                                return;
+                            }
+                            if (phase === 'inhale') {
+                                phase = pattern.hold ? 'hold' : 'exhale';
+                                count = pattern.hold || pattern.exhale;
+                            } else if (phase === 'hold') {
+                                phase = 'exhale';
+                                count = pattern.exhale;
+                            } else if (phase === 'exhale') {
+                                phase = 'inhale';
+                                count = pattern.inhale;
+                            }
+                            this.runBreathingPhase(pattern, phase, count);
+                        }
+                    }, 1000);
+                },
+
+                runBreathingPhase(pattern, phase, count) {
+                    this.elements.breathingCircle.className = 'breathing-circle';
+                    if (phase === 'inhale') {
+                        this.elements.breathingCircle.classList.add('inhale');
+                        this.elements.breathingText.textContent = 'Fata umwuka';
+                        this.elements.breathingInstruction.textContent = `Fata umwuka wo mu mfabiko (${count}s)`;
+                    } else if (phase === 'hold') {
+                        this.elements.breathingCircle.classList.add('hold');
+                        this.elements.breathingText.textContent = 'Bika';
+                        this.elements.breathingInstruction.textContent = `Bika umwuka (${count}s)`;
+                    } else if (phase === 'exhale') {
+                        this.elements.breathingCircle.classList.add('exhale');
+                        this.elements.breathingText.textContent = 'Fungura';
+                        this.elements.breathingInstruction.textContent = `Fungura umwuka (${count}s)`;
+                    }
+                    this.elements.breathingTimer.textContent = count;
+                },
+
+                stopBreathing() {
+                    this.isBreathing = false;
+                    if (this.breathingInterval) { clearInterval(this.breathingInterval); this.breathingInterval = null; }
+                    this.elements.startBreathingBtn.innerHTML = '<i class="fas fa-play"></i> Banzerereze';
+                    this.elements.startBreathingBtn.classList.remove('btn-secondary');
+                    this.elements.startBreathingBtn.classList.add('btn-primary');
+                    this.elements.breathingCircle.className = 'breathing-circle';
+                    this.elements.breathingText.textContent = 'Bite';
+                    this.elements.breathingInstruction.textContent = 'Kanda "Banzerereze" wishakiye gutangira';
+                    this.elements.breathingTimer.textContent = '0';
+                },
+
+                prevAffirmation() {
+                    this.currentAffirmationIndex = (this.currentAffirmationIndex - 1 + this.affirmations.length) % this.affirmations.length;
+                    this.updateAffirmation();
+                },
+
+                nextAffirmation() {
+                    this.currentAffirmationIndex = (this.currentAffirmationIndex + 1) % this.affirmations.length;
+                    this.updateAffirmation();
+                },
+
+                updateAffirmation() {
+                    this.elements.affirmationText.textContent = `"${this.affirmations[this.currentAffirmationIndex]}"`;
+                    this.elements.affirmationIndex.textContent = `${this.currentAffirmationIndex + 1} / ${this.affirmations.length}`;
+                },
+
+                speakAffirmation() {
+                    SpeechService.speak(this.affirmations[this.currentAffirmationIndex]);
+                },
+
+                shareAffirmation() {
+                    const text = this.affirmations[this.currentAffirmationIndex];
+                    if (navigator.share) { navigator.share({ text: text + ' — TYAZA' }); }
+                    else { navigator.clipboard.writeText(text + ' — TYAZA'); ToastService.success('Ibyiringitungo byakiriwe!'); }
+                },
+
+                saveGratitude() {
+                    const items = [this.elements.gratitude1.value.trim(), this.elements.gratitude2.value.trim(), this.elements.gratitude3.value.trim()].filter(i => i);
+                    if (items.length === 0) { ToastService.info('Andika ibintu ushaka kugaragariza'); return; }
+                    const gratitudeData = StateManager.get('gratitudeData') || [];
+                    gratitudeData.push({ items: items, timestamp: Date.now() });
+                    StateManager.set('gratitudeData', gratitudeData);
+                    StateManager.saveSettings();
+                    ToastService.success('Ibyishimo byabitswe!');
+                    this.elements.gratitude1.value = ''; this.elements.gratitude2.value = ''; this.elements.gratitude3.value = '';
+                    this.renderGratitudeList();
+                    this.updateDashboard();
+                },
+
+                renderGratitudeList() {
+                    const gratitudeData = StateManager.get('gratitudeData') || [];
+                    if (gratitudeData.length === 0) { this.elements.gratitudeSavedList.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Nta byishimo bitarahishwa</p>'; return; }
+                    const recent = gratitudeData.slice(-5).reverse();
+                    let html = '<div class="gratitude-saved-title">Ibyishimo biheruka</div>';
+                    recent.forEach(g => {
+                        const date = new Date(g.timestamp).toLocaleDateString('rw-RW', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+                        html += `<div class="gratitude-saved-item"><div><div class="gratitude-date">${date}</div>${g.items.map(i => `<div style="font-size: var(--text-sm); color: var(--color-text-secondary);">• ${i}</div>`).join('')}</div></div>`;
+                    });
+                    this.elements.gratitudeSavedList.innerHTML = html;
+                },
+
+                updateDashboard() {
+                    const moodData = StateManager.get('moodData') || [];
+                    const gratitudeData = StateManager.get('gratitudeData') || [];
+
+                    let streak = 0;
+                    const today = new Date(); today.setHours(0, 0, 0, 0);
+                    for (let i = 0; i < 30; i++) {
+                        const checkDate = new Date(today); checkDate.setDate(checkDate.getDate() - i);
+                        const dayStart = checkDate.getTime(); const dayEnd = dayStart + 86400000;
+                        const hasActivity = moodData.some(m => m.timestamp >= dayStart && m.timestamp < dayEnd) || gratitudeData.some(g => g.timestamp >= dayStart && g.timestamp < dayEnd);
+                        if (hasActivity) streak++;
+                        else if (i > 0) break;
+                    }
+
+                    this.elements.streakCount.textContent = streak;
+                    this.elements.totalMessages.textContent = moodData.length + gratitudeData.length;
+
+                    if (moodData.length > 0) {
+                        const avg = Math.round(moodData.reduce((a, b) => a + b.mood, 0) / moodData.length);
+                        const moods = ['', '😢', '😔', '😐', '🙂', '😊'];
+                        this.elements.avgMood.textContent = moods[avg] || '-';
+                    }
+
+                    this.elements.gratitudeCount.textContent = gratitudeData.length;
+                    this.renderEmotionChart(moodData);
+                },
+
+                renderEmotionChart(moodData) {
+                    const days = [];
+                    for (let i = 6; i >= 0; i--) {
+                        const date = new Date(); date.setDate(date.getDate() - i); date.setHours(0, 0, 0, 0);
+                        const dayStart = date.getTime(); const dayEnd = dayStart + 86400000;
+                        const dayMoods = moodData.filter(m => m.timestamp >= dayStart && m.timestamp < dayEnd);
+                        const avg = dayMoods.length > 0 ? dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods.length : 0;
+                        days.push(avg);
+                    }
+                    const maxMood = Math.max(...days, 5);
+                    let html = '';
+                    const dayNames = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+                    days.forEach((mood, i) => {
+                        const height = mood ? (mood / maxMood) * 80 + 10 : 5;
+                        html += `<div style="display: flex; flex-direction: column; align-items: center; gap: 4px;"><div class="emotion-bar" style="height: ${height}px;"></div><span style="font-size: 10px; color: var(--color-text-muted);">${dayNames[(new Date().getDay() - 6 + i + 7) % 7]}</span></div>`;
+                    });
+                    this.elements.emotionChart.innerHTML = html;
+                },
+
+                // Safety Check-in
+                checkinInterval: null,
+
+                startSafetyCheckins() {
+                    // Check in every 15 minutes
+                    this.checkinInterval = setInterval(() => {
+                        this.showCheckinPrompt();
+                    }, 15 * 60 * 1000);
+                },
+
+                showCheckinPrompt() {
+                    if (document.getElementById('checkinPrompt')) return;
+
+                    const prompt = document.createElement('div');
+                    prompt.id = 'checkinPrompt';
+                    prompt.className = 'checkin-prompt';
+                    prompt.innerHTML = `
+                        <span class="checkin-prompt-text">Wumva ute none?</span>
+                        <button class="checkin-yes" id="checkinYes">Neza</button>
+                        <button class="checkin-no" id="checkinNo">Ntabishoboye</button>
+                    `;
+
+                    document.body.appendChild(prompt);
+
+                    prompt.querySelector('#checkinYes').onclick = () => {
+                        prompt.remove();
+                        ToastService.success('Murakoze! Kinyarwanda ukomeza.');
+                    };
+
+                    prompt.querySelector('#checkinNo').onclick = () => {
+                        prompt.remove();
+                        CrisisResources.showCrisisAlert();
+                    };
+
+                    // Auto-dismiss after 30 seconds
+                    setTimeout(() => {
+                        if (document.getElementById('checkinPrompt')) {
+                            prompt.remove();
+                        }
+                    }, 30000);
+                }
+            };
+
+            window.WellbeingFeatures = WellbeingFeatures;
 
             // ============================================================
             // CRISIS RESOURCES
@@ -5598,6 +6952,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     CrisisResources.init();
                     EmotionalAnalytics.init();
                     MeditationLibrary.init();
+                    WellbeingFeatures.init();
                     
                     VoiceVisualizer.init();
                     
