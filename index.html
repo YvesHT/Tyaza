@@ -3818,11 +3818,12 @@
                         </div>
                         <div class="info-card-divider"></div>
                         <div class="info-card-title" style="font-size: var(--text-xs);">
-                            🤖 TYAZA v3.0
+                            🤖 TYAZA v1.0
                         </div>
                         <div>Umuvugizi w'Umutima — AI therapy mu Kinyarwanda</div>
                         <div class="info-card-footer">
-                            © 2025 Kivura Labs · Rwanda
+                            © 2026 Kivura Labs · Rwanda<br>
+                            <span style="font-size: 10px; color: var(--color-text-muted);">Yves HIRWA TUYISHIME - CEO</span>
                         </div>
                     </div>
                 </div>
@@ -5818,7 +5819,7 @@
                 },
 
                 // Clinical Disclaimer
-                disclaimer: '⚕️ TYAZA: Igikoresho cyo gufasha, ntabwo ari ubuvuzi. Reba umuvuzi niba ukeneye ubufasha.',
+                disclaimer: '',
 
                 init() {
                     this.bindEvents();
@@ -7165,6 +7166,7 @@ KIVURA LABS:
 - Kivura Labs ni isosiyete ikora ubushakashatsi mu by'ubwenge bw'ikoranabuhanga (AI) ifite icyicaro i Rwanda
 - Ikora ibijyanye na Mental Health, Voice Technology, na Local Language Computing
 - Intego yayo: gufasha abantu babana n'ibibazo by'umutekano mu mutwe binyuze mu ikoranabuhanga
+- CEO: Yves HIRWA TUYISHIME
 
 TYAZA:
 - Uri AI virtual therapy assistant
@@ -7205,11 +7207,18 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 async sendMessage(messages) {
                     const isReady = await this.checkConnection();
                     
+                    // Get user's name for personalized context
+                    const userData = StateManager.get('userData') || {};
+                    const userName = userData.name || 'User';
+                    
+                    // Add user name to system context
+                    const personalizedContext = this.systemContext.replace('Wowe uri Tyaza', `Umukiriya wawe ni ${userName}. Wowe uri Tyaza`);
+                    
                     if (isReady && window.puter?.ai) {
                         try {
                             const model = StateManager.get('settings.model');
                             const response = await window.puter.ai.chat([
-                                { role: 'system', content: this.systemContext },
+                                { role: 'system', content: personalizedContext },
                                 ...messages.slice(-10)
                             ], {
                                 model: model,
@@ -7366,7 +7375,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     const time = formatMessageTime();
                     
                     messageDiv.innerHTML = `
-                        <div class="message-avatar">${role === 'user' ? '👤' : '<img src="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'44\' height=\'44\' viewBox=\'0 0 44 44\'%3E%3Crect width=\'44\' height=\'44\' rx=\'12\' fill=\'url(%23gradient)\'/%3E%3Cdefs%3E%3ClinearGradient id=\'gradient\' x1=\'0%25\' y1=\'0%25\' x2=\'100%25\' y2=\'100%25\'%3E%3Cstop offset=\'0%25\' stop-color=\'%238b5cf6\'/%3E%3Cstop offset=\'100%25\' stop-color=\'%23ec4899\'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x=\'22\' y=\'30\' font-size=\'24\' text-anchor=\'middle\' fill=\'white\' font-family=\'Arial\'%3ET%3C/text%3E%3C/svg%3E" alt="TYAZA">'}</div>
+                        <div class="message-avatar">${role === 'user' ? '👤' : '<img src="tyaza-logo.png" alt="TYAZA">'}</div>%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'44\' height=\'44\' viewBox=\'0 0 44 44\'%3E%3Crect width=\'44\' height=\'44\' rx=\'12\' fill=\'url(%23gradient)\'/%3E%3Cdefs%3E%3ClinearGradient id=\'gradient\' x1=\'0%25\' y1=\'0%25\' x2=\'100%25\' y2=\'100%25\'%3E%3Cstop offset=\'0%25\' stop-color=\'%238b5cf6\'/%3E%3Cstop offset=\'100%25\' stop-color=\'%23ec4899\'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x=\'22\' y=\'30\' font-size=\'24\' text-anchor=\'middle\' fill=\'white\' font-family=\'Arial\'%3ET%3C/text%3E%3C/svg%3E" alt="TYAZA">'}</div>
                         <div class="message-content">
                             <div class="message-bubble" id="bubble-${messageId}">
                                 ${formatMessageContent(content)}
@@ -7386,11 +7395,6 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                                     ` : ''}
                                 </div>
                             </div>
-                            ${role === 'assistant' ? `
-                                <div class="clinical-disclaimer" style="font-size: var(--text-xs); color: var(--color-text-muted); padding: var(--space-2); margin-top: var(--space-2); border-top: 1px solid var(--color-surface-600);">
-                                    ⚕️ TYAZA: Igikoresho cyo gufasha, ntabwo ari ubuvuzi. Reba umuvuzi niba ukeneye ubufasha.
-                                </div>
-                            ` : ''}
                         </div>
                     `;
 
