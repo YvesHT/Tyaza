@@ -5648,6 +5648,516 @@
             };
 
             // ============================================================
+            // CLINICAL EVIDENCE - Evidence-Based Frameworks
+            // ============================================================
+
+            const ClinicalEvidence = {
+                // Evidence-Based Response Templates
+                frameworks: {
+                    CBT: {
+                        name: 'Cognitive Behavioral Therapy',
+                        techniques: {
+                            cognitiveRestructuring: {
+                                pattern: /(always|never|everyone|nobody|terrible|horrible|can't stand|ntabwo|biragaragara)/i,
+                                response: 'Nabonye ko ukoresha ijambo ry\'urugomo. Ese hari ikindi wabona uko wabisobanura?',
+                                framework: 'Beck Institute CBT'
+                            },
+                            behavioralActivation: {
+                                pattern: /(ntagifite imbaraga|sinashobora gukora|ntacyo nshobora|ntabwo mpashwa)/i,
+                                response: 'Igihe tuba dufite ibintu byinshi, biduhenda. Ese hari igikorwa gito wakora uyu munsi?',
+                                framework: 'Lewinsohn\'s Behavioral Activation'
+                            }
+                        }
+                    },
+                    DBT: {
+                        name: 'Dialectical Behavior Therapy',
+                        techniques: {
+                            distressTolerance: {
+                                pattern: /(ntakibazo|sinakimara|ndashaka guhita|ntacyo)/i,
+                                response: 'Ibi bimeze nk\'umuyaga ukaze - uraza kandi uragenda. Reka turebe uko twakira iki gihe...',
+                                framework: 'Marsha Linehan\'s DBT'
+                            },
+                            emotionRegulation: {
+                                pattern: /(ndarakaye|ndababaye|ndatinya cyane|uburakari)/i,
+                                response: 'Uyu murandasi ufite izina. Reka tumwereke umwanya...',
+                                framework: 'Linehan\'s Emotion Regulation Model'
+                            }
+                        }
+                    },
+                    MI: {
+                        name: 'Motivational Interviewing',
+                        techniques: {
+                            changeTalk: {
+                                pattern: /(ndashaka guhindura|nkeneye ubufasha|nabikoze|ndashaka)/i,
+                                response: 'Ni iki cyagufasha gutera intambwe? Mbese wabona uko...',
+                                framework: 'Miller & Rollnick'
+                            },
+                            sustainTalk: {
+                                pattern: /(ntabwo bishoboka|byananiranye|ntacyo bimaze|ntashobora)/i,
+                                response: 'Ndumva ko ufite impungenge. Icyakora, hari ibyo wabona ukuntu byahinduka...',
+                                framework: 'Miller & Rollnick'
+                            }
+                        }
+                    },
+                    ACT: {
+                        name: 'Acceptance and Commitment Therapy',
+                        techniques: {
+                            acceptance: {
+                                pattern: /(ntabwo mbishaka|ndwanya|ntabwo nemera|sinemera)/i,
+                                response: 'Nta guhatana. Reka turebe uko dushobora kwakira iki kibazo...',
+                                framework: 'Steven Hayes\' ACT'
+                            },
+                            values: {
+                                pattern: /(icy\'ingenzi|icyiza|icyo nshaka|ibyiringiro)/i,
+                                response: 'Ibyo uvuga bigaragaza icyo uha agaciro. Ni gute twakurikiza iryo teka?',
+                                framework: 'Hayes\' Values Clarification'
+                            }
+                        }
+                    }
+                },
+
+                // Crisis Protocol
+                crisisProtocol: {
+                    triggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'ndashaka guhita', 'ntacyo mbona', 'birashoboka', 'kwikomeretsa', 'kwiyica'],
+                    response: {
+                        immediate: 'Ndumva ko ufite ibibazo bikomeye. Nta wugomba kwiharira.',
+                        resources: [
+                            { name: 'Imitari y\'inkunga', number: '116' },
+                            { name: 'Isange One Stop Center', number: '3029' }
+                        ],
+                        safetyPlan: [
+                            'Niba ufite intege yo kwiyahura, hamagara 116',
+                            'Ntugume wenyine',
+                            'Jya aho hari abantu'
+                        ]
+                    },
+                    evidence: 'Stanley & Brown Safety Planning Intervention (2012)'
+                },
+
+                // Clinical Disclaimer
+                disclaimer: '⚕️ TYAZA: Igikoresho cyo gufasha, ntabwo ari ubuvuzi. Reba umuvuzi niba ukeneye ubufasha.',
+
+                init() {
+                    this.bindEvents();
+                },
+
+                bindEvents() {
+                    EventBus.on('message:sent', (message) => {
+                        this.processMessage(message.content);
+                    });
+                },
+
+                processMessage(message) {
+                    const lowerMessage = message.toLowerCase();
+                    
+                    // Check for crisis first
+                    if (this.isCrisis(lowerMessage)) {
+                        this.handleCrisis();
+                        return null;
+                    }
+                    
+                    // Check for evidence-based responses
+                    return this.generateEvidenceBasedResponse(lowerMessage);
+                },
+
+                isCrisis(message) {
+                    return this.crisisProtocol.triggers.some(trigger => message.includes(trigger));
+                },
+
+                handleCrisis() {
+                    CrisisResources.showCrisisAlert();
+                },
+
+                generateEvidenceBasedResponse(message) {
+                    // Check each framework
+                    for (const [frameworkName, framework] of Object.entries(this.frameworks)) {
+                        for (const [techniqueName, technique] of Object.entries(framework.techniques)) {
+                            if (technique.pattern.test(message)) {
+                                return {
+                                    type: 'evidence-based',
+                                    framework: frameworkName,
+                                    technique: techniqueName,
+                                    response: technique.response,
+                                    evidence: technique.framework
+                                };
+                            }
+                        }
+                    }
+                    return null;
+                },
+
+                getDisclaimer() {
+                    return this.disclaimer;
+                }
+            };
+
+            // Make ClinicalEvidence globally available
+            window.ClinicalEvidence = ClinicalEvidence;
+
+            // ============================================================
+            // CLINICAL ASSESSMENTS - PHQ-9, GAD-7, CAGE
+            // ============================================================
+
+            const ClinicalAssessment = {
+                assessments: {
+                    PHQ9: {
+                        name: 'Patient Health Questionnaire-9',
+                        items: [
+                            'Guhabwa agahinda, kwiheba, cyangwa kutagira ibyiringiro',
+                            'Kutagira ishyaka mu bintu byakunezezaga',
+                            'Guhangayika, kwiheba, cyangwa kumva uri mu matara',
+                            'Kugorwa no gusinzira cyangwa kuryama cyane',
+                            'Kumva ukoze nabi cyangwa ko wananirwa',
+                            'Kugabanuka k\'ifunguro cyangwa kurya byinshi',
+                            'Kwiyumva nabi kuri wowe - cyangwa ko wananirwa',
+                            'Kugorwa no kwibanda ku bintu',
+                            'Gutekereza cyangwa kwifuza gupfa'
+                        ],
+                        scoring: {
+                            0: 'Nta na rimwe',
+                            1: 'Iminsi mike',
+                            2: 'Insg. zirenga kimwe mu cyumweru',
+                            3: 'Buri munsi'
+                        },
+                        interpretation: (score) => {
+                            if (score < 5) return { level: 'Normal', recommendation: 'Komeza gusobera' };
+                            if (score < 10) return { level: 'Yoroheje', recommendation: 'Guma wiringiye, reba muganga niba byikomeza' };
+                            if (score < 15) return { level: 'Hagati', recommendation: 'Reba umuvuzi w\'umutima' };
+                            if (score < 20) return { level: 'Hagati-cyane', recommendation: 'Ukeneye ubufasha bwihutirwa' };
+                            return { level: 'Ikabije', recommendation: 'Bona ubufasha bwihutirwa' };
+                        }
+                    },
+                    GAD7: {
+                        name: 'Generalized Anxiety Disorder-7',
+                        items: [
+                            'Kumva uhangayitse, utuje, cyangwa uri mu matara',
+                            'Kutagomba guhagarara',
+                            'Kurakara cyane',
+                            'Kutagira umutekano',
+                            'Kutagira ibyiringiro',
+                            'Kutagira umutekano mu mutwe',
+                            'Kutagira ibyiringiro by\'igihe kizaza'
+                        ],
+                        scoring: {
+                            0: 'Nta na rimwe',
+                            1: 'Iminsi mike',
+                            2: 'Insg. zirenga kimwe mu cyumweru',
+                            3: 'Buri munsi'
+                        },
+                        interpretation: (score) => {
+                            if (score < 5) return { level: 'Normal', recommendation: 'Komeza gusobera' };
+                            if (score < 10) return { level: 'Yoroheje', recommendation: 'Guma wiringiye' };
+                            if (score < 15) return { level: 'Hagati', recommendation: 'Reba umuvuzi w\'umutima' };
+                            return { level: 'Ikabije', recommendation: 'Ukeneye ubufasha bwihutirwa' };
+                        }
+                    },
+                    CAGE: {
+                        name: 'CAGE Questionnaire (Substance Use)',
+                        items: [
+                            'Wigeze utekereza ko ugomba kugabanya ibinyobwa?',
+                            'Wigeze urakara iyo abantu bakugaya kubera ibinyobwa?',
+                            'Wigeze wumva ubyoroshye kubera ibinyobwa?',
+                            'Wigeze unywa ikinyobwa mu gitondo kugira ngo wiyumve neza?'
+                        ],
+                        interpretation: (score) => {
+                            if (score >= 2) return { 
+                                level: 'Ikibazo gishobora kubaho', 
+                                recommendation: 'Reba umuvuzi w\'ubuvuzi bwo mu mutwe' 
+                            };
+                            return { level: 'Nta kibazo', recommendation: 'Komeza gusobera' };
+                        }
+                    }
+                },
+
+                currentSession: null,
+
+                init() {
+                    this.createAssessmentUI();
+                },
+
+                createAssessmentUI() {
+                    // Create assessment button in sidebar
+                    const sidebar = document.querySelector('.sidebar-content');
+                    if (!sidebar || document.getElementById('assessmentBtn')) return;
+
+                    const btn = document.createElement('button');
+                    btn.id = 'assessmentBtn';
+                    btn.className = 'sidebar-btn';
+                    btn.innerHTML = '<i class="fas fa-clipboard-check"></i><span>Gusuzuma</span>';
+                    btn.onclick = () => this.showAssessmentModal();
+                    sidebar.insertBefore(btn, document.getElementById('newChatBtn'));
+                },
+
+                showAssessmentModal() {
+                    if (document.getElementById('assessmentModal')) return;
+
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-backdrop active';
+                    modal.id = 'assessmentModal';
+                    modal.innerHTML = `
+                        <div class="modal active" style="max-width: 600px;">
+                            <div class="modal-header">
+                                <h3 class="modal-title">🩺 Gusuzuma</h3>
+                                <button class="modal-close" id="assessmentClose">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">
+                                    Hitamo uburyo bwo gusuzuma:
+                                </p>
+                                <div style="display: grid; gap: var(--space-3);">
+                                    <button class="btn btn-secondary" onclick="ClinicalAssessment.startAssessment('PHQ9')">
+                                        <i class="fas fa-frown"></i> PHQ-9 (Agahinda)
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="ClinicalAssessment.startAssessment('GAD7')">
+                                        <i class="fas fa-exclamation-triangle"></i> GAD-7 (Ubugome)
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="ClinicalAssessment.startAssessment('CAGE')">
+                                        <i class="fas fa-wine-glass"></i> CAGE (Ibinyobwa)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    document.body.appendChild(modal);
+                    modal.querySelector('#assessmentClose').onclick = () => modal.remove();
+                    modal.addEventListener('click', (e) => { if (e.target === modal) modal.remove(); });
+                },
+
+                startAssessment(type) {
+                    const assessment = this.assessments[type];
+                    if (!assessment) return;
+
+                    this.currentSession = {
+                        type: type,
+                        currentItem: 0,
+                        responses: []
+                    };
+
+                    this.showAssessmentQuestion();
+                    document.getElementById('assessmentModal')?.remove();
+                },
+
+                showAssessmentQuestion() {
+                    const session = this.currentSession;
+                    const assessment = this.assessments[session.type];
+                    const item = assessment.items[session.currentItem];
+
+                    if (document.getElementById('assessmentQuestionModal')) {
+                        document.getElementById('assessmentQuestionModal').remove();
+                    }
+
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-backdrop active';
+                    modal.id = 'assessmentQuestionModal';
+                    modal.innerHTML = `
+                        <div class="modal active" style="max-width: 600px;">
+                            <div class="modal-header">
+                                <h3 class="modal-title">${assessment.name}</h3>
+                            </div>
+                            <div class="modal-body">
+                                <div style="margin-bottom: var(--space-4);">
+                                    <span style="color: var(--color-text-muted);">Ikibazo ${session.currentItem + 1} / ${assessment.items.length}</span>
+                                </div>
+                                <p style="font-size: var(--text-lg); margin-bottom: var(--space-6);">${item}</p>
+                                <div style="display: grid; gap: var(--space-2);">
+                                    <button class="btn btn-secondary" onclick="ClinicalAssessment.answerQuestion(0)">
+                                        0 - ${assessment.scoring[0]}
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="ClinicalAssessment.answerQuestion(1)">
+                                        1 - ${assessment.scoring[1]}
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="ClinicalAssessment.answerQuestion(2)">
+                                        2 - ${assessment.scoring[2]}
+                                    </button>
+                                    <button class="btn btn-secondary" onclick="ClinicalAssessment.answerQuestion(3)">
+                                        3 - ${assessment.scoring[3]}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    document.body.appendChild(modal);
+                },
+
+                answerQuestion(score) {
+                    const session = this.currentSession;
+                    session.responses.push(score);
+                    session.currentItem++;
+
+                    const assessment = this.assessments[session.type];
+
+                    if (session.currentItem >= assessment.items.length) {
+                        this.completeAssessment();
+                    } else {
+                        this.showAssessmentQuestion();
+                    }
+                },
+
+                completeAssessment() {
+                    const session = this.currentSession;
+                    const assessment = this.assessments[session.type];
+                    const totalScore = session.responses.reduce((a, b) => a + b, 0);
+                    const result = assessment.interpretation(totalScore);
+
+                    document.getElementById('assessmentQuestionModal')?.remove();
+
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-backdrop active';
+                    modal.innerHTML = `
+                        <div class="modal active" style="max-width: 500px;">
+                            <div class="modal-header">
+                                <h3 class="modal-title">${assessment.name}</h3>
+                                <button class="modal-close" onclick="this.closest('.modal-backdrop').remove()">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div style="text-align: center; margin-bottom: var(--space-6);">
+                                    <div style="font-size: 4rem; font-weight: bold; color: var(--color-primary-400);">${totalScore}</div>
+                                    <div style="color: var(--color-text-muted);">Igiteranyo</div>
+                                </div>
+                                <div style="padding: var(--space-4); background: var(--color-surface-700); border-radius: var(--radius-lg); margin-bottom: var(--space-4);">
+                                    <div style="font-weight: bold; margin-bottom: var(--space-2);">${result.level}</div>
+                                    <div style="color: var(--color-text-secondary);">${result.recommendation}</div>
+                                </div>
+                                <p style="font-size: var(--text-sm); color: var(--color-text-muted); text-align: center;">
+                                    ⚕️ Ibi ni uburyo bwo gusuzuma. Ntabwo ari diagnosis. Reba umuvuzi w\'umutima.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+
+                    document.body.appendChild(modal);
+                    
+                    // Save to history
+                    this.saveAssessmentResult(session.type, totalScore, result);
+                    this.currentSession = null;
+                },
+
+                saveAssessmentResult(type, score, result) {
+                    const history = StateManager.get('assessmentHistory') || [];
+                    history.push({
+                        type: type,
+                        score: score,
+                        result: result,
+                        timestamp: Date.now()
+                    });
+                    StateManager.set('assessmentHistory', history.slice(-50));
+                    StateManager.saveSettings();
+                }
+            };
+
+            // Make ClinicalAssessment globally available
+            window.ClinicalAssessment = ClinicalAssessment;
+
+            // ============================================================
+            // RISK ASSESSMENT - Safety Monitoring
+            // ============================================================
+
+            const RiskAssessment = {
+                riskFactors: {
+                    suicidal: [
+                        { keyword: 'kwiyahura', weight: 1.0 },
+                        { keyword: 'gupfa', weight: 0.8 },
+                        { keyword: 'ntakibazo', weight: 0.9 },
+                        { keyword: 'birangiye', weight: 0.7 },
+                        { keyword: 'kwikomeretsa', weight: 1.0 },
+                        { keyword: 'kwiyica', weight: 1.0 }
+                    ],
+                    selfHarm: [
+                        { keyword: 'kwiyaga', weight: 1.0 },
+                        { keyword: 'kwikomeretsa', weight: 1.0 },
+                        { keyword: 'kwiyica', weight: 1.0 }
+                    ],
+                    hopelessness: [
+                        { keyword: 'ntacyo bizahindura', weight: 0.6 },
+                        { keyword: 'ntabwo bishoboka', weight: 0.5 },
+                        { keyword: 'byananiranye', weight: 0.5 },
+                        { keyword: 'ntacyo nbona', weight: 0.6 }
+                    ]
+                },
+
+                recentRiskScore: 0,
+
+                init() {
+                    EventBus.on('message:sent', (message) => {
+                        this.assessRisk(message.content);
+                    });
+                },
+
+                assessRisk(message) {
+                    const lowerMessage = message.toLowerCase();
+                    let riskScore = 0;
+                    let riskFactors = [];
+
+                    // Check risk factors
+                    for (const [factor, keywords] of Object.entries(this.riskFactors)) {
+                        for (const keyword of keywords) {
+                            if (lowerMessage.includes(keyword.keyword)) {
+                                riskScore += keyword.weight;
+                                riskFactors.push({
+                                    factor: factor,
+                                    keyword: keyword.keyword,
+                                    weight: keyword.weight
+                                });
+                            }
+                        }
+                    }
+
+                    // Consider historical context
+                    if (this.recentRiskScore > 0) {
+                        riskScore = Math.max(riskScore, this.recentRiskScore * 0.8);
+                    }
+
+                    // Consider time of day (night = higher risk)
+                    const hour = new Date().getHours();
+                    if (hour < 6 || hour > 22) {
+                        riskScore *= 1.2;
+                    }
+
+                    this.recentRiskScore = riskScore;
+
+                    // Trigger crisis protocol if high risk
+                    if (riskScore > 1.5) {
+                        CrisisResources.showCrisisAlert();
+                    }
+
+                    return {
+                        score: riskScore,
+                        level: riskScore > 1.5 ? 'high' : riskScore > 0.8 ? 'moderate' : 'low',
+                        factors: riskFactors
+                    };
+                },
+
+                generateSafetyPlan() {
+                    return {
+                        warningSigns: [
+                            'Iyo ntekereza cyane',
+                            'Iyo numva nta mbaraga',
+                            'Iyo ndakaye cyane'
+                        ],
+                        copingStrategies: [
+                            'Kuvugana n\'umuntu nkunda',
+                            'Guhumeka mu buryo burambye',
+                            'Kugenda gato'
+                        ],
+                        professionalSupport: [
+                            { name: 'Isange One Stop', number: '3029' },
+                            { name: 'Crisis Line', number: '116' }
+                        ],
+                        emergency: {
+                            hospital: 'CHUK Emergency',
+                            number: '112',
+                            address: 'Kigali'
+                        }
+                    };
+                }
+            };
+
+            // Make RiskAssessment globally available
+            window.RiskAssessment = RiskAssessment;
+
+            // ============================================================
             // EMOTIONAL ANALYTICS
             // ============================================================
 
@@ -6775,6 +7285,11 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                                     ` : ''}
                                 </div>
                             </div>
+                            ${role === 'assistant' ? `
+                                <div class="clinical-disclaimer" style="font-size: var(--text-xs); color: var(--color-text-muted); padding: var(--space-2); margin-top: var(--space-2); border-top: 1px solid var(--color-surface-600);">
+                                    ⚕️ TYAZA: Igikoresho cyo gufasha, ntabwo ari ubuvuzi. Reba umuvuzi niba ukeneye ubufasha.
+                                </div>
+                            ` : ''}
                         </div>
                     `;
 
@@ -6953,6 +7468,11 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     EmotionalAnalytics.init();
                     MeditationLibrary.init();
                     WellbeingFeatures.init();
+                    
+                    // Initialize Clinical Modules
+                    ClinicalEvidence.init();
+                    ClinicalAssessment.init();
+                    RiskAssessment.init();
                     
                     VoiceVisualizer.init();
                     
@@ -7230,7 +7750,17 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                     StateManager.set('isGenerating', true);
 
                     try {
-                        const reply = await AIService.sendMessage(StateManager.get('currentChat'));
+                        // Check for clinical evidence-based response first
+                        const evidenceResponse = ClinicalEvidence.generateEvidenceBasedResponse(text.toLowerCase());
+                        
+                        let reply;
+                        if (evidenceResponse && evidenceResponse.response) {
+                            // Use evidence-based response
+                            reply = evidenceResponse.response;
+                        } else {
+                            // Use AI response
+                            reply = await AIService.sendMessage(StateManager.get('currentChat'));
+                        }
                         
                         UI.removeTypingIndicator(typingId);
                         UI.addMessage('assistant', reply);
