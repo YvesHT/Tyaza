@@ -1181,6 +1181,49 @@
         .sidebar-header {
             padding: var(--space-5);
             border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-close {
+            display: none;
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: var(--color-surface-700);
+            border-radius: var(--radius-md);
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            flex-shrink: 0;
+        }
+
+        .sidebar-close:hover {
+            background: var(--color-surface-600);
+            color: var(--color-text-primary);
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+        }
+
+        .sidebar-brand img {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: contain;
+            opacity: 0.7;
+            transition: opacity var(--transition-fast);
+        }
+
+        .sidebar-brand img:hover {
+            opacity: 1;
         }
 
         .logo-container {
@@ -2757,6 +2800,14 @@
                 display: block;
             }
 
+            .sidebar-close {
+                display: flex !important;
+            }
+
+            .sidebar-header {
+                gap: var(--space-2);
+            }
+
             .menu-toggle {
                 display: flex !important;
             }
@@ -3630,6 +3681,12 @@
                             <div class="logo-subtitle">Umuvugizi w'Umutima</div>
                         </div>
                     </div>
+                    <div class="sidebar-brand">
+                        <img src="kivura-logo.png" alt="Kivura Labs" title="Powered by Kivura Labs">
+                    </div>
+                    <button class="sidebar-close" id="sidebarClose" aria-label="Funga">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
 
                 <!-- Content -->
@@ -7219,6 +7276,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                         app: document.getElementById('app'),
                         sidebar: document.getElementById('sidebar'),
                         sidebarOverlay: document.getElementById('sidebarOverlay'),
+                        sidebarClose: document.getElementById('sidebarClose'),
                         menuToggle: document.getElementById('menuToggle'),
                         
                         messagesWrapper: document.getElementById('messagesWrapper'),
@@ -7529,6 +7587,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 bindEvents() {
                     UI.elements.menuToggle?.addEventListener('click', () => UI.toggleSidebar());
                     UI.elements.sidebarOverlay?.addEventListener('click', () => UI.closeSidebar());
+                    UI.elements.sidebarClose?.addEventListener('click', () => UI.closeSidebar());
                     UI.elements.newChatBtn?.addEventListener('click', () => UI.startNewChat());
                     
                     UI.elements.messageInput?.addEventListener('input', () => this.handleInputChange());
