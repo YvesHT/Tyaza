@@ -3499,6 +3499,8 @@
             align-items: center;
             gap: var(--space-2);
             padding: var(--space-2) var(--space-3);
+            min-width: 44px;
+            min-height: 44px;
             background: var(--color-surface-700);
             border: 1px solid var(--color-surface-500);
             border-radius: var(--radius-full);
@@ -3506,12 +3508,33 @@
             font-size: var(--text-sm);
             cursor: pointer;
             transition: all var(--transition-fast);
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         .wellbeing-btn:hover {
             background: var(--color-surface-600);
             border-color: var(--color-primary-400);
             color: var(--color-primary-300);
+        }
+
+        @media (max-width: 480px) {
+            .wellbeing-btn {
+                padding: var(--space-2);
+                font-size: var(--text-xs);
+                min-width: 40px;
+                min-height: 40px;
+            }
+            .wellbeing-btn span {
+                display: none;
+            }
+        }
+
+        @media (min-width: 481px) and (max-width: 768px) {
+            .wellbeing-btn {
+                padding: var(--space-2) var(--space-3);
+                font-size: var(--text-sm);
+            }
         }
 
         /* Safety Check-in */
@@ -3597,7 +3620,7 @@
                 <div class="sidebar-header">
                     <div class="logo-container">
                         <div class="logo-icon">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='url(%23gradient)'/%3E%3Cdefs%3E%3ClinearGradient id='gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%23ec4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='24' y='32' font-size='24' text-anchor='middle' fill='white' font-family='Arial'%3ET%3C/text%3E%3C/svg%3E" alt="TYAZA">
+                            <img src="tyaza-logo.png" alt="TYAZA">
                         </div>
                         <div class="logo-text">
                             <div class="logo-title">TYAZA</div>
@@ -3610,11 +3633,11 @@
                 <div class="sidebar-content">
                     <!-- New Chat Button -->
                     <button class="new-chat-btn" id="newChatBtn">
-                        <span>✨</span> Igikoni Gishya
+                        <span>✨</span> Ikiganiro Gishya
                     </button>
 
-                    <!-- AI Model Selection -->
-                    <div class="sidebar-section">
+                    <!-- AI Model Selection (hidden from UI) -->
+                    <div class="sidebar-section" style="display: none;">
                         <div class="sidebar-section-title">Ubugeni bw'Ikoranabuhanga</div>
                         <div class="settings-card">
                             <select class="select" id="modelSelect">
@@ -3726,8 +3749,8 @@
 
                     <!-- Info Card -->
                     <div class="info-card">
-                        <div class="info-card-title">
-                            🏢 KIVURA LABS
+                        <div class="info-card-title" style="display: flex; align-items: center; gap: 8px;">
+                            <img src="kivura-logo.png" alt="Kivura Labs" style="width: 24px; height: 24px; border-radius: 4px;"> KIVURA LABS
                         </div>
                         <div>
                             <span class="info-highlight">Intego:</span> AI ifasha mu 
@@ -3755,7 +3778,7 @@
                         </button>
                         <div class="chat-title">
                             <div class="chat-avatar">
-                                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='8' fill='url(%23gradient)'/%3E%3Cdefs%3E%3ClinearGradient id='gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%23ec4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='20' y='28' font-size='20' text-anchor='middle' fill='white' font-family='Arial'%3ET%3C/text%3E%3C/svg%3E" alt="TYAZA">
+                                <img src="tyaza-logo.png" alt="TYAZA">
                             </div>
                             <div class="chat-info">
                                 <h1>TYAZA</h1>
@@ -3810,7 +3833,7 @@
                     <!-- Welcome Screen -->
                     <div class="welcome-screen" id="welcomeScreen">
                         <div class="welcome-icon">
-                            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Crect width='140' height='140' rx='40' fill='url(%23gradient)'/%3E%3Cdefs%3E%3ClinearGradient id='gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%23ec4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='70' y='90' font-size='70' text-anchor='middle' fill='white' font-family='Arial'%3ET%3C/text%3E%3C/svg%3E" alt="TYAZA">
+                            <img src="tyaza-logo.png" alt="TYAZA">
                         </div>
                         <h1 class="welcome-title">TYAZA</h1>
                         <p class="welcome-subtitle">igisubizo cy'umutima</p>
@@ -3878,7 +3901,7 @@
         <!-- Loading Screen -->
         <div class="loading-screen" id="loadingScreen">
             <div class="loading-logo">
-                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='url(%23gradient)'/%3E%3Cdefs%3E%3ClinearGradient id='gradient' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%238b5cf6'/%3E%3Cstop offset='100%25' stop-color='%23ec4899'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='Arial'%3ET%3C/text%3E%3C/svg%3E" alt="TYAZA">
+                <img src="tyaza-logo.png" alt="TYAZA">
             </div>
             <div class="spinner"></div>
             <div class="loading-text">Ihuza kuri Tyaza...</div>
@@ -5884,8 +5907,25 @@
                     btn.id = 'assessmentBtn';
                     btn.className = 'sidebar-btn';
                     btn.innerHTML = '<i class="fas fa-clipboard-check"></i><span>Gusuzuma</span>';
-                    btn.onclick = () => this.showAssessmentModal();
+                    btn.onclick = (e) => {
+                        e.stopPropagation();
+                        this.showAssessmentModal();
+                    };
                     sidebar.insertBefore(btn, document.getElementById('newChatBtn'));
+
+                    // Dismiss Gusuzuma button when user taps/clicks anywhere on screen
+                    document.addEventListener('click', (e) => {
+                        const assessBtn = document.getElementById('assessmentBtn');
+                        if (assessBtn && !assessBtn.contains(e.target)) {
+                            assessBtn.style.display = 'none';
+                        }
+                    });
+                    document.addEventListener('touchstart', (e) => {
+                        const assessBtn = document.getElementById('assessmentBtn');
+                        if (assessBtn && !assessBtn.contains(e.target)) {
+                            assessBtn.style.display = 'none';
+                        }
+                    }, { passive: true });
                 },
 
                 showAssessmentModal() {
