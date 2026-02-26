@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <meta name="description" content="TYAZA - Umuvugizi w'Umutima | Hybrid AI Virtual Therapy Assistant">
+    <meta name="description" content="TYAZA - Umuvugizi w'Umutima | AI Virtual Therapy Assistant">
     <meta name="theme-color" content="#0a0612">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -22,8 +22,8 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
-    <!-- Import Maps for ES Modules -->
-    <script type="importmap">
+    <!-- Import Maps for ES Modules (hidden from user) -->
+    <script type="importmap" style="display: none;">
         {
             "imports": {
                 "@xenova/transformers": "https://esm.sh/@xenova/transformers@2.17.1",
@@ -34,8 +34,7 @@
     
     <style>
         /* ================================================================
-           TYAZA v5.0 - FINAL PRODUCTION VERSION
-           Hybrid AI: Puter API + On-device models
+           TYAZA v5.0 - PRODUCTION VERSION
            ================================================================ */
 
         /* Design Tokens */
@@ -510,6 +509,13 @@
             font-size: 1.5rem;
             color: white;
             box-shadow: var(--shadow-glow-primary);
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .logo-title {
@@ -768,6 +774,13 @@
             color: white;
             font-weight: 600;
             font-size: 1.2rem;
+            overflow: hidden;
+        }
+
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .chat-info h1 {
@@ -801,6 +814,31 @@
             display: flex;
             align-items: center;
             gap: var(--space-2);
+        }
+
+        .ndahari-btn {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-4);
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-glow-primary);
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .ndahari-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-primary), var(--shadow-lg);
+        }
+
+        .ndahari-btn i {
+            font-size: 1rem;
         }
 
         .messages-container {
@@ -859,6 +897,13 @@
             margin-bottom: var(--space-8);
             box-shadow: var(--shadow-glow-primary), var(--shadow-glow-secondary);
             animation: morphShape 10s ease-in-out infinite, iconFloat 6s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .welcome-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         @keyframes morphShape {
@@ -933,13 +978,6 @@
             transform: translateY(-2px);
         }
 
-        .model-status {
-            display: flex;
-            gap: var(--space-4);
-            justify-content: center;
-            margin-top: var(--space-4);
-        }
-
         /* Message Styles */
         .message {
             display: flex;
@@ -964,6 +1002,13 @@
             background: var(--gradient-primary);
             flex-shrink: 0;
             font-size: 1.2rem;
+            overflow: hidden;
+        }
+
+        .message-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .message.user .message-avatar {
@@ -1055,6 +1100,13 @@
             justify-content: center;
             background: var(--gradient-primary);
             font-size: 1.2rem;
+            overflow: hidden;
+        }
+
+        .typing-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .typing-bubble {
@@ -1341,6 +1393,13 @@
             color: white;
             animation: logoFloat 3s ease-in-out infinite;
             box-shadow: var(--shadow-glow-primary);
+            overflow: hidden;
+        }
+
+        .loading-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .loading-spinner {
@@ -1407,12 +1466,6 @@
         tyaza-toast[type="success"] { border-left-color: var(--color-success); }
         tyaza-toast[type="error"] { border-left-color: var(--color-error); }
         tyaza-toast[type="info"] { border-left-color: var(--color-info); }
-
-        .toast-content {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-        }
 
         @keyframes toastSlideIn {
             from { opacity: 0; transform: translateX(100%); }
@@ -1483,109 +1536,95 @@
             50% { transform: translateY(-10px); }
         }
 
-        /* Meditation Quick Button */
-        .meditation-quick-btn {
-            position: fixed;
-            bottom: 180px;
-            left: 20px;
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-full);
-            background: var(--gradient-primary);
-            color: white;
-            border: none;
-            cursor: pointer;
+        /* Mood Tracking Modal */
+        .mood-modal {
+            max-width: 500px;
+        }
+
+        .mood-scale {
             display: flex;
+            justify-content: space-between;
+            gap: var(--space-2);
+            margin: var(--space-6) 0;
+        }
+
+        .mood-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: var(--shadow-glow-primary);
-            z-index: 99;
+            gap: var(--space-1);
+            padding: var(--space-3);
+            background: var(--color-surface-700);
+            border: 2px solid var(--color-surface-500);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
             transition: all 0.15s;
         }
 
-        .meditation-quick-btn:hover {
-            transform: scale(1.1) rotate(180deg);
+        .mood-btn:hover {
+            border-color: var(--color-primary-400);
+            transform: translateY(-2px);
         }
 
-        /* AI Badge */
-        .ai-badge {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--color-surface-800);
-            padding: var(--space-2) var(--space-4);
-            border-radius: var(--radius-full);
+        .mood-btn.selected {
+            border-color: var(--color-primary-500);
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .mood-emoji {
+            font-size: 1.5rem;
+        }
+
+        .mood-label {
             font-size: 0.75rem;
-            border: 1px solid var(--color-primary-500);
-            box-shadow: var(--shadow-glow-primary);
-            z-index: 50;
-            animation: fadeInUp 0.3s ease-out;
-            white-space: nowrap;
+            color: var(--color-text-muted);
         }
 
-        /* Model Loader */
-        .model-loader {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--color-surface-800);
-            border-radius: var(--radius-full);
-            padding: var(--space-3) var(--space-6);
-            border: 1px solid var(--color-primary-500);
-            box-shadow: var(--shadow-glow-primary);
-            z-index: 50;
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            animation: slideUp 0.3s ease-out;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-
-        .model-loader-progress {
-            width: 100px;
-            height: 4px;
-            background: var(--color-surface-700);
-            border-radius: var(--radius-full);
-            overflow: hidden;
-        }
-
-        .model-loader-bar {
-            height: 100%;
-            background: var(--gradient-primary);
-            transition: width 0.3s ease;
-        }
-
-        /* Offline Banner */
-        .offline-banner {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: var(--color-warning);
-            color: var(--color-surface-950);
+        .mood-notes {
+            width: 100%;
             padding: var(--space-3);
-            text-align: center;
-            font-size: 0.875rem;
-            font-weight: 500;
-            z-index: 1000;
-            transform: translateY(-100%);
-            transition: transform 0.3s;
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            border-radius: var(--radius-lg);
+            color: var(--color-text-primary);
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: var(--space-4);
+        }
+
+        .mood-history {
+            margin-top: var(--space-4);
+        }
+
+        .mood-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--space-1);
+            margin-top: var(--space-2);
+        }
+
+        .mood-day {
+            aspect-ratio: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: var(--space-2);
+            border-radius: var(--radius-sm);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s;
         }
 
-        .offline-banner.show {
-            transform: translateY(0);
+        .mood-day:hover {
+            transform: scale(1.1);
         }
+
+        .mood-level-1 { background: rgba(239, 68, 68, 0.3); }
+        .mood-level-2 { background: rgba(245, 158, 11, 0.3); }
+        .mood-level-3 { background: rgba(234, 179, 8, 0.3); }
+        .mood-level-4 { background: rgba(34, 197, 94, 0.3); }
+        .mood-level-5 { background: rgba(16, 185, 129, 0.3); }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -1638,26 +1677,20 @@
                 padding: var(--space-4);
             }
 
-            .crisis-floating-btn,
-            .meditation-quick-btn {
+            .crisis-floating-btn {
                 width: 48px;
                 height: 48px;
                 font-size: 1.2rem;
-            }
-
-            .crisis-floating-btn {
                 bottom: 90px;
                 left: 10px;
             }
 
-            .meditation-quick-btn {
-                bottom: 150px;
-                left: 10px;
+            .ndahari-btn span {
+                display: none;
             }
-
-            .model-status {
-                flex-direction: column;
-                gap: var(--space-2);
+            
+            .ndahari-btn {
+                padding: var(--space-2);
             }
         }
 
@@ -1670,12 +1703,6 @@
             .suggestion-btn {
                 width: 100%;
                 max-width: 280px;
-            }
-
-            .model-loader {
-                width: 90%;
-                left: 5%;
-                transform: none;
             }
         }
 
@@ -1707,7 +1734,8 @@
             <div class="sidebar-header">
                 <div class="logo-container">
                     <div class="logo-icon">
-                        <i class="fas fa-robot"></i>
+                        <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <i class="fas fa-robot" style="display: none;"></i>
                     </div>
                     <div class="logo-text">
                         <div class="logo-title">TYAZA</div>
@@ -1720,77 +1748,75 @@
             </div>
 
             <div class="sidebar-content">
-                <!-- New Chat Button -->
+                <!-- New Chat Button (User sees this) -->
                 <button class="new-chat-btn" id="newChatBtn">
                     <span>✨</span> Ikiganiro Gishya
                 </button>
 
-                <!-- Hybrid AI Settings -->
+                <!-- AI Settings - Hidden from user (technical data) -->
+                <div style="display: none;">
+                    <select id="modelSelect">
+                        <option value="auto">Auto</option>
+                        <option value="puter">Ndahari</option>
+                        <option value="tinyllama">TinyLlama</option>
+                    </select>
+                    <input type="checkbox" id="enableRAG" checked>
+                </div>
+
+                <!-- User Profile Section -->
                 <div class="sidebar-section">
-                    <div class="sidebar-section-title">AI Selection</div>
+                    <div class="sidebar-section-title">Umwirondoro</div>
                     <div class="settings-card">
                         <div class="settings-row">
-                            <label class="settings-label">AI Mode</label>
-                            <select class="select" id="modelSelect">
-                                <option value="auto">Auto (Smart Switch) ⚡</option>
-                                <option value="puter">Puter Cloud (Instant) ☁️</option>
-                                <option value="tinyllama">TinyLlama (338MB) 🔋</option>
-                                <option value="qwen2">Qwen2 0.5B (150MB) 🚀</option>
-                                <option value="phi2">Phi-2 (675MB) 🎯</option>
-                            </select>
+                            <label class="settings-label">Izina ryawe</label>
+                            <input type="text" class="input" id="userNameInput" placeholder="Injira izina ryawe..." value="Mugisha">
                         </div>
-                        
-                        <div class="settings-row" style="margin-top: var(--space-3);">
-                            <label class="checkbox-label">
-                                <input type="checkbox" class="checkbox" id="enableRAG" checked>
-                                <span>RAG - Semantic Memory</span>
-                            </label>
-                            <div class="text-xs text-muted">
-                                Remember context intelligently
-                            </div>
+                        <div class="settings-row mt-2">
+                            <button class="btn btn-secondary btn-sm" id="saveNameBtn">
+                                <i class="fas fa-save"></i> Bika izina
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- AI Status -->
+                <!-- Mood Tracking -->
                 <div class="sidebar-section">
-                    <div class="sidebar-section-title">AI Status</div>
+                    <div class="sidebar-section-title">Uko wumva</div>
                     <div class="settings-card">
-                        <div class="flex items-center gap-2">
-                            <span class="status-indicator" id="puterStatus" style="background: #f59e0b;"></span>
-                            <span id="puterText" class="text-sm">Checking Puter...</span>
+                        <div class="mood-scale-compact" id="moodQuickSelect">
+                            <button class="mood-btn-small" data-mood="1" title="Byacye">😢</button>
+                            <button class="mood-btn-small" data-mood="2" title="Ntacyo">😔</button>
+                            <button class="mood-btn-small" data-mood="3" title="Harinkomeye">😐</button>
+                            <button class="mood-btn-small" data-mood="4" title="Ni meza">🙂</button>
+                            <button class="mood-btn-small" data-mood="5" title="Neza cyane">😊</button>
                         </div>
-                        <div class="flex items-center gap-2 mt-2">
-                            <span class="status-indicator" id="ondeviceStatus" style="background: #f59e0b;"></span>
-                            <span id="ondeviceText" class="text-sm">On-device: Loading...</span>
-                        </div>
-                        <div class="text-xs text-muted mt-2" id="activeAI">
-                            Active: Puter Cloud
-                        </div>
+                        <button class="btn btn-secondary btn-block btn-sm mt-2" id="openMoodModal">
+                            <i class="fas fa-chart-line"></i> Reba imimerere
+                        </button>
                     </div>
                 </div>
 
                 <!-- Voice Settings -->
                 <div class="sidebar-section">
-                    <div class="sidebar-section-title">Amajwi & Mikorofoni</div>
+                    <div class="sidebar-section-title">Amajwi</div>
                     <div class="settings-card">
                         <div class="settings-row">
                             <button class="btn btn-secondary btn-block" id="micTestBtn">
-                                <span>🎤</span> Genzura Mikorofoni
+                                <span>🎤</span> Gerageza mikorofoni
                             </button>
                         </div>
-                        <div class="settings-row" style="margin-top: var(--space-3);">
+                        <div class="settings-row mt-2">
                             <label class="settings-label">Ijwi</label>
                             <select class="select" id="voiceSelect">
-                                <option value="Google UK English Female">ijwi ry'umugore (UK)</option>
-                                <option value="Google UK English Male">ijwi ry'umugabo (UK)</option>
-                                <option value="Samantha">Samantha · ryorohe</option>
+                                <option value="Google UK English Female">Umugore (UK)</option>
+                                <option value="Google UK English Male">Umugabo (UK)</option>
+                                <option value="Samantha">Samantha</option>
                             </select>
                         </div>
                         <div class="voice-controls">
                             <div class="voice-control-item">
                                 <div class="voice-control-label">
-                                    <span>Umurenge</span>
+                                    <span>Umuvuduko</span>
                                     <span class="voice-control-value" id="rateValue">0.9</span>
                                 </div>
                                 <input type="range" class="slider" id="rateSlider" min="0.5" max="1.5" step="0.05" value="0.9">
@@ -1802,12 +1828,6 @@
                                 </div>
                                 <input type="range" class="slider" id="pitchSlider" min="0.5" max="2" step="0.05" value="1.0">
                             </div>
-                        </div>
-                        <div class="settings-row" style="margin-top: var(--space-3);">
-                            <label class="checkbox-label">
-                                <input type="checkbox" class="checkbox" id="autoTTS" checked>
-                                Soma igisubizo mu ijwi
-                            </label>
                         </div>
                     </div>
                 </div>
@@ -1826,20 +1846,20 @@
                     </div>
                 </div>
 
-                <!-- Info Card -->
+                <!-- Kivura Labs Info Card -->
                 <div class="info-card">
                     <div class="info-card-title">
-                        <i class="fas fa-microchip"></i> KIVURA LABS
+                        <img src="kivura-logo.png" alt="KIVURA LABS" style="width: 24px; height: 24px; border-radius: 4px; margin-right: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
+                        <i class="fas fa-microchip" style="display: none;"></i> KIVURA LABS
                     </div>
                     <div>
-                        <span class="info-highlight">TYAZA v5.0</span> - Hybrid AI
+                        <span class="info-highlight">"Healthy citizens, wealthy nation"</span>
                     </div>
                     <div class="text-xs mt-2">
-                        Puter + On-device · RAG · Voice
-                    </div>
-                    <div class="info-card-footer">
-                        © 2026 Kivura Labs · Rwanda<br>
                         Yves HIRWA TUYISHIME - CEO
+                    </div>
+                    <div class="text-xs mt-1">
+                        © 2026 Kivura Labs · Rwanda
                     </div>
                 </div>
             </div>
@@ -1855,22 +1875,27 @@
                     </button>
                     <div class="chat-title">
                         <div class="chat-avatar">
-                            <i class="fas fa-robot"></i>
+                            <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <i class="fas fa-robot" style="display: none;"></i>
                         </div>
                         <div class="chat-info">
                             <h1>TYAZA</h1>
                             <div class="chat-status">
                                 <span class="status-indicator" id="headerStatus"></span>
-                                <span id="connectionStatus">Hybrid AI</span>
+                                <span id="connectionStatus">Igisubizo kindimo</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn-icon btn-ghost tooltip" data-tooltip="Export" id="exportTrigger">
+                    <button class="ndahari-btn" id="ndahariBtn">
+                        <i class="fas fa-cloud"></i>
+                        <span>Ndahari AI</span>
+                    </button>
+                    <button class="btn btn-icon btn-ghost" id="exportTrigger">
                         <i class="fas fa-download"></i>
                     </button>
-                    <button class="btn btn-icon btn-ghost tooltip" data-tooltip="Clear chat" id="clearChat">
+                    <button class="btn btn-icon btn-ghost" id="clearChat">
                         <i class="fas fa-trash-alt"></i>
                     </button>
                 </div>
@@ -1881,26 +1906,22 @@
                 <!-- Welcome Screen -->
                 <div class="welcome-screen" id="welcomeScreen">
                     <div class="welcome-icon">
-                        <i class="fas fa-robot"></i>
+                        <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <i class="fas fa-robot" style="display: none;"></i>
                     </div>
                     <h1 class="welcome-title">TYAZA</h1>
-                    <p class="welcome-subtitle">Hybrid AI · Puter + On-device</p>
+                    <p class="welcome-subtitle">Igisubizo kindimo</p>
                     <div class="welcome-quote">
-                        "Ndi hano kugira nkugire. Nkoresha ubwenge bwombi."
+                        "Ndi hano kugira nkugire. Buri mwanya, buri jambo — byakiriwe mu mahoro n'igondero."
                     </div>
                     <div class="welcome-suggestions">
-                        <button class="suggestion-btn" data-prompt="ndashaka kuvuga">💬 Ndashaka kuvuga</button>
-                        <button class="suggestion-btn" data-prompt="mfite ibibazo">😔 Mfite ibibazo</button>
-                        <button class="suggestion-btn" data-prompt="ngomba inkunga">🤝 Ngomba inkunga</button>
-                        <button class="suggestion-btn" data-prompt="narushijeho">🌟 Narushijeho</button>
+                        <button class="suggestion-btn" data-prompt="Ndashaka kuvuga">💬 Ndashaka kuvuga</button>
+                        <button class="suggestion-btn" data-prompt="Mfite ibibazo">😔 Mfite ibibazo</button>
+                        <button class="suggestion-btn" data-prompt="Ngomba inkunga">🤝 Ngomba inkunga</button>
+                        <button class="suggestion-btn" data-prompt="Narushijeho">🌟 Narushijeho</button>
                     </div>
-                    <div class="model-status" id="welcomeModelStatus">
-                        <div class="badge" id="puterWelcomeBadge">
-                            <i class="fas fa-cloud mr-1"></i> Puter: Checking...
-                        </div>
-                        <div class="badge" id="ondeviceWelcomeBadge">
-                            <i class="fas fa-microchip mr-1"></i> On-device: Loading...
-                        </div>
+                    <div class="greeting" id="welcomeGreeting">
+                        ✨ Murakaza neza, Mugisha
                     </div>
                 </div>
             </div>
@@ -1946,17 +1967,18 @@
                 <span class="stt-bar"></span>
             </div>
             <div class="stt-text" id="sttText">ndakumva...</div>
-            <div class="stt-hint">soma ugire icyo uhambaro</div>
+            <div class="stt-hint">vuga ugire icyo uhambara</div>
         </div>
     </div>
 
     <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-logo">
-            <i class="fas fa-robot"></i>
+            <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <i class="fas fa-robot" style="display: none;"></i>
         </div>
         <div class="loading-spinner"></div>
-        <div class="loading-text" id="loadingText">Loading Hybrid AI...</div>
+        <div class="loading-text" id="loadingText">Itegura...</div>
         <div class="loading-progress">
             <div class="loading-progress-bar"></div>
         </div>
@@ -1968,34 +1990,143 @@
     <!-- Hidden File Input -->
     <input type="file" id="importFile" accept=".json,.txt,.tyaza" style="display: none;">
 
-    <!-- Puter AI SDK (Loaded first for instant availability) -->
-    <script>
+    <!-- Mood Modal -->
+    <div class="modal-backdrop" id="moodModal">
+        <div class="modal mood-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">📊 Uko wumva</h3>
+                <button class="modal-close" id="moodModalClose">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">
+                    Ubu umerera gute?
+                </p>
+                <div class="mood-scale" id="moodScale">
+                    <button class="mood-btn" data-mood="1">
+                        <span class="mood-emoji">😢</span>
+                        <span class="mood-label">Byacye</span>
+                    </button>
+                    <button class="mood-btn" data-mood="2">
+                        <span class="mood-emoji">😔</span>
+                        <span class="mood-label">Ntacyo</span>
+                    </button>
+                    <button class="mood-btn" data-mood="3">
+                        <span class="mood-emoji">😐</span>
+                        <span class="mood-label">Harinkomeye</span>
+                    </button>
+                    <button class="mood-btn" data-mood="4">
+                        <span class="mood-emoji">🙂</span>
+                        <span class="mood-label">Ni meza</span>
+                    </button>
+                    <button class="mood-btn" data-mood="5">
+                        <span class="mood-emoji">😊</span>
+                        <span class="mood-label">Neza cyane</span>
+                    </button>
+                </div>
+                <textarea class="mood-notes" id="moodNotes" placeholder="Andika icyo uhererwa... (ikinyarwanda)"></textarea>
+                <button class="btn btn-primary btn-block" id="saveMoodBtn">
+                    <i class="fas fa-save"></i> Bika uko numva
+                </button>
+                <div class="mood-history">
+                    <div class="mood-history-title">Imimerere y'icyumweru</div>
+                    <div class="mood-calendar" id="moodCalendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Crisis Modal -->
+    <div class="modal-backdrop" id="crisisModal">
+        <div class="modal" style="max-width: 500px; border-color: var(--color-error);">
+            <div class="modal-header" style="border-bottom-color: var(--color-error);">
+                <h3 class="modal-title" style="color: var(--color-error);">
+                    ⚠️ Ukeneye ubufasha bwihutirwa?
+                </h3>
+                <button class="modal-close" id="crisisClose">&times;</button>
+            </div>
+            <div style="margin: var(--space-6) 0;">
+                <p style="margin-bottom: var(--space-4); color: var(--color-text-secondary);">
+                    Nga ni byiza kuvugana n'umuntu w'umubiri. Dore imitari y'inkunga:
+                </p>
+                <div class="crisis-resources">
+                    <div class="crisis-resource">
+                        <div class="crisis-icon">📞</div>
+                        <div class="crisis-info">
+                            <div class="crisis-name">Imitari y'inkunga</div>
+                            <div class="crisis-number">116</div>
+                            <div class="crisis-desc">24/7 Crisis Line</div>
+                        </div>
+                        <a href="tel:116" class="crisis-call">
+                            <i class="fas fa-phone-alt"></i>
+                        </a>
+                    </div>
+                    <div class="crisis-resource">
+                        <div class="crisis-icon">🏥</div>
+                        <div class="crisis-info">
+                            <div class="crisis-name">Isange One Stop</div>
+                            <div class="crisis-number">3029</div>
+                            <div class="crisis-desc">One Stop Center</div>
+                        </div>
+                        <a href="tel:3029" class="crisis-call">
+                            <i class="fas fa-phone-alt"></i>
+                        </a>
+                    </div>
+                    <div class="crisis-resource">
+                        <div class="crisis-icon">🚔</div>
+                        <div class="crisis-info">
+                            <div class="crisis-name">Police</div>
+                            <div class="crisis-number">112</div>
+                            <div class="crisis-desc">Emergency</div>
+                        </div>
+                        <a href="tel:112" class="crisis-call">
+                            <i class="fas fa-phone-alt"></i>
+                        </a>
+                    </div>
+                    <div class="crisis-resource">
+                        <div class="crisis-icon">🚑</div>
+                        <div class="crisis-info">
+                            <div class="crisis-name">Ambulance</div>
+                            <div class="crisis-number">912</div>
+                            <div class="crisis-desc">Medical Emergency</div>
+                        </div>
+                        <a href="tel:912" class="crisis-call">
+                            <i class="fas fa-phone-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex; gap: var(--space-3);">
+                <button class="btn btn-secondary flex-1" id="crisisLater">
+                    Ndabibuka
+                </button>
+                <button class="btn btn-primary flex-1" id="crisisNow" style="background: var(--color-error);">
+                    Mpambe noneho
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Puter AI SDK (hidden from user) -->
+    <script style="display: none;">
         window.puter = null;
         window.puterAvailable = false;
     </script>
-    <script src="https://js.puter.com/v2/"></script>
+    <script src="https://js.puter.com/v2/" style="display: none;"></script>
 
-    <!-- Main Application Script (Module) -->
-    <script type="module">
+    <!-- Main Application Script -->
+    <script type="module" style="display: none;">
         // ================================================================
-        // TYAZA v5.0 - FINAL PRODUCTION VERSION
-        // Hybrid AI: Puter API + On-device models
-        // All features integrated and optimized
+        // TYAZA v5.0 - COMPLETE PRODUCTION VERSION
+        // Technical implementation hidden from user
         // ================================================================
 
         import { openDB } from 'https://esm.sh/idb@8.0.0';
         import { pipeline, env } from 'https://esm.sh/@xenova/transformers@2.17.1';
 
-        // Configure transformers.js for optimal loading
         env.useBrowserCache = true;
-        env.localModelPath = '/models/';
         env.allowRemoteModels = true;
-        env.useFSCache = false;
 
-        // ================================================================
-        // UTILITY FUNCTIONS
-        // ================================================================
-        
+        // Utility functions
         function generateId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
         }
@@ -2020,33 +2151,32 @@
             const days = Math.floor(diff / 86400000);
 
             if (minutes < 1) return 'none';
-            if (minutes < 60) return `${minutes} min.`;
-            if (hours < 24) return `${hours} hr.`;
-            if (days < 7) return `${days} j.`;
-            return new Date(timestamp).toLocaleDateString('rw-RW', {
-                day: 'numeric',
-                month: 'short'
-            });
+            if (minutes < 60) return `${minutes} min`;
+            if (hours < 24) return `${hours} hr`;
+            if (days < 7) return `${days} d`;
+            return new Date(timestamp).toLocaleDateString('rw-RW');
         }
 
-        // ================================================================
-        // DATABASE (IndexedDB)
-        // ================================================================
-
+        // Database
         class Database {
             constructor() {
                 this.db = null;
             }
 
             async init() {
-                this.db = await openDB('TyazaDB', 2, {
+                this.db = await openDB('TyazaDB', 3, {
                     upgrade(db) {
                         if (!db.objectStoreNames.contains('conversations')) {
-                            const store = db.createObjectStore('conversations', { keyPath: 'id' });
-                            store.createIndex('timestamp', 'timestamp', { unique: false });
+                            db.createObjectStore('conversations', { keyPath: 'id' });
                         }
                         if (!db.objectStoreNames.contains('settings')) {
                             db.createObjectStore('settings');
+                        }
+                        if (!db.objectStoreNames.contains('moodData')) {
+                            db.createObjectStore('moodData', { keyPath: 'id', autoIncrement: true });
+                        }
+                        if (!db.objectStoreNames.contains('userData')) {
+                            db.createObjectStore('userData');
                         }
                     }
                 });
@@ -2072,85 +2202,143 @@
                 await this.db.put('settings', value, key);
             }
 
+            async saveMood(mood) {
+                await this.db.add('moodData', {
+                    ...mood,
+                    timestamp: Date.now()
+                });
+            }
+
+            async getMoodHistory(days = 7) {
+                const all = await this.db.getAll('moodData');
+                const cutoff = Date.now() - (days * 86400000);
+                return all.filter(m => m.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
+            }
+
+            async getUserData() {
+                return await this.db.get('userData', 'user') || { name: 'Mugisha' };
+            }
+
+            async saveUserData(data) {
+                await this.db.put('userData', data, 'user');
+            }
+
             async clearHistory() {
                 await this.db.clear('conversations');
             }
         }
 
-        // ================================================================
-        // HYBRID AI SERVICE (Puter + On-device)
-        // ================================================================
+        // Clinical Evidence Framework (Highest Quality)
+        const ClinicalEvidence = {
+            frameworks: {
+                CBT: {
+                    name: 'Cognitive Behavioral Therapy',
+                    techniques: {
+                        cognitiveRestructuring: {
+                            patterns: ['ntabwo', 'ntashobora', 'buri gihe', 'nta na rimwe', 'ntacyo'],
+                            response: 'Nabonye ko utekereza mu buryo butemewe. Reka turebe hamwe uko twahindura ibyo tekerezo.',
+                            evidence: 'Beck, A.T. (1979). Cognitive Therapy of Depression.'
+                        },
+                        behavioralActivation: {
+                            patterns: ['ntagifite imbaraga', 'sinashobora gukora', 'ntacyo nshobora'],
+                            response: 'Igihe tuba dufite ibintu byinshi, biduhenda. Hari igikorwa gito wakora uyu munsi?',
+                            evidence: 'Lewinsohn, P.M. (1974). A behavioral approach to depression.'
+                        }
+                    }
+                },
+                DBT: {
+                    name: 'Dialectical Behavior Therapy',
+                    techniques: {
+                        distressTolerance: {
+                            patterns: ['ntakibazo', 'sinakimara', 'ndashaka guhita'],
+                            response: 'Ibi bimeze nk\'umuyaga ukaze - uraza kandi uragenda. Reka turebe uko twakira iki gihe.',
+                            evidence: 'Linehan, M.M. (1993). Cognitive-Behavioral Treatment of Borderline Personality Disorder.'
+                        },
+                        emotionRegulation: {
+                            patterns: ['ndarakaye', 'ndababaye', 'ndatinya'],
+                            response: 'Uyu murandasi ufite izina. Reka tumwereke umwanya.',
+                            evidence: 'Linehan, M.M. (2015). DBT Skills Training Manual.'
+                        }
+                    }
+                },
+                MI: {
+                    name: 'Motivational Interviewing',
+                    techniques: {
+                        changeTalk: {
+                            patterns: ['ndashaka guhinduka', 'nkeneye ubufasha', 'nabikoze'],
+                            response: 'Ni iki cyagufasha gutera intambwe? Mbese wabona uko...',
+                            evidence: 'Miller, W.R. & Rollnick, S. (2012). Motivational Interviewing.'
+                        }
+                    }
+                },
+                ACT: {
+                    name: 'Acceptance and Commitment Therapy',
+                    techniques: {
+                        acceptance: {
+                            patterns: ['ntabwo mbishaka', 'ndwanya', 'ntemera'],
+                            response: 'Nta guhatana. Reka turebe uko dushobora kwakira iki kibazo.',
+                            evidence: 'Hayes, S.C. (2004). Acceptance and Commitment Therapy.'
+                        }
+                    }
+                }
+            },
+            
+            crisisProtocol: {
+                triggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica'],
+                evidence: 'Stanley, B. & Brown, G.K. (2012). Safety Planning Intervention.'
+            },
 
-        class HybridAIService {
+            getResponse(message) {
+                const lower = message.toLowerCase();
+                
+                // Check crisis first
+                if (this.crisisProtocol.triggers.some(t => lower.includes(t))) {
+                    return { type: 'crisis', response: null };
+                }
+                
+                // Check each framework
+                for (const framework of Object.values(this.frameworks)) {
+                    for (const technique of Object.values(framework.techniques)) {
+                        if (technique.patterns.some(p => lower.includes(p))) {
+                            return {
+                                type: 'evidence-based',
+                                response: technique.response,
+                                evidence: technique.evidence
+                            };
+                        }
+                    }
+                }
+                
+                return null;
+            }
+        };
+
+        // AI Service (hidden implementation)
+        class AIService {
             constructor() {
                 this.puterAvailable = false;
                 this.onDeviceAvailable = false;
                 this.onDeviceModel = null;
-                this.currentStrategy = 'puter'; // Start with Puter
-                this.loadingProgress = 0;
-                this.loadingCallbacks = [];
-                this.messageQueue = [];
-                this.processingQueue = false;
-                this.modelType = 'auto'; // auto, puter, tinyllama, qwen2, phi2
-                
-                // Model configurations
-                this.models = {
-                    'tinyllama': {
-                        name: 'Xenova/tinyllama-1.1b-chat-v1.0-4bit',
-                        size: '338MB',
-                        type: 'ondevice'
-                    },
-                    'qwen2': {
-                        name: 'Xenova/Qwen2-0.5B-Instruct-4bit',
-                        size: '150MB',
-                        type: 'ondevice'
-                    },
-                    'phi2': {
-                        name: 'Xenova/phi-2-4bit',
-                        size: '675MB',
-                        type: 'ondevice'
-                    },
-                    'puter': {
-                        name: 'Puter Cloud',
-                        size: 'instant',
-                        type: 'cloud'
-                    },
-                    'auto': {
-                        name: 'Auto Switch',
-                        size: 'smart',
-                        type: 'hybrid'
-                    }
-                };
+                this.currentSource = 'puter';
+                this.userName = 'Mugisha';
             }
 
-            async init(progressCallback = null) {
-                if (progressCallback) this.loadingCallbacks.push(progressCallback);
-                
-                // Check Puter availability (instant)
-                await this.checkPuterConnection();
-                
-                // Start loading on-device model in background (non-blocking)
-                this.loadOnDeviceModel('qwen2').catch(e => {
-                    console.log('Background model load:', e);
-                });
-                
-                return this;
+            async init() {
+                await this.checkPuter();
+                this.loadOnDevice().catch(() => {});
             }
 
-            async checkPuterConnection() {
+            async checkPuter() {
                 return new Promise(resolve => {
                     let attempts = 0;
-                    const maxAttempts = 15;
-                    
                     const check = setInterval(() => {
-                        if (window.puter && window.puter.ai) {
+                        if (window.puter?.ai) {
                             this.puterAvailable = true;
-                            this.updateStatus('puter', true);
+                            this.currentSource = 'puter';
                             clearInterval(check);
                             resolve(true);
-                        } else if (attempts++ >= maxAttempts) {
+                        } else if (attempts++ >= 15) {
                             this.puterAvailable = false;
-                            this.updateStatus('puter', false);
                             clearInterval(check);
                             resolve(false);
                         }
@@ -2158,287 +2346,81 @@
                 });
             }
 
-            async loadOnDeviceModel(modelName = 'qwen2') {
-                if (this.onDeviceAvailable) return true;
-                
+            async loadOnDevice() {
                 try {
-                    this.updateLoadingProgress(0, `Loading ${modelName}...`);
-                    
-                    // Load quantized model
-                    this.onDeviceModel = await pipeline('text-generation', this.models[modelName].name, {
+                    this.onDeviceModel = await pipeline('text-generation', 
+                        'Xenova/tinyllama-1.1b-chat-v1.0-4bit', {
                         quantized: true,
-                        device: 'wasm',
-                        progress_callback: (progress) => {
-                            if (progress.status === 'progress') {
-                                const percent = Math.round(progress.progress * 100);
-                                this.updateLoadingProgress(percent, `Loading ${modelName}: ${percent}%`);
-                            }
-                        }
+                        device: 'wasm'
                     });
-                    
                     this.onDeviceAvailable = true;
-                    this.updateStatus('ondevice', true, modelName);
-                    this.updateLoadingProgress(100, `${modelName} ready!`);
-                    
-                    // Process queued messages
-                    this.processQueue();
-                    
-                    return true;
                 } catch (e) {
-                    console.error('On-device model failed:', e);
-                    this.onDeviceAvailable = false;
-                    this.updateStatus('ondevice', false);
-                    this.updateLoadingProgress(0, 'Model failed, using Puter');
-                    return false;
+                    console.log('On-device unavailable');
                 }
             }
 
-            updateStatus(type, available, info = '') {
-                const puterIndicator = document.getElementById('puterStatus');
-                const puterText = document.getElementById('puterText');
-                const ondeviceIndicator = document.getElementById('ondeviceStatus');
-                const ondeviceText = document.getElementById('ondeviceText');
-                const puterWelcome = document.getElementById('puterWelcomeBadge');
-                const ondeviceWelcome = document.getElementById('ondeviceWelcomeBadge');
-                const headerStatus = document.getElementById('headerStatus');
-                const connectionStatus = document.getElementById('connectionStatus');
-                
-                if (type === 'puter') {
-                    if (puterIndicator) {
-                        puterIndicator.style.background = available ? '#22c55e' : '#ef4444';
-                    }
-                    if (puterText) {
-                        puterText.textContent = available ? 'Puter: Ready' : 'Puter: Unavailable';
-                    }
-                    if (puterWelcome) {
-                        puterWelcome.innerHTML = available ? 
-                            '<i class="fas fa-cloud mr-1"></i> Puter: ✅ Ready' : 
-                            '<i class="fas fa-cloud mr-1"></i> Puter: ❌ Offline';
-                        puterWelcome.className = available ? 'badge badge-success' : 'badge';
-                    }
-                    
-                    if (available && this.currentStrategy === 'auto') {
-                        this.currentStrategy = 'puter';
-                        if (headerStatus) headerStatus.style.background = '#22c55e';
-                        if (connectionStatus) connectionStatus.textContent = 'Puter AI';
-                    }
-                }
-                
-                if (type === 'ondevice') {
-                    if (ondeviceIndicator) {
-                        ondeviceIndicator.style.background = available ? '#22c55e' : '#f59e0b';
-                    }
-                    if (ondeviceText) {
-                        ondeviceText.textContent = available ? 
-                            `On-device: Ready (${info})` : 
-                            'On-device: Loading...';
-                    }
-                    if (ondeviceWelcome) {
-                        ondeviceWelcome.innerHTML = available ? 
-                            `<i class="fas fa-microchip mr-1"></i> On-device: ✅ ${info}` : 
-                            '<i class="fas fa-microchip mr-1"></i> On-device: ⏳ Loading...';
-                        ondeviceWelcome.className = available ? 'badge badge-success' : 'badge badge-warning';
-                    }
-                    
-                    if (available && this.currentStrategy === 'auto') {
-                        this.currentStrategy = 'ondevice';
-                        if (headerStatus) headerStatus.style.background = '#8b5cf6';
-                        if (connectionStatus) connectionStatus.textContent = 'On-device AI';
-                    }
-                }
-                
-                // Update active AI display
-                const activeAI = document.getElementById('activeAI');
-                if (activeAI) {
-                    activeAI.textContent = `Active: ${this.currentStrategy === 'puter' ? 'Puter Cloud' : 
-                        (this.currentStrategy === 'ondevice' ? 'On-device' : 'Auto')}`;
-                }
-            }
-
-            updateLoadingProgress(percent, message) {
-                this.loadingProgress = percent;
-                this.loadingCallbacks.forEach(cb => cb(percent, message));
-            }
-
-            async setModelType(type) {
-                this.modelType = type;
-                
-                if (type === 'puter') {
-                    this.currentStrategy = 'puter';
-                    this.updateStatus('ondevice', this.onDeviceAvailable, 'standby');
-                } else if (type === 'auto') {
-                    this.currentStrategy = this.onDeviceAvailable ? 'ondevice' : 'puter';
-                } else if (['tinyllama', 'qwen2', 'phi2'].includes(type)) {
-                    if (!this.onDeviceAvailable) {
-                        await this.loadOnDeviceModel(type);
-                    }
-                    this.currentStrategy = 'ondevice';
-                }
-                
-                this.updateActiveDisplay();
-            }
-
-            updateActiveDisplay() {
-                const headerStatus = document.getElementById('headerStatus');
-                const connectionStatus = document.getElementById('connectionStatus');
-                
-                if (this.currentStrategy === 'puter') {
-                    if (headerStatus) headerStatus.style.background = '#22c55e';
-                    if (connectionStatus) connectionStatus.textContent = 'Puter AI';
-                } else if (this.currentStrategy === 'ondevice') {
-                    if (headerStatus) headerStatus.style.background = '#8b5cf6';
-                    if (connectionStatus) connectionStatus.textContent = 'On-device AI';
-                }
-                
-                const activeAI = document.getElementById('activeAI');
-                if (activeAI) {
-                    activeAI.textContent = `Active: ${this.currentStrategy === 'puter' ? 'Puter Cloud' : 
-                        (this.currentStrategy === 'ondevice' ? 'On-device' : 'Auto')}`;
-                }
-            }
-
-            async generateResponse(messages, context = []) {
+            async generateResponse(messages) {
                 const userMessage = messages[messages.length - 1]?.content || '';
                 
-                // Check if we should use Puter
-                if (this.modelType === 'puter' || 
-                    (this.modelType === 'auto' && this.puterAvailable && !this.onDeviceAvailable) ||
-                    (this.modelType === 'auto' && this.currentStrategy === 'puter')) {
-                    
+                // Check clinical evidence first
+                const clinical = ClinicalEvidence.getResponse(userMessage);
+                if (clinical?.type === 'crisis') {
+                    return { type: 'crisis', content: null };
+                }
+                if (clinical) {
+                    return { type: 'normal', content: clinical.response };
+                }
+                
+                // Use Puter (Ndahari)
+                if (this.puterAvailable) {
                     try {
-                        const response = await this.generateWithPuter(messages);
-                        return response;
+                        const systemPrompt = `Wowe uri Tyaza, umuvugizi w'umutima mu Kinyarwanda. 
+Ushyashya mu ijwi ryuje impuhwe. Koresha amagambo nk' "umva", "umutima", "mahoro".
+Umukiriya wawe witwa ${this.userName}.`;
+                        
+                        const response = await window.puter.ai.chat([
+                            { role: 'system', content: systemPrompt },
+                            ...messages.slice(-5)
+                        ], { model: 'gpt-4o-mini' });
+                        
+                        return { type: 'normal', content: response.message?.content || response };
                     } catch (e) {
-                        console.warn('Puter failed, falling back:', e);
-                        this.puterAvailable = false;
-                        this.updateStatus('puter', false);
+                        return this.getFallback();
                     }
                 }
                 
-                // Check if we should use on-device
-                if (this.modelType !== 'puter' && this.onDeviceAvailable && this.onDeviceModel) {
+                // Use on-device if available
+                if (this.onDeviceAvailable && this.onDeviceModel) {
                     try {
-                        const response = await this.generateOnDevice(userMessage, context);
-                        return response;
+                        const prompt = `<|system|>\nWowe uri Tyaza mu Kinyarwanda.\n<|user|>\n${userMessage}\n<|assistant|>\n`;
+                        const result = await this.onDeviceModel(prompt, {
+                            max_new_tokens: 150,
+                            temperature: 0.7
+                        });
+                        return { type: 'normal', content: result[0].generated_text.replace(prompt, '').trim() };
                     } catch (e) {
-                        console.warn('On-device failed:', e);
+                        return this.getFallback();
                     }
                 }
                 
-                // Queue if nothing available
-                return this.queueMessage(userMessage);
+                return this.getFallback();
             }
 
-            async generateWithPuter(messages) {
-                if (!window.puter?.ai) {
-                    throw new Error('Puter not available');
-                }
-                
-                const systemPrompt = `Wowe uri Tyaza, umuvugizi w'umutima mu Kinyarwanda. 
-Shyashya mu ijwi ryuje impuhwe, ubumuntu n'ubugoro.
-Komeza ibiganiro bigufi kandi byuje ubushyuhe.
-Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
-                
-                const fullMessages = [
-                    { role: 'system', content: systemPrompt },
-                    ...messages.slice(-5)
+            getFallback() {
+                const responses = [
+                    "Ndumva. Urakoze kunsangiza ibi.",
+                    "Ndi kumwe nawe. Wumva ute ubu?",
+                    "Urakoze kundekera."
                 ];
-                
-                const response = await window.puter.ai.chat(fullMessages, {
-                    model: 'gpt-4o-mini',
-                    stream: false
-                });
-                
-                return response.message?.content || response;
+                return { type: 'normal', content: responses[Math.floor(Math.random() * responses.length)] };
             }
 
-            async generateOnDevice(message, context = []) {
-                const systemPrompt = `Wowe uri Tyaza, umuvugizi w'umutima mu Kinyarwanda. Shyashya mu ijwi ryuje impuhwe.`;
-                const contextStr = context.length > 0 
-                    ? `Ibyerekeye: ${context.map(c => c.text).join(' ')}\n` 
-                    : '';
-                
-                const prompt = `<|system|>\n${systemPrompt}\n<|user|>\n${contextStr}${message}\n<|assistant|>\n`;
-                
-                const result = await this.onDeviceModel(prompt, {
-                    max_new_tokens: 256,
-                    temperature: 0.7,
-                    do_sample: true,
-                    top_p: 0.95
-                });
-                
-                return result[0].generated_text.replace(prompt, '').trim();
-            }
-
-            queueMessage(message) {
-                return new Promise((resolve) => {
-                    this.messageQueue.push({ message, resolve });
-                    
-                                        Toast.show('Ubutumwa buzerekwa (AI irakonja)...', 'info');
-                    
-                    // Try processing queue after 2 seconds
-                    setTimeout(() => this.processQueue(), 2000);
-                });
-            }
-
-            async processQueue() {
-                if (this.processingQueue || this.messageQueue.length === 0) return;
-                
-                this.processingQueue = true;
-                
-                const canProcess = this.puterAvailable || this.onDeviceAvailable;
-                
-                if (canProcess) {
-                    const queue = [...this.messageQueue];
-                    this.messageQueue = [];
-                    
-                    for (const item of queue) {
-                        try {
-                            const response = await this.generateResponse([{ content: item.message }]);
-                            item.resolve(response);
-                        } catch (e) {
-                            item.resolve('Ndi kumwe nawe. Hari ikibazo, ngaho tuganire.');
-                        }
-                    }
-                }
-                
-                this.processingQueue = false;
+            setUserName(name) {
+                this.userName = name;
             }
         }
 
-        // ================================================================
-        // TOAST SERVICE
-        // ================================================================
-
-        class ToastService {
-            constructor() {
-                this.container = document.getElementById('toastContainer');
-            }
-
-            show(message, type = 'info', duration = 3000) {
-                const toast = document.createElement('tyaza-toast');
-                toast.setAttribute('message', message);
-                toast.setAttribute('type', type);
-                toast.setAttribute('duration', duration.toString());
-                this.container.appendChild(toast);
-                
-                setTimeout(() => {
-                    if (toast.parentNode) {
-                        toast.remove();
-                    }
-                }, duration + 100);
-            }
-
-            success(message) { this.show(message, 'success'); }
-            error(message) { this.show(message, 'error'); }
-            info(message) { this.show(message, 'info'); }
-            warning(message) { this.show(message, 'warning'); }
-        }
-
-        // ================================================================
-        // SPEECH SERVICES
-        // ================================================================
-
+        // Speech Service
         class SpeechService {
             constructor() {
                 this.recognition = null;
@@ -2447,51 +2429,35 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                 this.voices = [];
                 this.onResult = null;
                 this.onEnd = null;
-                
                 this.initRecognition();
                 this.loadVoices();
             }
 
             initRecognition() {
-                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                    console.warn('Speech recognition not supported');
-                    return false;
-                }
-                
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                this.recognition = new SpeechRecognition();
+                if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) return;
+                const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+                this.recognition = new SR();
                 this.recognition.continuous = false;
                 this.recognition.interimResults = true;
                 this.recognition.lang = 'rw-RW';
                 
-                this.recognition.onstart = () => {
-                    this.isListening = true;
-                };
-                
-                this.recognition.onend = () => {
-                    this.isListening = false;
+                this.recognition.onstart = () => { this.isListening = true; };
+                this.recognition.onend = () => { 
+                    this.isListening = false; 
                     if (this.onEnd) this.onEnd();
                 };
-                
-                this.recognition.onresult = (event) => {
+                this.recognition.onresult = (e) => {
                     let transcript = '';
-                    for (let i = 0; i < event.results.length; i++) {
-                        transcript += event.results[i][0].transcript;
+                    for (let i = 0; i < e.results.length; i++) {
+                        transcript += e.results[i][0].transcript;
                     }
                     if (this.onResult) this.onResult(transcript);
                 };
-                
-                this.recognition.onerror = (event) => {
-                    console.error('Recognition error:', event.error);
-                    this.isListening = false;
-                };
-                
-                return true;
             }
 
             loadVoices() {
                 this.voices = this.synthesis.getVoices();
-                if (this.synthesis.onvoiceschanged !== undefined) {
+                if (this.synthesis.onvoiceschanged) {
                     this.synthesis.onvoiceschanged = () => {
                         this.voices = this.synthesis.getVoices();
                     };
@@ -2500,59 +2466,36 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
 
             startListening() {
                 if (this.recognition && !this.isListening) {
-                    try {
-                        this.recognition.start();
-                        return true;
-                    } catch (e) {
-                        console.error('Start listening error:', e);
-                        return false;
-                    }
+                    try { this.recognition.start(); } catch (e) {}
                 }
-                return false;
             }
 
             stopListening() {
                 if (this.recognition && this.isListening) {
-                    try {
-                        this.recognition.stop();
-                        return true;
-                    } catch (e) {
-                        console.error('Stop listening error:', e);
-                        return false;
-                    }
+                    try { this.recognition.stop(); } catch (e) {}
                 }
-                return false;
             }
 
             speak(text, options = {}) {
                 if (!this.synthesis) return;
-                
                 this.synthesis.cancel();
-                
-                const utterance = new SpeechSynthesisUtterance(text.slice(0, 1000));
-                
+                const utterance = new SpeechSynthesisUtterance(text.slice(0, 500));
                 if (options.voice) {
                     const voice = this.voices.find(v => v.name.includes(options.voice.split(' ')[0]));
                     if (voice) utterance.voice = voice;
                 }
-                
                 utterance.rate = options.rate || 0.9;
                 utterance.pitch = options.pitch || 1.0;
                 utterance.lang = 'rw-RW';
-                
                 this.synthesis.speak(utterance);
             }
         }
 
-        // ================================================================
-        // VOICE VISUALIZER
-        // ================================================================
-
+        // Voice Visualizer
         class VoiceVisualizer {
             constructor(canvasId) {
                 this.canvas = document.getElementById(canvasId);
                 if (!this.canvas) return;
-                
                 this.ctx = this.canvas.getContext('2d');
                 this.analyser = null;
                 this.animationFrame = null;
@@ -2561,55 +2504,43 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
 
             async start() {
                 if (this.isActive) return;
-                
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    const audioCtx = new AudioContext();
                     this.analyser = audioCtx.createAnalyser();
                     this.analyser.fftSize = 256;
                     const source = audioCtx.createMediaStreamSource(stream);
                     source.connect(this.analyser);
-                    
                     this.isActive = true;
                     this.draw();
-                } catch (e) {
-                    console.error('Visualizer start error:', e);
-                }
+                } catch (e) {}
             }
 
             stop() {
                 this.isActive = false;
-                if (this.animationFrame) {
-                    cancelAnimationFrame(this.animationFrame);
-                }
+                if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
                 this.clear();
             }
 
             draw() {
-                if (!this.isActive || !this.analyser || !this.ctx || !this.canvas) return;
-                
+                if (!this.isActive || !this.analyser || !this.ctx) return;
                 const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
-                
                 const drawFrame = () => {
                     if (!this.isActive) return;
-                    
                     this.animationFrame = requestAnimationFrame(drawFrame);
-                    
                     this.analyser.getByteFrequencyData(dataArray);
-                    
                     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
                     
-                    // Draw gradient background
+                    // Gradient
                     const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
                     gradient.addColorStop(0, 'rgba(139, 92, 246, 0.2)');
                     gradient.addColorStop(1, 'rgba(236, 72, 153, 0.2)');
                     this.ctx.fillStyle = gradient;
                     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
                     
-                    // Draw bars
+                    // Bars
                     const barWidth = (this.canvas.width / dataArray.length) * 2.5;
                     let x = 0;
-                    
                     for (let i = 0; i < dataArray.length; i += 2) {
                         const barHeight = (dataArray[i] / 255) * this.canvas.height;
                         const hue = 240 + (i / dataArray.length) * 120;
@@ -2618,129 +2549,89 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                         x += barWidth;
                     }
                 };
-                
                 drawFrame();
             }
 
             clear() {
-                if (!this.ctx || !this.canvas) return;
-                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                if (this.ctx) this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             }
         }
 
-        // ================================================================
-        // CRISIS RESOURCES
-        // ================================================================
-
-        const CrisisResources = {
-            resources: [
-                { name: 'Imitari y\'inkunga', number: '116', icon: '📞', description: '24/7 Crisis Line' },
-                { name: 'Isange One Stop', number: '3029', icon: '🏥', description: 'One Stop Center' },
-                { name: 'Police', number: '112', icon: '🚔', description: 'Emergency' },
-                { name: 'Ambulance', number: '912', icon: '🚑', description: 'Medical Emergency' }
-            ],
-            
-            keywords: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona'],
-            
-            showAlert() {
-                if (document.getElementById('crisisModal')) return;
+        // Toast Web Component
+        class TyazaToast extends HTMLElement {
+            connectedCallback() {
+                const message = this.getAttribute('message') || '';
+                const type = this.getAttribute('type') || 'info';
+                const colors = { success: '#22c55e', error: '#ef4444', info: '#3b82f6' };
+                const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle' };
                 
-                const modal = document.createElement('div');
-                modal.className = 'modal-backdrop active';
-                modal.id = 'crisisModal';
-                modal.innerHTML = `
-                    <div class="modal active" style="max-width: 500px; border-color: var(--color-error);">
-                        <div class="modal-header" style="border-bottom-color: var(--color-error);">
-                            <h3 class="modal-title" style="color: var(--color-error);">
-                                ⚠️ Ukeneye ubufasha bwihutirwa?
-                            </h3>
-                            <button class="modal-close" id="crisisClose">&times;</button>
-                        </div>
-                        <div style="margin: var(--space-6) 0;">
-                            <p style="margin-bottom: var(--space-4); color: var(--color-text-secondary);">
-                                Nga ni byiza kuvugana n'umuntu w'umubiri. Dore imitari y'inkunga:
-                            </p>
-                            <div class="crisis-resources">
-                                ${this.resources.map(r => `
-                                    <div class="crisis-resource">
-                                        <div class="crisis-icon">${r.icon}</div>
-                                        <div class="crisis-info">
-                                            <div class="crisis-name">${r.name}</div>
-                                            <div class="crisis-number">${r.number}</div>
-                                            <div class="crisis-desc">${r.description}</div>
-                                        </div>
-                                        <a href="tel:${r.number}" class="crisis-call">
-                                            <i class="fas fa-phone-alt"></i>
-                                        </a>
-                                    </div>
-                                `).join('')}
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: var(--space-3);">
-                            <button class="btn btn-secondary flex-1" id="crisisLater">
-                                Ndabibuka
-                            </button>
-                            <button class="btn btn-primary flex-1" id="crisisNow" style="background: var(--color-error);">
-                                Mpambe noneho
-                            </button>
-                        </div>
+                this.attachShadow({ mode: 'open' }).innerHTML = `
+                    <style>
+                        :host {
+                            display: block;
+                            background: #130d24;
+                            border: 1px solid #2d2352;
+                            border-left: 4px solid ${colors[type]};
+                            border-radius: 12px;
+                            padding: 16px 20px;
+                            margin-bottom: 12px;
+                            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+                            animation: slideIn 0.3s ease-out;
+                            max-width: 350px;
+                        }
+                        .content {
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                            color: #f8fafc;
+                        }
+                        @keyframes slideIn {
+                            from { opacity: 0; transform: translateX(100%); }
+                            to { opacity: 1; transform: translateX(0); }
+                        }
+                    </style>
+                    <div class="content">
+                        <i class="fas fa-${icons[type]}"></i>
+                        <span>${message}</span>
                     </div>
                 `;
-                
-                document.body.appendChild(modal);
-                
-                modal.querySelector('#crisisClose').onclick = () => modal.remove();
-                modal.querySelector('#crisisLater').onclick = () => modal.remove();
-                modal.querySelector('#crisisNow').onclick = () => {
-                    window.location.href = 'tel:116';
-                };
-                
-                setTimeout(() => {
-                    if (document.getElementById('crisisModal')) {
-                        modal.remove();
-                    }
-                }, 30000);
+                setTimeout(() => this.remove(), 3000);
             }
-        };
+        }
+        customElements.define('tyaza-toast', TyazaToast);
 
-        // ================================================================
-        // MAIN APPLICATION
-        // ================================================================
-
+        // Main App
         class TyazaApp {
             constructor() {
                 this.db = new Database();
-                this.ai = new HybridAIService();
+                this.ai = new AIService();
                 this.speech = new SpeechService();
-                this.toast = new ToastService();
-                this.visualizer = null;
+                this.visualizer = new VoiceVisualizer('voiceVisualizer');
                 
                 this.messages = [];
-                this.currentConversationId = generateId();
+                this.currentId = generateId();
                 this.isGenerating = false;
+                this.userName = 'Mugisha';
                 this.settings = {
-                    model: 'auto',
                     voice: 'Google UK English Female',
                     rate: 0.9,
-                    pitch: 1.0,
-                    autoTTS: true,
-                    enableRAG: true
+                    pitch: 1.0
                 };
                 
                 this.elements = {
                     messagesContainer: document.getElementById('messagesContainer'),
                     welcomeScreen: document.getElementById('welcomeScreen'),
+                    welcomeGreeting: document.getElementById('welcomeGreeting'),
                     messageInput: document.getElementById('messageInput'),
                     sendBtn: document.getElementById('sendBtn'),
                     voiceBtn: document.getElementById('voiceBtn'),
-                    modelSelect: document.getElementById('modelSelect'),
-                    enableRAG: document.getElementById('enableRAG'),
+                    userNameInput: document.getElementById('userNameInput'),
+                    saveNameBtn: document.getElementById('saveNameBtn'),
                     voiceSelect: document.getElementById('voiceSelect'),
                     rateSlider: document.getElementById('rateSlider'),
                     pitchSlider: document.getElementById('pitchSlider'),
                     rateValue: document.getElementById('rateValue'),
                     pitchValue: document.getElementById('pitchValue'),
-                    autoTTS: document.getElementById('autoTTS'),
                     micTestBtn: document.getElementById('micTestBtn'),
                     historyList: document.getElementById('historyList'),
                     newChatBtn: document.getElementById('newChatBtn'),
@@ -2758,79 +2649,57 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                     loadingScreen: document.getElementById('loadingScreen'),
                     loadingText: document.getElementById('loadingText'),
                     starsContainer: document.getElementById('starsContainer'),
-                    connectionStatus: document.getElementById('connectionStatus'),
-                    headerStatus: document.getElementById('headerStatus')
+                    headerStatus: document.getElementById('headerStatus'),
+                    ndahariBtn: document.getElementById('ndahariBtn'),
+                    moodModal: document.getElementById('moodModal'),
+                    moodModalClose: document.getElementById('moodModalClose'),
+                    moodScale: document.getElementById('moodScale'),
+                    moodNotes: document.getElementById('moodNotes'),
+                    saveMoodBtn: document.getElementById('saveMoodBtn'),
+                    moodCalendar: document.getElementById('moodCalendar'),
+                    openMoodModal: document.getElementById('openMoodModal'),
+                    crisisFloatingBtn: document.getElementById('crisisFloatingBtn'),
+                    crisisModal: document.getElementById('crisisModal'),
+                    crisisClose: document.getElementById('crisisClose'),
+                    crisisLater: document.getElementById('crisisLater'),
+                    crisisNow: document.getElementById('crisisNow')
                 };
             }
 
             async init() {
-                // Create stars
                 this.createStars();
-                
-                // Initialize visualizer
-                this.visualizer = new VoiceVisualizer('voiceVisualizer');
-                
-                // Load settings
-                await this.loadSettings();
-                
-                // Initialize database
-                this.elements.loadingText.textContent = 'Initializing database...';
                 await this.db.init();
                 
-                // Initialize AI with progress
-                this.elements.loadingText.textContent = 'Loading AI services...';
-                await this.ai.init((percent, message) => {
-                    if (percent < 100) {
-                        this.elements.loadingText.textContent = message;
-                    } else {
-                        setTimeout(() => {
-                            this.elements.loadingScreen.classList.add('hidden');
-                        }, 500);
-                    }
-                });
+                const userData = await this.db.getUserData();
+                this.userName = userData.name || 'Mugisha';
+                this.ai.setUserName(this.userName);
+                this.elements.userNameInput.value = this.userName;
+                if (this.elements.welcomeGreeting) {
+                    this.elements.welcomeGreeting.textContent = `✨ Murakaza neza, ${this.userName}`;
+                }
                 
-                // Bind speech callbacks
-                this.speech.onResult = (text) => {
-                    this.elements.messageInput.value = text;
-                    this.elements.sttText.textContent = text || 'ndakumva...';
-                    this.handleInput();
-                };
-                
-                this.speech.onEnd = () => {
-                    this.elements.voiceBtn.classList.remove('listening');
-                    this.elements.sttOverlay.classList.remove('active');
-                    this.visualizer.stop();
-                    
-                    if (this.elements.messageInput.value.trim()) {
-                        this.sendMessage();
-                    }
-                };
-                
-                // Bind UI events
-                this.bindEvents();
-                
-                // Load history
-                await this.loadHistory();
-                
-                // Apply settings
+                const settings = await this.db.getSetting('settings');
+                if (settings) this.settings = { ...this.settings, ...settings };
                 this.applySettings();
                 
-                // Hide loading screen after AI is ready
+                await this.ai.init();
+                
+                this.bindEvents();
+                await this.loadHistory();
+                
+                setTimeout(() => this.elements.loadingScreen.classList.add('hidden'), 1500);
+                
+                // Auto-show welcome greeting
                 setTimeout(() => {
-                    this.elements.loadingScreen.classList.add('hidden');
-                }, 2000);
-                
-                // Set up crisis detection
-                this.setupCrisisDetection();
-                
-                console.log('TYAZA v5.0 initialized');
-                this.toast.success('TYAZA Hybrid AI Ready');
+                    if (this.elements.welcomeGreeting) {
+                        this.elements.welcomeGreeting.style.opacity = '1';
+                    }
+                }, 500);
             }
 
             createStars() {
                 if (!this.elements.starsContainer) return;
-                
-                for (let i = 0; i < 60; i++) {
+                for (let i = 0; i < 50; i++) {
                     const star = document.createElement('div');
                     star.className = 'star';
                     star.style.left = `${Math.random() * 100}%`;
@@ -2841,37 +2710,12 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                 }
             }
 
-            async loadSettings() {
-                try {
-                    const saved = await this.db.getSetting('settings');
-                    if (saved) {
-                        this.settings = { ...this.settings, ...saved };
-                    }
-                } catch (e) {
-                    console.warn('Failed to load settings:', e);
-                }
-            }
-
-            async saveSettings() {
-                try {
-                    await this.db.setSetting('settings', this.settings);
-                } catch (e) {
-                    console.warn('Failed to save settings:', e);
-                }
-            }
-
             applySettings() {
-                this.elements.modelSelect.value = this.settings.model;
-                this.elements.enableRAG.checked = this.settings.enableRAG;
                 this.elements.voiceSelect.value = this.settings.voice;
                 this.elements.rateSlider.value = this.settings.rate;
                 this.elements.pitchSlider.value = this.settings.pitch;
                 this.elements.rateValue.textContent = this.settings.rate;
                 this.elements.pitchValue.textContent = this.settings.pitch;
-                this.elements.autoTTS.checked = this.settings.autoTTS;
-                
-                // Set AI model type
-                this.ai.setModelType(this.settings.model);
             }
 
             bindEvents() {
@@ -2883,53 +2727,47 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                         if (!this.elements.sendBtn.disabled) this.sendMessage();
                     }
                 });
-                
                 this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
                 
                 // Voice
                 this.elements.voiceBtn.addEventListener('click', () => this.toggleVoice());
-                this.elements.micTestBtn.addEventListener('click', () => this.testMicrophone());
+                this.elements.micTestBtn.addEventListener('click', () => this.testMic());
                 
                 // Settings
-                this.elements.modelSelect.addEventListener('change', (e) => {
-                    this.settings.model = e.target.value;
-                    this.ai.setModelType(e.target.value);
-                    this.saveSettings();
-                });
-                
-                this.elements.enableRAG.addEventListener('change', (e) => {
-                    this.settings.enableRAG = e.target.checked;
-                    this.saveSettings();
-                });
-                
                 this.elements.voiceSelect.addEventListener('change', (e) => {
                     this.settings.voice = e.target.value;
-                    this.saveSettings();
+                    this.db.setSetting('settings', this.settings);
                 });
-                
                 this.elements.rateSlider.addEventListener('input', (e) => {
                     this.elements.rateValue.textContent = e.target.value;
                     this.settings.rate = parseFloat(e.target.value);
                 });
-                
-                this.elements.rateSlider.addEventListener('change', () => this.saveSettings());
-                
+                this.elements.rateSlider.addEventListener('change', () => this.db.setSetting('settings', this.settings));
                 this.elements.pitchSlider.addEventListener('input', (e) => {
                     this.elements.pitchValue.textContent = e.target.value;
                     this.settings.pitch = parseFloat(e.target.value);
                 });
+                this.elements.pitchSlider.addEventListener('change', () => this.db.setSetting('settings', this.settings));
                 
-                this.elements.pitchSlider.addEventListener('change', () => this.saveSettings());
-                
-                this.elements.autoTTS.addEventListener('change', (e) => {
-                    this.settings.autoTTS = e.target.checked;
-                    this.saveSettings();
+                // User name
+                this.elements.saveNameBtn.addEventListener('click', async () => {
+                    const name = this.elements.userNameInput.value.trim();
+                    if (name) {
+                        this.userName = name;
+                        this.ai.setUserName(name);
+                        await this.db.saveUserData({ name });
+                        if (this.elements.welcomeGreeting) {
+                            this.elements.welcomeGreeting.textContent = `✨ Murakaza neza, ${name}`;
+                        }
+                        this.showToast('Izina ryabitswe!', 'success');
+                    }
                 });
                 
                 // Navigation
                 this.elements.newChatBtn.addEventListener('click', () => this.newChat());
                 this.elements.clearHistory.addEventListener('click', () => this.clearHistory());
-                this.elements.clearChat.addEventListener('click', () => this.clearCurrentChat());
+                this.elements.clearChat.addEventListener('click', () => this.clearCurrent());
+                this.elements.exportTrigger.addEventListener('click', () => this.exportChat());
                 
                 // Sidebar
                 this.elements.menuToggle.addEventListener('click', () => this.toggleSidebar());
@@ -2940,9 +2778,6 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                 this.elements.messagesContainer.addEventListener('scroll', () => this.handleScroll());
                 this.elements.scrollBottom.addEventListener('click', () => this.scrollToBottom());
                 
-                // Export
-                this.elements.exportTrigger.addEventListener('click', () => this.exportChat());
-                
                 // Suggestions
                 document.querySelectorAll('.suggestion-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
@@ -2952,53 +2787,77 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                     });
                 });
                 
-                // Keyboard shortcuts
+                // Mood tracking
+                this.elements.openMoodModal.addEventListener('click', () => this.openMoodModal());
+                this.elements.moodModalClose.addEventListener('click', () => this.closeMoodModal());
+                this.elements.moodModal.addEventListener('click', (e) => {
+                    if (e.target === this.elements.moodModal) this.closeMoodModal();
+                });
+                
+                document.querySelectorAll('.mood-btn-small').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const mood = btn.dataset.mood;
+                        this.quickMood(mood);
+                    });
+                });
+                
+                this.elements.moodScale.querySelectorAll('.mood-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+                        btn.classList.add('selected');
+                    });
+                });
+                
+                this.elements.saveMoodBtn.addEventListener('click', () => this.saveMood());
+                
+                // Crisis
+                this.elements.crisisFloatingBtn.addEventListener('click', () => this.showCrisis());
+                this.elements.crisisClose.addEventListener('click', () => this.closeCrisis());
+                this.elements.crisisLater.addEventListener('click', () => this.closeCrisis());
+                this.elements.crisisNow.addEventListener('click', () => {
+                    window.location.href = 'tel:116';
+                });
+                
+                // Speech callbacks
+                this.speech.onResult = (text) => {
+                    this.elements.messageInput.value = text;
+                    this.elements.sttText.textContent = text || 'ndakumva...';
+                    this.handleInput();
+                };
+                
+                this.speech.onEnd = () => {
+                    this.elements.voiceBtn.classList.remove('listening');
+                    this.elements.sttOverlay.classList.remove('active');
+                    this.visualizer.stop();
+                    if (this.elements.messageInput.value.trim()) {
+                        this.sendMessage();
+                    }
+                };
+                
+                // Keyboard
                 document.addEventListener('keydown', (e) => {
                     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                         e.preventDefault();
                         this.elements.messageInput.focus();
                     }
-                    if ((e.metaKey || e.ctrlKey) && e.key === 'n') {
-                        e.preventDefault();
-                        this.newChat();
-                    }
                     if (e.key === 'Escape') {
                         this.closeSidebar();
+                        this.closeMoodModal();
+                        this.closeCrisis();
                         if (this.speech.isListening) this.toggleVoice();
                     }
                 });
             }
 
-            setupCrisisDetection() {
-                // Simple event emitter
-                const checkMessage = (content) => {
-                    const lower = content.toLowerCase();
-                    if (CrisisResources.keywords.some(k => lower.includes(k))) {
-                        CrisisResources.showAlert();
-                    }
-                };
-                
-                // Override addMessage to check
-                const originalAddMessage = this.addMessage;
-                this.addMessage = (role, content) => {
-                    if (role === 'user') checkMessage(content);
-                    originalAddMessage.call(this, role, content);
-                };
-            }
-
             handleInput() {
-                const value = this.elements.messageInput.value.trim();
-                this.elements.sendBtn.disabled = !value || this.isGenerating;
-                
-                // Auto-resize
+                const val = this.elements.messageInput.value.trim();
+                this.elements.sendBtn.disabled = !val || this.isGenerating;
                 this.elements.messageInput.style.height = 'auto';
-                this.elements.messageInput.style.height = 
-                    Math.min(this.elements.messageInput.scrollHeight, 150) + 'px';
+                this.elements.messageInput.style.height = Math.min(this.elements.messageInput.scrollHeight, 150) + 'px';
             }
 
             async toggleVoice() {
                 if (!this.speech.isListening) {
-                    // Test microphone first
                     try {
                         await navigator.mediaDevices.getUserMedia({ audio: true });
                         this.speech.startListening();
@@ -3006,7 +2865,7 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                         this.elements.sttOverlay.classList.add('active');
                         this.elements.voiceStatus.textContent = 'Mvuga none...';
                         this.visualizer.start();
-                    } catch (e) {
+                    } catch {
                         this.elements.voiceStatus.textContent = '❌ Emera mikorofoni';
                     }
                 } else {
@@ -3014,19 +2873,17 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                 }
             }
 
-            async testMicrophone() {
+            async testMic() {
                 this.elements.micTestBtn.innerHTML = '<span class="spinner-sm"></span> ndategura...';
-                
                 try {
                     await navigator.mediaDevices.getUserMedia({ audio: true });
                     this.elements.micTestBtn.innerHTML = '✅ yiteguye';
                     this.elements.voiceStatus.textContent = '✅ Mikorofoni yiteguye';
-                    
                     setTimeout(() => {
-                        this.elements.micTestBtn.innerHTML = '<span>🎤</span> Genzura Mikorofoni';
+                        this.elements.micTestBtn.innerHTML = '<span>🎤</span> Gerageza mikorofoni';
                         this.elements.voiceStatus.textContent = '';
                     }, 2000);
-                } catch (e) {
+                } catch {
                     this.elements.micTestBtn.innerHTML = '❌ emerera';
                     this.elements.voiceStatus.textContent = '❌ Emera mikorofoni';
                 }
@@ -3036,61 +2893,29 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                 const text = this.elements.messageInput.value.trim();
                 if (!text || this.isGenerating) return;
                 
-                // Hide welcome screen
                 this.elements.welcomeScreen.style.display = 'none';
-                
-                // Add user message
                 this.addMessage('user', text);
                 
-                // Clear input
                 this.elements.messageInput.value = '';
                 this.elements.sendBtn.disabled = true;
                 this.handleInput();
                 
-                // Show typing indicator
                 const typingId = this.showTyping();
                 this.isGenerating = true;
-                
-                // Close sidebar on mobile
                 this.closeSidebar();
                 
                 try {
-                    // Get context if RAG enabled
-                    let context = [];
-                    if (this.settings.enableRAG) {
-                        // Simple context from recent messages
-                        context = this.messages.slice(-5).map(m => ({
-                            text: m.content,
-                            role: m.role
-                        }));
+                    const response = await this.ai.generateResponse([{ role: 'user', content: text }]);
+                    
+                    if (response.type === 'crisis') {
+                        this.showCrisis();
                     }
                     
-                    // Generate response
-                    const response = await this.ai.generateResponse(
-                        [{ role: 'user', content: text }], 
-                        context
-                    );
-                    
-                    // Remove typing indicator
                     this.removeTyping(typingId);
+                    this.addMessage('assistant', response.content);
                     
-                    // Add assistant message
-                    this.addMessage('assistant', response);
-                    
-                    // Auto TTS
-                    if (this.settings.autoTTS) {
-                        this.speech.speak(response, {
-                            voice: this.settings.voice,
-                            rate: this.settings.rate,
-                            pitch: this.settings.pitch
-                        });
-                    }
-                    
-                    // Save conversation
-                    await this.saveConversation(text, response);
-                    
-                } catch (e) {
-                    console.error('Send error:', e);
+                    await this.saveConversation(text, response.content);
+                } catch {
                     this.removeTyping(typingId);
                     this.addMessage('assistant', 'Hari ikibazo. Ngaho tuganire.');
                 } finally {
@@ -3099,46 +2924,44 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
             }
 
             addMessage(role, content) {
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `message ${role}`;
-                
+                const msg = document.createElement('div');
+                msg.className = `message ${role}`;
                 const time = formatMessageTime();
-                const escapedContent = escapeHtml(content);
+                const escaped = escapeHtml(content);
                 
-                messageDiv.innerHTML = `
-                    <div class="message-avatar">${role === 'user' ? '👤' : '🤖'}</div>
+                msg.innerHTML = `
+                    <div class="message-avatar">
+                        ${role === 'user' ? '👤' : '<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><i class="fas fa-robot" style="display: none;"></i>'}
+                    </div>
                     <div class="message-content">
-                        <div class="message-bubble">${escapedContent}</div>
+                        <div class="message-bubble">${escaped}</div>
                         <div class="message-meta">
-                            <span class="message-time">${time}</span>
+                            <span>${time}</span>
                             <div class="message-actions">
                                 ${role === 'assistant' ? `
-                                    <button class="message-action" onclick="this.closest('.message').querySelector('.message-bubble').textContent && window.app.speakMessage('${escapedContent.replace(/'/g, "\\'")}')">
+                                    <button class="message-action" onclick="app.speakMessage('${escaped.replace(/'/g, "\\'")}')">
                                         <i class="fas fa-volume-up"></i>
                                     </button>
-                                    <button class="message-action" onclick="navigator.clipboard.writeText('${escapedContent.replace(/'/g, "\\'")}'); window.app.toast.success('Ibyakiriwe!')">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
                                 ` : ''}
+                                <button class="message-action" onclick="navigator.clipboard.writeText('${escaped.replace(/'/g, "\\'")}'); app.showToast('Ibyakiriwe!', 'success')">
+                                    <i class="fas fa-copy"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 `;
                 
-                this.elements.messagesContainer.appendChild(messageDiv);
+                this.elements.messagesContainer.appendChild(msg);
                 this.scrollToBottom();
-                
                 this.messages.push({ role, content, timestamp: Date.now() });
             }
 
             speakMessage(text) {
-                if (this.settings.autoTTS) {
-                    this.speech.speak(text, {
-                        voice: this.settings.voice,
-                        rate: this.settings.rate,
-                        pitch: this.settings.pitch
-                    });
-                }
+                this.speech.speak(text, {
+                    voice: this.settings.voice,
+                    rate: this.settings.rate,
+                    pitch: this.settings.pitch
+                });
             }
 
             showTyping() {
@@ -3147,7 +2970,10 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                 typing.id = id;
                 typing.className = 'typing-indicator';
                 typing.innerHTML = `
-                    <div class="typing-avatar">🤖</div>
+                    <div class="typing-avatar">
+                        <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <i class="fas fa-robot" style="display: none;"></i>
+                    </div>
                     <div class="typing-bubble">
                         <span class="typing-dot"></span>
                         <span class="typing-dot"></span>
@@ -3178,39 +3004,30 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
             }
 
             async saveConversation(userMsg, assistantMsg) {
-                const conversation = {
-                    id: this.currentConversationId,
+                const conv = {
+                    id: this.currentId,
                     title: userMsg.slice(0, 40),
                     messages: this.messages.slice(-10),
                     timestamp: Date.now()
                 };
-                
-                await this.db.saveConversation(conversation);
+                await this.db.saveConversation(conv);
                 await this.loadHistory();
             }
 
             async loadHistory() {
-                const conversations = await this.db.getConversations();
-                
-                if (conversations.length === 0) {
-                    this.elements.historyList.innerHTML = `
-                        <div class="history-empty">
-                            <i class="fas fa-history"></i>
-                            <span>Nta mateka</span>
-                        </div>
-                    `;
+                const convs = await this.db.getConversations();
+                if (convs.length === 0) {
+                    this.elements.historyList.innerHTML = '<div class="history-empty"><i class="fas fa-history"></i><span>Nta mateka</span></div>';
                     return;
                 }
                 
-                this.elements.historyList.innerHTML = conversations
+                this.elements.historyList.innerHTML = convs
                     .sort((a, b) => b.timestamp - a.timestamp)
                     .slice(0, 15)
                     .map(c => `
-                        <div class="history-item ${c.id === this.currentConversationId ? 'active' : ''}" data-id="${c.id}">
+                        <div class="history-item ${c.id === this.currentId ? 'active' : ''}" data-id="${c.id}">
                             <div class="history-title">${escapeHtml(c.title || 'Chat')}</div>
-                            <div class="history-meta">
-                                <span>${formatRelativeTime(c.timestamp)}</span>
-                            </div>
+                            <div class="history-meta">${formatRelativeTime(c.timestamp)}</div>
                         </div>
                     `).join('');
                 
@@ -3220,74 +3037,51 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
             }
 
             async loadChat(id) {
-                const conversations = await this.db.getConversations();
-                const chat = conversations.find(c => c.id === id);
-                
+                const convs = await this.db.getConversations();
+                const chat = convs.find(c => c.id === id);
                 if (!chat) return;
                 
-                this.currentConversationId = chat.id;
+                this.currentId = chat.id;
                 this.messages = chat.messages || [];
                 
-                // Clear container
                 while (this.elements.messagesContainer.firstChild) {
                     this.elements.messagesContainer.removeChild(this.elements.messagesContainer.firstChild);
                 }
-                
-                // Hide welcome
                 this.elements.welcomeScreen.style.display = 'none';
-                
-                // Add messages
-                this.messages.forEach(msg => {
-                    this.addMessage(msg.role, msg.content);
-                });
-                
+                this.messages.forEach(msg => this.addMessage(msg.role, msg.content));
                 this.closeSidebar();
             }
 
             newChat() {
                 this.messages = [];
-                this.currentConversationId = generateId();
-                
-                // Clear container
+                this.currentId = generateId();
                 while (this.elements.messagesContainer.firstChild) {
                     this.elements.messagesContainer.removeChild(this.elements.messagesContainer.firstChild);
                 }
-                
-                // Show welcome
                 this.elements.welcomeScreen.style.display = 'flex';
-                
-                // Close sidebar
                 this.closeSidebar();
             }
 
             async clearHistory() {
                 if (!confirm('Hanagura amateka yose?')) return;
-                
                 await this.db.clearHistory();
                 this.newChat();
-                this.toast.success('Amateka yahanaguwe');
+                this.showToast('Amateka yahanaguwe', 'success');
             }
 
-            clearCurrentChat() {
+            clearCurrent() {
                 if (this.messages.length === 0) return;
                 if (!confirm('Hanagura chat hiye?')) return;
                 this.newChat();
-                this.toast.success('Chat yahanaguwe');
+                this.showToast('Chat yahanaguwe', 'success');
             }
 
             exportChat() {
                 if (this.messages.length === 0) {
-                    this.toast.warning('Nta chat yohereza');
+                    this.showToast('Nta chat yohereza', 'warning');
                     return;
                 }
-                
-                const data = {
-                    app: 'TYAZA',
-                    version: '5.0',
-                    timestamp: Date.now(),
-                    messages: this.messages
-                };
-                
+                const data = { app: 'TYAZA', version: '5.0', timestamp: Date.now(), messages: this.messages };
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -3295,8 +3089,7 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                 a.download = `tyaza-${Date.now()}.json`;
                 a.click();
                 URL.revokeObjectURL(url);
-                
-                this.toast.success('Chat yaherekejwe');
+                this.showToast('Chat yaherekejwe', 'success');
             }
 
             toggleSidebar() {
@@ -3308,262 +3101,140 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
                 this.elements.sidebar.classList.remove('open');
                 this.elements.sidebarOverlay.classList.remove('active');
             }
-        }
 
-        // ================================================================
-        // CUSTOM ELEMENTS (Web Components)
-        // ================================================================
-
-        class TyazaToast extends HTMLElement {
-            constructor() {
-                super();
-                this.attachShadow({ mode: 'open' });
+            showToast(message, type) {
+                const toast = document.createElement('tyaza-toast');
+                toast.setAttribute('message', message);
+                toast.setAttribute('type', type);
+                document.getElementById('toastContainer').appendChild(toast);
             }
 
-            connectedCallback() {
-                const message = this.getAttribute('message') || '';
-                const type = this.getAttribute('type') || 'info';
-                
-                this.shadowRoot.innerHTML = `
-                    <style>
-                        :host {
-                            display: block;
-                            background: #130d24;
-                            border: 1px solid #2d2352;
-                            border-left: 4px solid ${this.getBorderColor(type)};
-                            border-radius: 12px;
-                            padding: 16px 20px;
-                            margin-bottom: 12px;
-                            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-                            animation: slideIn 0.3s ease-out;
-                            max-width: 350px;
-                        }
-                        .content {
-                            display: flex;
-                            align-items: center;
-                            gap: 12px;
-                            color: #f8fafc;
-                        }
-                        @keyframes slideIn {
-                            from { opacity: 0; transform: translateX(100%); }
-                            to { opacity: 1; transform: translateX(0); }
-                        }
-                    </style>
-                    <div class="content">
-                        <i class="fas fa-${this.getIcon(type)}"></i>
-                        <span>${message}</span>
-                    </div>
-                `;
-                
-                setTimeout(() => this.remove(), 3000);
+            openMoodModal() {
+                this.elements.moodModal.classList.add('active');
+                this.loadMoodCalendar();
             }
 
-            getBorderColor(type) {
-                const colors = {
-                    success: '#22c55e',
-                    error: '#ef4444',
-                    warning: '#f59e0b',
-                    info: '#3b82f6'
-                };
-                return colors[type] || '#3b82f6';
+            closeMoodModal() {
+                this.elements.moodModal.classList.remove('active');
             }
 
-            getIcon(type) {
-                const icons = {
-                    success: 'check-circle',
-                    error: 'exclamation-circle',
-                    warning: 'exclamation-triangle',
-                    info: 'info-circle'
-                };
-                return icons[type] || 'info-circle';
+            async quickMood(mood) {
+                await this.db.saveMood({ mood: parseInt(mood), notes: '', quick: true });
+                this.showToast('Uko wumva byabitswe!', 'success');
             }
-        }
 
-        customElements.define('tyaza-toast', TyazaToast);
-
-        // ================================================================
-        // INITIALIZATION
-        // ================================================================
-
-        // Create global app instance
-        window.app = new TyazaApp();
-        window.Toast = window.app.toast;
-
-        // Initialize when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => window.app.init());
-        } else {
-            window.app.init();
-        }
-
-        // Handle offline/online events
-        window.addEventListener('online', () => {
-            document.getElementById('connectionStatus').textContent = 'Online';
-            window.Toast?.success('Mwongeye guhuza!');
-        });
-
-        window.addEventListener('offline', () => {
-            document.getElementById('connectionStatus').textContent = 'Offline';
-            
-            // Show offline banner
-            const banner = document.createElement('div');
-            banner.className = 'offline-banner show';
-            banner.id = 'offlineBanner';
-            banner.innerHTML = '<i class="fas fa-wifi-slash"></i> Ntago uhuza - using on-device AI';
-            document.body.appendChild(banner);
-            
-            setTimeout(() => {
-                if (document.getElementById('offlineBanner')) {
-                    document.getElementById('offlineBanner').classList.remove('show');
-                    setTimeout(() => document.getElementById('offlineBanner')?.remove(), 300);
+            async saveMood() {
+                const selected = this.elements.moodScale.querySelector('.mood-btn.selected');
+                if (!selected) {
+                    this.showToast('Hitamo uko wumva', 'warning');
+                    return;
                 }
-            }, 5000);
-        });
+                const mood = parseInt(selected.dataset.mood);
+                const notes = this.elements.moodNotes.value.trim();
+                await this.db.saveMood({ mood, notes });
+                this.showToast('Byabitswe!', 'success');
+                this.closeMoodModal();
+            }
+
+            async loadMoodCalendar() {
+                const moods = await this.db.getMoodHistory(7);
+                const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+                let html = days.map(d => `<div class="mood-day-label">${d}</div>`).join('');
+                
+                for (let i = 6; i >= 0; i--) {
+                    const date = new Date();
+                    date.setDate(date.getDate() - i);
+                    const dayStart = new Date(date.setHours(0,0,0,0)).getTime();
+                    const dayEnd = dayStart + 86400000;
+                    const dayMoods = moods.filter(m => m.timestamp >= dayStart && m.timestamp < dayEnd);
+                    const avg = dayMoods.length ? Math.round(dayMoods.reduce((a,b) => a + b.mood, 0) / dayMoods.length) : 0;
+                    html += `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString()}">${date.getDate()}</div>`;
+                }
+                this.elements.moodCalendar.innerHTML = html;
+            }
+
+            showCrisis() {
+                this.elements.crisisModal.classList.add('active');
+            }
+
+            closeCrisis() {
+                this.elements.crisisModal.classList.remove('active');
+            }
+        }
+
+        // Initialize
+        window.app = new TyazaApp();
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => app.init());
+        } else {
+            app.init();
+        }
     </script>
 
-    <!-- Crisis Resources Styles -->
+    <!-- Crisis Floating Button -->
+    <button class="crisis-floating-btn" id="crisisFloatingBtn">
+        <span class="crisis-pulse"></span>
+        <i class="fas fa-phone-alt"></i>
+    </button>
+
+    <!-- Fallback -->
+    <noscript>
+        <div style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center;">
+            JavaScript is required for TYAZA.
+        </div>
+    </noscript>
+
     <style>
-        .modal-backdrop {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
-            z-index: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-        
-        .modal-backdrop.active {
-            opacity: 1;
-            visibility: visible;
-        }
-        
-        .modal {
-            background: var(--color-surface-800);
-            border: 1px solid var(--color-surface-600);
-            border-radius: var(--radius-2xl);
-            padding: var(--space-8);
-            max-width: 90vw;
-            max-height: 90vh;
-            overflow-y: auto;
-            transform: scale(0.95);
-            transition: transform 0.3s;
-        }
-        
-        .modal-backdrop.active .modal {
-            transform: scale(1);
-        }
-        
-        .modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: var(--space-6);
-            padding-bottom: var(--space-4);
-            border-bottom: 1px solid var(--color-surface-600);
-        }
-        
-        .modal-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-        
-        .modal-close {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: transparent;
-            border: none;
-            color: var(--color-text-muted);
-            cursor: pointer;
-            border-radius: var(--radius-md);
-            font-size: 1.5rem;
-        }
-        
-        .modal-close:hover {
-            background: var(--color-surface-700);
-            color: var(--color-text-primary);
-        }
-        
-        .crisis-resources {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-3);
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .crisis-resource {
-            display: flex;
-            align-items: center;
-            gap: var(--space-3);
-            padding: var(--space-3);
-            background: var(--color-surface-700);
-            border: 1px solid var(--color-surface-500);
-            border-radius: var(--radius-lg);
-            transition: all 0.15s;
-        }
-        
-        .crisis-resource:hover {
-            border-color: var(--color-error);
-            transform: translateX(4px);
-        }
-        
-        .crisis-icon {
+        /* Additional styles for mood quick select */
+        .mood-btn-small {
             width: 40px;
             height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--color-surface-600);
-            border-radius: var(--radius-md);
-            font-size: 1.2rem;
-        }
-        
-        .crisis-info {
-            flex: 1;
-        }
-        
-        .crisis-name {
-            font-weight: 600;
-            color: var(--color-text-primary);
-            font-size: 0.875rem;
-        }
-        
-        .crisis-number {
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: var(--color-error);
-            line-height: 1.3;
-        }
-        
-        .crisis-desc {
-            font-size: 0.75rem;
-            color: var(--color-text-muted);
-        }
-        
-        .crisis-call {
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--color-error);
-            color: white;
             border-radius: var(--radius-full);
-            text-decoration: none;
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            color: var(--color-text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
             transition: all 0.15s;
         }
         
-        .crisis-call:hover {
+        .mood-btn-small:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 20px var(--color-error);
+            border-color: var(--color-primary-500);
+        }
+        
+        #moodQuickSelect {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-1);
+        }
+        
+        .greeting {
+            margin-top: var(--space-4);
+            font-size: 1.1rem;
+            color: var(--color-secondary-400);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .mood-day-label {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            padding: var(--space-1);
+        }
+        
+        .modal-body {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: var(--space-2);
+        }
+        
+        .mood-history-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin: var(--space-4) 0 var(--space-2) 0;
         }
         
         .flex-1 {
@@ -3584,72 +3255,18 @@ Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
             margin-right: 4px;
         }
         
+        .mt-1 {
+            margin-top: 4px;
+        }
+        
         .mt-2 {
             margin-top: 8px;
         }
         
-        .mt-3 {
-            margin-top: 12px;
-        }
-        
-        .mt-6 {
-            margin-top: 24px;
-        }
-        
-        .mb-2 {
-            margin-bottom: 8px;
-        }
-        
-        .pt-3 {
-            padding-top: 12px;
-        }
-        
-        .border-t {
-            border-top: 1px solid var(--color-surface-600);
+        .btn-sm {
+            padding: var(--space-2) var(--space-3);
+            font-size: 0.75rem;
         }
     </style>
-
-    <!-- Crisis Floating Button -->
-    <button class="crisis-floating-btn" id="crisisFloatingBtn">
-        <span class="crisis-pulse"></span>
-        <i class="fas fa-phone-alt"></i>
-    </button>
-
-    <!-- Meditation Quick Button -->
-    <button class="meditation-quick-btn" id="meditationQuickBtn">
-        <i class="fas fa-brain"></i>
-    </button>
-
-    <script>
-        // Add crisis button functionality
-        document.getElementById('crisisFloatingBtn').addEventListener('click', () => {
-            CrisisResources.showAlert();
-        });
-        
-        // Add meditation button (simple breathing exercise)
-        document.getElementById('meditationQuickBtn').addEventListener('click', () => {
-            const message = "Imyitozo yo guhumeka: Humeka mu izuru (1,2,3,4), fata umwanya (1,2,3,4), hohora bworoshye (1,2,3,4). Subiramo inshuro 5.";
-            window.app?.toast?.info(message);
-            
-            if (window.app?.speech) {
-                window.app.speech.speak(message, {
-                    voice: window.app.settings.voice,
-                    rate: 0.8
-                });
-            }
-        });
-    </script>
-
-    <!-- Fallback for older browsers -->
-    <noscript>
-        <div style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; z-index: 9999;">
-            <div>
-                <h1 style="font-size: 2rem; margin-bottom: 20px;">TYAZA</h1>
-                <p>JavaScript is required for TYAZA Advanced AI features.</p>
-                <p style="color: #94a3b8; margin-top: 20px;">Please enable JavaScript to continue.</p>
-            </div>
-        </div>
-    </noscript>
 </body>
 </html>
-
