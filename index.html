@@ -13,7 +13,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <title>TYAZA Â· Umuvugizi w'Umutima</title>
+    <title>TYAZA · Umuvugizi w'Umutima</title>
     
     <!-- Preconnect to external resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3653,1350 +3653,6 @@
             border-color: var(--color-text-muted);
             color: var(--color-text-secondary);
         }
-    
-        /* ============================================
-           CSS CUSTOM PROPERTIES - ENHANCED PALETTE
-           ============================================ */
-        :root {
-            /* Primary - Ethereal Violet */
-            --primary: #b794f6;
-            --primary-light: #d6bcfa;
-            --primary-deep: #805ad5;
-            --primary-glow: rgba(183, 148, 246, 0.4);
-            
-            /* Secondary - Blush Pink */
-            --secondary: #f687b3;
-            --secondary-light: #fbb6ce;
-            --secondary-deep: #d53f8c;
-            --secondary-glow: rgba(246, 135, 179, 0.4);
-            
-            /* Accent - Mint */
-            --accent: #68d391;
-            --accent-light: #9ae6b4;
-            --accent-deep: #38a169;
-            
-            /* Backgrounds - Deep Space */
-            --bg-deepest: #0a0612;
-            --bg-deep: #130d24;
-            --bg-surface: #1a1433;
-            --bg-surface-elevated: #231b42;
-            --bg-glass: rgba(26, 20, 51, 0.85);
-            --bg-glass-strong: rgba(26, 20, 51, 0.95);
-            
-            /* Text */
-            --text-primary: #f7f3ff;
-            --text-secondary: #cbb8e6;
-            --text-tertiary: #8b7aa8;
-            --text-muted: #5f4a7a;
-            
-            /* Borders */
-            --border-subtle: rgba(183, 148, 246, 0.15);
-            --border-medium: rgba(183, 148, 246, 0.25);
-            --border-strong: rgba(246, 135, 179, 0.35);
-            
-            /* Shadows */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.5);
-            --shadow-glow-primary: 0 0 40px var(--primary-glow);
-            --shadow-glow-secondary: 0 0 40px var(--secondary-glow);
-            
-            /* Sizing */
-            --sidebar-width: 300px;
-            --header-height: 64px;
-            --input-height: 72px;
-            
-            /* Transitions */
-            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
-            
-            /* Border Radius */
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            --radius-lg: 24px;
-            --radius-xl: 32px;
-            --radius-full: 9999px;
-        }
-
-        /* ============================================
-           RESET & BASE
-           ============================================ */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-deepest);
-            color: var(--text-primary);
-            height: 100vh;
-            overflow: hidden;
-            line-height: 1.6;
-            letter-spacing: -0.01em;
-        }
-
-        /* ============================================
-           COSMIC BACKGROUND
-           ============================================ */
-        .cosmic-bg {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .cosmic-bg::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(128, 90, 213, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(246, 135, 179, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(104, 211, 145, 0.05) 0%, transparent 40%);
-            animation: cosmicDrift 60s ease-in-out infinite;
-        }
-
-        .cosmic-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            opacity: 0.03;
-            pointer-events: none;
-        }
-
-        .stars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0;
-            animation: starTwinkle 4s ease-in-out infinite;
-        }
-
-        @keyframes cosmicDrift {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(2%, 2%) rotate(1deg); }
-            66% { transform: translate(-1%, 1%) rotate(-1deg); }
-        }
-
-        @keyframes starTwinkle {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.5); }
-        }
-
-        /* ============================================
-           APP LAYOUT
-           ============================================ */
-        .app-container {
-            display: flex;
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* ============================================
-           SIDEBAR
-           ============================================ */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--bg-glass-strong);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border-right: 1px solid var(--border-subtle);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            gap: 16px;
-            z-index: 100;
-            transition: transform var(--transition-smooth);
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: var(--primary-deep);
-            border-radius: var(--radius-full);
-        }
-
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            color: white;
-            box-shadow: var(--shadow-glow-primary);
-            animation: logoFloat 6s ease-in-out infinite;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-4px) rotate(2deg); }
-        }
-
-        .logo-text {
-            flex: 1;
-        }
-
-        .logo-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--text-primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .logo-subtitle {
-            font-size: 0.7rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .new-chat-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 14px 20px;
-            background: linear-gradient(135deg, rgba(183, 148, 246, 0.15), rgba(246, 135, 179, 0.1));
-            border: 1px solid var(--border-strong);
-            border-radius: var(--radius-lg);
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .new-chat-btn:hover {
-            background: linear-gradient(135deg, rgba(183, 148, 246, 0.25), rgba(246, 135, 179, 0.15));
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow-primary);
-        }
-
-        .new-chat-btn:active {
-            transform: translateY(0);
-        }
-
-        /* ============================================
-           SETTINGS PANEL
-           ============================================ */
-        .settings-panel {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .settings-section {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .settings-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.75rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-weight: 500;
-        }
-
-        .model-select, .voice-select {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-medium);
-            border-radius: var(--radius-md);
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: border-color var(--transition-fast);
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23cbb8e6' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-        }
-
-        .model-select:focus, .voice-select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .model-select option, .voice-select option {
-            background: var(--bg-surface);
-            color: var(--text-primary);
-        }
-
-        .slider-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .slider-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .slider-value {
-            color: var(--primary-light);
-            font-weight: 500;
-        }
-
-        .slider {
-            width: 100%;
-            height: 6px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: var(--radius-full);
-            appearance: none;
-            cursor: pointer;
-        }
-
-        .slider::-webkit-slider-thumb {
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(183, 148, 246, 0.5);
-            transition: transform var(--transition-fast);
-        }
-
-        .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
-
-        .mic-test-btn, .preview-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 12px;
-            background: rgba(183, 148, 246, 0.1);
-            border: 1px solid var(--border-medium);
-            border-radius: var(--radius-md);
-            color: var(--text-secondary);
-            font-family: inherit;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .mic-test-btn:hover, .preview-btn:hover {
-            background: rgba(183, 148, 246, 0.2);
-            border-color: var(--primary);
-            color: var(--text-primary);
-        }
-
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .checkbox-label input {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
-
-        /* ============================================
-           HISTORY SECTION
-           ============================================ */
-        .history-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-            overflow: hidden;
-        }
-
-        .history-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 0;
-        }
-
-        .history-title {
-            font-size: 0.75rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 500;
-        }
-
-        .clear-history-btn {
-            background: none;
-            border: none;
-            color: var(--text-tertiary);
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: color var(--transition-fast);
-        }
-
-        .clear-history-btn:hover {
-            color: var(--secondary);
-        }
-
-        .history-list {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding-right: 4px;
-        }
-
-        .history-item {
-            padding: 12px 14px;
-            background: rgba(183, 148, 246, 0.05);
-            border: 1px solid transparent;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .history-item:hover {
-            background: rgba(183, 148, 246, 0.1);
-            border-color: var(--border-subtle);
-        }
-
-        .history-item.active {
-            background: rgba(246, 135, 179, 0.1);
-            border-color: var(--border-strong);
-            border-left: 3px solid var(--secondary);
-        }
-
-        .history-item-title {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 4px;
-        }
-
-        .history-item-date {
-            font-size: 0.7rem;
-            color: var(--text-tertiary);
-        }
-
-        .history-empty {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 32px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            text-align: center;
-            gap: 8px;
-        }
-
-        .history-empty i {
-            font-size: 2rem;
-            opacity: 0.5;
-        }
-
-        /* ============================================
-           INFO CARD
-           ============================================ */
-        .info-card {
-            background: linear-gradient(135deg, rgba(183, 148, 246, 0.08), rgba(246, 135, 179, 0.05));
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            padding: 16px;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .info-card-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--secondary);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .info-card-tagline {
-            color: var(--text-tertiary);
-            font-size: 0.7rem;
-            margin-bottom: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .info-card-highlight {
-            color: var(--primary-light);
-            font-weight: 500;
-        }
-
-        .info-card-divider {
-            height: 1px;
-            background: var(--border-subtle);
-            margin: 12px 0;
-        }
-
-        /* ============================================
-           MAIN CHAT AREA
-           ============================================ */
-        .chat-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            min-width: 0;
-        }
-
-        .chat-header {
-            height: var(--header-height);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-subtle);
-            z-index: 50;
-        }
-
-        .chat-header-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .chat-header-avatar {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-        }
-
-        .chat-header-name {
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .chat-header-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
-            color: var(--accent);
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
-        }
-
-        .chat-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .chat-action-btn {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(183, 148, 246, 0.1);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .chat-action-btn:hover {
-            background: rgba(183, 148, 246, 0.2);
-            border-color: var(--primary);
-            color: var(--text-primary);
-        }
-
-        /* ============================================
-           MESSAGES AREA
-           ============================================ */
-        .messages-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            scroll-behavior: smooth;
-        }
-
-        .messages-container::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .messages-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .messages-container::-webkit-scrollbar-thumb {
-            background: var(--primary-deep);
-            border-radius: var(--radius-full);
-        }
-
-        /* ============================================
-           WELCOME SCREEN
-           ============================================ */
-        .welcome-screen {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-            text-align: center;
-            animation: welcomeFadeIn 0.8s ease-out;
-        }
-
-        @keyframes welcomeFadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .welcome-icon {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: white;
-            margin-bottom: 32px;
-            animation: morphShape 8s ease-in-out infinite, welcomeIconFloat 6s ease-in-out infinite;
-            box-shadow: var(--shadow-glow-primary), var(--shadow-glow-secondary);
-        }
-
-        @keyframes morphShape {
-            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-            33% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
-            66% { border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%; }
-        }
-
-        @keyframes welcomeIconFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .welcome-title {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--text-primary), var(--primary-light), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 12px;
-            letter-spacing: -0.02em;
-        }
-
-        .welcome-subtitle {
-            font-family: 'Crimson Pro', serif;
-            font-size: 1.3rem;
-            font-style: italic;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-
-        .welcome-quote {
-            font-family: 'Crimson Pro', serif;
-            font-size: 1.1rem;
-            color: var(--text-tertiary);
-            max-width: 500px;
-            line-height: 1.8;
-            padding: 20px 32px;
-            background: var(--bg-glass);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-subtle);
-            margin-bottom: 24px;
-        }
-
-        .welcome-cta {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .cta-suggestion {
-            padding: 12px 20px;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-full);
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .cta-suggestion:hover {
-            background: rgba(183, 148, 246, 0.15);
-            border-color: var(--primary);
-            color: var(--text-primary);
-            transform: translateY(-2px);
-        }
-
-        /* ============================================
-           MESSAGE STYLES
-           ============================================ */
-        .message {
-            display: flex;
-            gap: 14px;
-            max-width: 85%;
-            animation: messageSlideIn 0.4s ease-out;
-        }
-
-        @keyframes messageSlideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-
-        .message-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .message.user .message-avatar {
-            background: linear-gradient(135deg, var(--bg-surface-elevated), var(--bg-surface));
-            border: 1px solid var(--border-medium);
-            color: var(--text-tertiary);
-        }
-
-        .message.assistant .message-avatar {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: var(--shadow-glow-primary);
-        }
-
-        .message-content {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .message.user .message-content {
-            align-items: flex-end;
-        }
-
-        .message-bubble {
-            padding: 14px 20px;
-            line-height: 1.7;
-            font-size: 0.95rem;
-            word-wrap: break-word;
-        }
-
-        .message.user .message-bubble {
-            background: linear-gradient(135deg, var(--bg-surface-elevated), var(--bg-surface));
-            border: 1px solid var(--border-medium);
-            border-radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-lg);
-            color: var(--text-primary);
-        }
-
-        .message.assistant .message-bubble {
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-sm);
-            color: var(--text-secondary);
-        }
-
-        .message-time {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            padding: 0 4px;
-        }
-
-        /* Message reactions */
-        .message-reactions {
-            display: flex;
-            gap: 6px;
-            opacity: 0;
-            transition: opacity var(--transition-fast);
-        }
-
-        .message:hover .message-reactions {
-            opacity: 1;
-        }
-
-        .reaction-btn {
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-full);
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .reaction-btn:hover {
-            background: var(--bg-surface-elevated);
-            transform: scale(1.1);
-        }
-
-        /* Typing indicator */
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 4px 0;
-        }
-
-        .typing-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-        }
-
-        .typing-bubble {
-            display: flex;
-            gap: 5px;
-            padding: 16px 20px;
-            background: var(--bg-glass);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: typingBounce 1.4s ease-in-out infinite;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-            background: var(--secondary);
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-            background: var(--accent);
-        }
-
-        @keyframes typingBounce {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
-            30% { transform: translateY(-8px); opacity: 1; }
-        }
-
-        /* ============================================
-           INPUT AREA
-           ============================================ */
-        .input-area {
-            padding: 20px 24px 28px;
-            background: linear-gradient(to top, var(--bg-deepest) 60%, transparent);
-            position: relative;
-        }
-
-        .input-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--bg-glass-strong);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--border-medium);
-            border-radius: var(--radius-xl);
-            padding: 6px 8px 6px 20px;
-            display: flex;
-            align-items: flex-end;
-            gap: 10px;
-            box-shadow: var(--shadow-md);
-            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-        }
-
-        .input-wrapper:focus-within {
-            border-color: var(--primary);
-            box-shadow: var(--shadow-md), 0 0 0 3px var(--primary-glow);
-        }
-
-        .input-textarea {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.95rem;
-            padding: 14px 0;
-            resize: none;
-            max-height: 140px;
-            line-height: 1.5;
-            min-height: 24px;
-        }
-
-        .input-textarea::placeholder {
-            color: var(--text-muted);
-        }
-
-        .input-actions {
-            display: flex;
-            gap: 8px;
-            padding-bottom: 4px;
-        }
-
-        .input-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            border: none;
-            font-size: 1.1rem;
-        }
-
-        .voice-input-btn {
-            background: rgba(183, 148, 246, 0.15);
-            border: 1px solid var(--border-medium);
-            color: var(--secondary);
-        }
-
-        .voice-input-btn:hover {
-            background: rgba(183, 148, 246, 0.25);
-            transform: scale(1.05);
-        }
-
-        .voice-input-btn.listening {
-            background: var(--secondary-deep);
-            color: white;
-            animation: micPulse 1.5s infinite;
-            border-color: var(--secondary-deep);
-        }
-
-        @keyframes micPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(213, 63, 140, 0.5); }
-            50% { box-shadow: 0 0 0 15px rgba(213, 63, 140, 0); }
-        }
-
-        .send-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary-deep));
-            color: white;
-            box-shadow: 0 4px 20px var(--primary-glow);
-        }
-
-        .send-btn:hover:not(:disabled) {
-            transform: scale(1.05);
-            box-shadow: 0 6px 30px var(--primary-glow);
-        }
-
-        .send-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .send-btn:active:not(:disabled) {
-            transform: scale(0.95);
-        }
-
-        .voice-status {
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-tertiary);
-            min-height: 20px;
-            margin-top: 10px;
-            transition: color var(--transition-fast);
-        }
-
-        .voice-status.active {
-            color: var(--secondary);
-        }
-
-        /* ============================================
-           SCROLL TO BOTTOM
-           ============================================ */
-        .scroll-bottom-btn {
-            position: absolute;
-            bottom: 100px;
-            right: 32px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            background: var(--bg-glass-strong);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-strong);
-            border-radius: var(--radius-full);
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all var(--transition-smooth);
-            z-index: 40;
-            box-shadow: var(--shadow-glow-secondary);
-        }
-
-        .scroll-bottom-btn.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .scroll-bottom-btn:hover {
-            background: rgba(246, 135, 179, 0.2);
-            color: var(--text-primary);
-        }
-
-        /* ============================================
-           STT INDICATOR
-           ============================================ */
-        .stt-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(10, 6, 18, 0.85);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all var(--transition-smooth);
-        }
-
-        .stt-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .stt-modal {
-            background: var(--bg-glass-strong);
-            border: 2px solid var(--secondary);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 24px;
-            box-shadow: var(--shadow-glow-secondary);
-            transform: scale(0.9);
-            transition: transform var(--transition-bounce);
-        }
-
-        .stt-overlay.active .stt-modal {
-            transform: scale(1);
-        }
-
-        .stt-visualizer {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            height: 60px;
-        }
-
-        .stt-bar {
-            width: 6px;
-            background: linear-gradient(to top, var(--primary), var(--secondary));
-            border-radius: var(--radius-full);
-            animation: sttWave 0.8s ease-in-out infinite alternate;
-        }
-
-        .stt-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
-        .stt-bar:nth-child(2) { height: 35px; animation-delay: 0.1s; }
-        .stt-bar:nth-child(3) { height: 50px; animation-delay: 0.2s; }
-        .stt-bar:nth-child(4) { height: 40px; animation-delay: 0.3s; }
-        .stt-bar:nth-child(5) { height: 25px; animation-delay: 0.4s; }
-        .stt-bar:nth-child(6) { height: 45px; animation-delay: 0.5s; }
-        .stt-bar:nth-child(7) { height: 30px; animation-delay: 0.6s; }
-
-        @keyframes sttWave {
-            from { height: 15px; }
-            to { height: 55px; }
-        }
-
-        .stt-text {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            text-align: center;
-            max-width: 300px;
-        }
-
-        .stt-hint {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* ============================================
-           LOADING STATES
-           ============================================ */
-        .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-deepest);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            z-index: 2000;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-
-        .loading-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 3px solid var(--border-subtle);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            font-size: 1rem;
-            color: var(--text-secondary);
-        }
-
-        /* ============================================
-           MOBILE RESPONSIVENESS
-           ============================================ */
-        @media (max-width: 768px) {
-            :root {
-                --sidebar-width: 85vw;
-                --header-height: 56px;
-            }
-
-            .sidebar {
-                position: fixed;
-                left: 0;
-                top: 0;
-                bottom: 0;
-                transform: translateX(-100%);
-                padding: 16px;
-                gap: 12px;
-                box-shadow: var(--shadow-lg);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .sidebar-overlay {
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.7);
-                backdrop-filter: blur(8px);
-                z-index: 99;
-                opacity: 0;
-                visibility: hidden;
-                transition: all var(--transition-smooth);
-            }
-
-            .sidebar-overlay.open {
-                opacity: 1;
-                visibility: visible;
-            }
-
-            .menu-toggle {
-                display: flex !important;
-            }
-
-            .welcome-title {
-                font-size: 2.2rem;
-            }
-
-            .welcome-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .welcome-quote {
-                font-size: 1rem;
-                padding: 16px 20px;
-            }
-
-            .message {
-                max-width: 92%;
-            }
-
-            .message-bubble {
-                padding: 12px 16px;
-                font-size: 0.9rem;
-            }
-
-            .input-area {
-                padding: 16px 12px 20px;
-            }
-
-            .input-wrapper {
-                border-radius: var(--radius-lg);
-                padding: 4px 6px 4px 14px;
-            }
-
-            .input-btn {
-                width: 44px;
-                height: 44px;
-            }
-
-            .scroll-bottom-btn {
-                right: 16px;
-                bottom: 90px;
-            }
-
-            .chat-header {
-                padding: 0 16px;
-            }
-
-            .messages-container {
-                padding: 16px;
-            }
-
-            .welcome-icon {
-                width: 90px;
-                height: 90px;
-                font-size: 2.5rem;
-            }
-
-            .info-card {
-                display: none;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .menu-toggle, .sidebar-overlay {
-                display: none !important;
-            }
-        }
-
-        /* Hidden utility */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Focus visible */
-        :focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        /* Selection */
-        ::selection {
-            background: var(--primary);
-            color: white;
-        }
-    
     </style>
 </head>
 <body>
@@ -5037,7 +3693,7 @@
                 <div class="sidebar-content">
                     <!-- New Chat Button -->
                     <button class="new-chat-btn" id="newChatBtn">
-                        <span>âœ¨</span> Ikiganiro Gishya
+                        <span>✨</span> Ikiganiro Gishya
                     </button>
 
                     <!-- AI Model Selection (hidden from UI) -->
@@ -5045,10 +3701,10 @@
                         <div class="sidebar-section-title">Ubugeni bw'Ikoranabuhanga</div>
                         <div class="settings-card">
                             <select class="select" id="modelSelect">
-                                <option value="gpt-4o-mini">GPT-4o Mini Â· Byoroshye</option>
-                                <option value="claude-3-haiku">Claude 3 Haiku Â· Bishya</option>
-                                <option value="gemini-1.5-flash">Gemini 1.5 Flash Â· Flax</option>
-                                <option value="gpt-4o">GPT-4o Â· Byisonga</option>
+                                <option value="gpt-4o-mini">GPT-4o Mini · Byoroshye</option>
+                                <option value="claude-3-haiku">Claude 3 Haiku · Bishya</option>
+                                <option value="gemini-1.5-flash">Gemini 1.5 Flash · Flax</option>
+                                <option value="gpt-4o">GPT-4o · Byisonga</option>
                             </select>
                         </div>
                     </div>
@@ -5059,7 +3715,7 @@
                         <div class="settings-card">
                             <div class="settings-row" style="margin-bottom: var(--space-4);">
                                 <button class="btn btn-secondary btn-block" id="micTestBtn">
-                                    <span>ðŸŽ¤</span> Genzura Mikorofoni
+                                    <span>🎤</span> Genzura Mikorofoni
                                 </button>
                             </div>
                             <div class="settings-row" style="margin-bottom: var(--space-4);">
@@ -5067,7 +3723,7 @@
                                 <select class="select" id="voiceSelect">
                                     <option value="Google UK English Female">ijwi ry'umugore (UK)</option>
                                     <option value="Google UK English Male">ijwi ry'umugabo (UK)</option>
-                                    <option value="Samantha">Samantha Â· ryorohe</option>
+                                    <option value="Samantha">Samantha · ryorohe</option>
                                     <option value="Microsoft Zira">Microsoft Zira</option>
                                     <option value="Google US English">US English</option>
                                 </select>
@@ -5090,7 +3746,7 @@
                             </div>
                             <div class="settings-row" style="margin-top: var(--space-4);">
                                 <button class="btn btn-secondary btn-block" id="previewBtn">
-                                    <span>ðŸ”Š</span> Subira ijwi
+                                    <span>🔊</span> Subira ijwi
                                 </button>
                             </div>
                             <div class="settings-row" style="margin-top: var(--space-3);">
@@ -5140,12 +3796,12 @@
                     <!-- Chat History -->
                     <div class="sidebar-section" style="flex: 1; min-height: 0;">
                         <div class="sidebar-section-title" style="display: flex; justify-content: space-between; align-items: center;">
-                            <span>ðŸ“œ Amateka</span>
+                            <span>📜 Amateka</span>
                             <button class="btn btn-ghost btn-sm" id="clearHistory">Hanagura</button>
                         </div>
                         <div class="history-list" id="historyList">
                             <div class="history-empty">
-                                <i>ðŸ’­</i>
+                                <i>💭</i>
                                 <span>Nta mateka</span>
                             </div>
                         </div>
@@ -5162,11 +3818,11 @@
                         </div>
                         <div class="info-card-divider"></div>
                         <div class="info-card-title" style="font-size: var(--text-xs);">
-                            ðŸ¤– TYAZA v1.0
+                            🤖 TYAZA v1.0
                         </div>
-                        <div>Umuvugizi w'Umutima â€” AI therapy mu Kinyarwanda</div>
+                        <div>Umuvugizi w'Umutima — AI therapy mu Kinyarwanda</div>
                         <div class="info-card-footer">
-                            Â© 2026 Kivura Labs Â· Rwanda<br>
+                            © 2026 Kivura Labs · Rwanda<br>
                             <span style="font-size: 10px; color: var(--color-text-muted);">Yves HIRWA TUYISHIME - CEO</span>
                         </div>
                     </div>
@@ -5243,14 +3899,14 @@
                         <h1 class="welcome-title">TYAZA</h1>
                         <p class="welcome-subtitle">igisubizo cy'umutima</p>
                         <div class="welcome-quote" id="welcomeQuote">
-                            "Ndi hano kugira nkugire. Buri mwanya, buri jambo â€”<br>
+                            "Ndi hano kugira nkugire. Buri mwanya, buri jambo —<br>
                             byakiriwe mu mahoro n'igondero."
                         </div>
                         <div class="welcome-suggestions">
-                            <button class="suggestion-btn" data-prompt="ndashaka kuvuga">ðŸ’¬ Ndashaka kuvuga</button>
-                            <button class="suggestion-btn" data-prompt="mfite ibibazo">ðŸ˜” Mfite ibibazo</button>
-                            <button class="suggestion-btn" data-prompt="ngomba inkunga">ðŸ¤ Ngomba inkunga</button>
-                            <button class="suggestion-btn" data-prompt="narushijeho">ðŸŒŸ Narushijeho</button>
+                            <button class="suggestion-btn" data-prompt="ndashaka kuvuga">💬 Ndashaka kuvuga</button>
+                            <button class="suggestion-btn" data-prompt="mfite ibibazo">😔 Mfite ibibazo</button>
+                            <button class="suggestion-btn" data-prompt="ngomba inkunga">🤝 Ngomba inkunga</button>
+                            <button class="suggestion-btn" data-prompt="narushijeho">🌟 Narushijeho</button>
                         </div>
                     </div>
                 </div>
@@ -5322,7 +3978,7 @@
         <div class="modal-backdrop" id="wellbeingModal">
             <div class="modal active profile-modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">ðŸ’ Ubuzima bw'Umutima</h3>
+                    <h3 class="modal-title">💝 Ubuzima bw'Umutima</h3>
                     <button class="modal-close" id="wellbeingClose">&times;</button>
                 </div>
 
@@ -5394,23 +4050,23 @@
 
                         <div class="mood-scale" id="moodScale">
                             <button class="mood-btn" data-mood="1">
-                                <span class="mood-emoji">ðŸ˜¢</span>
+                                <span class="mood-emoji">😢</span>
                                 <span class="mood-label">Byacye</span>
                             </button>
                             <button class="mood-btn" data-mood="2">
-                                <span class="mood-emoji">ðŸ˜”</span>
+                                <span class="mood-emoji">😔</span>
                                 <span class="mood-label">Ntacyo</span>
                             </button>
                             <button class="mood-btn" data-mood="3">
-                                <span class="mood-emoji">ðŸ˜</span>
+                                <span class="mood-emoji">😐</span>
                                 <span class="mood-label">Harinkomeye</span>
                             </button>
                             <button class="mood-btn" data-mood="4">
-                                <span class="mood-emoji">ðŸ™‚</span>
+                                <span class="mood-emoji">🙂</span>
                                 <span class="mood-label">Ni meza</span>
                             </button>
                             <button class="mood-btn" data-mood="5">
-                                <span class="mood-emoji">ðŸ˜Š</span>
+                                <span class="mood-emoji">😊</span>
                                 <span class="mood-label">Neza cyane</span>
                             </button>
                         </div>
@@ -5463,7 +4119,7 @@
                             "Ndi uwizeye kugira nibura ibitego bimwe mu buzima"
                         </div>
                         <div class="affirmation-author" id="affirmationAuthor">
-                            â€” TYAZA
+                            — TYAZA
                         </div>
                     </div>
 
@@ -5525,7 +4181,7 @@
                                 <i class="fas fa-fire"></i> Imitsindo
                             </div>
                             <div class="streak-card">
-                                <div class="streak-icon">ðŸ”¥</div>
+                                <div class="streak-icon">🔥</div>
                                 <div class="streak-info">
                                     <div class="streak-count" id="streakCount">0</div>
                                     <div class="streak-label">iminsi</div>
@@ -5584,15 +4240,8 @@
     <script>
         window.puter = null;
         window.puterError = null;
-    
-        window.puter = null;
-        window.puterError = null;
-    
     </script>
-    <script src="https://js.puter.com/v2/">
-        window.puter = null;
-        window.puterError = null;
-    </script>
+    <script src="https://js.puter.com/v2/"></script>
 
     <!-- TYAZA Complete Application Script -->
     <script>
@@ -6545,7 +5194,7 @@
                     "Ndi uwizeye kugira umutima utahawe",
                     "Nshobora kugira umushinga wuzuye",
                     "Ndi uwizeye mu buzima bwanjye",
-                    "Nshobora gufata ibå†³å®š zuzwe",
+                    "Nshobora gufata ib决定 zuzwe",
                     "Ndi uwizeye kugira ibyiringitungo"
                 ],
 
@@ -6653,7 +5302,7 @@
                         // Update welcome quote with personalized greeting
                         const welcomeQuote = document.getElementById('welcomeQuote');
                         if (welcomeQuote) {
-                            welcomeQuote.innerHTML = `"${userData.name}, ndi hano kugira nkugire. Buri mwanya, buri jambo â€”<br>byakiriwe mu mahoro n'igondero."`;
+                            welcomeQuote.innerHTML = `"${userData.name}, ndi hano kugira nkugire. Buri mwanya, buri jambo —<br>byakiriwe mu mahoro n'igondero."`;
                         }
                     }
                     this.renderGratitudeList();
@@ -6841,8 +5490,8 @@
 
                 shareAffirmation() {
                     const text = this.affirmations[this.currentAffirmationIndex];
-                    if (navigator.share) { navigator.share({ text: text + ' â€” TYAZA' }); }
-                    else { navigator.clipboard.writeText(text + ' â€” TYAZA'); ToastService.success('Ibyiringitungo byakiriwe!'); }
+                    if (navigator.share) { navigator.share({ text: text + ' — TYAZA' }); }
+                    else { navigator.clipboard.writeText(text + ' — TYAZA'); ToastService.success('Ibyiringitungo byakiriwe!'); }
                 },
 
                 saveGratitude() {
@@ -6865,7 +5514,7 @@
                     let html = '<div class="gratitude-saved-title">Ibyishimo biheruka</div>';
                     recent.forEach(g => {
                         const date = new Date(g.timestamp).toLocaleDateString('rw-RW', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-                        html += `<div class="gratitude-saved-item"><div><div class="gratitude-date">${date}</div>${g.items.map(i => `<div style="font-size: var(--text-sm); color: var(--color-text-secondary);">â€¢ ${i}</div>`).join('')}</div></div>`;
+                        html += `<div class="gratitude-saved-item"><div><div class="gratitude-date">${date}</div>${g.items.map(i => `<div style="font-size: var(--text-sm); color: var(--color-text-secondary);">• ${i}</div>`).join('')}</div></div>`;
                     });
                     this.elements.gratitudeSavedList.innerHTML = html;
                 },
@@ -6889,7 +5538,7 @@
 
                     if (moodData.length > 0) {
                         const avg = Math.round(moodData.reduce((a, b) => a + b.mood, 0) / moodData.length);
-                        const moods = ['', 'ðŸ˜¢', 'ðŸ˜”', 'ðŸ˜', 'ðŸ™‚', 'ðŸ˜Š'];
+                        const moods = ['', '😢', '😔', '😐', '🙂', '😊'];
                         this.elements.avgMood.textContent = moods[avg] || '-';
                     }
 
@@ -6968,11 +5617,11 @@
             const CrisisResources = {
                 resources: {
                     rwanda: [
-                        { name: 'Imitari y\'inkunga', number: '116', description: 'Umugoroba w\'abana n\'urubyiruko - 24/7', icon: 'ðŸ“ž' },
-                        { name: 'Isange One Stop Center', number: '3029', description: 'Ifasha mu gukumira ihohoterwa', icon: 'ðŸ¥' },
-                        { name: 'Police - Emergence', number: '112', description: 'Polisi y\'u Rwanda - ibyihutirwa', icon: 'ðŸš”' },
-                        { name: 'Ambulance', number: '912', description: 'Serivisi y\'ambulance', icon: 'ðŸš‘' },
-                        { name: 'HB Consulting', number: '0788305876', description: 'Ubuvuzi bwo mu mutwe', icon: 'ðŸ§ ' }
+                        { name: 'Imitari y\'inkunga', number: '116', description: 'Umugoroba w\'abana n\'urubyiruko - 24/7', icon: '📞' },
+                        { name: 'Isange One Stop Center', number: '3029', description: 'Ifasha mu gukumira ihohoterwa', icon: '🏥' },
+                        { name: 'Police - Emergence', number: '112', description: 'Polisi y\'u Rwanda - ibyihutirwa', icon: '🚔' },
+                        { name: 'Ambulance', number: '912', description: 'Serivisi y\'ambulance', icon: '🚑' },
+                        { name: 'HB Consulting', number: '0788305876', description: 'Ubuvuzi bwo mu mutwe', icon: '🧠' }
                     ],
                     keywords: ['kwiyahura', 'gutinya', 'nkibabaje', 'ntakizere', 'ndwaye', 'mpariye', 'ndashaka guhita', 'ntabwo mbona', 'ndi mu ngorane', 'mfite ibyago', 'ndashaka umutekano']
                 },
@@ -7004,7 +5653,7 @@
                         <div class="modal active" style="max-width: 500px; border-color: var(--color-error);">
                             <div class="modal-header" style="border-bottom-color: var(--color-error);">
                                 <h3 class="modal-title" style="color: var(--color-error);">
-                                    âš ï¸ Ukeneye ubufasha bwihutirwa?
+                                    ⚠️ Ukeneye ubufasha bwihutirwa?
                                 </h3>
                                 <button class="modal-close" id="crisisClose">&times;</button>
                             </div>
@@ -7349,7 +5998,7 @@
                     modal.innerHTML = `
                         <div class="modal active" style="max-width: 600px;">
                             <div class="modal-header">
-                                <h3 class="modal-title">ðŸ©º Gusuzuma</h3>
+                                <h3 class="modal-title">🩺 Gusuzuma</h3>
                                 <button class="modal-close" id="assessmentClose">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -7473,7 +6122,7 @@
                                     <div style="color: var(--color-text-secondary);">${result.recommendation}</div>
                                 </div>
                                 <p style="font-size: var(--text-sm); color: var(--color-text-muted); text-align: center;">
-                                    âš•ï¸ Ibi ni uburyo bwo gusuzuma. Ntabwo ari diagnosis. Reba umuvuzi w\'umutima.
+                                    ⚕️ Ibi ni uburyo bwo gusuzuma. Ntabwo ari diagnosis. Reba umuvuzi w\'umutima.
                                 </p>
                             </div>
                         </div>
@@ -7693,7 +6342,7 @@
                     dashboard.className = 'analytics-dashboard';
                     dashboard.innerHTML = `
                         <div class="analytics-header">
-                            <h3>ðŸ“Š Ihindagurika ry'amarangamutima</h3>
+                            <h3>📊 Ihindagurika ry'amarangamutima</h3>
                             <button class="btn btn-sm btn-ghost" id="toggleAnalytics">
                                 <i class="fas fa-chart-line"></i>
                             </button>
@@ -7851,7 +6500,7 @@
                         duration: 300,
                         level: 'beginner',
                         category: 'breathing',
-                        icon: 'ðŸŒ¬ï¸',
+                        icon: '🌬️',
                         steps: [
                             { instruction: 'Fungura amaso, uhore.', duration: 10 },
                             { instruction: 'Humeka ukoresheje izuru - 1, 2, 3, 4', duration: 4 },
@@ -7866,7 +6515,7 @@
                         duration: 600,
                         level: 'intermediate',
                         category: 'body-scan',
-                        icon: 'ðŸ§˜',
+                        icon: '🧘',
                         steps: [
                             { instruction: 'Ryama neza cyangwa wicare utuje.', duration: 20 },
                             { instruction: 'Tekereza ku birenge byawe...', duration: 30 },
@@ -7886,7 +6535,7 @@
                         duration: 420,
                         level: 'beginner',
                         category: 'gratitude',
-                        icon: 'ðŸ™',
+                        icon: '🙏',
                         steps: [
                             { instruction: 'Tekereza ku kintu kimwe wishimira uyu munsi.', duration: 30 },
                             { instruction: 'Tekereza ku muntu umwe ushima.', duration: 30 },
@@ -7901,7 +6550,7 @@
                         duration: 900,
                         level: 'all',
                         category: 'sleep',
-                        icon: 'ðŸ˜´',
+                        icon: '😴',
                         steps: [
                             { instruction: 'Ryama mu buryo bworoshye.', duration: 30 },
                             { instruction: 'Humeka buhoro buhoro...', duration: 60 },
@@ -7918,7 +6567,7 @@
                         duration: 480,
                         level: 'intermediate',
                         category: 'anxiety',
-                        icon: 'ðŸ•Šï¸',
+                        icon: '🕊️',
                         steps: [
                             { instruction: 'Emera ko ubwoba buhari.', duration: 30 },
                             { instruction: 'Humeka mu buryo burambye.', duration: 60 },
@@ -7945,7 +6594,7 @@
                     container.className = 'meditation-library';
                     container.innerHTML = `
                         <div class="meditation-header">
-                            <h3>ðŸ§˜ Imyitozo ngororamutwe</h3>
+                            <h3>🧘 Imyitozo ngororamutwe</h3>
                             <button class="btn btn-sm btn-ghost" id="toggleMeditation">
                                 <i class="fas fa-chevron-down"></i>
                             </button>
@@ -8286,7 +6935,7 @@
                     text += `========================================\n\n`;
                     
                     chat.forEach(msg => {
-                        const role = msg.role === 'user' ? 'ðŸ‘¤ USER' : 'ðŸ¤– TYAZA';
+                        const role = msg.role === 'user' ? '👤 USER' : '🤖 TYAZA';
                         text += `${role} [${new Date().toLocaleTimeString()}]\n`;
                         text += `${msg.content}\n`;
                         text += `----------------------------------------\n\n`;
@@ -8313,1355 +6962,11 @@
         .assistant .bubble { background: #1a1433; border: 1px solid #a78bfa; }
         .meta { font-size: 0.8rem; color: #94a3b8; margin-top: 5px; }
         .timestamp { font-size: 0.7rem; color: #64748b; }
-    
-        /* ============================================
-           CSS CUSTOM PROPERTIES - ENHANCED PALETTE
-           ============================================ */
-        :root {
-            /* Primary - Ethereal Violet */
-            --primary: #b794f6;
-            --primary-light: #d6bcfa;
-            --primary-deep: #805ad5;
-            --primary-glow: rgba(183, 148, 246, 0.4);
-            
-            /* Secondary - Blush Pink */
-            --secondary: #f687b3;
-            --secondary-light: #fbb6ce;
-            --secondary-deep: #d53f8c;
-            --secondary-glow: rgba(246, 135, 179, 0.4);
-            
-            /* Accent - Mint */
-            --accent: #68d391;
-            --accent-light: #9ae6b4;
-            --accent-deep: #38a169;
-            
-            /* Backgrounds - Deep Space */
-            --bg-deepest: #0a0612;
-            --bg-deep: #130d24;
-            --bg-surface: #1a1433;
-            --bg-surface-elevated: #231b42;
-            --bg-glass: rgba(26, 20, 51, 0.85);
-            --bg-glass-strong: rgba(26, 20, 51, 0.95);
-            
-            /* Text */
-            --text-primary: #f7f3ff;
-            --text-secondary: #cbb8e6;
-            --text-tertiary: #8b7aa8;
-            --text-muted: #5f4a7a;
-            
-            /* Borders */
-            --border-subtle: rgba(183, 148, 246, 0.15);
-            --border-medium: rgba(183, 148, 246, 0.25);
-            --border-strong: rgba(246, 135, 179, 0.35);
-            
-            /* Shadows */
-            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 16px 64px rgba(0, 0, 0, 0.5);
-            --shadow-glow-primary: 0 0 40px var(--primary-glow);
-            --shadow-glow-secondary: 0 0 40px var(--secondary-glow);
-            
-            /* Sizing */
-            --sidebar-width: 300px;
-            --header-height: 64px;
-            --input-height: 72px;
-            
-            /* Transitions */
-            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-smooth: 300ms cubic-bezier(0.4, 0, 0.2, 1);
-            --transition-bounce: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
-            
-            /* Border Radius */
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            --radius-lg: 24px;
-            --radius-xl: 32px;
-            --radius-full: 9999px;
-        }
-
-        /* ============================================
-           RESET & BASE
-           ============================================ */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--bg-deepest);
-            color: var(--text-primary);
-            height: 100vh;
-            overflow: hidden;
-            line-height: 1.6;
-            letter-spacing: -0.01em;
-        }
-
-        /* ============================================
-           COSMIC BACKGROUND
-           ============================================ */
-        .cosmic-bg {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .cosmic-bg::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(ellipse at 20% 20%, rgba(128, 90, 213, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(246, 135, 179, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 50%, rgba(104, 211, 145, 0.05) 0%, transparent 40%);
-            animation: cosmicDrift 60s ease-in-out infinite;
-        }
-
-        .cosmic-bg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            opacity: 0.03;
-            pointer-events: none;
-        }
-
-        .stars {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0;
-            animation: starTwinkle 4s ease-in-out infinite;
-        }
-
-        @keyframes cosmicDrift {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(2%, 2%) rotate(1deg); }
-            66% { transform: translate(-1%, 1%) rotate(-1deg); }
-        }
-
-        @keyframes starTwinkle {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.5); }
-        }
-
-        /* ============================================
-           APP LAYOUT
-           ============================================ */
-        .app-container {
-            display: flex;
-            width: 100vw;
-            height: 100vh;
-            position: relative;
-            z-index: 10;
-        }
-
-        /* ============================================
-           SIDEBAR
-           ============================================ */
-        .sidebar {
-            width: var(--sidebar-width);
-            background: var(--bg-glass-strong);
-            backdrop-filter: blur(40px);
-            -webkit-backdrop-filter: blur(40px);
-            border-right: 1px solid var(--border-subtle);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            gap: 16px;
-            z-index: 100;
-            transition: transform var(--transition-smooth);
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: var(--primary-deep);
-            border-radius: var(--radius-full);
-        }
-
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-bottom: 16px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .logo-icon {
-            width: 44px;
-            height: 44px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            color: white;
-            box-shadow: var(--shadow-glow-primary);
-            animation: logoFloat 6s ease-in-out infinite;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-4px) rotate(2deg); }
-        }
-
-        .logo-text {
-            flex: 1;
-        }
-
-        .logo-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--text-primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .logo-subtitle {
-            font-size: 0.7rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        .new-chat-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 14px 20px;
-            background: linear-gradient(135deg, rgba(183, 148, 246, 0.15), rgba(246, 135, 179, 0.1));
-            border: 1px solid var(--border-strong);
-            border-radius: var(--radius-lg);
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.9rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .new-chat-btn:hover {
-            background: linear-gradient(135deg, rgba(183, 148, 246, 0.25), rgba(246, 135, 179, 0.15));
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow-primary);
-        }
-
-        .new-chat-btn:active {
-            transform: translateY(0);
-        }
-
-        /* ============================================
-           SETTINGS PANEL
-           ============================================ */
-        .settings-panel {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .settings-section {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .settings-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.75rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            font-weight: 500;
-        }
-
-        .model-select, .voice-select {
-            width: 100%;
-            padding: 12px 16px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-medium);
-            border-radius: var(--radius-md);
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: border-color var(--transition-fast);
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23cbb8e6' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 16px center;
-        }
-
-        .model-select:focus, .voice-select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .model-select option, .voice-select option {
-            background: var(--bg-surface);
-            color: var(--text-primary);
-        }
-
-        .slider-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .slider-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-        }
-
-        .slider-value {
-            color: var(--primary-light);
-            font-weight: 500;
-        }
-
-        .slider {
-            width: 100%;
-            height: 6px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: var(--radius-full);
-            appearance: none;
-            cursor: pointer;
-        }
-
-        .slider::-webkit-slider-thumb {
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(183, 148, 246, 0.5);
-            transition: transform var(--transition-fast);
-        }
-
-        .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
-
-        .mic-test-btn, .preview-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            width: 100%;
-            padding: 12px;
-            background: rgba(183, 148, 246, 0.1);
-            border: 1px solid var(--border-medium);
-            border-radius: var(--radius-md);
-            color: var(--text-secondary);
-            font-family: inherit;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .mic-test-btn:hover, .preview-btn:hover {
-            background: rgba(183, 148, 246, 0.2);
-            border-color: var(--primary);
-            color: var(--text-primary);
-        }
-
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .checkbox-label input {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--primary);
-            cursor: pointer;
-        }
-
-        /* ============================================
-           HISTORY SECTION
-           ============================================ */
-        .history-section {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-height: 0;
-            overflow: hidden;
-        }
-
-        .history-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 8px 0;
-        }
-
-        .history-title {
-            font-size: 0.75rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            font-weight: 500;
-        }
-
-        .clear-history-btn {
-            background: none;
-            border: none;
-            color: var(--text-tertiary);
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: color var(--transition-fast);
-        }
-
-        .clear-history-btn:hover {
-            color: var(--secondary);
-        }
-
-        .history-list {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding-right: 4px;
-        }
-
-        .history-item {
-            padding: 12px 14px;
-            background: rgba(183, 148, 246, 0.05);
-            border: 1px solid transparent;
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .history-item:hover {
-            background: rgba(183, 148, 246, 0.1);
-            border-color: var(--border-subtle);
-        }
-
-        .history-item.active {
-            background: rgba(246, 135, 179, 0.1);
-            border-color: var(--border-strong);
-            border-left: 3px solid var(--secondary);
-        }
-
-        .history-item-title {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-primary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            margin-bottom: 4px;
-        }
-
-        .history-item-date {
-            font-size: 0.7rem;
-            color: var(--text-tertiary);
-        }
-
-        .history-empty {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 32px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            text-align: center;
-            gap: 8px;
-        }
-
-        .history-empty i {
-            font-size: 2rem;
-            opacity: 0.5;
-        }
-
-        /* ============================================
-           INFO CARD
-           ============================================ */
-        .info-card {
-            background: linear-gradient(135deg, rgba(183, 148, 246, 0.08), rgba(246, 135, 179, 0.05));
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            padding: 16px;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .info-card-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--secondary);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .info-card-tagline {
-            color: var(--text-tertiary);
-            font-size: 0.7rem;
-            margin-bottom: 12px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        .info-card-highlight {
-            color: var(--primary-light);
-            font-weight: 500;
-        }
-
-        .info-card-divider {
-            height: 1px;
-            background: var(--border-subtle);
-            margin: 12px 0;
-        }
-
-        /* ============================================
-           MAIN CHAT AREA
-           ============================================ */
-        .chat-main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-            min-width: 0;
-        }
-
-        .chat-header {
-            height: var(--header-height);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-subtle);
-            z-index: 50;
-        }
-
-        .chat-header-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .chat-header-avatar {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-        }
-
-        .chat-header-name {
-            font-weight: 600;
-            font-size: 1rem;
-        }
-
-        .chat-header-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.75rem;
-            color: var(--accent);
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
-        }
-
-        .chat-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .chat-action-btn {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(183, 148, 246, 0.1);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .chat-action-btn:hover {
-            background: rgba(183, 148, 246, 0.2);
-            border-color: var(--primary);
-            color: var(--text-primary);
-        }
-
-        /* ============================================
-           MESSAGES AREA
-           ============================================ */
-        .messages-container {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            scroll-behavior: smooth;
-        }
-
-        .messages-container::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .messages-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .messages-container::-webkit-scrollbar-thumb {
-            background: var(--primary-deep);
-            border-radius: var(--radius-full);
-        }
-
-        /* ============================================
-           WELCOME SCREEN
-           ============================================ */
-        .welcome-screen {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 40px;
-            text-align: center;
-            animation: welcomeFadeIn 0.8s ease-out;
-        }
-
-        @keyframes welcomeFadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .welcome-icon {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.5rem;
-            color: white;
-            margin-bottom: 32px;
-            animation: morphShape 8s ease-in-out infinite, welcomeIconFloat 6s ease-in-out infinite;
-            box-shadow: var(--shadow-glow-primary), var(--shadow-glow-secondary);
-        }
-
-        @keyframes morphShape {
-            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-            33% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
-            66% { border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%; }
-        }
-
-        @keyframes welcomeIconFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .welcome-title {
-            font-size: 3rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--text-primary), var(--primary-light), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 12px;
-            letter-spacing: -0.02em;
-        }
-
-        .welcome-subtitle {
-            font-family: 'Crimson Pro', serif;
-            font-size: 1.3rem;
-            font-style: italic;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-
-        .welcome-quote {
-            font-family: 'Crimson Pro', serif;
-            font-size: 1.1rem;
-            color: var(--text-tertiary);
-            max-width: 500px;
-            line-height: 1.8;
-            padding: 20px 32px;
-            background: var(--bg-glass);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--border-subtle);
-            margin-bottom: 24px;
-        }
-
-        .welcome-cta {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .cta-suggestion {
-            padding: 12px 20px;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-full);
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .cta-suggestion:hover {
-            background: rgba(183, 148, 246, 0.15);
-            border-color: var(--primary);
-            color: var(--text-primary);
-            transform: translateY(-2px);
-        }
-
-        /* ============================================
-           MESSAGE STYLES
-           ============================================ */
-        .message {
-            display: flex;
-            gap: 14px;
-            max-width: 85%;
-            animation: messageSlideIn 0.4s ease-out;
-        }
-
-        @keyframes messageSlideIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.user {
-            align-self: flex-end;
-            flex-direction: row-reverse;
-        }
-
-        .message-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .message.user .message-avatar {
-            background: linear-gradient(135deg, var(--bg-surface-elevated), var(--bg-surface));
-            border: 1px solid var(--border-medium);
-            color: var(--text-tertiary);
-        }
-
-        .message.assistant .message-avatar {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: var(--shadow-glow-primary);
-        }
-
-        .message-content {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .message.user .message-content {
-            align-items: flex-end;
-        }
-
-        .message-bubble {
-            padding: 14px 20px;
-            line-height: 1.7;
-            font-size: 0.95rem;
-            word-wrap: break-word;
-        }
-
-        .message.user .message-bubble {
-            background: linear-gradient(135deg, var(--bg-surface-elevated), var(--bg-surface));
-            border: 1px solid var(--border-medium);
-            border-radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-lg);
-            color: var(--text-primary);
-        }
-
-        .message.assistant .message-bubble {
-            background: var(--bg-glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-sm);
-            color: var(--text-secondary);
-        }
-
-        .message-time {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            padding: 0 4px;
-        }
-
-        /* Message reactions */
-        .message-reactions {
-            display: flex;
-            gap: 6px;
-            opacity: 0;
-            transition: opacity var(--transition-fast);
-        }
-
-        .message:hover .message-reactions {
-            opacity: 1;
-        }
-
-        .reaction-btn {
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-full);
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-        }
-
-        .reaction-btn:hover {
-            background: var(--bg-surface-elevated);
-            transform: scale(1.1);
-        }
-
-        /* Typing indicator */
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 4px 0;
-        }
-
-        .typing-avatar {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-        }
-
-        .typing-bubble {
-            display: flex;
-            gap: 5px;
-            padding: 16px 20px;
-            background: var(--bg-glass);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-        }
-
-        .typing-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            animation: typingBounce 1.4s ease-in-out infinite;
-        }
-
-        .typing-dot:nth-child(2) {
-            animation-delay: 0.2s;
-            background: var(--secondary);
-        }
-
-        .typing-dot:nth-child(3) {
-            animation-delay: 0.4s;
-            background: var(--accent);
-        }
-
-        @keyframes typingBounce {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.6; }
-            30% { transform: translateY(-8px); opacity: 1; }
-        }
-
-        /* ============================================
-           INPUT AREA
-           ============================================ */
-        .input-area {
-            padding: 20px 24px 28px;
-            background: linear-gradient(to top, var(--bg-deepest) 60%, transparent);
-            position: relative;
-        }
-
-        .input-wrapper {
-            max-width: 800px;
-            margin: 0 auto;
-            background: var(--bg-glass-strong);
-            backdrop-filter: blur(30px);
-            border: 1px solid var(--border-medium);
-            border-radius: var(--radius-xl);
-            padding: 6px 8px 6px 20px;
-            display: flex;
-            align-items: flex-end;
-            gap: 10px;
-            box-shadow: var(--shadow-md);
-            transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-        }
-
-        .input-wrapper:focus-within {
-            border-color: var(--primary);
-            box-shadow: var(--shadow-md), 0 0 0 3px var(--primary-glow);
-        }
-
-        .input-textarea {
-            flex: 1;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: var(--text-primary);
-            font-family: inherit;
-            font-size: 0.95rem;
-            padding: 14px 0;
-            resize: none;
-            max-height: 140px;
-            line-height: 1.5;
-            min-height: 24px;
-        }
-
-        .input-textarea::placeholder {
-            color: var(--text-muted);
-        }
-
-        .input-actions {
-            display: flex;
-            gap: 8px;
-            padding-bottom: 4px;
-        }
-
-        .input-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            border: none;
-            font-size: 1.1rem;
-        }
-
-        .voice-input-btn {
-            background: rgba(183, 148, 246, 0.15);
-            border: 1px solid var(--border-medium);
-            color: var(--secondary);
-        }
-
-        .voice-input-btn:hover {
-            background: rgba(183, 148, 246, 0.25);
-            transform: scale(1.05);
-        }
-
-        .voice-input-btn.listening {
-            background: var(--secondary-deep);
-            color: white;
-            animation: micPulse 1.5s infinite;
-            border-color: var(--secondary-deep);
-        }
-
-        @keyframes micPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(213, 63, 140, 0.5); }
-            50% { box-shadow: 0 0 0 15px rgba(213, 63, 140, 0); }
-        }
-
-        .send-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary-deep));
-            color: white;
-            box-shadow: 0 4px 20px var(--primary-glow);
-        }
-
-        .send-btn:hover:not(:disabled) {
-            transform: scale(1.05);
-            box-shadow: 0 6px 30px var(--primary-glow);
-        }
-
-        .send-btn:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .send-btn:active:not(:disabled) {
-            transform: scale(0.95);
-        }
-
-        .voice-status {
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-tertiary);
-            min-height: 20px;
-            margin-top: 10px;
-            transition: color var(--transition-fast);
-        }
-
-        .voice-status.active {
-            color: var(--secondary);
-        }
-
-        /* ============================================
-           SCROLL TO BOTTOM
-           ============================================ */
-        .scroll-bottom-btn {
-            position: absolute;
-            bottom: 100px;
-            right: 32px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 18px;
-            background: var(--bg-glass-strong);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border-strong);
-            border-radius: var(--radius-full);
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            cursor: pointer;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all var(--transition-smooth);
-            z-index: 40;
-            box-shadow: var(--shadow-glow-secondary);
-        }
-
-        .scroll-bottom-btn.visible {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .scroll-bottom-btn:hover {
-            background: rgba(246, 135, 179, 0.2);
-            color: var(--text-primary);
-        }
-
-        /* ============================================
-           STT INDICATOR
-           ============================================ */
-        .stt-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(10, 6, 18, 0.85);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all var(--transition-smooth);
-        }
-
-        .stt-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .stt-modal {
-            background: var(--bg-glass-strong);
-            border: 2px solid var(--secondary);
-            border-radius: var(--radius-xl);
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 24px;
-            box-shadow: var(--shadow-glow-secondary);
-            transform: scale(0.9);
-            transition: transform var(--transition-bounce);
-        }
-
-        .stt-overlay.active .stt-modal {
-            transform: scale(1);
-        }
-
-        .stt-visualizer {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-            height: 60px;
-        }
-
-        .stt-bar {
-            width: 6px;
-            background: linear-gradient(to top, var(--primary), var(--secondary));
-            border-radius: var(--radius-full);
-            animation: sttWave 0.8s ease-in-out infinite alternate;
-        }
-
-        .stt-bar:nth-child(1) { height: 20px; animation-delay: 0s; }
-        .stt-bar:nth-child(2) { height: 35px; animation-delay: 0.1s; }
-        .stt-bar:nth-child(3) { height: 50px; animation-delay: 0.2s; }
-        .stt-bar:nth-child(4) { height: 40px; animation-delay: 0.3s; }
-        .stt-bar:nth-child(5) { height: 25px; animation-delay: 0.4s; }
-        .stt-bar:nth-child(6) { height: 45px; animation-delay: 0.5s; }
-        .stt-bar:nth-child(7) { height: 30px; animation-delay: 0.6s; }
-
-        @keyframes sttWave {
-            from { height: 15px; }
-            to { height: 55px; }
-        }
-
-        .stt-text {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            text-align: center;
-            max-width: 300px;
-        }
-
-        .stt-hint {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        /* ============================================
-           LOADING STATES
-           ============================================ */
-        .loading-overlay {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-deepest);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            z-index: 2000;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-
-        .loading-overlay.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 3px solid var(--border-subtle);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-text {
-            font-size: 1rem;
-            color: var(--text-secondary);
-        }
-
-        /* ============================================
-           MOBILE RESPONSIVENESS
-           ============================================ */
-        @media (max-width: 768px) {
-            :root {
-                --sidebar-width: 85vw;
-                --header-height: 56px;
-            }
-
-            .sidebar {
-                position: fixed;
-                left: 0;
-                top: 0;
-                bottom: 0;
-                transform: translateX(-100%);
-                padding: 16px;
-                gap: 12px;
-                box-shadow: var(--shadow-lg);
-            }
-
-            .sidebar.open {
-                transform: translateX(0);
-            }
-
-            .sidebar-overlay {
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.7);
-                backdrop-filter: blur(8px);
-                z-index: 99;
-                opacity: 0;
-                visibility: hidden;
-                transition: all var(--transition-smooth);
-            }
-
-            .sidebar-overlay.open {
-                opacity: 1;
-                visibility: visible;
-            }
-
-            .menu-toggle {
-                display: flex !important;
-            }
-
-            .welcome-title {
-                font-size: 2.2rem;
-            }
-
-            .welcome-subtitle {
-                font-size: 1.1rem;
-            }
-
-            .welcome-quote {
-                font-size: 1rem;
-                padding: 16px 20px;
-            }
-
-            .message {
-                max-width: 92%;
-            }
-
-            .message-bubble {
-                padding: 12px 16px;
-                font-size: 0.9rem;
-            }
-
-            .input-area {
-                padding: 16px 12px 20px;
-            }
-
-            .input-wrapper {
-                border-radius: var(--radius-lg);
-                padding: 4px 6px 4px 14px;
-            }
-
-            .input-btn {
-                width: 44px;
-                height: 44px;
-            }
-
-            .scroll-bottom-btn {
-                right: 16px;
-                bottom: 90px;
-            }
-
-            .chat-header {
-                padding: 0 16px;
-            }
-
-            .messages-container {
-                padding: 16px;
-            }
-
-            .welcome-icon {
-                width: 90px;
-                height: 90px;
-                font-size: 2.5rem;
-            }
-
-            .info-card {
-                display: none;
-            }
-        }
-
-        @media (min-width: 769px) {
-            .menu-toggle, .sidebar-overlay {
-                display: none !important;
-            }
-        }
-
-        /* Hidden utility */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Focus visible */
-        :focus-visible {
-            outline: 2px solid var(--primary);
-            outline-offset: 2px;
-        }
-
-        /* Selection */
-        ::selection {
-            background: var(--primary);
-            color: white;
-        }
-    
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>ðŸ¤– TYAZA</h1>
+        <h1>🤖 TYAZA</h1>
         <p>Umuvugizi w'Umutima</p>
         <p class="timestamp">${new Date().toLocaleString()}</p>
     </div>
@@ -9678,7 +6983,7 @@
     `).join('')}
     
     <div style="text-align: center; margin-top: 50px; font-size: 0.8rem; color: #64748b;">
-        Exported from TYAZA Â· Kivura Labs
+        Exported from TYAZA · Kivura Labs
     </div>
 </body>
 </html>
@@ -9801,7 +7106,7 @@
                         modal.innerHTML = `
                             <div class="modal active" style="max-width: 400px;">
                                 <div class="modal-header">
-                                    <h3 class="modal-title">ðŸ”’ ${message}</h3>
+                                    <h3 class="modal-title">🔒 ${message}</h3>
                                     <button class="modal-close" id="passwordClose">&times;</button>
                                 </div>
                                 <div style="margin: var(--space-6) 0;">
@@ -9877,7 +7182,7 @@ UKO WITWARA:
 - Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi
 - Ntugire ubusobanuro burebure cyane, ariko ugaragaze ko umva
 
-Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga â€” haba mu rurimi, haba mu mibereho.`,
+Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho.`,
 
                 async checkConnection() {
                     return new Promise((resolve) => {
@@ -10070,7 +7375,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga â€�
                     const time = formatMessageTime();
                     
                     messageDiv.innerHTML = `
-                        <div class="message-avatar">${role === 'user' ? 'ðŸ‘¤' : '<img src="tyaza-logo.png" alt="TYAZA">'}</div>
+                        <div class="message-avatar">${role === 'user' ? '👤' : '<img src="tyaza-logo.png" alt="TYAZA">'}</div>
                         <div class="message-content">
                             <div class="message-bubble" id="bubble-${messageId}">
                                 ${formatMessageContent(content)}
@@ -10102,7 +7407,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga â€�
                 updateMessage(messageId, content) {
                     const bubble = document.getElementById(`bubble-${messageId}`);
                     if (bubble) {
-                        bubble.innerHTML = formatMessageContent(content) + ' <span style="animation: blink 1s infinite;">â–Š</span>';
+                        bubble.innerHTML = formatMessageContent(content) + ' <span style="animation: blink 1s infinite;">▊</span>';
                     }
                 },
 
@@ -10151,7 +7456,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga â€�
                     if (history.length === 0) {
                         this.elements.historyList.innerHTML = `
                             <div class="history-empty">
-                                <i>ðŸ’­</i>
+                                <i>💭</i>
                                 <span>Nta mateka</span>
                             </div>
                         `;
@@ -10505,21 +7810,21 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga â€�
                         await navigator.mediaDevices.getUserMedia({ audio: true });
                         StateManager.set('micPermission', true);
                         
-                        UI.elements.micTestBtn.innerHTML = 'âœ… yiteguye';
-                        UI.elements.voiceStatus.textContent = 'âœ… Mikorofoni yiteguye';
+                        UI.elements.micTestBtn.innerHTML = '✅ yiteguye';
+                        UI.elements.voiceStatus.textContent = '✅ Mikorofoni yiteguye';
                         UI.elements.voiceStatus.classList.add('active');
                         
                         if (!StateManager.get('speechRecognition')) {
                             SpeechService.initRecognition();
                         }
                     } catch (error) {
-                        UI.elements.micTestBtn.innerHTML = 'âŒ emerera';
-                        UI.elements.voiceStatus.textContent = 'âŒ Emera mikorofoni';
+                        UI.elements.micTestBtn.innerHTML = '❌ emerera';
+                        UI.elements.voiceStatus.textContent = '❌ Emera mikorofoni';
                         StateManager.set('micPermission', false);
                     }
 
                     setTimeout(() => {
-                        UI.elements.micTestBtn.innerHTML = '<span>ðŸŽ¤</span> Genzura Mikorofoni';
+                        UI.elements.micTestBtn.innerHTML = '<span>🎤</span> Genzura Mikorofoni';
                         setTimeout(() => {
                             UI.elements.voiceStatus.classList.remove('active');
                         }, 2000);
@@ -10644,7 +7949,7 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga â€�
                     const isReady = await AIService.checkConnection();
                     
                     if (!isReady) {
-                        UI.elements.voiceStatus.textContent = '⚠️ Kanda ku kimenyetso cya Puter wandikishe';
+                        UI.elements.voiceStatus.textContent = '✋ Kanda ku kimenyetso cya Puter wandikishe';
                         UI.elements.voiceStatus.classList.add('active');
                     }
                 }
@@ -10680,10 +7985,6 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga â€�
             });
 
         })();
-    
-        window.puter = null;
-        window.puterError = null;
-    
     </script>
 </body>
 </html>
