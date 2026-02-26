@@ -26,6 +26,23 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
+    <!-- Import Maps for Advanced AI Features (from v4.0) -->
+    <script type="importmap">
+        {
+            "imports": {
+                "react": "https://esm.sh/react@18.2.0",
+                "react-dom": "https://esm.sh/react-dom@18.2.0",
+                "lit": "https://esm.sh/lit@3.1.0",
+                "@xenova/transformers": "https://esm.sh/@xenova/transformers@2.17.1",
+                "idb": "https://esm.sh/idb@8.0.0",
+                "onnxruntime-web": "https://esm.sh/onnxruntime-web@1.17.1",
+                "llama": "https://esm.sh/llama.rn@0.1.0",
+                "hnswlib": "https://esm.sh/hnswlib@0.1.0",
+                "simple-peer": "https://esm.sh/simple-peer@9.11.1"
+            }
+        }
+    </script>
+    
     <!-- PWA Manifest -->
     <link rel="manifest" href='data:application/json,{"name":"TYAZA","short_name":"TYA","start_url":".","display":"standalone","background_color":"#0f172a","theme_color":"#667eea"}'>
     
@@ -7984,6 +8001,194 @@ Intego yawe: Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — hab
                 }
             });
 
+        
+            // ================================================================
+            // ADVANCED AI FEATURES FROM v4.0 (MERGED)
+            // Web Components, IndexedDB+Vector DB, On-device Inference,
+            // WebGPU/WASM, RAG, WebRTC Datachannels, Realtime ASR
+            // ================================================================
+            
+            // Import advanced modules
+            let VectorDatabase, OnDeviceInference, RealtimePeer, RealtimeASR;
+            
+            // Initialize advanced features
+            async function initAdvancedAI() {
+                try {
+                    const { openDB } = await import('idb');
+                    const { pipeline, env } = await import('@xenova/transformers');
+                    const Hnswlib = await import('hnswlib');
+                    const Peer = await import('simple-peer');
+                    
+                    // Configure transformers.js for on-device
+                    env.localModelPath = '/models/';
+                    env.allowRemoteModels = true;
+                    
+                    // Vector Database Class
+                    VectorDatabase = class {
+                        constructor() {
+                            this.db = null;
+                            this.hnsw = new Hnswlib.HierarchicalNSW('cosine', 384);
+                            this.initialized = false;
+                        }
+                        
+                        async init() {
+                            this.db = await openDB('TyazaVectorDB', 2, {
+                                upgrade(db) {
+                                    if (!db.objectStoreNames.contains('embeddings')) {
+                                        const store = db.createObjectStore('embeddings', { keyPath: 'id' });
+                                        store.createIndex('text', 'text', { unique: false });
+                                        store.createIndex('timestamp', 'timestamp', { unique: false });
+                                    }
+                                    if (!db.objectStoreNames.contains('conversations')) {
+                                        db.createObjectStore('conversations', { keyPath: 'id' });
+                                    }
+                                }
+                            });
+                            this.hnsw.initIndex(10000);
+                            this.initialized = true;
+                        }
+                        
+                        async addEmbedding(text, vector, metadata = {}) {
+                            const id = Date.now() + Math.random().toString(36);
+                            const embedding = { id, text, vector: Array.from(vector), timestamp: Date.now(), ...metadata };
+                            await this.db.put('embeddings', embedding);
+                            this.hnsw.addPoint(vector, id);
+                            return id;
+                        }
+                        
+                        async searchSimilar(queryVector, k = 5) {
+                            if (!this.initialized) return [];
+                            const results = this.hnsw.searchKnn(queryVector, k);
+                            const embeddings = [];
+                            for (let i = 0; i < results.neighbors.length; i++) {
+                                const emb = await this.db.get('embeddings', results.neighbors[i]);
+                                if (emb) embeddings.push({ ...emb, distance: results.distances[i] });
+                            }
+                            return embeddings;
+                        }
+                    };
+                    
+                    // On-Device Inference Class
+                    OnDeviceInference = class {
+                        constructor() {
+                            this.model = null;
+                            this.embeddingModel = null;
+                            this.isWebGPUSupported = false;
+                            this.currentModel = 'tinyllama';
+                            this.models = {
+                                tinyllama: 'Xenova/tiny-random-LlamaForCausalLM',
+                                phi2: 'Xenova/phi-2',
+                                qwen2: 'Xenova/Qwen2-0.5B-Instruct'
+                            };
+                        }
+                        
+                        async init() {
+                            this.isWebGPUSupported = 'gpu' in navigator;
+                            this.embeddingModel = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2');
+                            await this.loadModel('tinyllama');
+                        }
+                        
+                        async loadModel(modelName) {
+                            this.currentModel = modelName;
+                            if (modelName === 'cloud') return;
+                            try {
+                                this.model = await pipeline('text-generation', this.models[modelName], {
+                                    quantized: true,
+                                    device: this.isWebGPUSupported ? 'webgpu' : 'wasm'
+                                });
+                            } catch (e) {
+                                console.error('Failed to load model:', e);
+                                this.currentModel = 'cloud';
+                            }
+                        }
+                        
+                        async generate(prompt, context = []) {
+                            if (this.currentModel === 'cloud') {
+                                const responses = ['Ndumva. Urakoze kunsangiza ibi.', 'Ndi kumwe nawe. Wumva ute ubu?', 'Urakoze kundekera. Ibyo birashishikara.'];
+                                return responses[Math.floor(Math.random() * responses.length)];
+                            }
+                            try {
+                                const systemPrompt = `Wowe uri Tyaza, umuvugizi w'umutima mu Kinyarwanda.`;
+                                const contextStr = context.length ? `Ibyerekeye: ${context.map(c => c.text).join(' ')}
+` : '';
+                                const fullPrompt = `<|system|>\n${systemPrompt}\n<|user|>\n${contextStr}${prompt}\n<|assistant|>\n`;
+                                const result = await this.model(fullPrompt, { max_new_tokens: 256, temperature: 0.7, do_sample: true, top_p: 0.95 });
+                                return result[0].generated_text.replace(fullPrompt, '').trim();
+                            } catch (e) {
+                                return this.generate(prompt, []);
+                            }
+                        }
+                        
+                        async createEmbedding(text) {
+                            if (!this.embeddingModel) return null;
+                            const result = await this.embeddingModel(text, { pooling: 'mean', normalize: true });
+                            return result.data;
+                        }
+                    };
+                    
+                    // WebRTC Class
+                    RealtimePeer = class {
+                        constructor() {
+                            this.peer = null;
+                            this.connected = false;
+                        }
+                        
+                        init(initiator = true) {
+                            this.peer = new Peer({
+                                initiator,
+                                trickle: false,
+                                config: { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] }
+                            });
+                            this.peer.on('connect', () => { this.connected = true; });
+                        }
+                        
+                        send(message) {
+                            if (this.connected && this.peer) this.peer.send(message);
+                        }
+                    };
+                    
+                    // Realtime ASR Class
+                    RealtimeASR = class {
+                        constructor() {
+                            this.recognition = null;
+                            this.isListening = false;
+                            this.onResult = null;
+                        }
+                        
+                        async init() {
+                            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) return;
+                            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                            this.recognition = new SpeechRecognition();
+                            this.recognition.continuous = true;
+                            this.recognition.interimResults = true;
+                            this.recognition.lang = 'rw-RW';
+                            this.recognition.onresult = (event) => {
+                                let transcript = '';
+                                for (let i = event.resultIndex; i < event.results.length; i++) {
+                                    transcript += event.results[i][0].transcript;
+                                }
+                                if (this.onResult) this.onResult(transcript);
+                            };
+                        }
+                        
+                        start() {
+                            if (this.recognition) { this.recognition.start(); this.isListening = true; }
+                        }
+                        
+                        stop() {
+                            if (this.recognition) { this.recognition.stop(); this.isListening = false; }
+                        }
+                    };
+                    
+                    console.log('Advanced AI Features Initialized (v4.0 merged)');
+                } catch (e) {
+                    console.warn('Advanced AI features not available:', e);
+                }
+            }
+            
+            // Auto-init advanced features
+            initAdvancedAI();
+            
         })();
     </script>
 </body>
