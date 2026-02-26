@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <meta name="description" content="TYAZA - Umuvugizi w'Umutima | Advanced AI Virtual Therapy Assistant with On-device Intelligence">
+    <meta name="description" content="TYAZA - Umuvugizi w'Umutima | Hybrid AI Virtual Therapy Assistant">
     <meta name="theme-color" content="#0a0612">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <title>TYAZA · Umuvugizi w'Umutima · Advanced AI</title>
+    <title>TYAZA · Umuvugizi w'Umutima</title>
     
     <!-- Preconnect and Resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://js.puter.com">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
@@ -25,28 +26,20 @@
     <script type="importmap">
         {
             "imports": {
-                "lit": "https://esm.sh/lit@3.1.0",
-                "lit/decorators.js": "https://esm.sh/lit@3.1.0/decorators.js",
                 "@xenova/transformers": "https://esm.sh/@xenova/transformers@2.17.1",
-                "idb": "https://esm.sh/idb@8.0.0",
-                "hnswlib": "https://esm.sh/hnswlib-node@1.0.0?target=es2020",
-                "simple-peer": "https://esm.sh/simple-peer@9.11.1"
+                "idb": "https://esm.sh/idb@8.0.0"
             }
         }
     </script>
     
     <style>
         /* ================================================================
-           TYAZA v5.0 - ULTIMATE EDITION
-           Complete Integration: Original Features + Advanced AI
-           Web Components, Vector DB, On-device AI, RAG, WebRTC, Realtime ASR
+           TYAZA v5.0 - FINAL PRODUCTION VERSION
+           Hybrid AI: Puter API + On-device models
            ================================================================ */
 
-        /* ================================================================
-           DESIGN TOKENS (Preserved from original)
-           ================================================================ */
+        /* Design Tokens */
         :root {
-            /* Color Tokens - Dark Theme */
             --color-primary-50: #f5f3ff;
             --color-primary-100: #ede9fe;
             --color-primary-200: #ddd6fe;
@@ -69,66 +62,37 @@
             --color-secondary-800: #9d174d;
             --color-secondary-900: #831843;
             
-            --color-accent-50: #ecfdf5;
-            --color-accent-100: #d1fae5;
-            --color-accent-200: #a7f3d0;
-            --color-accent-300: #6ee7b7;
-            --color-accent-400: #34d399;
-            --color-accent-500: #10b981;
-            --color-accent-600: #059669;
-            --color-accent-700: #047857;
-            --color-accent-800: #065f46;
-            --color-accent-900: #064e3b;
-            
             --color-surface-950: #030014;
             --color-surface-900: #0a0612;
             --color-surface-800: #130d24;
             --color-surface-700: #1a1433;
             --color-surface-600: #231b42;
             --color-surface-500: #2d2352;
-            --color-surface-400: #3d2f6d;
-            --color-surface-300: #504185;
-            --color-surface-200: #6b5a9e;
-            --color-surface-100: #8b7ab8;
-            --color-surface-50: #b8b0d0;
             
             --color-text-primary: #f8fafc;
             --color-text-secondary: #e2e8f0;
             --color-text-tertiary: #94a3b8;
             --color-text-muted: #64748b;
-            --color-text-inverted: #0f172a;
             
             --color-success: #22c55e;
             --color-warning: #f59e0b;
             --color-error: #ef4444;
             --color-info: #3b82f6;
             
-            /* Gradients */
-            --gradient-primary: linear-gradient(135deg, var(--color-primary-400), var(--color-secondary-400));
-            --gradient-secondary: linear-gradient(135deg, var(--color-secondary-400), var(--color-accent-400));
-            --gradient-cosmic: linear-gradient(135deg, var(--color-surface-900), var(--color-surface-800), var(--color-primary-900));
+            --gradient-primary: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --gradient-secondary: linear-gradient(135deg, #ec4899, #10b981);
             
-            /* Shadows */
-            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-            --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.6);
             --shadow-glow-primary: 0 0 40px rgba(139, 92, 246, 0.3);
             --shadow-glow-secondary: 0 0 40px rgba(236, 72, 153, 0.3);
             
-            /* Border Radius */
-            --radius-none: 0;
-            --radius-xs: 4px;
-            --radius-sm: 8px;
-            --radius-md: 12px;
+            --sidebar-width: 320px;
+            --header-height: 64px;
+            --content-max-width: 900px;
             --radius-lg: 16px;
             --radius-xl: 24px;
             --radius-2xl: 32px;
             --radius-full: 9999px;
             
-            /* Spacing */
-            --space-0: 0;
             --space-1: 4px;
             --space-2: 8px;
             --space-3: 12px;
@@ -136,47 +100,17 @@
             --space-5: 20px;
             --space-6: 24px;
             --space-8: 32px;
-            --space-10: 40px;
-            --space-12: 48px;
-            --space-16: 64px;
             
-            /* Typography */
             --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             --font-display: 'Space Grotesk', var(--font-sans);
             --font-serif: 'Crimson Pro', Georgia, serif;
-            
-            --text-xs: 0.75rem;
-            --text-sm: 0.875rem;
-            --text-base: 1rem;
-            --text-lg: 1.125rem;
-            --text-xl: 1.25rem;
-            --text-2xl: 1.5rem;
-            --text-3xl: 1.875rem;
-            --text-4xl: 2.25rem;
-            --text-5xl: 3rem;
-            
-            /* Layout */
-            --sidebar-width: 320px;
-            --header-height: 64px;
-            --content-max-width: 900px;
         }
 
-        /* ================================================================
-           RESET & BASE STYLES
-           ================================================================ */
-        *,
-        *::before,
-        *::after {
+        /* Reset */
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        html {
-            font-size: 16px;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            text-rendering: optimizeLegibility;
         }
 
         body {
@@ -186,82 +120,60 @@
             line-height: 1.5;
             min-height: 100vh;
             overflow: hidden;
-            position: relative;
         }
 
-        /* ================================================================
-           UTILITY CLASSES (Preserved from original)
-           ================================================================ */
-        .d-none { display: none !important; }
-        .d-flex { display: flex !important; }
-        .d-grid { display: grid !important; }
-        
-        .flex-row { flex-direction: row; }
+        /* Utility Classes */
+        .d-flex { display: flex; }
         .flex-col { flex-direction: column; }
-        .flex-1 { flex: 1 1 0%; }
-        .flex-auto { flex: 1 1 auto; }
-        .flex-none { flex: none; }
-        
         .items-center { align-items: center; }
-        .items-start { align-items: flex-start; }
-        .items-end { align-items: flex-end; }
-        
         .justify-center { justify-content: center; }
         .justify-between { justify-content: space-between; }
-        .justify-start { justify-content: flex-start; }
-        .justify-end { justify-content: flex-end; }
-        
-        .gap-1 { gap: var(--space-1); }
+        .flex-1 { flex: 1; }
         .gap-2 { gap: var(--space-2); }
         .gap-3 { gap: var(--space-3); }
         .gap-4 { gap: var(--space-4); }
-        .gap-5 { gap: var(--space-5); }
-        .gap-6 { gap: var(--space-6); }
         
-        .p-0 { padding: 0; }
-        .p-1 { padding: var(--space-1); }
         .p-2 { padding: var(--space-2); }
         .p-3 { padding: var(--space-3); }
         .p-4 { padding: var(--space-4); }
         .p-5 { padding: var(--space-5); }
         .p-6 { padding: var(--space-6); }
         
-        .px-2 { padding-left: var(--space-2); padding-right: var(--space-2); }
-        .px-3 { padding-left: var(--space-3); padding-right: var(--space-3); }
         .px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
-        .px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
-        
-        .py-1 { padding-top: var(--space-1); padding-bottom: var(--space-1); }
         .py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
         .py-3 { padding-top: var(--space-3); padding-bottom: var(--space-3); }
-        .py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
         
-        .text-xs { font-size: var(--text-xs); }
-        .text-sm { font-size: var(--text-sm); }
-        .text-base { font-size: var(--text-base); }
-        .text-lg { font-size: var(--text-lg); }
-        .text-xl { font-size: var(--text-xl); }
-        .text-2xl { font-size: var(--text-2xl); }
+        .m-0 { margin: 0; }
+        .mt-2 { margin-top: var(--space-2); }
+        .mt-3 { margin-top: var(--space-3); }
+        .mt-4 { margin-top: var(--space-4); }
+        .mb-2 { margin-bottom: var(--space-2); }
+        .mb-3 { margin-bottom: var(--space-3); }
+        .mb-4 { margin-bottom: var(--space-4); }
         
-        .font-normal { font-weight: 400; }
+        .text-xs { font-size: 0.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        
         .font-medium { font-weight: 500; }
         .font-semibold { font-weight: 600; }
         .font-bold { font-weight: 700; }
         
-        .text-center { text-align: center; }
-        .text-left { text-align: left; }
-        .text-right { text-align: right; }
-        
         .text-primary { color: var(--color-text-primary); }
         .text-secondary { color: var(--color-text-secondary); }
         .text-muted { color: var(--color-text-muted); }
+        .text-success { color: var(--color-success); }
+        .text-error { color: var(--color-error); }
+        
+        .text-center { text-align: center; }
         
         .w-full { width: 100%; }
         .h-full { height: 100%; }
         .h-screen { height: 100vh; }
         
-        .rounded-sm { border-radius: var(--radius-sm); }
-        .rounded-md { border-radius: var(--radius-md); }
         .rounded-lg { border-radius: var(--radius-lg); }
         .rounded-xl { border-radius: var(--radius-xl); }
         .rounded-2xl { border-radius: var(--radius-2xl); }
@@ -269,24 +181,19 @@
         
         .border { border: 1px solid var(--color-surface-600); }
         .border-0 { border: none; }
+        .border-t { border-top: 1px solid var(--color-surface-600); }
         
-        .shadow-sm { box-shadow: var(--shadow-sm); }
-        .shadow-md { box-shadow: var(--shadow-md); }
-        .shadow-lg { box-shadow: var(--shadow-lg); }
+        .shadow-lg { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
         
         .overflow-hidden { overflow: hidden; }
-        .overflow-auto { overflow: auto; }
         .overflow-y-auto { overflow-y: auto; }
         
         .relative { position: relative; }
         .absolute { position: absolute; }
         .fixed { position: fixed; }
-        
         .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
         
-        /* ================================================================
-           COMPONENT STYLES (Preserved from original)
-           ================================================================ */
+        /* Button Styles */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -294,7 +201,7 @@
             gap: var(--space-2);
             padding: var(--space-3) var(--space-5);
             font-family: inherit;
-            font-size: var(--text-sm);
+            font-size: 0.875rem;
             font-weight: 500;
             border: 1px solid transparent;
             border-radius: var(--radius-lg);
@@ -309,9 +216,9 @@
             box-shadow: var(--shadow-glow-primary);
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-lg), var(--shadow-glow-primary);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5), var(--shadow-glow-primary);
         }
 
         .btn-secondary {
@@ -320,9 +227,8 @@
             color: var(--color-text-primary);
         }
 
-        .btn-secondary:hover {
+        .btn-secondary:hover:not(:disabled) {
             background: var(--color-surface-600);
-            border-color: var(--color-primary-500);
         }
 
         .btn-ghost {
@@ -344,18 +250,24 @@
 
         .btn-sm {
             padding: var(--space-2) var(--space-3);
-            font-size: var(--text-xs);
+            font-size: 0.75rem;
         }
 
         .btn-block {
             width: 100%;
         }
 
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Input Styles */
         .input {
             width: 100%;
             padding: var(--space-3) var(--space-4);
             font-family: inherit;
-            font-size: var(--text-base);
+            font-size: 1rem;
             color: var(--color-text-primary);
             background: var(--color-surface-800);
             border: 1px solid var(--color-surface-600);
@@ -375,7 +287,7 @@
             padding: var(--space-3) var(--space-4);
             padding-right: var(--space-10);
             font-family: inherit;
-            font-size: var(--text-sm);
+            font-size: 0.875rem;
             color: var(--color-text-primary);
             background: var(--color-surface-800);
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
@@ -396,7 +308,7 @@
             display: flex;
             align-items: center;
             gap: var(--space-2);
-            font-size: var(--text-sm);
+            font-size: 0.875rem;
             color: var(--color-text-secondary);
             cursor: pointer;
         }
@@ -407,7 +319,7 @@
             height: 20px;
             background: var(--color-surface-800);
             border: 2px solid var(--color-surface-500);
-            border-radius: var(--radius-sm);
+            border-radius: 4px;
             cursor: pointer;
             transition: all 0.15s;
             position: relative;
@@ -447,7 +359,7 @@
             background: var(--gradient-primary);
             border-radius: var(--radius-full);
             cursor: pointer;
-            box-shadow: var(--shadow-md);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
             transition: transform 0.15s;
         }
 
@@ -459,21 +371,21 @@
             display: inline-flex;
             align-items: center;
             padding: var(--space-1) var(--space-2);
-            font-size: var(--text-xs);
+            font-size: 0.75rem;
             font-weight: 500;
             border-radius: var(--radius-full);
             background: var(--color-surface-700);
             color: var(--color-text-secondary);
         }
 
-        .badge-primary {
-            background: rgba(139, 92, 246, 0.2);
-            color: var(--color-primary-300);
-        }
-
         .badge-success {
             background: rgba(34, 197, 94, 0.2);
             color: var(--color-success);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--color-warning);
         }
 
         .card {
@@ -488,9 +400,7 @@
             backdrop-filter: blur(20px);
         }
 
-        /* ================================================================
-           COSMIC BACKGROUND (Preserved)
-           ================================================================ */
+        /* Cosmic Background */
         .app-background {
             position: fixed;
             inset: 0;
@@ -508,16 +418,15 @@
             height: 200%;
             background: 
                 radial-gradient(ellipse at 20% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 60% 10%, rgba(110, 231, 183, 0.05) 0%, transparent 40%);
+                radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
             animation: cosmicDrift 40s ease-in-out infinite;
         }
 
         @keyframes cosmicDrift {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(2%, 1%) rotate(0.5deg); }
-            50% { transform: translate(-1%, 2%) rotate(-0.5deg); }
-            75% { transform: translate(1%, -1%) rotate(0.3deg); }
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(2%, 1%); }
+            50% { transform: translate(-1%, 2%); }
+            75% { transform: translate(1%, -1%); }
         }
 
         .stars-container {
@@ -536,13 +445,11 @@
         }
 
         @keyframes starTwinkle {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 0.9; transform: scale(1.3); }
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.9; }
         }
 
-        /* ================================================================
-           LAYOUT STYLES
-           ================================================================ */
+        /* Layout */
         .app-layout {
             display: flex;
             width: 100vw;
@@ -607,7 +514,7 @@
 
         .logo-title {
             font-family: var(--font-display);
-            font-size: var(--text-xl);
+            font-size: 1.25rem;
             font-weight: 700;
             background: linear-gradient(135deg, var(--color-text-primary), var(--color-secondary-300));
             -webkit-background-clip: text;
@@ -616,7 +523,7 @@
         }
 
         .logo-subtitle {
-            font-size: var(--text-xs);
+            font-size: 0.75rem;
             color: var(--color-text-muted);
             text-transform: uppercase;
             letter-spacing: 0.1em;
@@ -638,7 +545,7 @@
         }
 
         .sidebar-section-title {
-            font-size: var(--text-xs);
+            font-size: 0.75rem;
             font-weight: 600;
             color: var(--color-text-muted);
             text-transform: uppercase;
@@ -658,7 +565,7 @@
             border-radius: var(--radius-xl);
             color: var(--color-text-primary);
             font-family: inherit;
-            font-size: var(--text-sm);
+            font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.15s;
@@ -687,7 +594,7 @@
             display: flex;
             align-items: center;
             gap: var(--space-2);
-            font-size: var(--text-xs);
+            font-size: 0.75rem;
             color: var(--color-text-muted);
             text-transform: uppercase;
             letter-spacing: 0.08em;
@@ -710,7 +617,7 @@
         .voice-control-label {
             display: flex;
             justify-content: space-between;
-            font-size: var(--text-xs);
+            font-size: 0.75rem;
             color: var(--color-text-tertiary);
         }
 
@@ -752,7 +659,7 @@
         }
 
         .history-title {
-            font-size: var(--text-sm);
+            font-size: 0.875rem;
             font-weight: 500;
             color: var(--color-text-primary);
             white-space: nowrap;
@@ -764,7 +671,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: var(--text-xs);
+            font-size: 0.75rem;
             color: var(--color-text-muted);
         }
 
@@ -784,18 +691,32 @@
             border: 1px solid rgba(139, 92, 246, 0.15);
             border-radius: var(--radius-xl);
             padding: var(--space-4);
-            font-size: var(--text-xs);
+            font-size: 0.75rem;
             color: var(--color-text-tertiary);
         }
 
         .info-card-title {
-            font-size: var(--text-sm);
+            font-size: 0.875rem;
             font-weight: 600;
             color: var(--color-secondary-300);
             margin-bottom: var(--space-2);
             display: flex;
             align-items: center;
             gap: var(--space-2);
+        }
+
+        .info-highlight {
+            color: var(--color-primary-300);
+            font-weight: 500;
+        }
+
+        .info-card-footer {
+            font-size: 0.65rem;
+            color: var(--color-text-muted);
+            text-align: center;
+            margin-top: var(--space-3);
+            padding-top: var(--space-3);
+            border-top: 1px solid rgba(139, 92, 246, 0.1);
         }
 
         /* Main Chat Area */
@@ -850,7 +771,7 @@
         }
 
         .chat-info h1 {
-            font-size: var(--text-base);
+            font-size: 1rem;
             font-weight: 600;
             color: var(--color-text-primary);
         }
@@ -859,7 +780,7 @@
             display: flex;
             align-items: center;
             gap: var(--space-2);
-            font-size: var(--text-xs);
+            font-size: 0.75rem;
             color: var(--color-accent-400);
         }
 
@@ -872,7 +793,7 @@
         }
 
         @keyframes statusPulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
+            0%, 100% { opacity: 1; }
             50% { opacity: 0.6; transform: scale(1.3); }
         }
 
@@ -902,6 +823,10 @@
         .messages-container::-webkit-scrollbar-thumb {
             background: var(--color-surface-500);
             border-radius: var(--radius-full);
+        }
+
+        .messages-container::-webkit-scrollbar-thumb:hover {
+            background: var(--color-surface-400);
         }
 
         /* Welcome Screen */
@@ -949,7 +874,7 @@
 
         .welcome-title {
             font-family: var(--font-display);
-            font-size: var(--text-5xl);
+            font-size: 3rem;
             font-weight: 800;
             background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary-300), var(--color-secondary-300));
             -webkit-background-clip: text;
@@ -960,7 +885,7 @@
 
         .welcome-subtitle {
             font-family: var(--font-serif);
-            font-size: var(--text-xl);
+            font-size: 1.25rem;
             font-style: italic;
             color: var(--color-text-tertiary);
             margin-bottom: var(--space-6);
@@ -968,7 +893,7 @@
 
         .welcome-quote {
             font-family: var(--font-serif);
-            font-size: var(--text-lg);
+            font-size: 1.125rem;
             color: var(--color-text-tertiary);
             max-width: 500px;
             line-height: 1.9;
@@ -986,6 +911,7 @@
             gap: var(--space-3);
             justify-content: center;
             max-width: 600px;
+            margin-bottom: var(--space-6);
         }
 
         .suggestion-btn {
@@ -995,7 +921,7 @@
             border-radius: var(--radius-full);
             color: var(--color-text-secondary);
             font-family: inherit;
-            font-size: var(--text-sm);
+            font-size: 0.875rem;
             cursor: pointer;
             transition: all 0.15s;
         }
@@ -1005,6 +931,156 @@
             border-color: var(--color-primary-500);
             color: var(--color-text-primary);
             transform: translateY(-2px);
+        }
+
+        .model-status {
+            display: flex;
+            gap: var(--space-4);
+            justify-content: center;
+            margin-top: var(--space-4);
+        }
+
+        /* Message Styles */
+        .message {
+            display: flex;
+            gap: var(--space-4);
+            max-width: 85%;
+            margin-bottom: var(--space-4);
+            animation: messageSlide 0.3s ease-out;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .message.user .message-avatar {
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+        }
+
+        .message-bubble {
+            padding: var(--space-4) var(--space-5);
+            border-radius: var(--radius-xl);
+            line-height: 1.75;
+            word-wrap: break-word;
+            max-width: 100%;
+        }
+
+        .message.user .message-bubble {
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            border-radius: var(--radius-xl) var(--radius-xl) var(--radius-sm) var(--radius-xl);
+        }
+
+        .message.assistant .message-bubble {
+            background: rgba(26, 20, 51, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            border-radius: var(--radius-xl) var(--radius-xl) var(--radius-xl) var(--radius-sm);
+        }
+
+        .message-meta {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: 0 var(--space-2);
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+
+        .message-actions {
+            display: flex;
+            gap: var(--space-1);
+            opacity: 0;
+            transition: opacity 0.15s;
+        }
+
+        .message:hover .message-actions {
+            opacity: 1;
+        }
+
+        .message-action {
+            width: 28px;
+            height: 28px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--color-surface-500);
+            background: var(--color-surface-700);
+            color: var(--color-text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            transition: all 0.15s;
+        }
+
+        .message-action:hover {
+            background: var(--color-surface-600);
+            color: var(--color-text-primary);
+            transform: scale(1.1);
+        }
+
+        @keyframes messageSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            margin-bottom: var(--space-4);
+        }
+
+        .typing-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            font-size: 1.2rem;
+        }
+
+        .typing-bubble {
+            display: flex;
+            gap: 6px;
+            padding: var(--space-4) var(--space-5);
+            background: rgba(26, 20, 51, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.15);
+            border-radius: var(--radius-xl);
+        }
+
+        .typing-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: var(--radius-full);
+            animation: typingBounce 1.4s ease-in-out infinite;
+        }
+
+        .typing-dot:nth-child(1) { background: var(--color-primary-400); }
+        .typing-dot:nth-child(2) { background: var(--color-secondary-400); animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { background: var(--color-accent-400); animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+            30% { transform: translateY(-10px); opacity: 1; }
         }
 
         /* Input Area */
@@ -1041,7 +1117,7 @@
             outline: none;
             color: var(--color-text-primary);
             font-family: inherit;
-            font-size: var(--text-base);
+            font-size: 1rem;
             padding: var(--space-4) 0;
             resize: none;
             max-height: 150px;
@@ -1112,7 +1188,7 @@
 
         .voice-status {
             text-align: center;
-            font-size: var(--text-sm);
+            font-size: 0.875rem;
             color: var(--color-text-tertiary);
             min-height: 24px;
             margin-top: var(--space-3);
@@ -1132,7 +1208,7 @@
             border: 1px solid rgba(236, 72, 153, 0.3);
             border-radius: var(--radius-full);
             color: var(--color-text-secondary);
-            font-size: var(--text-sm);
+            font-size: 0.875rem;
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
@@ -1186,8 +1262,43 @@
             transform: scale(1);
         }
 
+        .voice-visualizer {
+            width: 100%;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-4);
+        }
+
+        .stt-visualizer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            height: 80px;
+        }
+
+        .stt-bar {
+            width: 8px;
+            background: var(--gradient-primary);
+            border-radius: var(--radius-full);
+            animation: sttWave 0.7s ease-in-out infinite alternate;
+        }
+
+        .stt-bar:nth-child(1) { height: 25px; animation-delay: 0s; }
+        .stt-bar:nth-child(2) { height: 40px; animation-delay: 0.1s; }
+        .stt-bar:nth-child(3) { height: 60px; animation-delay: 0.2s; }
+        .stt-bar:nth-child(4) { height: 45px; animation-delay: 0.3s; }
+        .stt-bar:nth-child(5) { height: 70px; animation-delay: 0.4s; }
+        .stt-bar:nth-child(6) { height: 35px; animation-delay: 0.5s; }
+
+        @keyframes sttWave {
+            from { height: 15px; }
+            to { height: 70px; }
+        }
+
         .stt-text {
-            font-size: var(--text-xl);
+            font-size: 1.25rem;
             color: var(--color-text-secondary);
             text-align: center;
             max-width: 400px;
@@ -1195,7 +1306,7 @@
         }
 
         .stt-hint {
-            font-size: var(--text-sm);
+            font-size: 0.875rem;
             color: var(--color-text-muted);
         }
 
@@ -1237,14 +1348,14 @@
             height: 48px;
             border: 3px solid var(--color-surface-600);
             border-top-color: var(--color-primary-500);
-            border-radius: var(--radius-full);
+            border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
         .loading-text {
-            font-size: var(--text-base);
+            font-size: 1rem;
             color: var(--color-text-tertiary);
         }
 
@@ -1277,6 +1388,35 @@
             display: flex;
             flex-direction: column;
             gap: var(--space-3);
+        }
+
+        /* Toast Component */
+        tyaza-toast {
+            display: block;
+            background: var(--color-surface-800);
+            border: 1px solid var(--color-surface-600);
+            border-left: 4px solid;
+            border-radius: var(--radius-lg);
+            padding: var(--space-4) var(--space-5);
+            margin-bottom: var(--space-3);
+            box-shadow: var(--shadow-lg);
+            animation: toastSlideIn 0.3s ease-out;
+            max-width: 350px;
+        }
+
+        tyaza-toast[type="success"] { border-left-color: var(--color-success); }
+        tyaza-toast[type="error"] { border-left-color: var(--color-error); }
+        tyaza-toast[type="info"] { border-left-color: var(--color-info); }
+
+        .toast-content {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateX(100%); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         /* Sidebar Overlay */
@@ -1368,6 +1508,60 @@
             transform: scale(1.1) rotate(180deg);
         }
 
+        /* AI Badge */
+        .ai-badge {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-surface-800);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: 0.75rem;
+            border: 1px solid var(--color-primary-500);
+            box-shadow: var(--shadow-glow-primary);
+            z-index: 50;
+            animation: fadeInUp 0.3s ease-out;
+            white-space: nowrap;
+        }
+
+        /* Model Loader */
+        .model-loader {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--color-surface-800);
+            border-radius: var(--radius-full);
+            padding: var(--space-3) var(--space-6);
+            border: 1px solid var(--color-primary-500);
+            box-shadow: var(--shadow-glow-primary);
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        .model-loader-progress {
+            width: 100px;
+            height: 4px;
+            background: var(--color-surface-700);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .model-loader-bar {
+            height: 100%;
+            background: var(--gradient-primary);
+            transition: width 0.3s ease;
+        }
+
         /* Offline Banner */
         .offline-banner {
             position: fixed;
@@ -1378,7 +1572,7 @@
             color: var(--color-surface-950);
             padding: var(--space-3);
             text-align: center;
-            font-size: var(--text-sm);
+            font-size: 0.875rem;
             font-weight: 500;
             z-index: 1000;
             transform: translateY(-100%);
@@ -1423,13 +1617,17 @@
             }
 
             .welcome-title {
-                font-size: var(--text-4xl);
+                font-size: 2.25rem;
             }
 
             .welcome-icon {
                 width: 100px;
                 height: 100px;
                 font-size: 3rem;
+            }
+
+            .message {
+                max-width: 92%;
             }
 
             .messages-container {
@@ -1456,6 +1654,11 @@
                 bottom: 150px;
                 left: 10px;
             }
+
+            .model-status {
+                flex-direction: column;
+                gap: var(--space-2);
+            }
         }
 
         @media (max-width: 480px) {
@@ -1467,6 +1670,12 @@
             .suggestion-btn {
                 width: 100%;
                 max-width: 280px;
+            }
+
+            .model-loader {
+                width: 90%;
+                left: 5%;
+                transform: none;
             }
         }
 
@@ -1516,17 +1725,18 @@
                     <span>✨</span> Ikiganiro Gishya
                 </button>
 
-                <!-- Advanced AI Settings Section -->
+                <!-- Hybrid AI Settings -->
                 <div class="sidebar-section">
-                    <div class="sidebar-section-title">Advanced AI</div>
+                    <div class="sidebar-section-title">AI Selection</div>
                     <div class="settings-card">
                         <div class="settings-row">
-                            <label class="settings-label">On-device Model</label>
+                            <label class="settings-label">AI Mode</label>
                             <select class="select" id="modelSelect">
-                                <option value="tinyllama">TinyLlama (Fast, 0.5B)</option>
-                                <option value="phi2">Phi-2 (Balanced, 2.7B)</option>
-                                <option value="qwen2">Qwen2 0.5B (Efficient)</option>
-                                <option value="cloud">Cloud Fallback (API)</option>
+                                <option value="auto">Auto (Smart Switch) ⚡</option>
+                                <option value="puter">Puter Cloud (Instant) ☁️</option>
+                                <option value="tinyllama">TinyLlama (338MB) 🔋</option>
+                                <option value="qwen2">Qwen2 0.5B (150MB) 🚀</option>
+                                <option value="phi2">Phi-2 (675MB) 🎯</option>
                             </select>
                         </div>
                         
@@ -1535,35 +1745,32 @@
                                 <input type="checkbox" class="checkbox" id="enableRAG" checked>
                                 <span>RAG - Semantic Memory</span>
                             </label>
-                            <div class="text-xs text-muted" style="margin-top: 4px;">
-                                Uses embeddings to remember context
+                            <div class="text-xs text-muted">
+                                Remember context intelligently
                             </div>
                         </div>
-                        
-                        <div class="settings-row" style="margin-top: var(--space-3);">
-                            <label class="checkbox-label">
-                                <input type="checkbox" class="checkbox" id="enableWebGPU" checked>
-                                <span>WebGPU Acceleration</span>
-                            </label>
-                        </div>
                     </div>
                 </div>
 
-                <!-- WebRTC Status -->
+                <!-- AI Status -->
                 <div class="sidebar-section">
-                    <div class="sidebar-section-title">Realtime Peer</div>
+                    <div class="sidebar-section-title">AI Status</div>
                     <div class="settings-card">
                         <div class="flex items-center gap-2">
-                            <span class="status-indicator" id="webrtcStatus" style="background: var(--color-warning);"></span>
-                            <span id="webrtcText" class="text-sm">Initializing...</span>
+                            <span class="status-indicator" id="puterStatus" style="background: #f59e0b;"></span>
+                            <span id="puterText" class="text-sm">Checking Puter...</span>
                         </div>
-                        <div class="text-xs text-muted mt-2">
-                            Peer-to-peer for realtime chat
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="status-indicator" id="ondeviceStatus" style="background: #f59e0b;"></span>
+                            <span id="ondeviceText" class="text-sm">On-device: Loading...</span>
+                        </div>
+                        <div class="text-xs text-muted mt-2" id="activeAI">
+                            Active: Puter Cloud
                         </div>
                     </div>
                 </div>
 
-                <!-- Voice Settings (Preserved) -->
+                <!-- Voice Settings -->
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">Amajwi & Mikorofoni</div>
                     <div class="settings-card">
@@ -1625,13 +1832,14 @@
                         <i class="fas fa-microchip"></i> KIVURA LABS
                     </div>
                     <div>
-                        <span class="info-highlight">TYAZA v5.0</span> - Advanced AI
+                        <span class="info-highlight">TYAZA v5.0</span> - Hybrid AI
                     </div>
                     <div class="text-xs mt-2">
-                        WebGPU · RAG · WebRTC · On-device
+                        Puter + On-device · RAG · Voice
                     </div>
-                    <div class="info-card-footer mt-3 pt-3 border-t border-surface-600">
-                        © 2026 Kivura Labs · Rwanda
+                    <div class="info-card-footer">
+                        © 2026 Kivura Labs · Rwanda<br>
+                        Yves HIRWA TUYISHIME - CEO
                     </div>
                 </div>
             </div>
@@ -1652,8 +1860,8 @@
                         <div class="chat-info">
                             <h1>TYAZA</h1>
                             <div class="chat-status">
-                                <span class="status-indicator"></span>
-                                <span id="connectionStatus">Advanced AI</span>
+                                <span class="status-indicator" id="headerStatus"></span>
+                                <span id="connectionStatus">Hybrid AI</span>
                             </div>
                         </div>
                     </div>
@@ -1670,20 +1878,29 @@
 
             <!-- Messages Container -->
             <div class="messages-container" id="messagesContainer">
-                <!-- Welcome Screen (will be hidden once chat starts) -->
+                <!-- Welcome Screen -->
                 <div class="welcome-screen" id="welcomeScreen">
                     <div class="welcome-icon">
                         <i class="fas fa-robot"></i>
                     </div>
                     <h1 class="welcome-title">TYAZA</h1>
-                    <p class="welcome-subtitle">Advanced AI · On-device · Realtime</p>
+                    <p class="welcome-subtitle">Hybrid AI · Puter + On-device</p>
                     <div class="welcome-quote">
-                        "Ndi hano kugira nkugire. Nkoresha ubwenge bw'ikoranabuhanga bwa none."
+                        "Ndi hano kugira nkugire. Nkoresha ubwenge bwombi."
                     </div>
                     <div class="welcome-suggestions">
                         <button class="suggestion-btn" data-prompt="ndashaka kuvuga">💬 Ndashaka kuvuga</button>
                         <button class="suggestion-btn" data-prompt="mfite ibibazo">😔 Mfite ibibazo</button>
                         <button class="suggestion-btn" data-prompt="ngomba inkunga">🤝 Ngomba inkunga</button>
+                        <button class="suggestion-btn" data-prompt="narushijeho">🌟 Narushijeho</button>
+                    </div>
+                    <div class="model-status" id="welcomeModelStatus">
+                        <div class="badge" id="puterWelcomeBadge">
+                            <i class="fas fa-cloud mr-1"></i> Puter: Checking...
+                        </div>
+                        <div class="badge" id="ondeviceWelcomeBadge">
+                            <i class="fas fa-microchip mr-1"></i> On-device: Loading...
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1719,10 +1936,14 @@
     <!-- STT Overlay -->
     <div class="stt-overlay" id="sttOverlay">
         <div class="stt-modal">
-            <tyaza-voice-visualizer id="voiceVisualizer"></tyaza-voice-visualizer>
+            <canvas class="voice-visualizer" id="voiceVisualizer" width="400" height="100"></canvas>
             <div class="stt-visualizer">
-                <span class="stt-bar"></span><span class="stt-bar"></span><span class="stt-bar"></span>
-                <span class="stt-bar"></span><span class="stt-bar"></span><span class="stt-bar"></span>
+                <span class="stt-bar"></span>
+                <span class="stt-bar"></span>
+                <span class="stt-bar"></span>
+                <span class="stt-bar"></span>
+                <span class="stt-bar"></span>
+                <span class="stt-bar"></span>
             </div>
             <div class="stt-text" id="sttText">ndakumva...</div>
             <div class="stt-hint">soma ugire icyo uhambaro</div>
@@ -1735,7 +1956,7 @@
             <i class="fas fa-robot"></i>
         </div>
         <div class="loading-spinner"></div>
-        <div class="loading-text" id="loadingText">Loading Advanced AI...</div>
+        <div class="loading-text" id="loadingText">Loading Hybrid AI...</div>
         <div class="loading-progress">
             <div class="loading-progress-bar"></div>
         </div>
@@ -1747,31 +1968,36 @@
     <!-- Hidden File Input -->
     <input type="file" id="importFile" accept=".json,.txt,.tyaza" style="display: none;">
 
+    <!-- Puter AI SDK (Loaded first for instant availability) -->
+    <script>
+        window.puter = null;
+        window.puterAvailable = false;
+    </script>
+    <script src="https://js.puter.com/v2/"></script>
+
     <!-- Main Application Script (Module) -->
     <script type="module">
         // ================================================================
-        // TYAZA v5.0 - ULTIMATE INTEGRATED EDITION
-        // Combines original features with advanced AI capabilities
+        // TYAZA v5.0 - FINAL PRODUCTION VERSION
+        // Hybrid AI: Puter API + On-device models
+        // All features integrated and optimized
         // ================================================================
 
-        import { LitElement, html, css } from 'lit';
-        import { openDB } from 'idb';
-        import { pipeline, env } from '@xenova/transformers';
-        import Hnswlib from 'hnswlib';
-        import Peer from 'simple-peer';
+        import { openDB } from 'https://esm.sh/idb@8.0.0';
+        import { pipeline, env } from 'https://esm.sh/@xenova/transformers@2.17.1';
 
-        // Configure transformers.js
+        // Configure transformers.js for optimal loading
+        env.useBrowserCache = true;
         env.localModelPath = '/models/';
         env.allowRemoteModels = true;
-        env.useBrowserCache = true;
         env.useFSCache = false;
 
         // ================================================================
-        // UTILITY FUNCTIONS (Preserved from original)
+        // UTILITY FUNCTIONS
         // ================================================================
         
         function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
         }
 
         function escapeHtml(text) {
@@ -1797,336 +2023,24 @@
             if (minutes < 60) return `${minutes} min.`;
             if (hours < 24) return `${hours} hr.`;
             if (days < 7) return `${days} j.`;
-            return new Date(timestamp).toLocaleDateString('rw-RW');
+            return new Date(timestamp).toLocaleDateString('rw-RW', {
+                day: 'numeric',
+                month: 'short'
+            });
         }
 
         // ================================================================
-        // WEB COMPONENTS
+        // DATABASE (IndexedDB)
         // ================================================================
 
-        /**
-         * TyazaMessage - Chat message component
-         */
-        class TyazaMessage extends LitElement {
-            static properties = {
-                role: { type: String },
-                content: { type: String },
-                timestamp: { type: Number }
-            };
-
-            static styles = css`
-                :host {
-                    display: flex;
-                    gap: 16px;
-                    max-width: 85%;
-                    margin-bottom: 20px;
-                    animation: slideIn 0.3s ease-out;
-                }
-                :host([role="user"]) {
-                    align-self: flex-end;
-                    flex-direction: row-reverse;
-                }
-                .avatar {
-                    width: 44px;
-                    height: 44px;
-                    border-radius: 12px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    background: linear-gradient(135deg, #8b5cf6, #ec4899);
-                    flex-shrink: 0;
-                    font-size: 1.2rem;
-                }
-                .bubble {
-                    padding: 16px 20px;
-                    border-radius: 24px;
-                    line-height: 1.75;
-                    word-wrap: break-word;
-                    max-width: 100%;
-                }
-                :host([role="user"]) .bubble {
-                    background: #1a1433;
-                    border: 1px solid #2d2352;
-                    border-radius: 24px 24px 8px 24px;
-                }
-                :host([role="assistant"]) .bubble {
-                    background: rgba(26, 20, 51, 0.7);
-                    backdrop-filter: blur(20px);
-                    border: 1px solid rgba(139, 92, 246, 0.15);
-                    border-radius: 24px 24px 24px 8px;
-                }
-                .meta {
-                    display: flex;
-                    gap: 8px;
-                    padding: 0 8px;
-                    font-size: 12px;
-                    color: #64748b;
-                }
-                .actions {
-                    display: flex;
-                    gap: 4px;
-                    opacity: 0;
-                    transition: opacity 0.15s;
-                }
-                :host(:hover) .actions {
-                    opacity: 1;
-                }
-                .action-btn {
-                    width: 28px;
-                    height: 28px;
-                    border-radius: 6px;
-                    border: 1px solid #2d2352;
-                    background: #1a1433;
-                    color: #94a3b8;
-                    cursor: pointer;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    font-size: 12px;
-                }
-                .action-btn:hover {
-                    background: #2d2352;
-                    color: #f8fafc;
-                }
-                @keyframes slideIn {
-                    from { opacity: 0; transform: translateY(10px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            `;
-
-            render() {
-                return html`
-                    <div class="avatar">${this.role === 'user' ? '👤' : '🤖'}</div>
-                    <div class="content">
-                        <div class="bubble">${this.content}</div>
-                        <div class="meta">
-                            <span>${new Date(this.timestamp).toLocaleTimeString()}</span>
-                            <div class="actions">
-                                ${this.role === 'assistant' ? html`
-                                    <button class="action-btn" @click=${this.speak} title="Soma">
-                                        <i class="fas fa-volume-up"></i>
-                                    </button>
-                                    <button class="action-btn" @click=${this.copy} title="Kopera">
-                                        <i class="fas fa-copy"></i>
-                                    </button>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            speak() {
-                const event = new CustomEvent('speak', { detail: this.content });
-                this.dispatchEvent(event);
-            }
-
-            copy() {
-                navigator.clipboard.writeText(this.content);
-                const event = new CustomEvent('toast', { detail: { message: 'Ibyakiriwe!', type: 'success' } });
-                this.dispatchEvent(event);
-            }
-        }
-
-        /**
-         * TyazaVoiceVisualizer - Realtime voice visualization
-         */
-        class TyazaVoiceVisualizer extends LitElement {
-            static properties = {
-                active: { type: Boolean }
-            };
-
-            static styles = css`
-                :host {
-                    display: block;
-                    width: 100%;
-                    height: 100px;
-                    background: rgba(0, 0, 0, 0.2);
-                    border-radius: 12px;
-                    contain: strict;
-                }
-                canvas {
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 12px;
-                }
-            `;
-
-            firstUpdated() {
-                this.canvas = this.shadowRoot.querySelector('canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.analyser = null;
-                this.animationFrame = null;
-            }
-
-            updated(changed) {
-                if (changed.has('active')) {
-                    if (this.active) this.start();
-                    else this.stop();
-                }
-            }
-
-            async start() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    this.analyser = audioCtx.createAnalyser();
-                    this.analyser.fftSize = 256;
-                    const source = audioCtx.createMediaStreamSource(stream);
-                    source.connect(this.analyser);
-                    
-                    const draw = () => {
-                        if (!this.analyser || !this.active) return;
-                        
-                        const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
-                        this.analyser.getByteFrequencyData(dataArray);
-                        
-                        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                        
-                        // Draw gradient background
-                        const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-                        gradient.addColorStop(0, 'rgba(139, 92, 246, 0.2)');
-                        gradient.addColorStop(1, 'rgba(236, 72, 153, 0.2)');
-                        this.ctx.fillStyle = gradient;
-                        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-                        
-                        // Draw bars
-                        const barWidth = (this.canvas.width / dataArray.length) * 2.5;
-                        let x = 0;
-                        
-                        for (let i = 0; i < dataArray.length; i++) {
-                            const barHeight = (dataArray[i] / 255) * this.canvas.height;
-                            const hue = 240 + (i / dataArray.length) * 120;
-                            this.ctx.fillStyle = `hsla(${hue}, 80%, 60%, 0.8)`;
-                            this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth - 1, barHeight);
-                            x += barWidth;
-                        }
-                        
-                        this.animationFrame = requestAnimationFrame(draw);
-                    };
-                    
-                    draw();
-                } catch (e) {
-                    console.error('Visualizer error:', e);
-                }
-            }
-
-            stop() {
-                if (this.animationFrame) {
-                    cancelAnimationFrame(this.animationFrame);
-                }
-                if (this.ctx) {
-                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                }
-            }
-
-            render() {
-                return html`<canvas width="400" height="100"></canvas>`;
-            }
-        }
-
-        /**
-         * TyazaSpinner - Loading indicator
-         */
-        class TyazaSpinner extends LitElement {
-            static styles = css`
-                :host {
-                    display: inline-block;
-                    width: 24px;
-                    height: 24px;
-                    border: 3px solid #2d2352;
-                    border-top-color: #8b5cf6;
-                    border-radius: 50%;
-                    animation: spin 0.8s linear infinite;
-                }
-                @keyframes spin { to { transform: rotate(360deg); } }
-            `;
-            render() { return html``; }
-        }
-
-        /**
-         * TyazaToast - Notification component
-         */
-        class TyazaToast extends LitElement {
-            static properties = {
-                message: { type: String },
-                type: { type: String },
-                duration: { type: Number }
-            };
-
-            static styles = css`
-                :host {
-                    display: block;
-                    background: #1a1433;
-                    border: 1px solid #2d2352;
-                    border-left: 4px solid;
-                    border-radius: 12px;
-                    padding: 16px 20px;
-                    margin-bottom: 12px;
-                    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-                    animation: slideIn 0.3s ease-out;
-                    max-width: 350px;
-                }
-                :host([type="success"]) { border-left-color: #22c55e; }
-                :host([type="error"]) { border-left-color: #ef4444; }
-                :host([type="info"]) { border-left-color: #3b82f6; }
-                .content {
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                }
-                @keyframes slideIn {
-                    from { opacity: 0; transform: translateX(100%); }
-                    to { opacity: 1; transform: translateX(0); }
-                }
-            `;
-
-            render() {
-                return html`
-                    <div class="content">
-                        <i class="fas fa-${this.getIcon()}"></i>
-                        <span>${this.message}</span>
-                    </div>
-                `;
-            }
-
-            getIcon() {
-                const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle' };
-                return icons[this.type] || 'info-circle';
-            }
-
-            firstUpdated() {
-                setTimeout(() => this.remove(), this.duration || 3000);
-            }
-        }
-
-        // Register Web Components
-        customElements.define('tyaza-message', TyazaMessage);
-        customElements.define('tyaza-voice-visualizer', TyazaVoiceVisualizer);
-        customElements.define('tyaza-spinner', TyazaSpinner);
-        customElements.define('tyaza-toast', TyazaToast);
-
-        // ================================================================
-        // VECTOR DATABASE (IndexedDB + HNSW)
-        // ================================================================
-
-        class VectorDatabase {
+        class Database {
             constructor() {
                 this.db = null;
-                this.hnsw = null;
-                this.initialized = false;
-                this.dimension = 384; // all-MiniLM-L6-v2 dimension
             }
 
             async init() {
-                // Initialize IndexedDB
-                this.db = await openDB('TyazaVectorDB', 3, {
+                this.db = await openDB('TyazaDB', 2, {
                     upgrade(db) {
-                        if (!db.objectStoreNames.contains('embeddings')) {
-                            const store = db.createObjectStore('embeddings', { keyPath: 'id' });
-                            store.createIndex('text', 'text', { unique: false });
-                            store.createIndex('timestamp', 'timestamp', { unique: false });
-                        }
                         if (!db.objectStoreNames.contains('conversations')) {
                             const store = db.createObjectStore('conversations', { keyPath: 'id' });
                             store.createIndex('timestamp', 'timestamp', { unique: false });
@@ -2136,356 +2050,409 @@
                         }
                     }
                 });
-
-                // Initialize HNSW index
-                try {
-                    this.hnsw = new Hnswlib.HierarchicalNSW('cosine', this.dimension);
-                    this.hnsw.initIndex(10000); // Max 10k vectors
-                    
-                    // Load existing embeddings
-                    await this.loadEmbeddings();
-                    this.initialized = true;
-                    console.log('Vector DB initialized');
-                } catch (e) {
-                    console.error('HNSW init error:', e);
-                    this.initialized = false;
-                }
-            }
-
-            async loadEmbeddings() {
-                if (!this.db) return;
-                const embeddings = await this.db.getAll('embeddings');
-                embeddings.forEach(e => {
-                    if (e.vector && e.vector.length === this.dimension) {
-                        try {
-                            this.hnsw.addPoint(Float32Array.from(e.vector), e.id);
-                        } catch (e) {
-                            console.warn('Failed to add point:', e);
-                        }
-                    }
-                });
-            }
-
-            async addEmbedding(text, vector, metadata = {}) {
-                if (!this.initialized || !this.db) return null;
-                
-                const id = Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-                const embedding = {
-                    id,
-                    text: text.slice(0, 500),
-                    vector: Array.from(vector),
-                    timestamp: Date.now(),
-                    ...metadata
-                };
-                
-                await this.db.put('embeddings', embedding);
-                try {
-                    this.hnsw.addPoint(Float32Array.from(vector), id);
-                } catch (e) {
-                    console.warn('HNSW add error:', e);
-                }
-                return id;
-            }
-
-            async searchSimilar(queryVector, k = 5) {
-                if (!this.initialized || !this.hnsw) return [];
-                
-                try {
-                    const results = this.hnsw.searchKnn(Float32Array.from(queryVector), k);
-                    const ids = results.neighbors;
-                    const distances = results.distances;
-                    
-                    const embeddings = [];
-                    for (let i = 0; i < ids.length; i++) {
-                        const emb = await this.db.get('embeddings', ids[i]);
-                        if (emb) {
-                            embeddings.push({
-                                ...emb,
-                                distance: distances[i]
-                            });
-                        }
-                    }
-                    return embeddings;
-                } catch (e) {
-                    console.error('Search error:', e);
-                    return [];
-                }
             }
 
             async saveConversation(conversation) {
-                if (!this.db) return;
                 await this.db.put('conversations', {
-                    id: conversation.id || Date.now().toString(),
+                    id: conversation.id || generateId(),
                     ...conversation,
                     timestamp: Date.now()
                 });
             }
 
             async getConversations() {
-                if (!this.db) return [];
                 return await this.db.getAll('conversations');
             }
 
             async getSetting(key) {
-                if (!this.db) return null;
                 return await this.db.get('settings', key);
             }
 
             async setSetting(key, value) {
-                if (!this.db) return;
                 await this.db.put('settings', value, key);
+            }
+
+            async clearHistory() {
+                await this.db.clear('conversations');
             }
         }
 
         // ================================================================
-        // ON-DEVICE INFERENCE ENGINE
+        // HYBRID AI SERVICE (Puter + On-device)
         // ================================================================
 
-        class OnDeviceInference {
+        class HybridAIService {
             constructor() {
-                this.model = null;
-                this.embeddingModel = null;
-                this.currentModel = 'tinyllama';
-                this.isWebGPUSupported = 'gpu' in navigator;
-                this.models = {
-                    tinyllama: 'Xenova/tiny-random-LlamaForCausalLM',
-                    phi2: 'Xenova/phi-2',
-                    qwen2: 'Xenova/Qwen2-0.5B-Instruct'
-                };
+                this.puterAvailable = false;
+                this.onDeviceAvailable = false;
+                this.onDeviceModel = null;
+                this.currentStrategy = 'puter'; // Start with Puter
+                this.loadingProgress = 0;
                 this.loadingCallbacks = [];
+                this.messageQueue = [];
+                this.processingQueue = false;
+                this.modelType = 'auto'; // auto, puter, tinyllama, qwen2, phi2
+                
+                // Model configurations
+                this.models = {
+                    'tinyllama': {
+                        name: 'Xenova/tinyllama-1.1b-chat-v1.0-4bit',
+                        size: '338MB',
+                        type: 'ondevice'
+                    },
+                    'qwen2': {
+                        name: 'Xenova/Qwen2-0.5B-Instruct-4bit',
+                        size: '150MB',
+                        type: 'ondevice'
+                    },
+                    'phi2': {
+                        name: 'Xenova/phi-2-4bit',
+                        size: '675MB',
+                        type: 'ondevice'
+                    },
+                    'puter': {
+                        name: 'Puter Cloud',
+                        size: 'instant',
+                        type: 'cloud'
+                    },
+                    'auto': {
+                        name: 'Auto Switch',
+                        size: 'smart',
+                        type: 'hybrid'
+                    }
+                };
             }
 
             async init(progressCallback = null) {
                 if (progressCallback) this.loadingCallbacks.push(progressCallback);
                 
+                // Check Puter availability (instant)
+                await this.checkPuterConnection();
+                
+                // Start loading on-device model in background (non-blocking)
+                this.loadOnDeviceModel('qwen2').catch(e => {
+                    console.log('Background model load:', e);
+                });
+                
+                return this;
+            }
+
+            async checkPuterConnection() {
+                return new Promise(resolve => {
+                    let attempts = 0;
+                    const maxAttempts = 15;
+                    
+                    const check = setInterval(() => {
+                        if (window.puter && window.puter.ai) {
+                            this.puterAvailable = true;
+                            this.updateStatus('puter', true);
+                            clearInterval(check);
+                            resolve(true);
+                        } else if (attempts++ >= maxAttempts) {
+                            this.puterAvailable = false;
+                            this.updateStatus('puter', false);
+                            clearInterval(check);
+                            resolve(false);
+                        }
+                    }, 200);
+                });
+            }
+
+            async loadOnDeviceModel(modelName = 'qwen2') {
+                if (this.onDeviceAvailable) return true;
+                
                 try {
-                    // Load embedding model first (smaller)
-                    this.updateProgress('Loading embedding model...', 10);
-                    this.embeddingModel = await pipeline('feature-extraction', 'Xenova/all-MiniLM-L6-v2', {
+                    this.updateLoadingProgress(0, `Loading ${modelName}...`);
+                    
+                    // Load quantized model
+                    this.onDeviceModel = await pipeline('text-generation', this.models[modelName].name, {
                         quantized: true,
-                        device: this.isWebGPUSupported ? 'webgpu' : 'wasm'
+                        device: 'wasm',
+                        progress_callback: (progress) => {
+                            if (progress.status === 'progress') {
+                                const percent = Math.round(progress.progress * 100);
+                                this.updateLoadingProgress(percent, `Loading ${modelName}: ${percent}%`);
+                            }
+                        }
                     });
                     
-                    this.updateProgress('Embedding model ready', 30);
+                    this.onDeviceAvailable = true;
+                    this.updateStatus('ondevice', true, modelName);
+                    this.updateLoadingProgress(100, `${modelName} ready!`);
                     
-                    // Load default model
-                    await this.loadModel(this.currentModel);
+                    // Process queued messages
+                    this.processQueue();
                     
                     return true;
                 } catch (e) {
-                    console.error('Inference init error:', e);
+                    console.error('On-device model failed:', e);
+                    this.onDeviceAvailable = false;
+                    this.updateStatus('ondevice', false);
+                    this.updateLoadingProgress(0, 'Model failed, using Puter');
                     return false;
                 }
             }
 
-            updateProgress(message, percent) {
-                this.loadingCallbacks.forEach(cb => cb(message, percent));
-            }
-
-            async loadModel(modelName) {
-                this.currentModel = modelName;
+            updateStatus(type, available, info = '') {
+                const puterIndicator = document.getElementById('puterStatus');
+                const puterText = document.getElementById('puterText');
+                const ondeviceIndicator = document.getElementById('ondeviceStatus');
+                const ondeviceText = document.getElementById('ondeviceText');
+                const puterWelcome = document.getElementById('puterWelcomeBadge');
+                const ondeviceWelcome = document.getElementById('ondeviceWelcomeBadge');
+                const headerStatus = document.getElementById('headerStatus');
+                const connectionStatus = document.getElementById('connectionStatus');
                 
-                if (modelName === 'cloud') {
-                    this.updateProgress('Using cloud fallback', 100);
-                    return;
-                }
-                
-                try {
-                    this.updateProgress(`Loading ${modelName}...`, 50);
+                if (type === 'puter') {
+                    if (puterIndicator) {
+                        puterIndicator.style.background = available ? '#22c55e' : '#ef4444';
+                    }
+                    if (puterText) {
+                        puterText.textContent = available ? 'Puter: Ready' : 'Puter: Unavailable';
+                    }
+                    if (puterWelcome) {
+                        puterWelcome.innerHTML = available ? 
+                            '<i class="fas fa-cloud mr-1"></i> Puter: ✅ Ready' : 
+                            '<i class="fas fa-cloud mr-1"></i> Puter: ❌ Offline';
+                        puterWelcome.className = available ? 'badge badge-success' : 'badge';
+                    }
                     
-                    this.model = await pipeline('text-generation', this.models[modelName], {
-                        quantized: true,
-                        device: this.isWebGPUSupported ? 'webgpu' : 'wasm'
-                    });
-                    
-                    this.updateProgress('Model ready', 100);
-                    Toast.show(`${modelName} loaded successfully`, 'success');
-                } catch (e) {
-                    console.error('Model load error:', e);
-                    this.model = null;
-                    Toast.show('Model load failed, using cloud', 'error');
-                    this.currentModel = 'cloud';
-                }
-            }
-
-            async generate(prompt, context = [], systemPrompt = null) {
-                if (this.currentModel === 'cloud' || !this.model) {
-                    return this.cloudFallback(prompt);
-                }
-                
-                try {
-                    const defaultSystem = "Wowe uri Tyaza, umuvugizi w'umutima mu Kinyarwanda. Shyashya mu ijwi ryuje impuhwe.";
-                    const system = systemPrompt || defaultSystem;
-                    
-                    const contextStr = context.length > 0 
-                        ? `Ibyerekeye: ${context.map(c => c.text).join(' ')}\n` 
-                        : '';
-                    
-                    const fullPrompt = `<|system|>\n${system}\n<|user|>\n${contextStr}${prompt}\n<|assistant|>\n`;
-                    
-                    const result = await this.model(fullPrompt, {
-                        max_new_tokens: 256,
-                        temperature: 0.7,
-                        do_sample: true,
-                        top_p: 0.95
-                    });
-                    
-                    return result[0].generated_text.replace(fullPrompt, '').trim();
-                } catch (e) {
-                    console.error('Generation error:', e);
-                    return this.cloudFallback(prompt);
-                }
-            }
-
-            async createEmbedding(text) {
-                if (!this.embeddingModel) return null;
-                
-                try {
-                    const result = await this.embeddingModel(text, {
-                        pooling: 'mean',
-                        normalize: true
-                    });
-                    return result.data;
-                } catch (e) {
-                    console.error('Embedding error:', e);
-                    return null;
-                }
-            }
-
-            cloudFallback(prompt) {
-                const responses = [
-                    "Ndumva. Urakoze kunsangiza ibi.",
-                    "Ndi kumwe nawe. Wumva ute ubu?",
-                    "Urakoze kundekera. Ibyo birashishikara.",
-                    "Ndi hano. Ngomba kutegereza kimwe."
-                ];
-                return responses[Math.floor(Math.random() * responses.length)];
-            }
-        }
-
-        // ================================================================
-        // WEBRTC DATACHANNELS
-        // ================================================================
-
-        class RealtimePeer {
-            constructor() {
-                this.peer = null;
-                this.dataChannel = null;
-                this.onMessage = null;
-                this.connected = false;
-                this.initiator = true;
-            }
-
-            init(initiator = true) {
-                this.initiator = initiator;
-                
-                try {
-                    this.peer = new Peer({
-                        initiator,
-                        trickle: false,
-                        config: {
-                            iceServers: [
-                                { urls: 'stun:stun.l.google.com:19302' },
-                                { urls: 'stun:global.stun.twilio.com:3478' }
-                            ]
-                        }
-                    });
-                    
-                    this.peer.on('signal', data => {
-                        console.log('Signal data (copy to other peer):', JSON.stringify(data));
-                        // In production, this would go through a signaling server
-                        if (this.onSignal) this.onSignal(data);
-                    });
-                    
-                    this.peer.on('connect', () => {
-                        this.connected = true;
-                        this.updateStatus('connected');
-                    });
-                    
-                    this.peer.on('data', data => {
-                        if (this.onMessage) {
-                            this.onMessage(data.toString());
-                        }
-                    });
-                    
-                    this.peer.on('error', err => {
-                        console.error('WebRTC error:', err);
-                        this.connected = false;
-                        this.updateStatus('error');
-                    });
-                    
-                    this.peer.on('close', () => {
-                        this.connected = false;
-                        this.updateStatus('closed');
-                    });
-                } catch (e) {
-                    console.error('Peer init error:', e);
-                }
-            }
-
-            updateStatus(status) {
-                const indicator = document.getElementById('webrtcStatus');
-                const text = document.getElementById('webrtcText');
-                if (!indicator || !text) return;
-                
-                switch(status) {
-                    case 'connected':
-                        indicator.style.background = '#22c55e';
-                        text.textContent = 'Connected';
-                        break;
-                    case 'error':
-                        indicator.style.background = '#ef4444';
-                        text.textContent = 'Error';
-                        break;
-                    case 'closed':
-                        indicator.style.background = '#94a3b8';
-                        text.textContent = 'Disconnected';
-                        break;
-                    default:
-                        indicator.style.background = '#f59e0b';
-                        text.textContent = 'Initializing';
-                }
-            }
-
-            send(message) {
-                if (this.connected && this.peer) {
-                    this.peer.send(message);
-                    return true;
-                }
-                return false;
-            }
-
-            signal(data) {
-                if (this.peer) {
-                    try {
-                        this.peer.signal(data);
-                    } catch (e) {
-                        console.error('Signal error:', e);
+                    if (available && this.currentStrategy === 'auto') {
+                        this.currentStrategy = 'puter';
+                        if (headerStatus) headerStatus.style.background = '#22c55e';
+                        if (connectionStatus) connectionStatus.textContent = 'Puter AI';
                     }
                 }
+                
+                if (type === 'ondevice') {
+                    if (ondeviceIndicator) {
+                        ondeviceIndicator.style.background = available ? '#22c55e' : '#f59e0b';
+                    }
+                    if (ondeviceText) {
+                        ondeviceText.textContent = available ? 
+                            `On-device: Ready (${info})` : 
+                            'On-device: Loading...';
+                    }
+                    if (ondeviceWelcome) {
+                        ondeviceWelcome.innerHTML = available ? 
+                            `<i class="fas fa-microchip mr-1"></i> On-device: ✅ ${info}` : 
+                            '<i class="fas fa-microchip mr-1"></i> On-device: ⏳ Loading...';
+                        ondeviceWelcome.className = available ? 'badge badge-success' : 'badge badge-warning';
+                    }
+                    
+                    if (available && this.currentStrategy === 'auto') {
+                        this.currentStrategy = 'ondevice';
+                        if (headerStatus) headerStatus.style.background = '#8b5cf6';
+                        if (connectionStatus) connectionStatus.textContent = 'On-device AI';
+                    }
+                }
+                
+                // Update active AI display
+                const activeAI = document.getElementById('activeAI');
+                if (activeAI) {
+                    activeAI.textContent = `Active: ${this.currentStrategy === 'puter' ? 'Puter Cloud' : 
+                        (this.currentStrategy === 'ondevice' ? 'On-device' : 'Auto')}`;
+                }
             }
 
-            destroy() {
-                if (this.peer) {
-                    this.peer.destroy();
+            updateLoadingProgress(percent, message) {
+                this.loadingProgress = percent;
+                this.loadingCallbacks.forEach(cb => cb(percent, message));
+            }
+
+            async setModelType(type) {
+                this.modelType = type;
+                
+                if (type === 'puter') {
+                    this.currentStrategy = 'puter';
+                    this.updateStatus('ondevice', this.onDeviceAvailable, 'standby');
+                } else if (type === 'auto') {
+                    this.currentStrategy = this.onDeviceAvailable ? 'ondevice' : 'puter';
+                } else if (['tinyllama', 'qwen2', 'phi2'].includes(type)) {
+                    if (!this.onDeviceAvailable) {
+                        await this.loadOnDeviceModel(type);
+                    }
+                    this.currentStrategy = 'ondevice';
                 }
+                
+                this.updateActiveDisplay();
+            }
+
+            updateActiveDisplay() {
+                const headerStatus = document.getElementById('headerStatus');
+                const connectionStatus = document.getElementById('connectionStatus');
+                
+                if (this.currentStrategy === 'puter') {
+                    if (headerStatus) headerStatus.style.background = '#22c55e';
+                    if (connectionStatus) connectionStatus.textContent = 'Puter AI';
+                } else if (this.currentStrategy === 'ondevice') {
+                    if (headerStatus) headerStatus.style.background = '#8b5cf6';
+                    if (connectionStatus) connectionStatus.textContent = 'On-device AI';
+                }
+                
+                const activeAI = document.getElementById('activeAI');
+                if (activeAI) {
+                    activeAI.textContent = `Active: ${this.currentStrategy === 'puter' ? 'Puter Cloud' : 
+                        (this.currentStrategy === 'ondevice' ? 'On-device' : 'Auto')}`;
+                }
+            }
+
+            async generateResponse(messages, context = []) {
+                const userMessage = messages[messages.length - 1]?.content || '';
+                
+                // Check if we should use Puter
+                if (this.modelType === 'puter' || 
+                    (this.modelType === 'auto' && this.puterAvailable && !this.onDeviceAvailable) ||
+                    (this.modelType === 'auto' && this.currentStrategy === 'puter')) {
+                    
+                    try {
+                        const response = await this.generateWithPuter(messages);
+                        return response;
+                    } catch (e) {
+                        console.warn('Puter failed, falling back:', e);
+                        this.puterAvailable = false;
+                        this.updateStatus('puter', false);
+                    }
+                }
+                
+                // Check if we should use on-device
+                if (this.modelType !== 'puter' && this.onDeviceAvailable && this.onDeviceModel) {
+                    try {
+                        const response = await this.generateOnDevice(userMessage, context);
+                        return response;
+                    } catch (e) {
+                        console.warn('On-device failed:', e);
+                    }
+                }
+                
+                // Queue if nothing available
+                return this.queueMessage(userMessage);
+            }
+
+            async generateWithPuter(messages) {
+                if (!window.puter?.ai) {
+                    throw new Error('Puter not available');
+                }
+                
+                const systemPrompt = `Wowe uri Tyaza, umuvugizi w'umutima mu Kinyarwanda. 
+Shyashya mu ijwi ryuje impuhwe, ubumuntu n'ubugoro.
+Komeza ibiganiro bigufi kandi byuje ubushyuhe.
+Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe" kenshi.`;
+                
+                const fullMessages = [
+                    { role: 'system', content: systemPrompt },
+                    ...messages.slice(-5)
+                ];
+                
+                const response = await window.puter.ai.chat(fullMessages, {
+                    model: 'gpt-4o-mini',
+                    stream: false
+                });
+                
+                return response.message?.content || response;
+            }
+
+            async generateOnDevice(message, context = []) {
+                const systemPrompt = `Wowe uri Tyaza, umuvugizi w'umutima mu Kinyarwanda. Shyashya mu ijwi ryuje impuhwe.`;
+                const contextStr = context.length > 0 
+                    ? `Ibyerekeye: ${context.map(c => c.text).join(' ')}\n` 
+                    : '';
+                
+                const prompt = `<|system|>\n${systemPrompt}\n<|user|>\n${contextStr}${message}\n<|assistant|>\n`;
+                
+                const result = await this.onDeviceModel(prompt, {
+                    max_new_tokens: 256,
+                    temperature: 0.7,
+                    do_sample: true,
+                    top_p: 0.95
+                });
+                
+                return result[0].generated_text.replace(prompt, '').trim();
+            }
+
+            queueMessage(message) {
+                return new Promise((resolve) => {
+                    this.messageQueue.push({ message, resolve });
+                    
+                                        Toast.show('Ubutumwa buzerekwa (AI irakonja)...', 'info');
+                    
+                    // Try processing queue after 2 seconds
+                    setTimeout(() => this.processQueue(), 2000);
+                });
+            }
+
+            async processQueue() {
+                if (this.processingQueue || this.messageQueue.length === 0) return;
+                
+                this.processingQueue = true;
+                
+                const canProcess = this.puterAvailable || this.onDeviceAvailable;
+                
+                if (canProcess) {
+                    const queue = [...this.messageQueue];
+                    this.messageQueue = [];
+                    
+                    for (const item of queue) {
+                        try {
+                            const response = await this.generateResponse([{ content: item.message }]);
+                            item.resolve(response);
+                        } catch (e) {
+                            item.resolve('Ndi kumwe nawe. Hari ikibazo, ngaho tuganire.');
+                        }
+                    }
+                }
+                
+                this.processingQueue = false;
             }
         }
 
         // ================================================================
-        // REALTIME ASR (Speech Recognition)
+        // TOAST SERVICE
         // ================================================================
 
-        class RealtimeASR {
+        class ToastService {
             constructor() {
-                this.recognition = null;
-                this.isListening = false;
-                this.onResult = null;
-                this.onEnd = null;
-                this.onError = null;
+                this.container = document.getElementById('toastContainer');
             }
 
-            init() {
+            show(message, type = 'info', duration = 3000) {
+                const toast = document.createElement('tyaza-toast');
+                toast.setAttribute('message', message);
+                toast.setAttribute('type', type);
+                toast.setAttribute('duration', duration.toString());
+                this.container.appendChild(toast);
+                
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.remove();
+                    }
+                }, duration + 100);
+            }
+
+            success(message) { this.show(message, 'success'); }
+            error(message) { this.show(message, 'error'); }
+            info(message) { this.show(message, 'info'); }
+            warning(message) { this.show(message, 'warning'); }
+        }
+
+        // ================================================================
+        // SPEECH SERVICES
+        // ================================================================
+
+        class SpeechService {
+            constructor() {
+                this.recognition = null;
+                this.synthesis = window.speechSynthesis;
+                this.isListening = false;
+                this.voices = [];
+                this.onResult = null;
+                this.onEnd = null;
+                
+                this.initRecognition();
+                this.loadVoices();
+            }
+
+            initRecognition() {
                 if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
                     console.warn('Speech recognition not supported');
                     return false;
@@ -2515,57 +2482,52 @@
                 };
                 
                 this.recognition.onerror = (event) => {
-                    if (this.onError) this.onError(event.error);
+                    console.error('Recognition error:', event.error);
+                    this.isListening = false;
                 };
                 
                 return true;
             }
 
-            start() {
-                if (this.recognition && !this.isListening) {
-                    try {
-                        this.recognition.start();
-                    } catch (e) {
-                        console.error('Recognition start error:', e);
-                    }
-                }
-            }
-
-            stop() {
-                if (this.recognition && this.isListening) {
-                    try {
-                        this.recognition.stop();
-                    } catch (e) {
-                        console.error('Recognition stop error:', e);
-                    }
-                }
-            }
-        }
-
-        // ================================================================
-        // SPEECH SYNTHESIS (Preserved from original)
-        // ================================================================
-
-        class SpeechSynthesisService {
-            constructor() {
-                this.synth = window.speechSynthesis;
-                this.voices = [];
-                this.loadVoices();
-            }
-
             loadVoices() {
-                this.voices = this.synth.getVoices();
-                if (this.synth.onvoiceschanged !== undefined) {
-                    this.synth.onvoiceschanged = () => {
-                        this.voices = this.synth.getVoices();
+                this.voices = this.synthesis.getVoices();
+                if (this.synthesis.onvoiceschanged !== undefined) {
+                    this.synthesis.onvoiceschanged = () => {
+                        this.voices = this.synthesis.getVoices();
                     };
                 }
             }
 
+            startListening() {
+                if (this.recognition && !this.isListening) {
+                    try {
+                        this.recognition.start();
+                        return true;
+                    } catch (e) {
+                        console.error('Start listening error:', e);
+                        return false;
+                    }
+                }
+                return false;
+            }
+
+            stopListening() {
+                if (this.recognition && this.isListening) {
+                    try {
+                        this.recognition.stop();
+                        return true;
+                    } catch (e) {
+                        console.error('Stop listening error:', e);
+                        return false;
+                    }
+                }
+                return false;
+            }
+
             speak(text, options = {}) {
-                if (!this.synth) return;
+                if (!this.synthesis) return;
                 
-                this.synth.cancel();
+                this.synthesis.cancel();
                 
                 const utterance = new SpeechSynthesisUtterance(text.slice(0, 1000));
                 
@@ -2578,43 +2540,107 @@
                 utterance.pitch = options.pitch || 1.0;
                 utterance.lang = 'rw-RW';
                 
-                this.synth.speak(utterance);
+                this.synthesis.speak(utterance);
             }
         }
 
         // ================================================================
-        // TOAST SERVICE
+        // VOICE VISUALIZER
         // ================================================================
 
-        const Toast = {
-            container: document.getElementById('toastContainer'),
-            
-            show(message, type = 'info', duration = 3000) {
-                const toast = document.createElement('tyaza-toast');
-                toast.setAttribute('message', message);
-                toast.setAttribute('type', type);
-                toast.setAttribute('duration', duration.toString());
-                this.container.appendChild(toast);
-            },
-            
-            success(message) { this.show(message, 'success'); },
-            error(message) { this.show(message, 'error'); },
-            info(message) { this.show(message, 'info'); }
-        };
+        class VoiceVisualizer {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                if (!this.canvas) return;
+                
+                this.ctx = this.canvas.getContext('2d');
+                this.analyser = null;
+                this.animationFrame = null;
+                this.isActive = false;
+            }
+
+            async start() {
+                if (this.isActive) return;
+                
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    this.analyser = audioCtx.createAnalyser();
+                    this.analyser.fftSize = 256;
+                    const source = audioCtx.createMediaStreamSource(stream);
+                    source.connect(this.analyser);
+                    
+                    this.isActive = true;
+                    this.draw();
+                } catch (e) {
+                    console.error('Visualizer start error:', e);
+                }
+            }
+
+            stop() {
+                this.isActive = false;
+                if (this.animationFrame) {
+                    cancelAnimationFrame(this.animationFrame);
+                }
+                this.clear();
+            }
+
+            draw() {
+                if (!this.isActive || !this.analyser || !this.ctx || !this.canvas) return;
+                
+                const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+                
+                const drawFrame = () => {
+                    if (!this.isActive) return;
+                    
+                    this.animationFrame = requestAnimationFrame(drawFrame);
+                    
+                    this.analyser.getByteFrequencyData(dataArray);
+                    
+                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                    
+                    // Draw gradient background
+                    const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
+                    gradient.addColorStop(0, 'rgba(139, 92, 246, 0.2)');
+                    gradient.addColorStop(1, 'rgba(236, 72, 153, 0.2)');
+                    this.ctx.fillStyle = gradient;
+                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                    
+                    // Draw bars
+                    const barWidth = (this.canvas.width / dataArray.length) * 2.5;
+                    let x = 0;
+                    
+                    for (let i = 0; i < dataArray.length; i += 2) {
+                        const barHeight = (dataArray[i] / 255) * this.canvas.height;
+                        const hue = 240 + (i / dataArray.length) * 120;
+                        this.ctx.fillStyle = `hsla(${hue}, 80%, 60%, 0.8)`;
+                        this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth - 1, barHeight);
+                        x += barWidth;
+                    }
+                };
+                
+                drawFrame();
+            }
+
+            clear() {
+                if (!this.ctx || !this.canvas) return;
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            }
+        }
 
         // ================================================================
-        // CRISIS RESOURCES (Preserved)
+        // CRISIS RESOURCES
         // ================================================================
 
         const CrisisResources = {
             resources: [
-                { name: 'Imitari y\'inkunga', number: '116', icon: '📞' },
-                { name: 'Isange One Stop', number: '3029', icon: '🏥' },
-                { name: 'Police', number: '112', icon: '🚔' },
-                { name: 'Ambulance', number: '912', icon: '🚑' }
+                { name: 'Imitari y\'inkunga', number: '116', icon: '📞', description: '24/7 Crisis Line' },
+                { name: 'Isange One Stop', number: '3029', icon: '🏥', description: 'One Stop Center' },
+                { name: 'Police', number: '112', icon: '🚔', description: 'Emergency' },
+                { name: 'Ambulance', number: '912', icon: '🚑', description: 'Medical Emergency' }
             ],
             
-            keywords: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa'],
+            keywords: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona'],
             
             showAlert() {
                 if (document.getElementById('crisisModal')) return;
@@ -2624,29 +2650,56 @@
                 modal.id = 'crisisModal';
                 modal.innerHTML = `
                     <div class="modal active" style="max-width: 500px; border-color: var(--color-error);">
-                        <div class="modal-header">
-                            <h3 class="modal-title" style="color: var(--color-error);">⚠️ Ukeneye ubufasha?</h3>
+                        <div class="modal-header" style="border-bottom-color: var(--color-error);">
+                            <h3 class="modal-title" style="color: var(--color-error);">
+                                ⚠️ Ukeneye ubufasha bwihutirwa?
+                            </h3>
                             <button class="modal-close" id="crisisClose">&times;</button>
                         </div>
-                        <div class="p-6">
-                            ${this.resources.map(r => `
-                                <div class="flex items-center gap-3 p-3 bg-surface-700 rounded-lg mb-2">
-                                    <div class="w-10 h-10 bg-surface-600 rounded-md flex items-center justify-center">${r.icon}</div>
-                                    <div class="flex-1">
-                                        <div class="font-medium">${r.name}</div>
-                                        <div class="text-lg font-bold text-error">${r.number}</div>
+                        <div style="margin: var(--space-6) 0;">
+                            <p style="margin-bottom: var(--space-4); color: var(--color-text-secondary);">
+                                Nga ni byiza kuvugana n'umuntu w'umubiri. Dore imitari y'inkunga:
+                            </p>
+                            <div class="crisis-resources">
+                                ${this.resources.map(r => `
+                                    <div class="crisis-resource">
+                                        <div class="crisis-icon">${r.icon}</div>
+                                        <div class="crisis-info">
+                                            <div class="crisis-name">${r.name}</div>
+                                            <div class="crisis-number">${r.number}</div>
+                                            <div class="crisis-desc">${r.description}</div>
+                                        </div>
+                                        <a href="tel:${r.number}" class="crisis-call">
+                                            <i class="fas fa-phone-alt"></i>
+                                        </a>
                                     </div>
-                                    <a href="tel:${r.number}" class="w-11 h-11 bg-error rounded-full flex items-center justify-center">
-                                        <i class="fas fa-phone-alt"></i>
-                                    </a>
-                                </div>
-                            `).join('')}
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: var(--space-3);">
+                            <button class="btn btn-secondary flex-1" id="crisisLater">
+                                Ndabibuka
+                            </button>
+                            <button class="btn btn-primary flex-1" id="crisisNow" style="background: var(--color-error);">
+                                Mpambe noneho
+                            </button>
                         </div>
                     </div>
                 `;
                 
                 document.body.appendChild(modal);
+                
                 modal.querySelector('#crisisClose').onclick = () => modal.remove();
+                modal.querySelector('#crisisLater').onclick = () => modal.remove();
+                modal.querySelector('#crisisNow').onclick = () => {
+                    window.location.href = 'tel:116';
+                };
+                
+                setTimeout(() => {
+                    if (document.getElementById('crisisModal')) {
+                        modal.remove();
+                    }
+                }, 30000);
             }
         };
 
@@ -2656,23 +2709,22 @@
 
         class TyazaApp {
             constructor() {
-                this.db = new VectorDatabase();
-                this.inference = new OnDeviceInference();
-                this.asr = new RealtimeASR();
-                this.webrtc = new RealtimePeer();
-                this.tts = new SpeechSynthesisService();
+                this.db = new Database();
+                this.ai = new HybridAIService();
+                this.speech = new SpeechService();
+                this.toast = new ToastService();
+                this.visualizer = null;
                 
                 this.messages = [];
                 this.currentConversationId = generateId();
                 this.isGenerating = false;
                 this.settings = {
-                    model: 'tinyllama',
+                    model: 'auto',
                     voice: 'Google UK English Female',
                     rate: 0.9,
                     pitch: 1.0,
                     autoTTS: true,
-                    enableRAG: true,
-                    enableWebGPU: true
+                    enableRAG: true
                 };
                 
                 this.elements = {
@@ -2683,7 +2735,6 @@
                     voiceBtn: document.getElementById('voiceBtn'),
                     modelSelect: document.getElementById('modelSelect'),
                     enableRAG: document.getElementById('enableRAG'),
-                    enableWebGPU: document.getElementById('enableWebGPU'),
                     voiceSelect: document.getElementById('voiceSelect'),
                     rateSlider: document.getElementById('rateSlider'),
                     pitchSlider: document.getElementById('pitchSlider'),
@@ -2708,14 +2759,16 @@
                     loadingText: document.getElementById('loadingText'),
                     starsContainer: document.getElementById('starsContainer'),
                     connectionStatus: document.getElementById('connectionStatus'),
-                    webrtcStatus: document.getElementById('webrtcStatus'),
-                    webrtcText: document.getElementById('webrtcText')
+                    headerStatus: document.getElementById('headerStatus')
                 };
             }
 
             async init() {
                 // Create stars
                 this.createStars();
+                
+                // Initialize visualizer
+                this.visualizer = new VoiceVisualizer('voiceVisualizer');
                 
                 // Load settings
                 await this.loadSettings();
@@ -2724,19 +2777,34 @@
                 this.elements.loadingText.textContent = 'Initializing database...';
                 await this.db.init();
                 
-                // Initialize inference with progress
-                this.elements.loadingText.textContent = 'Loading AI models...';
-                await this.inference.init((msg, percent) => {
-                    this.elements.loadingText.textContent = msg;
+                // Initialize AI with progress
+                this.elements.loadingText.textContent = 'Loading AI services...';
+                await this.ai.init((percent, message) => {
+                    if (percent < 100) {
+                        this.elements.loadingText.textContent = message;
+                    } else {
+                        setTimeout(() => {
+                            this.elements.loadingScreen.classList.add('hidden');
+                        }, 500);
+                    }
                 });
                 
-                // Initialize ASR
-                this.asr.init();
-                this.setupASRCallbacks();
+                // Bind speech callbacks
+                this.speech.onResult = (text) => {
+                    this.elements.messageInput.value = text;
+                    this.elements.sttText.textContent = text || 'ndakumva...';
+                    this.handleInput();
+                };
                 
-                // Initialize WebRTC
-                this.webrtc.init(true);
-                this.setupWebRTCCallbacks();
+                this.speech.onEnd = () => {
+                    this.elements.voiceBtn.classList.remove('listening');
+                    this.elements.sttOverlay.classList.remove('active');
+                    this.visualizer.stop();
+                    
+                    if (this.elements.messageInput.value.trim()) {
+                        this.sendMessage();
+                    }
+                };
                 
                 // Bind UI events
                 this.bindEvents();
@@ -2747,22 +2815,22 @@
                 // Apply settings
                 this.applySettings();
                 
-                // Hide loading screen
+                // Hide loading screen after AI is ready
                 setTimeout(() => {
                     this.elements.loadingScreen.classList.add('hidden');
-                }, 1500);
+                }, 2000);
                 
-                // Check for crisis keywords in messages
+                // Set up crisis detection
                 this.setupCrisisDetection();
                 
                 console.log('TYAZA v5.0 initialized');
-                Toast.success('TYAZA Advanced AI Ready');
+                this.toast.success('TYAZA Hybrid AI Ready');
             }
 
             createStars() {
                 if (!this.elements.starsContainer) return;
                 
-                for (let i = 0; i < 80; i++) {
+                for (let i = 0; i < 60; i++) {
                     const star = document.createElement('div');
                     star.className = 'star';
                     star.style.left = `${Math.random() * 100}%`;
@@ -2795,13 +2863,15 @@
             applySettings() {
                 this.elements.modelSelect.value = this.settings.model;
                 this.elements.enableRAG.checked = this.settings.enableRAG;
-                this.elements.enableWebGPU.checked = this.settings.enableWebGPU;
                 this.elements.voiceSelect.value = this.settings.voice;
                 this.elements.rateSlider.value = this.settings.rate;
                 this.elements.pitchSlider.value = this.settings.pitch;
                 this.elements.rateValue.textContent = this.settings.rate;
                 this.elements.pitchValue.textContent = this.settings.pitch;
                 this.elements.autoTTS.checked = this.settings.autoTTS;
+                
+                // Set AI model type
+                this.ai.setModelType(this.settings.model);
             }
 
             bindEvents() {
@@ -2823,7 +2893,7 @@
                 // Settings
                 this.elements.modelSelect.addEventListener('change', (e) => {
                     this.settings.model = e.target.value;
-                    this.inference.loadModel(e.target.value);
+                    this.ai.setModelType(e.target.value);
                     this.saveSettings();
                 });
                 
@@ -2894,53 +2964,26 @@
                     }
                     if (e.key === 'Escape') {
                         this.closeSidebar();
-                        if (this.asr.isListening) this.toggleVoice();
+                        if (this.speech.isListening) this.toggleVoice();
                     }
                 });
-            }
-
-            setupASRCallbacks() {
-                this.asr.onResult = (text) => {
-                    this.elements.messageInput.value = text;
-                    this.elements.sttText.textContent = text || 'ndakumva...';
-                    this.handleInput();
-                };
-                
-                this.asr.onEnd = () => {
-                    this.elements.voiceBtn.classList.remove('listening');
-                    this.elements.sttOverlay.classList.remove('active');
-                    
-                    if (this.elements.messageInput.value.trim()) {
-                        this.sendMessage();
-                    }
-                };
-                
-                this.asr.onError = (error) => {
-                    this.elements.voiceStatus.textContent = `Ikosa: ${error}`;
-                    this.elements.voiceBtn.classList.remove('listening');
-                    this.elements.sttOverlay.classList.remove('active');
-                };
-            }
-
-            setupWebRTCCallbacks() {
-                this.webrtc.onMessage = (msg) => {
-                    this.addMessage('assistant', msg);
-                };
-                
-                this.webrtc.onSignal = (data) => {
-                    console.log('WebRTC signal:', data);
-                };
             }
 
             setupCrisisDetection() {
-                EventBus.on('message:sent', (msg) => {
-                    if (msg.role === 'user') {
-                        const lower = msg.content.toLowerCase();
-                        if (CrisisResources.keywords.some(k => lower.includes(k))) {
-                            CrisisResources.showAlert();
-                        }
+                // Simple event emitter
+                const checkMessage = (content) => {
+                    const lower = content.toLowerCase();
+                    if (CrisisResources.keywords.some(k => lower.includes(k))) {
+                        CrisisResources.showAlert();
                     }
-                });
+                };
+                
+                // Override addMessage to check
+                const originalAddMessage = this.addMessage;
+                this.addMessage = (role, content) => {
+                    if (role === 'user') checkMessage(content);
+                    originalAddMessage.call(this, role, content);
+                };
             }
 
             handleInput() {
@@ -2954,19 +2997,20 @@
             }
 
             async toggleVoice() {
-                if (!this.asr.isListening) {
+                if (!this.speech.isListening) {
                     // Test microphone first
                     try {
                         await navigator.mediaDevices.getUserMedia({ audio: true });
-                        this.asr.start();
+                        this.speech.startListening();
                         this.elements.voiceBtn.classList.add('listening');
                         this.elements.sttOverlay.classList.add('active');
                         this.elements.voiceStatus.textContent = 'Mvuga none...';
+                        this.visualizer.start();
                     } catch (e) {
                         this.elements.voiceStatus.textContent = '❌ Emera mikorofoni';
                     }
                 } else {
-                    this.asr.stop();
+                    this.speech.stopListening();
                 }
             }
 
@@ -2980,6 +3024,7 @@
                     
                     setTimeout(() => {
                         this.elements.micTestBtn.innerHTML = '<span>🎤</span> Genzura Mikorofoni';
+                        this.elements.voiceStatus.textContent = '';
                     }, 2000);
                 } catch (e) {
                     this.elements.micTestBtn.innerHTML = '❌ emerera';
@@ -3010,17 +3055,21 @@
                 this.closeSidebar();
                 
                 try {
-                    // RAG: Get relevant context
+                    // Get context if RAG enabled
                     let context = [];
                     if (this.settings.enableRAG) {
-                        const embedding = await this.inference.createEmbedding(text);
-                        if (embedding) {
-                            context = await this.db.searchSimilar(embedding, 3);
-                        }
+                        // Simple context from recent messages
+                        context = this.messages.slice(-5).map(m => ({
+                            text: m.content,
+                            role: m.role
+                        }));
                     }
                     
                     // Generate response
-                    const response = await this.inference.generate(text, context);
+                    const response = await this.ai.generateResponse(
+                        [{ role: 'user', content: text }], 
+                        context
+                    );
                     
                     // Remove typing indicator
                     this.removeTyping(typingId);
@@ -3028,20 +3077,9 @@
                     // Add assistant message
                     this.addMessage('assistant', response);
                     
-                    // Save to vector DB for future RAG
-                    if (this.settings.enableRAG) {
-                        const respEmbedding = await this.inference.createEmbedding(response);
-                        if (respEmbedding) {
-                            await this.db.addEmbedding(response, respEmbedding, {
-                                role: 'assistant',
-                                conversationId: this.currentConversationId
-                            });
-                        }
-                    }
-                    
                     // Auto TTS
                     if (this.settings.autoTTS) {
-                        this.tts.speak(response, {
+                        this.speech.speak(response, {
                             voice: this.settings.voice,
                             rate: this.settings.rate,
                             pitch: this.settings.pitch
@@ -3050,9 +3088,6 @@
                     
                     // Save conversation
                     await this.saveConversation(text, response);
-                    
-                    // Emit event for crisis detection
-                    EventBus.emit('message:sent', { role: 'user', content: text });
                     
                 } catch (e) {
                     console.error('Send error:', e);
@@ -3064,41 +3099,59 @@
             }
 
             addMessage(role, content) {
-                const msg = document.createElement('tyaza-message');
-                msg.setAttribute('role', role);
-                msg.setAttribute('content', content);
-                msg.setAttribute('timestamp', Date.now().toString());
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${role}`;
                 
-                // Add event listeners
-                msg.addEventListener('speak', (e) => {
-                    this.tts.speak(e.detail, {
+                const time = formatMessageTime();
+                const escapedContent = escapeHtml(content);
+                
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">${role === 'user' ? '👤' : '🤖'}</div>
+                    <div class="message-content">
+                        <div class="message-bubble">${escapedContent}</div>
+                        <div class="message-meta">
+                            <span class="message-time">${time}</span>
+                            <div class="message-actions">
+                                ${role === 'assistant' ? `
+                                    <button class="message-action" onclick="this.closest('.message').querySelector('.message-bubble').textContent && window.app.speakMessage('${escapedContent.replace(/'/g, "\\'")}')">
+                                        <i class="fas fa-volume-up"></i>
+                                    </button>
+                                    <button class="message-action" onclick="navigator.clipboard.writeText('${escapedContent.replace(/'/g, "\\'")}'); window.app.toast.success('Ibyakiriwe!')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                this.elements.messagesContainer.appendChild(messageDiv);
+                this.scrollToBottom();
+                
+                this.messages.push({ role, content, timestamp: Date.now() });
+            }
+
+            speakMessage(text) {
+                if (this.settings.autoTTS) {
+                    this.speech.speak(text, {
                         voice: this.settings.voice,
                         rate: this.settings.rate,
                         pitch: this.settings.pitch
                     });
-                });
-                
-                msg.addEventListener('toast', (e) => {
-                    Toast[e.detail.type](e.detail.message);
-                });
-                
-                this.elements.messagesContainer.appendChild(msg);
-                this.scrollToBottom();
-                
-                this.messages.push({ role, content, timestamp: Date.now() });
+                }
             }
 
             showTyping() {
                 const id = 'typing-' + Date.now();
                 const typing = document.createElement('div');
                 typing.id = id;
-                typing.className = 'flex items-center gap-4 p-4';
+                typing.className = 'typing-indicator';
                 typing.innerHTML = `
-                    <div class="w-11 h-11 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center">🤖</div>
-                    <div class="flex gap-2 p-4 bg-surface-700/70 rounded-2xl">
-                        <span class="w-2 h-2 bg-primary-400 rounded-full animate-bounce"></span>
-                        <span class="w-2 h-2 bg-secondary-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></span>
-                        <span class="w-2 h-2 bg-accent-400 rounded-full animate-bounce" style="animation-delay: 0.4s"></span>
+                    <div class="typing-avatar">🤖</div>
+                    <div class="typing-bubble">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
                     </div>
                 `;
                 this.elements.messagesContainer.appendChild(typing);
@@ -3153,7 +3206,7 @@
                     .sort((a, b) => b.timestamp - a.timestamp)
                     .slice(0, 15)
                     .map(c => `
-                        <div class="history-item" data-id="${c.id}">
+                        <div class="history-item ${c.id === this.currentConversationId ? 'active' : ''}" data-id="${c.id}">
                             <div class="history-title">${escapeHtml(c.title || 'Chat')}</div>
                             <div class="history-meta">
                                 <span>${formatRelativeTime(c.timestamp)}</span>
@@ -3210,25 +3263,21 @@
             async clearHistory() {
                 if (!confirm('Hanagura amateka yose?')) return;
                 
-                // Clear IndexedDB stores
-                const tx = this.db.db.transaction(['conversations', 'embeddings'], 'readwrite');
-                await tx.objectStore('conversations').clear();
-                await tx.objectStore('embeddings').clear();
-                
+                await this.db.clearHistory();
                 this.newChat();
-                Toast.success('Amateka yahanaguwe');
+                this.toast.success('Amateka yahanaguwe');
             }
 
             clearCurrentChat() {
                 if (this.messages.length === 0) return;
                 if (!confirm('Hanagura chat hiye?')) return;
                 this.newChat();
-                Toast.success('Chat yahanaguwe');
+                this.toast.success('Chat yahanaguwe');
             }
 
             exportChat() {
                 if (this.messages.length === 0) {
-                    Toast.warning('Nta chat yohereza');
+                    this.toast.warning('Nta chat yohereza');
                     return;
                 }
                 
@@ -3247,7 +3296,7 @@
                 a.click();
                 URL.revokeObjectURL(url);
                 
-                Toast.success('Chat yaherekejwe');
+                this.toast.success('Chat yaherekejwe');
             }
 
             toggleSidebar() {
@@ -3261,38 +3310,344 @@
             }
         }
 
-        // Simple event bus
-        const EventBus = {
-            events: {},
-            on(event, callback) {
-                if (!this.events[event]) this.events[event] = [];
-                this.events[event].push(callback);
-            },
-            emit(event, data) {
-                if (this.events[event]) {
-                    this.events[event].forEach(cb => cb(data));
-                }
-            }
-        };
+        // ================================================================
+        // CUSTOM ELEMENTS (Web Components)
+        // ================================================================
 
-        // Initialize app
-        const app = new TyazaApp();
-        
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => app.init());
-        } else {
-            app.init();
+        class TyazaToast extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+            }
+
+            connectedCallback() {
+                const message = this.getAttribute('message') || '';
+                const type = this.getAttribute('type') || 'info';
+                
+                this.shadowRoot.innerHTML = `
+                    <style>
+                        :host {
+                            display: block;
+                            background: #130d24;
+                            border: 1px solid #2d2352;
+                            border-left: 4px solid ${this.getBorderColor(type)};
+                            border-radius: 12px;
+                            padding: 16px 20px;
+                            margin-bottom: 12px;
+                            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+                            animation: slideIn 0.3s ease-out;
+                            max-width: 350px;
+                        }
+                        .content {
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                            color: #f8fafc;
+                        }
+                        @keyframes slideIn {
+                            from { opacity: 0; transform: translateX(100%); }
+                            to { opacity: 1; transform: translateX(0); }
+                        }
+                    </style>
+                    <div class="content">
+                        <i class="fas fa-${this.getIcon(type)}"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+                
+                setTimeout(() => this.remove(), 3000);
+            }
+
+            getBorderColor(type) {
+                const colors = {
+                    success: '#22c55e',
+                    error: '#ef4444',
+                    warning: '#f59e0b',
+                    info: '#3b82f6'
+                };
+                return colors[type] || '#3b82f6';
+            }
+
+            getIcon(type) {
+                const icons = {
+                    success: 'check-circle',
+                    error: 'exclamation-circle',
+                    warning: 'exclamation-triangle',
+                    info: 'info-circle'
+                };
+                return icons[type] || 'info-circle';
+            }
         }
 
-        // Make available globally
-        window.TyazaApp = app;
-        window.Toast = Toast;
+        customElements.define('tyaza-toast', TyazaToast);
+
+        // ================================================================
+        // INITIALIZATION
+        // ================================================================
+
+        // Create global app instance
+        window.app = new TyazaApp();
+        window.Toast = window.app.toast;
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => window.app.init());
+        } else {
+            window.app.init();
+        }
+
+        // Handle offline/online events
+        window.addEventListener('online', () => {
+            document.getElementById('connectionStatus').textContent = 'Online';
+            window.Toast?.success('Mwongeye guhuza!');
+        });
+
+        window.addEventListener('offline', () => {
+            document.getElementById('connectionStatus').textContent = 'Offline';
+            
+            // Show offline banner
+            const banner = document.createElement('div');
+            banner.className = 'offline-banner show';
+            banner.id = 'offlineBanner';
+            banner.innerHTML = '<i class="fas fa-wifi-slash"></i> Ntago uhuza - using on-device AI';
+            document.body.appendChild(banner);
+            
+            setTimeout(() => {
+                if (document.getElementById('offlineBanner')) {
+                    document.getElementById('offlineBanner').classList.remove('show');
+                    setTimeout(() => document.getElementById('offlineBanner')?.remove(), 300);
+                }
+            }, 5000);
+        });
+    </script>
+
+    <!-- Crisis Resources Styles -->
+    <style>
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+        
+        .modal-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background: var(--color-surface-800);
+            border: 1px solid var(--color-surface-600);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            max-width: 90vw;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.95);
+            transition: transform 0.3s;
+        }
+        
+        .modal-backdrop.active .modal {
+            transform: scale(1);
+        }
+        
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: var(--space-6);
+            padding-bottom: var(--space-4);
+            border-bottom: 1px solid var(--color-surface-600);
+        }
+        
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            border-radius: var(--radius-md);
+            font-size: 1.5rem;
+        }
+        
+        .modal-close:hover {
+            background: var(--color-surface-700);
+            color: var(--color-text-primary);
+        }
+        
+        .crisis-resources {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .crisis-resource {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            padding: var(--space-3);
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            border-radius: var(--radius-lg);
+            transition: all 0.15s;
+        }
+        
+        .crisis-resource:hover {
+            border-color: var(--color-error);
+            transform: translateX(4px);
+        }
+        
+        .crisis-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-surface-600);
+            border-radius: var(--radius-md);
+            font-size: 1.2rem;
+        }
+        
+        .crisis-info {
+            flex: 1;
+        }
+        
+        .crisis-name {
+            font-weight: 600;
+            color: var(--color-text-primary);
+            font-size: 0.875rem;
+        }
+        
+        .crisis-number {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--color-error);
+            line-height: 1.3;
+        }
+        
+        .crisis-desc {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+        }
+        
+        .crisis-call {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-error);
+            color: white;
+            border-radius: var(--radius-full);
+            text-decoration: none;
+            transition: all 0.15s;
+        }
+        
+        .crisis-call:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px var(--color-error);
+        }
+        
+        .flex-1 {
+            flex: 1;
+        }
+        
+        .spinner-sm {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--color-surface-600);
+            border-top-color: var(--color-primary-500);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        .mr-1 {
+            margin-right: 4px;
+        }
+        
+        .mt-2 {
+            margin-top: 8px;
+        }
+        
+        .mt-3 {
+            margin-top: 12px;
+        }
+        
+        .mt-6 {
+            margin-top: 24px;
+        }
+        
+        .mb-2 {
+            margin-bottom: 8px;
+        }
+        
+        .pt-3 {
+            padding-top: 12px;
+        }
+        
+        .border-t {
+            border-top: 1px solid var(--color-surface-600);
+        }
+    </style>
+
+    <!-- Crisis Floating Button -->
+    <button class="crisis-floating-btn" id="crisisFloatingBtn">
+        <span class="crisis-pulse"></span>
+        <i class="fas fa-phone-alt"></i>
+    </button>
+
+    <!-- Meditation Quick Button -->
+    <button class="meditation-quick-btn" id="meditationQuickBtn">
+        <i class="fas fa-brain"></i>
+    </button>
+
+    <script>
+        // Add crisis button functionality
+        document.getElementById('crisisFloatingBtn').addEventListener('click', () => {
+            CrisisResources.showAlert();
+        });
+        
+        // Add meditation button (simple breathing exercise)
+        document.getElementById('meditationQuickBtn').addEventListener('click', () => {
+            const message = "Imyitozo yo guhumeka: Humeka mu izuru (1,2,3,4), fata umwanya (1,2,3,4), hohora bworoshye (1,2,3,4). Subiramo inshuro 5.";
+            window.app?.toast?.info(message);
+            
+            if (window.app?.speech) {
+                window.app.speech.speak(message, {
+                    voice: window.app.settings.voice,
+                    rate: 0.8
+                });
+            }
+        });
     </script>
 
     <!-- Fallback for older browsers -->
     <noscript>
-        <div style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center;">
-            JavaScript is required for TYAZA Advanced AI features.
+        <div style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; z-index: 9999;">
+            <div>
+                <h1 style="font-size: 2rem; margin-bottom: 20px;">TYAZA</h1>
+                <p>JavaScript is required for TYAZA Advanced AI features.</p>
+                <p style="color: #94a3b8; margin-top: 20px;">Please enable JavaScript to continue.</p>
+            </div>
         </div>
     </noscript>
 </body>
