@@ -2,33 +2,29 @@
 <html lang="rw" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="description" content="TYAZA - Umuvugizi w'Umutima | AI Virtual Therapy Assistant by Kivura Labs">
     <meta name="theme-color" content="#0a0612">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="data:application/json,{}">
     
-    <title>TYAZA · Umuvugizi w'Umutima · Kivura Labs · 2030 Edition</title>
+    <title>TYAZA · Umuvugizi w'Umutima · Kivura Labs</title>
     
-    <!-- Preconnect and Resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
-    
-    <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
     <style>
-        /* ================================================================
-           TYAZA v6.0 - 2030 EDITION
-           Zero Budget · 1000%+ Out-of-Box · Global Leading Quality
-           ================================================================ */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-        /* CSS Reset & Variables */
         :root {
             --color-primary-50: #f5f3ff;
             --color-primary-100: #ede9fe;
@@ -102,13 +98,6 @@
             --transition-smooth: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* Global Reset */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         html {
             scroll-behavior: smooth;
             -webkit-tap-highlight-color: transparent;
@@ -126,115 +115,264 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ================================================================
-           UTILITY CLASSES
-           ================================================================ */
-        .d-flex { display: flex; }
-        .flex-col { flex-direction: column; }
-        .items-center { align-items: center; }
-        .justify-center { justify-content: center; }
-        .justify-between { justify-content: space-between; }
-        .flex-1 { flex: 1; }
-        .gap-1 { gap: var(--space-1); }
-        .gap-2 { gap: var(--space-2); }
-        .gap-3 { gap: var(--space-3); }
-        .gap-4 { gap: var(--space-4); }
-        .gap-6 { gap: var(--space-6); }
-        
-        .p-2 { padding: var(--space-2); }
-        .p-3 { padding: var(--space-3); }
-        .p-4 { padding: var(--space-4); }
-        .p-5 { padding: var(--space-5); }
-        .p-6 { padding: var(--space-6); }
-        
-        .px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
-        .px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
-        .py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
-        .py-3 { padding-top: var(--space-3); padding-bottom: var(--space-3); }
-        .py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
-        
-        .m-0 { margin: 0; }
-        .mt-2 { margin-top: var(--space-2); }
-        .mt-3 { margin-top: var(--space-3); }
-        .mt-4 { margin-top: var(--space-4); }
-        .mt-6 { margin-top: var(--space-6); }
-        .mb-2 { margin-bottom: var(--space-2); }
-        .mb-3 { margin-bottom: var(--space-3); }
-        .mb-4 { margin-bottom: var(--space-4); }
-        .mb-6 { margin-bottom: var(--space-6); }
-        
-        .text-xs { font-size: 0.75rem; }
-        .text-sm { font-size: 0.875rem; }
-        .text-base { font-size: 1rem; }
-        .text-lg { font-size: 1.125rem; }
-        .text-xl { font-size: 1.25rem; }
-        .text-2xl { font-size: 1.5rem; }
-        .text-3xl { font-size: 2rem; }
-        .text-4xl { font-size: 2.5rem; }
-        .text-5xl { font-size: 3rem; }
-        
-        .font-medium { font-weight: 500; }
-        .font-semibold { font-weight: 600; }
-        .font-bold { font-weight: 700; }
-        .font-extrabold { font-weight: 800; }
-        
-        .text-primary { color: var(--color-text-primary); }
-        .text-secondary { color: var(--color-text-secondary); }
-        .text-muted { color: var(--color-text-tertiary); }
-        .text-success { color: var(--color-success); }
-        .text-error { color: var(--color-error); }
-        
-        .text-center { text-align: center; }
+        .d-flex {
+            display: flex;
+        }
+        .flex-col {
+            flex-direction: column;
+        }
+        .items-center {
+            align-items: center;
+        }
+        .justify-center {
+            justify-content: center;
+        }
+        .justify-between {
+            justify-content: space-between;
+        }
+        .flex-1 {
+            flex: 1;
+        }
+        .gap-1 {
+            gap: var(--space-1);
+        }
+        .gap-2 {
+            gap: var(--space-2);
+        }
+        .gap-3 {
+            gap: var(--space-3);
+        }
+        .gap-4 {
+            gap: var(--space-4);
+        }
+        .gap-6 {
+            gap: var(--space-6);
+        }
+        .p-2 {
+            padding: var(--space-2);
+        }
+        .p-3 {
+            padding: var(--space-3);
+        }
+        .p-4 {
+            padding: var(--space-4);
+        }
+        .p-5 {
+            padding: var(--space-5);
+        }
+        .p-6 {
+            padding: var(--space-6);
+        }
+        .px-4 {
+            padding-left: var(--space-4);
+            padding-right: var(--space-4);
+        }
+        .px-6 {
+            padding-left: var(--space-6);
+            padding-right: var(--space-6);
+        }
+        .py-2 {
+            padding-top: var(--space-2);
+            padding-bottom: var(--space-2);
+        }
+        .py-3 {
+            padding-top: var(--space-3);
+            padding-bottom: var(--space-3);
+        }
+        .py-4 {
+            padding-top: var(--space-4);
+            padding-bottom: var(--space-4);
+        }
+        .m-0 {
+            margin: 0;
+        }
+        .mt-2 {
+            margin-top: var(--space-2);
+        }
+        .mt-3 {
+            margin-top: var(--space-3);
+        }
+        .mt-4 {
+            margin-top: var(--space-4);
+        }
+        .mt-6 {
+            margin-top: var(--space-6);
+        }
+        .mb-2 {
+            margin-bottom: var(--space-2);
+        }
+        .mb-3 {
+            margin-bottom: var(--space-3);
+        }
+        .mb-4 {
+            margin-bottom: var(--space-4);
+        }
+        .mb-6 {
+            margin-bottom: var(--space-6);
+        }
+        .text-xs {
+            font-size: 0.75rem;
+        }
+        .text-sm {
+            font-size: 0.875rem;
+        }
+        .text-base {
+            font-size: 1rem;
+        }
+        .text-lg {
+            font-size: 1.125rem;
+        }
+        .text-xl {
+            font-size: 1.25rem;
+        }
+        .text-2xl {
+            font-size: 1.5rem;
+        }
+        .text-3xl {
+            font-size: 2rem;
+        }
+        .text-4xl {
+            font-size: 2.5rem;
+        }
+        .text-5xl {
+            font-size: 3rem;
+        }
+        .font-medium {
+            font-weight: 500;
+        }
+        .font-semibold {
+            font-weight: 600;
+        }
+        .font-bold {
+            font-weight: 700;
+        }
+        .font-extrabold {
+            font-weight: 800;
+        }
+        .text-primary {
+            color: var(--color-text-primary);
+        }
+        .text-secondary {
+            color: var(--color-text-secondary);
+        }
+        .text-muted {
+            color: var(--color-text-tertiary);
+        }
+        .text-success {
+            color: var(--color-success);
+        }
+        .text-error {
+            color: var(--color-error);
+        }
+        .text-center {
+            text-align: center;
+        }
         .text-gradient {
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        
-        .w-full { width: 100%; }
-        .h-full { height: 100%; }
-        .h-screen { height: 100vh; height: 100dvh; }
-        
-        .rounded-lg { border-radius: var(--radius-lg); }
-        .rounded-xl { border-radius: var(--radius-xl); }
-        .rounded-2xl { border-radius: var(--radius-2xl); }
-        .rounded-full { border-radius: var(--radius-full); }
-        
-        .border { border: 1px solid var(--color-surface-600); }
-        .border-0 { border: none; }
-        .border-t { border-top: 1px solid var(--color-surface-600); }
-        .border-primary { border-color: var(--color-primary-500); }
-        
-        .shadow-lg { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
-        .shadow-xl { box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6); }
-        .shadow-glow { box-shadow: var(--shadow-glow-primary); }
-        
-        .overflow-hidden { overflow: hidden; }
-        .overflow-y-auto { overflow-y: auto; }
-        .overflow-x-hidden { overflow-x: hidden; }
-        
-        .relative { position: relative; }
-        .absolute { position: absolute; }
-        .fixed { position: fixed; }
-        .sticky { position: sticky; }
-        .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
-        .z-10 { z-index: 10; }
-        .z-20 { z-index: 20; }
-        .z-30 { z-index: 30; }
-        .z-40 { z-index: 40; }
-        .z-50 { z-index: 50; }
-        
-        .animate-in { animation: fadeInUp 0.6s var(--transition-smooth); }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .w-full {
+            width: 100%;
+        }
+        .h-full {
+            height: 100%;
+        }
+        .h-screen {
+            height: 100vh;
+            height: 100dvh;
+        }
+        .rounded-lg {
+            border-radius: var(--radius-lg);
+        }
+        .rounded-xl {
+            border-radius: var(--radius-xl);
+        }
+        .rounded-2xl {
+            border-radius: var(--radius-2xl);
+        }
+        .rounded-full {
+            border-radius: var(--radius-full);
+        }
+        .border {
+            border: 1px solid var(--color-surface-600);
+        }
+        .border-0 {
+            border: none;
+        }
+        .border-t {
+            border-top: 1px solid var(--color-surface-600);
+        }
+        .border-primary {
+            border-color: var(--color-primary-500);
+        }
+        .shadow-lg {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+        .shadow-xl {
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
+        }
+        .shadow-glow {
+            box-shadow: var(--shadow-glow-primary);
+        }
+        .overflow-hidden {
+            overflow: hidden;
+        }
+        .overflow-y-auto {
+            overflow-y: auto;
+        }
+        .overflow-x-hidden {
+            overflow-x: hidden;
+        }
+        .relative {
+            position: relative;
+        }
+        .absolute {
+            position: absolute;
+        }
+        .fixed {
+            position: fixed;
+        }
+        .sticky {
+            position: sticky;
+        }
+        .inset-0 {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+        .z-10 {
+            z-index: 10;
+        }
+        .z-20 {
+            z-index: 20;
+        }
+        .z-30 {
+            z-index: 30;
+        }
+        .z-40 {
+            z-index: 40;
+        }
+        .z-50 {
+            z-index: 50;
+        }
+        .animate-in {
+            animation: fadeInUp 0.6s var(--transition-smooth);
         }
 
-        /* ================================================================
-           BUTTONS
-           ================================================================ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .btn {
             display: inline-flex;
             align-items: center;
@@ -258,13 +396,17 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
             opacity: 0;
             transition: opacity 0.2s;
         }
 
-        .btn:hover::after { opacity: 1; }
-        .btn:active { transform: scale(0.97); }
+        .btn:hover::after {
+            opacity: 1;
+        }
+        .btn:active {
+            transform: scale(0.97);
+        }
 
         .btn-primary {
             background: var(--gradient-primary);
@@ -274,7 +416,7 @@
 
         .btn-primary:hover:not(:disabled) {
             transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5), var(--shadow-glow-primary);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), var(--shadow-glow-primary);
         }
 
         .btn-secondary {
@@ -338,9 +480,6 @@
             transform: none !important;
         }
 
-        /* ================================================================
-           INPUTS
-           ================================================================ */
         .input {
             width: 100%;
             padding: var(--space-3) var(--space-4);
@@ -410,7 +549,7 @@
             background: var(--gradient-primary);
             border-radius: var(--radius-full);
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             transition: transform 0.2s;
         }
 
@@ -418,9 +557,6 @@
             transform: scale(1.2);
         }
 
-        /* ================================================================
-           COMPONENTS
-           ================================================================ */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -466,9 +602,6 @@
             border: 1px solid rgba(139, 92, 246, 0.15);
         }
 
-        /* ================================================================
-           COSMIC BACKGROUND
-           ================================================================ */
         .app-background {
             position: fixed;
             inset: 0;
@@ -484,7 +617,7 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: 
+            background:
                 radial-gradient(ellipse at 20% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
                 radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
@@ -492,10 +625,19 @@
         }
 
         @keyframes cosmicDrift {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(2%, 1%) scale(1.02); }
-            50% { transform: translate(-1%, 2%) scale(0.98); }
-            75% { transform: translate(1%, -1%) scale(1.01); }
+            0%,
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(2%, 1%) scale(1.02);
+            }
+            50% {
+                transform: translate(-1%, 2%) scale(0.98);
+            }
+            75% {
+                transform: translate(1%, -1%) scale(1.01);
+            }
         }
 
         .stars-container {
@@ -514,8 +656,15 @@
         }
 
         @keyframes starTwinkle {
-            0%, 100% { opacity: 0.2; transform: scale(1); }
-            50% { opacity: 0.9; transform: scale(1.5); }
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.9;
+                transform: scale(1.5);
+            }
         }
 
         .shooting-star {
@@ -529,15 +678,22 @@
         }
 
         @keyframes shootingStar {
-            0% { transform: translate(0, 0); opacity: 0; }
-            5% { opacity: 1; }
-            15% { transform: translate(-200px, 200px); opacity: 0; }
-            100% { opacity: 0; }
+            0% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+            5% {
+                opacity: 1;
+            }
+            15% {
+                transform: translate(-200px, 200px);
+                opacity: 0;
+            }
+            100% {
+                opacity: 0;
+            }
         }
 
-        /* ================================================================
-           LAYOUT
-           ================================================================ */
         .app-layout {
             display: flex;
             width: 100vw;
@@ -549,9 +705,6 @@
             overflow: hidden;
         }
 
-        /* ================================================================
-           SIDEBAR
-           ================================================================ */
         .app-sidebar {
             width: var(--sidebar-width);
             height: 100vh;
@@ -761,9 +914,6 @@
             font-weight: 500;
         }
 
-        /* ================================================================
-           CHAT HISTORY
-           ================================================================ */
         .history-list {
             flex: 1;
             overflow-y: auto;
@@ -826,9 +976,6 @@
             gap: var(--space-2);
         }
 
-        /* ================================================================
-           INFO CARD
-           ================================================================ */
         .info-card {
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(236, 72, 153, 0.05));
             border: 1px solid rgba(139, 92, 246, 0.12);
@@ -853,9 +1000,6 @@
             font-weight: 500;
         }
 
-        /* ================================================================
-           CHAT MAIN
-           ================================================================ */
         .chat-main {
             flex: 1;
             display: flex;
@@ -888,6 +1032,9 @@
 
         .menu-toggle {
             display: none;
+            z-index: 501 !important;
+            position: relative !important;
+            pointer-events: auto !important;
         }
 
         .chat-title {
@@ -948,8 +1095,14 @@
         }
 
         @keyframes statusPulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; transform: scale(1.3); }
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.3);
+            }
         }
 
         .header-actions {
@@ -959,9 +1112,6 @@
             flex-shrink: 0;
         }
 
-        /* ================================================================
-           MESSAGES CONTAINER
-           ================================================================ */
         .messages-container {
             flex: 1;
             overflow-y: auto;
@@ -990,9 +1140,6 @@
             background: var(--color-surface-500);
         }
 
-        /* ================================================================
-           WELCOME SCREEN
-           ================================================================ */
         .welcome-screen {
             flex: 1;
             display: flex;
@@ -1032,14 +1179,26 @@
         }
 
         @keyframes morphShape {
-            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
-            33% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
-            66% { border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%; }
+            0%,
+            100% {
+                border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+            }
+            33% {
+                border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%;
+            }
+            66% {
+                border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%;
+            }
         }
 
         @keyframes iconFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-12px);
+            }
         }
 
         .welcome-title {
@@ -1109,9 +1268,6 @@
             transition: opacity 0.8s ease;
         }
 
-        /* ================================================================
-           MESSAGES
-           ================================================================ */
         .message {
             display: flex;
             gap: var(--space-4);
@@ -1214,13 +1370,16 @@
         }
 
         @keyframes messageSlide {
-            from { opacity: 0; transform: translateY(10px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
         }
 
-        /* ================================================================
-           TYPING INDICATOR
-           ================================================================ */
         .typing-indicator {
             display: flex;
             align-items: center;
@@ -1265,18 +1424,31 @@
             animation: typingBounce 1.4s ease-in-out infinite;
         }
 
-        .typing-dot:nth-child(1) { background: var(--color-primary-400); }
-        .typing-dot:nth-child(2) { background: var(--color-secondary-400); animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { background: var(--color-success); animation-delay: 0.4s; }
-
-        @keyframes typingBounce {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
-            30% { transform: translateY(-12px); opacity: 1; }
+        .typing-dot:nth-child(1) {
+            background: var(--color-primary-400);
+        }
+        .typing-dot:nth-child(2) {
+            background: var(--color-secondary-400);
+            animation-delay: 0.2s;
+        }
+        .typing-dot:nth-child(3) {
+            background: var(--color-success);
+            animation-delay: 0.4s;
         }
 
-        /* ================================================================
-           INPUT AREA
-           ================================================================ */
+        @keyframes typingBounce {
+            0%,
+            60%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.4;
+            }
+            30% {
+                transform: translateY(-12px);
+                opacity: 1;
+            }
+        }
+
         .input-area {
             padding: var(--space-4) var(--space-6) var(--space-6);
             background: linear-gradient(to top, var(--color-surface-950) 50%, transparent);
@@ -1359,8 +1531,12 @@
         }
 
         @keyframes micPulse {
-            0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4); }
-            70% { box-shadow: 0 0 0 20px rgba(236, 72, 153, 0); }
+            0% {
+                box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4);
+            }
+            70% {
+                box-shadow: 0 0 0 20px rgba(236, 72, 153, 0);
+            }
         }
 
         .send-btn {
@@ -1388,9 +1564,6 @@
             margin-top: var(--space-2);
         }
 
-        /* ================================================================
-           SCROLL TO BOTTOM
-           ================================================================ */
         .scroll-bottom {
             position: absolute;
             bottom: 100px;
@@ -1423,9 +1596,6 @@
             transform: translateY(-2px);
         }
 
-        /* ================================================================
-           STT OVERLAY
-           ================================================================ */
         .stt-overlay {
             position: fixed;
             inset: 0;
@@ -1482,16 +1652,38 @@
             animation: sttWave 0.7s ease-in-out infinite alternate;
         }
 
-        .stt-bar:nth-child(1) { height: 25px; animation-delay: 0s; }
-        .stt-bar:nth-child(2) { height: 40px; animation-delay: 0.1s; }
-        .stt-bar:nth-child(3) { height: 60px; animation-delay: 0.2s; }
-        .stt-bar:nth-child(4) { height: 45px; animation-delay: 0.3s; }
-        .stt-bar:nth-child(5) { height: 70px; animation-delay: 0.4s; }
-        .stt-bar:nth-child(6) { height: 35px; animation-delay: 0.5s; }
+        .stt-bar:nth-child(1) {
+            height: 25px;
+            animation-delay: 0s;
+        }
+        .stt-bar:nth-child(2) {
+            height: 40px;
+            animation-delay: 0.1s;
+        }
+        .stt-bar:nth-child(3) {
+            height: 60px;
+            animation-delay: 0.2s;
+        }
+        .stt-bar:nth-child(4) {
+            height: 45px;
+            animation-delay: 0.3s;
+        }
+        .stt-bar:nth-child(5) {
+            height: 70px;
+            animation-delay: 0.4s;
+        }
+        .stt-bar:nth-child(6) {
+            height: 35px;
+            animation-delay: 0.5s;
+        }
 
         @keyframes sttWave {
-            from { height: 15px; }
-            to { height: 70px; }
+            from {
+                height: 15px;
+            }
+            to {
+                height: 70px;
+            }
         }
 
         .stt-text {
@@ -1507,9 +1699,49 @@
             color: var(--color-text-tertiary);
         }
 
-        /* ================================================================
-           LOADING SCREEN
-           ================================================================ */
+        .voice-dialog-mobile {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 0, 20, 0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 600;
+            animation: fadeInUp 0.3s var(--transition-smooth);
+        }
+
+        .voice-dialog-content {
+            background: var(--color-surface-800);
+            border: 2px solid var(--color-secondary-500);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            max-width: 90vw;
+            width: 400px;
+        }
+
+        .voice-dialog-content h3 {
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-4);
+            font-size: 1.25rem;
+        }
+
+        .voice-dialog-content input {
+            width: 100%;
+            padding: var(--space-4);
+            border-radius: var(--radius-lg);
+            background: var(--color-surface-700);
+            color: white;
+            border: 1px solid var(--color-surface-500);
+            font-size: 1.1rem;
+            margin-bottom: var(--space-3);
+        }
+
+        .voice-dialog-content input:focus {
+            border-color: var(--color-primary-500);
+            outline: none;
+        }
+
         .loading-screen {
             position: fixed;
             inset: 0;
@@ -1550,8 +1782,13 @@
         }
 
         @keyframes logoFloat {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(-2deg); }
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(-2deg);
+            }
         }
 
         .loading-spinner {
@@ -1563,7 +1800,11 @@
             animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
 
         .loading-text {
             font-size: 1rem;
@@ -1585,14 +1826,20 @@
         }
 
         @keyframes loadingProgress {
-            0% { width: 0%; margin-left: 0; }
-            50% { width: 60%; margin-left: 20%; }
-            100% { width: 0%; margin-left: 100%; }
+            0% {
+                width: 0%;
+                margin-left: 0;
+            }
+            50% {
+                width: 60%;
+                margin-left: 20%;
+            }
+            100% {
+                width: 0%;
+                margin-left: 100%;
+            }
         }
 
-        /* ================================================================
-           MODALS
-           ================================================================ */
         .modal-backdrop {
             position: fixed;
             inset: 0;
@@ -1607,12 +1854,12 @@
             visibility: hidden;
             transition: all 0.3s var(--transition-smooth);
         }
-        
+
         .modal-backdrop.active {
             opacity: 1;
             visibility: visible;
         }
-        
+
         .modal {
             background: var(--color-surface-800);
             border: 1px solid var(--color-surface-600);
@@ -1629,7 +1876,7 @@
         .modal-backdrop.active .modal {
             transform: scale(1);
         }
-        
+
         .modal-header {
             display: flex;
             align-items: center;
@@ -1638,13 +1885,13 @@
             padding-bottom: var(--space-4);
             border-bottom: 1px solid var(--color-surface-600);
         }
-        
+
         .modal-title {
             font-size: 1.25rem;
             font-weight: 600;
             color: var(--color-text-primary);
         }
-        
+
         .modal-close {
             width: 32px;
             height: 32px;
@@ -1659,22 +1906,21 @@
             font-size: 1.5rem;
             transition: all 0.2s;
         }
-        
+
         .modal-close:hover {
             background: var(--color-surface-700);
             color: var(--color-text-primary);
         }
-        
+
         .modal-body {
             max-height: 70vh;
             overflow-y: auto;
             padding-right: var(--space-2);
         }
 
-        /* ================================================================
-           MOOD TRACKING
-           ================================================================ */
-        .mood-modal { max-width: 500px; }
+        .mood-modal {
+            max-width: 500px;
+        }
 
         .mood-scale {
             display: flex;
@@ -1777,11 +2023,26 @@
             font-weight: 500;
         }
 
-        .mood-level-1 { background: rgba(239, 68, 68, 0.3); color: var(--color-error); }
-        .mood-level-2 { background: rgba(245, 158, 11, 0.3); color: var(--color-warning); }
-        .mood-level-3 { background: rgba(234, 179, 8, 0.3); color: #ca8a04; }
-        .mood-level-4 { background: rgba(34, 197, 94, 0.3); color: var(--color-success); }
-        .mood-level-5 { background: rgba(16, 185, 129, 0.3); color: #059669; }
+        .mood-level-1 {
+            background: rgba(239, 68, 68, 0.3);
+            color: var(--color-error);
+        }
+        .mood-level-2 {
+            background: rgba(245, 158, 11, 0.3);
+            color: var(--color-warning);
+        }
+        .mood-level-3 {
+            background: rgba(234, 179, 8, 0.3);
+            color: #ca8a04;
+        }
+        .mood-level-4 {
+            background: rgba(34, 197, 94, 0.3);
+            color: var(--color-success);
+        }
+        .mood-level-5 {
+            background: rgba(16, 185, 129, 0.3);
+            color: #059669;
+        }
 
         .mood-btn-small {
             width: 40px;
@@ -1794,7 +2055,7 @@
             cursor: pointer;
             transition: all 0.2s var(--transition-smooth);
         }
-        
+
         .mood-btn-small:hover {
             transform: scale(1.15);
             border-color: var(--color-primary-500);
@@ -1807,9 +2068,6 @@
             gap: var(--space-1);
         }
 
-        /* ================================================================
-           CRISIS RESOURCES
-           ================================================================ */
         .crisis-resources {
             display: flex;
             flex-direction: column;
@@ -1817,7 +2075,7 @@
             max-height: 300px;
             overflow-y: auto;
         }
-        
+
         .crisis-resource {
             display: flex;
             align-items: center;
@@ -1828,12 +2086,12 @@
             border-radius: var(--radius-lg);
             transition: all 0.2s var(--transition-smooth);
         }
-        
+
         .crisis-resource:hover {
             border-color: var(--color-error);
             transform: translateX(4px);
         }
-        
+
         .crisis-resource .crisis-icon {
             width: 40px;
             height: 40px;
@@ -1845,29 +2103,29 @@
             font-size: 1.2rem;
             flex-shrink: 0;
         }
-        
+
         .crisis-resource .crisis-info {
             flex: 1;
         }
-        
+
         .crisis-resource .crisis-name {
             font-weight: 600;
             color: var(--color-text-primary);
             font-size: 0.875rem;
         }
-        
+
         .crisis-resource .crisis-number {
             font-size: 1.125rem;
             font-weight: 700;
             color: var(--color-error);
             line-height: 1.3;
         }
-        
+
         .crisis-resource .crisis-desc {
             font-size: 0.7rem;
             color: var(--color-text-tertiary);
         }
-        
+
         .crisis-resource .crisis-call {
             width: 44px;
             height: 44px;
@@ -1881,15 +2139,12 @@
             transition: all 0.2s var(--transition-smooth);
             flex-shrink: 0;
         }
-        
+
         .crisis-resource .crisis-call:hover {
             transform: scale(1.15);
             box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
         }
 
-        /* ================================================================
-           CRISIS FLOATING BUTTON
-           ================================================================ */
         .crisis-floating-btn {
             position: fixed;
             bottom: 100px;
@@ -1927,19 +2182,30 @@
         }
 
         @keyframes crisisPulse {
-            0% { transform: scale(1); opacity: 0.4; }
-            70% { transform: scale(1.6); opacity: 0; }
-            100% { transform: scale(1.6); opacity: 0; }
+            0% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+            70% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1.6);
+                opacity: 0;
+            }
         }
 
         @keyframes crisisFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-8px);
+            }
         }
 
-        /* ================================================================
-           TOAST
-           ================================================================ */
         .toast-container {
             position: fixed;
             bottom: var(--space-6);
@@ -1963,19 +2229,30 @@
             max-width: 350px;
         }
 
-        tyaza-toast[type="success"] { border-left-color: var(--color-success); }
-        tyaza-toast[type="error"] { border-left-color: var(--color-error); }
-        tyaza-toast[type="info"] { border-left-color: var(--color-info); }
-        tyaza-toast[type="warning"] { border-left-color: var(--color-warning); }
-
-        @keyframes toastSlideIn {
-            from { opacity: 0; transform: translateX(100%) scale(0.9); }
-            to { opacity: 1; transform: translateX(0) scale(1); }
+        tyaza-toast[type="success"] {
+            border-left-color: var(--color-success);
+        }
+        tyaza-toast[type="error"] {
+            border-left-color: var(--color-error);
+        }
+        tyaza-toast[type="info"] {
+            border-left-color: var(--color-info);
+        }
+        tyaza-toast[type="warning"] {
+            border-left-color: var(--color-warning);
         }
 
-        /* ================================================================
-           SIDEBAR OVERLAY
-           ================================================================ */
+        @keyframes toastSlideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) scale(1);
+            }
+        }
+
         .sidebar-overlay {
             position: fixed;
             inset: 0;
@@ -1986,16 +2263,15 @@
             opacity: 0;
             visibility: hidden;
             transition: all 0.3s var(--transition-smooth);
+            pointer-events: none;
         }
 
         .sidebar-overlay.active {
             opacity: 1;
             visibility: visible;
+            pointer-events: auto;
         }
 
-        /* ================================================================
-           RESPONSIVE
-           ================================================================ */
         @media (max-width: 768px) {
             :root {
                 --sidebar-width: 85vw;
@@ -2009,13 +2285,17 @@
                 bottom: 0;
                 transform: translateX(-100%);
                 background: var(--color-surface-900);
-                z-index: 500;
+                z-index: 500 !important;
                 box-shadow: 4px 0 40px rgba(0, 0, 0, 0.8);
                 border-right: none;
+                pointer-events: none;
+                transition: transform 0.3s var(--transition-smooth), pointer-events 0s 0.3s;
             }
 
             .app-sidebar.open {
                 transform: translateX(0);
+                pointer-events: auto !important;
+                transition: transform 0.3s var(--transition-smooth), pointer-events 0s 0s;
             }
 
             .sidebar-close {
@@ -2024,6 +2304,13 @@
 
             .menu-toggle {
                 display: flex !important;
+                z-index: 501 !important;
+                position: relative !important;
+                pointer-events: auto !important;
+            }
+
+            .sidebar-overlay.active {
+                z-index: 499 !important;
             }
 
             .welcome-title {
@@ -2112,7 +2399,7 @@
             .welcome-title {
                 font-size: 2rem;
             }
-            
+
             .welcome-subtitle {
                 font-size: 1rem;
             }
@@ -2150,9 +2437,6 @@
             }
         }
 
-        /* ================================================================
-           REDUCED MOTION
-           ================================================================ */
         @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
@@ -2171,9 +2455,6 @@
             }
         }
 
-        /* ================================================================
-           PRINT STYLES
-           ================================================================ */
         @media print {
             .app-sidebar,
             .chat-header,
@@ -2201,9 +2482,6 @@
             }
         }
 
-        /* ================================================================
-           UTILITY - KEYBOARD SHORTCUT HINT
-           ================================================================ */
         .kbd-hint {
             display: inline-flex;
             align-items: center;
@@ -2218,17 +2496,15 @@
     </style>
 </head>
 <body>
-    <!-- Cosmic Background -->
+
     <div class="app-background" aria-hidden="true">
         <div class="stars-container" id="starsContainer"></div>
     </div>
 
-    <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay" role="button" aria-label="Close sidebar"></div>
 
-    <!-- Main Layout -->
     <div class="app-layout" role="application">
-        <!-- Sidebar -->
+
         <aside class="app-sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
             <div class="sidebar-header">
                 <div class="logo-container" role="banner">
@@ -2247,18 +2523,17 @@
             </div>
 
             <div class="sidebar-content">
-                <!-- New Chat Button -->
+
                 <button class="new-chat-btn" id="newChatBtn" aria-label="Start new chat">
                     <span aria-hidden="true">✨</span> Ikiganiro Gishya
                 </button>
 
-                <!-- User Profile -->
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">Umwirondoro</div>
                     <div class="settings-card">
                         <div class="settings-row">
                             <label class="settings-label" for="userNameInput">Izina ryawe</label>
-                            <input type="text" class="input" id="userNameInput" placeholder="Injira izina ryawe..." value="Mugisha" aria-label="Your name">
+                            <input type="text" class="input" id="userNameInput" placeholder="Injira izina ryawe..." value="" aria-label="Your name">
                         </div>
                         <div class="settings-row mt-2">
                             <button class="btn btn-secondary btn-sm" id="saveNameBtn">
@@ -2268,7 +2543,6 @@
                     </div>
                 </div>
 
-                <!-- Mood Tracking -->
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">Uko wumva</div>
                     <div class="settings-card">
@@ -2285,7 +2559,6 @@
                     </div>
                 </div>
 
-                <!-- Voice Settings -->
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">Amajwi</div>
                     <div class="settings-card">
@@ -2321,7 +2594,6 @@
                     </div>
                 </div>
 
-                <!-- Chat History -->
                 <div class="sidebar-section" style="flex: 1;">
                     <div class="sidebar-section-title" style="display: flex; justify-content: space-between;">
                         <span>📜 Amateka</span>
@@ -2335,7 +2607,6 @@
                     </div>
                 </div>
 
-                <!-- Kivura Labs Info Card -->
                 <div class="info-card">
                     <div class="info-card-title">
                         <img src="kivura-logo.png" alt="KIVURA LABS" style="width: 24px; height: 24px; border-radius: 4px; margin-right: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
@@ -2354,9 +2625,8 @@
             </div>
         </aside>
 
-        <!-- Main Chat Area -->
         <main class="chat-main" role="main">
-            <!-- Header -->
+
             <header class="chat-header">
                 <div class="header-left">
                     <button class="btn btn-icon btn-ghost menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
@@ -2390,9 +2660,8 @@
                 </div>
             </header>
 
-            <!-- Messages Container -->
             <div class="messages-container" id="messagesContainer" role="log" aria-label="Chat messages">
-                <!-- Welcome Screen -->
+
                 <div class="welcome-screen" id="welcomeScreen">
                     <div class="welcome-icon">
                         <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -2410,26 +2679,19 @@
                         <button class="suggestion-btn" data-prompt="Narushijeho">🌟 Narushijeho</button>
                     </div>
                     <div class="greeting" id="welcomeGreeting">
-                        ✨ Murakaza neza, Mugisha
+                        ✨ Murakaza neza
                     </div>
                 </div>
             </div>
 
-            <!-- Scroll to Bottom -->
             <button class="scroll-bottom" id="scrollBottom" aria-label="Scroll to bottom">
                 <i class="fas fa-arrow-down" aria-hidden="true"></i>
                 subira hasi
             </button>
 
-            <!-- Input Area -->
             <div class="input-area">
                 <div class="input-container">
-                    <textarea 
-                        id="messageInput" 
-                        placeholder="Sangiza icyo utekereza..." 
-                        rows="1"
-                        aria-label="Type your message"
-                    ></textarea>
+                    <textarea id="messageInput" placeholder="Sangiza icyo utekereza..." rows="1" aria-label="Type your message"></textarea>
                     <div class="input-actions">
                         <button class="input-btn voice-btn" id="voiceBtn" aria-label="Voice input">
                             <i class="fas fa-microphone" aria-hidden="true"></i>
@@ -2444,7 +2706,6 @@
         </main>
     </div>
 
-    <!-- STT Overlay -->
     <div class="stt-overlay" id="sttOverlay" role="dialog" aria-modal="true" aria-label="Voice input">
         <div class="stt-modal">
             <div class="stt-visualizer" aria-hidden="true">
@@ -2460,7 +2721,6 @@
         </div>
     </div>
 
-    <!-- Loading Screen -->
     <div class="loading-screen" id="loadingScreen" role="status" aria-label="Loading">
         <div class="loading-logo">
             <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -2473,13 +2733,10 @@
         </div>
     </div>
 
-    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer" role="status" aria-live="polite"></div>
 
-    <!-- Hidden File Input -->
     <input type="file" id="importFile" accept=".json,.txt,.tyaza" style="display: none;" aria-label="Import file">
 
-    <!-- Mood Modal -->
     <div class="modal-backdrop" id="moodModal" role="dialog" aria-modal="true" aria-label="Mood tracking">
         <div class="modal mood-modal">
             <div class="modal-header">
@@ -2524,7 +2781,6 @@
         </div>
     </div>
 
-    <!-- Crisis Modal -->
     <div class="modal-backdrop" id="crisisModal" role="dialog" aria-modal="true" aria-label="Crisis resources">
         <div class="modal" style="max-width: 500px; border-color: var(--color-error);">
             <div class="modal-header" style="border-bottom-color: var(--color-error);">
@@ -2595,26 +2851,17 @@
         </div>
     </div>
 
-    <!-- Crisis Floating Button -->
     <button class="crisis-floating-btn" id="crisisFloatingBtn" aria-label="Emergency help">
         <span class="crisis-pulse" aria-hidden="true"></span>
         <i class="fas fa-phone-alt" aria-hidden="true"></i>
     </button>
 
-    <!-- Puter AI SDK -->
     <script src="https://js.puter.com/v2/" style="display: none;" defer></script>
 
-    <!-- ================================================================
-         MAIN APPLICATION SCRIPT - TYAZA v6.0
-         2030 Edition · Zero Budget · Global Leading Quality
-         ================================================================ -->
     <script type="module">
         import { openDB } from 'https://esm.sh/idb@8.0.0';
         import { pipeline, env } from 'https://esm.sh/@xenova/transformers@2.17.1';
 
-        // ================================================================
-        // CONFIGURATION
-        // ================================================================
         env.useBrowserCache = true;
         env.allowRemoteModels = true;
 
@@ -2623,16 +2870,52 @@
             autoSave: true,
             voiceLang: 'rw-RW',
             fallbackResponses: [
-                "Ndumva. Urakoze kunsangiza ibi.",
-                "Ndi kumwe nawe. Wumva ute ubu?",
-                "Urakoze kundekera. Ubu ngaho ugire icyo uvuga.",
-                "Ibyo uravuga bingira akamaro. Ngaho komeza."
+                "Ndumva. Urakoze kunsangiza ibi. 💙",
+                "Ndi kumwe nawe. Wumva ute ubu? 😊",
+                "Urakoze kundekera. Ubu ngaho ugire icyo uvuga. ✨",
+                "Ibyo uravuga bingira akamaro. Ngaho komeza. 🌟",
+                "Ndakumva neza. Reka turebe hamwe. 🤗"
             ]
         };
 
-        // ================================================================
-        // KIVURA LABS - COMPLETE KNOWLEDGE BASE
-        // ================================================================
+        const ClinicalEvidence = {
+            crisisTriggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona', 'ndi bura', 'sinakimara', 'ndashaka gupfa'],
+
+            frameworks: {
+                CBT: {
+                    patterns: ['ntabwo', 'ntashobora', 'buri gihe', 'nta na rimwe', 'ntacyo', 'sinashoboye'],
+                    response: 'Nabonye ko utekereza mu buryo butemewe. Reka turebe hamwe uko twahindura ibyo tekerezo. 💛'
+                },
+                DBT: {
+                    patterns: ['ntakibazo', 'ndashaka guhita', 'birangiye', 'ndarakaye', 'ndababaye', 'uburakari'],
+                    response: 'Ibi bimeze nk\'umuyaga ukaze - uraza kandi uragenda. Reka turebe uko twakira iki gihe. 🌊'
+                },
+                MI: {
+                    patterns: ['ndashaka guhinduka', 'nkeneye ubufasha', 'nabikoze', 'ndihatana'],
+                    response: 'Ni iki cyagufasha gutera intambwe? Mbese wabona uko... 🤔'
+                },
+                ACT: {
+                    patterns: ['ntabwo mbishaka', 'ndwanya', 'ntemera', 'ntabwo nemera'],
+                    response: 'Nta guhatana. Reka turebe uko dushobora kwakira iki kibazo. 🌿'
+                }
+            },
+
+            detectCrisis(text) {
+                const lower = text.toLowerCase();
+                return this.crisisTriggers.some(t => lower.includes(t));
+            },
+
+            getEvidenceBasedResponse(text) {
+                const lower = text.toLowerCase();
+                for (const [framework, data] of Object.entries(this.frameworks)) {
+                    if (data.patterns.some(p => lower.includes(p))) {
+                        return { framework, response: data.response };
+                    }
+                }
+                return null;
+            }
+        };
+
         const KIVURA_KNOWLEDGE = {
             company: {
                 name: "KIVURA LABS",
@@ -2663,9 +2946,6 @@
             }
         };
 
-        // ================================================================
-        // UTILITY FUNCTIONS
-        // ================================================================
         function generateId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
         }
@@ -2692,17 +2972,6 @@
             return new Date(timestamp).toLocaleDateString('rw-RW');
         }
 
-        function debounce(fn, delay = 300) {
-            let timer;
-            return (...args) => {
-                clearTimeout(timer);
-                timer = setTimeout(() => fn(...args), delay);
-            };
-        }
-
-        // ================================================================
-        // DATABASE
-        // ================================================================
         class Database {
             constructor() {
                 this.db = null;
@@ -2770,8 +3039,8 @@
             }
 
             async getUserData() {
-                if (!this.ready) return { name: 'Mugisha' };
-                return await this.db.get('userData', 'user') || { name: 'Mugisha' };
+                if (!this.ready) return { name: null };
+                return await this.db.get('userData', 'user') || { name: null };
             }
 
             async saveUserData(data) {
@@ -2790,61 +3059,309 @@
             }
         }
 
-        // ================================================================
-        // CLINICAL EVIDENCE FRAMEWORK
-        // ================================================================
-        const ClinicalEvidence = {
-            crisisTriggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona', 'ndi bura', 'sinakimara', 'ndashaka gupfa'],
-            
-            frameworks: {
-                CBT: {
-                    patterns: ['ntabwo', 'ntashobora', 'buri gihe', 'nta na rimwe', 'ntacyo', 'sinashoboye'],
-                    response: 'Nabonye ko utekereza mu buryo butemewe. Reka turebe hamwe uko twahindura ibyo tekerezo.'
-                },
-                DBT: {
-                    patterns: ['ntakibazo', 'ndashaka guhita', 'birangiye', 'ndarakaye', 'ndababaye', 'uburakari'],
-                    response: 'Ibi bimeze nk\'umuyaga ukaze - uraza kandi uragenda. Reka turebe uko twakira iki gihe.'
-                },
-                MI: {
-                    patterns: ['ndashaka guhinduka', 'nkeneye ubufasha', 'nabikoze', 'ndihatana'],
-                    response: 'Ni iki cyagufasha gutera intambwe? Mbese wabona uko...'
-                },
-                ACT: {
-                    patterns: ['ntabwo mbishaka', 'ndwanya', 'ntemera', 'ntabwo nemera'],
-                    response: 'Nta guhatana. Reka turebe uko dushobora kwakira iki kibazo.'
-                }
-            },
+        class PersonalityEngine {
+            constructor() {
+                this.emoticons = {
+                    warm: ['😊', '💛', '✨', '🌟', '🌈', '💫', '🌸', '🌺', '🌻', '💝'],
+                    supportive: ['💪', '🤗', '🌻', '💝', '🕊️', '🌟', '🌅', '☀️', '🌿', '🫂'],
+                    thoughtful: ['🤔', '💭', '🧠', '📖', '🌙', '☀️', '🌅', '✨'],
+                    humorous: ['😄', '😂', '🤣', '😅', '🙃', '🎭', '🎪', '🎉', '✨', '🌟'],
+                    crisis: ['💙', '🫂', '🤝', '🌿', '🌱', '☀️', '🌈', '💛', '🌟', '🕊️']
+                };
 
-            detectCrisis(text) {
-                const lower = text.toLowerCase();
-                return this.crisisTriggers.some(t => lower.includes(t));
-            },
+                this.personalities = {
+                    gentle: { warmth: 0.9, humor: 0.2, directness: 0.2, emojiSet: 'warm' },
+                    balanced: { warmth: 0.7, humor: 0.4, directness: 0.5, emojiSet: 'supportive' },
+                    energetic: { warmth: 0.8, humor: 0.7, directness: 0.6, emojiSet: 'humorous' },
+                    crisis: { warmth: 1.0, humor: 0.0, directness: 0.8, emojiSet: 'crisis' }
+                };
 
-            getEvidenceBasedResponse(text) {
-                const lower = text.toLowerCase();
-                for (const [framework, data] of Object.entries(this.frameworks)) {
-                    if (data.patterns.some(p => lower.includes(p))) {
-                        return { framework, response: data.response };
+                this.currentPersona = 'balanced';
+            }
+
+            getPersonalityForContext(text, emotion) {
+                const hasCrisis = ClinicalEvidence.detectCrisis(text);
+                const hasNegative = ['sadness', 'anxiety', 'anger'].includes(emotion);
+                const hasPositive = ['joy', 'hope'].includes(emotion);
+
+                if (hasCrisis) return 'crisis';
+                if (hasNegative) return 'gentle';
+                if (hasPositive) return 'energetic';
+                return 'balanced';
+            }
+
+            enhanceResponse(text, context) {
+                let enhanced = text;
+                const persona = this.getPersonalityForContext(context.text, context.emotion);
+                const traits = this.personalities[persona];
+                const emojiSet = this.emoticons[traits.emojiSet] || this.emoticons.warm;
+
+                // Add appropriate emoticon if not present
+                if (!enhanced.match(/[\u{1F600}-\u{1F9FF}]/u)) {
+                    if (Math.random() < traits.warmth * 0.7) {
+                        const emoji = emojiSet[Math.floor(Math.random() * emojiSet.length)];
+                        enhanced += ' ' + emoji;
                     }
                 }
-                return null;
-            }
-        };
 
-        // ================================================================
-        // AI SERVICE
-        // ================================================================
+                // Add warmth openers
+                if (Math.random() < 0.3 && !enhanced.match(/^(Ndumva|Mvuga|Ndakumva|Nibyo|Ndabona)/)) {
+                    const openers = ['Ndumva neza... ', 'Mvuga... ', 'Ndakumva... ', 'Nibyo... ', 'Ndabona... '];
+                    enhanced = openers[Math.floor(Math.random() * openers.length)] + enhanced;
+                }
+
+                // Add occasional humor
+                if (traits.humor > 0.3 && Math.random() < 0.15 && context.emotion !== 'crisis') {
+                    const jokes = [
+                        '😄 (Ntabwo ari urwenya, ariko ndashaka ko unyumva)',
+                        '😂 Nkaba nkunda uko uvuga!',
+                        '🙃 Reka tukineze gato...',
+                        '😅 Ubu ndumva neza!'
+                    ];
+                    enhanced += ' ' + jokes[Math.floor(Math.random() * jokes.length)];
+                }
+
+                // Add validation
+                if (context.emotion && ['sadness', 'anxiety', 'anger'].includes(context.emotion)) {
+                    const validations = [
+                        'Nibyo ko ubwo bumva ari ukuri. 💛',
+                        'Ndumva neza ibyo urahinga. 🤗',
+                        'Nabona ko birakomeye. 🌿'
+                    ];
+                    if (Math.random() < 0.3) {
+                        enhanced += ' ' + validations[Math.floor(Math.random() * validations.length)];
+                    }
+                }
+
+                return enhanced;
+            }
+        }
+
+        class EngagementEngine {
+            constructor() {
+                this.phrases = {
+                    joining: [
+                        'Ndi kumwe nawe muri iki gihe... 💙',
+                        'Reka twiyegereze hamwe... ✨',
+                        'Ndi hano kugira ngo nkugire... 🌟',
+                        'Tuganire hamwe, sinari hano kukureba gusa... 🤗',
+                        'Twifatanye muri iki gihe... 💛'
+                    ],
+                    diving: [
+                        'Reka turebe hamwe icyo... 🤔',
+                        'Ndumva ibyo, ngaho tugire hamwe... 🌿',
+                        'Ndi hano kugira ngo twihangane... 💪',
+                        'Twiyegereze hamwe muri ibi... 🌅',
+                        'Reka twubake hamwe... 🌈'
+                    ],
+                    validating: [
+                        'Ndumva neza ko... 💛',
+                        'Nabonye ko... ✨',
+                        'Ndumva iyo... 🌟',
+                        'Nabona ko... 🌿',
+                        'Ndakumva... 🤗'
+                    ]
+                };
+            }
+
+            createEngagedResponse(response, userMessage) {
+                let engaged = '';
+
+                // Add joining phrase occasionally
+                if (Math.random() < 0.25) {
+                    engaged += this.getPhrase('joining') + ' ';
+                }
+
+                // Add validation based on user message length or emotion indicators
+                if (userMessage.length > 20 || userMessage.includes('?')) {
+                    engaged += this.getPhrase('validating') + ' ';
+                }
+
+                // Add main response
+                engaged += response;
+
+                // Add diving phrase occasionally
+                if (Math.random() < 0.2 && !engaged.includes('Reka turebe')) {
+                    engaged += ' ' + this.getPhrase('diving');
+                }
+
+                return engaged;
+            }
+
+            getPhrase(type) {
+                const phrases = this.phrases[type] || this.phrases.joining;
+                return phrases[Math.floor(Math.random() * phrases.length)];
+            }
+        }
+
+        class EmotionDetector {
+            constructor() {
+                this.emotionKeywords = {
+                    joy: ['ishimwe', 'nkishimiye', 'byiza', 'neza', 'mwiza', 'kiza', 'murakoze', 'urashimwe', 'nishimiye', 'byaje'],
+                    sadness: ['babaye', 'birababaje', 'ntakibazo', 'ndababaye', 'birabyaje', 'ntacyo', 'sinakimara', 'birabaza', 'ndababaye'],
+                    anxiety: ['gutinya', 'guhangayika', 'ntabwo mbizi', 'mbaza', 'guhanga', 'umutima utera', 'guhangayika', 'ntibyiza'],
+                    anger: ['urakari', 'uburakari', 'narahaye', 'ndarakaye', 'birakaza', 'umujinya', 'ndarakara', 'byarakaje'],
+                    calm: ['amahoro', 'ntacyo', 'neza', 'mpumuye', 'ndumutse', 'ndapfutse', 'amahoro'],
+                    hope: ['izina', 'ibyiza', 'ibishoboka', 'ndashaka', 'nshobora', 'bizakira', 'ibyiza', 'biteganyijwe']
+                };
+
+                this.history = [];
+            }
+
+            detectEmotion(text) {
+                const scores = {};
+                const lower = text.toLowerCase();
+
+                for (const [emotion, keywords] of Object.entries(this.emotionKeywords)) {
+                    let score = 0;
+                    for (const keyword of keywords) {
+                        if (lower.includes(keyword)) {
+                            score += 1;
+                        }
+                    }
+                    scores[emotion] = score;
+                }
+
+                // Add simple negation handling
+                if (lower.includes('ntabwo') || lower.includes('sin')) {
+                    for (const emotion of Object.keys(scores)) {
+                        if (scores[emotion] > 0) {
+                            scores[emotion] *= 0.5;
+                        }
+                    }
+                }
+
+                const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
+                for (const emotion of Object.keys(scores)) {
+                    scores[emotion] = scores[emotion] / total;
+                }
+
+                this.history.push({ timestamp: Date.now(), scores });
+                if (this.history.length > 100) this.history.shift();
+
+                return scores;
+            }
+
+            getDominantEmotion(text) {
+                const scores = this.detectEmotion(text);
+                const entries = Object.entries(scores).filter(([k, v]) => v > 0);
+                if (entries.length === 0) return 'neutral';
+                return entries.sort((a, b) => b[1] - a[1])[0][0];
+            }
+
+            getEmotionTrend() {
+                if (this.history.length < 3) return 'stable';
+                const recent = this.history.slice(-3);
+                const first = recent[0].scores;
+                const last = recent[recent.length - 1].scores;
+
+                const positive = ['joy', 'calm', 'hope'];
+                const negative = ['sadness', 'anxiety', 'anger'];
+
+                const firstPositive = Object.entries(first)
+                    .filter(([k]) => positive.includes(k))
+                    .reduce((a, b) => a + b[1], 0);
+                const lastPositive = Object.entries(last)
+                    .filter(([k]) => positive.includes(k))
+                    .reduce((a, b) => a + b[1], 0);
+
+                if (lastPositive > firstPositive + 0.2) return 'improving';
+                if (lastPositive < firstPositive - 0.2) return 'declining';
+                return 'stable';
+            }
+        }
+
+        class PersonalizedResponse {
+            constructor() {
+                this.profile = {
+                    name: null,
+                    topics: [],
+                    style: 'balanced'
+                };
+            }
+
+            buildProfile(messages) {
+                const topics = [];
+                const styles = [];
+
+                for (const msg of messages) {
+                    const content = msg.content.toLowerCase();
+                    const topicWords = ['umuryango', 'akazi', 'ishuri', 'ubuzima', 'urukundo', 'ubucuruzi', 'amasezerano', 'ubuvuzi', 'amahoro', 'inkunga'];
+                    for (const word of topicWords) {
+                        if (content.includes(word)) {
+                            topics.push(word);
+                        }
+                    }
+
+                    if (content.includes('...') || content.includes('?')) styles.push('reflective');
+                    if (content.split(' ').length > 20) styles.push('detailed');
+                    if (content.split(' ').length < 10) styles.push('concise');
+                }
+
+                this.profile.topics = [...new Set(topics)];
+                if (styles.length > 0) {
+                    const counts = {};
+                    for (const style of styles) {
+                        counts[style] = (counts[style] || 0) + 1;
+                    }
+                    this.profile.style = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || 'balanced';
+                }
+
+                return this.profile;
+            }
+
+            personalizeResponse(response, context) {
+                let personalized = response;
+
+                // Use user name
+                if (this.profile.name && !personalized.includes(this.profile.name)) {
+                    if (Math.random() < 0.3) {
+                        const prefixes = ['Wowe ', `Nibyo ${this.profile.name}, `, `Mwaramutse ${this.profile.name}, `];
+                        personalized = prefixes[Math.floor(Math.random() * prefixes.length)] + personalized;
+                    }
+                }
+
+                // Reference past topics
+                if (this.profile.topics.length > 0 && Math.random() < 0.15) {
+                    const topic = this.profile.topics[Math.floor(Math.random() * this.profile.topics.length)];
+                    personalized += ` Nibuka ko twaganiriye kuri "${topic}" mbere. Ubu ubona ute? 😊`;
+                }
+
+                // Adapt to communication style
+                if (this.profile.style === 'concise' && personalized.length > 200) {
+                    personalized = personalized.split('. ').slice(0, 3).join('. ') + '.';
+                }
+
+                if (this.profile.style === 'detailed' && personalized.length < 80) {
+                    const expansions = [
+                        ' Ubu ndashaka kumenya byinshi kuri ibyo.',
+                        ' Reka turebe ibindi bishoboka.',
+                        ' Ni byiza ko ubivuze.'
+                    ];
+                    personalized += expansions[Math.floor(Math.random() * expansions.length)];
+                }
+
+                return personalized;
+            }
+        }
+
         class AIService {
             constructor() {
                 this.puterAvailable = false;
                 this.onDeviceAvailable = false;
                 this.onDeviceModel = null;
                 this.currentSource = 'puter';
-                this.userName = 'Mugisha';
+                this.userName = null;
+                this.personality = new PersonalityEngine();
+                this.emotionDetector = new EmotionDetector();
+                this.engagement = new EngagementEngine();
+                this.personalizer = new PersonalizedResponse();
+
                 this.systemPrompt = this.buildSystemPrompt();
             }
 
             buildSystemPrompt() {
+                const name = this.userName || 'Mugisha';
                 return `Wowe uri TYAZA (Umuvugizi w'Umutima), umuvugizi w'umutima wakozwe na KIVURA LABS.
 
 ABOUT KIVURA LABS:
@@ -2859,7 +3376,7 @@ ABOUT KIVURA LABS:
 YOUR ROLE:
 - Therapeutic assistant (not replacement for professional help)
 - Speak Kinyarwanda with empathy and warmth
-- Remember user's name (${this.userName})
+- Remember user's name: ${name}
 - Detect crisis keywords and trigger emergency protocols
 - Provide evidence-based responses (CBT, DBT, MI, ACT)
 - Represent Kivura Labs' mission of accessible mental health
@@ -2869,6 +3386,7 @@ GUIDELINES:
 - Koresha amagambo nk' "umva", "umutima", "mahoro"
 - Komeza ibiganiro bigufi kandi byuje ubushyuhe
 - Igihe uhari, ibaza, umve, ugire inama
+- Koresha emoticons nk' 😊, 💛, ✨, 🌟, 🤗, 💙
 
 Remember: You embody the vision that "Healthy citizens build a wealthy nation."`;
             }
@@ -2898,34 +3416,69 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
 
             async loadOnDevice() {
                 try {
-                    this.onDeviceModel = await pipeline('text-generation', 
+                    this.onDeviceModel = await pipeline('text-generation',
                         'Xenova/tinyllama-1.1b-chat-v1.0-4bit', {
-                        quantized: true,
-                        device: 'wasm'
-                    });
+                            quantized: true,
+                            device: 'wasm'
+                        }
+                    );
                     this.onDeviceAvailable = true;
                 } catch (e) {
                     console.log('On-device unavailable');
                 }
             }
 
+            extractUserName(text) {
+                const patterns = [
+                    /(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i,
+                    /(?:mwaramutse|muraho|hello|hi|hey)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i,
+                    /(?:called|name's|names)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i,
+                    /(?:nijye|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i
+                ];
+
+                for (const pattern of patterns) {
+                    const match = text.match(pattern);
+                    if (match) {
+                        const name = match[1].trim();
+                        if (name.length >= 2 && name.length <= 30) {
+                            return name;
+                        }
+                    }
+                }
+                return null;
+            }
+
             async generateResponse(messages) {
                 const userMessage = messages[messages.length - 1]?.content || '';
-                
+                const emotion = this.emotionDetector.getDominantEmotion(userMessage);
+
+                // Extract user name
+                const extractedName = this.extractUserName(userMessage);
+                if (extractedName && extractedName !== this.userName) {
+                    this.userName = extractedName;
+                    this.personalizer.profile.name = extractedName;
+                    this.systemPrompt = this.buildSystemPrompt();
+                }
+
                 // Check crisis
                 if (ClinicalEvidence.detectCrisis(userMessage)) {
                     return { type: 'crisis', content: null };
                 }
-                
+
                 // Check evidence-based
                 const evidence = ClinicalEvidence.getEvidenceBasedResponse(userMessage);
                 if (evidence) {
-                    return { type: 'normal', content: evidence.response };
+                    let response = evidence.response;
+                    const personality = this.personality.getPersonalityForContext(userMessage, emotion);
+                    response = this.personality.enhanceResponse(response, { text: userMessage, emotion });
+                    response = this.engagement.createEngagedResponse(response, userMessage);
+                    response = this.personalizer.personalizeResponse(response, { emotion });
+                    return { type: 'normal', content: response };
                 }
-                
-                // Update system prompt with current user name
-                const currentSystemPrompt = this.systemPrompt.replace(/\${this\.userName}/g, this.userName);
-                
+
+                // Update system prompt
+                const currentSystemPrompt = this.buildSystemPrompt();
+
                 // Try Puter
                 if (this.puterAvailable) {
                     try {
@@ -2933,43 +3486,64 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                             { role: 'system', content: currentSystemPrompt },
                             ...messages.slice(-5)
                         ], { model: 'gpt-4o-mini' });
-                        return { type: 'normal', content: response.message?.content || response };
+
+                        let content = response.message?.content || response;
+                        const personality = this.personality.getPersonalityForContext(userMessage, emotion);
+                        content = this.personality.enhanceResponse(content, { text: userMessage, emotion });
+                        content = this.engagement.createEngagedResponse(content, userMessage);
+                        content = this.personalizer.personalizeResponse(content, { emotion });
+
+                        return { type: 'normal', content };
                     } catch (e) {
-                        return this.getFallback();
+                        return this.getFallback(emotion);
                     }
                 }
-                
+
                 // Try on-device
                 if (this.onDeviceAvailable && this.onDeviceModel) {
                     try {
-                        const prompt = `<|system|>\n${currentSystemPrompt}\n<|user|>\n${userMessage}\n<|assistant|>\n`;
+                        const prompt =
+                            `<|system|>\n${currentSystemPrompt}\n<|user|>\n${userMessage}\n<|assistant|>\n`;
                         const result = await this.onDeviceModel(prompt, {
                             max_new_tokens: 150,
-                            temperature: 0.7
+                            temperature: 0.7,
+                            top_k: 50
                         });
-                        return { type: 'normal', content: result[0].generated_text.replace(prompt, '').trim() };
+                        let content = result[0].generated_text.replace(prompt, '').trim();
+                        if (!content) content = CONFIG.fallbackResponses[Math.floor(Math.random() * CONFIG
+                        .fallbackResponses.length)];
+
+                        const personality = this.personality.getPersonalityForContext(userMessage, emotion);
+                        content = this.personality.enhanceResponse(content, { text: userMessage, emotion });
+                        content = this.engagement.createEngagedResponse(content, userMessage);
+                        content = this.personalizer.personalizeResponse(content, { emotion });
+
+                        return { type: 'normal', content };
                     } catch (e) {
-                        return this.getFallback();
+                        return this.getFallback(emotion);
                     }
                 }
-                
-                return this.getFallback();
+
+                return this.getFallback(emotion);
             }
 
-            getFallback() {
-                const responses = CONFIG.fallbackResponses;
-                return { type: 'normal', content: responses[Math.floor(Math.random() * responses.length)] };
+            getFallback(emotion) {
+                let responses = CONFIG.fallbackResponses;
+                const personality = this.personality.getPersonalityForContext('', emotion || 'neutral');
+                let content = responses[Math.floor(Math.random() * responses.length)];
+                content = this.personality.enhanceResponse(content, { text: '', emotion: emotion || 'neutral' });
+                content = this.engagement.createEngagedResponse(content, '');
+                content = this.personalizer.personalizeResponse(content, { emotion: emotion || 'neutral' });
+                return { type: 'normal', content };
             }
 
             setUserName(name) {
                 this.userName = name;
+                this.personalizer.profile.name = name;
                 this.systemPrompt = this.buildSystemPrompt();
             }
         }
 
-        // ================================================================
-        // SPEECH SERVICE
-        // ================================================================
         class SpeechService {
             constructor() {
                 this.recognition = null;
@@ -2989,10 +3563,10 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 this.recognition.continuous = false;
                 this.recognition.interimResults = true;
                 this.recognition.lang = 'rw-RW';
-                
+
                 this.recognition.onstart = () => { this.isListening = true; };
-                this.recognition.onend = () => { 
-                    this.isListening = false; 
+                this.recognition.onend = () => {
+                    this.isListening = false;
                     if (this.onEnd) this.onEnd();
                 };
                 this.recognition.onresult = (e) => {
@@ -3044,16 +3618,14 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
             }
         }
 
-        // ================================================================
-        // TOAST WEB COMPONENT
-        // ================================================================
         class TyazaToast extends HTMLElement {
             connectedCallback() {
                 const message = this.getAttribute('message') || '';
                 const type = this.getAttribute('type') || 'info';
                 const colors = { success: '#22c55e', error: '#ef4444', info: '#3b82f6', warning: '#f59e0b' };
-                const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle', warning: 'exclamation-triangle' };
-                
+                const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle',
+                    warning: 'exclamation-triangle' };
+
                 this.attachShadow({ mode: 'open' }).innerHTML = `
                     <style>
                         :host {
@@ -3092,25 +3664,22 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
         }
         customElements.define('tyaza-toast', TyazaToast);
 
-        // ================================================================
-        // MAIN APPLICATION
-        // ================================================================
         class TyazaApp {
             constructor() {
                 this.db = new Database();
                 this.ai = new AIService();
                 this.speech = new SpeechService();
-                
+
                 this.messages = [];
                 this.currentId = generateId();
                 this.isGenerating = false;
-                this.userName = 'Mugisha';
+                this.userName = null;
                 this.settings = {
                     voice: 'Google UK English Female',
                     rate: 0.9,
                     pitch: 1.0
                 };
-                
+
                 this.elements = {
                     messagesContainer: document.getElementById('messagesContainer'),
                     welcomeScreen: document.getElementById('welcomeScreen'),
@@ -3157,45 +3726,142 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     crisisNow: document.getElementById('crisisNow'),
                     connectionStatus: document.getElementById('connectionStatus')
                 };
+
+                this.voiceFallbackActive = false;
             }
 
             async init() {
                 this.createStars();
                 await this.db.init();
-                
+
+                // Load user data
                 const userData = await this.db.getUserData();
-                this.userName = userData.name || 'Mugisha';
-                this.ai.setUserName(this.userName);
-                this.elements.userNameInput.value = this.userName;
-                if (this.elements.welcomeGreeting) {
-                    this.elements.welcomeGreeting.textContent = `✨ Murakaza neza, ${this.userName}`;
+                if (userData && userData.name) {
+                    this.userName = userData.name;
+                    this.ai.setUserName(this.userName);
+                    this.elements.userNameInput.value = this.userName;
+                    this.updateWelcomeGreeting();
+                } else {
+                    this.elements.userNameInput.value = '';
                 }
-                
+
                 const settings = await this.db.getSetting('settings');
                 if (settings) this.settings = { ...this.settings, ...settings };
                 this.applySettings();
-                
+
                 await this.ai.init();
-                
+
                 this.bindEvents();
                 await this.loadHistory();
-                
-                // Hide loading screen
+
                 setTimeout(() => this.elements.loadingScreen.classList.add('hidden'), 1200);
-                
-                // Show greeting
+
                 setTimeout(() => {
                     if (this.elements.welcomeGreeting) {
                         this.elements.welcomeGreeting.style.opacity = '1';
                     }
                 }, 500);
+
+                // Check for mobile voice support
+                this.checkMobileVoiceSupport();
+
+                // Fix mobile sidebar issue
+                this.fixMobileSidebar();
+            }
+
+            fixMobileSidebar() {
+                const sidebar = this.elements.sidebar;
+                const overlay = this.elements.sidebarOverlay;
+
+                // Ensure clicks inside sidebar work
+                sidebar.addEventListener('touchstart', (e) => {
+                    e.stopPropagation();
+                }, { passive: true });
+
+                // Ensure menu toggle works
+                this.elements.menuToggle.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.toggleSidebar();
+                }, { passive: false });
+            }
+
+            checkMobileVoiceSupport() {
+                const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+                const hasSR = 'webkitSpeechRecognition' in window || 'SpeechRecognition' in window;
+
+                if (isMobile || !hasSR) {
+                    this.setupMobileVoiceFallback();
+                }
+            }
+
+            setupMobileVoiceFallback() {
+                this.voiceFallbackActive = true;
+                this.elements.voiceBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showVoiceDialog();
+                });
+            }
+
+            showVoiceDialog() {
+                const dialog = document.createElement('div');
+                dialog.className = 'voice-dialog-mobile';
+                dialog.innerHTML = `
+                    <div class="voice-dialog-content">
+                        <h3>🎤 Vuga cyangwa andika</h3>
+                        <input type="text" id="voiceFallbackInput" 
+                               placeholder="Andika cyangwa vuga..." 
+                               autofocus>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-primary" id="voiceFallbackSubmit" style="flex: 1;">
+                                <i class="fas fa-paper-plane"></i> Ohereza
+                            </button>
+                            <button class="btn btn-secondary" id="voiceFallbackCancel">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(dialog);
+
+                const input = document.getElementById('voiceFallbackInput');
+                const submit = document.getElementById('voiceFallbackSubmit');
+                const cancel = document.getElementById('voiceFallbackCancel');
+
+                submit.onclick = () => {
+                    if (input && input.value.trim()) {
+                        this.elements.messageInput.value = input.value;
+                        this.handleInput();
+                        this.sendMessage();
+                        dialog.remove();
+                    }
+                };
+
+                cancel.onclick = () => dialog.remove();
+
+                input.onkeydown = (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        submit.click();
+                    }
+                    if (e.key === 'Escape') {
+                        dialog.remove();
+                    }
+                };
+
+                setTimeout(() => input?.focus(), 300);
+
+                // Close on outside click
+                dialog.addEventListener('click', (e) => {
+                    if (e.target === dialog) dialog.remove();
+                });
             }
 
             createStars() {
                 if (!this.elements.starsContainer) return;
                 const container = this.elements.starsContainer;
-                
-                // Create regular stars
+
                 for (let i = 0; i < 60; i++) {
                     const star = document.createElement('div');
                     star.className = 'star';
@@ -3207,8 +3873,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     star.style.height = star.style.width;
                     container.appendChild(star);
                 }
-                
-                // Create shooting stars
+
                 for (let i = 0; i < 3; i++) {
                     const star = document.createElement('div');
                     star.className = 'shooting-star';
@@ -3227,8 +3892,19 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 this.elements.pitchValue.textContent = this.settings.pitch;
             }
 
+            updateWelcomeGreeting() {
+                const name = this.userName || '';
+                const greeting = this.elements.welcomeGreeting;
+                if (greeting) {
+                    if (name) {
+                        greeting.textContent = `✨ Murakaza neza, ${name}`;
+                    } else {
+                        greeting.textContent = `✨ Murakaza neza`;
+                    }
+                }
+            }
+
             bindEvents() {
-                // Input events
                 this.elements.messageInput.addEventListener('input', () => this.handleInput());
                 this.elements.messageInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
@@ -3237,12 +3913,17 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     }
                 });
                 this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
-                
-                // Voice events
-                this.elements.voiceBtn.addEventListener('click', () => this.toggleVoice());
+
+                this.elements.voiceBtn.addEventListener('click', () => {
+                    if (this.voiceFallbackActive) {
+                        this.showVoiceDialog();
+                    } else {
+                        this.toggleVoice();
+                    }
+                });
+
                 this.elements.micTestBtn.addEventListener('click', () => this.testMic());
-                
-                // Settings events
+
                 this.elements.voiceSelect.addEventListener('change', (e) => {
                     this.settings.voice = e.target.value;
                     this.db.setSetting('settings', this.settings);
@@ -3251,43 +3932,42 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     this.elements.rateValue.textContent = e.target.value;
                     this.settings.rate = parseFloat(e.target.value);
                 });
-                this.elements.rateSlider.addEventListener('change', () => this.db.setSetting('settings', this.settings));
+                this.elements.rateSlider.addEventListener('change', () => this.db.setSetting('settings', this
+                .settings));
                 this.elements.pitchSlider.addEventListener('input', (e) => {
                     this.elements.pitchValue.textContent = e.target.value;
                     this.settings.pitch = parseFloat(e.target.value);
                 });
-                this.elements.pitchSlider.addEventListener('change', () => this.db.setSetting('settings', this.settings));
-                
-                // User name
+                this.elements.pitchSlider.addEventListener('change', () => this.db.setSetting('settings', this
+                .settings));
+
                 this.elements.saveNameBtn.addEventListener('click', async () => {
                     const name = this.elements.userNameInput.value.trim();
                     if (name) {
                         this.userName = name;
                         this.ai.setUserName(name);
                         await this.db.saveUserData({ name });
-                        if (this.elements.welcomeGreeting) {
-                            this.elements.welcomeGreeting.textContent = `✨ Murakaza neza, ${name}`;
-                        }
-                        this.showToast('Izina ryabitswe!', 'success');
+                        this.updateWelcomeGreeting();
+                        this.showToast('Izina ryabitswe! ✨', 'success');
                     }
                 });
-                
-                // Chat controls
+
                 this.elements.newChatBtn.addEventListener('click', () => this.newChat());
                 this.elements.clearHistory.addEventListener('click', () => this.clearHistory());
                 this.elements.clearChat.addEventListener('click', () => this.clearCurrent());
                 this.elements.exportTrigger.addEventListener('click', () => this.exportChat());
-                
-                // Sidebar
-                this.elements.menuToggle.addEventListener('click', () => this.toggleSidebar());
+
+                this.elements.menuToggle.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.toggleSidebar();
+                });
                 this.elements.sidebarClose.addEventListener('click', () => this.closeSidebar());
                 this.elements.sidebarOverlay.addEventListener('click', () => this.closeSidebar());
-                
-                // Scroll
+
                 this.elements.messagesContainer.addEventListener('scroll', () => this.handleScroll());
                 this.elements.scrollBottom.addEventListener('click', () => this.scrollToBottom());
-                
-                // Suggestions
+
                 document.querySelectorAll('.suggestion-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         this.elements.messageInput.value = btn.dataset.prompt;
@@ -3295,41 +3975,41 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                         this.elements.messageInput.focus();
                     });
                 });
-                
-                // Ndahari
+
                 this.elements.ndahariBtn.addEventListener('click', () => {
-                    this.showToast('Ndahari AI irakoreshwa', 'info');
+                    this.showToast('Ndahari AI irakoreshwa ✨', 'info');
                 });
-                
-                // Mood
+
                 this.elements.openMoodModal.addEventListener('click', () => this.openMoodModal());
                 this.elements.moodModalClose.addEventListener('click', () => this.closeMoodModal());
                 this.elements.moodModal.addEventListener('click', (e) => {
                     if (e.target === this.elements.moodModal) this.closeMoodModal();
                 });
+
                 document.querySelectorAll('.mood-btn-small').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const mood = btn.dataset.mood;
                         this.quickMood(mood);
                     });
                 });
+
                 this.elements.moodScale.querySelectorAll('.mood-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
-                        this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+                        this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList
+                            .remove('selected'));
                         btn.classList.add('selected');
                     });
                 });
+
                 this.elements.saveMoodBtn.addEventListener('click', () => this.saveMood());
-                
-                // Crisis
+
                 this.elements.crisisFloatingBtn.addEventListener('click', () => this.showCrisis());
                 this.elements.crisisClose.addEventListener('click', () => this.closeCrisis());
                 this.elements.crisisLater.addEventListener('click', () => this.closeCrisis());
                 this.elements.crisisNow.addEventListener('click', () => {
                     window.location.href = 'tel:116';
                 });
-                
-                // Speech callbacks
+
                 this.speech.onResult = (text) => {
                     this.elements.messageInput.value = text;
                     this.elements.sttText.textContent = text || 'ndakumva...';
@@ -3342,8 +4022,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                         this.sendMessage();
                     }
                 };
-                
-                // Keyboard shortcuts
+
                 document.addEventListener('keydown', (e) => {
                     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                         e.preventDefault();
@@ -3362,7 +4041,8 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 const val = this.elements.messageInput.value.trim();
                 this.elements.sendBtn.disabled = !val || this.isGenerating;
                 this.elements.messageInput.style.height = 'auto';
-                this.elements.messageInput.style.height = Math.min(this.elements.messageInput.scrollHeight, 150) + 'px';
+                this.elements.messageInput.style.height = Math.min(this.elements.messageInput.scrollHeight, 150) +
+                    'px';
             }
 
             async toggleVoice() {
@@ -3400,34 +4080,45 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
             async sendMessage() {
                 const text = this.elements.messageInput.value.trim();
                 if (!text || this.isGenerating) return;
-                
+
+                // Auto-extract name from message
+                const extractedName = this.ai.extractUserName(text);
+                if (extractedName && extractedName !== this.userName) {
+                    this.userName = extractedName;
+                    this.ai.setUserName(extractedName);
+                    await this.db.saveUserData({ name: extractedName });
+                    this.elements.userNameInput.value = extractedName;
+                    this.updateWelcomeGreeting();
+                    this.showToast(`✨ Murakaza neza, ${extractedName}!`, 'success');
+                }
+
                 this.elements.welcomeScreen.style.display = 'none';
                 this.addMessage('user', text);
-                
+
                 this.elements.messageInput.value = '';
                 this.elements.sendBtn.disabled = true;
                 this.handleInput();
-                
+
                 const typingId = this.showTyping();
                 this.isGenerating = true;
                 this.closeSidebar();
-                
+
                 try {
                     const response = await this.ai.generateResponse([{ role: 'user', content: text }]);
-                    
+
                     if (response.type === 'crisis') {
                         this.removeTyping(typingId);
                         this.showCrisis();
                         this.isGenerating = false;
                         return;
                     }
-                    
+
                     this.removeTyping(typingId);
                     this.addMessage('assistant', response.content);
                     await this.saveConversation(text, response.content);
                 } catch {
                     this.removeTyping(typingId);
-                    this.addMessage('assistant', 'Hari ikibazo. Ngaho tuganire.');
+                    this.addMessage('assistant', 'Hari ikibazo. Ngaho tuganire. 💙');
                 } finally {
                     this.isGenerating = false;
                 }
@@ -3438,8 +4129,10 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 msg.className = `message ${role}`;
                 const time = formatMessageTime();
                 const escaped = escapeHtml(content);
-                const avatarContent = role === 'user' ? '👤' : '<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><i class="fas fa-robot" style="display: none;" aria-hidden="true"></i>';
-                
+                const avatarContent = role === 'user' ?
+                    '👤' :
+                    '<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><i class="fas fa-robot" style="display: none;" aria-hidden="true"></i>';
+
                 msg.innerHTML = `
                     <div class="message-avatar">${avatarContent}</div>
                     <div class="message-content">
@@ -3459,12 +4152,16 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                         </div>
                     </div>
                 `;
-                
+
                 this.elements.messagesContainer.appendChild(msg);
                 this.scrollToBottom();
                 this.messages.push({ role, content, timestamp: Date.now() });
-                
-                // Trim messages if needed
+
+                // Build user profile
+                if (role === 'user') {
+                    this.ai.personalizer.buildProfile(this.messages);
+                }
+
                 if (this.messages.length > CONFIG.maxMessages) {
                     const extra = this.messages.length - CONFIG.maxMessages;
                     this.messages.splice(0, extra);
@@ -3540,7 +4237,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     `;
                     return;
                 }
-                
+
                 this.elements.historyList.innerHTML = convs
                     .sort((a, b) => b.timestamp - a.timestamp)
                     .slice(0, 20)
@@ -3553,7 +4250,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                             </div>
                         </div>
                     `).join('');
-                
+
                 this.elements.historyList.querySelectorAll('.history-item').forEach(item => {
                     item.addEventListener('click', () => this.loadChat(item.dataset.id));
                     item.addEventListener('contextmenu', (e) => {
@@ -3569,10 +4266,10 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 const convs = await this.db.getConversations();
                 const chat = convs.find(c => c.id === id);
                 if (!chat) return;
-                
+
                 this.currentId = chat.id;
                 this.messages = chat.messages || [];
-                
+
                 while (this.elements.messagesContainer.firstChild) {
                     this.elements.messagesContainer.removeChild(this.elements.messagesContainer.firstChild);
                 }
@@ -3604,7 +4301,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     this.elements.messagesContainer.removeChild(this.elements.messagesContainer.firstChild);
                 }
                 this.elements.welcomeScreen.style.display = 'flex';
-                this.elements.welcomeGreeting.textContent = `✨ Murakaza neza, ${this.userName}`;
+                this.updateWelcomeGreeting();
                 this.closeSidebar();
                 this.loadHistory();
             }
@@ -3630,9 +4327,9 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 }
                 const data = {
                     app: 'TYAZA',
-                    version: '6.0',
+                    version: '6.1',
                     timestamp: Date.now(),
-                    user: this.userName,
+                    user: this.userName || 'User',
                     messages: this.messages
                 };
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
@@ -3642,17 +4339,30 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 a.download = `tyaza-${new Date().toISOString().slice(0,10)}.json`;
                 a.click();
                 URL.revokeObjectURL(url);
-                this.showToast('Chat yaherekejwe', 'success');
+                this.showToast('Chat yaherekejwe ✨', 'success');
             }
 
             toggleSidebar() {
                 this.elements.sidebar.classList.toggle('open');
                 this.elements.sidebarOverlay.classList.toggle('active');
+                // Fix pointer events
+                if (this.elements.sidebar.classList.contains('open')) {
+                    this.elements.sidebar.style.pointerEvents = 'auto';
+                } else {
+                    this.elements.sidebar.style.pointerEvents = 'none';
+                    setTimeout(() => {
+                        this.elements.sidebar.style.pointerEvents = '';
+                    }, 300);
+                }
             }
 
             closeSidebar() {
                 this.elements.sidebar.classList.remove('open');
                 this.elements.sidebarOverlay.classList.remove('active');
+                this.elements.sidebar.style.pointerEvents = 'none';
+                setTimeout(() => {
+                    this.elements.sidebar.style.pointerEvents = '';
+                }, 300);
             }
 
             showToast(message, type = 'info') {
@@ -3662,9 +4372,6 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 document.getElementById('toastContainer').appendChild(toast);
             }
 
-            // ============================================================
-            // MOOD TRACKING
-            // ============================================================
             openMoodModal() {
                 this.elements.moodModal.classList.add('active');
                 this.loadMoodCalendar();
@@ -3678,7 +4385,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
 
             async quickMood(mood) {
                 await this.db.saveMood({ mood: parseInt(mood), notes: '', quick: true });
-                this.showToast('Uko wumva byabitswe!', 'success');
+                this.showToast('Uko wumva byabitswe! 💛', 'success');
             }
 
             async saveMood() {
@@ -3690,7 +4397,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 const mood = parseInt(selected.dataset.mood);
                 const notes = this.elements.moodNotes.value.trim();
                 await this.db.saveMood({ mood, notes });
-                this.showToast('Byabitswe!', 'success');
+                this.showToast('Byabitswe! ✨', 'success');
                 this.closeMoodModal();
             }
 
@@ -3698,22 +4405,21 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 const moods = await this.db.getMoodHistory(7);
                 const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
                 let html = days.map(d => `<div class="mood-day-label">${d}</div>`).join('');
-                
+
                 for (let i = 6; i >= 0; i--) {
                     const date = new Date();
                     date.setDate(date.getDate() - i);
-                    const dayStart = new Date(date.setHours(0,0,0,0)).getTime();
+                    const dayStart = new Date(date.setHours(0, 0, 0, 0)).getTime();
                     const dayEnd = dayStart + 86400000;
                     const dayMoods = moods.filter(m => m.timestamp >= dayStart && m.timestamp < dayEnd);
-                    const avg = dayMoods.length ? Math.round(dayMoods.reduce((a,b) => a + b.mood, 0) / dayMoods.length) : 0;
-                    html += `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString('rw-RW')}">${date.getDate()}</div>`;
+                    const avg = dayMoods.length ? Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods
+                        .length) : 0;
+                    html +=
+                        `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString('rw-RW')}">${date.getDate()}</div>`;
                 }
                 this.elements.moodCalendar.innerHTML = html;
             }
 
-            // ============================================================
-            // CRISIS
-            // ============================================================
             showCrisis() {
                 this.elements.crisisModal.classList.add('active');
             }
@@ -3723,32 +4429,28 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
             }
         }
 
-        // ================================================================
-        // BOOTSTRAP
-        // ================================================================
         const app = new TyazaApp();
         window.app = app;
 
-        // DOM ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => app.init());
         } else {
             app.init();
         }
 
-        // Service worker registration for offline support
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js').catch(() => {});
         }
 
-        console.log('✨ TYAZA v6.0 - 2030 Edition');
+        console.log('✨ TYAZA v6.1 - 2030 Edition');
         console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
         console.log('🚀 Zero Budget · 1000%+ Out-of-Box · Global Leading Quality');
+        console.log('💙 Fixes: Name extraction, Mobile menu, Natural responses, Voice fallback');
     </script>
 
-    <!-- Noscript Fallback -->
     <noscript>
-        <div style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; font-family: sans-serif; z-index: 9999;">
+        <div
+            style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; font-family: sans-serif; z-index: 9999;">
             <div>
                 <h1 style="font-size: 2rem; margin-bottom: 1rem;">TYAZA</h1>
                 <p style="font-size: 1.2rem; opacity: 0.8;">JavaScript is required for TYAZA.</p>
