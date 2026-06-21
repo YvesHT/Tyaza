@@ -17,9 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
     <style>
-        *,
-        *::before,
-        *::after {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -98,10 +96,7 @@
             --transition-smooth: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        html {
-            scroll-behavior: smooth;
-            -webkit-tap-highlight-color: transparent;
-        }
+        html { scroll-behavior: smooth; -webkit-tap-highlight-color: transparent; }
 
         body {
             font-family: var(--font-sans);
@@ -115,262 +110,93 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        .d-flex {
-            display: flex;
-        }
-        .flex-col {
-            flex-direction: column;
-        }
-        .items-center {
-            align-items: center;
-        }
-        .justify-center {
-            justify-content: center;
-        }
-        .justify-between {
-            justify-content: space-between;
-        }
-        .flex-1 {
-            flex: 1;
-        }
-        .gap-1 {
-            gap: var(--space-1);
-        }
-        .gap-2 {
-            gap: var(--space-2);
-        }
-        .gap-3 {
-            gap: var(--space-3);
-        }
-        .gap-4 {
-            gap: var(--space-4);
-        }
-        .gap-6 {
-            gap: var(--space-6);
-        }
-        .p-2 {
-            padding: var(--space-2);
-        }
-        .p-3 {
-            padding: var(--space-3);
-        }
-        .p-4 {
-            padding: var(--space-4);
-        }
-        .p-5 {
-            padding: var(--space-5);
-        }
-        .p-6 {
-            padding: var(--space-6);
-        }
-        .px-4 {
-            padding-left: var(--space-4);
-            padding-right: var(--space-4);
-        }
-        .px-6 {
-            padding-left: var(--space-6);
-            padding-right: var(--space-6);
-        }
-        .py-2 {
-            padding-top: var(--space-2);
-            padding-bottom: var(--space-2);
-        }
-        .py-3 {
-            padding-top: var(--space-3);
-            padding-bottom: var(--space-3);
-        }
-        .py-4 {
-            padding-top: var(--space-4);
-            padding-bottom: var(--space-4);
-        }
-        .m-0 {
-            margin: 0;
-        }
-        .mt-2 {
-            margin-top: var(--space-2);
-        }
-        .mt-3 {
-            margin-top: var(--space-3);
-        }
-        .mt-4 {
-            margin-top: var(--space-4);
-        }
-        .mt-6 {
-            margin-top: var(--space-6);
-        }
-        .mb-2 {
-            margin-bottom: var(--space-2);
-        }
-        .mb-3 {
-            margin-bottom: var(--space-3);
-        }
-        .mb-4 {
-            margin-bottom: var(--space-4);
-        }
-        .mb-6 {
-            margin-bottom: var(--space-6);
-        }
-        .text-xs {
-            font-size: 0.75rem;
-        }
-        .text-sm {
-            font-size: 0.875rem;
-        }
-        .text-base {
-            font-size: 1rem;
-        }
-        .text-lg {
-            font-size: 1.125rem;
-        }
-        .text-xl {
-            font-size: 1.25rem;
-        }
-        .text-2xl {
-            font-size: 1.5rem;
-        }
-        .text-3xl {
-            font-size: 2rem;
-        }
-        .text-4xl {
-            font-size: 2.5rem;
-        }
-        .text-5xl {
-            font-size: 3rem;
-        }
-        .font-medium {
-            font-weight: 500;
-        }
-        .font-semibold {
-            font-weight: 600;
-        }
-        .font-bold {
-            font-weight: 700;
-        }
-        .font-extrabold {
-            font-weight: 800;
-        }
-        .text-primary {
-            color: var(--color-text-primary);
-        }
-        .text-secondary {
-            color: var(--color-text-secondary);
-        }
-        .text-muted {
-            color: var(--color-text-tertiary);
-        }
-        .text-success {
-            color: var(--color-success);
-        }
-        .text-error {
-            color: var(--color-error);
-        }
-        .text-center {
-            text-align: center;
-        }
+        .d-flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-center { justify-content: center; }
+        .justify-between { justify-content: space-between; }
+        .flex-1 { flex: 1; }
+        .gap-1 { gap: var(--space-1); }
+        .gap-2 { gap: var(--space-2); }
+        .gap-3 { gap: var(--space-3); }
+        .gap-4 { gap: var(--space-4); }
+        .gap-6 { gap: var(--space-6); }
+        .p-2 { padding: var(--space-2); }
+        .p-3 { padding: var(--space-3); }
+        .p-4 { padding: var(--space-4); }
+        .p-5 { padding: var(--space-5); }
+        .p-6 { padding: var(--space-6); }
+        .px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+        .px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
+        .py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+        .py-3 { padding-top: var(--space-3); padding-bottom: var(--space-3); }
+        .py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+        .m-0 { margin: 0; }
+        .mt-2 { margin-top: var(--space-2); }
+        .mt-3 { margin-top: var(--space-3); }
+        .mt-4 { margin-top: var(--space-4); }
+        .mt-6 { margin-top: var(--space-6); }
+        .mb-2 { margin-bottom: var(--space-2); }
+        .mb-3 { margin-bottom: var(--space-3); }
+        .mb-4 { margin-bottom: var(--space-4); }
+        .mb-6 { margin-bottom: var(--space-6); }
+        .text-xs { font-size: 0.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 2rem; }
+        .text-4xl { font-size: 2.5rem; }
+        .text-5xl { font-size: 3rem; }
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+        .font-extrabold { font-weight: 800; }
+        .text-primary { color: var(--color-text-primary); }
+        .text-secondary { color: var(--color-text-secondary); }
+        .text-muted { color: var(--color-text-tertiary); }
+        .text-success { color: var(--color-success); }
+        .text-error { color: var(--color-error); }
+        .text-center { text-align: center; }
         .text-gradient {
             background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .w-full {
-            width: 100%;
-        }
-        .h-full {
-            height: 100%;
-        }
-        .h-screen {
-            height: 100vh;
-            height: 100dvh;
-        }
-        .rounded-lg {
-            border-radius: var(--radius-lg);
-        }
-        .rounded-xl {
-            border-radius: var(--radius-xl);
-        }
-        .rounded-2xl {
-            border-radius: var(--radius-2xl);
-        }
-        .rounded-full {
-            border-radius: var(--radius-full);
-        }
-        .border {
-            border: 1px solid var(--color-surface-600);
-        }
-        .border-0 {
-            border: none;
-        }
-        .border-t {
-            border-top: 1px solid var(--color-surface-600);
-        }
-        .border-primary {
-            border-color: var(--color-primary-500);
-        }
-        .shadow-lg {
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
-        }
-        .shadow-xl {
-            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
-        }
-        .shadow-glow {
-            box-shadow: var(--shadow-glow-primary);
-        }
-        .overflow-hidden {
-            overflow: hidden;
-        }
-        .overflow-y-auto {
-            overflow-y: auto;
-        }
-        .overflow-x-hidden {
-            overflow-x: hidden;
-        }
-        .relative {
-            position: relative;
-        }
-        .absolute {
-            position: absolute;
-        }
-        .fixed {
-            position: fixed;
-        }
-        .sticky {
-            position: sticky;
-        }
-        .inset-0 {
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-        }
-        .z-10 {
-            z-index: 10;
-        }
-        .z-20 {
-            z-index: 20;
-        }
-        .z-30 {
-            z-index: 30;
-        }
-        .z-40 {
-            z-index: 40;
-        }
-        .z-50 {
-            z-index: 50;
-        }
-        .animate-in {
-            animation: fadeInUp 0.6s var(--transition-smooth);
-        }
+        .w-full { width: 100%; }
+        .h-full { height: 100%; }
+        .h-screen { height: 100vh; height: 100dvh; }
+        .rounded-lg { border-radius: var(--radius-lg); }
+        .rounded-xl { border-radius: var(--radius-xl); }
+        .rounded-2xl { border-radius: var(--radius-2xl); }
+        .rounded-full { border-radius: var(--radius-full); }
+        .border { border: 1px solid var(--color-surface-600); }
+        .border-0 { border: none; }
+        .border-t { border-top: 1px solid var(--color-surface-600); }
+        .border-primary { border-color: var(--color-primary-500); }
+        .shadow-lg { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
+        .shadow-xl { box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6); }
+        .shadow-glow { box-shadow: var(--shadow-glow-primary); }
+        .overflow-hidden { overflow: hidden; }
+        .overflow-y-auto { overflow-y: auto; }
+        .overflow-x-hidden { overflow-x: hidden; }
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .fixed { position: fixed; }
+        .sticky { position: sticky; }
+        .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+        .z-10 { z-index: 10; }
+        .z-20 { z-index: 20; }
+        .z-30 { z-index: 30; }
+        .z-40 { z-index: 40; }
+        .z-50 { z-index: 50; }
+        .animate-in { animation: fadeInUp 0.6s var(--transition-smooth); }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .btn {
@@ -401,12 +227,8 @@
             transition: opacity 0.2s;
         }
 
-        .btn:hover::after {
-            opacity: 1;
-        }
-        .btn:active {
-            transform: scale(0.97);
-        }
+        .btn:hover::after { opacity: 1; }
+        .btn:active { transform: scale(0.97); }
 
         .btn-primary {
             background: var(--gradient-primary);
@@ -470,9 +292,7 @@
             font-size: 1rem;
         }
 
-        .btn-block {
-            width: 100%;
-        }
+        .btn-block { width: 100%; }
 
         .btn:disabled {
             opacity: 0.5;
@@ -498,9 +318,7 @@
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
         }
 
-        .input::placeholder {
-            color: var(--color-text-tertiary);
-        }
+        .input::placeholder { color: var(--color-text-tertiary); }
 
         textarea.input {
             resize: vertical;
@@ -553,9 +371,7 @@
             transition: transform 0.2s;
         }
 
-        .slider::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
+        .slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
 
         .badge {
             display: inline-flex;
@@ -625,19 +441,10 @@
         }
 
         @keyframes cosmicDrift {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-            25% {
-                transform: translate(2%, 1%) scale(1.02);
-            }
-            50% {
-                transform: translate(-1%, 2%) scale(0.98);
-            }
-            75% {
-                transform: translate(1%, -1%) scale(1.01);
-            }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(2%, 1%) scale(1.02); }
+            50% { transform: translate(-1%, 2%) scale(0.98); }
+            75% { transform: translate(1%, -1%) scale(1.01); }
         }
 
         .stars-container {
@@ -656,15 +463,8 @@
         }
 
         @keyframes starTwinkle {
-            0%,
-            100% {
-                opacity: 0.2;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.9;
-                transform: scale(1.5);
-            }
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.5); }
         }
 
         .shooting-star {
@@ -678,20 +478,10 @@
         }
 
         @keyframes shootingStar {
-            0% {
-                transform: translate(0, 0);
-                opacity: 0;
-            }
-            5% {
-                opacity: 1;
-            }
-            15% {
-                transform: translate(-200px, 200px);
-                opacity: 0;
-            }
-            100% {
-                opacity: 0;
-            }
+            0% { transform: translate(0, 0); opacity: 0; }
+            5% { opacity: 1; }
+            15% { transform: translate(-200px, 200px); opacity: 0; }
+            100% { opacity: 0; }
         }
 
         .app-layout {
@@ -772,15 +562,8 @@
             transition: transform 0.3s var(--transition-smooth);
         }
 
-        .logo-icon:hover {
-            transform: rotate(-5deg) scale(1.05);
-        }
-
-        .logo-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .logo-icon:hover { transform: rotate(-5deg) scale(1.05); }
+        .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
 
         .logo-text .logo-title {
             font-family: var(--font-display);
@@ -810,14 +593,8 @@
             background: var(--color-surface-900);
         }
 
-        .sidebar-content::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .sidebar-content::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
+        .sidebar-content::-webkit-scrollbar { width: 4px; }
+        .sidebar-content::-webkit-scrollbar-track { background: transparent; }
         .sidebar-content::-webkit-scrollbar-thumb {
             background: var(--color-surface-600);
             border-radius: var(--radius-full);
@@ -909,10 +686,7 @@
             color: var(--color-text-tertiary);
         }
 
-        .voice-control-value {
-            color: var(--color-primary-300);
-            font-weight: 500;
-        }
+        .voice-control-value { color: var(--color-primary-300); font-weight: 500; }
 
         .history-list {
             flex: 1;
@@ -1059,15 +833,9 @@
             flex-shrink: 0;
         }
 
-        .chat-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .chat-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
-        .chat-info {
-            min-width: 0;
-        }
+        .chat-info { min-width: 0; }
 
         .chat-info h1 {
             font-size: 1rem;
@@ -1095,14 +863,8 @@
         }
 
         @keyframes statusPulse {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.3);
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; transform: scale(1.3); }
         }
 
         .header-actions {
@@ -1123,22 +885,13 @@
             scroll-behavior: smooth;
         }
 
-        .messages-container::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .messages-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
+        .messages-container::-webkit-scrollbar { width: 6px; }
+        .messages-container::-webkit-scrollbar-track { background: transparent; }
         .messages-container::-webkit-scrollbar-thumb {
             background: var(--color-surface-600);
             border-radius: var(--radius-full);
         }
-
-        .messages-container::-webkit-scrollbar-thumb:hover {
-            background: var(--color-surface-500);
-        }
+        .messages-container::-webkit-scrollbar-thumb:hover { background: var(--color-surface-500); }
 
         .welcome-screen {
             flex: 1;
@@ -1168,37 +921,18 @@
             transition: transform 0.3s var(--transition-smooth);
         }
 
-        .welcome-icon:hover {
-            transform: scale(1.05);
-        }
-
-        .welcome-icon img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .welcome-icon:hover { transform: scale(1.05); }
+        .welcome-icon img { width: 100%; height: 100%; object-fit: cover; }
 
         @keyframes morphShape {
-            0%,
-            100% {
-                border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-            }
-            33% {
-                border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%;
-            }
-            66% {
-                border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%;
-            }
+            0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+            33% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
+            66% { border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%; }
         }
 
         @keyframes iconFloat {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-12px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
         }
 
         .welcome-title {
@@ -1293,12 +1027,7 @@
             overflow: hidden;
         }
 
-        .message-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
+        .message-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .message.user .message-avatar {
             background: var(--color-surface-700);
             border: 1px solid var(--color-surface-500);
@@ -1344,9 +1073,7 @@
             transition: opacity 0.2s;
         }
 
-        .message:hover .message-actions {
-            opacity: 1;
-        }
+        .message:hover .message-actions { opacity: 1; }
 
         .message-action {
             width: 28px;
@@ -1370,14 +1097,8 @@
         }
 
         @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(10px) scale(0.98);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .typing-indicator {
@@ -1400,11 +1121,7 @@
             flex-shrink: 0;
         }
 
-        .typing-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .typing-avatar img { width: 100%; height: 100%; object-fit: cover; }
 
         .typing-bubble {
             display: flex;
@@ -1424,9 +1141,7 @@
             animation: typingBounce 1.4s ease-in-out infinite;
         }
 
-        .typing-dot:nth-child(1) {
-            background: var(--color-primary-400);
-        }
+        .typing-dot:nth-child(1) { background: var(--color-primary-400); }
         .typing-dot:nth-child(2) {
             background: var(--color-secondary-400);
             animation-delay: 0.2s;
@@ -1437,16 +1152,8 @@
         }
 
         @keyframes typingBounce {
-            0%,
-            60%,
-            100% {
-                transform: translateY(0);
-                opacity: 0.4;
-            }
-            30% {
-                transform: translateY(-12px);
-                opacity: 1;
-            }
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-12px); opacity: 1; }
         }
 
         .input-area {
@@ -1490,9 +1197,7 @@
             line-height: 1.6;
         }
 
-        textarea::placeholder {
-            color: var(--color-text-tertiary);
-        }
+        textarea::placeholder { color: var(--color-text-tertiary); }
 
         .input-actions {
             display: flex;
@@ -1531,12 +1236,8 @@
         }
 
         @keyframes micPulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 20px rgba(236, 72, 153, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(236, 72, 153, 0); }
         }
 
         .send-btn {
@@ -1632,9 +1333,7 @@
             width: 500px;
         }
 
-        .stt-overlay.active .stt-modal {
-            transform: scale(1);
-        }
+        .stt-overlay.active .stt-modal { transform: scale(1); }
 
         .stt-visualizer {
             display: flex;
@@ -1652,38 +1351,16 @@
             animation: sttWave 0.7s ease-in-out infinite alternate;
         }
 
-        .stt-bar:nth-child(1) {
-            height: 25px;
-            animation-delay: 0s;
-        }
-        .stt-bar:nth-child(2) {
-            height: 40px;
-            animation-delay: 0.1s;
-        }
-        .stt-bar:nth-child(3) {
-            height: 60px;
-            animation-delay: 0.2s;
-        }
-        .stt-bar:nth-child(4) {
-            height: 45px;
-            animation-delay: 0.3s;
-        }
-        .stt-bar:nth-child(5) {
-            height: 70px;
-            animation-delay: 0.4s;
-        }
-        .stt-bar:nth-child(6) {
-            height: 35px;
-            animation-delay: 0.5s;
-        }
+        .stt-bar:nth-child(1) { height: 25px; animation-delay: 0s; }
+        .stt-bar:nth-child(2) { height: 40px; animation-delay: 0.1s; }
+        .stt-bar:nth-child(3) { height: 60px; animation-delay: 0.2s; }
+        .stt-bar:nth-child(4) { height: 45px; animation-delay: 0.3s; }
+        .stt-bar:nth-child(5) { height: 70px; animation-delay: 0.4s; }
+        .stt-bar:nth-child(6) { height: 35px; animation-delay: 0.5s; }
 
         @keyframes sttWave {
-            from {
-                height: 15px;
-            }
-            to {
-                height: 70px;
-            }
+            from { height: 15px; }
+            to { height: 70px; }
         }
 
         .stt-text {
@@ -1775,20 +1452,11 @@
             overflow: hidden;
         }
 
-        .loading-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .loading-logo img { width: 100%; height: 100%; object-fit: cover; }
 
         @keyframes logoFloat {
-            0%,
-            100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-10px) rotate(-2deg);
-            }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(-2deg); }
         }
 
         .loading-spinner {
@@ -1800,11 +1468,7 @@
             animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         .loading-text {
             font-size: 1rem;
@@ -1826,18 +1490,9 @@
         }
 
         @keyframes loadingProgress {
-            0% {
-                width: 0%;
-                margin-left: 0;
-            }
-            50% {
-                width: 60%;
-                margin-left: 20%;
-            }
-            100% {
-                width: 0%;
-                margin-left: 100%;
-            }
+            0% { width: 0%; margin-left: 0; }
+            50% { width: 60%; margin-left: 20%; }
+            100% { width: 0%; margin-left: 100%; }
         }
 
         .modal-backdrop {
@@ -1873,9 +1528,7 @@
             width: 100%;
         }
 
-        .modal-backdrop.active .modal {
-            transform: scale(1);
-        }
+        .modal-backdrop.active .modal { transform: scale(1); }
 
         .modal-header {
             display: flex;
@@ -1918,9 +1571,7 @@
             padding-right: var(--space-2);
         }
 
-        .mood-modal {
-            max-width: 500px;
-        }
+        .mood-modal { max-width: 500px; }
 
         .mood-scale {
             display: flex;
@@ -1956,10 +1607,7 @@
             box-shadow: var(--shadow-glow-primary);
         }
 
-        .mood-btn .mood-emoji {
-            font-size: 1.5rem;
-        }
-
+        .mood-btn .mood-emoji { font-size: 1.5rem; }
         .mood-btn .mood-label {
             font-size: 0.7rem;
             color: var(--color-text-tertiary);
@@ -2011,9 +1659,7 @@
             color: var(--color-text-secondary);
         }
 
-        .mood-day:hover {
-            transform: scale(1.1);
-        }
+        .mood-day:hover { transform: scale(1.1); }
 
         .mood-day-label {
             text-align: center;
@@ -2023,26 +1669,11 @@
             font-weight: 500;
         }
 
-        .mood-level-1 {
-            background: rgba(239, 68, 68, 0.3);
-            color: var(--color-error);
-        }
-        .mood-level-2 {
-            background: rgba(245, 158, 11, 0.3);
-            color: var(--color-warning);
-        }
-        .mood-level-3 {
-            background: rgba(234, 179, 8, 0.3);
-            color: #ca8a04;
-        }
-        .mood-level-4 {
-            background: rgba(34, 197, 94, 0.3);
-            color: var(--color-success);
-        }
-        .mood-level-5 {
-            background: rgba(16, 185, 129, 0.3);
-            color: #059669;
-        }
+        .mood-level-1 { background: rgba(239, 68, 68, 0.3); color: var(--color-error); }
+        .mood-level-2 { background: rgba(245, 158, 11, 0.3); color: var(--color-warning); }
+        .mood-level-3 { background: rgba(234, 179, 8, 0.3); color: #ca8a04; }
+        .mood-level-4 { background: rgba(34, 197, 94, 0.3); color: var(--color-success); }
+        .mood-level-5 { background: rgba(16, 185, 129, 0.3); color: #059669; }
 
         .mood-btn-small {
             width: 40px;
@@ -2104,10 +1735,7 @@
             flex-shrink: 0;
         }
 
-        .crisis-resource .crisis-info {
-            flex: 1;
-        }
-
+        .crisis-resource .crisis-info { flex: 1; }
         .crisis-resource .crisis-name {
             font-weight: 600;
             color: var(--color-text-primary);
@@ -2182,28 +1810,14 @@
         }
 
         @keyframes crisisPulse {
-            0% {
-                transform: scale(1);
-                opacity: 0.4;
-            }
-            70% {
-                transform: scale(1.6);
-                opacity: 0;
-            }
-            100% {
-                transform: scale(1.6);
-                opacity: 0;
-            }
+            0% { transform: scale(1); opacity: 0.4; }
+            70% { transform: scale(1.6); opacity: 0; }
+            100% { transform: scale(1.6); opacity: 0; }
         }
 
         @keyframes crisisFloat {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-8px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         .toast-container {
@@ -2229,28 +1843,14 @@
             max-width: 350px;
         }
 
-        tyaza-toast[type="success"] {
-            border-left-color: var(--color-success);
-        }
-        tyaza-toast[type="error"] {
-            border-left-color: var(--color-error);
-        }
-        tyaza-toast[type="info"] {
-            border-left-color: var(--color-info);
-        }
-        tyaza-toast[type="warning"] {
-            border-left-color: var(--color-warning);
-        }
+        tyaza-toast[type="success"] { border-left-color: var(--color-success); }
+        tyaza-toast[type="error"] { border-left-color: var(--color-error); }
+        tyaza-toast[type="info"] { border-left-color: var(--color-info); }
+        tyaza-toast[type="warning"] { border-left-color: var(--color-warning); }
 
         @keyframes toastSlideIn {
-            from {
-                opacity: 0;
-                transform: translateX(100%) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
+            from { opacity: 0; transform: translateX(100%) scale(0.9); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
         }
 
         .sidebar-overlay {
@@ -2298,188 +1898,56 @@
                 transition: transform 0.3s var(--transition-smooth), pointer-events 0s 0s;
             }
 
-            .sidebar-close {
-                display: flex !important;
-            }
-
-            .menu-toggle {
-                display: flex !important;
-                z-index: 501 !important;
-                position: relative !important;
-                pointer-events: auto !important;
-            }
-
-            .sidebar-overlay.active {
-                z-index: 499 !important;
-            }
-
-            .welcome-title {
-                font-size: 2.5rem;
-            }
-
-            .welcome-icon {
-                width: 100px;
-                height: 100px;
-                font-size: 3rem;
-            }
-
-            .welcome-quote {
-                padding: var(--space-4) var(--space-5);
-                font-size: 1rem;
-            }
-
-            .message {
-                max-width: 92%;
-            }
-
-            .messages-container {
-                padding: var(--space-4);
-            }
-
-            .input-area {
-                padding: var(--space-3) var(--space-4) var(--space-4);
-            }
-
-            .crisis-floating-btn {
-                width: 48px;
-                height: 48px;
-                font-size: 1.2rem;
-                bottom: 80px;
-                left: 10px;
-            }
-
-            .header-actions .btn span {
-                display: none;
-            }
-
-            .modal {
-                padding: var(--space-4);
-                max-width: 95vw;
-            }
-
-            .mood-scale {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .mood-btn {
-                min-width: 50px;
-                flex: 0 1 auto;
-            }
-
-            .stt-modal {
-                padding: var(--space-6);
-                width: 95vw;
-            }
-
-            .welcome-suggestions {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .suggestion-btn {
-                width: 100%;
-                max-width: 280px;
-            }
-
-            .chat-header {
-                padding: 0 var(--space-4);
-            }
-
-            .chat-info h1 {
-                font-size: 0.875rem;
-            }
-
-            .logo-text .logo-title {
-                font-size: 1.1rem;
-            }
+            .sidebar-close { display: flex !important; }
+            .menu-toggle { display: flex !important; z-index: 501 !important; position: relative !important; pointer-events: auto !important; }
+            .sidebar-overlay.active { z-index: 499 !important; }
+            .welcome-title { font-size: 2.5rem; }
+            .welcome-icon { width: 100px; height: 100px; font-size: 3rem; }
+            .welcome-quote { padding: var(--space-4) var(--space-5); font-size: 1rem; }
+            .message { max-width: 92%; }
+            .messages-container { padding: var(--space-4); }
+            .input-area { padding: var(--space-3) var(--space-4) var(--space-4); }
+            .crisis-floating-btn { width: 48px; height: 48px; font-size: 1.2rem; bottom: 80px; left: 10px; }
+            .header-actions .btn span { display: none; }
+            .modal { padding: var(--space-4); max-width: 95vw; }
+            .mood-scale { flex-wrap: wrap; justify-content: center; }
+            .mood-btn { min-width: 50px; flex: 0 1 auto; }
+            .stt-modal { padding: var(--space-6); width: 95vw; }
+            .welcome-suggestions { flex-direction: column; align-items: center; }
+            .suggestion-btn { width: 100%; max-width: 280px; }
+            .chat-header { padding: 0 var(--space-4); }
+            .chat-info h1 { font-size: 0.875rem; }
+            .logo-text .logo-title { font-size: 1.1rem; }
         }
 
         @media (max-width: 480px) {
-            .welcome-title {
-                font-size: 2rem;
-            }
-
-            .welcome-subtitle {
-                font-size: 1rem;
-            }
-
-            .mood-scale {
-                gap: var(--space-1);
-            }
-
-            .mood-btn {
-                padding: var(--space-2);
-            }
-
-            .mood-btn .mood-emoji {
-                font-size: 1.2rem;
-            }
-
-            .mood-btn .mood-label {
-                font-size: 0.6rem;
-            }
-
-            .input-container {
-                padding: var(--space-2);
-                gap: var(--space-2);
-            }
-
-            .input-btn {
-                width: 44px;
-                height: 44px;
-                font-size: 0.9rem;
-            }
-
-            textarea {
-                font-size: 0.9rem;
-                padding: var(--space-2) 0;
-            }
+            .welcome-title { font-size: 2rem; }
+            .welcome-subtitle { font-size: 1rem; }
+            .mood-scale { gap: var(--space-1); }
+            .mood-btn { padding: var(--space-2); }
+            .mood-btn .mood-emoji { font-size: 1.2rem; }
+            .mood-btn .mood-label { font-size: 0.6rem; }
+            .input-container { padding: var(--space-2); gap: var(--space-2); }
+            .input-btn { width: 44px; height: 44px; font-size: 0.9rem; }
+            textarea { font-size: 0.9rem; padding: var(--space-2) 0; }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
+            *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
-
-            .welcome-icon {
-                animation: none !important;
-            }
-
-            .crisis-floating-btn {
-                animation: none !important;
-            }
+            .welcome-icon, .crisis-floating-btn { animation: none !important; }
         }
 
         @media print {
-            .app-sidebar,
-            .chat-header,
-            .input-area,
-            .crisis-floating-btn,
-            .scroll-bottom,
-            .message-actions {
+            .app-sidebar, .chat-header, .input-area, .crisis-floating-btn, .scroll-bottom, .message-actions {
                 display: none !important;
             }
-
-            .chat-main {
-                height: auto !important;
-                overflow: visible !important;
-            }
-
-            .messages-container {
-                overflow: visible !important;
-                height: auto !important;
-                padding: 20px !important;
-            }
-
-            .message {
-                break-inside: avoid;
-                page-break-inside: avoid;
-            }
+            .chat-main { height: auto !important; overflow: visible !important; }
+            .messages-container { overflow: visible !important; height: auto !important; padding: 20px !important; }
+            .message { break-inside: avoid; page-break-inside: avoid; }
         }
 
         .kbd-hint {
@@ -2540,6 +2008,10 @@
                                 <i class="fas fa-save" aria-hidden="true"></i> Bika izina
                             </button>
                         </div>
+                        <div class="settings-row mt-2">
+                            <div class="settings-label">🧠 Memory Stats</div>
+                            <div class="text-xs text-muted" id="memoryStats">Loading...</div>
+                        </div>
                     </div>
                 </div>
 
@@ -2556,6 +2028,7 @@
                         <button class="btn btn-secondary btn-block btn-sm mt-2" id="openMoodModal">
                             <i class="fas fa-chart-line" aria-hidden="true"></i> Reba imimerere
                         </button>
+                        <div class="text-xs text-muted mt-2 text-center" id="moodTrend">No mood data yet</div>
                     </div>
                 </div>
 
@@ -2777,6 +2250,10 @@
                     <div class="mood-history-title">Imimerere y'icyumweru</div>
                     <div class="mood-calendar" id="moodCalendar" role="grid" aria-label="Weekly mood calendar"></div>
                 </div>
+                <div class="mood-history mt-4">
+                    <div class="mood-history-title">📈 Emotion Trends</div>
+                    <div class="text-xs text-muted" id="emotionTrendDisplay">No data yet</div>
+                </div>
             </div>
         </div>
     </div>
@@ -2972,6 +2449,9 @@
             return new Date(timestamp).toLocaleDateString('rw-RW');
         }
 
+        // ============================================================
+        // ENHANCED DATABASE WITH FULL LONG-TERM MEMORY
+        // ============================================================
         class Database {
             constructor() {
                 this.db = null;
@@ -2979,7 +2459,7 @@
             }
 
             async init() {
-                this.db = await openDB('TyazaDB', 4, {
+                this.db = await openDB('TyazaDB', 6, {
                     upgrade(db) {
                         if (!db.objectStoreNames.contains('conversations')) {
                             db.createObjectStore('conversations', { keyPath: 'id' });
@@ -2996,12 +2476,29 @@
                         if (!db.objectStoreNames.contains('knowledge')) {
                             db.createObjectStore('knowledge');
                         }
+                        // NEW: Emotion history store
+                        if (!db.objectStoreNames.contains('emotionHistory')) {
+                            db.createObjectStore('emotionHistory', { keyPath: 'id', autoIncrement: true });
+                        }
+                        // NEW: User profile store
+                        if (!db.objectStoreNames.contains('userProfile')) {
+                            db.createObjectStore('userProfile', { keyPath: 'id' });
+                        }
+                        // NEW: Life events store
+                        if (!db.objectStoreNames.contains('lifeEvents')) {
+                            db.createObjectStore('lifeEvents', { keyPath: 'id', autoIncrement: true });
+                        }
+                        // NEW: Goals store
+                        if (!db.objectStoreNames.contains('goals')) {
+                            db.createObjectStore('goals', { keyPath: 'id', autoIncrement: true });
+                        }
                     }
                 });
                 this.ready = true;
                 return this;
             }
 
+            // --- Conversations ---
             async saveConversation(conversation) {
                 if (!this.ready) return;
                 await this.db.put('conversations', {
@@ -3016,6 +2513,17 @@
                 return await this.db.getAll('conversations');
             }
 
+            async deleteConversation(id) {
+                if (!this.ready) return;
+                await this.db.delete('conversations', id);
+            }
+
+            async clearConversations() {
+                if (!this.ready) return;
+                await this.db.clear('conversations');
+            }
+
+            // --- Settings ---
             async getSetting(key) {
                 if (!this.ready) return null;
                 return await this.db.get('settings', key);
@@ -3026,18 +2534,29 @@
                 await this.db.put('settings', value, key);
             }
 
+            // --- Mood ---
             async saveMood(mood) {
                 if (!this.ready) return;
                 await this.db.add('moodData', { ...mood, timestamp: Date.now() });
             }
 
-            async getMoodHistory(days = 7) {
+            async getMoodHistory(days = 30) {
                 if (!this.ready) return [];
                 const all = await this.db.getAll('moodData');
                 const cutoff = Date.now() - (days * 86400000);
                 return all.filter(m => m.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
             }
 
+            async getMoodStats() {
+                const all = await this.getMoodHistory(30);
+                if (all.length === 0) return null;
+                const avg = all.reduce((a, b) => a + b.mood, 0) / all.length;
+                const recent = all.slice(-7);
+                const recentAvg = recent.reduce((a, b) => a + b.mood, 0) / recent.length;
+                return { total: all.length, avg, recentAvg, trend: recentAvg > avg ? 'improving' : recentAvg < avg ? 'declining' : 'stable' };
+            }
+
+            // --- User Data ---
             async getUserData() {
                 if (!this.ready) return { name: null };
                 return await this.db.get('userData', 'user') || { name: null };
@@ -3048,17 +2567,96 @@
                 await this.db.put('userData', data, 'user');
             }
 
-            async clearHistory() {
+            // --- Emotion History (NEW) ---
+            async saveEmotion(emotionData) {
                 if (!this.ready) return;
-                await this.db.clear('conversations');
+                await this.db.add('emotionHistory', {
+                    ...emotionData,
+                    timestamp: Date.now()
+                });
             }
 
-            async deleteConversation(id) {
+            async getEmotionHistory(days = 30) {
+                if (!this.ready) return [];
+                const all = await this.db.getAll('emotionHistory');
+                const cutoff = Date.now() - (days * 86400000);
+                return all.filter(e => e.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
+            }
+
+            async getEmotionStats() {
+                const all = await this.getEmotionHistory(30);
+                if (all.length === 0) return null;
+                const emotions = {};
+                for (const entry of all) {
+                    if (entry.dominant) {
+                        emotions[entry.dominant] = (emotions[entry.dominant] || 0) + 1;
+                    }
+                }
+                const total = Object.values(emotions).reduce((a, b) => a + b, 0);
+                const percentages = {};
+                for (const [emotion, count] of Object.entries(emotions)) {
+                    percentages[emotion] = (count / total * 100).toFixed(1);
+                }
+                return { total, percentages, dominant: Object.entries(emotions).sort((a, b) => b[1] - a[1])[0]?.[0] || 'neutral' };
+            }
+
+            // --- User Profile (NEW) ---
+            async getUserProfile() {
+                if (!this.ready) return null;
+                return await this.db.get('userProfile', 'main') || null;
+            }
+
+            async saveUserProfile(profile) {
                 if (!this.ready) return;
-                await this.db.delete('conversations', id);
+                await this.db.put('userProfile', { id: 'main', ...profile, updatedAt: Date.now() });
+            }
+
+            async updateUserProfile(updates) {
+                const current = await this.getUserProfile() || {};
+                await this.saveUserProfile({ ...current, ...updates });
+            }
+
+            // --- Life Events (NEW) ---
+            async saveLifeEvent(event) {
+                if (!this.ready) return;
+                await this.db.add('lifeEvents', { ...event, timestamp: Date.now() });
+            }
+
+            async getLifeEvents(days = 90) {
+                if (!this.ready) return [];
+                const all = await this.db.getAll('lifeEvents');
+                const cutoff = Date.now() - (days * 86400000);
+                return all.filter(e => e.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
+            }
+
+            // --- Goals (NEW) ---
+            async saveGoal(goal) {
+                if (!this.ready) return;
+                await this.db.add('goals', { ...goal, createdAt: Date.now(), updatedAt: Date.now() });
+            }
+
+            async getGoals() {
+                if (!this.ready) return [];
+                return await this.db.getAll('goals');
+            }
+
+            async updateGoal(id, updates) {
+                if (!this.ready) return;
+                const goal = await this.db.get('goals', id);
+                if (goal) {
+                    await this.db.put('goals', { ...goal, ...updates, updatedAt: Date.now() });
+                }
+            }
+
+            async deleteGoal(id) {
+                if (!this.ready) return;
+                await this.db.delete('goals', id);
             }
         }
 
+        // ============================================================
+        // ENHANCED PERSONALITY ENGINE WITH MEMORY
+        // ============================================================
         class PersonalityEngine {
             constructor() {
                 this.emoticons = {
@@ -3079,10 +2677,17 @@
                 this.currentPersona = 'balanced';
             }
 
-            getPersonalityForContext(text, emotion) {
+            getPersonalityForContext(text, emotion, userProfile = null) {
                 const hasCrisis = ClinicalEvidence.detectCrisis(text);
                 const hasNegative = ['sadness', 'anxiety', 'anger'].includes(emotion);
                 const hasPositive = ['joy', 'hope'].includes(emotion);
+
+                // Use profile to adjust personality
+                if (userProfile) {
+                    const pref = userProfile.preferredStyle || 'balanced';
+                    if (pref === 'gentle' && !hasCrisis) return 'gentle';
+                    if (pref === 'energetic' && !hasCrisis && !hasNegative) return 'energetic';
+                }
 
                 if (hasCrisis) return 'crisis';
                 if (hasNegative) return 'gentle';
@@ -3090,9 +2695,9 @@
                 return 'balanced';
             }
 
-            enhanceResponse(text, context) {
+            enhanceResponse(text, context, userProfile = null) {
                 let enhanced = text;
-                const persona = this.getPersonalityForContext(context.text, context.emotion);
+                const persona = this.getPersonalityForContext(context.text, context.emotion, userProfile);
                 const traits = this.personalities[persona];
                 const emojiSet = this.emoticons[traits.emojiSet] || this.emoticons.warm;
 
@@ -3137,72 +2742,18 @@
             }
         }
 
-        class EngagementEngine {
-            constructor() {
-                this.phrases = {
-                    joining: [
-                        'Ndi kumwe nawe muri iki gihe... 💙',
-                        'Reka twiyegereze hamwe... ✨',
-                        'Ndi hano kugira ngo nkugire... 🌟',
-                        'Tuganire hamwe, sinari hano kukureba gusa... 🤗',
-                        'Twifatanye muri iki gihe... 💛'
-                    ],
-                    diving: [
-                        'Reka turebe hamwe icyo... 🤔',
-                        'Ndumva ibyo, ngaho tugire hamwe... 🌿',
-                        'Ndi hano kugira ngo twihangane... 💪',
-                        'Twiyegereze hamwe muri ibi... 🌅',
-                        'Reka twubake hamwe... 🌈'
-                    ],
-                    validating: [
-                        'Ndumva neza ko... 💛',
-                        'Nabonye ko... ✨',
-                        'Ndumva iyo... 🌟',
-                        'Nabona ko... 🌿',
-                        'Ndakumva... 🤗'
-                    ]
-                };
-            }
-
-            createEngagedResponse(response, userMessage) {
-                let engaged = '';
-
-                // Add joining phrase occasionally
-                if (Math.random() < 0.25) {
-                    engaged += this.getPhrase('joining') + ' ';
-                }
-
-                // Add validation based on user message length or emotion indicators
-                if (userMessage.length > 20 || userMessage.includes('?')) {
-                    engaged += this.getPhrase('validating') + ' ';
-                }
-
-                // Add main response
-                engaged += response;
-
-                // Add diving phrase occasionally
-                if (Math.random() < 0.2 && !engaged.includes('Reka turebe')) {
-                    engaged += ' ' + this.getPhrase('diving');
-                }
-
-                return engaged;
-            }
-
-            getPhrase(type) {
-                const phrases = this.phrases[type] || this.phrases.joining;
-                return phrases[Math.floor(Math.random() * phrases.length)];
-            }
-        }
-
+        // ============================================================
+        // ENHANCED EMOTION DETECTOR WITH MEMORY
+        // ============================================================
         class EmotionDetector {
             constructor() {
                 this.emotionKeywords = {
-                    joy: ['ishimwe', 'nkishimiye', 'byiza', 'neza', 'mwiza', 'kiza', 'murakoze', 'urashimwe', 'nishimiye', 'byaje'],
-                    sadness: ['babaye', 'birababaje', 'ntakibazo', 'ndababaye', 'birabyaje', 'ntacyo', 'sinakimara', 'birabaza', 'ndababaye'],
-                    anxiety: ['gutinya', 'guhangayika', 'ntabwo mbizi', 'mbaza', 'guhanga', 'umutima utera', 'guhangayika', 'ntibyiza'],
-                    anger: ['urakari', 'uburakari', 'narahaye', 'ndarakaye', 'birakaza', 'umujinya', 'ndarakara', 'byarakaje'],
-                    calm: ['amahoro', 'ntacyo', 'neza', 'mpumuye', 'ndumutse', 'ndapfutse', 'amahoro'],
-                    hope: ['izina', 'ibyiza', 'ibishoboka', 'ndashaka', 'nshobora', 'bizakira', 'ibyiza', 'biteganyijwe']
+                    joy: ['ishimwe', 'nkishimiye', 'byiza', 'neza', 'mwiza', 'kiza', 'murakoze', 'urashimwe', 'nishimiye', 'byaje', 'ndishimye', 'mboneye', 'nshimishijwe'],
+                    sadness: ['babaye', 'birababaje', 'ntakibazo', 'ndababaye', 'birabyaje', 'ntacyo', 'sinakimara', 'birabaza', 'ndababaye', 'ndababajwe', 'birarengera', 'ndababaye cyane'],
+                    anxiety: ['gutinya', 'guhangayika', 'ntabwo mbizi', 'mbaza', 'guhanga', 'umutima utera', 'guhangayika', 'ntibyiza', 'ndahangayitse', 'gushidikanya', 'kutamenya'],
+                    anger: ['urakari', 'uburakari', 'narahaye', 'ndarakaye', 'birakaza', 'umujinya', 'ndarakara', 'byarakaje', 'ndababaye', 'ndarakaye cyane'],
+                    calm: ['amahoro', 'ntacyo', 'neza', 'mpumuye', 'ndumutse', 'ndapfutse', 'amahoro', 'ndatuze', 'ntakibazo', 'byoroheje'],
+                    hope: ['izina', 'ibyiza', 'ibishoboka', 'ndashaka', 'nshobora', 'bizakira', 'ibyiza', 'biteganyijwe', 'ibyiringiro', 'ndizera', 'bizagenda neza']
                 };
 
                 this.history = [];
@@ -3237,7 +2788,7 @@
                 }
 
                 this.history.push({ timestamp: Date.now(), scores });
-                if (this.history.length > 100) this.history.shift();
+                if (this.history.length > 200) this.history.shift();
 
                 return scores;
             }
@@ -3251,7 +2802,7 @@
 
             getEmotionTrend() {
                 if (this.history.length < 3) return 'stable';
-                const recent = this.history.slice(-3);
+                const recent = this.history.slice(-7);
                 const first = recent[0].scores;
                 const last = recent[recent.length - 1].scores;
 
@@ -3271,26 +2822,56 @@
             }
         }
 
+        // ============================================================
+        // ENHANCED PERSONALIZED RESPONSE WITH MEMORY
+        // ============================================================
         class PersonalizedResponse {
             constructor() {
                 this.profile = {
                     name: null,
                     topics: [],
-                    style: 'balanced'
+                    style: 'balanced',
+                    knownEvents: [],
+                    goals: [],
+                    preferences: {}
                 };
+                this.db = null;
             }
 
-            buildProfile(messages) {
+            setDatabase(db) {
+                this.db = db;
+            }
+
+            async loadProfile() {
+                if (this.db) {
+                    const profile = await this.db.getUserProfile();
+                    if (profile) {
+                        this.profile = { ...this.profile, ...profile };
+                    }
+                }
+                return this.profile;
+            }
+
+            async buildProfile(messages) {
                 const topics = [];
                 const styles = [];
+                const events = [];
 
                 for (const msg of messages) {
                     const content = msg.content.toLowerCase();
-                    const topicWords = ['umuryango', 'akazi', 'ishuri', 'ubuzima', 'urukundo', 'ubucuruzi', 'amasezerano', 'ubuvuzi', 'amahoro', 'inkunga'];
+                    const topicWords = ['umuryango', 'akazi', 'ishuri', 'ubuzima', 'urukundo', 'ubucuruzi', 'amasezerano', 'ubuvuzi', 'amahoro', 'inkunga', 'umutima', 'ubwenge', 'amakuba', 'ibyishimo', 'umugisha'];
                     for (const word of topicWords) {
                         if (content.includes(word)) {
                             topics.push(word);
                         }
+                    }
+
+                    // Detect life events
+                    if (content.includes('bya') && content.includes('maze')) {
+                        events.push({ type: 'accomplishment', context: msg.content.slice(0, 100) });
+                    }
+                    if (content.includes('byaje') || content.includes('byakunze')) {
+                        events.push({ type: 'challenge', context: msg.content.slice(0, 100) });
                     }
 
                     if (content.includes('...') || content.includes('?')) styles.push('reflective');
@@ -3299,6 +2880,8 @@
                 }
 
                 this.profile.topics = [...new Set(topics)];
+                this.profile.knownEvents = events;
+
                 if (styles.length > 0) {
                     const counts = {};
                     for (const style of styles) {
@@ -3307,10 +2890,19 @@
                     this.profile.style = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || 'balanced';
                 }
 
+                // Save to database
+                if (this.db) {
+                    await this.db.updateUserProfile({
+                        topics: this.profile.topics,
+                        style: this.profile.style,
+                        knownEvents: this.profile.knownEvents
+                    });
+                }
+
                 return this.profile;
             }
 
-            personalizeResponse(response, context) {
+            async personalizeResponse(response, context) {
                 let personalized = response;
 
                 // Use user name
@@ -3325,6 +2917,16 @@
                 if (this.profile.topics.length > 0 && Math.random() < 0.15) {
                     const topic = this.profile.topics[Math.floor(Math.random() * this.profile.topics.length)];
                     personalized += ` Nibuka ko twaganiriye kuri "${topic}" mbere. Ubu ubona ute? 😊`;
+                }
+
+                // Reference known events
+                if (this.profile.knownEvents.length > 0 && Math.random() < 0.1) {
+                    const event = this.profile.knownEvents[Math.floor(Math.random() * this.profile.knownEvents.length)];
+                    if (event.type === 'accomplishment') {
+                        personalized += ` Nibuka ibyo wagezeho mbere. Ni byiza! 🌟`;
+                    } else if (event.type === 'challenge') {
+                        personalized += ` Nibuka ibyo wanyuzeho. Urakomeye! 💪`;
+                    }
                 }
 
                 // Adapt to communication style
@@ -3343,10 +2945,21 @@
 
                 return personalized;
             }
+
+            setUserName(name) {
+                this.profile.name = name;
+                if (this.db) {
+                    this.db.updateUserProfile({ name });
+                }
+            }
         }
 
+        // ============================================================
+        // ENHANCED AI SERVICE WITH FULL MEMORY
+        // ============================================================
         class AIService {
-            constructor() {
+            constructor(db) {
+                this.db = db;
                 this.puterAvailable = false;
                 this.onDeviceAvailable = false;
                 this.onDeviceModel = null;
@@ -3354,14 +2967,18 @@
                 this.userName = null;
                 this.personality = new PersonalityEngine();
                 this.emotionDetector = new EmotionDetector();
-                this.engagement = new EngagementEngine();
                 this.personalizer = new PersonalizedResponse();
+                this.personalizer.setDatabase(db);
 
                 this.systemPrompt = this.buildSystemPrompt();
             }
 
             buildSystemPrompt() {
                 const name = this.userName || 'Mugisha';
+                const profile = this.personalizer.profile;
+                const topics = profile.topics?.join(', ') || 'none';
+                const style = profile.style || 'balanced';
+
                 return `Wowe uri TYAZA (Umuvugizi w'Umutima), umuvugizi w'umutima wakozwe na KIVURA LABS.
 
 ABOUT KIVURA LABS:
@@ -3373,10 +2990,16 @@ ABOUT KIVURA LABS:
 - Vision: Africa's leading mental health technology company
 - Philosophy: "Healthy citizens, wealthy nation"
 
+USER PROFILE:
+- Name: ${name}
+- Topics discussed: ${topics}
+- Communication style: ${style}
+- Known events: ${profile.knownEvents?.length || 0} recorded
+
 YOUR ROLE:
 - Therapeutic assistant (not replacement for professional help)
 - Speak Kinyarwanda with empathy and warmth
-- Remember user's name: ${name}
+- Remember user's name and past discussions
 - Detect crisis keywords and trigger emergency protocols
 - Provide evidence-based responses (CBT, DBT, MI, ACT)
 - Represent Kivura Labs' mission of accessible mental health
@@ -3394,6 +3017,10 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
             async init() {
                 await this.checkPuter();
                 this.loadOnDevice().catch(() => {});
+                await this.personalizer.loadProfile();
+                if (this.personalizer.profile.name) {
+                    this.userName = this.personalizer.profile.name;
+                }
             }
 
             async checkPuter() {
@@ -3452,12 +3079,21 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 const userMessage = messages[messages.length - 1]?.content || '';
                 const emotion = this.emotionDetector.getDominantEmotion(userMessage);
 
-                // Extract user name
+                // Extract and remember user name
                 const extractedName = this.extractUserName(userMessage);
                 if (extractedName && extractedName !== this.userName) {
                     this.userName = extractedName;
-                    this.personalizer.profile.name = extractedName;
+                    this.personalizer.setUserName(extractedName);
                     this.systemPrompt = this.buildSystemPrompt();
+                    // Save to DB
+                    if (this.db) {
+                        await this.db.updateUserProfile({ name: extractedName });
+                    }
+                }
+
+                // Save emotion to history
+                if (this.db && emotion !== 'neutral') {
+                    await this.db.saveEmotion({ dominant: emotion, text: userMessage.slice(0, 50) });
                 }
 
                 // Check crisis
@@ -3469,29 +3105,29 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 const evidence = ClinicalEvidence.getEvidenceBasedResponse(userMessage);
                 if (evidence) {
                     let response = evidence.response;
-                    const personality = this.personality.getPersonalityForContext(userMessage, emotion);
-                    response = this.personality.enhanceResponse(response, { text: userMessage, emotion });
-                    response = this.engagement.createEngagedResponse(response, userMessage);
-                    response = this.personalizer.personalizeResponse(response, { emotion });
+                    const profile = await this.personalizer.loadProfile();
+                    const personality = this.personality.getPersonalityForContext(userMessage, emotion, profile);
+                    response = this.personality.enhanceResponse(response, { text: userMessage, emotion }, profile);
+                    response = await this.personalizer.personalizeResponse(response, { emotion });
                     return { type: 'normal', content: response };
                 }
 
-                // Update system prompt
-                const currentSystemPrompt = this.buildSystemPrompt();
+                // Update system prompt with latest profile
+                this.systemPrompt = this.buildSystemPrompt();
 
                 // Try Puter
                 if (this.puterAvailable) {
                     try {
                         const response = await window.puter.ai.chat([
-                            { role: 'system', content: currentSystemPrompt },
+                            { role: 'system', content: this.systemPrompt },
                             ...messages.slice(-5)
                         ], { model: 'gpt-4o-mini' });
 
                         let content = response.message?.content || response;
-                        const personality = this.personality.getPersonalityForContext(userMessage, emotion);
-                        content = this.personality.enhanceResponse(content, { text: userMessage, emotion });
-                        content = this.engagement.createEngagedResponse(content, userMessage);
-                        content = this.personalizer.personalizeResponse(content, { emotion });
+                        const profile = await this.personalizer.loadProfile();
+                        const personality = this.personality.getPersonalityForContext(userMessage, emotion, profile);
+                        content = this.personality.enhanceResponse(content, { text: userMessage, emotion }, profile);
+                        content = await this.personalizer.personalizeResponse(content, { emotion });
 
                         return { type: 'normal', content };
                     } catch (e) {
@@ -3502,21 +3138,19 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 // Try on-device
                 if (this.onDeviceAvailable && this.onDeviceModel) {
                     try {
-                        const prompt =
-                            `<|system|>\n${currentSystemPrompt}\n<|user|>\n${userMessage}\n<|assistant|>\n`;
+                        const prompt = `<|system|>\n${this.systemPrompt}\n<|user|>\n${userMessage}\n<|assistant|>\n`;
                         const result = await this.onDeviceModel(prompt, {
                             max_new_tokens: 150,
                             temperature: 0.7,
                             top_k: 50
                         });
                         let content = result[0].generated_text.replace(prompt, '').trim();
-                        if (!content) content = CONFIG.fallbackResponses[Math.floor(Math.random() * CONFIG
-                        .fallbackResponses.length)];
+                        if (!content) content = CONFIG.fallbackResponses[Math.floor(Math.random() * CONFIG.fallbackResponses.length)];
 
-                        const personality = this.personality.getPersonalityForContext(userMessage, emotion);
-                        content = this.personality.enhanceResponse(content, { text: userMessage, emotion });
-                        content = this.engagement.createEngagedResponse(content, userMessage);
-                        content = this.personalizer.personalizeResponse(content, { emotion });
+                        const profile = await this.personalizer.loadProfile();
+                        const personality = this.personality.getPersonalityForContext(userMessage, emotion, profile);
+                        content = this.personality.enhanceResponse(content, { text: userMessage, emotion }, profile);
+                        content = await this.personalizer.personalizeResponse(content, { emotion });
 
                         return { type: 'normal', content };
                     } catch (e) {
@@ -3529,21 +3163,22 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
 
             getFallback(emotion) {
                 let responses = CONFIG.fallbackResponses;
-                const personality = this.personality.getPersonalityForContext('', emotion || 'neutral');
                 let content = responses[Math.floor(Math.random() * responses.length)];
-                content = this.personality.enhanceResponse(content, { text: '', emotion: emotion || 'neutral' });
-                content = this.engagement.createEngagedResponse(content, '');
-                content = this.personalizer.personalizeResponse(content, { emotion: emotion || 'neutral' });
+                const profile = this.personalizer.profile;
+                content = this.personality.enhanceResponse(content, { text: '', emotion: emotion || 'neutral' }, profile);
                 return { type: 'normal', content };
             }
 
             setUserName(name) {
                 this.userName = name;
-                this.personalizer.profile.name = name;
+                this.personalizer.setUserName(name);
                 this.systemPrompt = this.buildSystemPrompt();
             }
         }
 
+        // ============================================================
+        // ENHANCED SPEECH SERVICE
+        // ============================================================
         class SpeechService {
             constructor() {
                 this.recognition = null;
@@ -3618,13 +3253,15 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
             }
         }
 
+        // ============================================================
+        // TYAZA TOAST
+        // ============================================================
         class TyazaToast extends HTMLElement {
             connectedCallback() {
                 const message = this.getAttribute('message') || '';
                 const type = this.getAttribute('type') || 'info';
                 const colors = { success: '#22c55e', error: '#ef4444', info: '#3b82f6', warning: '#f59e0b' };
-                const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle',
-                    warning: 'exclamation-triangle' };
+                const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle', warning: 'exclamation-triangle' };
 
                 this.attachShadow({ mode: 'open' }).innerHTML = `
                     <style>
@@ -3664,10 +3301,13 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
         }
         customElements.define('tyaza-toast', TyazaToast);
 
+        // ============================================================
+        // MAIN APP
+        // ============================================================
         class TyazaApp {
             constructor() {
                 this.db = new Database();
-                this.ai = new AIService();
+                this.ai = null;
                 this.speech = new SpeechService();
 
                 this.messages = [];
@@ -3724,7 +3364,10 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     crisisClose: document.getElementById('crisisClose'),
                     crisisLater: document.getElementById('crisisLater'),
                     crisisNow: document.getElementById('crisisNow'),
-                    connectionStatus: document.getElementById('connectionStatus')
+                    connectionStatus: document.getElementById('connectionStatus'),
+                    memoryStats: document.getElementById('memoryStats'),
+                    moodTrend: document.getElementById('moodTrend'),
+                    emotionTrendDisplay: document.getElementById('emotionTrendDisplay')
                 };
 
                 this.voiceFallbackActive = false;
@@ -3732,7 +3375,13 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
 
             async init() {
                 this.createStars();
+
+                // Initialize database
                 await this.db.init();
+
+                // Initialize AI service with DB
+                this.ai = new AIService(this.db);
+                await this.ai.init();
 
                 // Load user data
                 const userData = await this.db.getUserData();
@@ -3749,10 +3398,10 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 if (settings) this.settings = { ...this.settings, ...settings };
                 this.applySettings();
 
-                await this.ai.init();
-
                 this.bindEvents();
                 await this.loadHistory();
+                await this.updateMemoryStats();
+                await this.updateMoodTrend();
 
                 setTimeout(() => this.elements.loadingScreen.classList.add('hidden'), 1200);
 
@@ -3762,10 +3411,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     }
                 }, 500);
 
-                // Check for mobile voice support
                 this.checkMobileVoiceSupport();
-
-                // Fix mobile sidebar issue
                 this.fixMobileSidebar();
             }
 
@@ -3773,12 +3419,10 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 const sidebar = this.elements.sidebar;
                 const overlay = this.elements.sidebarOverlay;
 
-                // Ensure clicks inside sidebar work
                 sidebar.addEventListener('touchstart', (e) => {
                     e.stopPropagation();
                 }, { passive: true });
 
-                // Ensure menu toggle works
                 this.elements.menuToggle.addEventListener('touchstart', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -3852,7 +3496,6 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
 
                 setTimeout(() => input?.focus(), 300);
 
-                // Close on outside click
                 dialog.addEventListener('click', (e) => {
                     if (e.target === dialog) dialog.remove();
                 });
@@ -3904,6 +3547,48 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 }
             }
 
+            async updateMemoryStats() {
+                try {
+                    const conversations = await this.db.getConversations();
+                    const moodData = await this.db.getMoodHistory(30);
+                    const emotionData = await this.db.getEmotionHistory(30);
+                    const profile = await this.db.getUserProfile();
+
+                    const stats = [
+                        `💬 ${conversations.length} chats`,
+                        `😊 ${moodData.length} moods`,
+                        `🧠 ${emotionData.length} emotions`,
+                        `👤 ${profile?.name || 'No name'}`
+                    ];
+
+                    this.elements.memoryStats.textContent = stats.join(' · ');
+                } catch (e) {
+                    this.elements.memoryStats.textContent = 'Loading...';
+                }
+            }
+
+            async updateMoodTrend() {
+                try {
+                    const stats = await this.db.getMoodStats();
+                    if (stats) {
+                        const trendEmoji = stats.trend === 'improving' ? '📈' : stats.trend === 'declining' ? '📉' : '➡️';
+                        this.elements.moodTrend.textContent = `${trendEmoji} ${stats.total} moods · Avg: ${stats.avg.toFixed(1)}/5`;
+                    } else {
+                        this.elements.moodTrend.textContent = 'No mood data yet';
+                    }
+
+                    const emotionStats = await this.db.getEmotionStats();
+                    if (emotionStats && emotionStats.total > 0) {
+                        this.elements.emotionTrendDisplay.textContent =
+                            `Dominant: ${emotionStats.dominant} (${emotionStats.total} entries)`;
+                    } else {
+                        this.elements.emotionTrendDisplay.textContent = 'No emotion data yet';
+                    }
+                } catch (e) {
+                    // Silent fail
+                }
+            }
+
             bindEvents() {
                 this.elements.messageInput.addEventListener('input', () => this.handleInput());
                 this.elements.messageInput.addEventListener('keydown', (e) => {
@@ -3932,14 +3617,12 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     this.elements.rateValue.textContent = e.target.value;
                     this.settings.rate = parseFloat(e.target.value);
                 });
-                this.elements.rateSlider.addEventListener('change', () => this.db.setSetting('settings', this
-                .settings));
+                this.elements.rateSlider.addEventListener('change', () => this.db.setSetting('settings', this.settings));
                 this.elements.pitchSlider.addEventListener('input', (e) => {
                     this.elements.pitchValue.textContent = e.target.value;
                     this.settings.pitch = parseFloat(e.target.value);
                 });
-                this.elements.pitchSlider.addEventListener('change', () => this.db.setSetting('settings', this
-                .settings));
+                this.elements.pitchSlider.addEventListener('change', () => this.db.setSetting('settings', this.settings));
 
                 this.elements.saveNameBtn.addEventListener('click', async () => {
                     const name = this.elements.userNameInput.value.trim();
@@ -3947,7 +3630,9 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                         this.userName = name;
                         this.ai.setUserName(name);
                         await this.db.saveUserData({ name });
+                        await this.db.updateUserProfile({ name });
                         this.updateWelcomeGreeting();
+                        this.updateMemoryStats();
                         this.showToast('Izina ryabitswe! ✨', 'success');
                     }
                 });
@@ -3995,8 +3680,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
 
                 this.elements.moodScale.querySelectorAll('.mood-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
-                        this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList
-                            .remove('selected'));
+                        this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
                         btn.classList.add('selected');
                     });
                 });
@@ -4041,8 +3725,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 const val = this.elements.messageInput.value.trim();
                 this.elements.sendBtn.disabled = !val || this.isGenerating;
                 this.elements.messageInput.style.height = 'auto';
-                this.elements.messageInput.style.height = Math.min(this.elements.messageInput.scrollHeight, 150) +
-                    'px';
+                this.elements.messageInput.style.height = Math.min(this.elements.messageInput.scrollHeight, 150) + 'px';
             }
 
             async toggleVoice() {
@@ -4087,8 +3770,10 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     this.userName = extractedName;
                     this.ai.setUserName(extractedName);
                     await this.db.saveUserData({ name: extractedName });
+                    await this.db.updateUserProfile({ name: extractedName });
                     this.elements.userNameInput.value = extractedName;
                     this.updateWelcomeGreeting();
+                    this.updateMemoryStats();
                     this.showToast(`✨ Murakaza neza, ${extractedName}!`, 'success');
                 }
 
@@ -4116,6 +3801,12 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     this.removeTyping(typingId);
                     this.addMessage('assistant', response.content);
                     await this.saveConversation(text, response.content);
+
+                    // Update profile with this conversation
+                    await this.ai.personalizer.buildProfile(this.messages);
+                    await this.updateMemoryStats();
+                    await this.updateMoodTrend();
+
                 } catch {
                     this.removeTyping(typingId);
                     this.addMessage('assistant', 'Hari ikibazo. Ngaho tuganire. 💙');
@@ -4157,7 +3848,6 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 this.scrollToBottom();
                 this.messages.push({ role, content, timestamp: Date.now() });
 
-                // Build user profile
                 if (role === 'user') {
                     this.ai.personalizer.buildProfile(this.messages);
                 }
@@ -4285,6 +3975,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     this.newChat();
                 }
                 await this.loadHistory();
+                await this.updateMemoryStats();
                 this.showToast('Chat yahanaguwe', 'success');
             }
 
@@ -4308,7 +3999,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
 
             async clearHistory() {
                 if (!confirm('Hanagura amateka yose?')) return;
-                await this.db.clearHistory();
+                await this.db.clearConversations();
                 this.newChat();
                 this.showToast('Amateka yahanaguwe', 'success');
             }
@@ -4327,10 +4018,11 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 }
                 const data = {
                     app: 'TYAZA',
-                    version: '6.1',
+                    version: '6.2',
                     timestamp: Date.now(),
                     user: this.userName || 'User',
-                    messages: this.messages
+                    messages: this.messages,
+                    profile: this.ai.personalizer.profile
                 };
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
@@ -4345,7 +4037,6 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
             toggleSidebar() {
                 this.elements.sidebar.classList.toggle('open');
                 this.elements.sidebarOverlay.classList.toggle('active');
-                // Fix pointer events
                 if (this.elements.sidebar.classList.contains('open')) {
                     this.elements.sidebar.style.pointerEvents = 'auto';
                 } else {
@@ -4375,6 +4066,7 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
             openMoodModal() {
                 this.elements.moodModal.classList.add('active');
                 this.loadMoodCalendar();
+                this.loadEmotionTrends();
             }
 
             closeMoodModal() {
@@ -4385,6 +4077,8 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
 
             async quickMood(mood) {
                 await this.db.saveMood({ mood: parseInt(mood), notes: '', quick: true });
+                await this.updateMemoryStats();
+                await this.updateMoodTrend();
                 this.showToast('Uko wumva byabitswe! 💛', 'success');
             }
 
@@ -4397,6 +4091,8 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                 const mood = parseInt(selected.dataset.mood);
                 const notes = this.elements.moodNotes.value.trim();
                 await this.db.saveMood({ mood, notes });
+                await this.updateMemoryStats();
+                await this.updateMoodTrend();
                 this.showToast('Byabitswe! ✨', 'success');
                 this.closeMoodModal();
             }
@@ -4412,12 +4108,26 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
                     const dayStart = new Date(date.setHours(0, 0, 0, 0)).getTime();
                     const dayEnd = dayStart + 86400000;
                     const dayMoods = moods.filter(m => m.timestamp >= dayStart && m.timestamp < dayEnd);
-                    const avg = dayMoods.length ? Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods
-                        .length) : 0;
-                    html +=
-                        `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString('rw-RW')}">${date.getDate()}</div>`;
+                    const avg = dayMoods.length ? Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods.length) : 0;
+                    html += `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString('rw-RW')}">${date.getDate()}</div>`;
                 }
                 this.elements.moodCalendar.innerHTML = html;
+            }
+
+            async loadEmotionTrends() {
+                try {
+                    const stats = await this.db.getEmotionStats();
+                    if (stats && stats.total > 0) {
+                        const entries = Object.entries(stats.percentages)
+                            .map(([emotion, pct]) => `${emotion}: ${pct}%`)
+                            .join(' · ');
+                        this.elements.emotionTrendDisplay.textContent = entries || 'No data';
+                    } else {
+                        this.elements.emotionTrendDisplay.textContent = 'No emotion data yet';
+                    }
+                } catch (e) {
+                    this.elements.emotionTrendDisplay.textContent = 'Error loading data';
+                }
             }
 
             showCrisis() {
@@ -4429,6 +4139,9 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
             }
         }
 
+        // ============================================================
+        // INITIALIZE APP
+        // ============================================================
         const app = new TyazaApp();
         window.app = app;
 
@@ -4442,15 +4155,21 @@ Remember: You embody the vision that "Healthy citizens build a wealthy nation."`
             navigator.serviceWorker.register('/sw.js').catch(() => {});
         }
 
-        console.log('✨ TYAZA v6.1 - 2030 Edition');
+        console.log('✨ TYAZA v6.2 - Enhanced Long-Term Memory Edition');
         console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-        console.log('🚀 Zero Budget · 1000%+ Out-of-Box · Global Leading Quality');
-        console.log('💙 Fixes: Name extraction, Mobile menu, Natural responses, Voice fallback');
+        console.log('🧠 Memory Features:');
+        console.log('  - Conversations (IndexedDB)');
+        console.log('  - Mood History (30+ days)');
+        console.log('  - Emotion Tracking');
+        console.log('  - User Profile (name, topics, style)');
+        console.log('  - Life Events');
+        console.log('  - Goals Tracking');
+        console.log('  - Personalized Responses');
+        console.log('💙 Built for Rwanda | Zero Budget | Global Quality');
     </script>
 
     <noscript>
-        <div
-            style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; font-family: sans-serif; z-index: 9999;">
+        <div style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; font-family: sans-serif; z-index: 9999;">
             <div>
                 <h1 style="font-size: 2rem; margin-bottom: 1rem;">TYAZA</h1>
                 <p style="font-size: 1.2rem; opacity: 0.8;">JavaScript is required for TYAZA.</p>
