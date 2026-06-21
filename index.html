@@ -360,7 +360,6 @@
             padding: var(--space-4);
         }
 
-        /* ===== FIXED PROFILE DISPLAY ===== */
         .profile-display {
             display: flex;
             flex-direction: column;
@@ -1582,350 +1581,375 @@
         }
 
         // ============================================================
-        // PROFESSIONAL RESPONSE SYSTEM
+        // TRAUMA CONTEXT ENGINE - THE BIGGEST FIX
         // ============================================================
-        
-        // ===== LAYER 1: INTENT DETECTION =====
-        class IntentDetector {
-            detect(text) {
-                const lower = text.toLowerCase();
-                
-                // Crisis/emergency
-                if (ClinicalEvidence.detectCrisis(text)) {
-                    return { intent: 'crisis', priority: 5 };
-                }
-                
-                // Emotional support
-                const emotionalKeywords = ['babaye', 'birababaje', 'ndababaye', 'ntakibazo', 'guhangayika', 'gutinya', 'umujinya', 'urakari'];
-                for (const word of emotionalKeywords) {
-                    if (lower.includes(word)) return { intent: 'emotional_support', priority: 4 };
-                }
-                
-                // Greeting
-                const greetingKeywords = ['muraho', 'mwaramutse', 'hello', 'hi', 'hey', 'bonjour'];
-                for (const word of greetingKeywords) {
-                    if (lower.includes(word)) return { intent: 'greeting', priority: 1 };
-                }
-                
-                // Question
-                if (lower.includes('?')) return { intent: 'question', priority: 2 };
-                
-                // Educational
-                const educationKeywords = ['sobanura', 'gusobanura', 'explain', 'what is', 'ni iki', 'byakora'];
-                for (const word of educationKeywords) {
-                    if (lower.includes(word)) return { intent: 'educational', priority: 3 };
-                }
-                
-                return { intent: 'general', priority: 2 };
-            }
-        }
-
-        // ===== LAYER 2: EMOTION DETECTION =====
-        class EmotionDetector {
+        class TraumaContextEngine {
             constructor() {
-                this.emotions = {
-                    joy: ['ishimwe', 'nkishimiye', 'byiza', 'neza', 'murakoze', 'nishimiye', 'ndishimye'],
-                    sadness: ['babaye', 'birababaje', 'ntakibazo', 'ndababaye', 'birabyaje', 'ntacyo', 'ndababajwe'],
-                    anxiety: ['gutinya', 'guhangayika', 'ntabwo mbizi', 'mbaza', 'guhanga', 'ndahangayitse'],
-                    anger: ['urakari', 'uburakari', 'narahaye', 'ndarakaye', 'birakaza', 'umujinya'],
-                    fear: ['gutinya', 'ubwoba', 'ndatinya', 'kutinya'],
-                    confusion: ['ucanganyukiwe', 'ntumva', 'sinumva', 'gushidikanya'],
-                    loneliness: ['wenyine', 'kwigunga', 'ntamuntu', 'ndi wenyine'],
-                    stress: ['umunaniro', 'ndacogora', 'ndahangayitse', 'birarengera']
+                this.context = {
+                    trauma_1994: false,
+                    trauma_mentioned: false,
+                    possible_ptsd: false,
+                    grief_persistent: false,
+                    avoidance: false,
+                    hypervigilance: false,
+                    sensory_triggers: false,
+                    hopelessness: false,
+                    social_withdrawal: false,
+                    anger_after_years: false,
+                    concentration_issues: false,
+                    session_history: []
                 };
-                
-                this.intensity = {
-                    low: ['gato', 'ntacyo', 'bito'],
-                    medium: ['bira', 'byinshi', 'komeye'],
-                    high: ['cyane', 'bikomeye', 'cyane cyane', 'birarengera']
-                };
+                this.context_initialized = false;
             }
 
-            detect(text) {
+            // Keywords that indicate trauma context
+            traumaKeywords = {
+                genocide1994: ['1994', 'jenoside', 'abakorewe', 'abahohotewe', 'ibyabaye', 'amateka', 'byahise'],
+                sensory: ['impumuro', 'amajwi', 'ijwi', 'urwamo', 'ahantu', 'flashback', 'subira inyuma'],
+                ptsd: ['kwibuka', 'ibihe', 'ibitekerezo', 'byongera', 'guhita', 'gutinya', 'kwigunga'],
+                avoidance: ['kwirinda', 'irinda', 'ntabwo njya', 'sinjya', 'kwanga', 'ubwoba'],
+                grief: ['agahinda', 'ububabare', 'barakaye', 'babaye', 'baratakaye', 'ibyishimo'],
+                hopelessness: ['ntakibazo', 'birangiye', 'sinzongera', 'ntacyo', 'nta cyizere'],
+                concentration: ['kwibanda', 'kutibanda', 'kugorwa', 'ibitekerezo byinshi', 'ntashobora']
+            };
+
+            detectTrauma(text) {
                 const lower = text.toLowerCase();
-                const scores = {};
-                let maxScore = 0;
-                let primary = 'neutral';
-                
-                for (const [emotion, keywords] of Object.entries(this.emotions)) {
-                    let score = 0;
+                let detected = {};
+                let trauma_score = 0;
+
+                for (const [category, keywords] of Object.entries(this.traumaKeywords)) {
+                    let found = false;
                     for (const keyword of keywords) {
-                        if (lower.includes(keyword)) score += 1;
+                        if (lower.includes(keyword)) {
+                            found = true;
+                            trauma_score++;
+                            break;
+                        }
                     }
-                    scores[emotion] = score;
-                    if (score > maxScore) {
-                        maxScore = score;
-                        primary = emotion;
+                    if (found) {
+                        detected[category] = true;
                     }
                 }
-                
-                // Determine intensity
-                let intensity = 'low';
-                for (const word of this.intensity.high) {
-                    if (lower.includes(word)) intensity = 'high';
+
+                // Special case: 1994 mention is high priority
+                if (lower.includes('1994') || lower.includes('jenoside')) {
+                    trauma_score += 3;
+                    detected.genocide1994 = true;
+                    detected.trauma_1994 = true;
                 }
-                for (const word of this.intensity.medium) {
-                    if (lower.includes(word) && intensity !== 'high') intensity = 'medium';
-                }
+
+                return { detected, trauma_score };
+            }
+
+            updateContext(text) {
+                const { detected, trauma_score } = this.detectTrauma(text);
                 
-                return {
-                    emotion: primary,
-                    intensity: intensity,
-                    scores: scores
+                // Update context flags
+                if (detected.genocide1994) {
+                    this.context.trauma_1994 = true;
+                    this.context.trauma_mentioned = true;
+                }
+                if (detected.sensory) {
+                    this.context.sensory_triggers = true;
+                    this.context.possible_ptsd = true;
+                }
+                if (detected.ptsd) {
+                    this.context.possible_ptsd = true;
+                }
+                if (detected.avoidance) {
+                    this.context.avoidance = true;
+                    this.context.social_withdrawal = true;
+                }
+                if (detected.grief) {
+                    this.context.grief_persistent = true;
+                    this.context.anger_after_years = true;
+                }
+                if (detected.hopelessness) {
+                    this.context.hopelessness = true;
+                }
+                if (detected.concentration) {
+                    this.context.concentration_issues = true;
+                }
+
+                // Add to history
+                this.context.session_history.push({
+                    timestamp: Date.now(),
+                    text: text.slice(0, 100),
+                    trauma_score: trauma_score,
+                    detected: detected
+                });
+
+                // Keep history manageable
+                if (this.context.session_history.length > 20) {
+                    this.context.session_history.shift();
+                }
+
+                this.context_initialized = true;
+                return this.context;
+            }
+
+            getContextSummary() {
+                const flags = [];
+                if (this.context.trauma_1994) flags.push('🧠 1994 Genocide survivor context');
+                if (this.context.possible_ptsd) flags.push('⚡ Possible trauma responses');
+                if (this.context.sensory_triggers) flags.push('👂 Sensory triggers present');
+                if (this.context.avoidance) flags.push('🚫 Avoidance patterns');
+                if (this.context.hopelessness) flags.push('💔 Hopelessness detected');
+                if (this.context.grief_persistent) flags.push('🕊️ Persistent grief');
+                if (this.context.anger_after_years) flags.push('🔥 Anger after years');
+                if (this.context.concentration_issues) flags.push('🧠 Concentration issues');
+                if (this.context.social_withdrawal) flags.push('👤 Social withdrawal');
+
+                return flags.length > 0 ? flags.join(' · ') : 'No trauma context detected';
+            }
+
+            isTraumaContext() {
+                return this.context.trauma_1994 || 
+                       this.context.possible_ptsd || 
+                       this.context.sensory_triggers ||
+                       this.context.avoidance ||
+                       this.context.hopelessness ||
+                       this.context.grief_persistent;
+            }
+
+            clearContext() {
+                this.context = {
+                    trauma_1994: false,
+                    trauma_mentioned: false,
+                    possible_ptsd: false,
+                    grief_persistent: false,
+                    avoidance: false,
+                    hypervigilance: false,
+                    sensory_triggers: false,
+                    hopelessness: false,
+                    social_withdrawal: false,
+                    anger_after_years: false,
+                    concentration_issues: false,
+                    session_history: []
                 };
+                this.context_initialized = false;
             }
         }
 
-        // ===== LAYER 3: RISK DETECTION =====
-        const ClinicalEvidence = {
-            crisisTriggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona', 'ndi bura', 'sinakimara', 'ndashaka gupfa'],
-            highRisk: ['guhangayika cyane', 'ndababaye cyane', 'birarengera', 'ntagishoboka'],
-            mediumRisk: ['guhangayika', 'ndababaye', 'birakomeye', 'umunaniro'],
-            
-            detectCrisis(text) {
-                const lower = text.toLowerCase();
-                return this.crisisTriggers.some(t => lower.includes(t));
-            },
-            
+        // ============================================================
+        // PROFESSIONAL TRAUMA-INFORMED RESPONSE GENERATOR
+        // ============================================================
+        class TraumaInformedResponseGenerator {
+            constructor() {
+                this.traumaEngine = new TraumaContextEngine();
+                this.conversationMemory = [];
+            }
+
+            generate(userMessage, userName) {
+                // Update trauma context with this message
+                this.traumaEngine.updateContext(userMessage);
+                const context = this.traumaEngine.context;
+                const isTrauma = this.traumaEngine.isTraumaContext();
+
+                // Detect risk
+                const risk = this.detectRisk(userMessage);
+                const emotion = this.detectEmotion(userMessage);
+
+                // Build response based on context
+                if (risk >= 4) {
+                    return this.buildCrisisResponse(userName, context);
+                }
+
+                if (isTrauma) {
+                    return this.buildTraumaResponse(userMessage, userName, context, emotion);
+                }
+
+                return this.buildGeneralResponse(userMessage, userName, emotion);
+            }
+
             detectRisk(text) {
                 const lower = text.toLowerCase();
-                if (this.crisisTriggers.some(t => lower.includes(t))) return 5;
-                if (this.highRisk.some(t => lower.includes(t))) return 4;
-                if (this.mediumRisk.some(t => lower.includes(t))) return 3;
+                const crisisTriggers = ['kwiyahura', 'gupfa', 'kwikomeretsa', 'kwiyica', 'ndashaka gupfa', 'ntakibazo', 'birangiye'];
+                const highTriggers = ['guhangayika cyane', 'ndababaye cyane', 'birarengera', 'ntagishoboka'];
+                
+                if (crisisTriggers.some(t => lower.includes(t))) return 5;
+                if (highTriggers.some(t => lower.includes(t))) return 4;
+                if (lower.includes('guhangayika') || lower.includes('ndababaye') || lower.includes('birakomeye')) return 3;
                 return 0;
             }
-        };
 
-        // ===== LAYER 4: RESPONSE MODE SELECTION =====
-        class ResponseModeSelector {
-            select(intent, emotion, risk) {
-                if (risk >= 4) return 'crisis';
-                if (intent === 'crisis') return 'crisis';
-                if (emotion === 'sadness' || emotion === 'anxiety' || emotion === 'anger' || emotion === 'fear') {
-                    return 'emotional_support';
-                }
-                if (intent === 'greeting') return 'casual';
-                if (intent === 'educational') return 'educational';
-                if (intent === 'question') return 'informative';
-                return 'balanced';
-            }
-        }
-
-        // ===== FORMATTING ENGINE =====
-        class FormattingEngine {
-            formatResponse(content, mode) {
-                // Already formatted by the response generator
-                return content;
-            }
-        }
-
-        // ===== RESPONSE GENERATOR =====
-        class ProfessionalResponseGenerator {
-            constructor() {
-                this.intentDetector = new IntentDetector();
-                this.emotionDetector = new EmotionDetector();
-                this.modeSelector = new ResponseModeSelector();
-                this.formatter = new FormattingEngine();
+            detectEmotion(text) {
+                const lower = text.toLowerCase();
+                if (lower.includes('uburakari') || lower.includes('urakari') || lower.includes('umujinya')) return 'anger';
+                if (lower.includes('guhangayika') || lower.includes('gutinya') || lower.includes('ubwoba')) return 'anxiety';
+                if (lower.includes('babaye') || lower.includes('agahinda') || lower.includes('ndababaye')) return 'sadness';
+                if (lower.includes('ishimwe') || lower.includes('byiza') || lower.includes('neza')) return 'joy';
+                return 'neutral';
             }
 
-            generate(userMessage, userName, profile) {
-                // LAYER 1: Intent Detection
-                const intent = this.intentDetector.detect(userMessage);
-                
-                // LAYER 2: Emotion Detection
-                const emotion = this.emotionDetector.detect(userMessage);
-                
-                // LAYER 3: Risk Detection
-                const risk = ClinicalEvidence.detectRisk(userMessage);
-                
-                // LAYER 4: Mode Selection
-                const mode = this.modeSelector.select(intent.intent, emotion.emotion, risk);
-                
-                // LAYER 5-8: Response Planning & Generation
-                let response = this.buildResponse(userMessage, userName, intent, emotion, risk, mode, profile);
-                
-                // LAYER 9: Formatting
-                response = this.formatter.formatResponse(response, mode);
-                
-                // LAYER 10: Validation
-                response = this.validate(response, mode);
-                
-                return {
-                    content: response,
-                    metadata: {
-                        intent: intent.intent,
-                        emotion: emotion.emotion,
-                        intensity: emotion.intensity,
-                        risk: risk,
-                        mode: mode
-                    }
-                };
-            }
-
-            buildResponse(message, userName, intent, emotion, risk, mode, profile) {
+            buildTraumaResponse(message, userName, context, emotion) {
                 const name = userName || 'Mugisha';
-                
-                // CRISIS MODE
-                if (mode === 'crisis' || risk >= 4) {
-                    return `
-                        <div class="response-acknowledge">
-                            <span class="response-emoji">🫂</span> 
-                            <strong>Mbabajwe no kumva umeze utyo, ${name}.</strong>
-                        </div>
-                        <div class="response-reflect">
-                            <span class="response-emoji">💭</span> 
-                            Ibyo uri kunyuramo ni ibikomeye. Ni byiza ko utwandikira kugira ngo ubone ubufasha.
-                        </div>
-                        <div class="response-guide">
-                            <span class="response-emoji">📞</span> 
-                            <strong>Ubufasha bwihutirwa:</strong><br>
-                            • 116 - Imitari y'inkunga (24/7)<br>
-                            • 3029 - Isange One Stop Center
-                        </div>
-                        <div class="response-support">
-                            <span class="response-emoji">🤝</span> 
-                            Nturi wenyine muri iki. Ubu hari umuntu uri hafi yawe ushobora kuvugana?
-                        </div>
-                    `;
+                let response = '';
+
+                // ===== ACKNOWLEDGE =====
+                if (context.trauma_1994) {
+                    response += `<div class="response-acknowledge">
+                        <span class="response-emoji">🫂</span> 
+                        <strong>${name}, ndumva ko ibyo wanyuze mu 1994 bikomeje kugira ingaruka ku buzima bwawe.</strong>
+                    </div>`;
+                } else if (context.sensory_triggers) {
+                    response += `<div class="response-acknowledge">
+                        <span class="response-emoji">🫂</span> 
+                        <strong>Ndumva ko impumuro, amajwi cyangwa ahantu runaka bikugiraho ingaruka zikomeye, ${name}.</strong>
+                    </div>`;
+                } else {
+                    response += `<div class="response-acknowledge">
+                        <span class="response-emoji">🫂</span> 
+                        <strong>Ndumva neza ibyo uvuga, ${name}.</strong>
+                    </div>`;
                 }
 
-                // EMOTIONAL SUPPORT MODE
-                if (mode === 'emotional_support') {
-                    const emotionEmojis = {
-                        sadness: '🫂',
-                        anxiety: '🌿',
-                        anger: '💭',
-                        fear: '🫂',
-                        loneliness: '🤝',
-                        stress: '🌱'
-                    };
-                    const emoji = emotionEmojis[emotion.emotion] || '💙';
-                    
-                    return `
-                        <div class="response-acknowledge">
-                            <span class="response-emoji">${emoji}</span> 
-                            <strong>Ndumva neza ibyo uvuga, ${name}.</strong>
-                        </div>
-                        <div class="response-reflect">
-                            <span class="response-emoji">💭</span> 
-                            ${this.getEmotionReflection(emotion.emotion, message)}
-                        </div>
-                        <div class="response-guide">
-                            <span class="response-emoji">🌱</span> 
-                            ${this.getEmotionGuidance(emotion.emotion)}
-                        </div>
-                        <div class="response-support">
-                            <span class="response-emoji">🤝</span> 
-                            Ndi hano ngo nkumve. Ubu hari ikintu cyihariye ushaka kuvuga?
-                        </div>
-                    `;
+                // ===== REFLECT =====
+                if (context.trauma_1994) {
+                    response += `<div class="response-reflect">
+                        <span class="response-emoji">💭</span> 
+                        Ihungabana rishobora gukomeza kugira ingaruka ku muntu n'igihe imyaka myinshi ishize. Ibi ntibisobanura ko uri gusubira inyuma cyangwa ko ufite intege nke. Ni uburyo ihungabana rikomeye ryakubayeho.
+                    </div>`;
+                } else if (context.sensory_triggers) {
+                    response += `<div class="response-reflect">
+                        <span class="response-emoji">💭</span> 
+                        Ibintu nk'impumuro, amajwi cyangwa ahantu runaka bishobora gukangura ubwonko bukibika ibyakubayeho nk'aho bikiri kuba ubu. Ibi ni bimwe mu bimenyetso by'ihungabana rikomeye.
+                    </div>`;
+                } else if (context.avoidance) {
+                    response += `<div class="response-reflect">
+                        <span class="response-emoji">💭</span> 
+                        Kwirinda abantu cyangwa ahantu runaka bishobora kuba uburyo ubwonko bugerageza kukurinda ibintu bushobora kubona nk'ibiteje ibyago. Ibi si ubunebwe cyangwa kwanga abantu.
+                    </div>`;
+                } else if (context.grief_persistent) {
+                    response += `<div class="response-reflect">
+                        <span class="response-emoji">💭</span> 
+                        Ku bantu benshi barokotse ihungabana rikomeye, birashoboka gukomeza kugira agahinda cyangwa uburakari n'iyo imyaka myinshi ishize. Ihungabana ntirikurikiza kalendari.
+                    </div>`;
+                } else {
+                    response += `<div class="response-reflect">
+                        <span class="response-emoji">💭</span> 
+                        Ndumva ko hari ibintu byakugizeho ingaruka. Waba ushaka kuvuga byinshi kuri ibyo?
+                    </div>`;
                 }
 
-                // CASUAL MODE (Greeting)
-                if (mode === 'casual') {
-                    const timeOfDay = new Date().getHours();
-                    let greeting = 'Muraho';
-                    if (timeOfDay < 12) greeting = 'Mwaramutse';
-                    else if (timeOfDay < 18) greeting = 'Muraho';
-                    else greeting = 'Mwiriwe';
-                    
-                    return `
-                        <div class="response-acknowledge">
-                            <span class="response-emoji">👋</span> 
-                            <strong>${greeting} ${name}!</strong>
-                        </div>
-                        <div class="response-reflect">
-                            <span class="response-emoji">😊</span> 
-                            Ni byiza kongera kukubona. Nakwunganira gute uyu munsi?
-                        </div>
-                    `;
+                // ===== GUIDE =====
+                if (context.trauma_1994 || context.possible_ptsd) {
+                    response += `<div class="response-guide">
+                        <span class="response-emoji">🌱</span> 
+                        <strong>Ibikoresho bishobora kugufasha:</strong><br>
+                        • <strong>Kuganira n'umujyanama</strong> - Ushobora gushaka ubufasha bwabugenewe ku bantu barokotse jenoside<br>
+                        • <strong>Kwiyitaho</strong> - Gerageza kurya neza, kuruhuka bihagije no gukora imyitozo ngororamubiri<br>
+                        • <strong>Kugira amahoro</strong> - Kora ibintu bituma umutima wumva amahoro
+                    </div>`;
+                } else if (emotion === 'sadness') {
+                    response += `<div class="response-guide">
+                        <span class="response-emoji">🌱</span> 
+                        Gufata umwanya wo kwihangana, kwandika ibyo utekereza, cyangwa kuganira n'umuntu ukizera bishobora kugufasha.
+                    </div>`;
+                } else if (emotion === 'anxiety') {
+                    response += `<div class="response-guide">
+                        <span class="response-emoji">🌱</span> 
+                        Guhumeka neza, gukora imyitozo ngororamubiri, no kugabanya ibitekerezo bishobora kugufasha kumva amahoro.
+                    </div>`;
+                } else if (emotion === 'anger') {
+                    response += `<div class="response-guide">
+                        <span class="response-emoji">🌱</span> 
+                        Guhumeka neza, kwandika ibikubabaza, no kuganira n'umuntu ukizera bishobora kugufasha kugabanya umujinya.
+                    </div>`;
+                } else {
+                    response += `<div class="response-guide">
+                        <span class="response-emoji">🌱</span> 
+                        Hari ikintu cyihariye ushaka kuganira? Ushobora kumbwira byinshi kugira ngo tubyumve neza.
+                    </div>`;
                 }
 
-                // EDUCATIONAL MODE
-                if (mode === 'educational') {
-                    return `
-                        <div class="response-acknowledge">
-                            <span class="response-emoji">📚</span> 
-                            <strong>${name}, reka turebe hamwe icyo ushaka kumenya.</strong>
-                        </div>
-                        <div class="response-reflect">
-                            <span class="response-emoji">🧠</span> 
-                            ${this.getEducationalContent(message)}
-                        </div>
-                        <div class="response-guide">
-                            <span class="response-emoji">💡</span> 
-                            Hari ikindi ushaka kumenya kuri iki kibazo?
-                        </div>
-                    `;
+                // ===== SUPPORT =====
+                if (context.trauma_1994 || context.possible_ptsd) {
+                    response += `<div class="response-support">
+                        <span class="response-emoji">🤝</span> 
+                        Ndi hano ngo nkumve kandi nkugire inama. Ubu hari ikindi ushaka kuvuga kuri ibi? <br><br>
+                        <em>💙 Niba wumva uri mu byago byihutirwa, ushobora guhamagara 116 cyangwa 3029 ubufasha bwihutirwa.</em>
+                    </div>`;
+                } else {
+                    response += `<div class="response-support">
+                        <span class="response-emoji">🤝</span> 
+                        Ndi hano ngo nkumve. Ubu hari ikindi ushaka kongera kuvuga?
+                    </div>`;
                 }
 
-                // DEFAULT / BALANCED
+                return response;
+            }
+
+            buildCrisisResponse(userName, context) {
+                const name = userName || 'Mugisha';
                 return `
                     <div class="response-acknowledge">
-                        <span class="response-emoji">💬</span> 
-                        <strong>Ndumva neza ibyo uvuga, ${name}.</strong>
+                        <span class="response-emoji">🫂</span> 
+                        <strong>${name}, ndumva ko uri mu bihe bikomeye cyane.</strong>
                     </div>
                     <div class="response-reflect">
                         <span class="response-emoji">💭</span> 
-                        ${this.getGeneralReflection(message)}
+                        Ibyo uri kunyuramo ni ibikomeye. Ni byiza ko utwandikira kugira ngo ubone ubufasha.
                     </div>
                     <div class="response-guide">
-                        <span class="response-emoji">🌱</span> 
-                        ${this.getGeneralGuidance()}
+                        <span class="response-emoji">📞</span> 
+                        <strong>Ubufasha bwihutirwa:</strong><br>
+                        • <strong>116</strong> - Imitari y'inkunga (24/7)<br>
+                        • <strong>3029</strong> - Isange One Stop Center
                     </div>
                     <div class="response-support">
                         <span class="response-emoji">🤝</span> 
-                        Ndi hano ngo nkumve. Ubu hari ikindi ushaka kongera kuvuga?
+                        Nturi wenyine muri iki. Ubu hari umuntu uri hafi yawe ushobora kuvugana?
                     </div>
                 `;
             }
 
-            getEmotionReflection(emotion, message) {
-                const reflections = {
-                    sadness: `Kumva ubabaye cyangwa wigunze bishobora guterwa n'ibintu byinshi. Ni byiza ko ubivuga. Waba hari ikintu cyabaye uyu munsi cyaguteye kumva utyo?`,
-                    anxiety: `Ibyifuzo n'ibitekerezo bikomeye bishobora guhinda umutima. Waba uri guhangana n'ikintu runaka ubu?`,
-                    anger: `Umujinya ushobora kuba ari ikisubizo ku kintu kikubabaza. Ni byiza ko ubivuga. Waba uri guhangana n'ikintu runaka?`,
-                    fear: `Kutinya ni ikintu gisanzwe. Waba hari ikintu kihariye gituma wumva utyo?`,
-                    loneliness: `Kwigunga bishobora kuba bikomeye. Waba hari umuntu uri hafi yawe ushobora kuvugana?`,
-                    stress: `Umunaniro n'ibyifuzo bikomeye bishobora kuba byinshi. Waba hari ikintu cyihariye kikugiraho ingaruka ubu?`
-                };
-                return reflections[emotion] || `Ndumva ko hari ibintu byakugizeho ingaruka. Waba ushaka kuvuga byinshi kuri ibyo?`;
-            }
+            buildGeneralResponse(message, userName, emotion) {
+                const name = userName || 'Mugisha';
+                let response = '';
 
-            getEmotionGuidance(emotion) {
-                const guidance = {
-                    sadness: `Gufata umwanya wo kwihangana, kwandika ibyo utekereza, cyangwa kuganira n'umuntu ukizera bishobora kugufasha.`,
-                    anxiety: `Guhumeka neza, gukora imyitozo ngororamubiri, no kugabanya ibitekerezo bishobora kugufasha kumva amahoro.`,
-                    anger: `Guhumeka neza, kwandika ibikubabaza, no kuganira n'umuntu ukizera bishobora kugufasha kugabanya umujinya.`,
-                    fear: `Kuganira n'umuntu ukizera, gukora ibintu bituma umutima wumva amahoro, no kwihangana bishobora kugufasha.`,
-                    loneliness: `Kuganira n'umuntu ukizera, gukora ibintu ushisha, no kwitabira imibereho myiza bishobora kugufasha.`,
-                    stress: `Guhumeka neza, gukora imyitozo ngororamubiri, no gukora ibintu bituma umutima wumva amahoro bishobora kugufasha.`
-                };
-                return guidance[emotion] || `Gushaka ubufasha ni ikintu cyiza. Reka turebe hamwe uko dushobora kugufasha.`;
-            }
-
-            getEducationalContent(message) {
-                return `Ndumva ko ushaka kumenya byinshi. Reka turebe hamwe icyo ushaka kumenya, kugira ngo mbone uko nakugirira inama.`;
-            }
-
-            getGeneralReflection(message) {
-                return `Ndumva ko hari ibintu byakugizeho ingaruka. Ni byiza ko utwandikira kugira ngo tuganire.`;
-            }
-
-            getGeneralGuidance() {
-                return `Kuvuga ni ikintu cyiza. Reka turebe uko dushobora kugufasha uyu munsi.`;
-            }
-
-            validate(content, mode) {
-                // Remove excessive whitespace
-                content = content.replace(/\s+/g, ' ').trim();
-                
-                // Ensure minimum length for emotional support
-                if (mode === 'emotional_support' && content.length < 50) {
-                    content += ' 💙 Ndi hano ngo nkumve.';
+                // ACKNOWLEDGE
+                if (emotion === 'joy') {
+                    response += `<div class="response-acknowledge">
+                        <span class="response-emoji">😊</span> 
+                        <strong>Ni byiza kumva umeze neza, ${name}!</strong>
+                    </div>`;
+                } else {
+                    response += `<div class="response-acknowledge">
+                        <span class="response-emoji">💬</span> 
+                        <strong>Ndumva neza ibyo uvuga, ${name}.</strong>
+                    </div>`;
                 }
-                
-                return content;
+
+                // REFLECT
+                response += `<div class="response-reflect">
+                    <span class="response-emoji">💭</span> 
+                    ${emotion === 'joy' ? 'Ubu hari ikintu cyihariye cyaguteye kwishima?' : 'Ndumva ko hari ibintu byakugizeho ingaruka. Waba ushaka kuvuga byinshi?'}
+                </div>`;
+
+                // GUIDE
+                response += `<div class="response-guide">
+                    <span class="response-emoji">🌱</span> 
+                    Kuvuga ni ikintu cyiza. Reka turebe uko dushobora kugufasha uyu munsi.
+                </div>`;
+
+                // SUPPORT
+                response += `<div class="response-support">
+                    <span class="response-emoji">🤝</span> 
+                    Ndi hano ngo nkumve. Ubu hari ikindi ushaka kuvuga?
+                </div>`;
+
+                return response;
+            }
+
+            getMemorySummary() {
+                return this.traumaEngine.getContextSummary();
+            }
+
+            clearMemory() {
+                this.traumaEngine.clearContext();
+                this.conversationMemory = [];
             }
         }
 
@@ -2128,7 +2152,7 @@
                 this.onDeviceModel = null;
                 this.currentSource = 'puter';
                 this.userName = null;
-                this.responseGenerator = new ProfessionalResponseGenerator();
+                this.responseGenerator = new TraumaInformedResponseGenerator();
                 this.systemPrompt = this.buildSystemPrompt();
                 this.initialized = false;
             }
@@ -2143,19 +2167,21 @@ USER PROFILE:
 - Izina: ${name}
 
 YOUR ROLE:
-- Provide professional, empathetic responses in Kinyarwanda
+- Provide professional, trauma-informed responses in Kinyarwanda
+- ALWAYS remember trauma context (1994, genocide, flashbacks, triggers)
 - Use the professional response architecture: Acknowledge → Reflect → Guide → Support
-- Detect intent, emotion, and risk levels automatically
+- Prioritize listening and validating before giving advice
 - Use appropriate emojis contextually
-- Keep responses concise but meaningful
-- Prioritize empathy before advice
-- Never use generic therapy clichés
-- Sound human and supportive
+- NEVER use: "ibihe by'ubukorikori" (use "ibihe bikomeye" or "ibihe bigoye")
+- NEVER use: "ama ressource" (use "ubufasha")
+- NEVER greet again mid-conversation
 
 CRITICAL RULES:
-- NEVER mention ethnicity or divisive content
+- If user mentions 1994, genocide, flashbacks, or trauma triggers - remember this context for the ENTIRE conversation
+- NEVER forget that the user may be a genocide survivor
+- NEVER give generic advice when trauma is present
+- NEVER overuse emergency numbers (only for real crisis)
 - ALWAYS provide professional, trauma-informed responses
-- ALWAYS include crisis resources when needed (116, 3029)
 - Focus on healing, unity, and professional mental health support`;
             }
 
@@ -2212,29 +2238,23 @@ CRITICAL RULES:
                 await this.profileAnalyzer.updateFromMessage(userMessage);
                 this.systemPrompt = this.buildSystemPrompt();
 
-                // Get professional response
-                const result = this.responseGenerator.generate(
-                    userMessage,
-                    this.userName,
-                    this.profileAnalyzer.profile
-                );
-
-                // Try Puter AI if available and not crisis/emotional
-                if (this.puterAvailable && result.metadata.risk < 4 && result.metadata.mode !== 'emotional_support') {
-                    try {
-                        const response = await window.puter.ai.chat([
-                            { role: 'system', content: this.systemPrompt },
-                            ...messages.slice(-5)
-                        ], { model: 'gpt-4o-mini' });
-
-                        let content = response.message?.content || response;
-                        return { type: 'normal', content, metadata: result.metadata };
-                    } catch (e) {
-                        console.log('Puter error, using structured response');
-                    }
+                // Check for crisis
+                const risk = this.responseGenerator.detectRisk(userMessage);
+                if (risk >= 4) {
+                    const content = this.responseGenerator.buildCrisisResponse(
+                        this.userName,
+                        this.responseGenerator.traumaEngine.context
+                    );
+                    return { type: 'crisis', content, metadata: { risk } };
                 }
 
-                return { type: 'normal', content: result.content, metadata: result.metadata };
+                // Generate trauma-informed response
+                const content = this.responseGenerator.generate(userMessage, this.userName);
+
+                // Update memory display
+                const memorySummary = this.responseGenerator.getMemorySummary();
+                
+                return { type: 'normal', content, metadata: { memory: memorySummary } };
             }
 
             setUserName(name) {
@@ -2242,6 +2262,14 @@ CRITICAL RULES:
                 this.profileAnalyzer.profile.name = name;
                 this.profileAnalyzer.saveProfile();
                 this.systemPrompt = this.buildSystemPrompt();
+            }
+
+            getMemorySummary() {
+                return this.responseGenerator.getMemorySummary();
+            }
+
+            clearMemory() {
+                this.responseGenerator.clearMemory();
             }
         }
 
@@ -2310,7 +2338,6 @@ CRITICAL RULES:
             speak(text, options = {}) {
                 if (!this.synthesis) return;
                 this.synthesis.cancel();
-                // Strip HTML tags for speech
                 const plainText = text.replace(/<[^>]*>/g, '');
                 const utterance = new SpeechSynthesisUtterance(plainText.slice(0, 500));
                 if (options.voice) {
@@ -2770,6 +2797,11 @@ CRITICAL RULES:
                     await this.saveConversation(text, response.content);
                     this.updateProfileDisplay();
 
+                    // Update memory display in console
+                    if (response.metadata?.memory) {
+                        console.log('🧠 Trauma Context:', response.metadata.memory);
+                    }
+
                 } catch (e) {
                     this.removeTyping(typingId);
                     this.addMessage('assistant', 'Hari ikibazo. Ngaho tuganire. 💙');
@@ -2940,6 +2972,8 @@ CRITICAL RULES:
             newChat() {
                 this.messages = [];
                 this.currentId = generateId();
+                // Clear trauma memory
+                if (this.ai) this.ai.clearMemory();
                 while (this.elements.messagesContainer.firstChild) {
                     this.elements.messagesContainer.removeChild(this.elements.messagesContainer.firstChild);
                 }
@@ -2969,10 +3003,11 @@ CRITICAL RULES:
                 }
                 const data = {
                     app: 'TYAZA',
-                    version: '6.5',
+                    version: '7.0',
                     timestamp: Date.now(),
                     profile: this.profileAnalyzer.profile,
-                    messages: this.messages
+                    messages: this.messages,
+                    traumaContext: this.ai ? this.ai.getMemorySummary() : 'No context'
                 };
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
@@ -3121,19 +3156,19 @@ CRITICAL RULES:
             app.init();
         }
 
-        console.log('✨ TYAZA v6.5 - Professional Response Architecture');
+        console.log('✨ TYAZA v7.0 - Trauma-Informed Professional Edition');
         console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-        console.log('🧠 AI Architecture:');
-        console.log('  1. Intent Detection');
-        console.log('  2. Emotion Detection');
-        console.log('  3. Risk Detection');
-        console.log('  4. Response Mode Selection');
-        console.log('  5. Context & Memory Retrieval');
-        console.log('  6. Response Planning');
-        console.log('  7. Content Generation');
-        console.log('  8. Formatting Engine');
-        console.log('  9. Safety Validation');
-        console.log(' 10. Final Output');
+        console.log('🧠 New Features:');
+        console.log('  ✅ Trauma Context Engine - Remembers 1994/genocide context');
+        console.log('  ✅ Sensory Trigger Detection - Impumuro, amajwi, ahantu');
+        console.log('  ✅ PTSD Pattern Recognition');
+        console.log('  ✅ Persistent Grief & Anger Detection');
+        console.log('  ✅ Avoidance & Social Withdrawal Detection');
+        console.log('  ✅ Hopelessness Detection');
+        console.log('  ✅ Professional Response Structure: Acknowledge → Reflect → Guide → Support');
+        console.log('  ✅ Fixed: No more mid-conversation greetings');
+        console.log('  ✅ Fixed: Natural Kinyarwanda (no "ama ressource" or "ibihe by\'ubukorikori")');
+        console.log('  ✅ Fixed: Emergency numbers only for real crisis');
         console.log('💙 Built for Rwanda | Zero Budget | Global Quality');
     </script>
 
