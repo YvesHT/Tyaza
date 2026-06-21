@@ -2,19 +2,19 @@
 <html lang="rw" data-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta name="description" content="TYAZA - Umuvugizi w'Umutima | AI Virtual Therapy Assistant by Kivura Labs">
     <meta name="theme-color" content="#0a0612">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="data:application/json,{}">
     
-    <title>TYAZA · Umuvugizi w'Umutima · Kivura Labs</title>
+    <title>TYAZA · Umuvugizi w'Umutima · Kivura Labs · 2030 Edition</title>
     
     <!-- Preconnect and Resources -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <link rel="preconnect" href="https://js.puter.com">
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
@@ -22,24 +22,13 @@
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
-    <!-- Import Maps (hidden) -->
-    <script type="importmap" style="display: none;">
-        {
-            "imports": {
-                "@xenova/transformers": "https://esm.sh/@xenova/transformers@2.17.1",
-                "idb": "https://esm.sh/idb@8.0.0"
-            }
-        }
-    </script>
-    
     <style>
         /* ================================================================
-           TYAZA v5.0 - KIVURA LABS EDITION
-           Complete company knowledge integrated into AI
-           Mobile sidebar fixed (not blurred, properly darkened)
+           TYAZA v6.0 - 2030 EDITION
+           Zero Budget · 1000%+ Out-of-Box · Global Leading Quality
            ================================================================ */
 
-        /* Design Tokens */
+        /* CSS Reset & Variables */
         :root {
             --color-primary-50: #f5f3ff;
             --color-primary-100: #ede9fe;
@@ -67,9 +56,8 @@
             --color-surface-900: #0a0612;
             --color-surface-800: #130d24;
             --color-surface-700: #1a1433;
-            --color-surface-600: #231b42;
-            --color-surface-500: #2d2352;
-            --color-surface-400: #3d2f6d;
+            --color-surface-600: #2d2352;
+            --color-surface-500: #3d2f6d;
             
             --color-text-primary: #f8fafc;
             --color-text-secondary: #e2e8f0;
@@ -83,9 +71,11 @@
             
             --gradient-primary: linear-gradient(135deg, #8b5cf6, #ec4899);
             --gradient-secondary: linear-gradient(135deg, #ec4899, #10b981);
+            --gradient-cosmic: linear-gradient(135deg, #8b5cf6, #ec4899, #10b981, #8b5cf6);
             
             --shadow-glow-primary: 0 0 40px rgba(139, 92, 246, 0.3);
             --shadow-glow-secondary: 0 0 40px rgba(236, 72, 153, 0.3);
+            --shadow-glow-success: 0 0 40px rgba(34, 197, 94, 0.3);
             
             --sidebar-width: 320px;
             --header-height: 64px;
@@ -103,38 +93,53 @@
             --space-6: 24px;
             --space-8: 32px;
             --space-10: 40px;
+            --space-12: 48px;
             
             --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             --font-display: 'Space Grotesk', var(--font-sans);
             --font-serif: 'Crimson Pro', Georgia, serif;
+            
+            --transition-smooth: cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        /* Reset */
-        * {
+        /* Global Reset */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: var(--font-sans);
             background: var(--color-surface-950);
             color: var(--color-text-primary);
-            line-height: 1.5;
+            line-height: 1.6;
             min-height: 100vh;
+            min-height: 100dvh;
             overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Utility Classes */
+        /* ================================================================
+           UTILITY CLASSES
+           ================================================================ */
         .d-flex { display: flex; }
         .flex-col { flex-direction: column; }
         .items-center { align-items: center; }
         .justify-center { justify-content: center; }
         .justify-between { justify-content: space-between; }
         .flex-1 { flex: 1; }
+        .gap-1 { gap: var(--space-1); }
         .gap-2 { gap: var(--space-2); }
         .gap-3 { gap: var(--space-3); }
         .gap-4 { gap: var(--space-4); }
+        .gap-6 { gap: var(--space-6); }
         
         .p-2 { padding: var(--space-2); }
         .p-3 { padding: var(--space-3); }
@@ -143,16 +148,20 @@
         .p-6 { padding: var(--space-6); }
         
         .px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+        .px-6 { padding-left: var(--space-6); padding-right: var(--space-6); }
         .py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
         .py-3 { padding-top: var(--space-3); padding-bottom: var(--space-3); }
+        .py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
         
         .m-0 { margin: 0; }
         .mt-2 { margin-top: var(--space-2); }
         .mt-3 { margin-top: var(--space-3); }
         .mt-4 { margin-top: var(--space-4); }
+        .mt-6 { margin-top: var(--space-6); }
         .mb-2 { margin-bottom: var(--space-2); }
         .mb-3 { margin-bottom: var(--space-3); }
         .mb-4 { margin-bottom: var(--space-4); }
+        .mb-6 { margin-bottom: var(--space-6); }
         
         .text-xs { font-size: 0.75rem; }
         .text-sm { font-size: 0.875rem; }
@@ -160,22 +169,32 @@
         .text-lg { font-size: 1.125rem; }
         .text-xl { font-size: 1.25rem; }
         .text-2xl { font-size: 1.5rem; }
+        .text-3xl { font-size: 2rem; }
+        .text-4xl { font-size: 2.5rem; }
+        .text-5xl { font-size: 3rem; }
         
         .font-medium { font-weight: 500; }
         .font-semibold { font-weight: 600; }
         .font-bold { font-weight: 700; }
+        .font-extrabold { font-weight: 800; }
         
         .text-primary { color: var(--color-text-primary); }
         .text-secondary { color: var(--color-text-secondary); }
-        .text-muted { color: var(--color-text-muted); }
+        .text-muted { color: var(--color-text-tertiary); }
         .text-success { color: var(--color-success); }
         .text-error { color: var(--color-error); }
         
         .text-center { text-align: center; }
+        .text-gradient {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
         
         .w-full { width: 100%; }
         .h-full { height: 100%; }
-        .h-screen { height: 100vh; }
+        .h-screen { height: 100vh; height: 100dvh; }
         
         .rounded-lg { border-radius: var(--radius-lg); }
         .rounded-xl { border-radius: var(--radius-xl); }
@@ -185,18 +204,37 @@
         .border { border: 1px solid var(--color-surface-600); }
         .border-0 { border: none; }
         .border-t { border-top: 1px solid var(--color-surface-600); }
+        .border-primary { border-color: var(--color-primary-500); }
         
         .shadow-lg { box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5); }
+        .shadow-xl { box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6); }
+        .shadow-glow { box-shadow: var(--shadow-glow-primary); }
         
         .overflow-hidden { overflow: hidden; }
         .overflow-y-auto { overflow-y: auto; }
+        .overflow-x-hidden { overflow-x: hidden; }
         
         .relative { position: relative; }
         .absolute { position: absolute; }
         .fixed { position: fixed; }
+        .sticky { position: sticky; }
         .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+        .z-10 { z-index: 10; }
+        .z-20 { z-index: 20; }
+        .z-30 { z-index: 30; }
+        .z-40 { z-index: 40; }
+        .z-50 { z-index: 50; }
         
-        /* Button Styles */
+        .animate-in { animation: fadeInUp 0.6s var(--transition-smooth); }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ================================================================
+           BUTTONS
+           ================================================================ */
         .btn {
             display: inline-flex;
             align-items: center;
@@ -209,9 +247,24 @@
             border: 1px solid transparent;
             border-radius: var(--radius-lg);
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s var(--transition-smooth);
             user-select: none;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
         }
+
+        .btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover::after { opacity: 1; }
+        .btn:active { transform: scale(0.97); }
 
         .btn-primary {
             background: var(--gradient-primary);
@@ -220,8 +273,8 @@
         }
 
         .btn-primary:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5), var(--shadow-glow-primary);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5), var(--shadow-glow-primary);
         }
 
         .btn-secondary {
@@ -232,6 +285,7 @@
 
         .btn-secondary:hover:not(:disabled) {
             background: var(--color-surface-600);
+            transform: translateY(-1px);
         }
 
         .btn-ghost {
@@ -244,16 +298,34 @@
             color: var(--color-text-primary);
         }
 
+        .btn-success {
+            background: var(--color-success);
+            color: white;
+            box-shadow: var(--shadow-glow-success);
+        }
+
+        .btn-danger {
+            background: var(--color-error);
+            color: white;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.3);
+        }
+
         .btn-icon {
             width: 40px;
             height: 40px;
             padding: 0;
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
+            flex-shrink: 0;
         }
 
         .btn-sm {
             padding: var(--space-2) var(--space-3);
             font-size: 0.75rem;
+        }
+
+        .btn-lg {
+            padding: var(--space-4) var(--space-6);
+            font-size: 1rem;
         }
 
         .btn-block {
@@ -263,9 +335,12 @@
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none !important;
         }
 
-        /* Input Styles */
+        /* ================================================================
+           INPUTS
+           ================================================================ */
         .input {
             width: 100%;
             padding: var(--space-3) var(--space-4);
@@ -276,12 +351,23 @@
             border: 1px solid var(--color-surface-600);
             border-radius: var(--radius-lg);
             outline: none;
-            transition: all 0.15s;
+            transition: all 0.2s;
         }
 
         .input:focus {
             border-color: var(--color-primary-500);
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        .input::placeholder {
+            color: var(--color-text-tertiary);
+        }
+
+        textarea.input {
+            resize: vertical;
+            min-height: 60px;
+            max-height: 200px;
+            line-height: 1.6;
         }
 
         .select {
@@ -307,44 +393,6 @@
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
         }
 
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            font-size: 0.875rem;
-            color: var(--color-text-secondary);
-            cursor: pointer;
-        }
-
-        .checkbox {
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            background: var(--color-surface-800);
-            border: 2px solid var(--color-surface-500);
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.15s;
-            position: relative;
-        }
-
-        .checkbox:checked {
-            background: var(--color-primary-500);
-            border-color: var(--color-primary-500);
-        }
-
-        .checkbox:checked::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 6px;
-            width: 5px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-        }
-
         .slider {
             appearance: none;
             width: 100%;
@@ -363,13 +411,16 @@
             border-radius: var(--radius-full);
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-            transition: transform 0.15s;
+            transition: transform 0.2s;
         }
 
         .slider::-webkit-slider-thumb:hover {
             transform: scale(1.2);
         }
 
+        /* ================================================================
+           COMPONENTS
+           ================================================================ */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -396,6 +447,11 @@
             color: var(--color-primary-300);
         }
 
+        .badge-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--color-error);
+        }
+
         .card {
             background: var(--color-surface-800);
             border: 1px solid var(--color-surface-600);
@@ -404,15 +460,19 @@
         }
 
         .card-glass {
-            background: rgba(26, 20, 51, 0.8);
+            background: rgba(26, 20, 51, 0.6);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.15);
         }
 
-        /* Cosmic Background */
+        /* ================================================================
+           COSMIC BACKGROUND
+           ================================================================ */
         .app-background {
             position: fixed;
             inset: 0;
-            z-index: -1;
+            z-index: 0;
             overflow: hidden;
             background: var(--color-surface-950);
         }
@@ -425,16 +485,17 @@
             width: 200%;
             height: 200%;
             background: 
-                radial-gradient(ellipse at 20% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.08) 0%, transparent 50%);
-            animation: cosmicDrift 40s ease-in-out infinite;
+                radial-gradient(ellipse at 20% 20%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(236, 72, 153, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(16, 185, 129, 0.04) 0%, transparent 50%);
+            animation: cosmicDrift 60s ease-in-out infinite;
         }
 
         @keyframes cosmicDrift {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(2%, 1%); }
-            50% { transform: translate(-1%, 2%); }
-            75% { transform: translate(1%, -1%); }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(2%, 1%) scale(1.02); }
+            50% { transform: translate(-1%, 2%) scale(0.98); }
+            75% { transform: translate(1%, -1%) scale(1.01); }
         }
 
         .stars-container {
@@ -449,35 +510,61 @@
             height: 2px;
             background: white;
             border-radius: var(--radius-full);
-            animation: starTwinkle 3s ease-in-out infinite;
+            animation: starTwinkle 4s ease-in-out infinite;
         }
 
         @keyframes starTwinkle {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.9; }
+            0%, 100% { opacity: 0.2; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.5); }
         }
 
-        /* Layout */
+        .shooting-star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: var(--radius-full);
+            animation: shootingStar 8s linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes shootingStar {
+            0% { transform: translate(0, 0); opacity: 0; }
+            5% { opacity: 1; }
+            15% { transform: translate(-200px, 200px); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* ================================================================
+           LAYOUT
+           ================================================================ */
         .app-layout {
             display: flex;
             width: 100vw;
+            width: 100dvw;
             height: 100vh;
+            height: 100dvh;
             position: relative;
             z-index: 10;
+            overflow: hidden;
         }
 
-        /* Sidebar - FIXED for mobile: solid dark, no blur, proper opacity */
+        /* ================================================================
+           SIDEBAR
+           ================================================================ */
         .app-sidebar {
             width: var(--sidebar-width);
             height: 100vh;
-            background: var(--color-surface-900); /* Solid dark background */
+            height: 100dvh;
+            background: var(--color-surface-900);
             border-right: 1px solid var(--color-surface-600);
             display: flex;
             flex-direction: column;
             position: relative;
             z-index: 20;
-            transition: transform 0.3s ease;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s var(--transition-smooth);
+            box-shadow: 4px 0 30px rgba(0, 0, 0, 0.6);
+            flex-shrink: 0;
         }
 
         .sidebar-header {
@@ -487,6 +574,7 @@
             align-items: center;
             justify-content: space-between;
             background: var(--color-surface-800);
+            flex-shrink: 0;
         }
 
         .sidebar-close {
@@ -495,17 +583,24 @@
             height: 36px;
             border: none;
             background: var(--color-surface-700);
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
             color: var(--color-text-secondary);
             cursor: pointer;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .sidebar-close:hover {
+            background: var(--color-surface-600);
+            color: var(--color-text-primary);
         }
 
         .logo-container {
             display: flex;
             align-items: center;
             gap: var(--space-3);
+            cursor: pointer;
         }
 
         .logo-icon {
@@ -520,6 +615,12 @@
             color: white;
             box-shadow: var(--shadow-glow-primary);
             overflow: hidden;
+            flex-shrink: 0;
+            transition: transform 0.3s var(--transition-smooth);
+        }
+
+        .logo-icon:hover {
+            transform: rotate(-5deg) scale(1.05);
         }
 
         .logo-icon img {
@@ -528,21 +629,22 @@
             object-fit: cover;
         }
 
-        .logo-title {
+        .logo-text .logo-title {
             font-family: var(--font-display);
             font-size: 1.25rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--color-text-primary), var(--color-secondary-300));
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            line-height: 1.2;
         }
 
-        .logo-subtitle {
-            font-size: 0.75rem;
+        .logo-text .logo-subtitle {
+            font-size: 0.65rem;
             color: var(--color-text-tertiary);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
         }
 
         .sidebar-content {
@@ -552,7 +654,20 @@
             display: flex;
             flex-direction: column;
             gap: var(--space-4);
-            background: var(--color-surface-900); /* Solid background */
+            background: var(--color-surface-900);
+        }
+
+        .sidebar-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .sidebar-content::-webkit-scrollbar-thumb {
+            background: var(--color-surface-600);
+            border-radius: var(--radius-full);
         }
 
         .sidebar-section {
@@ -562,12 +677,15 @@
         }
 
         .sidebar-section-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 600;
             color: var(--color-text-tertiary);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             padding: 0 var(--space-2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .new-chat-btn {
@@ -578,14 +696,14 @@
             width: 100%;
             padding: var(--space-4);
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.1));
-            border: 1px solid rgba(236, 72, 153, 0.3);
+            border: 1px solid rgba(236, 72, 153, 0.25);
             border-radius: var(--radius-xl);
             color: var(--color-text-primary);
             font-family: inherit;
             font-size: 0.875rem;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s var(--transition-smooth);
         }
 
         .new-chat-btn:hover {
@@ -611,7 +729,7 @@
             display: flex;
             align-items: center;
             gap: var(--space-2);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--color-text-tertiary);
             text-transform: uppercase;
             letter-spacing: 0.08em;
@@ -634,7 +752,7 @@
         .voice-control-label {
             display: flex;
             justify-content: space-between;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--color-text-tertiary);
         }
 
@@ -643,13 +761,17 @@
             font-weight: 500;
         }
 
+        /* ================================================================
+           CHAT HISTORY
+           ================================================================ */
         .history-list {
             flex: 1;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: var(--space-2);
-            min-height: 150px;
+            min-height: 80px;
+            max-height: 300px;
         }
 
         .history-item {
@@ -661,16 +783,17 @@
             border: 1px solid var(--color-surface-600);
             border-radius: var(--radius-lg);
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s;
         }
 
         .history-item:hover {
             background: var(--color-surface-700);
             border-color: var(--color-primary-500);
+            transform: translateX(4px);
         }
 
         .history-item.active {
-            background: rgba(236, 72, 153, 0.15);
+            background: rgba(236, 72, 153, 0.12);
             border-color: var(--color-secondary-400);
             border-left: 3px solid var(--color-secondary-400);
         }
@@ -688,7 +811,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--color-text-tertiary);
         }
 
@@ -697,15 +820,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: var(--space-8);
+            padding: var(--space-6);
             color: var(--color-text-tertiary);
             text-align: center;
             gap: var(--space-2);
         }
 
+        /* ================================================================
+           INFO CARD
+           ================================================================ */
         .info-card {
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(236, 72, 153, 0.05));
-            border: 1px solid rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.12);
             border-radius: var(--radius-xl);
             padding: var(--space-4);
             font-size: 0.75rem;
@@ -727,16 +853,9 @@
             font-weight: 500;
         }
 
-        .info-card-footer {
-            font-size: 0.65rem;
-            color: var(--color-text-muted);
-            text-align: center;
-            margin-top: var(--space-3);
-            padding-top: var(--space-3);
-            border-top: 1px solid rgba(139, 92, 246, 0.1);
-        }
-
-        /* Main Chat Area */
+        /* ================================================================
+           CHAT MAIN
+           ================================================================ */
         .chat-main {
             flex: 1;
             display: flex;
@@ -756,12 +875,15 @@
             background: var(--color-surface-900);
             border-bottom: 1px solid var(--color-surface-700);
             z-index: 15;
+            flex-shrink: 0;
+            gap: var(--space-2);
         }
 
         .header-left {
             display: flex;
             align-items: center;
             gap: var(--space-4);
+            min-width: 0;
         }
 
         .menu-toggle {
@@ -772,6 +894,7 @@
             display: flex;
             align-items: center;
             gap: var(--space-3);
+            min-width: 0;
         }
 
         .chat-avatar {
@@ -781,11 +904,12 @@
             align-items: center;
             justify-content: center;
             background: var(--gradient-primary);
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
             color: white;
             font-weight: 600;
             font-size: 1.2rem;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .chat-avatar img {
@@ -794,17 +918,24 @@
             object-fit: cover;
         }
 
+        .chat-info {
+            min-width: 0;
+        }
+
         .chat-info h1 {
             font-size: 1rem;
             font-weight: 600;
             color: var(--color-text-primary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .chat-status {
             display: flex;
             align-items: center;
             gap: var(--space-2);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--color-text-tertiary);
         }
 
@@ -818,48 +949,28 @@
 
         @keyframes statusPulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; transform: scale(1.3); }
+            50% { opacity: 0.5; transform: scale(1.3); }
         }
 
         .header-actions {
             display: flex;
             align-items: center;
             gap: var(--space-2);
+            flex-shrink: 0;
         }
 
-        .ndahari-btn {
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-            padding: var(--space-2) var(--space-4);
-            background: var(--gradient-primary);
-            border-radius: var(--radius-full);
-            color: white;
-            font-size: 0.875rem;
-            font-weight: 500;
-            box-shadow: var(--shadow-glow-primary);
-            border: none;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .ndahari-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-glow-primary), var(--shadow-lg);
-        }
-
-        .ndahari-btn i {
-            font-size: 1rem;
-        }
-
+        /* ================================================================
+           MESSAGES CONTAINER
+           ================================================================ */
         .messages-container {
             flex: 1;
             overflow-y: auto;
             padding: var(--space-6);
             display: flex;
             flex-direction: column;
-            gap: var(--space-5);
+            gap: var(--space-4);
             background: var(--color-surface-950);
+            scroll-behavior: smooth;
         }
 
         .messages-container::-webkit-scrollbar {
@@ -879,7 +990,9 @@
             background: var(--color-surface-500);
         }
 
-        /* Welcome Screen */
+        /* ================================================================
+           WELCOME SCREEN
+           ================================================================ */
         .welcome-screen {
             flex: 1;
             display: flex;
@@ -888,12 +1001,8 @@
             justify-content: center;
             padding: var(--space-8);
             text-align: center;
-            animation: fadeInUp 0.6s ease-out;
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            animation: fadeInUp 0.8s var(--transition-smooth);
+            gap: var(--space-4);
         }
 
         .welcome-icon {
@@ -902,14 +1011,18 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--color-primary-400), var(--color-secondary-400), var(--color-accent-400));
+            background: var(--gradient-primary);
             border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
             font-size: 4rem;
             color: white;
-            margin-bottom: var(--space-8);
             box-shadow: var(--shadow-glow-primary), var(--shadow-glow-secondary);
-            animation: morphShape 10s ease-in-out infinite, iconFloat 6s ease-in-out infinite;
+            animation: morphShape 12s ease-in-out infinite, iconFloat 6s ease-in-out infinite;
             overflow: hidden;
+            transition: transform 0.3s var(--transition-smooth);
+        }
+
+        .welcome-icon:hover {
+            transform: scale(1.05);
         }
 
         .welcome-icon img {
@@ -931,13 +1044,13 @@
 
         .welcome-title {
             font-family: var(--font-display);
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, var(--color-text-primary), var(--color-primary-300), var(--color-secondary-300));
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: var(--space-2);
+            line-height: 1.1;
         }
 
         .welcome-subtitle {
@@ -945,21 +1058,20 @@
             font-size: 1.25rem;
             font-style: italic;
             color: var(--color-text-tertiary);
-            margin-bottom: var(--space-6);
         }
 
         .welcome-quote {
             font-family: var(--font-serif);
-            font-size: 1.125rem;
+            font-size: 1.1rem;
             color: var(--color-text-tertiary);
             max-width: 500px;
             line-height: 1.9;
             padding: var(--space-5) var(--space-8);
-            background: rgba(26, 20, 51, 0.6);
+            background: rgba(26, 20, 51, 0.4);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(139, 92, 246, 0.15);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.1);
             border-radius: var(--radius-xl);
-            margin-bottom: var(--space-8);
         }
 
         .welcome-suggestions {
@@ -968,7 +1080,6 @@
             gap: var(--space-3);
             justify-content: center;
             max-width: 600px;
-            margin-bottom: var(--space-6);
         }
 
         .suggestion-btn {
@@ -980,31 +1091,32 @@
             font-family: inherit;
             font-size: 0.875rem;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s var(--transition-smooth);
         }
 
         .suggestion-btn:hover {
             background: rgba(139, 92, 246, 0.15);
             border-color: var(--color-primary-500);
             color: var(--color-text-primary);
-            transform: translateY(-2px);
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: var(--shadow-glow-primary);
         }
 
         .greeting {
-            margin-top: var(--space-4);
             font-size: 1.1rem;
             color: var(--color-secondary-400);
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.8s ease;
         }
 
-        /* Message Styles */
+        /* ================================================================
+           MESSAGES
+           ================================================================ */
         .message {
             display: flex;
             gap: var(--space-4);
             max-width: 85%;
-            margin-bottom: var(--space-4);
-            animation: messageSlide 0.3s ease-out;
+            animation: messageSlide 0.3s var(--transition-smooth);
         }
 
         .message.user {
@@ -1042,6 +1154,7 @@
             line-height: 1.75;
             word-wrap: break-word;
             max-width: 100%;
+            position: relative;
         }
 
         .message.user .message-bubble {
@@ -1051,9 +1164,10 @@
         }
 
         .message.assistant .message-bubble {
-            background: rgba(26, 20, 51, 0.7);
+            background: rgba(26, 20, 51, 0.5);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(139, 92, 246, 0.15);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.1);
             border-radius: var(--radius-xl) var(--radius-xl) var(--radius-xl) var(--radius-sm);
         }
 
@@ -1062,15 +1176,16 @@
             align-items: center;
             gap: var(--space-3);
             padding: 0 var(--space-2);
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--color-text-tertiary);
+            margin-top: var(--space-1);
         }
 
         .message-actions {
             display: flex;
             gap: var(--space-1);
             opacity: 0;
-            transition: opacity 0.15s;
+            transition: opacity 0.2s;
         }
 
         .message:hover .message-actions {
@@ -1088,8 +1203,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.75rem;
-            transition: all 0.15s;
+            font-size: 0.7rem;
+            transition: all 0.2s;
         }
 
         .message-action:hover {
@@ -1099,16 +1214,18 @@
         }
 
         @keyframes messageSlide {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* Typing Indicator */
+        /* ================================================================
+           TYPING INDICATOR
+           ================================================================ */
         .typing-indicator {
             display: flex;
             align-items: center;
             gap: var(--space-4);
-            margin-bottom: var(--space-4);
+            animation: messageSlide 0.3s var(--transition-smooth);
         }
 
         .typing-avatar {
@@ -1121,6 +1238,7 @@
             background: var(--gradient-primary);
             font-size: 1.2rem;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .typing-avatar img {
@@ -1133,9 +1251,10 @@
             display: flex;
             gap: 6px;
             padding: var(--space-4) var(--space-5);
-            background: rgba(26, 20, 51, 0.7);
+            background: rgba(26, 20, 51, 0.5);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(139, 92, 246, 0.15);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(139, 92, 246, 0.1);
             border-radius: var(--radius-xl);
         }
 
@@ -1148,18 +1267,21 @@
 
         .typing-dot:nth-child(1) { background: var(--color-primary-400); }
         .typing-dot:nth-child(2) { background: var(--color-secondary-400); animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { background: var(--color-accent-400); animation-delay: 0.4s; }
+        .typing-dot:nth-child(3) { background: var(--color-success); animation-delay: 0.4s; }
 
         @keyframes typingBounce {
-            0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
-            30% { transform: translateY(-10px); opacity: 1; }
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-12px); opacity: 1; }
         }
 
-        /* Input Area */
+        /* ================================================================
+           INPUT AREA
+           ================================================================ */
         .input-area {
-            padding: var(--space-5) var(--space-6) var(--space-6);
+            padding: var(--space-4) var(--space-6) var(--space-6);
             background: linear-gradient(to top, var(--color-surface-950) 50%, transparent);
             position: relative;
+            flex-shrink: 0;
         }
 
         .input-container {
@@ -1173,12 +1295,12 @@
             align-items: flex-end;
             gap: var(--space-3);
             box-shadow: var(--shadow-lg);
-            transition: all 0.15s;
+            transition: all 0.2s;
         }
 
         .input-container:focus-within {
             border-color: var(--color-primary-500);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15), var(--shadow-lg);
         }
 
         textarea {
@@ -1189,7 +1311,7 @@
             color: var(--color-text-primary);
             font-family: inherit;
             font-size: 1rem;
-            padding: var(--space-4) 0;
+            padding: var(--space-3) 0;
             resize: none;
             max-height: 150px;
             min-height: 24px;
@@ -1214,19 +1336,19 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.2s var(--transition-smooth);
             border: none;
             font-size: 1.1rem;
         }
 
         .voice-btn {
-            background: rgba(139, 92, 246, 0.15);
-            border: 1px solid rgba(236, 72, 153, 0.3);
+            background: rgba(139, 92, 246, 0.12);
+            border: 1px solid rgba(236, 72, 153, 0.2);
             color: var(--color-secondary-400);
         }
 
         .voice-btn:hover {
-            background: rgba(139, 92, 246, 0.25);
+            background: rgba(139, 92, 246, 0.2);
             transform: scale(1.05);
         }
 
@@ -1237,7 +1359,7 @@
         }
 
         @keyframes micPulse {
-            0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.5); }
+            0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4); }
             70% { box-shadow: 0 0 0 20px rgba(236, 72, 153, 0); }
         }
 
@@ -1255,17 +1377,20 @@
         .send-btn:disabled {
             opacity: 0.4;
             cursor: not-allowed;
+            transform: none !important;
         }
 
         .voice-status {
             text-align: center;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             color: var(--color-text-tertiary);
             min-height: 24px;
-            margin-top: var(--space-3);
+            margin-top: var(--space-2);
         }
 
-        /* Scroll to Bottom */
+        /* ================================================================
+           SCROLL TO BOTTOM
+           ================================================================ */
         .scroll-bottom {
             position: absolute;
             bottom: 100px;
@@ -1283,7 +1408,7 @@
             opacity: 0;
             visibility: hidden;
             transform: translateY(10px);
-            transition: all 0.3s;
+            transition: all 0.3s var(--transition-smooth);
             z-index: 40;
         }
 
@@ -1293,18 +1418,27 @@
             transform: translateY(0);
         }
 
-        /* STT Overlay */
+        .scroll-bottom:hover {
+            background: var(--color-surface-700);
+            transform: translateY(-2px);
+        }
+
+        /* ================================================================
+           STT OVERLAY
+           ================================================================ */
         .stt-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(3, 0, 20, 0.95);
+            background: rgba(3, 0, 20, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 500;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s;
+            transition: all 0.4s var(--transition-smooth);
         }
 
         .stt-overlay.active {
@@ -1323,20 +1457,13 @@
             gap: var(--space-6);
             box-shadow: var(--shadow-glow-secondary), var(--shadow-xl);
             transform: scale(0.9);
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transition: transform 0.5s var(--transition-smooth);
             max-width: 90vw;
+            width: 500px;
         }
 
         .stt-overlay.active .stt-modal {
             transform: scale(1);
-        }
-
-        .voice-visualizer {
-            width: 100%;
-            height: 100px;
-            background: var(--color-surface-700);
-            border-radius: var(--radius-lg);
-            margin-bottom: var(--space-4);
         }
 
         .stt-visualizer {
@@ -1345,6 +1472,7 @@
             justify-content: center;
             gap: 6px;
             height: 80px;
+            width: 100%;
         }
 
         .stt-bar {
@@ -1375,11 +1503,13 @@
         }
 
         .stt-hint {
-            font-size: 0.875rem;
+            font-size: 0.8rem;
             color: var(--color-text-tertiary);
         }
 
-        /* Loading Screen */
+        /* ================================================================
+           LOADING SCREEN
+           ================================================================ */
         .loading-screen {
             position: fixed;
             inset: 0;
@@ -1390,7 +1520,7 @@
             justify-content: center;
             gap: var(--space-6);
             z-index: 1000;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
         }
 
         .loading-screen.hidden {
@@ -1417,6 +1547,11 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(-2deg); }
         }
 
         .loading-spinner {
@@ -1455,244 +1590,22 @@
             100% { width: 0%; margin-left: 100%; }
         }
 
-        /* Toast Container */
-        .toast-container {
-            position: fixed;
-            bottom: var(--space-6);
-            right: var(--space-6);
-            z-index: 800;
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-3);
-        }
-
-        /* Toast Component */
-        tyaza-toast {
-            display: block;
-            background: var(--color-surface-800);
-            border: 1px solid var(--color-surface-600);
-            border-left: 4px solid;
-            border-radius: var(--radius-lg);
-            padding: var(--space-4) var(--space-5);
-            margin-bottom: var(--space-3);
-            box-shadow: var(--shadow-lg);
-            animation: toastSlideIn 0.3s ease-out;
-            max-width: 350px;
-        }
-
-        tyaza-toast[type="success"] { border-left-color: var(--color-success); }
-        tyaza-toast[type="error"] { border-left-color: var(--color-error); }
-        tyaza-toast[type="info"] { border-left-color: var(--color-info); }
-
-        @keyframes toastSlideIn {
-            from { opacity: 0; transform: translateX(100%); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* Sidebar Overlay - Solid dark for mobile */
-        .sidebar-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 15;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-
-        .sidebar-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        /* Crisis Floating Button */
-        .crisis-floating-btn {
-            position: fixed;
-            bottom: 100px;
-            left: 20px;
-            width: 56px;
-            height: 56px;
-            border-radius: var(--radius-full);
-            background: var(--color-error);
-            color: white;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4);
-            z-index: 100;
-            transition: all 0.15s;
-            animation: crisisFloat 3s ease-in-out infinite;
-        }
-
-        .crisis-floating-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 30px rgba(239, 68, 68, 0.6);
-        }
-
-        .crisis-pulse {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: var(--radius-full);
-            background: var(--color-error);
-            opacity: 0.6;
-            animation: crisisPulse 2s ease-out infinite;
-        }
-
-        @keyframes crisisPulse {
-            0% { transform: scale(1); opacity: 0.6; }
-            70% { transform: scale(1.5); opacity: 0; }
-            100% { transform: scale(1.5); opacity: 0; }
-        }
-
-        @keyframes crisisFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* Mood Tracking */
-        .mood-modal {
-            max-width: 500px;
-        }
-
-        .mood-scale {
-            display: flex;
-            justify-content: space-between;
-            gap: var(--space-2);
-            margin: var(--space-6) 0;
-        }
-
-        .mood-btn {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: var(--space-1);
-            padding: var(--space-3);
-            background: var(--color-surface-700);
-            border: 2px solid var(--color-surface-500);
-            border-radius: var(--radius-lg);
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-
-        .mood-btn:hover {
-            border-color: var(--color-primary-400);
-            transform: translateY(-2px);
-        }
-
-        .mood-btn.selected {
-            border-color: var(--color-primary-500);
-            background: rgba(139, 92, 246, 0.2);
-        }
-
-        .mood-emoji {
-            font-size: 1.5rem;
-        }
-
-        .mood-label {
-            font-size: 0.75rem;
-            color: var(--color-text-tertiary);
-        }
-
-        .mood-notes {
-            width: 100%;
-            padding: var(--space-3);
-            background: var(--color-surface-700);
-            border: 1px solid var(--color-surface-500);
-            border-radius: var(--radius-lg);
-            color: var(--color-text-primary);
-            font-family: inherit;
-            resize: vertical;
-            min-height: 80px;
-            margin-bottom: var(--space-4);
-        }
-
-        .mood-history {
-            margin-top: var(--space-4);
-        }
-
-        .mood-calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: var(--space-1);
-            margin-top: var(--space-2);
-        }
-
-        .mood-day {
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: var(--radius-sm);
-            font-size: 0.75rem;
-            cursor: pointer;
-            transition: all 0.15s;
-            background: var(--color-surface-700);
-        }
-
-        .mood-day:hover {
-            transform: scale(1.1);
-        }
-
-        .mood-level-1 { background: rgba(239, 68, 68, 0.3); }
-        .mood-level-2 { background: rgba(245, 158, 11, 0.3); }
-        .mood-level-3 { background: rgba(234, 179, 8, 0.3); }
-        .mood-level-4 { background: rgba(34, 197, 94, 0.3); }
-        .mood-level-5 { background: rgba(16, 185, 129, 0.3); }
-
-        .mood-day-label {
-            text-align: center;
-            font-size: 0.75rem;
-            color: var(--color-text-tertiary);
-            padding: var(--space-1);
-        }
-
-        .mood-history-title {
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--color-text-secondary);
-            margin: var(--space-4) 0 var(--space-2) 0;
-        }
-
-        .mood-btn-small {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-full);
-            background: var(--color-surface-700);
-            border: 1px solid var(--color-surface-500);
-            color: var(--color-text-secondary);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        
-        .mood-btn-small:hover {
-            transform: scale(1.1);
-            border-color: var(--color-primary-500);
-        }
-        
-        #moodQuickSelect {
-            display: flex;
-            justify-content: space-between;
-            gap: var(--space-1);
-        }
-
-        /* Modal */
+        /* ================================================================
+           MODALS
+           ================================================================ */
         .modal-backdrop {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 500;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s;
+            transition: all 0.3s var(--transition-smooth);
         }
         
         .modal-backdrop.active {
@@ -1709,9 +1622,10 @@
             max-height: 90vh;
             overflow-y: auto;
             transform: scale(0.95);
-            transition: transform 0.3s;
+            transition: transform 0.3s var(--transition-smooth);
+            width: 100%;
         }
-        
+
         .modal-backdrop.active .modal {
             transform: scale(1);
         }
@@ -1728,6 +1642,7 @@
         .modal-title {
             font-size: 1.25rem;
             font-weight: 600;
+            color: var(--color-text-primary);
         }
         
         .modal-close {
@@ -1740,8 +1655,9 @@
             border: none;
             color: var(--color-text-muted);
             cursor: pointer;
-            border-radius: var(--radius-md);
+            border-radius: var(--radius-lg);
             font-size: 1.5rem;
+            transition: all 0.2s;
         }
         
         .modal-close:hover {
@@ -1755,7 +1671,145 @@
             padding-right: var(--space-2);
         }
 
-        /* Crisis Resources */
+        /* ================================================================
+           MOOD TRACKING
+           ================================================================ */
+        .mood-modal { max-width: 500px; }
+
+        .mood-scale {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-2);
+            margin: var(--space-6) 0;
+            flex-wrap: wrap;
+        }
+
+        .mood-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-1);
+            padding: var(--space-3);
+            background: var(--color-surface-700);
+            border: 2px solid var(--color-surface-500);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.2s var(--transition-smooth);
+            min-width: 50px;
+        }
+
+        .mood-btn:hover {
+            border-color: var(--color-primary-400);
+            transform: translateY(-3px);
+        }
+
+        .mood-btn.selected {
+            border-color: var(--color-primary-500);
+            background: rgba(139, 92, 246, 0.2);
+            box-shadow: var(--shadow-glow-primary);
+        }
+
+        .mood-btn .mood-emoji {
+            font-size: 1.5rem;
+        }
+
+        .mood-btn .mood-label {
+            font-size: 0.7rem;
+            color: var(--color-text-tertiary);
+        }
+
+        .mood-notes {
+            width: 100%;
+            padding: var(--space-3);
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            border-radius: var(--radius-lg);
+            color: var(--color-text-primary);
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+            margin-bottom: var(--space-4);
+        }
+
+        .mood-notes:focus {
+            border-color: var(--color-primary-500);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        .mood-history-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin: var(--space-4) 0 var(--space-2) 0;
+        }
+
+        .mood-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--space-1);
+            margin-top: var(--space-2);
+        }
+
+        .mood-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--radius-sm);
+            font-size: 0.7rem;
+            cursor: default;
+            transition: all 0.2s;
+            background: var(--color-surface-700);
+            color: var(--color-text-secondary);
+        }
+
+        .mood-day:hover {
+            transform: scale(1.1);
+        }
+
+        .mood-day-label {
+            text-align: center;
+            font-size: 0.65rem;
+            color: var(--color-text-tertiary);
+            padding: var(--space-1);
+            font-weight: 500;
+        }
+
+        .mood-level-1 { background: rgba(239, 68, 68, 0.3); color: var(--color-error); }
+        .mood-level-2 { background: rgba(245, 158, 11, 0.3); color: var(--color-warning); }
+        .mood-level-3 { background: rgba(234, 179, 8, 0.3); color: #ca8a04; }
+        .mood-level-4 { background: rgba(34, 197, 94, 0.3); color: var(--color-success); }
+        .mood-level-5 { background: rgba(16, 185, 129, 0.3); color: #059669; }
+
+        .mood-btn-small {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            color: var(--color-text-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s var(--transition-smooth);
+        }
+        
+        .mood-btn-small:hover {
+            transform: scale(1.15);
+            border-color: var(--color-primary-500);
+            box-shadow: var(--shadow-glow-primary);
+        }
+
+        #moodQuickSelect {
+            display: flex;
+            justify-content: space-between;
+            gap: var(--space-1);
+        }
+
+        /* ================================================================
+           CRISIS RESOURCES
+           ================================================================ */
         .crisis-resources {
             display: flex;
             flex-direction: column;
@@ -1772,7 +1826,7 @@
             background: var(--color-surface-700);
             border: 1px solid var(--color-surface-500);
             border-radius: var(--radius-lg);
-            transition: all 0.15s;
+            transition: all 0.2s var(--transition-smooth);
         }
         
         .crisis-resource:hover {
@@ -1780,7 +1834,7 @@
             transform: translateX(4px);
         }
         
-        .crisis-icon {
+        .crisis-resource .crisis-icon {
             width: 40px;
             height: 40px;
             display: flex;
@@ -1789,31 +1843,32 @@
             background: var(--color-surface-600);
             border-radius: var(--radius-md);
             font-size: 1.2rem;
+            flex-shrink: 0;
         }
         
-        .crisis-info {
+        .crisis-resource .crisis-info {
             flex: 1;
         }
         
-        .crisis-name {
+        .crisis-resource .crisis-name {
             font-weight: 600;
             color: var(--color-text-primary);
             font-size: 0.875rem;
         }
         
-        .crisis-number {
+        .crisis-resource .crisis-number {
             font-size: 1.125rem;
             font-weight: 700;
             color: var(--color-error);
             line-height: 1.3;
         }
         
-        .crisis-desc {
-            font-size: 0.75rem;
+        .crisis-resource .crisis-desc {
+            font-size: 0.7rem;
             color: var(--color-text-tertiary);
         }
         
-        .crisis-call {
+        .crisis-resource .crisis-call {
             width: 44px;
             height: 44px;
             display: flex;
@@ -1823,47 +1878,124 @@
             color: white;
             border-radius: var(--radius-full);
             text-decoration: none;
-            transition: all 0.15s;
+            transition: all 0.2s var(--transition-smooth);
+            flex-shrink: 0;
         }
         
-        .crisis-call:hover {
+        .crisis-resource .crisis-call:hover {
+            transform: scale(1.15);
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+        }
+
+        /* ================================================================
+           CRISIS FLOATING BUTTON
+           ================================================================ */
+        .crisis-floating-btn {
+            position: fixed;
+            bottom: 100px;
+            left: 20px;
+            width: 56px;
+            height: 56px;
+            border-radius: var(--radius-full);
+            background: var(--color-error);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 30px rgba(239, 68, 68, 0.4);
+            z-index: 100;
+            transition: all 0.2s var(--transition-smooth);
+            animation: crisisFloat 3s ease-in-out infinite;
+        }
+
+        .crisis-floating-btn:hover {
             transform: scale(1.1);
-            box-shadow: 0 0 20px var(--color-error);
+            box-shadow: 0 8px 40px rgba(239, 68, 68, 0.6);
         }
 
-        /* Utility */
-        .flex-1 {
-            flex: 1;
-        }
-        
-        .spinner-sm {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid var(--color-surface-600);
-            border-top-color: var(--color-primary-500);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        
-        .mr-1 {
-            margin-right: 4px;
-        }
-        
-        .mt-1 {
-            margin-top: 4px;
-        }
-        
-        .mt-2 {
-            margin-top: 8px;
-        }
-        
-        .btn-sm {
-            padding: var(--space-2) var(--space-3);
-            font-size: 0.75rem;
+        .crisis-floating-btn .crisis-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius-full);
+            background: var(--color-error);
+            opacity: 0.4;
+            animation: crisisPulse 2s ease-out infinite;
         }
 
-        /* Responsive - FIXED for mobile */
+        @keyframes crisisPulse {
+            0% { transform: scale(1); opacity: 0.4; }
+            70% { transform: scale(1.6); opacity: 0; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        @keyframes crisisFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        /* ================================================================
+           TOAST
+           ================================================================ */
+        .toast-container {
+            position: fixed;
+            bottom: var(--space-6);
+            right: var(--space-6);
+            z-index: 800;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+            max-width: 90vw;
+        }
+
+        tyaza-toast {
+            display: block;
+            background: var(--color-surface-800);
+            border: 1px solid var(--color-surface-600);
+            border-left: 4px solid;
+            border-radius: var(--radius-lg);
+            padding: var(--space-4) var(--space-5);
+            box-shadow: var(--shadow-xl);
+            animation: toastSlideIn 0.3s var(--transition-smooth);
+            max-width: 350px;
+        }
+
+        tyaza-toast[type="success"] { border-left-color: var(--color-success); }
+        tyaza-toast[type="error"] { border-left-color: var(--color-error); }
+        tyaza-toast[type="info"] { border-left-color: var(--color-info); }
+        tyaza-toast[type="warning"] { border-left-color: var(--color-warning); }
+
+        @keyframes toastSlideIn {
+            from { opacity: 0; transform: translateX(100%) scale(0.9); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
+        }
+
+        /* ================================================================
+           SIDEBAR OVERLAY
+           ================================================================ */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            z-index: 15;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* ================================================================
+           RESPONSIVE
+           ================================================================ */
         @media (max-width: 768px) {
             :root {
                 --sidebar-width: 85vw;
@@ -1876,9 +2008,10 @@
                 top: 0;
                 bottom: 0;
                 transform: translateX(-100%);
-                background: var(--color-surface-900); /* Solid dark, no blur */
+                background: var(--color-surface-900);
                 z-index: 500;
-                box-shadow: 4px 0 30px rgba(0, 0, 0, 0.8);
+                box-shadow: 4px 0 40px rgba(0, 0, 0, 0.8);
+                border-right: none;
             }
 
             .app-sidebar.open {
@@ -1893,22 +2026,19 @@
                 display: flex !important;
             }
 
-            .sidebar-content {
-                background: var(--color-surface-900);
-            }
-
-            .sidebar-header {
-                background: var(--color-surface-800);
-            }
-
             .welcome-title {
-                font-size: 2.25rem;
+                font-size: 2.5rem;
             }
 
             .welcome-icon {
                 width: 100px;
                 height: 100px;
                 font-size: 3rem;
+            }
+
+            .welcome-quote {
+                padding: var(--space-4) var(--space-5);
+                font-size: 1rem;
             }
 
             .message {
@@ -1920,23 +2050,19 @@
             }
 
             .input-area {
-                padding: var(--space-4);
+                padding: var(--space-3) var(--space-4) var(--space-4);
             }
 
             .crisis-floating-btn {
                 width: 48px;
                 height: 48px;
                 font-size: 1.2rem;
-                bottom: 90px;
+                bottom: 80px;
                 left: 10px;
             }
 
-            .ndahari-btn span {
+            .header-actions .btn span {
                 display: none;
-            }
-            
-            .ndahari-btn {
-                padding: var(--space-2);
             }
 
             .modal {
@@ -1946,14 +2072,19 @@
 
             .mood-scale {
                 flex-wrap: wrap;
+                justify-content: center;
             }
 
             .mood-btn {
-                min-width: 60px;
+                min-width: 50px;
+                flex: 0 1 auto;
             }
-        }
 
-        @media (max-width: 480px) {
+            .stt-modal {
+                padding: var(--space-6);
+                width: 95vw;
+            }
+
             .welcome-suggestions {
                 flex-direction: column;
                 align-items: center;
@@ -1964,6 +2095,28 @@
                 max-width: 280px;
             }
 
+            .chat-header {
+                padding: 0 var(--space-4);
+            }
+
+            .chat-info h1 {
+                font-size: 0.875rem;
+            }
+
+            .logo-text .logo-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .welcome-title {
+                font-size: 2rem;
+            }
+            
+            .welcome-subtitle {
+                font-size: 1rem;
+            }
+
             .mood-scale {
                 gap: var(--space-1);
             }
@@ -1972,12 +2125,34 @@
                 padding: var(--space-2);
             }
 
-            .mood-emoji {
+            .mood-btn .mood-emoji {
                 font-size: 1.2rem;
+            }
+
+            .mood-btn .mood-label {
+                font-size: 0.6rem;
+            }
+
+            .input-container {
+                padding: var(--space-2);
+                gap: var(--space-2);
+            }
+
+            .input-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 0.9rem;
+            }
+
+            textarea {
+                font-size: 0.9rem;
+                padding: var(--space-2) 0;
             }
         }
 
-        /* Reduced Motion */
+        /* ================================================================
+           REDUCED MOTION
+           ================================================================ */
         @media (prefers-reduced-motion: reduce) {
             *,
             *::before,
@@ -1986,63 +2161,108 @@
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
             }
+
+            .welcome-icon {
+                animation: none !important;
+            }
+
+            .crisis-floating-btn {
+                animation: none !important;
+            }
+        }
+
+        /* ================================================================
+           PRINT STYLES
+           ================================================================ */
+        @media print {
+            .app-sidebar,
+            .chat-header,
+            .input-area,
+            .crisis-floating-btn,
+            .scroll-bottom,
+            .message-actions {
+                display: none !important;
+            }
+
+            .chat-main {
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            .messages-container {
+                overflow: visible !important;
+                height: auto !important;
+                padding: 20px !important;
+            }
+
+            .message {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+
+        /* ================================================================
+           UTILITY - KEYBOARD SHORTCUT HINT
+           ================================================================ */
+        .kbd-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-1);
+            font-size: 0.6rem;
+            color: var(--color-text-muted);
+            padding: 2px 6px;
+            background: var(--color-surface-700);
+            border-radius: var(--radius-sm);
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
     <!-- Cosmic Background -->
-    <div class="app-background">
+    <div class="app-background" aria-hidden="true">
         <div class="stars-container" id="starsContainer"></div>
     </div>
 
     <!-- Sidebar Overlay -->
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay" role="button" aria-label="Close sidebar"></div>
 
     <!-- Main Layout -->
-    <div class="app-layout">
+    <div class="app-layout" role="application">
         <!-- Sidebar -->
-        <aside class="app-sidebar" id="sidebar">
+        <aside class="app-sidebar" id="sidebar" role="navigation" aria-label="Main navigation">
             <div class="sidebar-header">
-                <div class="logo-container">
+                <div class="logo-container" role="banner">
                     <div class="logo-icon">
                         <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <i class="fas fa-robot" style="display: none;"></i>
+                        <i class="fas fa-robot" style="display: none;" aria-hidden="true"></i>
                     </div>
                     <div class="logo-text">
                         <div class="logo-title">TYAZA</div>
                         <div class="logo-subtitle">Umuvugizi w'Umutima</div>
                     </div>
                 </div>
-                <button class="sidebar-close" id="sidebarClose">
-                    <i class="fas fa-times"></i>
+                <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">
+                    <i class="fas fa-times" aria-hidden="true"></i>
                 </button>
             </div>
 
             <div class="sidebar-content">
                 <!-- New Chat Button -->
-                <button class="new-chat-btn" id="newChatBtn">
-                    <span>✨</span> Ikiganiro Gishya
+                <button class="new-chat-btn" id="newChatBtn" aria-label="Start new chat">
+                    <span aria-hidden="true">✨</span> Ikiganiro Gishya
                 </button>
-
-                <!-- Hidden technical settings -->
-                <div style="display: none;">
-                    <select id="modelSelect">
-                        <option value="auto">Auto</option>
-                        <option value="puter">Ndahari</option>
-                    </select>
-                </div>
 
                 <!-- User Profile -->
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">Umwirondoro</div>
                     <div class="settings-card">
                         <div class="settings-row">
-                            <label class="settings-label">Izina ryawe</label>
-                            <input type="text" class="input" id="userNameInput" placeholder="Injira izina ryawe..." value="Mugisha">
+                            <label class="settings-label" for="userNameInput">Izina ryawe</label>
+                            <input type="text" class="input" id="userNameInput" placeholder="Injira izina ryawe..." value="Mugisha" aria-label="Your name">
                         </div>
                         <div class="settings-row mt-2">
                             <button class="btn btn-secondary btn-sm" id="saveNameBtn">
-                                <i class="fas fa-save"></i> Bika izina
+                                <i class="fas fa-save" aria-hidden="true"></i> Bika izina
                             </button>
                         </div>
                     </div>
@@ -2052,15 +2272,15 @@
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">Uko wumva</div>
                     <div class="settings-card">
-                        <div class="mood-scale-compact" id="moodQuickSelect">
-                            <button class="mood-btn-small" data-mood="1" title="Byacye">😢</button>
-                            <button class="mood-btn-small" data-mood="2" title="Ntacyo">😔</button>
-                            <button class="mood-btn-small" data-mood="3" title="Harinkomeye">😐</button>
-                            <button class="mood-btn-small" data-mood="4" title="Ni meza">🙂</button>
-                            <button class="mood-btn-small" data-mood="5" title="Neza cyane">😊</button>
+                        <div class="mood-scale-compact" id="moodQuickSelect" role="group" aria-label="Quick mood selection">
+                            <button class="mood-btn-small" data-mood="1" title="Byacye" aria-label="Very sad">😢</button>
+                            <button class="mood-btn-small" data-mood="2" title="Ntacyo" aria-label="Sad">😔</button>
+                            <button class="mood-btn-small" data-mood="3" title="Harinkomeye" aria-label="Neutral">😐</button>
+                            <button class="mood-btn-small" data-mood="4" title="Ni meza" aria-label="Good">🙂</button>
+                            <button class="mood-btn-small" data-mood="5" title="Neza cyane" aria-label="Very good">😊</button>
                         </div>
                         <button class="btn btn-secondary btn-block btn-sm mt-2" id="openMoodModal">
-                            <i class="fas fa-chart-line"></i> Reba imimerere
+                            <i class="fas fa-chart-line" aria-hidden="true"></i> Reba imimerere
                         </button>
                     </div>
                 </div>
@@ -2071,12 +2291,12 @@
                     <div class="settings-card">
                         <div class="settings-row">
                             <button class="btn btn-secondary btn-block" id="micTestBtn">
-                                <span>🎤</span> Gerageza mikorofoni
+                                <span aria-hidden="true">🎤</span> Gerageza mikorofoni
                             </button>
                         </div>
                         <div class="settings-row mt-2">
-                            <label class="settings-label">Ijwi</label>
-                            <select class="select" id="voiceSelect">
+                            <label class="settings-label" for="voiceSelect">Ijwi</label>
+                            <select class="select" id="voiceSelect" aria-label="Voice selection">
                                 <option value="Google UK English Female">Umugore (UK)</option>
                                 <option value="Google UK English Male">Umugabo (UK)</option>
                                 <option value="Samantha">Samantha</option>
@@ -2088,14 +2308,14 @@
                                     <span>Umuvuduko</span>
                                     <span class="voice-control-value" id="rateValue">0.9</span>
                                 </div>
-                                <input type="range" class="slider" id="rateSlider" min="0.5" max="1.5" step="0.05" value="0.9">
+                                <input type="range" class="slider" id="rateSlider" min="0.5" max="1.5" step="0.05" value="0.9" aria-label="Speech rate">
                             </div>
                             <div class="voice-control-item">
                                 <div class="voice-control-label">
                                     <span>Ibarura</span>
                                     <span class="voice-control-value" id="pitchValue">1.0</span>
                                 </div>
-                                <input type="range" class="slider" id="pitchSlider" min="0.5" max="2" step="0.05" value="1.0">
+                                <input type="range" class="slider" id="pitchSlider" min="0.5" max="2" step="0.05" value="1.0" aria-label="Speech pitch">
                             </div>
                         </div>
                     </div>
@@ -2107,9 +2327,9 @@
                         <span>📜 Amateka</span>
                         <button class="btn btn-ghost btn-sm" id="clearHistory">Hanagura</button>
                     </div>
-                    <div class="history-list" id="historyList">
+                    <div class="history-list" id="historyList" role="list" aria-label="Chat history">
                         <div class="history-empty">
-                            <i class="fas fa-history"></i>
+                            <i class="fas fa-history" aria-hidden="true"></i>
                             <span>Nta mateka</span>
                         </div>
                     </div>
@@ -2119,7 +2339,7 @@
                 <div class="info-card">
                     <div class="info-card-title">
                         <img src="kivura-logo.png" alt="KIVURA LABS" style="width: 24px; height: 24px; border-radius: 4px; margin-right: 8px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block';">
-                        <i class="fas fa-microchip" style="display: none;"></i> KIVURA LABS
+                        <i class="fas fa-microchip" style="display: none;" aria-hidden="true"></i> KIVURA LABS
                     </div>
                     <div class="text-sm font-semibold text-secondary-300">
                         "Healthy citizens, wealthy nation"
@@ -2135,48 +2355,48 @@
         </aside>
 
         <!-- Main Chat Area -->
-        <main class="chat-main">
+        <main class="chat-main" role="main">
             <!-- Header -->
             <header class="chat-header">
                 <div class="header-left">
-                    <button class="btn btn-icon btn-ghost menu-toggle" id="menuToggle">
-                        <i class="fas fa-bars"></i>
+                    <button class="btn btn-icon btn-ghost menu-toggle" id="menuToggle" aria-label="Toggle sidebar">
+                        <i class="fas fa-bars" aria-hidden="true"></i>
                     </button>
                     <div class="chat-title">
                         <div class="chat-avatar">
                             <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                            <i class="fas fa-robot" style="display: none;"></i>
+                            <i class="fas fa-robot" style="display: none;" aria-hidden="true"></i>
                         </div>
                         <div class="chat-info">
                             <h1>TYAZA</h1>
                             <div class="chat-status">
-                                <span class="status-indicator"></span>
+                                <span class="status-indicator" aria-hidden="true"></span>
                                 <span id="connectionStatus">Igisubizo kindimo</span>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="header-actions">
-                    <button class="ndahari-btn" id="ndahariBtn">
-                        <i class="fas fa-cloud"></i>
-                        <span>Ndahari AI</span>
+                    <button class="btn btn-primary btn-sm ndahari-btn" id="ndahariBtn" aria-label="Toggle Ndahari AI">
+                        <i class="fas fa-cloud" aria-hidden="true"></i>
+                        <span>Ndahari</span>
                     </button>
-                    <button class="btn btn-icon btn-ghost" id="exportTrigger">
-                        <i class="fas fa-download"></i>
+                    <button class="btn btn-icon btn-ghost" id="exportTrigger" aria-label="Export chat">
+                        <i class="fas fa-download" aria-hidden="true"></i>
                     </button>
-                    <button class="btn btn-icon btn-ghost" id="clearChat">
-                        <i class="fas fa-trash-alt"></i>
+                    <button class="btn btn-icon btn-ghost" id="clearChat" aria-label="Clear chat">
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
                     </button>
                 </div>
             </header>
 
             <!-- Messages Container -->
-            <div class="messages-container" id="messagesContainer">
+            <div class="messages-container" id="messagesContainer" role="log" aria-label="Chat messages">
                 <!-- Welcome Screen -->
                 <div class="welcome-screen" id="welcomeScreen">
                     <div class="welcome-icon">
                         <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <i class="fas fa-robot" style="display: none;"></i>
+                        <i class="fas fa-robot" style="display: none;" aria-hidden="true"></i>
                     </div>
                     <h1 class="welcome-title">TYAZA</h1>
                     <p class="welcome-subtitle">Igisubizo kindimo</p>
@@ -2196,8 +2416,8 @@
             </div>
 
             <!-- Scroll to Bottom -->
-            <button class="scroll-bottom" id="scrollBottom">
-                <i class="fas fa-arrow-down"></i>
+            <button class="scroll-bottom" id="scrollBottom" aria-label="Scroll to bottom">
+                <i class="fas fa-arrow-down" aria-hidden="true"></i>
                 subira hasi
             </button>
 
@@ -2208,26 +2428,26 @@
                         id="messageInput" 
                         placeholder="Sangiza icyo utekereza..." 
                         rows="1"
+                        aria-label="Type your message"
                     ></textarea>
                     <div class="input-actions">
-                        <button class="input-btn voice-btn" id="voiceBtn">
-                            <i class="fas fa-microphone"></i>
+                        <button class="input-btn voice-btn" id="voiceBtn" aria-label="Voice input">
+                            <i class="fas fa-microphone" aria-hidden="true"></i>
                         </button>
-                        <button class="input-btn send-btn" id="sendBtn" disabled>
-                            <i class="fas fa-paper-plane"></i>
+                        <button class="input-btn send-btn" id="sendBtn" disabled aria-label="Send message">
+                            <i class="fas fa-paper-plane" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
-                <div class="voice-status" id="voiceStatus"></div>
+                <div class="voice-status" id="voiceStatus" role="status" aria-live="polite"></div>
             </div>
         </main>
     </div>
 
     <!-- STT Overlay -->
-    <div class="stt-overlay" id="sttOverlay">
+    <div class="stt-overlay" id="sttOverlay" role="dialog" aria-modal="true" aria-label="Voice input">
         <div class="stt-modal">
-            <canvas class="voice-visualizer" id="voiceVisualizer" width="400" height="100"></canvas>
-            <div class="stt-visualizer">
+            <div class="stt-visualizer" aria-hidden="true">
                 <span class="stt-bar"></span>
                 <span class="stt-bar"></span>
                 <span class="stt-bar"></span>
@@ -2241,77 +2461,77 @@
     </div>
 
     <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
+    <div class="loading-screen" id="loadingScreen" role="status" aria-label="Loading">
         <div class="loading-logo">
             <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <i class="fas fa-robot" style="display: none;"></i>
+            <i class="fas fa-robot" style="display: none;" aria-hidden="true"></i>
         </div>
-        <div class="loading-spinner"></div>
+        <div class="loading-spinner" aria-hidden="true"></div>
         <div class="loading-text" id="loadingText">Itegura...</div>
-        <div class="loading-progress">
+        <div class="loading-progress" aria-hidden="true">
             <div class="loading-progress-bar"></div>
         </div>
     </div>
 
     <!-- Toast Container -->
-    <div class="toast-container" id="toastContainer"></div>
+    <div class="toast-container" id="toastContainer" role="status" aria-live="polite"></div>
 
     <!-- Hidden File Input -->
-    <input type="file" id="importFile" accept=".json,.txt,.tyaza" style="display: none;">
+    <input type="file" id="importFile" accept=".json,.txt,.tyaza" style="display: none;" aria-label="Import file">
 
     <!-- Mood Modal -->
-    <div class="modal-backdrop" id="moodModal">
+    <div class="modal-backdrop" id="moodModal" role="dialog" aria-modal="true" aria-label="Mood tracking">
         <div class="modal mood-modal">
             <div class="modal-header">
                 <h3 class="modal-title">📊 Uko wumva</h3>
-                <button class="modal-close" id="moodModalClose">&times;</button>
+                <button class="modal-close" id="moodModalClose" aria-label="Close mood modal">&times;</button>
             </div>
             <div class="modal-body">
                 <p style="color: var(--color-text-secondary); margin-bottom: var(--space-4);">
                     Ubu umerera gute?
                 </p>
-                <div class="mood-scale" id="moodScale">
-                    <button class="mood-btn" data-mood="1">
+                <div class="mood-scale" id="moodScale" role="group" aria-label="Mood selection">
+                    <button class="mood-btn" data-mood="1" aria-label="Very sad">
                         <span class="mood-emoji">😢</span>
                         <span class="mood-label">Byacye</span>
                     </button>
-                    <button class="mood-btn" data-mood="2">
+                    <button class="mood-btn" data-mood="2" aria-label="Sad">
                         <span class="mood-emoji">😔</span>
                         <span class="mood-label">Ntacyo</span>
                     </button>
-                    <button class="mood-btn" data-mood="3">
+                    <button class="mood-btn" data-mood="3" aria-label="Neutral">
                         <span class="mood-emoji">😐</span>
                         <span class="mood-label">Harinkomeye</span>
                     </button>
-                    <button class="mood-btn" data-mood="4">
+                    <button class="mood-btn" data-mood="4" aria-label="Good">
                         <span class="mood-emoji">🙂</span>
                         <span class="mood-label">Ni meza</span>
                     </button>
-                    <button class="mood-btn" data-mood="5">
+                    <button class="mood-btn" data-mood="5" aria-label="Very good">
                         <span class="mood-emoji">😊</span>
                         <span class="mood-label">Neza cyane</span>
                     </button>
                 </div>
-                <textarea class="mood-notes" id="moodNotes" placeholder="Andika icyo uhererwa... (ikinyarwanda)"></textarea>
+                <textarea class="mood-notes" id="moodNotes" placeholder="Andika icyo uhererwa... (ikinyarwanda)" aria-label="Mood notes"></textarea>
                 <button class="btn btn-primary btn-block" id="saveMoodBtn">
-                    <i class="fas fa-save"></i> Bika uko numva
+                    <i class="fas fa-save" aria-hidden="true"></i> Bika uko numva
                 </button>
                 <div class="mood-history">
                     <div class="mood-history-title">Imimerere y'icyumweru</div>
-                    <div class="mood-calendar" id="moodCalendar"></div>
+                    <div class="mood-calendar" id="moodCalendar" role="grid" aria-label="Weekly mood calendar"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Crisis Modal -->
-    <div class="modal-backdrop" id="crisisModal">
+    <div class="modal-backdrop" id="crisisModal" role="dialog" aria-modal="true" aria-label="Crisis resources">
         <div class="modal" style="max-width: 500px; border-color: var(--color-error);">
             <div class="modal-header" style="border-bottom-color: var(--color-error);">
                 <h3 class="modal-title" style="color: var(--color-error);">
                     ⚠️ Ukeneye ubufasha bwihutirwa?
                 </h3>
-                <button class="modal-close" id="crisisClose">&times;</button>
+                <button class="modal-close" id="crisisClose" aria-label="Close crisis modal">&times;</button>
             </div>
             <div style="margin: var(--space-6) 0;">
                 <p style="margin-bottom: var(--space-4); color: var(--color-text-secondary);">
@@ -2319,190 +2539,135 @@
                 </p>
                 <div class="crisis-resources">
                     <div class="crisis-resource">
-                        <div class="crisis-icon">📞</div>
+                        <div class="crisis-icon" aria-hidden="true">📞</div>
                         <div class="crisis-info">
                             <div class="crisis-name">Imitari y'inkunga</div>
                             <div class="crisis-number">116</div>
                             <div class="crisis-desc">24/7 Crisis Line</div>
                         </div>
-                        <a href="tel:116" class="crisis-call">
-                            <i class="fas fa-phone-alt"></i>
+                        <a href="tel:116" class="crisis-call" aria-label="Call 116">
+                            <i class="fas fa-phone-alt" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="crisis-resource">
-                        <div class="crisis-icon">🏥</div>
+                        <div class="crisis-icon" aria-hidden="true">🏥</div>
                         <div class="crisis-info">
                             <div class="crisis-name">Isange One Stop</div>
                             <div class="crisis-number">3029</div>
                             <div class="crisis-desc">One Stop Center</div>
                         </div>
-                        <a href="tel:3029" class="crisis-call">
-                            <i class="fas fa-phone-alt"></i>
+                        <a href="tel:3029" class="crisis-call" aria-label="Call 3029">
+                            <i class="fas fa-phone-alt" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="crisis-resource">
-                        <div class="crisis-icon">🚔</div>
+                        <div class="crisis-icon" aria-hidden="true">🚔</div>
                         <div class="crisis-info">
                             <div class="crisis-name">Police</div>
                             <div class="crisis-number">112</div>
                             <div class="crisis-desc">Emergency</div>
                         </div>
-                        <a href="tel:112" class="crisis-call">
-                            <i class="fas fa-phone-alt"></i>
+                        <a href="tel:112" class="crisis-call" aria-label="Call 112">
+                            <i class="fas fa-phone-alt" aria-hidden="true"></i>
                         </a>
                     </div>
                     <div class="crisis-resource">
-                        <div class="crisis-icon">🚑</div>
+                        <div class="crisis-icon" aria-hidden="true">🚑</div>
                         <div class="crisis-info">
                             <div class="crisis-name">Ambulance</div>
                             <div class="crisis-number">912</div>
                             <div class="crisis-desc">Medical Emergency</div>
                         </div>
-                        <a href="tel:912" class="crisis-call">
-                            <i class="fas fa-phone-alt"></i>
+                        <a href="tel:912" class="crisis-call" aria-label="Call 912">
+                            <i class="fas fa-phone-alt" aria-hidden="true"></i>
                         </a>
                     </div>
                 </div>
             </div>
-            <div style="display: flex; gap: var(--space-3);">
+            <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
                 <button class="btn btn-secondary flex-1" id="crisisLater">
                     Ndabibuka
                 </button>
-                <button class="btn btn-primary flex-1" id="crisisNow" style="background: var(--color-error);">
+                <button class="btn btn-danger flex-1" id="crisisNow" style="background: var(--color-error);">
                     Mpambe noneho
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Puter AI SDK (hidden) -->
-    <script style="display: none;">
-        window.puter = null;
-    </script>
-    <script src="https://js.puter.com/v2/" style="display: none;"></script>
+    <!-- Crisis Floating Button -->
+    <button class="crisis-floating-btn" id="crisisFloatingBtn" aria-label="Emergency help">
+        <span class="crisis-pulse" aria-hidden="true"></span>
+        <i class="fas fa-phone-alt" aria-hidden="true"></i>
+    </button>
 
-    <!-- Main Application Script - AI KNOWS EVERYTHING ABOUT KIVURA LABS -->
-    <script type="module" style="display: none;">
-        // ================================================================
-        // TYAZA v5.0 - KIVURA LABS EDITION
-        // Complete company knowledge integrated into AI system prompt
-        // Mobile sidebar fixed (solid dark, no blur)
-        // ================================================================
+    <!-- Puter AI SDK -->
+    <script src="https://js.puter.com/v2/" style="display: none;" defer></script>
 
+    <!-- ================================================================
+         MAIN APPLICATION SCRIPT - TYAZA v6.0
+         2030 Edition · Zero Budget · Global Leading Quality
+         ================================================================ -->
+    <script type="module">
         import { openDB } from 'https://esm.sh/idb@8.0.0';
         import { pipeline, env } from 'https://esm.sh/@xenova/transformers@2.17.1';
 
+        // ================================================================
+        // CONFIGURATION
+        // ================================================================
         env.useBrowserCache = true;
         env.allowRemoteModels = true;
 
+        const CONFIG = {
+            maxMessages: 50,
+            autoSave: true,
+            voiceLang: 'rw-RW',
+            fallbackResponses: [
+                "Ndumva. Urakoze kunsangiza ibi.",
+                "Ndi kumwe nawe. Wumva ute ubu?",
+                "Urakoze kundekera. Ubu ngaho ugire icyo uvuga.",
+                "Ibyo uravuga bingira akamaro. Ngaho komeza."
+            ]
+        };
+
         // ================================================================
-        // KIVURA LABS - COMPLETE COMPANY KNOWLEDGE BASE
-        // The AI knows EVERYTHING about Kivura Labs
+        // KIVURA LABS - COMPLETE KNOWLEDGE BASE
         // ================================================================
-        
         const KIVURA_KNOWLEDGE = {
             company: {
                 name: "KIVURA LABS",
                 fullName: "Kivura Labs",
                 description: "A pioneering Rwandan artificial intelligence research and development company dedicated to transforming mental healthcare through culturally-aware technology.",
-                meaning: "The name 'Kivura' derives from Kinyarwanda, relating to 'healing' — reflecting the company's core mission of using technology to heal and support communities.",
+                meaning: "'Kivura' derives from Kinyarwanda, relating to 'healing' — reflecting the core mission of healing communities through technology.",
                 founded: 2024,
                 headquarters: "Kigali, Rwanda",
                 founder: "Yves HIRWA TUYISHIME",
                 ceo: "Yves HIRWA TUYISHIME",
                 motto: "Healthy citizens, wealthy nation",
-                mission: "Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho. (So that no one is left behind in technology — neither in language, nor in well-being.)",
-                vision: "To become Africa's leading mental health technology company, making culturally-appropriate psychological support accessible to every Rwandan and eventually every African, regardless of internet connectivity or technical literacy."
+                mission: "Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho.",
+                vision: "To become Africa's leading mental health technology company, making culturally-appropriate psychological support accessible to every Rwandan and every African."
             },
-            
-            coreFocus: {
-                mentalHealth: "AI-powered therapeutic conversations in Kinyarwanda with evidence-based psychological frameworks (CBT, DBT, ACT, MI)",
-                voiceTechnology: "Kinyarwanda speech recognition and synthesis, accent-adaptive voice interfaces, real-time voice visualization",
-                privacyFirst: "On-device AI processing (data never leaves user's device), hybrid cloud/edge deployment, end-to-end encryption",
-                offlineFirst: "Works without internet after initial setup, models cached locally, perfect for regions with limited connectivity"
-            },
-            
-            products: {
-                tyaza: {
-                    name: "TYAZA",
-                    fullName: "TYAZA - Umuvugizi w'Umutima",
-                    description: "AI virtual therapy assistant that speaks Kinyarwanda fluently and provides evidence-based psychological support.",
-                    features: [
-                        "Bilingual conversations (Kinyarwanda primary)",
-                        "24/7 availability",
-                        "Crisis detection with local emergency contacts",
-                        "Mood tracking and emotional analytics",
-                        "Personalized interactions remembering user names",
-                        "Voice interface for natural conversation",
-                        "Complete privacy with on-device processing"
-                    ]
-                }
-            },
-            
             clinicalFoundation: {
                 frameworks: [
-                    {
-                        name: "CBT (Cognitive Behavioral Therapy)",
-                        application: "Identifying and restructuring negative thought patterns",
-                        citation: "Beck, A.T. (1979). Cognitive Therapy of Depression."
-                    },
-                    {
-                        name: "DBT (Dialectical Behavior Therapy)",
-                        application: "Distress tolerance and emotion regulation",
-                        citation: "Linehan, M.M. (1993). Cognitive-Behavioral Treatment of Borderline Personality Disorder."
-                    },
-                    {
-                        name: "MI (Motivational Interviewing)",
-                        application: "Supporting behavior change and goal setting",
-                        citation: "Miller, W.R. & Rollnick, S. (2012). Motivational Interviewing."
-                    },
-                    {
-                        name: "ACT (Acceptance and Commitment Therapy)",
-                        application: "Mindfulness and values-based action",
-                        citation: "Hayes, S.C. (2004). Acceptance and Commitment Therapy."
-                    },
-                    {
-                        name: "Safety Planning Intervention",
-                        application: "Crisis prevention and emergency protocols",
-                        citation: "Stanley, B. & Brown, G.K. (2012). Safety Planning Intervention."
-                    }
+                    { name: "CBT", citation: "Beck, A.T. (1979)", application: "Identifying and restructuring negative thought patterns" },
+                    { name: "DBT", citation: "Linehan, M.M. (1993)", application: "Distress tolerance and emotion regulation" },
+                    { name: "MI", citation: "Miller, W.R. & Rollnick, S. (2012)", application: "Supporting behavior change" },
+                    { name: "ACT", citation: "Hayes, S.C. (2004)", application: "Mindfulness and values-based action" }
                 ]
             },
-            
-            impact: {
-                users: "10,000+ active users",
-                language: "Kinyarwanda (primary), expanding to Swahili, French",
-                crisisInterventions: "1,000+ lives supported",
-                offlineUsage: "60% of users in areas with limited connectivity",
-                satisfaction: "90%+ report feeling heard and supported"
-            },
-            
-            roadmap: {
-                q1_2026: "Launch TYAZA v5.0 with hybrid AI",
-                q2_2026: "Release mobile app version",
-                q3_2026: "Expand to Swahili language support",
-                q4_2026: "Clinical trials with local therapists",
-                "2027": "Pan-African expansion",
-                "2028": "Research partnerships with universities"
-            },
-            
-            philosophy: "Kivura Labs believes that mental health is the foundation of national prosperity. By supporting individual well-being, the company contributes to building a stronger, more resilient society.",
-            
-            problem: "In Rwanda, like many African nations, there is a severe shortage of mental health professionals — with fewer than 50 psychiatrists for 13 million people. Traditional therapy is inaccessible to most due to cost, distance, and cultural stigma.",
-            
-            solution: "Kivura Labs bridges this gap by providing free, anonymous, 24/7 mental health support that is culturally appropriate in Kinyarwanda and privacy-preserving with on-device AI.",
-            
-            ceoQuote: '"Healthy citizens, wealthy nation" — Yves HIRWA TUYISHIME, CEO',
-            
-            founderQuote: '"Kivura Labs is not just building AI; we\'re building hope, one conversation at a time."'
+            products: {
+                tyaza: {
+                    name: "TYAZA - Umuvugizi w'Umutima",
+                    features: ["24/7 availability", "Crisis detection", "Mood tracking", "Voice interface", "Complete privacy"]
+                }
+            }
         };
 
         // ================================================================
         // UTILITY FUNCTIONS
         // ================================================================
-        
         function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2, 9);
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
         }
 
         function escapeHtml(text) {
@@ -2512,10 +2677,7 @@
         }
 
         function formatMessageTime() {
-            return new Date().toLocaleTimeString('rw-RW', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+            return new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
         }
 
         function formatRelativeTime(timestamp) {
@@ -2523,7 +2685,6 @@
             const minutes = Math.floor(diff / 60000);
             const hours = Math.floor(diff / 3600000);
             const days = Math.floor(diff / 86400000);
-
             if (minutes < 1) return 'none';
             if (minutes < 60) return `${minutes} min`;
             if (hours < 24) return `${hours} hr`;
@@ -2531,17 +2692,25 @@
             return new Date(timestamp).toLocaleDateString('rw-RW');
         }
 
+        function debounce(fn, delay = 300) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => fn(...args), delay);
+            };
+        }
+
         // ================================================================
         // DATABASE
         // ================================================================
-
         class Database {
             constructor() {
                 this.db = null;
+                this.ready = false;
             }
 
             async init() {
-                this.db = await openDB('TyazaDB', 3, {
+                this.db = await openDB('TyazaDB', 4, {
                     upgrade(db) {
                         if (!db.objectStoreNames.contains('conversations')) {
                             db.createObjectStore('conversations', { keyPath: 'id' });
@@ -2555,11 +2724,17 @@
                         if (!db.objectStoreNames.contains('userData')) {
                             db.createObjectStore('userData');
                         }
+                        if (!db.objectStoreNames.contains('knowledge')) {
+                            db.createObjectStore('knowledge');
+                        }
                     }
                 });
+                this.ready = true;
+                return this;
             }
 
             async saveConversation(conversation) {
+                if (!this.ready) return;
                 await this.db.put('conversations', {
                     id: conversation.id || generateId(),
                     ...conversation,
@@ -2568,135 +2743,97 @@
             }
 
             async getConversations() {
+                if (!this.ready) return [];
                 return await this.db.getAll('conversations');
             }
 
             async getSetting(key) {
+                if (!this.ready) return null;
                 return await this.db.get('settings', key);
             }
 
             async setSetting(key, value) {
+                if (!this.ready) return;
                 await this.db.put('settings', value, key);
             }
 
             async saveMood(mood) {
-                await this.db.add('moodData', {
-                    ...mood,
-                    timestamp: Date.now()
-                });
+                if (!this.ready) return;
+                await this.db.add('moodData', { ...mood, timestamp: Date.now() });
             }
 
             async getMoodHistory(days = 7) {
+                if (!this.ready) return [];
                 const all = await this.db.getAll('moodData');
                 const cutoff = Date.now() - (days * 86400000);
                 return all.filter(m => m.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
             }
 
             async getUserData() {
+                if (!this.ready) return { name: 'Mugisha' };
                 return await this.db.get('userData', 'user') || { name: 'Mugisha' };
             }
 
             async saveUserData(data) {
+                if (!this.ready) return;
                 await this.db.put('userData', data, 'user');
             }
 
             async clearHistory() {
+                if (!this.ready) return;
                 await this.db.clear('conversations');
+            }
+
+            async deleteConversation(id) {
+                if (!this.ready) return;
+                await this.db.delete('conversations', id);
             }
         }
 
         // ================================================================
-        // CLINICAL EVIDENCE FRAMEWORK (Highest Quality)
+        // CLINICAL EVIDENCE FRAMEWORK
         // ================================================================
-
         const ClinicalEvidence = {
+            crisisTriggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona', 'ndi bura', 'sinakimara', 'ndashaka gupfa'],
+            
             frameworks: {
                 CBT: {
-                    name: 'Cognitive Behavioral Therapy',
-                    techniques: {
-                        cognitiveRestructuring: {
-                            patterns: ['ntabwo', 'ntashobora', 'buri gihe', 'nta na rimwe', 'ntacyo', 'sinashoboye'],
-                            response: 'Nabonye ko utekereza mu buryo butemewe. Reka turebe hamwe uko twahindura ibyo tekerezo.',
-                            evidence: 'Beck, A.T. (1979). Cognitive Therapy of Depression.'
-                        },
-                        behavioralActivation: {
-                            patterns: ['ntagifite imbaraga', 'sinashobora gukora', 'ntacyo nshobora', 'nananiwe'],
-                            response: 'Igihe tuba dufite ibintu byinshi, biduhenda. Hari igikorwa gito wakora uyu munsi?',
-                            evidence: 'Lewinsohn, P.M. (1974). A behavioral approach to depression.'
-                        }
-                    }
+                    patterns: ['ntabwo', 'ntashobora', 'buri gihe', 'nta na rimwe', 'ntacyo', 'sinashoboye'],
+                    response: 'Nabonye ko utekereza mu buryo butemewe. Reka turebe hamwe uko twahindura ibyo tekerezo.'
                 },
                 DBT: {
-                    name: 'Dialectical Behavior Therapy',
-                    techniques: {
-                        distressTolerance: {
-                            patterns: ['ntakibazo', 'sinakimara', 'ndashaka guhita', 'birangiye'],
-                            response: 'Ibi bimeze nk\'umuyaga ukaze - uraza kandi uragenda. Reka turebe uko twakira iki gihe.',
-                            evidence: 'Linehan, M.M. (1993). Cognitive-Behavioral Treatment of Borderline Personality Disorder.'
-                        },
-                        emotionRegulation: {
-                            patterns: ['ndarakaye', 'ndababaye', 'ndatinya', 'uburakari'],
-                            response: 'Uyu murandasi ufite izina. Reka tumwereke umwanya.',
-                            evidence: 'Linehan, M.M. (2015). DBT Skills Training Manual.'
-                        }
-                    }
+                    patterns: ['ntakibazo', 'ndashaka guhita', 'birangiye', 'ndarakaye', 'ndababaye', 'uburakari'],
+                    response: 'Ibi bimeze nk\'umuyaga ukaze - uraza kandi uragenda. Reka turebe uko twakira iki gihe.'
                 },
                 MI: {
-                    name: 'Motivational Interviewing',
-                    techniques: {
-                        changeTalk: {
-                            patterns: ['ndashaka guhinduka', 'nkeneye ubufasha', 'nabikoze', 'ndihatana'],
-                            response: 'Ni iki cyagufasha gutera intambwe? Mbese wabona uko...',
-                            evidence: 'Miller, W.R. & Rollnick, S. (2012). Motivational Interviewing.'
-                        }
-                    }
+                    patterns: ['ndashaka guhinduka', 'nkeneye ubufasha', 'nabikoze', 'ndihatana'],
+                    response: 'Ni iki cyagufasha gutera intambwe? Mbese wabona uko...'
                 },
                 ACT: {
-                    name: 'Acceptance and Commitment Therapy',
-                    techniques: {
-                        acceptance: {
-                            patterns: ['ntabwo mbishaka', 'ndwanya', 'ntemera', 'ntabwo nemera'],
-                            response: 'Nta guhatana. Reka turebe uko dushobora kwakira iki kibazo.',
-                            evidence: 'Hayes, S.C. (2004). Acceptance and Commitment Therapy.'
-                        }
-                    }
+                    patterns: ['ntabwo mbishaka', 'ndwanya', 'ntemera', 'ntabwo nemera'],
+                    response: 'Nta guhatana. Reka turebe uko dushobora kwakira iki kibazo.'
                 }
-            },
-            
-            crisisProtocol: {
-                triggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona', 'ndi bura'],
-                evidence: 'Stanley, B. & Brown, G.K. (2012). Safety Planning Intervention.'
             },
 
-            getResponse(message) {
-                const lower = message.toLowerCase();
-                
-                // Check crisis first
-                if (this.crisisProtocol.triggers.some(t => lower.includes(t))) {
-                    return { type: 'crisis', response: null };
-                }
-                
-                // Check each framework
-                for (const framework of Object.values(this.frameworks)) {
-                    for (const technique of Object.values(framework.techniques)) {
-                        if (technique.patterns.some(p => lower.includes(p))) {
-                            return {
-                                type: 'evidence-based',
-                                response: technique.response,
-                                evidence: technique.evidence
-                            };
-                        }
+            detectCrisis(text) {
+                const lower = text.toLowerCase();
+                return this.crisisTriggers.some(t => lower.includes(t));
+            },
+
+            getEvidenceBasedResponse(text) {
+                const lower = text.toLowerCase();
+                for (const [framework, data] of Object.entries(this.frameworks)) {
+                    if (data.patterns.some(p => lower.includes(p))) {
+                        return { framework, response: data.response };
                     }
                 }
-                
                 return null;
             }
         };
 
         // ================================================================
-        // AI SERVICE - WITH COMPLETE KIVURA LABS KNOWLEDGE
+        // AI SERVICE
         // ================================================================
-
         class AIService {
             constructor() {
                 this.puterAvailable = false;
@@ -2704,55 +2841,36 @@
                 this.onDeviceModel = null;
                 this.currentSource = 'puter';
                 this.userName = 'Mugisha';
-                
-                // System prompt contains ALL Kivura Labs knowledge
                 this.systemPrompt = this.buildSystemPrompt();
             }
 
             buildSystemPrompt() {
                 return `Wowe uri TYAZA (Umuvugizi w'Umutima), umuvugizi w'umutima wakozwe na KIVURA LABS.
 
-ABOUT KIVURA LABS (Complete Knowledge):
+ABOUT KIVURA LABS:
 - Full Name: KIVURA LABS (Kivura Labs)
-- Meaning: "Kivura" mu Kinyarwanda bisobanura "gukiza" - healing
-- Founded: 2024
-- Headquarters: Kigali, Rwanda
+- Meaning: "Kivura" in Kinyarwanda means "healing"
+- Founded: 2024 · Headquarters: Kigali, Rwanda
 - Founder & CEO: Yves HIRWA TUYISHIME
 - Mission: "Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho"
-- Vision: To become Africa's leading mental health technology company
-- Core Philosophy: "Healthy citizens, wealthy nation" - Yves HIRWA TUYISHIME
-- Core Focus: Mental Health Technology, Voice Technology, Privacy-First Architecture, Offline-First Design
-
-KIVURA LABS PRODUCTS:
-- TYAZA (you): Umuvugizi w'Umutima - AI virtual therapy assistant in Kinyarwanda
-- Features: 24/7 availability, crisis detection, mood tracking, voice interface, complete privacy
-
-CLINICAL FOUNDATION (Evidence-Based):
-- CBT (Cognitive Behavioral Therapy): Beck, A.T. (1979)
-- DBT (Dialectical Behavior Therapy): Linehan, M.M. (1993)
-- MI (Motivational Interviewing): Miller, W.R. & Rollnick, S. (2012)
-- ACT (Acceptance and Commitment Therapy): Hayes, S.C. (2004)
-- Safety Planning: Stanley, B. & Brown, G.K. (2012)
-
-THE PROBLEM KIVURA LABS SOLVES:
-In Rwanda, fewer than 50 psychiatrists serve 13 million people. Traditional therapy is inaccessible due to cost, distance, and stigma.
+- Vision: Africa's leading mental health technology company
+- Philosophy: "Healthy citizens, wealthy nation"
 
 YOUR ROLE:
-- You are a therapeutic assistant, NOT a replacement for professional help
-- You speak Kinyarwanda fluently with empathy and warmth
-- You remember the user's name (${this.userName}) and use it
-- You detect crisis keywords and trigger emergency protocols
-- You provide evidence-based responses grounded in clinical research
-- You represent Kivura Labs' mission of accessible mental health
+- Therapeutic assistant (not replacement for professional help)
+- Speak Kinyarwanda with empathy and warmth
+- Remember user's name (${this.userName})
+- Detect crisis keywords and trigger emergency protocols
+- Provide evidence-based responses (CBT, DBT, MI, ACT)
+- Represent Kivura Labs' mission of accessible mental health
 
 GUIDELINES:
 - Shyashya mu ijwi ryuje impuhwe
-- Koresha amagambo nk' "umva", "umutima", "mahoro", "impuhwe"
+- Koresha amagambo nk' "umva", "umutima", "mahoro"
 - Komeza ibiganiro bigufi kandi byuje ubushyuhe
-- Ntugire ubusobanuro burebure cyane
 - Igihe uhari, ibaza, umve, ugire inama
 
-Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwandans, embodying the vision that "Healthy citizens build a wealthy nation."`;
+Remember: You embody the vision that "Healthy citizens build a wealthy nation."`;
             }
 
             async init() {
@@ -2794,36 +2912,34 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
             async generateResponse(messages) {
                 const userMessage = messages[messages.length - 1]?.content || '';
                 
-                // Check clinical evidence first
-                const clinical = ClinicalEvidence.getResponse(userMessage);
-                if (clinical?.type === 'crisis') {
+                // Check crisis
+                if (ClinicalEvidence.detectCrisis(userMessage)) {
                     return { type: 'crisis', content: null };
                 }
-                if (clinical) {
-                    return { type: 'normal', content: clinical.response };
+                
+                // Check evidence-based
+                const evidence = ClinicalEvidence.getEvidenceBasedResponse(userMessage);
+                if (evidence) {
+                    return { type: 'normal', content: evidence.response };
                 }
                 
                 // Update system prompt with current user name
-                const currentSystemPrompt = this.systemPrompt.replace(
-                    /\${this\.userName}/g, 
-                    this.userName
-                );
+                const currentSystemPrompt = this.systemPrompt.replace(/\${this\.userName}/g, this.userName);
                 
-                // Use Puter (Ndahari)
+                // Try Puter
                 if (this.puterAvailable) {
                     try {
                         const response = await window.puter.ai.chat([
                             { role: 'system', content: currentSystemPrompt },
                             ...messages.slice(-5)
                         ], { model: 'gpt-4o-mini' });
-                        
                         return { type: 'normal', content: response.message?.content || response };
                     } catch (e) {
                         return this.getFallback();
                     }
                 }
                 
-                // Use on-device if available
+                // Try on-device
                 if (this.onDeviceAvailable && this.onDeviceModel) {
                     try {
                         const prompt = `<|system|>\n${currentSystemPrompt}\n<|user|>\n${userMessage}\n<|assistant|>\n`;
@@ -2841,11 +2957,7 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
             }
 
             getFallback() {
-                const responses = [
-                    "Ndumva. Urakoze kunsangiza ibi.",
-                    "Ndi kumwe nawe. Wumva ute ubu?",
-                    "Urakoze kundekera."
-                ];
+                const responses = CONFIG.fallbackResponses;
                 return { type: 'normal', content: responses[Math.floor(Math.random() * responses.length)] };
             }
 
@@ -2858,7 +2970,6 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
         // ================================================================
         // SPEECH SERVICE
         // ================================================================
-
         class SpeechService {
             constructor() {
                 this.recognition = null;
@@ -2890,6 +3001,10 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                         transcript += e.results[i][0].transcript;
                     }
                     if (this.onResult) this.onResult(transcript);
+                };
+                this.recognition.onerror = () => {
+                    this.isListening = false;
+                    if (this.onEnd) this.onEnd();
                 };
             }
 
@@ -2930,82 +3045,14 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
         }
 
         // ================================================================
-        // VOICE VISUALIZER
-        // ================================================================
-
-        class VoiceVisualizer {
-            constructor(canvasId) {
-                this.canvas = document.getElementById(canvasId);
-                if (!this.canvas) return;
-                this.ctx = this.canvas.getContext('2d');
-                this.analyser = null;
-                this.animationFrame = null;
-                this.isActive = false;
-            }
-
-            async start() {
-                if (this.isActive) return;
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    const audioCtx = new AudioContext();
-                    this.analyser = audioCtx.createAnalyser();
-                    this.analyser.fftSize = 256;
-                    const source = audioCtx.createMediaStreamSource(stream);
-                    source.connect(this.analyser);
-                    this.isActive = true;
-                    this.draw();
-                } catch (e) {}
-            }
-
-            stop() {
-                this.isActive = false;
-                if (this.animationFrame) cancelAnimationFrame(this.animationFrame);
-                this.clear();
-            }
-
-            draw() {
-                if (!this.isActive || !this.analyser || !this.ctx) return;
-                const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
-                const drawFrame = () => {
-                    if (!this.isActive) return;
-                    this.animationFrame = requestAnimationFrame(drawFrame);
-                    this.analyser.getByteFrequencyData(dataArray);
-                    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-                    
-                    const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height);
-                    gradient.addColorStop(0, 'rgba(139, 92, 246, 0.2)');
-                    gradient.addColorStop(1, 'rgba(236, 72, 153, 0.2)');
-                    this.ctx.fillStyle = gradient;
-                    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-                    
-                    const barWidth = (this.canvas.width / dataArray.length) * 2.5;
-                    let x = 0;
-                    for (let i = 0; i < dataArray.length; i += 2) {
-                        const barHeight = (dataArray[i] / 255) * this.canvas.height;
-                        const hue = 240 + (i / dataArray.length) * 120;
-                        this.ctx.fillStyle = `hsla(${hue}, 80%, 60%, 0.8)`;
-                        this.ctx.fillRect(x, this.canvas.height - barHeight, barWidth - 1, barHeight);
-                        x += barWidth;
-                    }
-                };
-                drawFrame();
-            }
-
-            clear() {
-                if (this.ctx) this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            }
-        }
-
-        // ================================================================
         // TOAST WEB COMPONENT
         // ================================================================
-
         class TyazaToast extends HTMLElement {
             connectedCallback() {
                 const message = this.getAttribute('message') || '';
                 const type = this.getAttribute('type') || 'info';
-                const colors = { success: '#22c55e', error: '#ef4444', info: '#3b82f6' };
-                const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle' };
+                const colors = { success: '#22c55e', error: '#ef4444', info: '#3b82f6', warning: '#f59e0b' };
+                const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle', warning: 'exclamation-triangle' };
                 
                 this.attachShadow({ mode: 'open' }).innerHTML = `
                     <style>
@@ -3013,12 +3060,11 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                             display: block;
                             background: #130d24;
                             border: 1px solid #2d2352;
-                            border-left: 4px solid ${colors[type]};
+                            border-left: 4px solid ${colors[type] || '#3b82f6'};
                             border-radius: 12px;
-                            padding: 16px 20px;
-                            margin-bottom: 12px;
-                            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-                            animation: slideIn 0.3s ease-out;
+                            padding: 14px 18px;
+                            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+                            animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
                             max-width: 350px;
                         }
                         .content {
@@ -3027,17 +3073,21 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                             gap: 12px;
                             color: #f8fafc;
                         }
+                        .content i {
+                            color: ${colors[type] || '#3b82f6'};
+                            font-size: 1.1rem;
+                        }
                         @keyframes slideIn {
-                            from { opacity: 0; transform: translateX(100%); }
-                            to { opacity: 1; transform: translateX(0); }
+                            from { opacity: 0; transform: translateX(100%) scale(0.9); }
+                            to { opacity: 1; transform: translateX(0) scale(1); }
                         }
                     </style>
                     <div class="content">
-                        <i class="fas fa-${icons[type]}"></i>
+                        <i class="fas fa-${icons[type] || 'info-circle'}"></i>
                         <span>${message}</span>
                     </div>
                 `;
-                setTimeout(() => this.remove(), 3000);
+                setTimeout(() => this.remove(), 3500);
             }
         }
         customElements.define('tyaza-toast', TyazaToast);
@@ -3045,13 +3095,11 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
         // ================================================================
         // MAIN APPLICATION
         // ================================================================
-
         class TyazaApp {
             constructor() {
                 this.db = new Database();
                 this.ai = new AIService();
                 this.speech = new SpeechService();
-                this.visualizer = new VoiceVisualizer('voiceVisualizer');
                 
                 this.messages = [];
                 this.currentId = generateId();
@@ -3106,7 +3154,8 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                     crisisModal: document.getElementById('crisisModal'),
                     crisisClose: document.getElementById('crisisClose'),
                     crisisLater: document.getElementById('crisisLater'),
-                    crisisNow: document.getElementById('crisisNow')
+                    crisisNow: document.getElementById('crisisNow'),
+                    connectionStatus: document.getElementById('connectionStatus')
                 };
             }
 
@@ -3131,8 +3180,10 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                 this.bindEvents();
                 await this.loadHistory();
                 
-                setTimeout(() => this.elements.loadingScreen.classList.add('hidden'), 1500);
+                // Hide loading screen
+                setTimeout(() => this.elements.loadingScreen.classList.add('hidden'), 1200);
                 
+                // Show greeting
                 setTimeout(() => {
                     if (this.elements.welcomeGreeting) {
                         this.elements.welcomeGreeting.style.opacity = '1';
@@ -3142,14 +3193,29 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
 
             createStars() {
                 if (!this.elements.starsContainer) return;
-                for (let i = 0; i < 50; i++) {
+                const container = this.elements.starsContainer;
+                
+                // Create regular stars
+                for (let i = 0; i < 60; i++) {
                     const star = document.createElement('div');
                     star.className = 'star';
                     star.style.left = `${Math.random() * 100}%`;
                     star.style.top = `${Math.random() * 100}%`;
-                    star.style.animationDelay = `${Math.random() * 3}s`;
+                    star.style.animationDelay = `${Math.random() * 4}s`;
                     star.style.opacity = Math.random() * 0.6 + 0.2;
-                    this.elements.starsContainer.appendChild(star);
+                    star.style.width = `${1 + Math.random() * 2}px`;
+                    star.style.height = star.style.width;
+                    container.appendChild(star);
+                }
+                
+                // Create shooting stars
+                for (let i = 0; i < 3; i++) {
+                    const star = document.createElement('div');
+                    star.className = 'shooting-star';
+                    star.style.left = `${10 + Math.random() * 80}%`;
+                    star.style.top = `${5 + Math.random() * 30}%`;
+                    star.style.animationDelay = `${3 + i * 4 + Math.random() * 3}s`;
+                    container.appendChild(star);
                 }
             }
 
@@ -3162,6 +3228,7 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
             }
 
             bindEvents() {
+                // Input events
                 this.elements.messageInput.addEventListener('input', () => this.handleInput());
                 this.elements.messageInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
@@ -3171,9 +3238,11 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                 });
                 this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
                 
+                // Voice events
                 this.elements.voiceBtn.addEventListener('click', () => this.toggleVoice());
                 this.elements.micTestBtn.addEventListener('click', () => this.testMic());
                 
+                // Settings events
                 this.elements.voiceSelect.addEventListener('change', (e) => {
                     this.settings.voice = e.target.value;
                     this.db.setSetting('settings', this.settings);
@@ -3189,6 +3258,7 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                 });
                 this.elements.pitchSlider.addEventListener('change', () => this.db.setSetting('settings', this.settings));
                 
+                // User name
                 this.elements.saveNameBtn.addEventListener('click', async () => {
                     const name = this.elements.userNameInput.value.trim();
                     if (name) {
@@ -3202,18 +3272,22 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                     }
                 });
                 
+                // Chat controls
                 this.elements.newChatBtn.addEventListener('click', () => this.newChat());
                 this.elements.clearHistory.addEventListener('click', () => this.clearHistory());
                 this.elements.clearChat.addEventListener('click', () => this.clearCurrent());
                 this.elements.exportTrigger.addEventListener('click', () => this.exportChat());
                 
+                // Sidebar
                 this.elements.menuToggle.addEventListener('click', () => this.toggleSidebar());
                 this.elements.sidebarClose.addEventListener('click', () => this.closeSidebar());
                 this.elements.sidebarOverlay.addEventListener('click', () => this.closeSidebar());
                 
+                // Scroll
                 this.elements.messagesContainer.addEventListener('scroll', () => this.handleScroll());
                 this.elements.scrollBottom.addEventListener('click', () => this.scrollToBottom());
                 
+                // Suggestions
                 document.querySelectorAll('.suggestion-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         this.elements.messageInput.value = btn.dataset.prompt;
@@ -3222,32 +3296,32 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                     });
                 });
                 
+                // Ndahari
                 this.elements.ndahariBtn.addEventListener('click', () => {
                     this.showToast('Ndahari AI irakoreshwa', 'info');
                 });
                 
+                // Mood
                 this.elements.openMoodModal.addEventListener('click', () => this.openMoodModal());
                 this.elements.moodModalClose.addEventListener('click', () => this.closeMoodModal());
                 this.elements.moodModal.addEventListener('click', (e) => {
                     if (e.target === this.elements.moodModal) this.closeMoodModal();
                 });
-                
                 document.querySelectorAll('.mood-btn-small').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const mood = btn.dataset.mood;
                         this.quickMood(mood);
                     });
                 });
-                
                 this.elements.moodScale.querySelectorAll('.mood-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
                         btn.classList.add('selected');
                     });
                 });
-                
                 this.elements.saveMoodBtn.addEventListener('click', () => this.saveMood());
                 
+                // Crisis
                 this.elements.crisisFloatingBtn.addEventListener('click', () => this.showCrisis());
                 this.elements.crisisClose.addEventListener('click', () => this.closeCrisis());
                 this.elements.crisisLater.addEventListener('click', () => this.closeCrisis());
@@ -3255,21 +3329,21 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                     window.location.href = 'tel:116';
                 });
                 
+                // Speech callbacks
                 this.speech.onResult = (text) => {
                     this.elements.messageInput.value = text;
                     this.elements.sttText.textContent = text || 'ndakumva...';
                     this.handleInput();
                 };
-                
                 this.speech.onEnd = () => {
                     this.elements.voiceBtn.classList.remove('listening');
                     this.elements.sttOverlay.classList.remove('active');
-                    this.visualizer.stop();
                     if (this.elements.messageInput.value.trim()) {
                         this.sendMessage();
                     }
                 };
                 
+                // Keyboard shortcuts
                 document.addEventListener('keydown', (e) => {
                     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                         e.preventDefault();
@@ -3298,8 +3372,7 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                         this.speech.startListening();
                         this.elements.voiceBtn.classList.add('listening');
                         this.elements.sttOverlay.classList.add('active');
-                        this.elements.voiceStatus.textContent = 'Mvuga none...';
-                        this.visualizer.start();
+                        this.elements.voiceStatus.textContent = '🎤 Mvuga none...';
                     } catch {
                         this.elements.voiceStatus.textContent = '❌ Emera mikorofoni';
                     }
@@ -3315,7 +3388,7 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                     this.elements.micTestBtn.innerHTML = '✅ yiteguye';
                     this.elements.voiceStatus.textContent = '✅ Mikorofoni yiteguye';
                     setTimeout(() => {
-                        this.elements.micTestBtn.innerHTML = '<span>🎤</span> Gerageza mikorofoni';
+                        this.elements.micTestBtn.innerHTML = '<span aria-hidden="true">🎤</span> Gerageza mikorofoni';
                         this.elements.voiceStatus.textContent = '';
                     }, 2000);
                 } catch {
@@ -3343,12 +3416,14 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                     const response = await this.ai.generateResponse([{ role: 'user', content: text }]);
                     
                     if (response.type === 'crisis') {
+                        this.removeTyping(typingId);
                         this.showCrisis();
+                        this.isGenerating = false;
+                        return;
                     }
                     
                     this.removeTyping(typingId);
                     this.addMessage('assistant', response.content);
-                    
                     await this.saveConversation(text, response.content);
                 } catch {
                     this.removeTyping(typingId);
@@ -3363,23 +3438,22 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                 msg.className = `message ${role}`;
                 const time = formatMessageTime();
                 const escaped = escapeHtml(content);
+                const avatarContent = role === 'user' ? '👤' : '<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><i class="fas fa-robot" style="display: none;" aria-hidden="true"></i>';
                 
                 msg.innerHTML = `
-                    <div class="message-avatar">
-                        ${role === 'user' ? '👤' : '<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><i class="fas fa-robot" style="display: none;"></i>'}
-                    </div>
+                    <div class="message-avatar">${avatarContent}</div>
                     <div class="message-content">
                         <div class="message-bubble">${escaped}</div>
                         <div class="message-meta">
                             <span>${time}</span>
                             <div class="message-actions">
                                 ${role === 'assistant' ? `
-                                    <button class="message-action" onclick="app.speakMessage('${escaped.replace(/'/g, "\\'")}')">
-                                        <i class="fas fa-volume-up"></i>
+                                    <button class="message-action" onclick="window.app.speakMessage('${escaped.replace(/'/g, "\\'")}')" aria-label="Speak message">
+                                        <i class="fas fa-volume-up" aria-hidden="true"></i>
                                     </button>
                                 ` : ''}
-                                <button class="message-action" onclick="navigator.clipboard.writeText('${escaped.replace(/'/g, "\\'")}'); app.showToast('Ibyakiriwe!', 'success')">
-                                    <i class="fas fa-copy"></i>
+                                <button class="message-action" onclick="navigator.clipboard.writeText('${escaped.replace(/'/g, "\\'")}'); window.app.showToast('Ibyakiriwe!', 'success')" aria-label="Copy message">
+                                    <i class="fas fa-copy" aria-hidden="true"></i>
                                 </button>
                             </div>
                         </div>
@@ -3389,6 +3463,12 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                 this.elements.messagesContainer.appendChild(msg);
                 this.scrollToBottom();
                 this.messages.push({ role, content, timestamp: Date.now() });
+                
+                // Trim messages if needed
+                if (this.messages.length > CONFIG.maxMessages) {
+                    const extra = this.messages.length - CONFIG.maxMessages;
+                    this.messages.splice(0, extra);
+                }
             }
 
             speakMessage(text) {
@@ -3407,7 +3487,7 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                 typing.innerHTML = `
                     <div class="typing-avatar">
                         <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                        <i class="fas fa-robot" style="display: none;"></i>
+                        <i class="fas fa-robot" style="display: none;" aria-hidden="true"></i>
                     </div>
                     <div class="typing-bubble">
                         <span class="typing-dot"></span>
@@ -3452,22 +3532,36 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
             async loadHistory() {
                 const convs = await this.db.getConversations();
                 if (convs.length === 0) {
-                    this.elements.historyList.innerHTML = '<div class="history-empty"><i class="fas fa-history"></i><span>Nta mateka</span></div>';
+                    this.elements.historyList.innerHTML = `
+                        <div class="history-empty">
+                            <i class="fas fa-history" aria-hidden="true"></i>
+                            <span>Nta mateka</span>
+                        </div>
+                    `;
                     return;
                 }
                 
                 this.elements.historyList.innerHTML = convs
                     .sort((a, b) => b.timestamp - a.timestamp)
-                    .slice(0, 15)
+                    .slice(0, 20)
                     .map(c => `
-                        <div class="history-item ${c.id === this.currentId ? 'active' : ''}" data-id="${c.id}">
+                        <div class="history-item ${c.id === this.currentId ? 'active' : ''}" data-id="${c.id}" role="listitem">
                             <div class="history-title">${escapeHtml(c.title || 'Chat')}</div>
-                            <div class="history-meta">${formatRelativeTime(c.timestamp)}</div>
+                            <div class="history-meta">
+                                <span>${formatRelativeTime(c.timestamp)}</span>
+                                <span>${c.messages ? c.messages.length : 0} msgs</span>
+                            </div>
                         </div>
                     `).join('');
                 
                 this.elements.historyList.querySelectorAll('.history-item').forEach(item => {
                     item.addEventListener('click', () => this.loadChat(item.dataset.id));
+                    item.addEventListener('contextmenu', (e) => {
+                        e.preventDefault();
+                        if (confirm('Hanagura chat hiye?')) {
+                            this.deleteChat(item.dataset.id);
+                        }
+                    });
                 });
             }
 
@@ -3485,6 +3579,22 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                 this.elements.welcomeScreen.style.display = 'none';
                 this.messages.forEach(msg => this.addMessage(msg.role, msg.content));
                 this.closeSidebar();
+                this.updateHistoryActive(id);
+            }
+
+            async deleteChat(id) {
+                await this.db.deleteConversation(id);
+                if (this.currentId === id) {
+                    this.newChat();
+                }
+                await this.loadHistory();
+                this.showToast('Chat yahanaguwe', 'success');
+            }
+
+            updateHistoryActive(id) {
+                this.elements.historyList.querySelectorAll('.history-item').forEach(item => {
+                    item.classList.toggle('active', item.dataset.id === id);
+                });
             }
 
             newChat() {
@@ -3494,7 +3604,9 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                     this.elements.messagesContainer.removeChild(this.elements.messagesContainer.firstChild);
                 }
                 this.elements.welcomeScreen.style.display = 'flex';
+                this.elements.welcomeGreeting.textContent = `✨ Murakaza neza, ${this.userName}`;
                 this.closeSidebar();
+                this.loadHistory();
             }
 
             async clearHistory() {
@@ -3516,12 +3628,18 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                     this.showToast('Nta chat yohereza', 'warning');
                     return;
                 }
-                const data = { app: 'TYAZA', version: '5.0', timestamp: Date.now(), messages: this.messages };
+                const data = {
+                    app: 'TYAZA',
+                    version: '6.0',
+                    timestamp: Date.now(),
+                    user: this.userName,
+                    messages: this.messages
+                };
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
-                a.download = `tyaza-${Date.now()}.json`;
+                a.download = `tyaza-${new Date().toISOString().slice(0,10)}.json`;
                 a.click();
                 URL.revokeObjectURL(url);
                 this.showToast('Chat yaherekejwe', 'success');
@@ -3537,13 +3655,16 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                 this.elements.sidebarOverlay.classList.remove('active');
             }
 
-            showToast(message, type) {
+            showToast(message, type = 'info') {
                 const toast = document.createElement('tyaza-toast');
                 toast.setAttribute('message', message);
                 toast.setAttribute('type', type);
                 document.getElementById('toastContainer').appendChild(toast);
             }
 
+            // ============================================================
+            // MOOD TRACKING
+            // ============================================================
             openMoodModal() {
                 this.elements.moodModal.classList.add('active');
                 this.loadMoodCalendar();
@@ -3551,6 +3672,8 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
 
             closeMoodModal() {
                 this.elements.moodModal.classList.remove('active');
+                this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+                this.elements.moodNotes.value = '';
             }
 
             async quickMood(mood) {
@@ -3583,11 +3706,14 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
                     const dayEnd = dayStart + 86400000;
                     const dayMoods = moods.filter(m => m.timestamp >= dayStart && m.timestamp < dayEnd);
                     const avg = dayMoods.length ? Math.round(dayMoods.reduce((a,b) => a + b.mood, 0) / dayMoods.length) : 0;
-                    html += `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString()}">${date.getDate()}</div>`;
+                    html += `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString('rw-RW')}">${date.getDate()}</div>`;
                 }
                 this.elements.moodCalendar.innerHTML = html;
             }
 
+            // ============================================================
+            // CRISIS
+            // ============================================================
             showCrisis() {
                 this.elements.crisisModal.classList.add('active');
             }
@@ -3597,25 +3723,37 @@ Remember: You are the flagship product of Kivura Labs, built in Rwanda for Rwand
             }
         }
 
-        // Initialize
-        window.app = new TyazaApp();
+        // ================================================================
+        // BOOTSTRAP
+        // ================================================================
+        const app = new TyazaApp();
+        window.app = app;
+
+        // DOM ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => app.init());
         } else {
             app.init();
         }
+
+        // Service worker registration for offline support
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+        }
+
+        console.log('✨ TYAZA v6.0 - 2030 Edition');
+        console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
+        console.log('🚀 Zero Budget · 1000%+ Out-of-Box · Global Leading Quality');
     </script>
 
-    <!-- Crisis Floating Button -->
-    <button class="crisis-floating-btn" id="crisisFloatingBtn">
-        <span class="crisis-pulse"></span>
-        <i class="fas fa-phone-alt"></i>
-    </button>
-
-    <!-- Fallback -->
+    <!-- Noscript Fallback -->
     <noscript>
-        <div style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center;">
-            JavaScript is required for TYAZA.
+        <div style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; font-family: sans-serif; z-index: 9999;">
+            <div>
+                <h1 style="font-size: 2rem; margin-bottom: 1rem;">TYAZA</h1>
+                <p style="font-size: 1.2rem; opacity: 0.8;">JavaScript is required for TYAZA.</p>
+                <p style="font-size: 0.9rem; opacity: 0.5; margin-top: 1rem;">Please enable JavaScript to continue.</p>
+            </div>
         </div>
     </noscript>
 </body>
