@@ -108,136 +108,50 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* ===== TYPOGRAPHY HIERARCHY ===== */
-        .title-large {
-            font-size: 1.75rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: var(--space-3);
-            color: var(--color-text-primary);
-        }
-        .title-large .accent { color: var(--color-accent); }
-
-        .section-header {
-            font-size: 1.25rem;
-            font-weight: 600;
-            line-height: 1.3;
-            margin-top: var(--space-5);
-            margin-bottom: var(--space-2);
-            color: var(--color-text-primary);
-            display: flex;
-            align-items: center;
-            gap: var(--space-2);
-        }
-        .section-header .icon { font-size: 1.1rem; }
-
-        .body-text {
-            font-size: 1rem;
-            font-weight: 400;
-            line-height: 1.75;
-            color: var(--color-text-secondary);
-            margin-bottom: var(--space-3);
-        }
-        .body-text strong { color: var(--color-text-primary); font-weight: 600; }
-        .body-text em {
-            font-family: var(--font-serif);
-            font-style: italic;
-            color: var(--color-secondary-300);
-        }
-
-        .key-point {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-2);
-            padding: var(--space-2) var(--space-3);
-            margin-bottom: var(--space-1);
-            background: rgba(139, 92, 246, 0.06);
-            border-radius: var(--radius-lg);
-            border-left: 3px solid var(--color-primary-500);
-        }
-        .key-point .bullet { color: var(--color-primary-400); font-weight: 700; flex-shrink: 0; }
-        .key-point .text { color: var(--color-text-secondary); font-size: 0.95rem; }
-        .key-point .text strong { color: var(--color-text-primary); }
-
-        .recommendation-block {
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.15);
-            border-radius: var(--radius-xl);
-            padding: var(--space-4) var(--space-5);
-            margin: var(--space-3) 0;
-        }
-        .recommendation-block .rec-title {
-            font-weight: 600;
-            color: var(--color-success);
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: var(--space-2);
-        }
-        .recommendation-item {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--space-2);
-            padding: var(--space-1) 0;
-            font-size: 0.95rem;
-            color: var(--color-text-secondary);
-        }
-        .recommendation-item .check { color: var(--color-success); flex-shrink: 0; margin-top: 2px; }
-        .recommendation-item strong { color: var(--color-text-primary); }
-
-        .encouragement-block {
-            background: rgba(236, 72, 153, 0.05);
-            border: 1px solid rgba(236, 72, 153, 0.12);
-            border-radius: var(--radius-xl);
-            padding: var(--space-4) var(--space-5);
-            margin: var(--space-3) 0;
-            font-family: var(--font-serif);
-            font-style: italic;
-            color: var(--color-secondary-300);
+        /* ===== PROFESSIONAL RESPONSE STYLES ===== */
+        .response-acknowledge {
             font-size: 1.05rem;
-            line-height: 1.8;
+            color: var(--color-text-primary);
+            padding: var(--space-3) var(--space-4);
+            background: rgba(139, 92, 246, 0.08);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--color-primary-500);
+            margin-bottom: var(--space-3);
         }
 
-        .next-step {
-            background: var(--gradient-primary);
-            border-radius: var(--radius-xl);
-            padding: var(--space-4) var(--space-5);
-            margin: var(--space-4) 0;
-            color: white;
-        }
-        .next-step .step-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            opacity: 0.8;
-            font-weight: 500;
-        }
-        .next-step .step-text {
-            font-size: 1.1rem;
-            font-weight: 500;
-            margin-top: var(--space-1);
+        .response-reflect {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            padding: var(--space-3) var(--space-4);
+            background: rgba(236, 72, 153, 0.05);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--color-secondary-400);
+            margin-bottom: var(--space-3);
         }
 
-        .warning-block {
-            background: rgba(239, 68, 68, 0.08);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: var(--radius-xl);
-            padding: var(--space-4) var(--space-5);
-            margin: var(--space-3) 0;
-            color: var(--color-error);
-        }
-        .warning-block .warning-title {
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
+        .response-guide {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            padding: var(--space-3) var(--space-4);
+            background: rgba(16, 185, 129, 0.05);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--color-success);
+            margin-bottom: var(--space-3);
         }
 
-        .divider {
-            height: 1px;
-            background: var(--color-surface-600);
-            margin: var(--space-4) 0;
-            opacity: 0.5;
+        .response-support {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            padding: var(--space-3) var(--space-4);
+            background: rgba(139, 92, 246, 0.05);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--color-accent);
+            margin-bottom: var(--space-3);
+        }
+
+        .response-emoji {
+            font-size: 1.2rem;
+            margin-right: var(--space-2);
         }
 
         /* ===== LAYOUT ===== */
@@ -298,6 +212,7 @@
             overflow: hidden;
         }
 
+        /* ===== SIDEBAR ===== */
         .app-sidebar {
             width: var(--sidebar-width);
             height: 100vh;
@@ -445,25 +360,41 @@
             padding: var(--space-4);
         }
 
+        /* ===== FIXED PROFILE DISPLAY ===== */
         .profile-display {
             display: flex;
             flex-direction: column;
             gap: var(--space-2);
-            padding: var(--space-2);
         }
-        .profile-display .label {
+        .profile-display .profile-row {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: var(--space-2) var(--space-3);
+            background: var(--color-surface-700);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-surface-500);
+        }
+        .profile-display .profile-row .label {
             font-size: 0.7rem;
             color: var(--color-text-tertiary);
             text-transform: uppercase;
             letter-spacing: 0.06em;
+            min-width: 70px;
+            flex-shrink: 0;
         }
-        .profile-display .value {
+        .profile-display .profile-row .value {
             font-size: 0.95rem;
             color: var(--color-text-primary);
             font-weight: 500;
         }
-        .profile-display .value .highlight {
+        .profile-display .profile-row .value .highlight {
             color: var(--color-secondary-300);
+        }
+        .profile-display .profile-row .value .empty {
+            color: var(--color-text-muted);
+            font-weight: 400;
+            font-size: 0.85rem;
         }
 
         .mood-btn-small {
@@ -552,6 +483,7 @@
             gap: var(--space-2);
         }
 
+        /* ===== CHAT MAIN ===== */
         .chat-main {
             flex: 1;
             display: flex;
@@ -640,6 +572,19 @@
             align-items: center;
             gap: var(--space-2);
             flex-shrink: 0;
+        }
+        .header-actions .btn {
+            background: var(--color-surface-700);
+            border: 1px solid var(--color-surface-500);
+            color: var(--color-text-secondary);
+            padding: var(--space-2) var(--space-3);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .header-actions .btn:hover {
+            background: var(--color-surface-600);
+            color: var(--color-text-primary);
         }
 
         .messages-container {
@@ -809,6 +754,17 @@
         @keyframes messageSlide {
             from { opacity: 0; transform: translateY(10px) scale(0.98); }
             to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .message-bubble .response-acknowledge,
+        .message-bubble .response-reflect,
+        .message-bubble .response-guide,
+        .message-bubble .response-support {
+            border-left-width: 4px;
+            border-left-style: solid;
+            padding: var(--space-3) var(--space-4);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-3);
         }
 
         .typing-indicator {
@@ -1230,7 +1186,6 @@
             <div class="sidebar-header">
                 <div class="logo-container" role="banner">
                     <div class="logo-icon">
-                        <!-- Logo image - will show if tyaza-logo.png exists, otherwise shows robot icon -->
                         <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                         <i class="fas fa-robot" style="display: none;" aria-hidden="true"></i>
                     </div>
@@ -1254,12 +1209,18 @@
                     <div class="sidebar-section-title">👤 Indangamuntu</div>
                     <div class="settings-card">
                         <div class="profile-display" id="profileDisplay">
-                            <div class="label">Izina</div>
-                            <div class="value" id="profileName">...</div>
-                            <div class="label mt-2">Imiterere</div>
-                            <div class="value" id="profileTraits">... </div>
-                            <div class="label mt-2">Ubumenyi</div>
-                            <div class="value" id="profileContext">... </div>
+                            <div class="profile-row">
+                                <span class="label">Izina</span>
+                                <span class="value" id="profileName"><span class="empty">...</span></span>
+                            </div>
+                            <div class="profile-row">
+                                <span class="label">Imiterere</span>
+                                <span class="value" id="profileTraits"><span class="empty">Nta makuru</span></span>
+                            </div>
+                            <div class="profile-row">
+                                <span class="label">Ubumenyi</span>
+                                <span class="value" id="profileContext"><span class="empty">Nta makuru</span></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1332,10 +1293,10 @@
                     </div>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn-icon btn-ghost" id="exportTrigger" aria-label="Export chat">
+                    <button class="btn" id="exportTrigger" aria-label="Export chat">
                         <i class="fas fa-download" aria-hidden="true"></i>
                     </button>
-                    <button class="btn btn-icon btn-ghost" id="clearChat" aria-label="Clear chat">
+                    <button class="btn" id="clearChat" aria-label="Clear chat">
                         <i class="fas fa-trash-alt" aria-hidden="true"></i>
                     </button>
                 </div>
@@ -1621,199 +1582,350 @@
         }
 
         // ============================================================
-        // CLINICAL EVIDENCE
+        // PROFESSIONAL RESPONSE SYSTEM
         // ============================================================
-        const ClinicalEvidence = {
-            crisisTriggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona', 'ndi bura', 'sinakimara', 'ndashaka gupfa'],
-
-            detectCrisis(text) {
+        
+        // ===== LAYER 1: INTENT DETECTION =====
+        class IntentDetector {
+            detect(text) {
                 const lower = text.toLowerCase();
-                return this.crisisTriggers.some(t => lower.includes(t));
-            },
-        };
-
-        // ============================================================
-        // STRUCTURED RESPONSE BUILDER
-        // ============================================================
-        class StructuredResponse {
-            constructor() {
-                this.sections = [];
-            }
-
-            addTitle(title) {
-                this.sections.push({ type: 'title', content: title });
-                return this;
-            }
-
-            addSection(icon, title, content) {
-                this.sections.push({ type: 'section', icon, title, content });
-                return this;
-            }
-
-            addBody(text) {
-                this.sections.push({ type: 'body', text });
-                return this;
-            }
-
-            addKeyPoints(points) {
-                this.sections.push({ type: 'keypoints', points });
-                return this;
-            }
-
-            addRecommendationBlock(title, items) {
-                this.sections.push({ type: 'recommendation', title, items });
-                return this;
-            }
-
-            addEncouragement(text) {
-                this.sections.push({ type: 'encouragement', text });
-                return this;
-            }
-
-            addNextStep(text) {
-                this.sections.push({ type: 'nextstep', text });
-                return this;
-            }
-
-            addWarning(text) {
-                this.sections.push({ type: 'warning', text });
-                return this;
-            }
-
-            addDivider() {
-                this.sections.push({ type: 'divider' });
-                return this;
-            }
-
-            build() {
-                let html = '';
-                for (const section of this.sections) {
-                    switch (section.type) {
-                        case 'title':
-                            html += `<div class="title-large">${section.content}</div>`;
-                            break;
-                        case 'section':
-                            html += `<div class="section-header"><span class="icon">${section.icon}</span> ${section.title}</div>`;
-                            html += `<div class="body-text">${section.content}</div>`;
-                            break;
-                        case 'body':
-                            html += `<div class="body-text">${section.text}</div>`;
-                            break;
-                        case 'keypoints':
-                            html += `<div class="section-header"><span class="icon">🔍</span> Ingingo Zagaragaye</div>`;
-                            for (const point of section.points) {
-                                html += `<div class="key-point"><span class="bullet">•</span><span class="text">${point}</span></div>`;
-                            }
-                            break;
-                        case 'recommendation':
-                            html += `<div class="recommendation-block"><div class="rec-title">✅ ${section.title}</div>`;
-                            for (const item of section.items) {
-                                html += `<div class="recommendation-item"><span class="check">✓</span><span>${item}</span></div>`;
-                            }
-                            html += `</div>`;
-                            break;
-                        case 'encouragement':
-                            html += `<div class="encouragement-block">${section.text}</div>`;
-                            break;
-                        case 'nextstep':
-                            html += `<div class="next-step"><div class="step-label">📋 Intambwe Ikurikira</div><div class="step-text">${section.text}</div></div>`;
-                            break;
-                        case 'warning':
-                            html += `<div class="warning-block"><div class="warning-title">🚨 ${section.text}</div></div>`;
-                            break;
-                        case 'divider':
-                            html += `<div class="divider"></div>`;
-                            break;
-                    }
+                
+                // Crisis/emergency
+                if (ClinicalEvidence.detectCrisis(text)) {
+                    return { intent: 'crisis', priority: 5 };
                 }
-                return html;
-            }
-
-            // ===== PRE-BUILT RESPONSES =====
-            static griefAndTraumaResponse(userName, userMessage) {
-                const response = new StructuredResponse();
-                response
-                    .addTitle(`# Ubwigunge Bujyanye n'Ibikomere byo Mu Mateka (Niba Ari byo Uri Kunyuramo)`)
-                    .addDivider()
-                    .addSection('💭', 'Icyo Numvise',
-                        `Wavuze ko wumva **ubwigunge** kandi ko bushobora kuba bufitanye isano n'ibyakubayeho cyangwa amateka ya Jenoside yakorewe Abatutsi mu 1994. Niba ari ko bimeze, ibyo bishobora kuzana amarangamutima akomeye nk'agahinda, kwiheba, kwigunga cyangwa kwibuka ibintu bibabaza.`)
-                    .addKeyPoints([
-                        '**Kumva uri wenyine cyangwa utumva neza abandi**',
-                        '**Agahinda cyangwa ibitekerezo bikubabaza**',
-                        '**Gukomeza gutekereza ku byahise**',
-                        '**Gukenera umuntu wakumva kandi akagutega amatwi**'
-                    ])
-                    .addRecommendationBlock('Ibyagufasha Ubu', [
-                        '**1. Ganira n\'umuntu wizeye** — Inshuti, umuryango cyangwa umujyanama bashobora kugufasha kutikorera umutwaro wenyine.',
-                        '**2. Garagaza amarangamutima yawe mu buryo bukworoheye** — Kwandika ibyo utekereza, gusenga, gushushanya cyangwa gukora siporo bishobora kugufasha kugabanya umuvundo w\'ibitekerezo.',
-                        '**3. Iyiteho** — Gerageza kurya neza, kuruhuka bihagije no gukomeza ibikorwa bigufasha kugira ituze.'
-                    ])
-                    .addEncouragement('Ibikomere byo mu mutima bishobora gufata igihe kugira ngo bikire. Kumva ubabaye cyangwa wigunze ntibivuze ko ufite intege nke; bishobora kuba ari igisubizo cy\'ibintu bikomeye wanyuzemo.')
-                    .addNextStep(`Niba ushaka, ushobora kumbwira: **Ni iki cyaguteye kumva ubwigunge muri iki gihe?** Kubisobanura birambuye bishobora kudufasha gushaka uburyo bukubereye bwo kugufasha.`)
-                    .addWarning('Niba ufite ibitekerezo byo kwikomeretsa cyangwa ukumva utagishoboye kwihanganira ububabare, gerageza kuvugisha umuntu uri hafi yawe cyangwa ushake ubufasha bwihuse ku mirongo y\'ubufasha iboneka mu gace urimo.');
-                return response.build();
-            }
-
-            static generalResponse(userName, userMessage) {
-                const response = new StructuredResponse();
-                response
-                    .addTitle(`Ubutumwa Bwawe - ${userName || 'Mugisha'}`)
-                    .addBody('Ndumva neza ibyo uvuga. Ni byiza ko utwandikira.')
-                    .addDivider()
-                    .addSection('💭', 'Gusobanukirwa', 'Ndumva ko hari ibintu byakugizeho ingaruka. Ni byiza ko ushaka ubufasha.')
-                    .addKeyPoints([
-                        'Ubutumwa bwawe ni ingenzi',
-                        'Gushaka ubufasha ni ikintu cyiza',
-                        'Ndi hano kugira ngo nkugire'
-                    ])
-                    .addRecommendationBlock('Ibikorwa Bishoboka', [
-                        '**Komeza kuganira** — Kuvuga ni ikintu cyiza',
-                        '**Kuvuga n\'umuntu ukizera** — Vugana n\'umuntu wizera',
-                        '**Kugira amahoro** — Kora ibintu bituma umutima wumva amahoro'
-                    ])
-                    .addEncouragement('Ubutumwa bwawe ni ingenzi. Gushaka ubufasha ni ikintu cyiza cyane. ✨')
-                    .addNextStep('Ubu hari ikintu ushaka kongera kuvuga?');
-                return response.build();
+                
+                // Emotional support
+                const emotionalKeywords = ['babaye', 'birababaje', 'ndababaye', 'ntakibazo', 'guhangayika', 'gutinya', 'umujinya', 'urakari'];
+                for (const word of emotionalKeywords) {
+                    if (lower.includes(word)) return { intent: 'emotional_support', priority: 4 };
+                }
+                
+                // Greeting
+                const greetingKeywords = ['muraho', 'mwaramutse', 'hello', 'hi', 'hey', 'bonjour'];
+                for (const word of greetingKeywords) {
+                    if (lower.includes(word)) return { intent: 'greeting', priority: 1 };
+                }
+                
+                // Question
+                if (lower.includes('?')) return { intent: 'question', priority: 2 };
+                
+                // Educational
+                const educationKeywords = ['sobanura', 'gusobanura', 'explain', 'what is', 'ni iki', 'byakora'];
+                for (const word of educationKeywords) {
+                    if (lower.includes(word)) return { intent: 'educational', priority: 3 };
+                }
+                
+                return { intent: 'general', priority: 2 };
             }
         }
 
-        // ============================================================
-        // EMOTION DETECTOR
-        // ============================================================
+        // ===== LAYER 2: EMOTION DETECTION =====
         class EmotionDetector {
             constructor() {
-                this.emotionKeywords = {
-                    grief: ['ubwigunge', 'agahinda', 'kwiheba', 'kwigunga', 'ibikomere', 'amateka', '1994', 'jenoside', 'abakorewe'],
-                    joy: ['ishimwe', 'nkishimiye', 'byiza', 'neza', 'murakoze', 'nishimiye'],
-                    sadness: ['babaye', 'birababaje', 'ntakibazo', 'ndababaye', 'birabyaje', 'ntacyo'],
-                    anxiety: ['gutinya', 'guhangayika', 'ntabwo mbizi', 'mbaza', 'guhanga'],
-                    anger: ['urakari', 'uburakari', 'narahaye', 'ndarakaye', 'birakaza'],
-                    calm: ['amahoro', 'ntacyo', 'neza', 'mpumuye', 'ndatuze']
+                this.emotions = {
+                    joy: ['ishimwe', 'nkishimiye', 'byiza', 'neza', 'murakoze', 'nishimiye', 'ndishimye'],
+                    sadness: ['babaye', 'birababaje', 'ntakibazo', 'ndababaye', 'birabyaje', 'ntacyo', 'ndababajwe'],
+                    anxiety: ['gutinya', 'guhangayika', 'ntabwo mbizi', 'mbaza', 'guhanga', 'ndahangayitse'],
+                    anger: ['urakari', 'uburakari', 'narahaye', 'ndarakaye', 'birakaza', 'umujinya'],
+                    fear: ['gutinya', 'ubwoba', 'ndatinya', 'kutinya'],
+                    confusion: ['ucanganyukiwe', 'ntumva', 'sinumva', 'gushidikanya'],
+                    loneliness: ['wenyine', 'kwigunga', 'ntamuntu', 'ndi wenyine'],
+                    stress: ['umunaniro', 'ndacogora', 'ndahangayitse', 'birarengera']
+                };
+                
+                this.intensity = {
+                    low: ['gato', 'ntacyo', 'bito'],
+                    medium: ['bira', 'byinshi', 'komeye'],
+                    high: ['cyane', 'bikomeye', 'cyane cyane', 'birarengera']
                 };
             }
 
-            detectEmotion(text) {
-                const scores = {};
+            detect(text) {
                 const lower = text.toLowerCase();
-                for (const [emotion, keywords] of Object.entries(this.emotionKeywords)) {
+                const scores = {};
+                let maxScore = 0;
+                let primary = 'neutral';
+                
+                for (const [emotion, keywords] of Object.entries(this.emotions)) {
                     let score = 0;
                     for (const keyword of keywords) {
                         if (lower.includes(keyword)) score += 1;
                     }
                     scores[emotion] = score;
+                    if (score > maxScore) {
+                        maxScore = score;
+                        primary = emotion;
+                    }
                 }
-                const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
-                for (const emotion of Object.keys(scores)) {
-                    scores[emotion] = scores[emotion] / total;
+                
+                // Determine intensity
+                let intensity = 'low';
+                for (const word of this.intensity.high) {
+                    if (lower.includes(word)) intensity = 'high';
                 }
-                return scores;
+                for (const word of this.intensity.medium) {
+                    if (lower.includes(word) && intensity !== 'high') intensity = 'medium';
+                }
+                
+                return {
+                    emotion: primary,
+                    intensity: intensity,
+                    scores: scores
+                };
+            }
+        }
+
+        // ===== LAYER 3: RISK DETECTION =====
+        const ClinicalEvidence = {
+            crisisTriggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona', 'ndi bura', 'sinakimara', 'ndashaka gupfa'],
+            highRisk: ['guhangayika cyane', 'ndababaye cyane', 'birarengera', 'ntagishoboka'],
+            mediumRisk: ['guhangayika', 'ndababaye', 'birakomeye', 'umunaniro'],
+            
+            detectCrisis(text) {
+                const lower = text.toLowerCase();
+                return this.crisisTriggers.some(t => lower.includes(t));
+            },
+            
+            detectRisk(text) {
+                const lower = text.toLowerCase();
+                if (this.crisisTriggers.some(t => lower.includes(t))) return 5;
+                if (this.highRisk.some(t => lower.includes(t))) return 4;
+                if (this.mediumRisk.some(t => lower.includes(t))) return 3;
+                return 0;
+            }
+        };
+
+        // ===== LAYER 4: RESPONSE MODE SELECTION =====
+        class ResponseModeSelector {
+            select(intent, emotion, risk) {
+                if (risk >= 4) return 'crisis';
+                if (intent === 'crisis') return 'crisis';
+                if (emotion === 'sadness' || emotion === 'anxiety' || emotion === 'anger' || emotion === 'fear') {
+                    return 'emotional_support';
+                }
+                if (intent === 'greeting') return 'casual';
+                if (intent === 'educational') return 'educational';
+                if (intent === 'question') return 'informative';
+                return 'balanced';
+            }
+        }
+
+        // ===== FORMATTING ENGINE =====
+        class FormattingEngine {
+            formatResponse(content, mode) {
+                // Already formatted by the response generator
+                return content;
+            }
+        }
+
+        // ===== RESPONSE GENERATOR =====
+        class ProfessionalResponseGenerator {
+            constructor() {
+                this.intentDetector = new IntentDetector();
+                this.emotionDetector = new EmotionDetector();
+                this.modeSelector = new ResponseModeSelector();
+                this.formatter = new FormattingEngine();
             }
 
-            getDominantEmotion(text) {
-                const scores = this.detectEmotion(text);
-                const entries = Object.entries(scores).filter(([k, v]) => v > 0);
-                if (entries.length === 0) return 'neutral';
-                return entries.sort((a, b) => b[1] - a[1])[0][0];
+            generate(userMessage, userName, profile) {
+                // LAYER 1: Intent Detection
+                const intent = this.intentDetector.detect(userMessage);
+                
+                // LAYER 2: Emotion Detection
+                const emotion = this.emotionDetector.detect(userMessage);
+                
+                // LAYER 3: Risk Detection
+                const risk = ClinicalEvidence.detectRisk(userMessage);
+                
+                // LAYER 4: Mode Selection
+                const mode = this.modeSelector.select(intent.intent, emotion.emotion, risk);
+                
+                // LAYER 5-8: Response Planning & Generation
+                let response = this.buildResponse(userMessage, userName, intent, emotion, risk, mode, profile);
+                
+                // LAYER 9: Formatting
+                response = this.formatter.formatResponse(response, mode);
+                
+                // LAYER 10: Validation
+                response = this.validate(response, mode);
+                
+                return {
+                    content: response,
+                    metadata: {
+                        intent: intent.intent,
+                        emotion: emotion.emotion,
+                        intensity: emotion.intensity,
+                        risk: risk,
+                        mode: mode
+                    }
+                };
+            }
+
+            buildResponse(message, userName, intent, emotion, risk, mode, profile) {
+                const name = userName || 'Mugisha';
+                
+                // CRISIS MODE
+                if (mode === 'crisis' || risk >= 4) {
+                    return `
+                        <div class="response-acknowledge">
+                            <span class="response-emoji">🫂</span> 
+                            <strong>Mbabajwe no kumva umeze utyo, ${name}.</strong>
+                        </div>
+                        <div class="response-reflect">
+                            <span class="response-emoji">💭</span> 
+                            Ibyo uri kunyuramo ni ibikomeye. Ni byiza ko utwandikira kugira ngo ubone ubufasha.
+                        </div>
+                        <div class="response-guide">
+                            <span class="response-emoji">📞</span> 
+                            <strong>Ubufasha bwihutirwa:</strong><br>
+                            • 116 - Imitari y'inkunga (24/7)<br>
+                            • 3029 - Isange One Stop Center
+                        </div>
+                        <div class="response-support">
+                            <span class="response-emoji">🤝</span> 
+                            Nturi wenyine muri iki. Ubu hari umuntu uri hafi yawe ushobora kuvugana?
+                        </div>
+                    `;
+                }
+
+                // EMOTIONAL SUPPORT MODE
+                if (mode === 'emotional_support') {
+                    const emotionEmojis = {
+                        sadness: '🫂',
+                        anxiety: '🌿',
+                        anger: '💭',
+                        fear: '🫂',
+                        loneliness: '🤝',
+                        stress: '🌱'
+                    };
+                    const emoji = emotionEmojis[emotion.emotion] || '💙';
+                    
+                    return `
+                        <div class="response-acknowledge">
+                            <span class="response-emoji">${emoji}</span> 
+                            <strong>Ndumva neza ibyo uvuga, ${name}.</strong>
+                        </div>
+                        <div class="response-reflect">
+                            <span class="response-emoji">💭</span> 
+                            ${this.getEmotionReflection(emotion.emotion, message)}
+                        </div>
+                        <div class="response-guide">
+                            <span class="response-emoji">🌱</span> 
+                            ${this.getEmotionGuidance(emotion.emotion)}
+                        </div>
+                        <div class="response-support">
+                            <span class="response-emoji">🤝</span> 
+                            Ndi hano ngo nkumve. Ubu hari ikintu cyihariye ushaka kuvuga?
+                        </div>
+                    `;
+                }
+
+                // CASUAL MODE (Greeting)
+                if (mode === 'casual') {
+                    const timeOfDay = new Date().getHours();
+                    let greeting = 'Muraho';
+                    if (timeOfDay < 12) greeting = 'Mwaramutse';
+                    else if (timeOfDay < 18) greeting = 'Muraho';
+                    else greeting = 'Mwiriwe';
+                    
+                    return `
+                        <div class="response-acknowledge">
+                            <span class="response-emoji">👋</span> 
+                            <strong>${greeting} ${name}!</strong>
+                        </div>
+                        <div class="response-reflect">
+                            <span class="response-emoji">😊</span> 
+                            Ni byiza kongera kukubona. Nakwunganira gute uyu munsi?
+                        </div>
+                    `;
+                }
+
+                // EDUCATIONAL MODE
+                if (mode === 'educational') {
+                    return `
+                        <div class="response-acknowledge">
+                            <span class="response-emoji">📚</span> 
+                            <strong>${name}, reka turebe hamwe icyo ushaka kumenya.</strong>
+                        </div>
+                        <div class="response-reflect">
+                            <span class="response-emoji">🧠</span> 
+                            ${this.getEducationalContent(message)}
+                        </div>
+                        <div class="response-guide">
+                            <span class="response-emoji">💡</span> 
+                            Hari ikindi ushaka kumenya kuri iki kibazo?
+                        </div>
+                    `;
+                }
+
+                // DEFAULT / BALANCED
+                return `
+                    <div class="response-acknowledge">
+                        <span class="response-emoji">💬</span> 
+                        <strong>Ndumva neza ibyo uvuga, ${name}.</strong>
+                    </div>
+                    <div class="response-reflect">
+                        <span class="response-emoji">💭</span> 
+                        ${this.getGeneralReflection(message)}
+                    </div>
+                    <div class="response-guide">
+                        <span class="response-emoji">🌱</span> 
+                        ${this.getGeneralGuidance()}
+                    </div>
+                    <div class="response-support">
+                        <span class="response-emoji">🤝</span> 
+                        Ndi hano ngo nkumve. Ubu hari ikindi ushaka kongera kuvuga?
+                    </div>
+                `;
+            }
+
+            getEmotionReflection(emotion, message) {
+                const reflections = {
+                    sadness: `Kumva ubabaye cyangwa wigunze bishobora guterwa n'ibintu byinshi. Ni byiza ko ubivuga. Waba hari ikintu cyabaye uyu munsi cyaguteye kumva utyo?`,
+                    anxiety: `Ibyifuzo n'ibitekerezo bikomeye bishobora guhinda umutima. Waba uri guhangana n'ikintu runaka ubu?`,
+                    anger: `Umujinya ushobora kuba ari ikisubizo ku kintu kikubabaza. Ni byiza ko ubivuga. Waba uri guhangana n'ikintu runaka?`,
+                    fear: `Kutinya ni ikintu gisanzwe. Waba hari ikintu kihariye gituma wumva utyo?`,
+                    loneliness: `Kwigunga bishobora kuba bikomeye. Waba hari umuntu uri hafi yawe ushobora kuvugana?`,
+                    stress: `Umunaniro n'ibyifuzo bikomeye bishobora kuba byinshi. Waba hari ikintu cyihariye kikugiraho ingaruka ubu?`
+                };
+                return reflections[emotion] || `Ndumva ko hari ibintu byakugizeho ingaruka. Waba ushaka kuvuga byinshi kuri ibyo?`;
+            }
+
+            getEmotionGuidance(emotion) {
+                const guidance = {
+                    sadness: `Gufata umwanya wo kwihangana, kwandika ibyo utekereza, cyangwa kuganira n'umuntu ukizera bishobora kugufasha.`,
+                    anxiety: `Guhumeka neza, gukora imyitozo ngororamubiri, no kugabanya ibitekerezo bishobora kugufasha kumva amahoro.`,
+                    anger: `Guhumeka neza, kwandika ibikubabaza, no kuganira n'umuntu ukizera bishobora kugufasha kugabanya umujinya.`,
+                    fear: `Kuganira n'umuntu ukizera, gukora ibintu bituma umutima wumva amahoro, no kwihangana bishobora kugufasha.`,
+                    loneliness: `Kuganira n'umuntu ukizera, gukora ibintu ushisha, no kwitabira imibereho myiza bishobora kugufasha.`,
+                    stress: `Guhumeka neza, gukora imyitozo ngororamubiri, no gukora ibintu bituma umutima wumva amahoro bishobora kugufasha.`
+                };
+                return guidance[emotion] || `Gushaka ubufasha ni ikintu cyiza. Reka turebe hamwe uko dushobora kugufasha.`;
+            }
+
+            getEducationalContent(message) {
+                return `Ndumva ko ushaka kumenya byinshi. Reka turebe hamwe icyo ushaka kumenya, kugira ngo mbone uko nakugirira inama.`;
+            }
+
+            getGeneralReflection(message) {
+                return `Ndumva ko hari ibintu byakugizeho ingaruka. Ni byiza ko utwandikira kugira ngo tuganire.`;
+            }
+
+            getGeneralGuidance() {
+                return `Kuvuga ni ikintu cyiza. Reka turebe uko dushobora kugufasha uyu munsi.`;
+            }
+
+            validate(content, mode) {
+                // Remove excessive whitespace
+                content = content.replace(/\s+/g, ' ').trim();
+                
+                // Ensure minimum length for emotional support
+                if (mode === 'emotional_support' && content.length < 50) {
+                    content += ' 💙 Ndi hano ngo nkumve.';
+                }
+                
+                return content;
             }
         }
 
@@ -1960,17 +2072,6 @@
                 return updated;
             }
 
-            getProfileSummary() {
-                const parts = [];
-                if (this.profile.name) parts.push(`Izina: ${this.profile.name}`);
-                if (this.profile.age) parts.push(`Im. ${this.profile.age}`);
-                if (this.profile.occupation) parts.push(`Akazi: ${this.profile.occupation}`);
-                if (this.profile.traits.length > 0) {
-                    parts.push(`Imiterere: ${this.profile.traits.join(', ')}`);
-                }
-                return parts.length > 0 ? parts.join(' · ') : 'Nta makuru';
-            }
-
             getTraitsDisplay() {
                 if (this.profile.traits.length === 0) return 'Nta makuru';
                 const traitMap = {
@@ -2027,7 +2128,7 @@
                 this.onDeviceModel = null;
                 this.currentSource = 'puter';
                 this.userName = null;
-                this.emotionDetector = new EmotionDetector();
+                this.responseGenerator = new ProfessionalResponseGenerator();
                 this.systemPrompt = this.buildSystemPrompt();
                 this.initialized = false;
             }
@@ -2035,51 +2136,40 @@
             buildSystemPrompt() {
                 const profile = this.profileAnalyzer.profile;
                 const name = profile.name || 'Mugisha';
-                const age = profile.age ? `${profile.age} imyaka` : '';
-                const occupation = profile.occupation || '';
-                const traits = profile.traits.length > 0 ? profile.traits.join(', ') : '';
+                
+                return `Wowe uri TYAZA, umuvugizi w'umutima wakozwe na KIVURA LABS.
 
-                let prompt = `Wowe uri TYAZA, umuvugizi w'umutima wakozwe na KIVURA LABS.`;
+USER PROFILE:
+- Izina: ${name}
 
-                if (name) prompt += `\n- Izina ry'umukoresha: ${name}`;
-                if (age) prompt += `\n- Imyaka: ${age}`;
-                if (occupation) prompt += `\n- Akazi: ${occupation}`;
-                if (traits) prompt += `\n- Imiterere: ${traits}`;
+YOUR ROLE:
+- Provide professional, empathetic responses in Kinyarwanda
+- Use the professional response architecture: Acknowledge → Reflect → Guide → Support
+- Detect intent, emotion, and risk levels automatically
+- Use appropriate emojis contextually
+- Keep responses concise but meaningful
+- Prioritize empathy before advice
+- Never use generic therapy clichés
+- Sound human and supportive
 
-                prompt += `\n\nINAMA NGOMBO:
-- Vuga mu Kinyarwanda gikwiye, gifite ubuhanga
-- Koresha imiterere y'ibisubizo ifite imitwe n'ingingo
-- Kora ibisubizo bifite ibice bitandukanye: icyo wumvise, ingingo zagaragaye, ibyagufasha, inkunga
-- Uruhuri rw'ibiganiro: ubushyuhe, ubwenge, no gufasha
-- NI BYIZA: Ntuvuge ibintu bihereranye n'inyandiko z'ubwoko cyangwa ibintu bitandukanya abantu
-- NI BYIZA: Tanga ubufasha bw'umwuga, butuma abantu bumva amahoro
-- NI BYIZA: Koresha amagambo nk' "umva", "umutima", "mahoro"
-- NI BYIZA: Kora ibisubizo bifite ibice bitandukanye
-- NI BYIZA: Tanga inama zifatika
-- NI BYIZA: Tanga umwanya wo guhumeka
-
-URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwubakiye ku buhanga.`;
-
-                return prompt;
+CRITICAL RULES:
+- NEVER mention ethnicity or divisive content
+- ALWAYS provide professional, trauma-informed responses
+- ALWAYS include crisis resources when needed (116, 3029)
+- Focus on healing, unity, and professional mental health support`;
             }
 
             async init() {
                 if (this.initialized) return;
                 
-                // Try to connect to Puter
                 await this.checkPuter();
-                
-                // Try to load on-device model as fallback
                 this.loadOnDevice().catch(() => {});
-                
-                // Load profile
                 await this.profileAnalyzer.loadProfile();
                 if (this.profileAnalyzer.profile.name) {
                     this.userName = this.profileAnalyzer.profile.name;
                 }
                 this.systemPrompt = this.buildSystemPrompt();
                 this.initialized = true;
-                
                 return this;
             }
 
@@ -2092,7 +2182,7 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
                             this.currentSource = 'puter';
                             clearInterval(check);
                             resolve(true);
-                        } else if (attempts++ >= 25) { // Wait up to 7.5 seconds
+                        } else if (attempts++ >= 25) {
                             this.puterAvailable = false;
                             clearInterval(check);
                             resolve(false);
@@ -2122,29 +2212,15 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
                 await this.profileAnalyzer.updateFromMessage(userMessage);
                 this.systemPrompt = this.buildSystemPrompt();
 
-                // Detect emotion
-                const emotion = this.emotionDetector.getDominantEmotion(userMessage);
-                
-                // Save emotion to history
-                if (this.db && emotion !== 'neutral') {
-                    await this.db.saveEmotion({ dominant: emotion, text: userMessage.slice(0, 50) });
-                }
+                // Get professional response
+                const result = this.responseGenerator.generate(
+                    userMessage,
+                    this.userName,
+                    this.profileAnalyzer.profile
+                );
 
-                // Check for crisis
-                if (ClinicalEvidence.detectCrisis(userMessage)) {
-                    return { type: 'crisis', content: StructuredResponse.griefAndTraumaResponse(this.userName, userMessage) };
-                }
-
-                // Check for grief/trauma keywords
-                const griefKeywords = ['ubwigunge', 'agahinda', 'kwiheba', 'kwigunga', 'ibikomere', '1994', 'jenoside', 'abakorewe'];
-                const hasGrief = griefKeywords.some(k => userMessage.toLowerCase().includes(k));
-                
-                if (hasGrief || emotion === 'grief') {
-                    return { type: 'normal', content: StructuredResponse.griefAndTraumaResponse(this.userName, userMessage) };
-                }
-
-                // Try Puter AI if available
-                if (this.puterAvailable) {
+                // Try Puter AI if available and not crisis/emotional
+                if (this.puterAvailable && result.metadata.risk < 4 && result.metadata.mode !== 'emotional_support') {
                     try {
                         const response = await window.puter.ai.chat([
                             { role: 'system', content: this.systemPrompt },
@@ -2152,14 +2228,13 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
                         ], { model: 'gpt-4o-mini' });
 
                         let content = response.message?.content || response;
-                        return { type: 'normal', content };
+                        return { type: 'normal', content, metadata: result.metadata };
                     } catch (e) {
-                        console.log('Puter error, falling back to structured response');
+                        console.log('Puter error, using structured response');
                     }
                 }
 
-                // Fallback to structured response
-                return { type: 'normal', content: StructuredResponse.generalResponse(this.userName, userMessage) };
+                return { type: 'normal', content: result.content, metadata: result.metadata };
             }
 
             setUserName(name) {
@@ -2235,7 +2310,9 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
             speak(text, options = {}) {
                 if (!this.synthesis) return;
                 this.synthesis.cancel();
-                const utterance = new SpeechSynthesisUtterance(text.slice(0, 500));
+                // Strip HTML tags for speech
+                const plainText = text.replace(/<[^>]*>/g, '');
+                const utterance = new SpeechSynthesisUtterance(plainText.slice(0, 500));
                 if (options.voice) {
                     const voice = this.voices.find(v => v.name.includes(options.voice.split(' ')[0]));
                     if (voice) utterance.voice = voice;
@@ -2353,51 +2430,36 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
                 if (this.initialized) return;
                 this.initialized = true;
 
-                // Create stars
                 this.createStars();
 
-                // Initialize database
                 await this.db.init();
-
-                // Load profile
                 await this.profileAnalyzer.loadProfile();
 
-                // Initialize AI service
                 this.ai = new AIService(this.db, this.profileAnalyzer);
                 await this.ai.init();
 
-                // Update UI with profile
                 this.updateProfileDisplay();
 
-                // Set connection status
                 if (this.ai.puterAvailable) {
                     this.elements.connectionStatus.textContent = '✅ Connected';
                 } else {
                     this.elements.connectionStatus.textContent = '🔄 Offline Mode';
                 }
 
-                // Bind events
                 this.bindEvents();
-
-                // Load history
                 await this.loadHistory();
 
-                // Hide loading screen
                 setTimeout(() => {
                     this.elements.loadingScreen.classList.add('hidden');
                 }, 1000);
 
-                // Show greeting
                 setTimeout(() => {
                     if (this.elements.welcomeGreeting) {
                         this.elements.welcomeGreeting.style.opacity = '1';
                     }
                 }, 500);
 
-                // Check mobile voice support
                 this.checkMobileVoiceSupport();
-
-                // Fix mobile sidebar
                 this.fixMobileSidebar();
             }
 
@@ -2419,9 +2481,15 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
 
             updateProfileDisplay() {
                 const profile = this.profileAnalyzer.profile;
-                this.elements.profileName.textContent = profile.name || 'Nta izina';
-                this.elements.profileTraits.textContent = this.profileAnalyzer.getTraitsDisplay();
-                this.elements.profileContext.textContent = this.profileAnalyzer.getContextDisplay();
+                this.elements.profileName.innerHTML = profile.name ? 
+                    `<span class="highlight">${profile.name}</span>` : 
+                    '<span class="empty">...</span>';
+                this.elements.profileTraits.innerHTML = this.profileAnalyzer.getTraitsDisplay() !== 'Nta makuru' ?
+                    this.profileAnalyzer.getTraitsDisplay() :
+                    '<span class="empty">Nta makuru</span>';
+                this.elements.profileContext.innerHTML = this.profileAnalyzer.getContextDisplay() !== 'Nta makuru' ?
+                    this.profileAnalyzer.getContextDisplay() :
+                    '<span class="empty">Nta makuru</span>';
             }
 
             fixMobileSidebar() {
@@ -2483,7 +2551,6 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
                     </div>
                 `;
 
-                // Add styles for the dialog
                 const style = document.createElement('style');
                 style.textContent = `
                     .voice-dialog-mobile {
@@ -2572,7 +2639,6 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
                 });
                 this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
 
-                // Voice button
                 this.elements.voiceBtn.addEventListener('click', () => {
                     if (this.voiceFallbackActive) {
                         this.showVoiceDialog();
@@ -2607,7 +2673,6 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
                     });
                 });
 
-                // Mood tracking
                 this.elements.openMoodModal.addEventListener('click', () => this.openMoodModal());
                 this.elements.moodModalClose.addEventListener('click', () => this.closeMoodModal());
                 this.elements.moodModal.addEventListener('click', (e) => {
@@ -2630,7 +2695,6 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
 
                 this.elements.saveMoodBtn.addEventListener('click', () => this.saveMood());
 
-                // Keyboard shortcuts
                 document.addEventListener('keydown', (e) => {
                     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                         e.preventDefault();
@@ -2672,7 +2736,6 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
                 const text = this.elements.messageInput.value.trim();
                 if (!text || this.isGenerating) return;
 
-                // Auto-extract name from message
                 const extractedName = this.profileAnalyzer.analyzeMessage(text).name;
                 if (extractedName) {
                     this.profileAnalyzer.profile.name = extractedName;
@@ -2699,7 +2762,6 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
 
                     if (response.type === 'crisis') {
                         this.addMessage('assistant', response.content);
-                        // Also show crisis modal
                         this.showCrisisModal();
                     } else {
                         this.addMessage('assistant', response.content);
@@ -2720,7 +2782,6 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
                 const msg = document.createElement('div');
                 msg.className = `message ${role}`;
                 const time = formatMessageTime();
-                const escaped = escapeHtml(content);
                 const avatarContent = role === 'user' ?
                     '👤' :
                     '<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\';"><i class="fas fa-robot" style="display: none;" aria-hidden="true"></i>';
@@ -2728,16 +2789,16 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
                 msg.innerHTML = `
                     <div class="message-avatar">${avatarContent}</div>
                     <div class="message-content">
-                        <div class="message-bubble">${escaped}</div>
+                        <div class="message-bubble">${content}</div>
                         <div class="message-meta">
                             <span>${time}</span>
                             <div class="message-actions">
                                 ${role === 'assistant' ? `
-                                    <button class="message-action" onclick="window.app.speakMessage('${escaped.replace(/'/g, "\\'")}')">
+                                    <button class="message-action" onclick="window.app.speakMessage('${escapeHtml(content).replace(/'/g, "\\'")}')">
                                         <i class="fas fa-volume-up" aria-hidden="true"></i>
                                     </button>
                                 ` : ''}
-                                <button class="message-action" onclick="navigator.clipboard.writeText('${escaped.replace(/'/g, "\\'")}'); window.app.showToast('Ibyakiriwe!', 'success')">
+                                <button class="message-action" onclick="navigator.clipboard.writeText('${escapeHtml(content).replace(/'/g, "\\'")}'); window.app.showToast('Ibyakiriwe!', 'success')">
                                     <i class="fas fa-copy" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -2908,7 +2969,7 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
                 }
                 const data = {
                     app: 'TYAZA',
-                    version: '6.4',
+                    version: '6.5',
                     timestamp: Date.now(),
                     profile: this.profileAnalyzer.profile,
                     messages: this.messages
@@ -3060,16 +3121,19 @@ URUKUNDO: Ubutumwa bwawe bugomba kuba bukwiye, bufite agaciro, kandi bukaba bwub
             app.init();
         }
 
-        console.log('✨ TYAZA v6.4 - Professional Edition');
+        console.log('✨ TYAZA v6.5 - Professional Response Architecture');
         console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-        console.log('🧠 Features:');
-        console.log('  - Auto name extraction (no input box)');
-        console.log('  - Age, occupation, personality detection');
-        console.log('  - Structured responses with proper formatting');
-        console.log('  - Mobile-friendly with fixed sidebar');
-        console.log('  - Voice input with mobile fallback');
-        console.log('  - Quality over quantity responses');
-        console.log('  - Professional trauma/grief support');
+        console.log('🧠 AI Architecture:');
+        console.log('  1. Intent Detection');
+        console.log('  2. Emotion Detection');
+        console.log('  3. Risk Detection');
+        console.log('  4. Response Mode Selection');
+        console.log('  5. Context & Memory Retrieval');
+        console.log('  6. Response Planning');
+        console.log('  7. Content Generation');
+        console.log('  8. Formatting Engine');
+        console.log('  9. Safety Validation');
+        console.log(' 10. Final Output');
         console.log('💙 Built for Rwanda | Zero Budget | Global Quality');
     </script>
 
