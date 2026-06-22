@@ -2848,25 +2848,129 @@
     </button>
 
     <script>
-        // Hide loading screen immediately
-        (function() {
-            var ls = document.getElementById('loadingScreen');
-            if (ls) {
-                ls.classList.add('hidden');
-            }
-        })();
-    </script>
+        // Simple IndexedDB wrapper - no external dependencies
+        const TyazaDB = {
+            _db: null,
+            _ready: false,
 
-    <script type="importmap">
-        {
-            "imports": {
-                "idb": "https://esm.sh/idb@8.0.0"
-            }
-        }
-    </script>
+            async init() {
+                return new Promise((resolve, reject) => {
+                    const request = indexedDB.open('TyazaDB', 4);
+                    request.onupgradeneeded = (e) => {
+                        const db = e.target.result;
+                        if (!db.objectStoreNames.contains('conversations')) {
+                            db.createObjectStore('conversations', { keyPath: 'id' });
+                        }
+                        if (!db.objectStoreNames.contains('settings')) {
+                            db.createObjectStore('settings');
+                        }
+                        if (!db.objectStoreNames.contains('moodData')) {
+                            db.createObjectStore('moodData', { keyPath: 'id', autoIncrement: true });
+                        }
+                        if (!db.objectStoreNames.contains('userData')) {
+                            db.createObjectStore('userData');
+                        }
+                    };
+                    request.onsuccess = (e) => {
+                        this._db = e.target.result;
+                        this._ready = true;
+                        resolve();
+                    };
+                    request.onerror = () => {
+                        console.warn('IndexedDB not available, using memory fallback');
+                        this._ready = false;
+                        resolve();
+                    };
+                });
+            },
 
-    <script type="module">
-        import { openDB } from 'idb';
+            _getStore(storeName, mode = 'readonly') {
+                if (!this._db) return null;
+                try {
+                    return this._db.transaction(storeName, mode).objectStore(storeName);
+                } catch (e) {
+                    return null;
+                }
+            },
+
+            async getAll(storeName) {
+                if (!this._ready || !this._db) return [];
+                return new Promise((resolve) => {
+                    try {
+                        const store = this._getStore(storeName);
+                        if (!store) { resolve([]); return; }
+                        const request = store.getAll();
+                        request.onsuccess = () => resolve(request.result);
+                        request.onerror = () => resolve([]);
+                    } catch (e) { resolve([]); }
+                });
+            },
+
+            async get(storeName, key) {
+                if (!this._ready || !this._db) return null;
+                return new Promise((resolve) => {
+                    try {
+                        const store = this._getStore(storeName);
+                        if (!store) { resolve(null); return; }
+                        const request = store.get(key);
+                        request.onsuccess = () => resolve(request.result);
+                        request.onerror = () => resolve(null);
+                    } catch (e) { resolve(null); }
+                });
+            },
+
+            async put(storeName, value, key) {
+                if (!this._ready || !this._db) return;
+                return new Promise((resolve) => {
+                    try {
+                        const store = this._getStore(storeName, 'readwrite');
+                        if (!store) { resolve(); return; }
+                        const request = key !== undefined ? store.put(value, key) : store.put(value);
+                        request.onsuccess = () => resolve();
+                        request.onerror = () => resolve();
+                    } catch (e) { resolve(); }
+                });
+            },
+
+            async add(storeName, value) {
+                if (!this._ready || !this._db) return;
+                return new Promise((resolve) => {
+                    try {
+                        const store = this._getStore(storeName, 'readwrite');
+                        if (!store) { resolve(); return; }
+                        const request = store.add(value);
+                        request.onsuccess = () => resolve();
+                        request.onerror = () => resolve();
+                    } catch (e) { resolve(); }
+                });
+            },
+
+            async delete(storeName, key) {
+                if (!this._ready || !this._db) return;
+                return new Promise((resolve) => {
+                    try {
+                        const store = this._getStore(storeName, 'readwrite');
+                        if (!store) { resolve(); return; }
+                        const request = store.delete(key);
+                        request.onsuccess = () => resolve();
+                        request.onerror = () => resolve();
+                    } catch (e) { resolve(); }
+                });
+            },
+
+            async clear(storeName) {
+                if (!this._ready || !this._db) return;
+                return new Promise((resolve) => {
+                    try {
+                        const store = this._getStore(storeName, 'readwrite');
+                        if (!store) { resolve(); return; }
+                        const request = store.clear();
+                        request.onsuccess = () => resolve();
+                        request.onerror = () => resolve();
+                    } catch (e) { resolve(); }
+                });
+            }
+        };
 
         // Simple fallback responses
         const FALLBACK_RESPONSES = [
@@ -2891,92 +2995,16 @@
             return new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
         }
 
-        // Simple DB class
-        class Database {
-            constructor() {
-                this.db = null;
-                this.ready = false;
-            }
-
-            async init() {
-                this.db = await openDB('TyazaDB', 4, {
-                    upgrade(db) {
-                        if (!db.objectStoreNames.contains('conversations')) {
-                            db.createObjectStore('conversations', { keyPath: 'id' });
-                        }
-                        if (!db.objectStoreNames.contains('settings')) {
-                            db.createObjectStore('settings');
-                        }
-                        if (!db.objectStoreNames.contains('moodData')) {
-                            db.createObjectStore('moodData', { keyPath: 'id', autoIncrement: true });
-                        }
-                        if (!db.objectStoreNames.contains('userData')) {
-                            db.createObjectStore('userData');
-                        }
-                        if (!db.objectStoreNames.contains('knowledge')) {
-                            db.createObjectStore('knowledge');
-                        }
-                    }
-                });
-                this.ready = true;
-                return this;
-            }
-
-            async saveConversation(conversation) {
-                if (!this.ready) return;
-                await this.db.put('conversations', {
-                    id: conversation.id || generateId(),
-                    ...conversation,
-                    timestamp: Date.now()
-                });
-            }
-
-            async getConversations() {
-                if (!this.ready) return [];
-                return await this.db.getAll('conversations');
-            }
-
-            async getSetting(key) {
-                if (!this.ready) return null;
-                return await this.db.get('settings', key);
-            }
-
-            async setSetting(key, value) {
-                if (!this.ready) return;
-                await this.db.put('settings', value, key);
-            }
-
-            async saveMood(mood) {
-                if (!this.ready) return;
-                await this.db.add('moodData', { ...mood, timestamp: Date.now() });
-            }
-
-            async getMoodHistory(days = 7) {
-                if (!this.ready) return [];
-                const all = await this.db.getAll('moodData');
-                const cutoff = Date.now() - (days * 86400000);
-                return all.filter(m => m.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
-            }
-
-            async getUserData() {
-                if (!this.ready) return { name: null };
-                return await this.db.get('userData', 'user') || { name: null };
-            }
-
-            async saveUserData(data) {
-                if (!this.ready) return;
-                await this.db.put('userData', data, 'user');
-            }
-
-            async clearHistory() {
-                if (!this.ready) return;
-                await this.db.clear('conversations');
-            }
-
-            async deleteConversation(id) {
-                if (!this.ready) return;
-                await this.db.delete('conversations', id);
-            }
+        function formatRelativeTime(timestamp) {
+            const diff = Date.now() - timestamp;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            if (minutes < 1) return 'none';
+            if (minutes < 60) return `${minutes} min`;
+            if (hours < 24) return `${hours} hr`;
+            if (days < 7) return `${days} d`;
+            return new Date(timestamp).toLocaleDateString('rw-RW');
         }
 
         // Speech Service
@@ -3135,33 +3163,24 @@
             }
 
             generateResponse(text) {
-                // Check crisis
                 if (this.detectCrisis(text)) {
                     return { type: 'crisis', content: null };
                 }
 
-                // Simple response generation
                 let response = this.fallbackResponses[Math.floor(Math.random() * this.fallbackResponses.length)];
 
-                // Add name if extracted
                 const name = this.extractUserName(text);
                 if (name && name !== this.userName) {
                     this.userName = name;
                     response = `✨ Murakaza neza, ${name}! ` + response;
                 }
 
-                // Customize based on message length
                 if (text.length > 30) {
                     response += " Urakoze kubw'ibyo utubwiye byinshi. 💛";
                 }
 
-                // Add validation
                 if (text.includes('?')) {
-                    const validations = [
-                        ' Ni ikibazo cyiza!',
-                        ' Ndumva neza!',
-                        ' Nibyo ko ubaza!'
-                    ];
+                    const validations = [' Ni ikibazo cyiza!', ' Ndumva neza!', ' Nibyo ko ubaza!'];
                     response += validations[Math.floor(Math.random() * validations.length)];
                 }
 
@@ -3176,7 +3195,6 @@
         // Main App
         class TyazaApp {
             constructor() {
-                this.db = new Database();
                 this.ai = new SimpleAIService();
                 this.speech = new SpeechService();
 
@@ -3237,33 +3255,38 @@
                     crisisNow: document.getElementById('crisisNow'),
                     connectionStatus: document.getElementById('connectionStatus')
                 };
+
+                this._initialized = false;
             }
 
             async init() {
+                if (this._initialized) return;
+                this._initialized = true;
+
                 this.createStars();
 
-                // Initialize DB
-                await this.db.init();
+                // Init DB
+                await TyazaDB.init();
 
                 // Load user data
-                const userData = await this.db.getUserData();
+                const userData = await TyazaDB.get('userData', 'user');
                 if (userData && userData.name) {
                     this.userName = userData.name;
                     this.ai.setUserName(this.userName);
                     this.elements.userNameInput.value = this.userName;
                     this.updateWelcomeGreeting();
-                } else {
-                    this.elements.userNameInput.value = '';
                 }
 
-                const settings = await this.db.getSetting('settings');
+                const settings = await TyazaDB.get('settings', 'settings');
                 if (settings) this.settings = { ...this.settings, ...settings };
                 this.applySettings();
 
                 this.bindEvents();
                 await this.loadHistory();
 
-                // Loading screen is already hidden
+                // Hide loading screen
+                const ls = document.getElementById('loadingScreen');
+                if (ls) ls.classList.add('hidden');
 
                 setTimeout(() => {
                     if (this.elements.welcomeGreeting) {
@@ -3279,6 +3302,9 @@
                     el.style.pointerEvents = 'auto';
                     el.style.cursor = 'pointer';
                 });
+
+                console.log('✨ TYAZA v6.1 - 2030 Edition');
+                console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
             }
 
             fixMobileSidebar() {
@@ -3414,7 +3440,10 @@
                 this.elements.messageInput.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter' && !e.shiftKey) {
                         e.preventDefault();
-                        if (!this.elements.sendBtn.disabled) this.sendMessage();
+                        const val = this.elements.messageInput.value.trim();
+                        if (val && !this.elements.sendBtn.disabled) {
+                            this.sendMessage();
+                        }
                     }
                 });
                 this.elements.sendBtn.addEventListener('click', () => this.sendMessage());
@@ -3431,25 +3460,25 @@
 
                 this.elements.voiceSelect.addEventListener('change', (e) => {
                     this.settings.voice = e.target.value;
-                    this.db.setSetting('settings', this.settings);
+                    TyazaDB.put('settings', this.settings, 'settings');
                 });
                 this.elements.rateSlider.addEventListener('input', (e) => {
                     this.elements.rateValue.textContent = e.target.value;
                     this.settings.rate = parseFloat(e.target.value);
                 });
-                this.elements.rateSlider.addEventListener('change', () => this.db.setSetting('settings', this.settings));
+                this.elements.rateSlider.addEventListener('change', () => TyazaDB.put('settings', this.settings, 'settings'));
                 this.elements.pitchSlider.addEventListener('input', (e) => {
                     this.elements.pitchValue.textContent = e.target.value;
                     this.settings.pitch = parseFloat(e.target.value);
                 });
-                this.elements.pitchSlider.addEventListener('change', () => this.db.setSetting('settings', this.settings));
+                this.elements.pitchSlider.addEventListener('change', () => TyazaDB.put('settings', this.settings, 'settings'));
 
                 this.elements.saveNameBtn.addEventListener('click', async () => {
                     const name = this.elements.userNameInput.value.trim();
                     if (name) {
                         this.userName = name;
                         this.ai.setUserName(name);
-                        await this.db.saveUserData({ name });
+                        await TyazaDB.put('userData', { name }, 'user');
                         this.updateWelcomeGreeting();
                         this.showToast('Izina ryabitswe! ✨', 'success');
                     }
@@ -3582,12 +3611,11 @@
                 const text = this.elements.messageInput.value.trim();
                 if (!text || this.isGenerating) return;
 
-                // Auto-extract name from message
                 const extractedName = this.ai.extractUserName(text);
                 if (extractedName && extractedName !== this.userName) {
                     this.userName = extractedName;
                     this.ai.setUserName(extractedName);
-                    await this.db.saveUserData({ name: extractedName });
+                    await TyazaDB.put('userData', { name: extractedName }, 'user');
                     this.elements.userNameInput.value = extractedName;
                     this.updateWelcomeGreeting();
                     this.showToast(`✨ Murakaza neza, ${extractedName}!`, 'success');
@@ -3718,12 +3746,12 @@
                     messages: this.messages.slice(-10),
                     timestamp: Date.now()
                 };
-                await this.db.saveConversation(conv);
+                await TyazaDB.put('conversations', conv);
                 await this.loadHistory();
             }
 
             async loadHistory() {
-                const convs = await this.db.getConversations();
+                const convs = await TyazaDB.getAll('conversations');
                 if (convs.length === 0) {
                     this.elements.historyList.innerHTML = `
                         <div class="history-empty">
@@ -3741,7 +3769,7 @@
                         <div class="history-item ${c.id === this.currentId ? 'active' : ''}" data-id="${c.id}" role="listitem">
                             <div class="history-title">${escapeHtml(c.title || 'Chat')}</div>
                             <div class="history-meta">
-                                <span>${this.formatRelativeTime(c.timestamp)}</span>
+                                <span>${formatRelativeTime(c.timestamp)}</span>
                                 <span>${c.messages ? c.messages.length : 0} msgs</span>
                             </div>
                         </div>
@@ -3758,20 +3786,8 @@
                 });
             }
 
-            formatRelativeTime(timestamp) {
-                const diff = Date.now() - timestamp;
-                const minutes = Math.floor(diff / 60000);
-                const hours = Math.floor(diff / 3600000);
-                const days = Math.floor(diff / 86400000);
-                if (minutes < 1) return 'none';
-                if (minutes < 60) return `${minutes} min`;
-                if (hours < 24) return `${hours} hr`;
-                if (days < 7) return `${days} d`;
-                return new Date(timestamp).toLocaleDateString('rw-RW');
-            }
-
             async loadChat(id) {
-                const convs = await this.db.getConversations();
+                const convs = await TyazaDB.getAll('conversations');
                 const chat = convs.find(c => c.id === id);
                 if (!chat) return;
 
@@ -3788,7 +3804,7 @@
             }
 
             async deleteChat(id) {
-                await this.db.deleteConversation(id);
+                await TyazaDB.delete('conversations', id);
                 if (this.currentId === id) {
                     this.newChat();
                 }
@@ -3816,7 +3832,7 @@
 
             async clearHistory() {
                 if (!confirm('Hanagura amateka yose?')) return;
-                await this.db.clearHistory();
+                await TyazaDB.clear('conversations');
                 this.newChat();
                 this.showToast('Amateka yahanaguwe', 'success');
             }
@@ -3891,7 +3907,7 @@
             }
 
             async quickMood(mood) {
-                await this.db.saveMood({ mood: parseInt(mood), notes: '', quick: true });
+                await TyazaDB.add('moodData', { mood: parseInt(mood), notes: '', quick: true, timestamp: Date.now() });
                 this.showToast('Uko wumva byabitswe! 💛', 'success');
             }
 
@@ -3903,13 +3919,15 @@
                 }
                 const mood = parseInt(selected.dataset.mood);
                 const notes = this.elements.moodNotes.value.trim();
-                await this.db.saveMood({ mood, notes });
+                await TyazaDB.add('moodData', { mood, notes, timestamp: Date.now() });
                 this.showToast('Byabitswe! ✨', 'success');
                 this.closeMoodModal();
             }
 
             async loadMoodCalendar() {
-                const moods = await this.db.getMoodHistory(7);
+                const all = await TyazaDB.getAll('moodData');
+                const cutoff = Date.now() - (7 * 86400000);
+                const moods = all.filter(m => m.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
                 const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
                 let html = days.map(d => `<div class="mood-day-label">${d}</div>`).join('');
 
@@ -3943,10 +3961,6 @@
         } else {
             app.init();
         }
-
-        console.log('✨ TYAZA v6.1 - 2030 Edition');
-        console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-        console.log('💙 All buttons are clickable now');
     </script>
 
     <noscript>
