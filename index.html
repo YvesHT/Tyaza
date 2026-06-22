@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
-    <!-- Load config file with API key from GitHub -->
+    <!-- Load config file with API key -->
     <script src="config.js"></script>
     
     <style>
@@ -1172,47 +1172,9 @@
             visibility: visible;
             pointer-events: auto;
         }
-        .loading {
-            position: fixed;
-            inset: 0;
-            background: var(--bg);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            z-index: 1000;
-            transition: opacity 0.5s;
-            pointer-events: none;
-        }
-        .loading.hidden { opacity: 0; pointer-events: none; }
-        .loading-logo {
-            width: 100px;
-            height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: var(--radius);
-            font-size: 3rem;
-            box-shadow: var(--shadow-glow);
-            animation: float 3s ease-in-out infinite;
-            overflow: hidden;
-        }
-        .loading-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .loading-spinner {
-            width: 48px;
-            height: 48px;
-            border: 3px solid var(--surface4);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* LOADING SCREEN REMOVED - No more loading overlay */
+
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
@@ -1263,13 +1225,7 @@
 </head>
 <body>
 
-    <div class="loading" id="loading">
-        <div class="loading-logo">
-            <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">
-        </div>
-        <div class="loading-spinner"></div>
-        <div style="color:var(--text3);">Itegura TYAZA...</div>
-    </div>
+    <!-- LOADING SCREEN COMPLETELY REMOVED -->
 
     <div class="bg-effects" aria-hidden="true"></div>
     <div class="stars" id="stars" aria-hidden="true"></div>
@@ -1563,52 +1519,34 @@
         // ============================================================
 
         // ---------- CONFIG ----------
-        // API Key loaded from config.js on GitHub
+        // API Key loaded from config.js file
+        // Make sure config.js exists with: const HUGGINGFACE_TOKEN = 'your-token-here';
         
         let HUGGINGFACE_TOKEN = null;
         
-        // Try to load from config.js (loaded via script tag)
-        try {
-            if (typeof window.HUGGINGFACE_TOKEN !== 'undefined') {
-                HUGGINGFACE_TOKEN = window.HUGGINGFACE_TOKEN;
-                console.log('✅ API key loaded from config.js');
-            } else if (typeof HUGGINGFACE_TOKEN !== 'undefined' && typeof window === 'undefined') {
-                HUGGINGFACE_TOKEN = HUGGINGFACE_TOKEN;
-                console.log('✅ API key loaded from global scope');
-            } else {
-                // Try to get it from the global scope
-                const keys = ['HUGGINGFACE_TOKEN', 'HF_TOKEN', 'API_KEY'];
-                for (const key of keys) {
-                    if (typeof window[key] !== 'undefined' && window[key]) {
-                        HUGGINGFACE_TOKEN = window[key];
-                        console.log(`✅ API key loaded from window.${key}`);
-                        break;
-                    }
-                }
-            }
-        } catch(e) {
-            console.warn('⚠️ Error loading API key:', e);
-        }
-        
-        // Fallback - try to get from localStorage if available
-        if (!HUGGINGFACE_TOKEN) {
+        // Check if API key is loaded from config.js
+        if (typeof window.HUGGINGFACE_TOKEN !== 'undefined') {
+            HUGGINGFACE_TOKEN = window.HUGGINGFACE_TOKEN;
+            console.log('✅ API key loaded successfully from config.js');
+        } else if (typeof HUGGINGFACE_TOKEN !== 'undefined') {
+            HUGGINGFACE_TOKEN = HUGGINGFACE_TOKEN;
+            console.log('✅ API key loaded successfully from global scope');
+        } else {
+            console.warn('⚠️ No API key found in config.js - using fallback');
+            // Try to load from localStorage
             try {
-                const savedToken = localStorage.getItem('tyaza_api_key');
-                if (savedToken) {
-                    HUGGINGFACE_TOKEN = savedToken;
+                const saved = localStorage.getItem('tyaza_api_key');
+                if (saved) {
+                    HUGGINGFACE_TOKEN = saved;
                     console.log('✅ API key loaded from localStorage');
                 }
             } catch(e) {}
-        }
-        
-        // If still no token, use the hardcoded one as last resort
-        if (!HUGGINGFACE_TOKEN) {
-            HUGGINGFACE_TOKEN = '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';
-            console.log('⚠️ Using fallback API key');
-            // Save to localStorage for future use
-            try {
-                localStorage.setItem('tyaza_api_key', HUGGINGFACE_TOKEN);
-            } catch(e) {}
+            
+            // If still no token, use the hardcoded one as last resort
+            if (!HUGGINGFACE_TOKEN) {
+                HUGGINGFACE_TOKEN = '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';
+                console.log('⚠️ Using fallback API key');
+            }
         }
         
         const API_URL = 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-V3';
@@ -1942,12 +1880,12 @@
                 return getFallbackResponse(userMessage);
             }
 
-            // Rate limiting - wait 2 seconds between API calls
+            // Rate limiting - wait 1.5 seconds between API calls
             const now = Date.now();
             const timeSinceLastCall = now - state.lastApiCall;
-            if (timeSinceLastCall < 2000 && state.apiCallCount > 0) {
+            if (timeSinceLastCall < 1500 && state.apiCallCount > 0) {
                 console.log('⏳ Rate limiting, waiting...');
-                await new Promise(resolve => setTimeout(resolve, 2000 - timeSinceLastCall));
+                await new Promise(resolve => setTimeout(resolve, 1500 - timeSinceLastCall));
             }
 
             try {
@@ -2093,12 +2031,11 @@
         }
 
         // ============================================================
-        // INTELLIGENT FALLBACK RESPONSES - More varied and contextual
+        // INTELLIGENT FALLBACK RESPONSES
         // ============================================================
         function getFallbackResponse(text) {
             const lower = text.toLowerCase();
 
-            // Crisis detection
             const crisisWords = [
                 'kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa',
                 'kwiyica', 'ndashaka gupfa', 'suicide', 'die', 'kill',
@@ -2108,7 +2045,6 @@
                 return 'CRISIS';
             }
 
-            // Name extraction
             const nameMatch = text.match(
                 /(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i
             );
@@ -2124,102 +2060,72 @@
                 }
             }
 
-            // Knowledge base check
             const kbResults = searchKnowledgeBase(text);
             if (kbResults.length > 0) {
                 return `${kbResults[0]}\n\nUbu wumva ute? 💙`;
             }
 
-            // Context-aware responses with more variety
             let responses = [];
             
-            // Check for specific keywords - FAITH BASED
             if (lower.includes('yesu') || lower.includes('imana') || lower.includes('hane') || lower.includes('umugisha') || lower.includes('aduhane')) {
                 responses = [
                     "Urakoze kuvuga iby'umwuka. Ni byiza kugira ukwizera. Ubu wumva ute? 💙",
                     "Imana ikugirire umugisha. Ubu wumva ute? 🙏",
-                    "Ni byiza kugira ukwizera. Reka tuvugane ibiri ku mutima wawe. 💛",
-                    "Ubutwari bwo kuvuga iby'umwuka ni ikintu cyiza. Ubu wumva ute? ✨"
+                    "Ni byiza kugira ukwizera. Reka tuvugane ibiri ku mutima wawe. 💛"
                 ];
-            } 
-            // STRENGTH/ENCOURAGEMENT
-            else if (lower.includes('mukomere') || lower.includes('komera') || lower.includes('strength') || lower.includes('power') || lower.includes('nkomeye')) {
+            } else if (lower.includes('mukomere') || lower.includes('komera') || lower.includes('strength') || lower.includes('power')) {
                 responses = [
                     "Urakoze kubwira ibyo! Ni byiza kumva ko ukomeye. Ubu wumva ute? 💪",
                     "Ukomeye cyane! Ubu wumva ute? 🌟",
-                    "Ni byiza kubona ko ukomeye. Reka tuvugane byinshi. ✨",
-                    "Komera! Urukundo n'impuhwe ni byo bihaza umutima. Ubu wumva ute? 💛"
+                    "Ni byiza kubona ko ukomeye. Reka tuvugane byinshi. ✨"
                 ];
-            } 
-            // POSITIVE FEELINGS
-            else if (lower.includes('neza') || lower.includes('meza') || lower.includes('good') || lower.includes('great') || lower.includes('happy') || lower.includes('nishimiye')) {
-                responses = [
-                    "Nishimiye ko wumva umeze neza! 🎉 Mbega ikintu cyiza. Ubu uvuga iki?",
-                    "Ni byiza kumva ibyo! Urakoze kunsangiza ibyiza. 🌟",
-                    "Murakoze kunsangiza ibyiza! Ubu wumva ute? 😊"
-                ];
-            } 
-            // NEGATIVE FEELINGS
-            else if (lower.includes('ntacyo') || lower.includes('mbi') || lower.includes('byacye') ||
+            } else if (lower.includes('ntacyo') || lower.includes('mbi') || lower.includes('byacye') ||
                 lower.includes('sad') || lower.includes('depressed') || lower.includes('anxious') ||
-                lower.includes('guhangayika') || lower.includes('gushishikara') || lower.includes('agahinda') ||
-                lower.includes('bibazo') || lower.includes('ibibazo')) {
+                lower.includes('guhangayika') || lower.includes('gushishikara')) {
                 responses = [
                     "Ndumva ibi bikugoye cyane. Urakoze kumbwira ibiri ku mutima wawe. Ubwihe ukiri he? 💙",
                     "Ibyo uravuga bingira akamaro. Ndi kumwe nawe. Wumva ute ubu? 😊",
                     "Reka tuvugane byinshi. Ni byiza kuvuga ibiri ku mutima. Ubu wumva ute? 🤗"
                 ];
-            } 
-            // TALKING
-            else if (lower.includes('kuvuga') || lower.includes('ganira') || lower.includes('talk') ||
-                lower.includes('sangiza') || lower.includes('vuga') || lower.includes('kuganira') ||
-                lower.includes('mvuga') || lower.includes('ndavuga')) {
+            } else if (lower.includes('kuvuga') || lower.includes('ganira') || lower.includes('talk') ||
+                lower.includes('sangiza') || lower.includes('vuga')) {
                 responses = [
                     "Urakoze kuvuga. Ndi hano ngo nkugire. Kora ubutwari uvuge ibiri ku mutima wawe. 💛",
-                    "Ni byiza kuvuga. Ndakumva neza. Ubu uvuga iki? 🌟",
-                    "Urakoze kuganira n'umutima wawe. Ndi hano kugira nkugire. 💙"
+                    "Ni byiza kuvuga. Ndakumva neza. Ubu uvuga iki? 🌟"
                 ];
-            } 
-            // SUPPORT
-            else if (lower.includes('nkunga') || lower.includes('fashe') || lower.includes('help') ||
-                lower.includes('ubufasha') || lower.includes('inkunga') || lower.includes('support') ||
-                lower.includes('fasha') || lower.includes('mfasha')) {
+            } else if (lower.includes('nkunga') || lower.includes('fashe') || lower.includes('help') ||
+                lower.includes('ubufasha') || lower.includes('inkunga')) {
                 responses = [
                     "Urakoze gushaka inkunga. Iki ni ikintu cyiza cyane. Reka turebe hamwe uko twakugira. 🤝",
-                    "Ndi hano kugira nkugire. Ubu wumva ute? Urakoze kuvuga. 💙",
-                    "Ni byiza gushaka inkunga. Reka tuvugane byinshi. 💛"
+                    "Ndi hano kugira nkugire. Ubu wumva ute? Urakoze kuvuga. 💙"
                 ];
-            } 
-            // GREETINGS
-            else if (lower.includes('muraho') || lower.includes('hello') || lower.includes('hi') || 
-                     lower.includes('bonjour') || lower.includes('mwaramutse') || lower.includes('mwaramuke')) {
-                const greetings = [
+            } else if (lower.includes('narushijeho') || lower.includes('meza') || lower.includes('neza') ||
+                lower.includes('good') || lower.includes('great') || lower.includes('happy')) {
+                responses = [
+                    "Nishimiye ko wumva umeze neza! 🎉 Mbega ikintu cyiza. Ubu uvuga iki?",
+                    "Ni byiza kumva ibyo! Urakoze kunsangiza ibyiza. 🌟"
+                ];
+            } else if (lower.includes('muraho') || lower.includes('hello') || lower.includes('hi') || lower.includes('bonjour')) {
+                responses = [
                     "Muraho! Ndi hano kugira nkugire. Ubu wumva ute? 💙",
                     "Murakaza neza! Ndi TYAZA, umuvugizi w'umutima. Ubu wumva ute? 😊",
-                    "Muraho! Ndi hano ngo mbavugane. Ubu wumva ute? 💛",
-                    "Mwaramutse! Ubu wumva ute? 🌟"
+                    "Muraho! Ndi hano ngo mbavugane. Ubu wumva ute? 💛"
                 ];
-                responses = greetings;
-            } 
-            // DEFAULT
-            else {
+            } else {
                 responses = [
                     "Ndumva neza. Urakoze kunsangiza ibi. Wumva ute ubu? 💙",
                     "Ndi kumwe nawe. Wumva ute ubu? 😊",
-                    "Urakoze kundekera. Ngaho ugire icyo uvuga. ✨",
-                    "Ni byiza kumva ibyo. Ubu wumva ute? 💛"
+                    "Urakoze kundekera. Ngaho ugire icyo uvuga. ✨"
                 ];
             }
 
             let response = responses[Math.floor(Math.random() * responses.length)];
-            
-            // Add user name if available
-            if (state.userName && !response.includes(state.userName)) {
-                response = response.replace('wumva ute', `${state.userName}, wumva ute`);
-                response = response.replace('uvuga iki', `${state.userName}, uvuga iki`);
-                response = response.replace('Wumva ute', `${state.userName}, wumva ute`);
+            if (state.userName) {
+                response = response.replace(/\b(we|wawe|wewe)\b/gi, state.userName);
+                if (!response.includes(state.userName)) {
+                    response = response.replace('wumva ute', `${state.userName}, wumva ute`);
+                }
             }
-            
             return response;
         }
 
@@ -3024,11 +2930,7 @@
                 }
             });
 
-            setTimeout(() => {
-                document.getElementById('loading').classList.add('hidden');
-            }, 800);
-
-            setTimeout(() => document.getElementById('messageInput').focus(), 1000);
+            setTimeout(() => document.getElementById('messageInput').focus(), 500);
 
             document.addEventListener('touchend', (e) => {
                 const now = Date.now();
