@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0612">
     <title>TYAZA · Umuvugizi w'Umutima</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +22,7 @@
             --primary: #8b5cf6;
             --primary-dark: #6d28d9;
             --secondary: #ec4899;
+            --accent: #10b981;
             --bg: #030014;
             --surface: #0a0612;
             --surface2: #130d24;
@@ -36,6 +38,7 @@
             --radius: 16px;
             --radius-full: 9999px;
             --shadow: 0 8px 32px rgba(0,0,0,0.6);
+            --shadow-glow: 0 0 60px rgba(139,92,246,0.3);
         }
 
         body {
@@ -48,13 +51,11 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--surface4); border-radius: var(--radius-full); }
         ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 
-        /* App Layout */
         .app {
             display: flex;
             width: 100vw;
@@ -65,7 +66,6 @@
             overflow: hidden;
         }
 
-        /* Background */
         .bg-effects {
             position: fixed;
             inset: 0;
@@ -147,9 +147,16 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: var(--radius);
             font-size: 1.5rem;
-            box-shadow: 0 0 40px rgba(139,92,246,0.3);
+            box-shadow: var(--shadow-glow);
             flex-shrink: 0;
             transition: transform 0.3s;
+            overflow: hidden;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .logo-icon:hover { transform: rotate(-5deg) scale(1.05); }
@@ -223,15 +230,15 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
+            pointer-events: auto;
         }
 
         .new-chat-btn:hover {
             background: linear-gradient(135deg, rgba(139,92,246,0.25), rgba(236,72,153,0.15));
             transform: translateY(-2px);
-            box-shadow: 0 0 40px rgba(139,92,246,0.3);
+            box-shadow: var(--shadow-glow);
         }
 
-        /* Settings Card */
         .settings-card {
             background: var(--surface2);
             border: 1px solid var(--surface4);
@@ -272,6 +279,7 @@
             font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.2s;
+            pointer-events: auto;
         }
 
         .mood-btn-small:hover {
@@ -352,7 +360,6 @@
 
         .select:focus { border-color: var(--primary); }
 
-        /* History */
         .history-list {
             flex: 1;
             overflow-y: auto;
@@ -384,6 +391,7 @@
             border-radius: var(--radius);
             cursor: pointer;
             transition: all 0.2s;
+            pointer-events: auto;
         }
 
         .history-item:hover {
@@ -414,7 +422,6 @@
             color: var(--text3);
         }
 
-        /* Info Card */
         .info-card {
             background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(236,72,153,0.05));
             border: 1px solid rgba(139,92,246,0.12);
@@ -434,7 +441,12 @@
             gap: 8px;
         }
 
-        /* Main Chat */
+        .info-card-title img {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+        }
+
         .chat-main {
             flex: 1;
             display: flex;
@@ -474,6 +486,7 @@
             cursor: pointer;
             border-radius: var(--radius);
             transition: all 0.2s;
+            pointer-events: auto;
         }
 
         .menu-toggle:hover { background: var(--surface3); }
@@ -489,6 +502,13 @@
             font-weight: 600;
             font-size: 1.2rem;
             flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .chat-info h1 {
@@ -548,10 +568,10 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 0 40px rgba(139,92,246,0.3);
+            box-shadow: var(--shadow-glow);
         }
 
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 40px rgba(139,92,246,0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(0,0,0,0.5), var(--shadow-glow); }
 
         .btn-secondary {
             background: var(--surface3);
@@ -586,7 +606,6 @@
         .btn-sm { padding: 6px 12px; font-size: 0.75rem; }
         .btn-block { width: 100%; }
 
-        /* Messages */
         .messages {
             flex: 1;
             overflow-y: auto;
@@ -622,8 +641,15 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
             font-size: 4rem;
-            box-shadow: 0 0 60px rgba(139,92,246,0.3);
+            box-shadow: var(--shadow-glow);
             animation: morph 12s ease-in-out infinite, float 6s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .welcome-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         @keyframes morph {
@@ -692,7 +718,7 @@
             border-color: var(--primary);
             color: var(--text);
             transform: translateY(-2px);
-            box-shadow: 0 0 40px rgba(139,92,246,0.3);
+            box-shadow: var(--shadow-glow);
         }
 
         .message {
@@ -720,6 +746,13 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             flex-shrink: 0;
             font-size: 1.2rem;
+            overflow: hidden;
+        }
+
+        .msg-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .message.user .msg-avatar { background: var(--surface3); border: 1px solid var(--surface4); }
@@ -808,14 +841,13 @@
 
         .typing-dot:nth-child(1) { background: var(--primary); }
         .typing-dot:nth-child(2) { background: var(--secondary); animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { background: var(--success); animation-delay: 0.4s; }
+        .typing-dot:nth-child(3) { background: var(--accent); animation-delay: 0.4s; }
 
         @keyframes bounce {
             0%,60%,100% { transform: translateY(0); opacity: 0.4; }
             30% { transform: translateY(-12px); opacity: 1; }
         }
 
-        /* Input */
         .input-area {
             padding: 16px 24px 24px;
             background: linear-gradient(to top, var(--bg) 50%, transparent);
@@ -899,7 +931,7 @@
         .send-btn {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            box-shadow: 0 0 40px rgba(139,92,246,0.3);
+            box-shadow: var(--shadow-glow);
         }
 
         .send-btn:hover:not(:disabled) { transform: scale(1.05); }
@@ -913,7 +945,6 @@
             margin-top: 8px;
         }
 
-        /* Floating Buttons */
         .scroll-bottom {
             position: absolute;
             bottom: 100px;
@@ -980,7 +1011,6 @@
             50% { transform: translateY(-8px); }
         }
 
-        /* Modals */
         .modal-backdrop {
             position: fixed;
             inset: 0;
@@ -1070,7 +1100,7 @@
         .mood-btn.selected {
             border-color: var(--primary);
             background: rgba(139,92,246,0.2);
-            box-shadow: 0 0 40px rgba(139,92,246,0.3);
+            box-shadow: var(--shadow-glow);
         }
 
         .mood-btn .mood-emoji { font-size: 1.5rem; }
@@ -1124,7 +1154,6 @@
         .mood-level-4 { background: rgba(34,197,94,0.3); color: var(--success); }
         .mood-level-5 { background: rgba(16,185,129,0.3); color: #059669; }
 
-        /* Crisis Modal */
         .crisis-resources {
             display: flex;
             flex-direction: column;
@@ -1177,7 +1206,6 @@
 
         .crisis-resource .crisis-call:hover { transform: scale(1.15); }
 
-        /* Toast */
         .toast-container {
             position: fixed;
             bottom: 24px;
@@ -1210,7 +1238,6 @@
         .toast-info { border-left-color: var(--primary); }
         .toast-warning { border-left-color: var(--warning); }
 
-        /* Voice Dialog Mobile */
         .voice-dialog {
             position: fixed;
             inset: 0;
@@ -1251,7 +1278,6 @@
 
         .voice-dialog-content input:focus { border-color: var(--primary); outline: none; }
 
-        /* Sidebar Overlay Mobile */
         .sidebar-overlay {
             position: fixed;
             inset: 0;
@@ -1270,7 +1296,6 @@
             pointer-events: auto;
         }
 
-        /* Loading */
         .loading {
             position: fixed;
             inset: 0;
@@ -1296,8 +1321,15 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             border-radius: var(--radius);
             font-size: 3rem;
-            box-shadow: 0 0 60px rgba(139,92,246,0.3);
+            box-shadow: var(--shadow-glow);
             animation: float 3s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .loading-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .loading-spinner {
@@ -1311,7 +1343,6 @@
 
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
@@ -1370,44 +1401,38 @@
 </head>
 <body>
 
-    <!-- Loading Screen -->
     <div class="loading" id="loading">
-        <div class="loading-logo">🧠</div>
+        <div class="loading-logo">
+            <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">
+        </div>
         <div class="loading-spinner"></div>
-        <div style="color: var(--text3);">Itegura...</div>
+        <div style="color:var(--text3);">Itegura TYAZA...</div>
     </div>
 
-    <!-- Background Effects -->
     <div class="bg-effects" aria-hidden="true"></div>
     <div class="stars" id="stars" aria-hidden="true"></div>
 
-    <!-- Sidebar Overlay -->
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-    <!-- App -->
     <div class="app">
 
-        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
-                    <div class="logo-icon">🧠</div>
+                    <div class="logo-icon">
+                        <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">
+                    </div>
                     <div class="logo-text">
                         <div class="title">TYAZA</div>
                         <div class="subtitle">Umuvugizi w'Umutima</div>
                     </div>
                 </div>
-                <button class="sidebar-close" id="sidebarClose" aria-label="Close sidebar">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
             </div>
 
             <div class="sidebar-content">
-                <button class="new-chat-btn" id="newChatBtn">
-                    ✨ Ikiganiro Gishya
-                </button>
+                <button class="new-chat-btn" id="newChatBtn">✨ Ikiganiro Gishya</button>
 
-                <!-- Mood -->
                 <div>
                     <div class="sidebar-section-title">Uko wumva</div>
                     <div class="settings-card">
@@ -1424,15 +1449,10 @@
                     </div>
                 </div>
 
-                <!-- Voice -->
                 <div>
                     <div class="sidebar-section-title">Amajwi</div>
                     <div class="settings-card">
-                        <div class="settings-row">
-                            <button class="btn btn-secondary btn-block" id="micTestBtn">
-                                🎤 Gerageza mikorofoni
-                            </button>
-                        </div>
+                        <button class="btn btn-secondary btn-block" id="micTestBtn">🎤 Gerageza mikorofoni</button>
                         <div class="settings-row" style="margin-top:8px;">
                             <label class="settings-label" for="voiceSelect">Ijwi</label>
                             <select class="select" id="voiceSelect">
@@ -1460,7 +1480,6 @@
                     </div>
                 </div>
 
-                <!-- History -->
                 <div style="flex:1;">
                     <div class="sidebar-section-title" style="display:flex; justify-content:space-between;">
                         <span>📜 Amateka</span>
@@ -1474,34 +1493,26 @@
                     </div>
                 </div>
 
-                <!-- Info -->
                 <div class="info-card">
                     <div class="info-card-title">
-                        🧠 KIVURA LABS
+                        <img src="tyaza-logo.png" alt="KIVURA LABS" onerror="this.style.display='none'; this.innerHTML='🧠'">
+                        KIVURA LABS
                     </div>
-                    <div style="font-weight:600;color:var(--secondary);">
-                        "Healthy citizens, wealthy nation"
-                    </div>
-                    <div style="font-size:0.7rem;margin-top:8px;color:var(--text4);">
-                        Yves HIRWA TUYISHIME - CEO
-                    </div>
-                    <div style="font-size:0.65rem;color:var(--text4);margin-top:4px;">
-                        © 2026 Kivura Labs · Rwanda
-                    </div>
+                    <div style="font-weight:600;color:var(--secondary);">"Healthy citizens, wealthy nation"</div>
+                    <div style="font-size:0.7rem;margin-top:8px;color:var(--text4);">Yves HIRWA TUYISHIME - CEO</div>
+                    <div style="font-size:0.65rem;color:var(--text4);margin-top:4px;">© 2026 Kivura Labs · Rwanda</div>
                 </div>
             </div>
         </aside>
 
-        <!-- Chat Main -->
         <main class="chat-main">
 
-            <!-- Header -->
             <header class="chat-header">
                 <div class="header-left">
-                    <button class="menu-toggle" id="menuToggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="chat-avatar">🧠</div>
+                    <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                    <div class="chat-avatar">
+                        <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">
+                    </div>
                     <div class="chat-info">
                         <h1>TYAZA</h1>
                         <div class="chat-status">
@@ -1511,25 +1522,19 @@
                     </div>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn-primary btn-sm" id="aiToggleBtn">
-                        <i class="fas fa-cloud"></i> AI
-                    </button>
-                    <button class="btn btn-icon btn-ghost" id="exportBtn">
-                        <i class="fas fa-download"></i>
-                    </button>
-                    <button class="btn btn-icon btn-ghost" id="clearChatBtn">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
+                    <button class="btn btn-primary btn-sm" id="aiToggleBtn"><i class="fas fa-cloud"></i> AI</button>
+                    <button class="btn btn-icon btn-ghost" id="exportBtn"><i class="fas fa-download"></i></button>
+                    <button class="btn btn-icon btn-ghost" id="clearChatBtn"><i class="fas fa-trash-alt"></i></button>
                 </div>
             </header>
 
-            <!-- Messages -->
             <div class="messages" id="messages">
-
                 <div class="welcome" id="welcome">
-                    <div class="welcome-icon">🧠</div>
+                    <div class="welcome-icon">
+                        <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">
+                    </div>
                     <h1 class="welcome-title">TYAZA</h1>
-                    <p class="welcome-subtitle">Igisubizo kindimo</p>
+                    <p class="welcome-subtitle">Umuvugizi w'Umutima</p>
                     <div class="welcome-quote">
                         "Ndi hano kugira nkugire. Buri mwanya, buri jambo — byakiriwe mu mahoro n'igondero."
                     </div>
@@ -1545,22 +1550,16 @@
                 </div>
             </div>
 
-            <!-- Scroll Bottom -->
             <button class="scroll-bottom" id="scrollBottom">
                 <i class="fas fa-arrow-down"></i> subira hasi
             </button>
 
-            <!-- Input -->
             <div class="input-area">
                 <div class="input-container">
                     <textarea id="messageInput" placeholder="Sangiza icyo utekereza..." rows="1"></textarea>
                     <div class="input-actions">
-                        <button class="input-btn voice-btn" id="voiceBtn">
-                            <i class="fas fa-microphone"></i>
-                        </button>
-                        <button class="input-btn send-btn" id="sendBtn" disabled>
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
+                        <button class="input-btn voice-btn" id="voiceBtn"><i class="fas fa-microphone"></i></button>
+                        <button class="input-btn send-btn" id="sendBtn" disabled><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
                 <div class="voice-status" id="voiceStatus"></div>
@@ -1568,13 +1567,11 @@
         </main>
     </div>
 
-    <!-- Crisis Button -->
     <button class="crisis-btn" id="crisisBtn">
         <span class="crisis-pulse"></span>
         <i class="fas fa-phone-alt"></i>
     </button>
 
-    <!-- Mood Modal -->
     <div class="modal-backdrop" id="moodModal">
         <div class="modal" style="max-width:500px;">
             <div class="modal-header">
@@ -1591,20 +1588,15 @@
                     <button class="mood-btn" data-mood="5"><span class="mood-emoji">😊</span><span class="mood-label">Neza cyane</span></button>
                 </div>
                 <textarea class="mood-notes" id="moodNotes" placeholder="Andika icyo uhererwa... (ikinyarwanda)"></textarea>
-                <button class="btn btn-primary btn-block" id="saveMoodBtn">
-                    <i class="fas fa-save"></i> Bika uko numva
-                </button>
+                <button class="btn btn-primary btn-block" id="saveMoodBtn"><i class="fas fa-save"></i> Bika uko numva</button>
                 <div style="margin-top:16px;">
-                    <div class="mood-history-title" style="font-weight:600;font-size:0.875rem;color:var(--text2);margin-bottom:8px;">
-                        Imimerere y'icyumweru
-                    </div>
+                    <div style="font-weight:600;font-size:0.875rem;color:var(--text2);margin-bottom:8px;">Imimerere y'icyumweru</div>
                     <div class="mood-calendar" id="moodCalendar"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Crisis Modal -->
     <div class="modal-backdrop" id="crisisModal">
         <div class="modal" style="max-width:500px;border-color:var(--error);">
             <div class="modal-header" style="border-bottom-color:var(--error);">
@@ -1655,29 +1647,30 @@
                 </div>
             </div>
             <div style="display:flex;gap:12px;flex-wrap:wrap;">
-                <button class="btn btn-secondary flex-1" id="crisisLater" style="flex:1;">Ndabibuka</button>
-                <button class="btn btn-danger flex-1" id="crisisNow" style="flex:1;background:var(--error);">Mpambe noneho</button>
+                <button class="btn btn-secondary" id="crisisLater" style="flex:1;">Ndabibuka</button>
+                <button class="btn btn-danger" id="crisisNow" style="flex:1;background:var(--error);">Mpambe noneho</button>
             </div>
         </div>
     </div>
 
-    <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
         // ============================================================
-        // TYAZA - Full AI Therapy Assistant with Gemini API
+        // TYAZA - Umuvugizi w'Umutima
+        // AI Therapy Assistant with Gemini API
+        // KIVURA LABS - Rwanda
         // ============================================================
 
         // ---------- CONFIG ----------
         // Get your API key from: https://makersuite.google.com/app/apikey
-        const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY_HERE'; // <-- PASTE YOUR API KEY HERE
+        const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY_HERE';
         const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
         // ---------- STATE ----------
         let state = {
             messages: [],
-            currentId: Date.now().toString(36) + Math.random().toString(36).substr(2, 6),
+            currentId: 'chat_' + Date.now(),
             isGenerating: false,
             userName: null,
             settings: {
@@ -1688,11 +1681,11 @@
             moodData: [],
             conversations: [],
             isListening: false,
-            useAI: true, // toggle AI on/off
+            useAI: true,
             speechRecognition: null,
             speechSynthesis: window.speechSynthesis,
             voices: [],
-            messageQueue: [],
+            sessionStart: Date.now(),
         };
 
         // ---------- DOM REFS ----------
@@ -1745,7 +1738,6 @@
 
         // ---------- STARS ----------
         function createStars() {
-            const container = DOM.stars;
             for (let i = 0; i < 60; i++) {
                 const star = document.createElement('div');
                 star.className = 'star';
@@ -1755,10 +1747,42 @@
                 star.style.opacity = Math.random() * 0.6 + 0.2;
                 star.style.width = 1 + Math.random() * 2 + 'px';
                 star.style.height = star.style.width;
-                container.appendChild(star);
+                DOM.stars.appendChild(star);
             }
         }
         createStars();
+
+        // ---------- STORAGE ----------
+        function storageGet(key, fallback = null) {
+            try {
+                const data = localStorage.getItem('tyaza_' + key);
+                return data ? JSON.parse(data) : fallback;
+            } catch { return fallback; }
+        }
+
+        function storageSet(key, value) {
+            try {
+                localStorage.setItem('tyaza_' + key, JSON.stringify(value));
+            } catch {}
+        }
+
+        function storageGetAll(key) { return storageGet(key, []); }
+
+        function storageAdd(key, item) {
+            const items = storageGetAll(key);
+            items.push(item);
+            storageSet(key, items);
+            return items;
+        }
+
+        function storageDelete(key, id) {
+            const items = storageGetAll(key);
+            const filtered = items.filter(i => i.id !== id);
+            storageSet(key, filtered);
+            return filtered;
+        }
+
+        function storageClear(key) { storageSet(key, []); }
 
         // ---------- TOAST ----------
         function showToast(message, type = 'info') {
@@ -1767,42 +1791,6 @@
             toast.innerHTML = `<span>${message}</span>`;
             DOM.toastContainer.appendChild(toast);
             setTimeout(() => toast.remove(), 3500);
-        }
-
-        // ---------- DB (localStorage fallback) ----------
-        function dbGet(key, fallback = null) {
-            try {
-                const data = localStorage.getItem('tyaza_' + key);
-                return data ? JSON.parse(data) : fallback;
-            } catch { return fallback; }
-        }
-
-        function dbSet(key, value) {
-            try {
-                localStorage.setItem('tyaza_' + key, JSON.stringify(value));
-            } catch {}
-        }
-
-        function dbGetAll(key) {
-            return dbGet(key, []);
-        }
-
-        function dbAdd(key, item) {
-            const items = dbGetAll(key);
-            items.push(item);
-            dbSet(key, items);
-            return items;
-        }
-
-        function dbClear(key) {
-            dbSet(key, []);
-        }
-
-        function dbDelete(key, id) {
-            const items = dbGetAll(key);
-            const filtered = items.filter(i => i.id !== id);
-            dbSet(key, filtered);
-            return filtered;
         }
 
         // ---------- SPEECH ----------
@@ -1817,9 +1805,11 @@
         loadVoices();
 
         function speakText(text) {
-            if (!state.speechSynthesis) return;
+            if (!state.speechSynthesis || !text) return;
             state.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text.slice(0, 500));
+            const cleanText = text.replace(/[^\w\s.,!?;:()'-]/g, '').slice(0, 500);
+            if (!cleanText) return;
+            const utterance = new SpeechSynthesisUtterance(cleanText);
             const voiceName = state.settings.voice;
             const voice = state.voices.find(v => v.name.includes(voiceName.split(' ')[0]));
             if (voice) utterance.voice = voice;
@@ -1880,15 +1870,20 @@
             }
 
             try {
-                const context = `You are TYAZA, a warm, empathetic AI therapy assistant in Rwanda. 
-                Speak in Kinyarwanda unless the user speaks another language. 
-                Be compassionate, supportive, and professional. 
-                Use a gentle, comforting tone. 
-                Ask open-ended questions to help the user explore their feelings.
-                Keep responses to 2-4 sentences.
-                Never give medical advice, but offer emotional support and suggest seeking professional help when needed.
+                const context = `Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda. 
+                Urukundo, ubwenge, n'impuhwe ni byo biranga imikorere yawe.
+                Vuga ikinyarwanda gikomeye, kiboneye, kandi gishyuha.
+                Jya ugira impuhwe, ushyigikira, kandi ukumva neza.
+                Kora ibibazo bifasha umuntu gutekereza ku byiyumviro bye.
+                Subiza mu nteruro 2-4 gusa.
+                Ntutange inama z'ubuvuzi, ahubwo utange inkunga y'amarangamutima.
+                Niba umuntu avuga ko agira ibitekerezo byo kwiyahura, ubwirenge, cyangwa gukomeretsa, ohereza "CRISIS".
 
-                User: ${userMessage}`;
+                Amateka y'ibiganiro (niba ariho): ${JSON.stringify(history.slice(-3))}
+
+                Umuntu: ${userMessage}
+
+                Igisubizo cyawe (mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe):`;
 
                 const response = await fetch(`${API_URL}?key=${GEMINI_API_KEY}`, {
                     method: 'POST',
@@ -1898,21 +1893,21 @@
                             parts: [{ text: context }]
                         }],
                         generationConfig: {
-                            temperature: 0.7,
-                            maxOutputTokens: 150,
+                            temperature: 0.8,
+                            maxOutputTokens: 200,
+                            topP: 0.9,
                         }
                     })
                 });
 
                 if (!response.ok) {
-                    const error = await response.text();
-                    console.error('API Error:', error);
+                    console.error('API Error:', await response.text());
                     return getFallbackResponse(userMessage);
                 }
 
                 const data = await response.json();
                 const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (text) return text;
+                if (text) return text.trim();
                 return getFallbackResponse(userMessage);
 
             } catch (error) {
@@ -1921,73 +1916,99 @@
             }
         }
 
-        // ---------- FALLBACK RESPONSES ----------
+        // ---------- FALLBACK RESPONSES (IKINYARWANDA KIBONEYE) ----------
         function getFallbackResponse(text) {
             const lower = text.toLowerCase();
 
             // Crisis detection
-            const crisisWords = ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ndashaka gupfa',
-                'suicide', 'die', 'kill'
+            const crisisWords = [
+                'kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa',
+                'kwiyica', 'ndashaka gupfa', 'suicide', 'die', 'kill',
+                'nshaka gupfa', 'nzishora', 'nzikomeretsa'
             ];
             if (crisisWords.some(w => lower.includes(w))) {
                 return 'CRISIS';
             }
 
             // Name extraction
-            const nameMatch = text.match(/(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i);
+            const nameMatch = text.match(
+                /(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i
+            );
             if (nameMatch) {
                 const name = nameMatch[1].trim();
                 if (name.length >= 2) {
                     state.userName = name;
-                    dbSet('userName', name);
+                    storageSet('userName', name);
                     updateWelcome();
                     showToast(`✨ Murakaza neza, ${name}!`, 'success');
                     return `✨ Murakaza neza, ${name}! Ndi hano kugira nkugire. Ubu wumva ute? 💙`;
                 }
             }
 
-            // Context-aware responses
-            const responses = [];
+            // Context-aware responses in proper Kinyarwanda
+            let responses = [];
 
-            if (lower.includes('ntacyo') || lower.includes('mbi') || lower.includes('byacye') || lower.includes('sad')) {
-                responses.push(
-                    "Ndumva ibi bikugoye. Urakoze kumbwira. Ubwihe ukiri he? 💙",
-                    "Ibyo uravuga bingira akamaro. Ndi kumwe nawe. Ubu wumva ute? 😊",
-                    "Reka tuvugane byinshi. Ni byiza kuvuga ibiri ku mutima. 🤗"
-                );
-            } else if (lower.includes('kuvuga') || lower.includes('ganira') || lower.includes('talk')) {
-                responses.push(
+            // Negative feelings
+            if (lower.includes('ntacyo') || lower.includes('mbi') || lower.includes('byacye') ||
+                lower.includes('sad') || lower.includes('depressed') || lower.includes('anxious') ||
+                lower.includes('guhangayika') || lower.includes('gushishikara')) {
+                responses = [
+                    "Ndumva ibi bikugoye cyane. Urakoze kumbwira ibiri ku mutima wawe. Ubwihe ukiri he? 💙",
+                    "Ibyo uravuga bingira akamaro. Ndi kumwe nawe. Wumva ute ubu? 😊",
+                    "Reka tuvugane byinshi. Ni byiza kuvuga ibiri ku mutima. Ubu wumva ute? 🤗",
+                    "Nishimiye ko wavuze. Guhanga amagambo ni ikintu cyiza. Ubu wumva ute? 💛"
+                ];
+            }
+            // Want to talk
+            else if (lower.includes('kuvuga') || lower.includes('ganira') || lower.includes('talk') ||
+                lower.includes('sangiza') || lower.includes('vuga')) {
+                responses = [
                     "Urakoze kuvuga. Ndi hano ngo nkugire. Kora ubutwari uvuge ibiri ku mutima wawe. 💛",
                     "Ni byiza kuvuga. Ndakumva neza. Ubu uvuga iki? 🌟",
-                    "Nishimiye ko wavuze. Reka dufate hamwe. Ubu wumva ute? ✨"
-                );
-            } else if (lower.includes('nkunga') || lower.includes('fashe') || lower.includes('help')) {
-                responses.push(
-                    "Urakoze gushaka inkunga. Iki ni ikintu cyiza. Reka turebe hamwe uko twakugira. 🤝",
-                    "Ndi hano kugira nkugire. Ubu wumva ute? 💙",
-                    "Urakoze kuvuga. Iki ni ikintu cyiza. Reka tuganire. 🌟"
-                );
-            } else if (lower.includes('narushijeho') || lower.includes('meza') || lower.includes('neza') || lower.includes(
-                    'good')) {
-                responses.push(
+                    "Nishimiye ko wavuze. Reka dufate hamwe. Ubu wumva ute? ✨",
+                    "Urakoze kunsangiza. Iki ni ikintu cyiza. Ngaho komeza uvuge ibyo utekereza. 💙"
+                ];
+            }
+            // Asking for help
+            else if (lower.includes('nkunga') || lower.includes('fashe') || lower.includes('help') ||
+                lower.includes('ubufasha') || lower.includes('inkunga')) {
+                responses = [
+                    "Urakoze gushaka inkunga. Iki ni ikintu cyiza cyane. Reka turebe hamwe uko twakugira. 🤝",
+                    "Ndi hano kugira nkugire. Ubu wumva ute? Urakoze kuvuga. 💙",
+                    "Urakoze kuvuga. Iki ni ikintu cyiza. Reka tuganire uko wumva. 🌟",
+                    "Gushaka inkunga ni ikintu cy'ubutwari. Ndi kumwe nawe. Ubu wumva ute? 💛"
+                ];
+            }
+            // Feeling good
+            else if (lower.includes('narushijeho') || lower.includes('meza') || lower.includes('neza') ||
+                lower.includes('good') || lower.includes('great') || lower.includes('happy') ||
+                lower.includes('nishimiye') || lower.includes('byiza')) {
+                responses = [
                     "Nishimiye ko wumva umeze neza! 🎉 Mbega ikintu cyiza. Ubu uvuga iki?",
-                    "Ni byiza kumva ibyo! Urakoze kunsangiza. 🌟",
-                    "Ibyo ni byiza! Ubu wumva ute? 😊"
-                );
-            } else {
-                responses.push(
-                    "Ndumva. Urakoze kunsangiza ibi. 💙",
+                    "Ni byiza kumva ibyo! Urakoze kunsangiza ibyiza. 🌟",
+                    "Ibyo ni byiza cyane! Ubu wumva ute? Ubu uvuze iki? 😊",
+                    "Nishimiye cyane! Urakoze kuvuga. Ubu ni iki gikomeje? ✨"
+                ];
+            }
+            // General
+            else {
+                responses = [
+                    "Ndumva neza. Urakoze kunsangiza ibi. Wumva ute ubu? 💙",
                     "Ndi kumwe nawe. Wumva ute ubu? 😊",
                     "Urakoze kundekera. Ubu ngaho ugire icyo uvuga. ✨",
-                    "Ibyo uravuga bingira akamaro. Ngaho komeza. 🌟",
-                    "Ndakumva neza. Reka turebe hamwe. 🤗"
-                );
+                    "Ibyo uravuga bingira akamaro. Ngaho komeza uvuge. 🌟",
+                    "Ndakumva neza. Reka turebe hamwe uko wumva. 🤗"
+                ];
             }
 
-            // Personalize with name
+            // Add personalization
             let response = responses[Math.floor(Math.random() * responses.length)];
             if (state.userName) {
-                response = response.replace('we', state.userName).replace('Wawe', state.userName);
+                response = response.replace(/\b(we|wawe|wewe)\b/gi, state.userName);
+                // Replace first occurrence of "wumva ute" with name-based version
+                if (!response.includes(state.userName)) {
+                    response = response.replace('wumva ute', `${state.userName}, wumva ute`);
+                }
             }
 
             return response;
@@ -2023,7 +2044,9 @@
             el.id = id;
             el.className = 'typing';
             el.innerHTML = `
-                <div class="msg-avatar">🧠</div>
+                <div class="msg-avatar">
+                    <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">
+                </div>
                 <div class="typing-dots">
                     <span class="typing-dot"></span>
                     <span class="typing-dot"></span>
@@ -2046,10 +2069,13 @@
             msg.className = `message ${role}`;
             const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
             const escaped = content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            const avatar = role === 'user' ? '👤' : '🧠';
+
+            const avatarContent = role === 'user' ?
+                '👤' :
+                `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">`;
 
             msg.innerHTML = `
-                <div class="msg-avatar">${avatar}</div>
+                <div class="msg-avatar">${avatarContent}</div>
                 <div>
                     <div class="msg-bubble">${escaped}</div>
                     <div class="msg-meta">
@@ -2072,12 +2098,10 @@
             state.messages.push({ role, content, timestamp: Date.now() });
             scrollToBottom();
 
-            // Keep message history manageable
             if (state.messages.length > 100) {
                 state.messages.splice(0, 50);
             }
 
-            // Save to history
             saveConversation();
         }
 
@@ -2090,30 +2114,31 @@
             DOM.sendBtn.disabled = true;
             handleInput();
 
-            // Add user message
-            addMessage('user', text);
-
-            // Check for name
-            const nameMatch = text.match(/(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i);
+            // Check for name in user message
+            const nameMatch = text.match(
+                /(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i
+            );
             if (nameMatch) {
                 const name = nameMatch[1].trim();
                 if (name.length >= 2) {
                     state.userName = name;
-                    dbSet('userName', name);
+                    storageSet('userName', name);
                     updateWelcome();
                     showToast(`✨ Murakaza neza, ${name}!`, 'success');
                 }
             }
 
+            addMessage('user', text);
+
             const typingId = showTyping();
             state.isGenerating = true;
 
             try {
-                let response;
-
-                // Check for crisis
-                const crisisWords = ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ndashaka gupfa',
-                    'suicide', 'die', 'kill'
+                // Crisis detection
+                const crisisWords = [
+                    'kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa',
+                    'kwiyica', 'ndashaka gupfa', 'suicide', 'die', 'kill',
+                    'nshaka gupfa', 'nzishora', 'nzikomeretsa'
                 ];
                 if (crisisWords.some(w => text.toLowerCase().includes(w))) {
                     removeTyping(typingId);
@@ -2122,7 +2147,8 @@
                     return;
                 }
 
-                // Use AI or fallback
+                // Get AI response
+                let response;
                 if (state.useAI) {
                     response = await getAIResponse(text, state.messages);
                 } else {
@@ -2139,26 +2165,25 @@
 
                 addMessage('assistant', response);
 
-                // Speak response if not too long
-                if (response.length < 300) {
+                // Speak response
+                if (response.length < 400) {
                     speakText(response);
                 }
 
             } catch (error) {
                 console.error('Send error:', error);
                 removeTyping(typingId);
-                addMessage('assistant', 'Hari ikibazo. Ngaho tuganire. 💙');
+                addMessage('assistant', 'Hari ikibazo. Reka tugerageze bundi. 💙');
             }
 
             state.isGenerating = false;
             DOM.sendBtn.disabled = true;
         }
 
-        // ---------- SAVE CONVERSATION ----------
+        // ---------- CONVERSATION STORAGE ----------
         function saveConversation() {
             if (state.messages.length === 0) return;
-
-            const title = state.messages[0]?.content?.slice(0, 40) || 'Chat';
+            const title = state.messages[0]?.content?.slice(0, 40) || 'Ikiganiro';
             const conv = {
                 id: state.currentId,
                 title: title,
@@ -2166,20 +2191,19 @@
                 timestamp: Date.now()
             };
 
-            const convs = dbGetAll('conversations');
+            const convs = storageGetAll('conversations');
             const existing = convs.findIndex(c => c.id === state.currentId);
             if (existing >= 0) {
                 convs[existing] = conv;
             } else {
                 convs.push(conv);
             }
-            dbSet('conversations', convs);
+            storageSet('conversations', convs);
             renderHistory();
         }
 
-        // ---------- HISTORY ----------
         function renderHistory() {
-            const convs = dbGetAll('conversations');
+            const convs = storageGetAll('conversations');
             const list = DOM.historyList;
 
             if (convs.length === 0) {
@@ -2197,10 +2221,10 @@
                 .slice(0, 20)
                 .map(c => `
                     <div class="history-item ${c.id === state.currentId ? 'active' : ''}" data-id="${c.id}">
-                        <div class="history-title">${escapeHtml(c.title || 'Chat')}</div>
+                        <div class="history-title">${escapeHtml(c.title || 'Ikiganiro')}</div>
                         <div class="history-meta">
                             <span>${formatTime(c.timestamp)}</span>
-                            <span>${c.messages ? c.messages.length : 0} msgs</span>
+                            <span>${c.messages ? c.messages.length : 0} ubutumwa</span>
                         </div>
                     </div>
                 `).join('');
@@ -2209,7 +2233,7 @@
                 item.addEventListener('click', () => loadChat(item.dataset.id));
                 item.addEventListener('contextmenu', (e) => {
                     e.preventDefault();
-                    if (confirm('Hanagura chat hiye?')) {
+                    if (confirm('Hanagura iki kiganiro?')) {
                         deleteChat(item.dataset.id);
                     }
                 });
@@ -2221,9 +2245,9 @@
             const mins = Math.floor(diff / 60000);
             const hrs = Math.floor(diff / 3600000);
             const days = Math.floor(diff / 86400000);
-            if (mins < 1) return 'none';
+            if (mins < 1) return 'ubu';
             if (mins < 60) return `${mins} min`;
-            if (hrs < 24) return `${hrs} hr`;
+            if (hrs < 24) return `${hrs} h`;
             if (days < 7) return `${days} d`;
             return new Date(timestamp).toLocaleDateString('rw-RW');
         }
@@ -2235,14 +2259,13 @@
         }
 
         function loadChat(id) {
-            const convs = dbGetAll('conversations');
+            const convs = storageGetAll('conversations');
             const chat = convs.find(c => c.id === id);
             if (!chat) return;
 
             state.currentId = chat.id;
             state.messages = chat.messages || [];
 
-            // Clear messages
             while (DOM.messages.firstChild) {
                 DOM.messages.removeChild(DOM.messages.firstChild);
             }
@@ -2250,26 +2273,57 @@
 
             state.messages.forEach(msg => {
                 const role = msg.role || 'assistant';
-                const content = msg.content || msg.message || '';
-                if (content) addMessage(role, content);
+                const content = msg.content || '';
+                if (content) {
+                    DOM.welcome.style.display = 'none';
+                    const msgEl = document.createElement('div');
+                    msgEl.className = `message ${role}`;
+                    const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('rw-RW', { hour: '2-digit',
+                        minute: '2-digit' });
+                    const escaped = content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                    const avatarContent = role === 'user' ?
+                        '👤' :
+                        `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">`;
+                    msgEl.innerHTML = `
+                        <div class="msg-avatar">${avatarContent}</div>
+                        <div>
+                            <div class="msg-bubble">${escaped}</div>
+                            <div class="msg-meta">
+                                <span>${time}</span>
+                                <div class="msg-actions">
+                                    ${role === 'assistant' ? `
+                                        <button class="msg-action" onclick="speakText('${escaped.replace(/'/g, "\\'")}')">
+                                            <i class="fas fa-volume-up"></i>
+                                        </button>
+                                    ` : ''}
+                                    <button class="msg-action" onclick="navigator.clipboard.writeText('${escaped.replace(/'/g, "\\'")}'); showToast('Ibyakiriwe!', 'success')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    DOM.messages.appendChild(msgEl);
+                }
             });
 
+            scrollToBottom();
             renderHistory();
             closeSidebar();
         }
 
         function deleteChat(id) {
-            dbDelete('conversations', id);
+            storageDelete('conversations', id);
             if (state.currentId === id) {
                 newChat();
             }
             renderHistory();
-            showToast('Chat yahanaguwe', 'success');
+            showToast('Ikiganiro kihanaguwe', 'success');
         }
 
         function newChat() {
             state.messages = [];
-            state.currentId = Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+            state.currentId = 'chat_' + Date.now();
 
             while (DOM.messages.firstChild) {
                 DOM.messages.removeChild(DOM.messages.firstChild);
@@ -2278,18 +2332,19 @@
             updateWelcome();
             renderHistory();
             closeSidebar();
+            DOM.messageInput.focus();
         }
 
         function clearHistory() {
             if (!confirm('Hanagura amateka yose?')) return;
-            dbClear('conversations');
+            storageClear('conversations');
             newChat();
             showToast('Amateka yahanaguwe', 'success');
         }
 
         function exportChat() {
             if (state.messages.length === 0) {
-                showToast('Nta chat yohereza', 'warning');
+                showToast('Nta kiganiro cyohereza', 'warning');
                 return;
             }
             const data = {
@@ -2297,16 +2352,19 @@
                 version: '2.0',
                 timestamp: Date.now(),
                 user: state.userName || 'User',
-                messages: state.messages
+                messages: state.messages,
+                session: state.sessionStart
             };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
             a.download = `tyaza-${new Date().toISOString().slice(0,10)}.json`;
+            document.body.appendChild(a);
             a.click();
+            document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            showToast('Chat yaherekejwe ✨', 'success');
+            showToast('Ikiganiro cyoherejwe ✨', 'success');
         }
 
         // ---------- SIDEBAR ----------
@@ -2340,25 +2398,25 @@
             }
             const mood = parseInt(selected.dataset.mood);
             const notes = DOM.moodNotes.value.trim();
-            dbAdd('moodData', { mood, notes, timestamp: Date.now() });
+            storageAdd('moodData', { mood, notes, timestamp: Date.now() });
             showToast('Byabitswe! ✨', 'success');
             closeMoodModal();
+            renderMoodCalendar();
         }
 
         function quickMood(mood) {
-            dbAdd('moodData', { mood: parseInt(mood), notes: '', quick: true, timestamp: Date.now() });
+            storageAdd('moodData', { mood: parseInt(mood), notes: '', quick: true, timestamp: Date.now() });
             showToast('Uko wumva byabitswe! 💛', 'success');
-            // Highlight the selected mood
             DOM.moodQuick.querySelectorAll('.mood-btn-small').forEach(b => {
                 b.classList.toggle('active', b.dataset.mood === mood);
             });
         }
 
         function renderMoodCalendar() {
-            const moods = dbGetAll('moodData');
+            const moods = storageGetAll('moodData');
             const cutoff = Date.now() - (7 * 86400000);
             const weekMoods = moods.filter(m => m.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
-            const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+            const days = ['Ku', 'Ma', 'We', 'Ku', 'Ke', 'Sa', 'Ku'];
             let html = days.map(d => `<div class="mood-day-label">${d}</div>`).join('');
 
             for (let i = 6; i >= 0; i--) {
@@ -2450,7 +2508,8 @@
         async function testMic() {
             DOM.micTestBtn.innerHTML = '⏳ ndategura...';
             try {
-                await navigator.mediaDevices.getUserMedia({ audio: true });
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                stream.getTracks().forEach(t => t.stop());
                 DOM.micTestBtn.innerHTML = '✅ yiteguye';
                 DOM.voiceStatus.textContent = '✅ Mikorofoni yiteguye';
                 showToast('Mikorofoni yiteguye! 🎤', 'success');
@@ -2465,12 +2524,12 @@
             }
         }
 
-        // ---------- EVENT BINDING ----------
+        // ---------- INIT ----------
         function init() {
             // Load state
-            state.userName = dbGet('userName', null);
-            state.settings = dbGet('settings', state.settings);
-            state.moodData = dbGetAll('moodData');
+            state.userName = storageGet('userName', null);
+            state.settings = storageGet('settings', state.settings);
+            state.moodData = storageGetAll('moodData');
 
             // Apply settings
             DOM.voiceSelect.value = state.settings.voice;
@@ -2485,7 +2544,7 @@
             // Update welcome
             updateWelcome();
 
-            // Input
+            // Input events
             DOM.messageInput.addEventListener('input', handleInput);
             DOM.messageInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -2502,20 +2561,20 @@
             // Settings
             DOM.voiceSelect.addEventListener('change', (e) => {
                 state.settings.voice = e.target.value;
-                dbSet('settings', state.settings);
+                storageSet('settings', state.settings);
             });
 
             DOM.rateSlider.addEventListener('input', (e) => {
                 DOM.rateValue.textContent = e.target.value;
                 state.settings.rate = parseFloat(e.target.value);
             });
-            DOM.rateSlider.addEventListener('change', () => dbSet('settings', state.settings));
+            DOM.rateSlider.addEventListener('change', () => storageSet('settings', state.settings));
 
             DOM.pitchSlider.addEventListener('input', (e) => {
                 DOM.pitchValue.textContent = e.target.value;
                 state.settings.pitch = parseFloat(e.target.value);
             });
-            DOM.pitchSlider.addEventListener('change', () => dbSet('settings', state.settings));
+            DOM.pitchSlider.addEventListener('change', () => storageSet('settings', state.settings));
 
             DOM.micTestBtn.addEventListener('click', testMic);
 
@@ -2524,8 +2583,8 @@
                 state.useAI = !state.useAI;
                 DOM.aiToggleBtn.innerHTML = state.useAI ?
                     '<i class="fas fa-cloud"></i> AI' :
-                    '<i class="fas fa-microchip"></i> Offline';
-                showToast(state.useAI ? 'AI ikoreshwa ✨' : 'Offline mode', 'info');
+                    '<i class="fas fa-microchip"></i> Gahunda';
+                showToast(state.useAI ? 'AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
             });
 
             // Sidebar
@@ -2539,7 +2598,7 @@
             // Clear chat
             DOM.clearChatBtn.addEventListener('click', () => {
                 if (state.messages.length === 0) return;
-                if (confirm('Hanagura chat hiye?')) newChat();
+                if (confirm('Hanagura iki kiganiro?')) newChat();
             });
 
             // Clear history
@@ -2558,7 +2617,6 @@
                     DOM.messageInput.value = btn.dataset.prompt;
                     handleInput();
                     DOM.messageInput.focus();
-                    // Auto-send after a brief delay
                     setTimeout(() => {
                         if (DOM.messageInput.value.trim()) sendMessage();
                     }, 300);
@@ -2582,7 +2640,9 @@
             DOM.saveMoodBtn.addEventListener('click', saveMood);
 
             DOM.moodQuick.querySelectorAll('.mood-btn-small').forEach(btn => {
-                btn.addEventListener('click', () => quickMood(btn.dataset.mood));
+                btn.addEventListener('click', () => {
+                    quickMood(btn.dataset.mood);
+                });
             });
 
             // Crisis
@@ -2615,15 +2675,20 @@
             // Focus input
             setTimeout(() => DOM.messageInput.focus(), 1000);
 
-            console.log('✨ TYAZA v2.0 - AI Therapy Assistant');
+            // Mobile: prevent zoom on double tap
+            document.addEventListener('touchend', (e) => {
+                const now = Date.now();
+                if (now - (document.lastTouch || 0) < 300) e.preventDefault();
+                document.lastTouch = now;
+            }, { passive: false });
+
+            console.log('✨ TYAZA v2.0 - Umuvugizi w\'Umutima');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-            console.log('🤖 AI:', state.useAI ? 'Enabled' : 'Disabled');
+            console.log('🤖 AI:', state.useAI ? 'Irakoreshwa' : 'Gahunda ikoreshwa');
+            console.log('🌍 Rwanda, 2026');
         }
 
-        // ---------- INIT ----------
-        document.addEventListener('DOMContentLoaded', init);
-
-        // Expose functions globally
+        // ---------- GLOBAL EXPOSURE ----------
         window.showToast = showToast;
         window.speakText = speakText;
         window.sendMessage = sendMessage;
@@ -2638,14 +2703,18 @@
         window.openMoodModal = openMoodModal;
         window.closeMoodModal = closeMoodModal;
         window.addMessage = addMessage;
+        window.testMic = testMic;
+
+        // ---------- START ----------
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 
     <noscript>
         <div style="position:fixed;inset:0;background:#030014;color:white;display:flex;align-items:center;justify-content:center;padding:40px;text-align:center;font-family:sans-serif;z-index:9999;">
             <div>
                 <h1 style="font-size:2rem;margin-bottom:1rem;">TYAZA</h1>
-                <p style="font-size:1.2rem;opacity:0.8;">JavaScript is required for TYAZA.</p>
-                <p style="font-size:0.9rem;opacity:0.5;margin-top:1rem;">Please enable JavaScript to continue.</p>
+                <p style="font-size:1.2rem;opacity:0.8;">JavaScript ni ngombwa kugira ngo TYAZA ikore.</p>
+                <p style="font-size:0.9rem;opacity:0.5;margin-top:1rem;">Nyamuneka shoboza JavaScript.</p>
             </div>
         </div>
     </noscript>
