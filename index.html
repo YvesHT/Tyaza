@@ -1752,12 +1752,13 @@
             justify-content: center;
             gap: var(--space-6);
             z-index: 1000;
-            transition: opacity 0.6s ease, visibility 0.6s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
         }
 
         .loading-screen.hidden {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
         }
 
         .loading-logo {
@@ -2841,95 +2842,46 @@
         <i class="fas fa-phone-alt" aria-hidden="true"></i>
     </button>
 
-    <script src="https://js.puter.com/v2/" style="display: none;" defer></script>
+    <script>
+        // Simple loading screen hide - executes immediately
+        (function() {
+            // Hide loading screen after a short delay
+            setTimeout(function() {
+                var ls = document.getElementById('loadingScreen');
+                if (ls) ls.classList.add('hidden');
+            }, 800);
+
+            // Also hide on any click/tap
+            document.addEventListener('click', function() {
+                var ls = document.getElementById('loadingScreen');
+                if (ls && !ls.classList.contains('hidden')) {
+                    ls.classList.add('hidden');
+                }
+            }, { once: true });
+        })();
+    </script>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "idb": "https://esm.sh/idb@8.0.0",
+                "@xenova/transformers": "https://esm.sh/@xenova/transformers@2.17.1"
+            }
+        }
+    </script>
 
     <script type="module">
-        import { openDB } from 'https://esm.sh/idb@8.0.0';
-        import { pipeline, env } from 'https://esm.sh/@xenova/transformers@2.17.1';
+        import { openDB } from 'idb';
+        // import { pipeline, env } from '@xenova/transformers';
 
-        env.useBrowserCache = true;
-        env.allowRemoteModels = true;
-
-        const CONFIG = {
-            maxMessages: 50,
-            autoSave: true,
-            voiceLang: 'rw-RW',
-            fallbackResponses: [
-                "Ndumva. Urakoze kunsangiza ibi. 💙",
-                "Ndi kumwe nawe. Wumva ute ubu? 😊",
-                "Urakoze kundekera. Ubu ngaho ugire icyo uvuga. ✨",
-                "Ibyo uravuga bingira akamaro. Ngaho komeza. 🌟",
-                "Ndakumva neza. Reka turebe hamwe. 🤗"
-            ]
-        };
-
-        const ClinicalEvidence = {
-            crisisTriggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona', 'ndi bura', 'sinakimara', 'ndashaka gupfa'],
-
-            frameworks: {
-                CBT: {
-                    patterns: ['ntabwo', 'ntashobora', 'buri gihe', 'nta na rimwe', 'ntacyo', 'sinashoboye'],
-                    response: 'Nabonye ko utekereza mu buryo butemewe. Reka turebe hamwe uko twahindura ibyo tekerezo. 💛'
-                },
-                DBT: {
-                    patterns: ['ntakibazo', 'ndashaka guhita', 'birangiye', 'ndarakaye', 'ndababaye', 'uburakari'],
-                    response: 'Ibi bimeze nk\'umuyaga ukaze - uraza kandi uragenda. Reka turebe uko twakira iki gihe. 🌊'
-                },
-                MI: {
-                    patterns: ['ndashaka guhinduka', 'nkeneye ubufasha', 'nabikoze', 'ndihatana'],
-                    response: 'Ni iki cyagufasha gutera intambwe? Mbese wabona uko... 🤔'
-                },
-                ACT: {
-                    patterns: ['ntabwo mbishaka', 'ndwanya', 'ntemera', 'ntabwo nemera'],
-                    response: 'Nta guhatana. Reka turebe uko dushobora kwakira iki kibazo. 🌿'
-                }
-            },
-
-            detectCrisis(text) {
-                const lower = text.toLowerCase();
-                return this.crisisTriggers.some(t => lower.includes(t));
-            },
-
-            getEvidenceBasedResponse(text) {
-                const lower = text.toLowerCase();
-                for (const [framework, data] of Object.entries(this.frameworks)) {
-                    if (data.patterns.some(p => lower.includes(p))) {
-                        return { framework, response: data.response };
-                    }
-                }
-                return null;
-            }
-        };
-
-        const KIVURA_KNOWLEDGE = {
-            company: {
-                name: "KIVURA LABS",
-                fullName: "Kivura Labs",
-                description: "A pioneering Rwandan artificial intelligence research and development company dedicated to transforming mental healthcare through culturally-aware technology.",
-                meaning: "'Kivura' derives from Kinyarwanda, relating to 'healing' — reflecting the core mission of healing communities through technology.",
-                founded: 2024,
-                headquarters: "Kigali, Rwanda",
-                founder: "Yves HIRWA TUYISHIME",
-                ceo: "Yves HIRWA TUYISHIME",
-                motto: "Healthy citizens, wealthy nation",
-                mission: "Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho.",
-                vision: "To become Africa's leading mental health technology company, making culturally-appropriate psychological support accessible to every Rwandan and every African."
-            },
-            clinicalFoundation: {
-                frameworks: [
-                    { name: "CBT", citation: "Beck, A.T. (1979)", application: "Identifying and restructuring negative thought patterns" },
-                    { name: "DBT", citation: "Linehan, M.M. (1993)", application: "Distress tolerance and emotion regulation" },
-                    { name: "MI", citation: "Miller, W.R. & Rollnick, S. (2012)", application: "Supporting behavior change" },
-                    { name: "ACT", citation: "Hayes, S.C. (2004)", application: "Mindfulness and values-based action" }
-                ]
-            },
-            products: {
-                tyaza: {
-                    name: "TYAZA - Umuvugizi w'Umutima",
-                    features: ["24/7 availability", "Crisis detection", "Mood tracking", "Voice interface", "Complete privacy"]
-                }
-            }
-        };
+        // Simple fallback responses
+        const FALLBACK_RESPONSES = [
+            "Ndumva. Urakoze kunsangiza ibi. 💙",
+            "Ndi kumwe nawe. Wumva ute ubu? 😊",
+            "Urakoze kundekera. Ubu ngaho ugire icyo uvuga. ✨",
+            "Ibyo uravuga bingira akamaro. Ngaho komeza. 🌟",
+            "Ndakumva neza. Reka turebe hamwe. 🤗"
+        ];
 
         function generateId() {
             return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
@@ -2945,18 +2897,7 @@
             return new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
         }
 
-        function formatRelativeTime(timestamp) {
-            const diff = Date.now() - timestamp;
-            const minutes = Math.floor(diff / 60000);
-            const hours = Math.floor(diff / 3600000);
-            const days = Math.floor(diff / 86400000);
-            if (minutes < 1) return 'none';
-            if (minutes < 60) return `${minutes} min`;
-            if (hours < 24) return `${hours} hr`;
-            if (days < 7) return `${days} d`;
-            return new Date(timestamp).toLocaleDateString('rw-RW');
-        }
-
+        // Simple DB class
         class Database {
             constructor() {
                 this.db = null;
@@ -3044,491 +2985,7 @@
             }
         }
 
-        class PersonalityEngine {
-            constructor() {
-                this.emoticons = {
-                    warm: ['😊', '💛', '✨', '🌟', '🌈', '💫', '🌸', '🌺', '🌻', '💝'],
-                    supportive: ['💪', '🤗', '🌻', '💝', '🕊️', '🌟', '🌅', '☀️', '🌿', '🫂'],
-                    thoughtful: ['🤔', '💭', '🧠', '📖', '🌙', '☀️', '🌅', '✨'],
-                    humorous: ['😄', '😂', '🤣', '😅', '🙃', '🎭', '🎪', '🎉', '✨', '🌟'],
-                    crisis: ['💙', '🫂', '🤝', '🌿', '🌱', '☀️', '🌈', '💛', '🌟', '🕊️']
-                };
-
-                this.personalities = {
-                    gentle: { warmth: 0.9, humor: 0.2, directness: 0.2, emojiSet: 'warm' },
-                    balanced: { warmth: 0.7, humor: 0.4, directness: 0.5, emojiSet: 'supportive' },
-                    energetic: { warmth: 0.8, humor: 0.7, directness: 0.6, emojiSet: 'humorous' },
-                    crisis: { warmth: 1.0, humor: 0.0, directness: 0.8, emojiSet: 'crisis' }
-                };
-
-                this.currentPersona = 'balanced';
-            }
-
-            getPersonalityForContext(text, emotion) {
-                const hasCrisis = ClinicalEvidence.detectCrisis(text);
-                const hasNegative = ['sadness', 'anxiety', 'anger'].includes(emotion);
-                const hasPositive = ['joy', 'hope'].includes(emotion);
-
-                if (hasCrisis) return 'crisis';
-                if (hasNegative) return 'gentle';
-                if (hasPositive) return 'energetic';
-                return 'balanced';
-            }
-
-            enhanceResponse(text, context) {
-                let enhanced = text;
-                const persona = this.getPersonalityForContext(context.text, context.emotion);
-                const traits = this.personalities[persona];
-                const emojiSet = this.emoticons[traits.emojiSet] || this.emoticons.warm;
-
-                // Add appropriate emoticon if not present
-                if (!enhanced.match(/[\u{1F600}-\u{1F9FF}]/u)) {
-                    if (Math.random() < traits.warmth * 0.7) {
-                        const emoji = emojiSet[Math.floor(Math.random() * emojiSet.length)];
-                        enhanced += ' ' + emoji;
-                    }
-                }
-
-                // Add warmth openers
-                if (Math.random() < 0.3 && !enhanced.match(/^(Ndumva|Mvuga|Ndakumva|Nibyo|Ndabona)/)) {
-                    const openers = ['Ndumva neza... ', 'Mvuga... ', 'Ndakumva... ', 'Nibyo... ', 'Ndabona... '];
-                    enhanced = openers[Math.floor(Math.random() * openers.length)] + enhanced;
-                }
-
-                // Add occasional humor
-                if (traits.humor > 0.3 && Math.random() < 0.15 && context.emotion !== 'crisis') {
-                    const jokes = [
-                        '😄 (Ntabwo ari urwenya, ariko ndashaka ko unyumva)',
-                        '😂 Nkaba nkunda uko uvuga!',
-                        '🙃 Reka tukineze gato...',
-                        '😅 Ubu ndumva neza!'
-                    ];
-                    enhanced += ' ' + jokes[Math.floor(Math.random() * jokes.length)];
-                }
-
-                // Add validation
-                if (context.emotion && ['sadness', 'anxiety', 'anger'].includes(context.emotion)) {
-                    const validations = [
-                        'Nibyo ko ubwo bumva ari ukuri. 💛',
-                        'Ndumva neza ibyo urahinga. 🤗',
-                        'Nabona ko birakomeye. 🌿'
-                    ];
-                    if (Math.random() < 0.3) {
-                        enhanced += ' ' + validations[Math.floor(Math.random() * validations.length)];
-                    }
-                }
-
-                return enhanced;
-            }
-        }
-
-        class EngagementEngine {
-            constructor() {
-                this.phrases = {
-                    joining: [
-                        'Ndi kumwe nawe muri iki gihe... 💙',
-                        'Reka twiyegereze hamwe... ✨',
-                        'Ndi hano kugira ngo nkugire... 🌟',
-                        'Tuganire hamwe, sinari hano kukureba gusa... 🤗',
-                        'Twifatanye muri iki gihe... 💛'
-                    ],
-                    diving: [
-                        'Reka turebe hamwe icyo... 🤔',
-                        'Ndumva ibyo, ngaho tugire hamwe... 🌿',
-                        'Ndi hano kugira ngo twihangane... 💪',
-                        'Twiyegereze hamwe muri ibi... 🌅',
-                        'Reka twubake hamwe... 🌈'
-                    ],
-                    validating: [
-                        'Ndumva neza ko... 💛',
-                        'Nabonye ko... ✨',
-                        'Ndumva iyo... 🌟',
-                        'Nabona ko... 🌿',
-                        'Ndakumva... 🤗'
-                    ]
-                };
-            }
-
-            createEngagedResponse(response, userMessage) {
-                let engaged = '';
-
-                // Add joining phrase occasionally
-                if (Math.random() < 0.25) {
-                    engaged += this.getPhrase('joining') + ' ';
-                }
-
-                // Add validation based on user message length or emotion indicators
-                if (userMessage.length > 20 || userMessage.includes('?')) {
-                    engaged += this.getPhrase('validating') + ' ';
-                }
-
-                // Add main response
-                engaged += response;
-
-                // Add diving phrase occasionally
-                if (Math.random() < 0.2 && !engaged.includes('Reka turebe')) {
-                    engaged += ' ' + this.getPhrase('diving');
-                }
-
-                return engaged;
-            }
-
-            getPhrase(type) {
-                const phrases = this.phrases[type] || this.phrases.joining;
-                return phrases[Math.floor(Math.random() * phrases.length)];
-            }
-        }
-
-        class EmotionDetector {
-            constructor() {
-                this.emotionKeywords = {
-                    joy: ['ishimwe', 'nkishimiye', 'byiza', 'neza', 'mwiza', 'kiza', 'murakoze', 'urashimwe', 'nishimiye', 'byaje'],
-                    sadness: ['babaye', 'birababaje', 'ntakibazo', 'ndababaye', 'birabyaje', 'ntacyo', 'sinakimara', 'birabaza', 'ndababaye'],
-                    anxiety: ['gutinya', 'guhangayika', 'ntabwo mbizi', 'mbaza', 'guhanga', 'umutima utera', 'guhangayika', 'ntibyiza'],
-                    anger: ['urakari', 'uburakari', 'narahaye', 'ndarakaye', 'birakaza', 'umujinya', 'ndarakara', 'byarakaje'],
-                    calm: ['amahoro', 'ntacyo', 'neza', 'mpumuye', 'ndumutse', 'ndapfutse', 'amahoro'],
-                    hope: ['izina', 'ibyiza', 'ibishoboka', 'ndashaka', 'nshobora', 'bizakira', 'ibyiza', 'biteganyijwe']
-                };
-
-                this.history = [];
-            }
-
-            detectEmotion(text) {
-                const scores = {};
-                const lower = text.toLowerCase();
-
-                for (const [emotion, keywords] of Object.entries(this.emotionKeywords)) {
-                    let score = 0;
-                    for (const keyword of keywords) {
-                        if (lower.includes(keyword)) {
-                            score += 1;
-                        }
-                    }
-                    scores[emotion] = score;
-                }
-
-                // Add simple negation handling
-                if (lower.includes('ntabwo') || lower.includes('sin')) {
-                    for (const emotion of Object.keys(scores)) {
-                        if (scores[emotion] > 0) {
-                            scores[emotion] *= 0.5;
-                        }
-                    }
-                }
-
-                const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
-                for (const emotion of Object.keys(scores)) {
-                    scores[emotion] = scores[emotion] / total;
-                }
-
-                this.history.push({ timestamp: Date.now(), scores });
-                if (this.history.length > 100) this.history.shift();
-
-                return scores;
-            }
-
-            getDominantEmotion(text) {
-                const scores = this.detectEmotion(text);
-                const entries = Object.entries(scores).filter(([k, v]) => v > 0);
-                if (entries.length === 0) return 'neutral';
-                return entries.sort((a, b) => b[1] - a[1])[0][0];
-            }
-
-            getEmotionTrend() {
-                if (this.history.length < 3) return 'stable';
-                const recent = this.history.slice(-3);
-                const first = recent[0].scores;
-                const last = recent[recent.length - 1].scores;
-
-                const positive = ['joy', 'calm', 'hope'];
-                const negative = ['sadness', 'anxiety', 'anger'];
-
-                const firstPositive = Object.entries(first)
-                    .filter(([k]) => positive.includes(k))
-                    .reduce((a, b) => a + b[1], 0);
-                const lastPositive = Object.entries(last)
-                    .filter(([k]) => positive.includes(k))
-                    .reduce((a, b) => a + b[1], 0);
-
-                if (lastPositive > firstPositive + 0.2) return 'improving';
-                if (lastPositive < firstPositive - 0.2) return 'declining';
-                return 'stable';
-            }
-        }
-
-        class PersonalizedResponse {
-            constructor() {
-                this.profile = {
-                    name: null,
-                    topics: [],
-                    style: 'balanced'
-                };
-            }
-
-            buildProfile(messages) {
-                const topics = [];
-                const styles = [];
-
-                for (const msg of messages) {
-                    const content = msg.content.toLowerCase();
-                    const topicWords = ['umuryango', 'akazi', 'ishuri', 'ubuzima', 'urukundo', 'ubucuruzi', 'amasezerano', 'ubuvuzi', 'amahoro', 'inkunga'];
-                    for (const word of topicWords) {
-                        if (content.includes(word)) {
-                            topics.push(word);
-                        }
-                    }
-
-                    if (content.includes('...') || content.includes('?')) styles.push('reflective');
-                    if (content.split(' ').length > 20) styles.push('detailed');
-                    if (content.split(' ').length < 10) styles.push('concise');
-                }
-
-                this.profile.topics = [...new Set(topics)];
-                if (styles.length > 0) {
-                    const counts = {};
-                    for (const style of styles) {
-                        counts[style] = (counts[style] || 0) + 1;
-                    }
-                    this.profile.style = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || 'balanced';
-                }
-
-                return this.profile;
-            }
-
-            personalizeResponse(response, context) {
-                let personalized = response;
-
-                // Use user name
-                if (this.profile.name && !personalized.includes(this.profile.name)) {
-                    if (Math.random() < 0.3) {
-                        const prefixes = ['Wowe ', `Nibyo ${this.profile.name}, `, `Mwaramutse ${this.profile.name}, `];
-                        personalized = prefixes[Math.floor(Math.random() * prefixes.length)] + personalized;
-                    }
-                }
-
-                // Reference past topics
-                if (this.profile.topics.length > 0 && Math.random() < 0.15) {
-                    const topic = this.profile.topics[Math.floor(Math.random() * this.profile.topics.length)];
-                    personalized += ` Nibuka ko twaganiriye kuri "${topic}" mbere. Ubu ubona ute? 😊`;
-                }
-
-                // Adapt to communication style
-                if (this.profile.style === 'concise' && personalized.length > 200) {
-                    personalized = personalized.split('. ').slice(0, 3).join('. ') + '.';
-                }
-
-                if (this.profile.style === 'detailed' && personalized.length < 80) {
-                    const expansions = [
-                        ' Ubu ndashaka kumenya byinshi kuri ibyo.',
-                        ' Reka turebe ibindi bishoboka.',
-                        ' Ni byiza ko ubivuze.'
-                    ];
-                    personalized += expansions[Math.floor(Math.random() * expansions.length)];
-                }
-
-                return personalized;
-            }
-        }
-
-        class AIService {
-            constructor() {
-                this.puterAvailable = false;
-                this.onDeviceAvailable = false;
-                this.onDeviceModel = null;
-                this.currentSource = 'puter';
-                this.userName = null;
-                this.personality = new PersonalityEngine();
-                this.emotionDetector = new EmotionDetector();
-                this.engagement = new EngagementEngine();
-                this.personalizer = new PersonalizedResponse();
-
-                this.systemPrompt = this.buildSystemPrompt();
-            }
-
-            buildSystemPrompt() {
-                const name = this.userName || '';
-                return `Wowe uri TYAZA (Umuvugizi w'Umutima), umuvugizi w'umutima wakozwe na KIVURA LABS.
-
-            ABOUT KIVURA LABS:
-            - Full Name: KIVURA LABS (Kivura Labs)
-            - Meaning: "Kivura" in Kinyarwanda means "healing"
-            - Founded: 2024 · Headquarters: Kigali, Rwanda
-            - Founder & CEO: Yves HIRWA TUYISHIME
-            - Mission: "Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho"
-            - Vision: Africa's leading mental health technology company
-            - Philosophy: "Healthy citizens, wealthy nation"
-
-            YOUR ROLE:
-            - Therapeutic assistant (not replacement for professional help)
-            - Speak Kinyarwanda with empathy and warmth
-            - Remember user's name: ${name || 'umukunzi'}
-            - Detect crisis keywords and trigger emergency protocols
-            - Provide evidence-based responses (CBT, DBT, MI, ACT)
-            - Represent Kivura Labs' mission of accessible mental health
-
-            GUIDELINES:
-            - Shyashya mu ijwi ryuje impuhwe
-            - Koresha amagambo nk' "umva", "umutima", "mahoro"
-            - Komeza ibiganiro bigufi kandi byuje ubushyuhe
-            - Igihe uhari, ibaza, umve, ugire inama
-            - Koresha emoticons nk' 😊, 💛, ✨, 🌟, 🤗, 💙
-
-            Remember: You embody the vision that "Healthy citizens build a wealthy nation."`;
-            }
-
-            async init() {
-                await this.checkPuter();
-                this.loadOnDevice().catch(() => {});
-            }
-
-            async checkPuter() {
-                return new Promise(resolve => {
-                    let attempts = 0;
-                    const check = setInterval(() => {
-                        if (window.puter?.ai) {
-                            this.puterAvailable = true;
-                            this.currentSource = 'puter';
-                            clearInterval(check);
-                            resolve(true);
-                        } else if (attempts++ >= 15) {
-                            this.puterAvailable = false;
-                            clearInterval(check);
-                            resolve(false);
-                        }
-                    }, 200);
-                });
-            }
-
-            async loadOnDevice() {
-                try {
-                    this.onDeviceModel = await pipeline('text-generation',
-                        'Xenova/tinyllama-1.1b-chat-v1.0-4bit', {
-                            quantized: true,
-                            device: 'wasm'
-                        }
-                    );
-                    this.onDeviceAvailable = true;
-                } catch (e) {
-                    console.log('On-device unavailable');
-                }
-            }
-
-            extractUserName(text) {
-                const patterns = [
-                    /(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i,
-                    /(?:mwaramutse|muraho|hello|hi|hey)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i,
-                    /(?:called|name's|names)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i,
-                    /(?:nijye|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i
-                ];
-
-                for (const pattern of patterns) {
-                    const match = text.match(pattern);
-                    if (match) {
-                        const name = match[1].trim();
-                        if (name.length >= 2 && name.length <= 30) {
-                            return name;
-                        }
-                    }
-                }
-                return null;
-            }
-
-            async generateResponse(messages) {
-                const userMessage = messages[messages.length - 1]?.content || '';
-                const emotion = this.emotionDetector.getDominantEmotion(userMessage);
-
-                // Extract user name
-                const extractedName = this.extractUserName(userMessage);
-                if (extractedName && extractedName !== this.userName) {
-                    this.userName = extractedName;
-                    this.personalizer.profile.name = extractedName;
-                    this.systemPrompt = this.buildSystemPrompt();
-                }
-
-                // Check crisis
-                if (ClinicalEvidence.detectCrisis(userMessage)) {
-                    return { type: 'crisis', content: null };
-                }
-
-                // Check evidence-based
-                const evidence = ClinicalEvidence.getEvidenceBasedResponse(userMessage);
-                if (evidence) {
-                    let response = evidence.response;
-                    const personality = this.personality.getPersonalityForContext(userMessage, emotion);
-                    response = this.personality.enhanceResponse(response, { text: userMessage, emotion });
-                    response = this.engagement.createEngagedResponse(response, userMessage);
-                    response = this.personalizer.personalizeResponse(response, { emotion });
-                    return { type: 'normal', content: response };
-                }
-
-                // Update system prompt
-                const currentSystemPrompt = this.buildSystemPrompt();
-
-                // Try Puter
-                if (this.puterAvailable) {
-                    try {
-                        const response = await window.puter.ai.chat([
-                            { role: 'system', content: currentSystemPrompt },
-                            ...messages.slice(-5)
-                        ], { model: 'gpt-4o-mini' });
-
-                        let content = response.message?.content || response;
-                        const personality = this.personality.getPersonalityForContext(userMessage, emotion);
-                        content = this.personality.enhanceResponse(content, { text: userMessage, emotion });
-                        content = this.engagement.createEngagedResponse(content, userMessage);
-                        content = this.personalizer.personalizeResponse(content, { emotion });
-
-                        return { type: 'normal', content };
-                    } catch (e) {
-                        return this.getFallback(emotion);
-                    }
-                }
-
-                // Try on-device
-                if (this.onDeviceAvailable && this.onDeviceModel) {
-                    try {
-                        const prompt =
-                            `<|system|>\n${currentSystemPrompt}\n<|user|>\n${userMessage}\n<|assistant|>\n`;
-                        const result = await this.onDeviceModel(prompt, {
-                            max_new_tokens: 150,
-                            temperature: 0.7,
-                            top_k: 50
-                        });
-                        let content = result[0].generated_text.replace(prompt, '').trim();
-                        if (!content) content = CONFIG.fallbackResponses[Math.floor(Math.random() * CONFIG
-                        .fallbackResponses.length)];
-
-                        const personality = this.personality.getPersonalityForContext(userMessage, emotion);
-                        content = this.personality.enhanceResponse(content, { text: userMessage, emotion });
-                        content = this.engagement.createEngagedResponse(content, userMessage);
-                        content = this.personalizer.personalizeResponse(content, { emotion });
-
-                        return { type: 'normal', content };
-                    } catch (e) {
-                        return this.getFallback(emotion);
-                    }
-                }
-
-                return this.getFallback(emotion);
-            }
-
-            getFallback(emotion) {
-                let responses = CONFIG.fallbackResponses;
-                const personality = this.personality.getPersonalityForContext('', emotion || 'neutral');
-                let content = responses[Math.floor(Math.random() * responses.length)];
-                content = this.personality.enhanceResponse(content, { text: '', emotion: emotion || 'neutral' });
-                content = this.engagement.createEngagedResponse(content, '');
-                content = this.personalizer.personalizeResponse(content, { emotion: emotion || 'neutral' });
-                return { type: 'normal', content };
-            }
-
-            setUserName(name) {
-                this.userName = name;
-                this.personalizer.profile.name = name;
-                this.systemPrompt = this.buildSystemPrompt();
-            }
-        }
-
+        // Speech Service
         class SpeechService {
             constructor() {
                 this.recognition = null;
@@ -3603,6 +3060,7 @@
             }
         }
 
+        // Toast component
         class TyazaToast extends HTMLElement {
             connectedCallback() {
                 const message = this.getAttribute('message') || '';
@@ -3649,10 +3107,83 @@
         }
         customElements.define('tyaza-toast', TyazaToast);
 
+        // Simple AI service with fallback
+        class SimpleAIService {
+            constructor() {
+                this.userName = null;
+                this.fallbackResponses = FALLBACK_RESPONSES;
+                this.crisisTriggers = ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ndashaka gupfa'];
+            }
+
+            extractUserName(text) {
+                const patterns = [
+                    /(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i,
+                    /(?:mwaramutse|muraho|hello|hi|hey)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i,
+                    /(?:called|name's|names)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i,
+                    /(?:nijye|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i
+                ];
+
+                for (const pattern of patterns) {
+                    const match = text.match(pattern);
+                    if (match) {
+                        const name = match[1].trim();
+                        if (name.length >= 2 && name.length <= 30) {
+                            return name;
+                        }
+                    }
+                }
+                return null;
+            }
+
+            detectCrisis(text) {
+                const lower = text.toLowerCase();
+                return this.crisisTriggers.some(t => lower.includes(t));
+            }
+
+            generateResponse(text) {
+                // Check crisis
+                if (this.detectCrisis(text)) {
+                    return { type: 'crisis', content: null };
+                }
+
+                // Simple response generation
+                let response = this.fallbackResponses[Math.floor(Math.random() * this.fallbackResponses.length)];
+
+                // Add name if extracted
+                const name = this.extractUserName(text);
+                if (name && name !== this.userName) {
+                    this.userName = name;
+                    response = `✨ Murakaza neza, ${name}! ` + response;
+                }
+
+                // Customize based on message length
+                if (text.length > 30) {
+                    response += " Urakoze kubw'ibyo utubwiye byinshi. 💛";
+                }
+
+                // Add validation
+                if (text.includes('?')) {
+                    const validations = [
+                        ' Ni ikibazo cyiza!',
+                        ' Ndumva neza!',
+                        ' Nibyo ko ubaza!'
+                    ];
+                    response += validations[Math.floor(Math.random() * validations.length)];
+                }
+
+                return { type: 'normal', content: response };
+            }
+
+            setUserName(name) {
+                this.userName = name;
+            }
+        }
+
+        // Main App
         class TyazaApp {
             constructor() {
                 this.db = new Database();
-                this.ai = new AIService();
+                this.ai = new SimpleAIService();
                 this.speech = new SpeechService();
 
                 this.messages = [];
@@ -3664,6 +3195,7 @@
                     rate: 0.9,
                     pitch: 1.0
                 };
+                this.voiceFallbackActive = false;
 
                 this.elements = {
                     messagesContainer: document.getElementById('messagesContainer'),
@@ -3711,16 +3243,12 @@
                     crisisNow: document.getElementById('crisisNow'),
                     connectionStatus: document.getElementById('connectionStatus')
                 };
-
-                this.voiceFallbackActive = false;
-                this.initDone = false;
             }
 
             async init() {
-                if (this.initDone) return;
-                this.initDone = true;
-
                 this.createStars();
+
+                // Initialize DB
                 await this.db.init();
 
                 // Load user data
@@ -3738,27 +3266,20 @@
                 if (settings) this.settings = { ...this.settings, ...settings };
                 this.applySettings();
 
-                // Don't wait for AI init, it can load in background
-                this.ai.init().catch(() => {});
-
                 this.bindEvents();
                 await this.loadHistory();
 
-                // Hide loading screen
-                setTimeout(() => {
-                    this.elements.loadingScreen.classList.add('hidden');
-                }, 800);
+                // Hide loading screen - ensure it's hidden
+                const ls = document.getElementById('loadingScreen');
+                if (ls) ls.classList.add('hidden');
 
                 setTimeout(() => {
                     if (this.elements.welcomeGreeting) {
                         this.elements.welcomeGreeting.style.opacity = '1';
                     }
-                }, 500);
+                }, 300);
 
-                // Check for mobile voice support
                 this.checkMobileVoiceSupport();
-
-                // Fix mobile sidebar issue
                 this.fixMobileSidebar();
             }
 
@@ -3766,12 +3287,10 @@
                 const sidebar = this.elements.sidebar;
                 const overlay = this.elements.sidebarOverlay;
 
-                // Ensure clicks inside sidebar work
                 sidebar.addEventListener('touchstart', (e) => {
                     e.stopPropagation();
                 }, { passive: true });
 
-                // Ensure menu toggle works
                 this.elements.menuToggle.addEventListener('touchstart', (e) => {
                     e.preventDefault();
                     e.stopPropagation();
@@ -3841,7 +3360,6 @@
 
                 setTimeout(() => input?.focus(), 300);
 
-                // Close on outside click
                 dialog.addEventListener('click', (e) => {
                     if (e.target === dialog) dialog.remove();
                 });
@@ -3921,14 +3439,12 @@
                     this.elements.rateValue.textContent = e.target.value;
                     this.settings.rate = parseFloat(e.target.value);
                 });
-                this.elements.rateSlider.addEventListener('change', () => this.db.setSetting('settings', this
-                .settings));
+                this.elements.rateSlider.addEventListener('change', () => this.db.setSetting('settings', this.settings));
                 this.elements.pitchSlider.addEventListener('input', (e) => {
                     this.elements.pitchValue.textContent = e.target.value;
                     this.settings.pitch = parseFloat(e.target.value);
                 });
-                this.elements.pitchSlider.addEventListener('change', () => this.db.setSetting('settings', this
-                .settings));
+                this.elements.pitchSlider.addEventListener('change', () => this.db.setSetting('settings', this.settings));
 
                 this.elements.saveNameBtn.addEventListener('click', async () => {
                     const name = this.elements.userNameInput.value.trim();
@@ -3984,8 +3500,7 @@
 
                 this.elements.moodScale.querySelectorAll('.mood-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
-                        this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList
-                            .remove('selected'));
+                        this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
                         btn.classList.add('selected');
                     });
                 });
@@ -4030,8 +3545,7 @@
                 const val = this.elements.messageInput.value.trim();
                 this.elements.sendBtn.disabled = !val || this.isGenerating;
                 this.elements.messageInput.style.height = 'auto';
-                this.elements.messageInput.style.height = Math.min(this.elements.messageInput.scrollHeight, 150) +
-                    'px';
+                this.elements.messageInput.style.height = Math.min(this.elements.messageInput.scrollHeight, 150) + 'px';
             }
 
             async toggleVoice() {
@@ -4093,7 +3607,7 @@
                 this.closeSidebar();
 
                 try {
-                    const response = await this.ai.generateResponse([{ role: 'user', content: text }]);
+                    const response = this.ai.generateResponse(text);
 
                     if (response.type === 'crisis') {
                         this.removeTyping(typingId);
@@ -4146,13 +3660,8 @@
                 this.scrollToBottom();
                 this.messages.push({ role, content, timestamp: Date.now() });
 
-                // Build user profile
-                if (role === 'user') {
-                    this.ai.personalizer.buildProfile(this.messages);
-                }
-
-                if (this.messages.length > CONFIG.maxMessages) {
-                    const extra = this.messages.length - CONFIG.maxMessages;
+                if (this.messages.length > 50) {
+                    const extra = this.messages.length - 50;
                     this.messages.splice(0, extra);
                 }
             }
@@ -4234,7 +3743,7 @@
                         <div class="history-item ${c.id === this.currentId ? 'active' : ''}" data-id="${c.id}" role="listitem">
                             <div class="history-title">${escapeHtml(c.title || 'Chat')}</div>
                             <div class="history-meta">
-                                <span>${formatRelativeTime(c.timestamp)}</span>
+                                <span>${this.formatRelativeTime(c.timestamp)}</span>
                                 <span>${c.messages ? c.messages.length : 0} msgs</span>
                             </div>
                         </div>
@@ -4249,6 +3758,18 @@
                         }
                     });
                 });
+            }
+
+            formatRelativeTime(timestamp) {
+                const diff = Date.now() - timestamp;
+                const minutes = Math.floor(diff / 60000);
+                const hours = Math.floor(diff / 3600000);
+                const days = Math.floor(diff / 86400000);
+                if (minutes < 1) return 'none';
+                if (minutes < 60) return `${minutes} min`;
+                if (hours < 24) return `${hours} hr`;
+                if (days < 7) return `${days} d`;
+                return new Date(timestamp).toLocaleDateString('rw-RW');
             }
 
             async loadChat(id) {
@@ -4334,7 +3855,6 @@
             toggleSidebar() {
                 this.elements.sidebar.classList.toggle('open');
                 this.elements.sidebarOverlay.classList.toggle('active');
-                // Fix pointer events
                 if (this.elements.sidebar.classList.contains('open')) {
                     this.elements.sidebar.style.pointerEvents = 'auto';
                 } else {
@@ -4401,10 +3921,8 @@
                     const dayStart = new Date(date.setHours(0, 0, 0, 0)).getTime();
                     const dayEnd = dayStart + 86400000;
                     const dayMoods = moods.filter(m => m.timestamp >= dayStart && m.timestamp < dayEnd);
-                    const avg = dayMoods.length ? Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods
-                        .length) : 0;
-                    html +=
-                        `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString('rw-RW')}">${date.getDate()}</div>`;
+                    const avg = dayMoods.length ? Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods.length) : 0;
+                    html += `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString('rw-RW')}">${date.getDate()}</div>`;
                 }
                 this.elements.moodCalendar.innerHTML = html;
             }
@@ -4418,6 +3936,7 @@
             }
         }
 
+        // Initialize app
         const app = new TyazaApp();
         window.app = app;
 
@@ -4427,19 +3946,13 @@
             app.init();
         }
 
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').catch(() => {});
-        }
-
         console.log('✨ TYAZA v6.1 - 2030 Edition');
         console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-        console.log('🚀 Zero Budget · 1000%+ Out-of-Box · Global Leading Quality');
-        console.log('💙 Fixes: Name extraction, Mobile menu, Natural responses, Voice fallback');
+        console.log('💙 Loading screen fixed - loads instantly');
     </script>
 
     <noscript>
-        <div
-            style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; font-family: sans-serif; z-index: 9999;">
+        <div style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; font-family: sans-serif; z-index: 9999;">
             <div>
                 <h1 style="font-size: 2rem; margin-bottom: 1rem;">TYAZA</h1>
                 <p style="font-size: 1.2rem; opacity: 0.8;">JavaScript is required for TYAZA.</p>
