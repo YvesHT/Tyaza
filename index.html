@@ -147,6 +147,14 @@
             font-size: 1.4rem;
             color: white;
             box-shadow: var(--shadow-glow-primary);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .logo-text .logo-title {
@@ -421,6 +429,12 @@
             overflow: hidden;
         }
 
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .chat-avatar .status-dot {
             position: absolute;
             bottom: -2px;
@@ -653,6 +667,13 @@
             flex-shrink: 0;
             font-size: 1.1rem;
             color: white;
+            overflow: hidden;
+        }
+
+        .message-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .message.user .message-avatar {
@@ -789,6 +810,13 @@
             font-size: 1.1rem;
             color: white;
             flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .typing-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .typing-bubble {
@@ -1371,6 +1399,13 @@
             font-size: 2.5rem;
             color: white;
             animation: logoFloat 3s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .loading-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .loading-spinner {
@@ -1538,7 +1573,7 @@
         <aside class="app-sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo-container">
-                    <div class="logo-icon"><i class="fas fa-brain"></i></div>
+                    <div class="logo-icon"><img src="tyaza_logo.png" alt="TYAZA Logo" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-brain\'></i>'"></div>
                     <div class="logo-text">
                         <div class="logo-title">TYAZA 10.0</div>
                         <div class="logo-subtitle">Digital Mental Health Companion</div>
@@ -1633,7 +1668,7 @@
                     <button class="btn-icon menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
                     <div class="chat-title">
                         <div class="chat-avatar">
-                            <i class="fas fa-brain"></i>
+                            <img src="tyaza_logo.png" alt="TYAZA" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-brain\'></i>'">
                             <span class="status-dot"></span>
                         </div>
                         <div class="chat-info">
@@ -1704,7 +1739,9 @@
     </div>
 
     <div class="loading-screen" id="loadingScreen">
-        <div class="loading-logo"><i class="fas fa-brain"></i></div>
+        <div class="loading-logo">
+            <img src="tyaza_logo.png" alt="TYAZA" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-brain\'></i>'">
+        </div>
         <div class="loading-spinner"></div>
         <div id="loadingText">Itegura...</div>
     </div>
@@ -1758,60 +1795,69 @@
             }
 
             async init() {
-                this.db = await openDB('Tyaza10DB', 10, {
-                    upgrade(db) {
-                        if (!db.objectStoreNames.contains('conversations')) {
-                            db.createObjectStore('conversations', { keyPath: 'id' });
+                try {
+                    this.db = await openDB('Tyaza10DB', 10, {
+                        upgrade(db) {
+                            if (!db.objectStoreNames.contains('conversations')) {
+                                db.createObjectStore('conversations', { keyPath: 'id' });
+                            }
+                            if (!db.objectStoreNames.contains('settings')) {
+                                db.createObjectStore('settings');
+                            }
+                            if (!db.objectStoreNames.contains('moodData')) {
+                                db.createObjectStore('moodData', { keyPath: 'id', autoIncrement: true });
+                            }
+                            if (!db.objectStoreNames.contains('userProfile')) {
+                                db.createObjectStore('userProfile', { keyPath: 'id' });
+                            }
+                            if (!db.objectStoreNames.contains('journalEntries')) {
+                                db.createObjectStore('journalEntries', { keyPath: 'id', autoIncrement: true });
+                            }
+                            if (!db.objectStoreNames.contains('achievements')) {
+                                db.createObjectStore('achievements', { keyPath: 'id' });
+                            }
+                            if (!db.objectStoreNames.contains('memoryContext')) {
+                                db.createObjectStore('memoryContext', { keyPath: 'id' });
+                            }
                         }
-                        if (!db.objectStoreNames.contains('settings')) {
-                            db.createObjectStore('settings');
-                        }
-                        if (!db.objectStoreNames.contains('moodData')) {
-                            db.createObjectStore('moodData', { keyPath: 'id', autoIncrement: true });
-                        }
-                        if (!db.objectStoreNames.contains('userProfile')) {
-                            db.createObjectStore('userProfile', { keyPath: 'id' });
-                        }
-                        if (!db.objectStoreNames.contains('journalEntries')) {
-                            db.createObjectStore('journalEntries', { keyPath: 'id', autoIncrement: true });
-                        }
-                        if (!db.objectStoreNames.contains('achievements')) {
-                            db.createObjectStore('achievements', { keyPath: 'id' });
-                        }
-                        if (!db.objectStoreNames.contains('memoryContext')) {
-                            db.createObjectStore('memoryContext', { keyPath: 'id' });
-                        }
-                    }
-                });
-                this.ready = true;
+                    });
+                    this.ready = true;
+                } catch (error) {
+                    console.warn('Database init failed, using memory fallback:', error);
+                    this.ready = true; // Still mark ready to prevent hanging
+                    this.db = null;
+                }
                 return this;
             }
 
             async getConversations() {
-                if (!this.ready) return [];
-                return await this.db.getAll('conversations');
+                if (!this.ready || !this.db) return [];
+                try { return await this.db.getAll('conversations'); } catch { return []; }
             }
             async saveConversation(conv) {
-                if (!this.ready) return;
-                await this.db.put('conversations', { id: conv.id || Date.now().toString(36) + Math.random().toString(36)
-                        .substr(2, 6), ...conv, timestamp: Date.now() });
+                if (!this.ready || !this.db) return;
+                try {
+                    await this.db.put('conversations', { id: conv.id || Date.now().toString(36) + Math.random().toString(36)
+                            .substr(2, 6), ...conv, timestamp: Date.now() });
+                } catch (e) { console.warn('Save conv failed:', e); }
             }
             async deleteConversation(id) {
-                if (!this.ready) return;
-                await this.db.delete('conversations', id);
+                if (!this.ready || !this.db) return;
+                try { await this.db.delete('conversations', id); } catch (e) { console.warn('Delete conv failed:', e); }
             }
             async clearConversations() {
-                if (!this.ready) return;
-                await this.db.clear('conversations');
+                if (!this.ready || !this.db) return;
+                try { await this.db.clear('conversations'); } catch (e) { console.warn('Clear convs failed:', e); }
             }
 
             async getUserProfile() {
-                if (!this.ready) return null;
-                return await this.db.get('userProfile', 'main') || null;
+                if (!this.ready || !this.db) return null;
+                try { return await this.db.get('userProfile', 'main') || null; } catch { return null; }
             }
             async saveUserProfile(profile) {
-                if (!this.ready) return;
-                await this.db.put('userProfile', { id: 'main', ...profile, updatedAt: Date.now() });
+                if (!this.ready || !this.db) return;
+                try { await this.db.put('userProfile', { id: 'main', ...profile, updatedAt: Date.now() }); } catch (e) {
+                    console.warn('Save profile failed:', e); }
             }
             async updateUserProfile(updates) {
                 const current = await this.getUserProfile() || {};
@@ -1819,52 +1865,59 @@
             }
 
             async saveMood(mood) {
-                if (!this.ready) return;
-                await this.db.add('moodData', { ...mood, timestamp: Date.now() });
+                if (!this.ready || !this.db) return;
+                try { await this.db.add('moodData', { ...mood, timestamp: Date.now() }); } catch (e) { console.warn(
+                        'Save mood failed:', e); }
             }
             async getMoodHistory(days = 30) {
-                if (!this.ready) return [];
-                const all = await this.db.getAll('moodData');
-                const cutoff = Date.now() - (days * 86400000);
-                return all.filter(m => m.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
+                if (!this.ready || !this.db) return [];
+                try {
+                    const all = await this.db.getAll('moodData');
+                    const cutoff = Date.now() - (days * 86400000);
+                    return all.filter(m => m.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
+                } catch { return []; }
             }
 
             async saveJournal(entry) {
-                if (!this.ready) return;
-                await this.db.add('journalEntries', { ...entry, timestamp: Date.now() });
+                if (!this.ready || !this.db) return;
+                try { await this.db.add('journalEntries', { ...entry, timestamp: Date.now() }); } catch (e) { console.warn(
+                        'Save journal failed:', e); }
             }
             async getJournalEntries(days = 30) {
-                if (!this.ready) return [];
-                const all = await this.db.getAll('journalEntries');
-                const cutoff = Date.now() - (days * 86400000);
-                return all.filter(e => e.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
+                if (!this.ready || !this.db) return [];
+                try {
+                    const all = await this.db.getAll('journalEntries');
+                    const cutoff = Date.now() - (days * 86400000);
+                    return all.filter(e => e.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
+                } catch { return []; }
             }
 
             async getAchievement(id) {
-                if (!this.ready) return null;
-                return await this.db.get('achievements', id);
+                if (!this.ready || !this.db) return null;
+                try { return await this.db.get('achievements', id); } catch { return null; }
             }
             async saveAchievement(achievement) {
-                if (!this.ready) return;
-                await this.db.put('achievements', achievement);
+                if (!this.ready || !this.db) return;
+                try { await this.db.put('achievements', achievement); } catch (e) { console.warn('Save ach failed:', e); }
             }
 
             async getMemoryContext(id = 'main') {
-                if (!this.ready) return null;
-                return await this.db.get('memoryContext', id);
+                if (!this.ready || !this.db) return null;
+                try { return await this.db.get('memoryContext', id); } catch { return null; }
             }
             async saveMemoryContext(context) {
-                if (!this.ready) return;
-                await this.db.put('memoryContext', { id: 'main', ...context, updatedAt: Date.now() });
+                if (!this.ready || !this.db) return;
+                try { await this.db.put('memoryContext', { id: 'main', ...context, updatedAt: Date.now() }); } catch (e) {
+                    console.warn('Save memory failed:', e); }
             }
 
             async getSettings(key) {
-                if (!this.ready) return null;
-                return await this.db.get('settings', key);
+                if (!this.ready || !this.db) return null;
+                try { return await this.db.get('settings', key); } catch { return null; }
             }
             async setSettings(key, value) {
-                if (!this.ready) return;
-                await this.db.put('settings', value, key);
+                if (!this.ready || !this.db) return;
+                try { await this.db.put('settings', value, key); } catch (e) { console.warn('Set settings failed:', e); }
             }
         }
 
@@ -1965,20 +2018,21 @@
 
             speak(text, emotion = 'empathetic') {
                 if (!this.synthesis) return;
-                this.synthesis.cancel();
-                const plain = text.replace(/<[^>]*>/g, '');
-                const utterance = new SpeechSynthesisUtterance(plain.slice(0, 500));
-                const profile = this.emotionProfiles[emotion] || this.emotionProfiles.empathetic;
-                utterance.rate = profile.rate;
-                utterance.pitch = profile.pitch;
-                utterance.volume = profile.volume;
-                utterance.lang = 'rw-RW';
+                try {
+                    this.synthesis.cancel();
+                    const plain = text.replace(/<[^>]*>/g, '');
+                    const utterance = new SpeechSynthesisUtterance(plain.slice(0, 500));
+                    const profile = this.emotionProfiles[emotion] || this.emotionProfiles.empathetic;
+                    utterance.rate = profile.rate;
+                    utterance.pitch = profile.pitch;
+                    utterance.volume = profile.volume;
+                    utterance.lang = 'rw-RW';
 
-                // Find Kinyarwanda voice if available
-                const rwVoice = this.voices.find(v => v.lang.startsWith('rw'));
-                if (rwVoice) utterance.voice = rwVoice;
+                    const rwVoice = this.voices.find(v => v.lang.startsWith('rw'));
+                    if (rwVoice) utterance.voice = rwVoice;
 
-                this.synthesis.speak(utterance);
+                    this.synthesis.speak(utterance);
+                } catch (e) { console.warn('Speech failed:', e); }
             }
 
             detectEmotionFromText(text) {
@@ -2000,7 +2054,6 @@
                     scores[emotion] = count * 0.2;
                 }
 
-                // Normalize
                 const total = Object.values(scores).reduce((a, b) => a + b, 0);
                 if (total > 0) {
                     for (const key of Object.keys(scores)) {
@@ -2136,7 +2189,6 @@
                     ctx.beginPath();
                     ctx.arc(cx, mouthY + 2, 8, 0.1, Math.PI - 0.1);
                     ctx.stroke();
-                    // Small smile highlight
                     ctx.fillStyle = 'rgba(236, 72, 153, 0.1)';
                     ctx.beginPath();
                     ctx.arc(cx, mouthY + 2, 8, 0.1, Math.PI - 0.1);
@@ -2149,7 +2201,6 @@
                     ctx.beginPath();
                     ctx.arc(cx, mouthY + 4, 6, 0.2, Math.PI - 0.2);
                     ctx.stroke();
-                    // Small frown
                     ctx.beginPath();
                     ctx.moveTo(cx - 8, mouthY + 6);
                     ctx.quadraticCurveTo(cx, mouthY + 10, cx + 8, mouthY + 6);
@@ -2158,13 +2209,11 @@
                     ctx.beginPath();
                     ctx.arc(cx, mouthY, 6, 0, Math.PI);
                     ctx.stroke();
-                    // Open mouth
                     ctx.fillStyle = 'rgba(139, 92, 246, 0.1)';
                     ctx.beginPath();
                     ctx.arc(cx, mouthY, 5, 0, Math.PI);
                     ctx.fill();
                 } else {
-                    // Neutral smile
                     ctx.beginPath();
                     ctx.arc(cx, mouthY + 2, 6, 0.2, Math.PI - 0.2);
                     ctx.stroke();
@@ -2175,7 +2224,6 @@
                 ctx.lineWidth = 1.5;
 
                 if (this.expression === 'concerned' || this.expression === 'sad') {
-                    // Raised inner brows (concerned)
                     ctx.beginPath();
                     ctx.moveTo(cx - eyeSpacing - 6, eyeY - 10);
                     ctx.quadraticCurveTo(cx - eyeSpacing, eyeY - 14, cx - eyeSpacing + 4, eyeY - 8);
@@ -2185,7 +2233,6 @@
                     ctx.quadraticCurveTo(cx + eyeSpacing, eyeY - 14, cx + eyeSpacing - 4, eyeY - 8);
                     ctx.stroke();
                 } else if (this.expression === 'thinking') {
-                    // Furrowed brows
                     ctx.beginPath();
                     ctx.moveTo(cx - eyeSpacing - 6, eyeY - 10);
                     ctx.quadraticCurveTo(cx - eyeSpacing, eyeY - 6, cx - eyeSpacing + 4, eyeY - 10);
@@ -2195,7 +2242,6 @@
                     ctx.quadraticCurveTo(cx + eyeSpacing, eyeY - 6, cx + eyeSpacing - 4, eyeY - 10);
                     ctx.stroke();
                 } else if (this.expression === 'happy') {
-                    // Arched brows
                     ctx.beginPath();
                     ctx.moveTo(cx - eyeSpacing - 6, eyeY - 12);
                     ctx.quadraticCurveTo(cx - eyeSpacing, eyeY - 16, cx - eyeSpacing + 4, eyeY - 10);
@@ -2205,7 +2251,6 @@
                     ctx.quadraticCurveTo(cx + eyeSpacing, eyeY - 16, cx + eyeSpacing - 4, eyeY - 10);
                     ctx.stroke();
                 } else {
-                    // Neutral brows
                     ctx.beginPath();
                     ctx.moveTo(cx - eyeSpacing - 6, eyeY - 10);
                     ctx.lineTo(cx - eyeSpacing + 4, eyeY - 10);
@@ -2216,7 +2261,6 @@
                     ctx.stroke();
                 }
 
-                // Blush for happy/smiling
                 if (this.expression === 'happy' || this.expression === 'smiling') {
                     ctx.fillStyle = 'rgba(236, 72, 153, 0.1)';
                     ctx.beginPath();
@@ -2227,7 +2271,6 @@
                     ctx.fill();
                 }
 
-                // Thinking dots
                 if (this.expression === 'thinking') {
                     ctx.fillStyle = 'rgba(139, 92, 246, 0.3)';
                     for (let i = 0; i < 3; i++) {
@@ -2265,23 +2308,24 @@
             }
 
             async load() {
-                const saved = await this.db.getMemoryContext();
-                if (saved) {
-                    this.memory = { ...this.memory, ...saved };
-                }
+                try {
+                    const saved = await this.db.getMemoryContext();
+                    if (saved) {
+                        this.memory = { ...this.memory, ...saved };
+                    }
+                } catch (e) { console.warn('Memory load failed:', e); }
                 this.initialized = true;
                 return this.memory;
             }
 
             async save() {
-                await this.db.saveMemoryContext(this.memory);
+                try { await this.db.saveMemoryContext(this.memory); } catch (e) { console.warn('Memory save failed:', e); }
             }
 
             updateFromMessage(text) {
                 const lower = text.toLowerCase();
                 let updated = false;
 
-                // Trauma detection
                 if (lower.includes('1994') || lower.includes('jenoside')) {
                     if (!this.memory.trauma_1994) {
                         this.memory.trauma_1994 = true;
@@ -2290,7 +2334,6 @@
                     }
                 }
 
-                // PTSD indicators
                 const ptsdKeywords = ['flashback', 'kwibuka', 'byongera', 'guhita', 'gutinya'];
                 for (const kw of ptsdKeywords) {
                     if (lower.includes(kw)) {
@@ -2302,7 +2345,6 @@
                     }
                 }
 
-                // Sensory triggers
                 const sensoryKeywords = ['impumuro', 'amajwi', 'ijwi', 'urwamo', 'ahantu'];
                 for (const kw of sensoryKeywords) {
                     if (lower.includes(kw)) {
@@ -2314,7 +2356,6 @@
                     }
                 }
 
-                // Grief
                 if (lower.includes('agahinda') || lower.includes('babaye') || lower.includes('baratakaye')) {
                     if (!this.memory.grief_persistent) {
                         this.memory.grief_persistent = true;
@@ -2322,7 +2363,6 @@
                     }
                 }
 
-                // Hopelessness
                 if (lower.includes('ntakibazo') || lower.includes('birangiye') || lower.includes('nta cyizere')) {
                     if (!this.memory.hopelessness) {
                         this.memory.hopelessness = true;
@@ -2330,7 +2370,6 @@
                     }
                 }
 
-                // Avoidance
                 if (lower.includes('kwirinda') || lower.includes('kwanga') || lower.includes('sinjya')) {
                     if (!this.memory.avoidance) {
                         this.memory.avoidance = true;
@@ -2338,7 +2377,6 @@
                     }
                 }
 
-                // Track triggers
                 const triggerKeywords = ['gutinya', 'guhangayika', 'ubwoba', 'bitera ubwoba'];
                 for (const kw of triggerKeywords) {
                     if (lower.includes(kw)) {
@@ -2350,7 +2388,6 @@
                     }
                 }
 
-                // Track coping strategies mentioned
                 const copingKeywords = ['kwihangana', 'kwitaho', 'gukora imyitozo', 'guhumeka', 'gusenga'];
                 for (const kw of copingKeywords) {
                     if (lower.includes(kw)) {
@@ -2403,9 +2440,10 @@
                 this.app = app;
                 this.riskLevel = 0;
                 this.lastCheckIn = Date.now();
-                this.checkInInterval = 4 * 60 * 60 * 1000; // 4 hours
+                this.checkInInterval = 4 * 60 * 60 * 1000;
                 this.active = false;
                 this.emergencyContacts = [];
+                this.checkInTimer = null;
             }
 
             start() {
@@ -2415,8 +2453,8 @@
             }
 
             scheduleCheckIns() {
-                // Check every 4 hours
-                setInterval(() => {
+                if (this.checkInTimer) clearInterval(this.checkInTimer);
+                this.checkInTimer = setInterval(() => {
                     if (this.active) {
                         this.performCheckIn();
                     }
@@ -2425,20 +2463,15 @@
 
             async performCheckIn() {
                 if (!this.active) return;
-
-                // Only if user has been active recently
-                const lastActivity = await this.db.getSettings('lastActivity') || 0;
-                if (Date.now() - lastActivity > 12 * 60 * 60 * 1000) return;
-
-                // Ask mood
-                this.app.showToast('💚 Uko wumva? Nyamuneka utange igisubizo.', 'info');
-
-                // Wait for response or time out
-                const response = await this.waitForResponse(120000); // 2 minutes
-
-                if (response) {
-                    this.analyzeRisk(response);
-                }
+                try {
+                    const lastActivity = await this.db.getSettings('lastActivity') || 0;
+                    if (Date.now() - lastActivity > 12 * 60 * 60 * 1000) return;
+                    this.app.showToast('💚 Uko wumva? Nyamuneka utange igisubizo.', 'info');
+                    const response = await this.waitForResponse(120000);
+                    if (response) {
+                        this.analyzeRisk(response);
+                    }
+                } catch (e) { console.warn('Check-in failed:', e); }
             }
 
             waitForResponse(timeout) {
@@ -2483,7 +2516,6 @@
                     this.offerSupport();
                 }
 
-                // Save risk level
                 this.db.setSettings('lastRiskLevel', risk);
                 this.db.setSettings('lastRiskTime', Date.now());
             }
@@ -2491,7 +2523,6 @@
             activateSafetyProtocol() {
                 this.app.showCrisisModal();
                 this.app.showToast('🚨 Ukeneye ubufasha bwihutirwa!', 'error');
-                // Log incident
                 this.db.saveConversation({
                     id: generateId(),
                     title: '🚨 Crisis Alert',
@@ -2506,19 +2537,17 @@
             }
 
             monitorPatterns() {
-                // Check for patterns in mood history
                 setInterval(async () => {
-                    const moods = await this.db.getMoodHistory(7);
-                    if (moods.length < 3) return;
-
-                    // Check for declining mood trend
-                    const recent = moods.slice(-5);
-                    const avg = recent.reduce((a, b) => a + b.mood, 0) / recent.length;
-
-                    if (avg < 2.5) {
-                        this.app.showToast('💚 Ndi hano ngo nkugire. Waba ushaka kuvuga?', 'info');
-                    }
-                }, 24 * 60 * 60 * 1000); // Check daily
+                    try {
+                        const moods = await this.db.getMoodHistory(7);
+                        if (moods.length < 3) return;
+                        const recent = moods.slice(-5);
+                        const avg = recent.reduce((a, b) => a + b.mood, 0) / recent.length;
+                        if (avg < 2.5) {
+                            this.app.showToast('💚 Ndi hano ngo nkugire. Waba ushaka kuvuga?', 'info');
+                        }
+                    } catch (e) { console.warn('Pattern monitor failed:', e); }
+                }, 24 * 60 * 60 * 1000);
             }
         }
 
@@ -2549,12 +2578,6 @@
                         "Urugendo rw'umunyarwanda, rurangwa n'umutima."
                     ]
                 };
-
-                this.culturalEvents = {
-                    genocideMemorial: { month: 4, day: 7 },
-                    umuganura: { month: 8, day: 1 }, // First Friday of August
-                    kwibuka: { month: 4, day: 7 }
-                };
             }
 
             getProverb(context) {
@@ -2572,7 +2595,6 @@
                 const month = now.getMonth() + 1;
                 const day = now.getDate();
 
-                // Check for genocide memorial period (April 7 - July 4)
                 if (month === 4 && day >= 7 || month === 5 || month === 6 || month === 7 && day <= 4) {
                     return {
                         period: 'kwibuka',
@@ -2589,7 +2611,6 @@
 
                 let adapted = response;
 
-                // Add proverb if trauma context
                 if (memory.isTraumaContext()) {
                     adapted += `<div class="proverb-box">
                         <span class="response-emoji">🌿</span>
@@ -2597,7 +2618,6 @@
                     </div>`;
                 }
 
-                // Add cultural context message
                 if (cultural.message) {
                     adapted += `<div style="padding:8px 12px;background:rgba(139,92,246,0.05);border-radius:8px;font-size:0.8rem;color:var(--color-text-tertiary);margin-top:8px;">
                         <i class="fas fa-info-circle"></i> ${cultural.message}
@@ -2628,76 +2648,78 @@
             }
 
             async startJournal() {
-                const prompt = this.prompts[Math.floor(Math.random() * this.prompts.length)];
-                this.currentPrompt = prompt;
+                try {
+                    const prompt = this.prompts[Math.floor(Math.random() * this.prompts.length)];
+                    this.currentPrompt = prompt;
 
-                // Show journal modal
-                const modal = document.createElement('div');
-                modal.className = 'modal-backdrop active';
-                modal.innerHTML = `
-                    <div class="modal" style="max-width:500px;">
-                        <div class="modal-header">
-                            <h3 class="modal-title">📝 Journal y'umunsi</h3>
-                            <button class="modal-close" id="journalClose">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <p style="color:var(--color-text-secondary);margin-bottom:12px;font-size:1.05rem;">${prompt}</p>
-                            <textarea id="journalInput" style="width:100%;padding:12px;background:var(--color-surface-700);border:1px solid var(--color-surface-500);border-radius:12px;color:var(--color-text-primary);font-family:inherit;font-size:0.95rem;resize:vertical;min-height:120px;" placeholder="Andika ibyo utekereza..."></textarea>
-                            <div style="display:flex;gap:8px;margin-top:12px;">
-                                <button class="btn-secondary" id="journalSave" style="flex:1;background:var(--gradient-primary);color:white;border:none;">Bika Journal</button>
-                                <button class="btn-secondary" id="journalSkip">Reka</button>
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-backdrop active';
+                    modal.innerHTML = `
+                        <div class="modal" style="max-width:500px;">
+                            <div class="modal-header">
+                                <h3 class="modal-title">📝 Journal y'umunsi</h3>
+                                <button class="modal-close" id="journalClose">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p style="color:var(--color-text-secondary);margin-bottom:12px;font-size:1.05rem;">${prompt}</p>
+                                <textarea id="journalInput" style="width:100%;padding:12px;background:var(--color-surface-700);border:1px solid var(--color-surface-500);border-radius:12px;color:var(--color-text-primary);font-family:inherit;font-size:0.95rem;resize:vertical;min-height:120px;" placeholder="Andika ibyo utekereza..."></textarea>
+                                <div style="display:flex;gap:8px;margin-top:12px;">
+                                    <button class="btn-secondary" id="journalSave" style="flex:1;background:var(--gradient-primary);color:white;border:none;">Bika Journal</button>
+                                    <button class="btn-secondary" id="journalSkip">Reka</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
+                    `;
+                    document.body.appendChild(modal);
 
-                const input = document.getElementById('journalInput');
-                const save = document.getElementById('journalSave');
-                const skip = document.getElementById('journalSkip');
-                const close = document.getElementById('journalClose');
+                    const input = document.getElementById('journalInput');
+                    const save = document.getElementById('journalSave');
+                    const skip = document.getElementById('journalSkip');
+                    const close = document.getElementById('journalClose');
 
-                const saveEntry = async () => {
-                    const text = input.value.trim();
-                    if (text) {
-                        await this.saveEntry(text);
-                        this.app.showToast('📝 Journal yabitswe!', 'success');
-                    }
-                    modal.remove();
-                };
+                    const saveEntry = async () => {
+                        const text = input.value.trim();
+                        if (text) {
+                            await this.saveEntry(text);
+                            this.app.showToast('📝 Journal yabitswe!', 'success');
+                        }
+                        modal.remove();
+                    };
 
-                save.onclick = saveEntry;
-                skip.onclick = () => modal.remove();
-                close.onclick = () => modal.remove();
+                    save.onclick = saveEntry;
+                    skip.onclick = () => modal.remove();
+                    close.onclick = () => modal.remove();
 
-                input.onkeydown = (e) => {
-                    if (e.key === 'Enter' && e.ctrlKey) {
-                        e.preventDefault();
-                        saveEntry();
-                    }
-                };
+                    input.onkeydown = (e) => {
+                        if (e.key === 'Enter' && e.ctrlKey) {
+                            e.preventDefault();
+                            saveEntry();
+                        }
+                    };
 
-                setTimeout(() => input.focus(), 300);
+                    setTimeout(() => input.focus(), 300);
+                } catch (e) { console.warn('Journal start failed:', e); }
             }
 
             async saveEntry(text) {
-                const analysis = this.analyzeEntry(text);
-                const entry = {
-                    text,
-                    prompt: this.currentPrompt,
-                    analysis,
-                    timestamp: Date.now()
-                };
-                await this.db.saveJournal(entry);
+                try {
+                    const analysis = this.analyzeEntry(text);
+                    const entry = {
+                        text,
+                        prompt: this.currentPrompt,
+                        analysis,
+                        timestamp: Date.now()
+                    };
+                    await this.db.saveJournal(entry);
 
-                // Show insight
-                if (analysis.insight) {
-                    setTimeout(() => {
-                        this.app.showToast(`💡 ${analysis.insight}`, 'info');
-                    }, 500);
-                }
+                    if (analysis.insight) {
+                        setTimeout(() => {
+                            this.app.showToast(`💡 ${analysis.insight}`, 'info');
+                        }, 500);
+                    }
 
-                return entry;
+                    return entry;
+                } catch (e) { console.warn('Journal save failed:', e); }
             }
 
             analyzeEntry(text) {
@@ -2709,7 +2731,6 @@
                     insight: null
                 };
 
-                // Emotion detection
                 if (lower.includes('ishimwe') || lower.includes('neza') || lower.includes('byiza')) {
                     analysis.emotion = 'joy';
                 } else if (lower.includes('babaye') || lower.includes('agahinda') || lower.includes('ndababaye')) {
@@ -2720,7 +2741,6 @@
                     analysis.emotion = 'anger';
                 }
 
-                // Theme detection
                 const themes = {
                     family: ['umuryango', 'ababyeyi', 'abana', 'umugore', 'umugabo'],
                     work: ['akazi', 'ishuri', 'umwuga', 'umukozi'],
@@ -2738,11 +2758,9 @@
                     }
                 }
 
-                // Stress level (simple heuristic)
                 const stressWords = ['guhangayika', 'birakomeye', 'birarengera', 'ntagishoboka', 'bibabaza'];
                 analysis.stressLevel = stressWords.filter(w => lower.includes(w)).length;
 
-                // Generate insight
                 if (analysis.emotion === 'sadness' && analysis.themes.includes('family')) {
                     analysis.insight = 'Ubucuti bw'umuryango bugira ingaruka ku byo wumva. Waba ushaka kuvuga byinshi?';
                 } else if (analysis.emotion === 'joy' && analysis.themes.includes('faith')) {
@@ -2757,31 +2775,33 @@
             }
 
             async getInsights(days = 7) {
-                const entries = await this.db.getJournalEntries(days);
-                if (entries.length < 3) return null;
+                try {
+                    const entries = await this.db.getJournalEntries(days);
+                    if (entries.length < 3) return null;
 
-                const emotions = entries.map(e => e.analysis?.emotion || 'neutral');
-                const themes = entries.flatMap(e => e.analysis?.themes || []);
+                    const emotions = entries.map(e => e.analysis?.emotion || 'neutral');
+                    const themes = entries.flatMap(e => e.analysis?.themes || []);
 
-                const emotionCounts = {};
-                for (const e of emotions) {
-                    emotionCounts[e] = (emotionCounts[e] || 0) + 1;
-                }
+                    const emotionCounts = {};
+                    for (const e of emotions) {
+                        emotionCounts[e] = (emotionCounts[e] || 0) + 1;
+                    }
 
-                const themeCounts = {};
-                for (const t of themes) {
-                    themeCounts[t] = (themeCounts[t] || 0) + 1;
-                }
+                    const themeCounts = {};
+                    for (const t of themes) {
+                        themeCounts[t] = (themeCounts[t] || 0) + 1;
+                    }
 
-                const dominantEmotion = Object.entries(emotionCounts).reduce((a, b) => a[1] > b[1] ? a : b)[0];
-                const dominantTheme = Object.entries(themeCounts).reduce((a, b) => a[1] > b[1] ? a : b)?.[0];
+                    const dominantEmotion = Object.entries(emotionCounts).reduce((a, b) => a[1] > b[1] ? a : b)[0];
+                    const dominantTheme = Object.entries(themeCounts).reduce((a, b) => a[1] > b[1] ? a : b)?.[0];
 
-                let insight = `📊 Muri iki cyumweru, wagiye wumva ${dominantEmotion} cyane.`;
-                if (dominantTheme) {
-                    insight += ` Ibyo uvuga byinshi bijyanye na ${dominantTheme}.`;
-                }
+                    let insight = `📊 Muri iki cyumweru, wagiye wumva ${dominantEmotion} cyane.`;
+                    if (dominantTheme) {
+                        insight += ` Ibyo uvuga byinshi bijyanye na ${dominantTheme}.`;
+                    }
 
-                return insight;
+                    return insight;
+                } catch { return null; }
             }
         }
 
@@ -2800,134 +2820,135 @@
             }
 
             showCommunity() {
-                const modal = document.createElement('div');
-                modal.className = 'modal-backdrop active';
-                modal.innerHTML = `
-                    <div class="modal" style="max-width:500px;">
-                        <div class="modal-header">
-                            <h3 class="modal-title">👥 Amatsinda y'inkunga</h3>
-                            <button class="modal-close" id="communityClose">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <p style="color:var(--color-text-secondary);margin-bottom:16px;">
-                                Hano ushobora kuganira n'abandi bagenzi b'urugendo.
-                            </p>
-                            ${this.groups.map(g => `
-                                <div style="padding:12px 16px;background:var(--color-surface-700);border:1px solid var(--color-surface-500);border-radius:12px;margin-bottom:8px;cursor:pointer;" class="community-group" data-id="${g.id}">
-                                    <div style="font-weight:600;">${g.name}</div>
-                                    <div style="font-size:0.8rem;color:var(--color-text-tertiary);">${g.topic} · ${g.members} abantu</div>
+                try {
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-backdrop active';
+                    modal.innerHTML = `
+                        <div class="modal" style="max-width:500px;">
+                            <div class="modal-header">
+                                <h3 class="modal-title">👥 Amatsinda y'inkunga</h3>
+                                <button class="modal-close" id="communityClose">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p style="color:var(--color-text-secondary);margin-bottom:16px;">
+                                    Hano ushobora kuganira n'abandi bagenzi b'urugendo.
+                                </p>
+                                ${this.groups.map(g => `
+                                    <div style="padding:12px 16px;background:var(--color-surface-700);border:1px solid var(--color-surface-500);border-radius:12px;margin-bottom:8px;cursor:pointer;" class="community-group" data-id="${g.id}">
+                                        <div style="font-weight:600;">${g.name}</div>
+                                        <div style="font-size:0.8rem;color:var(--color-text-tertiary);">${g.topic} · ${g.members} abantu</div>
+                                    </div>
+                                `).join('')}
+                                <div style="margin-top:12px;font-size:0.7rem;color:var(--color-text-muted);">
+                                    <i class="fas fa-shield-alt"></i> Byose ni ibanga · Nta kuvangura
                                 </div>
-                            `).join('')}
-                            <div style="margin-top:12px;font-size:0.7rem;color:var(--color-text-muted);">
-                                <i class="fas fa-shield-alt"></i> Byose ni ibanga · Nta kuvangura
                             </div>
                         </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
+                    `;
+                    document.body.appendChild(modal);
 
-                modal.querySelector('#communityClose').onclick = () => modal.remove();
+                    modal.querySelector('#communityClose').onclick = () => modal.remove();
 
-                modal.querySelectorAll('.community-group').forEach(el => {
-                    el.onclick = () => {
-                        const id = el.dataset.id;
-                        this.joinGroup(id);
-                        modal.remove();
-                    };
-                });
+                    modal.querySelectorAll('.community-group').forEach(el => {
+                        el.onclick = () => {
+                            const id = el.dataset.id;
+                            this.joinGroup(id);
+                            modal.remove();
+                        };
+                    });
 
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) modal.remove();
-                });
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) modal.remove();
+                    });
+                } catch (e) { console.warn('Community show failed:', e); }
             }
 
             joinGroup(groupId) {
-                const group = this.groups.find(g => g.id === groupId);
-                if (!group) return;
+                try {
+                    const group = this.groups.find(g => g.id === groupId);
+                    if (!group) return;
 
-                // Show group chat simulation
-                const modal = document.createElement('div');
-                modal.className = 'modal-backdrop active';
-                modal.innerHTML = `
-                    <div class="modal" style="max-width:500px;max-height:80vh;">
-                        <div class="modal-header">
-                            <h3 class="modal-title">${group.name}</h3>
-                            <button class="modal-close" id="groupClose">&times;</button>
-                        </div>
-                        <div class="modal-body" style="overflow-y:auto;max-height:50vh;">
-                            <div style="padding:8px 12px;background:rgba(139,92,246,0.05);border-radius:8px;margin-bottom:12px;font-size:0.8rem;color:var(--color-text-tertiary);">
-                                <i class="fas fa-info-circle"></i> Nta kuvangura · Kuganira mu mahoro
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-backdrop active';
+                    modal.innerHTML = `
+                        <div class="modal" style="max-width:500px;max-height:80vh;">
+                            <div class="modal-header">
+                                <h3 class="modal-title">${group.name}</h3>
+                                <button class="modal-close" id="groupClose">&times;</button>
                             </div>
-                            <div id="groupMessages">
-                                <div style="padding:8px 12px;background:var(--color-surface-700);border-radius:8px;margin-bottom:6px;font-size:0.9rem;">
-                                    <span style="color:var(--color-secondary-400);">Mugisha:</span> Muraho! Ndashaka kuvuga ibyo mpangamano.
+                            <div class="modal-body" style="overflow-y:auto;max-height:50vh;">
+                                <div style="padding:8px 12px;background:rgba(139,92,246,0.05);border-radius:8px;margin-bottom:12px;font-size:0.8rem;color:var(--color-text-tertiary);">
+                                    <i class="fas fa-info-circle"></i> Nta kuvangura · Kuganira mu mahoro
                                 </div>
-                                <div style="padding:8px 12px;background:var(--color-surface-700);border-radius:8px;margin-bottom:6px;font-size:0.9rem;">
-                                    <span style="color:var(--color-primary-400);">Claudine:</span> Murakaza neza! Ndi hano ngo nkumve.
+                                <div id="groupMessages">
+                                    <div style="padding:8px 12px;background:var(--color-surface-700);border-radius:8px;margin-bottom:6px;font-size:0.9rem;">
+                                        <span style="color:var(--color-secondary-400);">Mugisha:</span> Muraho! Ndashaka kuvuga ibyo mpangamano.
+                                    </div>
+                                    <div style="padding:8px 12px;background:var(--color-surface-700);border-radius:8px;margin-bottom:6px;font-size:0.9rem;">
+                                        <span style="color:var(--color-primary-400);">Claudine:</span> Murakaza neza! Ndi hano ngo nkumve.
+                                    </div>
+                                    <div style="padding:8px 12px;background:rgba(139,92,246,0.05);border-radius:8px;margin-bottom:6px;font-size:0.85rem;color:var(--color-text-tertiary);font-style:italic;">
+                                        <i class="fas fa-robot"></i> TYAZA: Muri iki gikorwa, dusaba ko mwubahana kandi muganira mu mahoro.
+                                    </div>
                                 </div>
-                                <div style="padding:8px 12px;background:rgba(139,92,246,0.05);border-radius:8px;margin-bottom:6px;font-size:0.85rem;color:var(--color-text-tertiary);font-style:italic;">
-                                    <i class="fas fa-robot"></i> TYAZA: Muri iki gikorwa, dusaba ko mwubahana kandi muganira mu mahoro.
+                                <div style="display:flex;gap:8px;margin-top:12px;">
+                                    <input type="text" id="groupInput" placeholder="Andika ubutumwa..." style="flex:1;padding:10px 14px;background:var(--color-surface-700);border:1px solid var(--color-surface-500);border-radius:12px;color:var(--color-text-primary);font-family:inherit;">
+                                    <button class="btn-secondary" id="groupSend" style="background:var(--gradient-primary);color:white;border:none;padding:10px 16px;">Ohereza</button>
+                                </div>
+                                <div style="margin-top:8px;font-size:0.7rem;color:var(--color-text-muted);">
+                                    ⚠️ Ubutumwa bwose bugenzurwa n'itangazamakuru rya AI
                                 </div>
                             </div>
-                            <div style="display:flex;gap:8px;margin-top:12px;">
-                                <input type="text" id="groupInput" placeholder="Andika ubutumwa..." style="flex:1;padding:10px 14px;background:var(--color-surface-700);border:1px solid var(--color-surface-500);border-radius:12px;color:var(--color-text-primary);font-family:inherit;">
-                                <button class="btn-secondary" id="groupSend" style="background:var(--gradient-primary);color:white;border:none;padding:10px 16px;">Ohereza</button>
-                            </div>
-                            <div style="margin-top:8px;font-size:0.7rem;color:var(--color-text-muted);">
-                                ⚠️ Ubutumwa bwose bugenzurwa n'itangazamakuru rya AI
-                            </div>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
-
-                const input = document.getElementById('groupInput');
-                const send = document.getElementById('groupSend');
-                const messagesDiv = document.getElementById('groupMessages');
-
-                const sendMessage = () => {
-                    const text = input.value.trim();
-                    if (!text) return;
-
-                    // Add user message
-                    messagesDiv.innerHTML += `
-                        <div style="padding:8px 12px;background:var(--color-surface-700);border-radius:8px;margin-bottom:6px;font-size:0.9rem;border-left:2px solid var(--color-secondary-400);">
-                            <span style="color:var(--color-secondary-400);">Wowe:</span> ${escapeHtml(text)}
                         </div>
                     `;
+                    document.body.appendChild(modal);
 
-                    // Simulate AI response
-                    setTimeout(() => {
-                        const responses = [
-                            'Ndumva neza. Urakoze kuganira!',
-                            'Ibyo ni ibintu bya bugome. Urakomeye!',
-                            'Ndi hano ngo nkumve. Ushaka kuvuga byinshi?',
-                            'Uru rugendo ni urure. Nturi wenyine.'
-                        ];
-                        const reply = responses[Math.floor(Math.random() * responses.length)];
+                    const input = document.getElementById('groupInput');
+                    const send = document.getElementById('groupSend');
+                    const messagesDiv = document.getElementById('groupMessages');
+
+                    const sendMessage = () => {
+                        const text = input.value.trim();
+                        if (!text) return;
+
                         messagesDiv.innerHTML += `
-                            <div style="padding:8px 12px;background:rgba(139,92,246,0.05);border-radius:8px;margin-bottom:6px;font-size:0.9rem;border-left:2px solid var(--color-primary-400);">
-                                <span style="color:var(--color-primary-400);">TYAZA:</span> ${reply}
+                            <div style="padding:8px 12px;background:var(--color-surface-700);border-radius:8px;margin-bottom:6px;font-size:0.9rem;border-left:2px solid var(--color-secondary-400);">
+                                <span style="color:var(--color-secondary-400);">Wowe:</span> ${escapeHtml(text)}
                             </div>
                         `;
+
+                        setTimeout(() => {
+                            const responses = [
+                                'Ndumva neza. Urakoze kuganira!',
+                                'Ibyo ni ibintu bya bugome. Urakomeye!',
+                                'Ndi hano ngo nkumve. Ushaka kuvuga byinshi?',
+                                'Uru rugendo ni urure. Nturi wenyine.'
+                            ];
+                            const reply = responses[Math.floor(Math.random() * responses.length)];
+                            messagesDiv.innerHTML += `
+                                <div style="padding:8px 12px;background:rgba(139,92,246,0.05);border-radius:8px;margin-bottom:6px;font-size:0.9rem;border-left:2px solid var(--color-primary-400);">
+                                    <span style="color:var(--color-primary-400);">TYAZA:</span> ${reply}
+                                </div>
+                            `;
+                            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+                        }, 1000);
+
+                        input.value = '';
                         messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                    }, 1000);
+                    };
 
-                    input.value = '';
-                    messagesDiv.scrollTop = messagesDiv.scrollHeight;
-                };
+                    send.onclick = sendMessage;
+                    input.onkeydown = (e) => {
+                        if (e.key === 'Enter') sendMessage();
+                    };
 
-                send.onclick = sendMessage;
-                input.onkeydown = (e) => {
-                    if (e.key === 'Enter') sendMessage();
-                };
+                    modal.querySelector('#groupClose').onclick = () => modal.remove();
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) modal.remove();
+                    });
 
-                modal.querySelector('#groupClose').onclick = () => modal.remove();
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) modal.remove();
-                });
-
-                setTimeout(() => input.focus(), 300);
+                    setTimeout(() => input.focus(), 300);
+                } catch (e) { console.warn('Join group failed:', e); }
             }
         }
 
@@ -2945,48 +2966,50 @@
             }
 
             showTherapists() {
-                const modal = document.createElement('div');
-                modal.className = 'modal-backdrop active';
-                modal.innerHTML = `
-                    <div class="modal" style="max-width:500px;">
-                        <div class="modal-header">
-                            <h3 class="modal-title">🏥 Abajyanama b'ubuzima bwo mu mutwe</h3>
-                            <button class="modal-close" id="therapistClose">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <p style="color:var(--color-text-secondary);margin-bottom:16px;">
-                                Ushobora guhura n'umujyanama ukugira inama.
-                            </p>
-                            ${this.therapists.map(t => `
-                                <div style="padding:12px 16px;background:var(--color-surface-700);border:1px solid var(--color-surface-500);border-radius:12px;margin-bottom:8px;">
-                                    <div style="font-weight:600;">${t.name}</div>
-                                    <div style="font-size:0.8rem;color:var(--color-text-tertiary);">${t.specialty} · ${t.location}</div>
-                                    <button class="btn-secondary btn-sm" style="margin-top:6px;background:var(--gradient-primary);color:white;border:none;" data-therapist="${t.name}">
-                                        <i class="fas fa-calendar"></i> Gahunda session
-                                    </button>
+                try {
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-backdrop active';
+                    modal.innerHTML = `
+                        <div class="modal" style="max-width:500px;">
+                            <div class="modal-header">
+                                <h3 class="modal-title">🏥 Abajyanama b'ubuzima bwo mu mutwe</h3>
+                                <button class="modal-close" id="therapistClose">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p style="color:var(--color-text-secondary);margin-bottom:16px;">
+                                    Ushobora guhura n'umujyanama ukugira inama.
+                                </p>
+                                ${this.therapists.map(t => `
+                                    <div style="padding:12px 16px;background:var(--color-surface-700);border:1px solid var(--color-surface-500);border-radius:12px;margin-bottom:8px;">
+                                        <div style="font-weight:600;">${t.name}</div>
+                                        <div style="font-size:0.8rem;color:var(--color-text-tertiary);">${t.specialty} · ${t.location}</div>
+                                        <button class="btn-secondary btn-sm" style="margin-top:6px;background:var(--gradient-primary);color:white;border:none;" data-therapist="${t.name}">
+                                            <i class="fas fa-calendar"></i> Gahunda session
+                                        </button>
+                                    </div>
+                                `).join('')}
+                                <div style="margin-top:12px;font-size:0.7rem;color:var(--color-text-muted);">
+                                    <i class="fas fa-info-circle"></i> TYAZA igufasha gusanga abajyanama b'ubuzima bwo mu mutwe
                                 </div>
-                            `).join('')}
-                            <div style="margin-top:12px;font-size:0.7rem;color:var(--color-text-muted);">
-                                <i class="fas fa-info-circle"></i> TYAZA igufasha gusanga abajyanama b'ubuzima bwo mu mutwe
                             </div>
                         </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
+                    `;
+                    document.body.appendChild(modal);
 
-                modal.querySelector('#therapistClose').onclick = () => modal.remove();
+                    modal.querySelector('#therapistClose').onclick = () => modal.remove();
 
-                modal.querySelectorAll('[data-therapist]').forEach(btn => {
-                    btn.onclick = () => {
-                        const name = btn.dataset.therapist;
-                        this.app.showToast(`📅 Session yasabwe na ${name}. Bazakubona vuba.`, 'success');
-                        modal.remove();
-                    };
-                });
+                    modal.querySelectorAll('[data-therapist]').forEach(btn => {
+                        btn.onclick = () => {
+                            const name = btn.dataset.therapist;
+                            this.app.showToast(`📅 Session yasabwe na ${name}. Bazakubona vuba.`, 'success');
+                            modal.remove();
+                        };
+                    });
 
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) modal.remove();
-                });
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) modal.remove();
+                    });
+                } catch (e) { console.warn('Therapists show failed:', e); }
             }
         }
 
@@ -3011,7 +3034,7 @@
                     { id: 'resilience', name: 'Resilience', icon: '💪', condition: (s) => s.streak >= 7 },
                     { id: 'hope', name: 'Hope', icon: '🌟', condition: (s) => s.moodTrend >= 0.5 },
                     { id: 'healing', name: 'Healing', icon: '💚', condition: (s) => s.totalSessions >= 30 && s.moodTrend >=
-                        0.5 }
+                            0.5 }
                 ];
 
                 this.state = {
@@ -3024,43 +3047,46 @@
             }
 
             async loadState() {
-                const saved = await this.db.getSettings('gamification');
-                if (saved) {
-                    this.state = { ...this.state, ...saved };
-                }
-                // Check achievements
-                await this.checkAchievements();
+                try {
+                    const saved = await this.db.getSettings('gamification');
+                    if (saved) {
+                        this.state = { ...this.state, ...saved };
+                    }
+                    await this.checkAchievements();
+                } catch (e) { console.warn('Gamification load failed:', e); }
                 return this.state;
             }
 
             async saveState() {
-                await this.db.setSettings('gamification', this.state);
+                try { await this.db.setSettings('gamification', this.state); } catch (e) { console.warn(
+                        'Gamification save failed:', e); }
             }
 
             async updateStats(sessionData) {
                 this.state.totalSessions++;
 
-                // Check if trauma was shared
                 if (sessionData.traumaShared) {
                     this.state.traumaShared = true;
                 }
 
-                // Update streak
-                const lastActivity = await this.db.getSettings('lastActivity') || 0;
-                const daysSince = Math.floor((Date.now() - lastActivity) / 86400000);
-                if (daysSince <= 1) {
-                    this.state.currentStreak++;
-                } else if (daysSince > 1) {
-                    this.state.currentStreak = 1;
-                }
+                try {
+                    const lastActivity = await this.db.getSettings('lastActivity') || 0;
+                    const daysSince = Math.floor((Date.now() - lastActivity) / 86400000);
+                    if (daysSince <= 1) {
+                        this.state.currentStreak++;
+                    } else if (daysSince > 1) {
+                        this.state.currentStreak = 1;
+                    }
+                } catch { this.state.currentStreak = 1; }
 
-                // Update mood trend
-                const moods = await this.db.getMoodHistory(7);
-                if (moods.length >= 2) {
-                    const first = moods[0]?.mood || 3;
-                    const last = moods[moods.length - 1]?.mood || 3;
-                    this.state.moodTrend = (last - first) / 5;
-                }
+                try {
+                    const moods = await this.db.getMoodHistory(7);
+                    if (moods.length >= 2) {
+                        const first = moods[0]?.mood || 3;
+                        const last = moods[moods.length - 1]?.mood || 3;
+                        this.state.moodTrend = (last - first) / 5;
+                    }
+                } catch { /* ignore */ }
 
                 await this.saveState();
                 await this.checkAchievements();
@@ -3147,7 +3173,6 @@
                 this.elements = this.initElements();
                 this.voiceFallback = false;
 
-                // Bind voice handlers
                 this.voice.onResult = (text) => {
                     this.elements.messageInput.value = text;
                     this.elements.sttText.textContent = text || 'ndakumva...';
@@ -3204,70 +3229,84 @@
             }
 
             async init() {
-                if (this.initialized) return;
-                this.initialized = true;
+                try {
+                    if (this.initialized) return;
+                    this.initialized = true;
 
-                this.elements.loadingText.textContent = 'Kubona amakuru...';
+                    this.elements.loadingText.textContent = 'Kubona amakuru...';
 
-                await this.db.init();
-                await this.memory.load();
+                    await this.db.init();
+                    await this.memory.load();
 
-                this.elements.loadingText.textContent = 'Kugira amahoro...';
+                    this.elements.loadingText.textContent = 'Kugira amahoro...';
 
-                // Load profile
-                const profile = await this.db.getUserProfile();
-                if (profile) {
-                    this.userName = profile.name || null;
+                    try {
+                        const profile = await this.db.getUserProfile();
+                        if (profile) {
+                            this.userName = profile.name || null;
+                        }
+                    } catch (e) { console.warn('Profile load failed:', e); }
+
+                    try {
+                        await this.gamification.loadState();
+                    } catch (e) { console.warn('Gamification load failed:', e); }
+
+                    this.elements.loadingText.textContent = 'Itegura...';
+
+                    try {
+                        this.crisis.start();
+                    } catch (e) { console.warn('Crisis prevention start failed:', e); }
+
+                    this.updateProfileDisplay();
+                    this.updateGamificationDisplay();
+
+                    this.bindEvents();
+
+                    try {
+                        await this.loadHistory();
+                    } catch (e) { console.warn('History load failed:', e); }
+
+                    setTimeout(() => {
+                        this.avatar.setExpression('smiling', 4);
+                        if (this.elements.welcomeGreeting) {
+                            this.elements.welcomeGreeting.style.opacity = '1';
+                        }
+                    }, 500);
+
+                    this.checkMobileVoice();
+                    this.checkJournalPrompt();
+
+                    console.log('🚀 TYAZA 10.0 Enhanced');
+                    console.log('📦 Features: Voice+Emotion, Avatar, Memory, Crisis, Cultural, Journal, Community, Professional, Gamification');
+
+                } catch (error) {
+                    console.error('Init failed:', error);
+                    this.showToast('⚠️ Habaye ikibazo, ariko TYAZA ikomeje.', 'error');
+                } finally {
+                    // ALWAYS hide loading screen with fallback timeouts
+                    setTimeout(() => {
+                        this.elements.loadingScreen.classList.add('hidden');
+                    }, 500);
+
+                    // Force hide after 3 seconds max
+                    setTimeout(() => {
+                        this.elements.loadingScreen.classList.add('hidden');
+                    }, 3000);
                 }
-
-                // Load gamification
-                await this.gamification.loadState();
-
-                this.elements.loadingText.textContent = 'Itegura...';
-
-                // Start crisis prevention
-                this.crisis.start();
-
-                // Update UI
-                this.updateProfileDisplay();
-                this.updateGamificationDisplay();
-
-                this.bindEvents();
-                await this.loadHistory();
-
-                // Initial avatar greeting
-                setTimeout(() => {
-                    this.avatar.setExpression('smiling', 4);
-                    if (this.elements.welcomeGreeting) {
-                        this.elements.welcomeGreeting.style.opacity = '1';
-                    }
-                }, 500);
-
-                setTimeout(() => {
-                    this.elements.loadingScreen.classList.add('hidden');
-                }, 1200);
-
-                this.checkMobileVoice();
-
-                // Show journal prompt after a few sessions
-                this.checkJournalPrompt();
-
-                console.log('🚀 TYAZA 10.0 Enhanced');
-                console.log('📦 Features: Voice+Emotion, Avatar, Memory, Crisis, Cultural, Journal, Community, Professional, Gamification');
             }
 
             checkJournalPrompt() {
-                // After 3 sessions, suggest journaling
                 setTimeout(async () => {
-                    const sessions = await this.db.getConversations();
-                    if (sessions.length >= 3) {
-                        const lastJournal = await this.db.getJournalEntries(1);
-                        if (lastJournal.length === 0) {
-                            this.showToast('📝 Waba ushaka kwandika journal?', 'info');
-                            // Show journal button in sidebar
-                            this.addJournalButton();
+                    try {
+                        const sessions = await this.db.getConversations();
+                        if (sessions.length >= 3) {
+                            const lastJournal = await this.db.getJournalEntries(1);
+                            if (lastJournal.length === 0) {
+                                this.showToast('📝 Waba ushaka kwandika journal?', 'info');
+                                this.addJournalButton();
+                            }
                         }
-                    }
+                    } catch { /* ignore */ }
                 }, 5000);
             }
 
@@ -3298,41 +3337,43 @@
             }
 
             showVoiceDialog() {
-                const dialog = document.createElement('div');
-                dialog.style.cssText =
-                    'position:fixed;inset:0;background:rgba(3,0,20,0.95);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;z-index:600;';
-                dialog.innerHTML = `
-                    <div style="background:#130d24;border:2px solid #ec4899;border-radius:32px;padding:32px;max-width:90vw;width:400px;">
-                        <h3 style="color:#f8fafc;margin-bottom:16px;">🎤 Vuga cyangwa andika</h3>
-                        <input type="text" id="voiceFallbackInput" placeholder="Andika cyangwa vuga..." autofocus style="width:100%;padding:14px;border-radius:12px;background:#1a1433;color:white;border:1px solid #2d2352;font-size:1rem;margin-bottom:12px;">
-                        <div style="display:flex;gap:8px;">
-                            <button id="voiceFallbackSubmit" style="flex:1;padding:12px;border:none;border-radius:12px;background:var(--gradient-primary);color:white;cursor:pointer;font-family:inherit;">Ohereza</button>
-                            <button id="voiceFallbackCancel" style="padding:12px 16px;border:none;border-radius:12px;background:#1a1433;color:#94a3b8;cursor:pointer;font-family:inherit;">Reka</button>
+                try {
+                    const dialog = document.createElement('div');
+                    dialog.style.cssText =
+                        'position:fixed;inset:0;background:rgba(3,0,20,0.95);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;z-index:600;';
+                    dialog.innerHTML = `
+                        <div style="background:#130d24;border:2px solid #ec4899;border-radius:32px;padding:32px;max-width:90vw;width:400px;">
+                            <h3 style="color:#f8fafc;margin-bottom:16px;">🎤 Vuga cyangwa andika</h3>
+                            <input type="text" id="voiceFallbackInput" placeholder="Andika cyangwa vuga..." autofocus style="width:100%;padding:14px;border-radius:12px;background:#1a1433;color:white;border:1px solid #2d2352;font-size:1rem;margin-bottom:12px;">
+                            <div style="display:flex;gap:8px;">
+                                <button id="voiceFallbackSubmit" style="flex:1;padding:12px;border:none;border-radius:12px;background:var(--gradient-primary);color:white;cursor:pointer;font-family:inherit;">Ohereza</button>
+                                <button id="voiceFallbackCancel" style="padding:12px 16px;border:none;border-radius:12px;background:#1a1433;color:#94a3b8;cursor:pointer;font-family:inherit;">Reka</button>
+                            </div>
                         </div>
-                    </div>
-                `;
-                document.body.appendChild(dialog);
+                    `;
+                    document.body.appendChild(dialog);
 
-                const input = document.getElementById('voiceFallbackInput');
-                const submit = document.getElementById('voiceFallbackSubmit');
-                const cancel = document.getElementById('voiceFallbackCancel');
+                    const input = document.getElementById('voiceFallbackInput');
+                    const submit = document.getElementById('voiceFallbackSubmit');
+                    const cancel = document.getElementById('voiceFallbackCancel');
 
-                submit.onclick = () => {
-                    if (input.value.trim()) {
-                        this.elements.messageInput.value = input.value;
-                        this.handleInput();
-                        this.sendMessage();
-                        dialog.remove();
-                    }
-                };
+                    submit.onclick = () => {
+                        if (input.value.trim()) {
+                            this.elements.messageInput.value = input.value;
+                            this.handleInput();
+                            this.sendMessage();
+                            dialog.remove();
+                        }
+                    };
 
-                cancel.onclick = () => dialog.remove();
-                input.onkeydown = (e) => {
-                    if (e.key === 'Enter') submit.click();
-                    if (e.key === 'Escape') dialog.remove();
-                };
+                    cancel.onclick = () => dialog.remove();
+                    input.onkeydown = (e) => {
+                        if (e.key === 'Enter') submit.click();
+                        if (e.key === 'Escape') dialog.remove();
+                    };
 
-                setTimeout(() => input.focus(), 300);
+                    setTimeout(() => input.focus(), 300);
+                } catch (e) { console.warn('Voice dialog failed:', e); }
             }
 
             // ===== EVENT BINDING =====
@@ -3372,7 +3413,6 @@
                 this.elements.messagesContainer.addEventListener('scroll', () => this.handleScroll());
                 this.elements.scrollBottom.addEventListener('click', () => this.scrollToBottom());
 
-                // Suggestion buttons
                 document.querySelectorAll('.suggestion-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         this.elements.messageInput.value = btn.dataset.prompt;
@@ -3381,7 +3421,6 @@
                     });
                 });
 
-                // Mood quick select
                 document.querySelectorAll('.mood-btn-small').forEach(btn => {
                     btn.addEventListener('click', () => {
                         const mood = parseInt(btn.dataset.mood);
@@ -3389,7 +3428,6 @@
                     });
                 });
 
-                // Mood modal
                 this.elements.openMoodModal.addEventListener('click', () => this.openMoodModal());
                 this.elements.moodModalClose.addEventListener('click', () => this.closeMoodModal());
                 this.elements.moodModal.addEventListener('click', (e) => {
@@ -3399,14 +3437,13 @@
                 this.elements.moodScale.querySelectorAll('.mood-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
                         this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList
-                        .remove('selected'));
+                            .remove('selected'));
                         btn.classList.add('selected');
                     });
                 });
 
                 this.elements.saveMoodBtn.addEventListener('click', () => this.saveMood());
 
-                // Keyboard shortcuts
                 document.addEventListener('keydown', (e) => {
                     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                         e.preventDefault();
@@ -3453,7 +3490,6 @@
                 const text = this.elements.messageInput.value.trim();
                 if (!text || this.isGenerating) return;
 
-                // Check for name
                 const nameMatch = text.match(/(?:ndi|nitwa|izina ryanjye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i);
                 if (nameMatch) {
                     const name = nameMatch[1].trim();
@@ -3463,10 +3499,8 @@
                     this.showToast(`✨ Murakaza neza, ${name}!`, 'success');
                 }
 
-                // Update memory
                 this.memory.updateFromMessage(text);
 
-                // Check for crisis
                 const lower = text.toLowerCase();
                 if (lower.includes('kwiyahura') || lower.includes('gupfa') || lower.includes('kwikomeretsa')) {
                     this.crisis.riskLevel = 5;
@@ -3485,24 +3519,18 @@
                 this.isGenerating = true;
                 this.closeSidebar();
 
-                // Update avatar
                 this.avatar.setExpression('thinking', this.userMood);
 
                 try {
-                    // Generate response with cultural adaptation
                     const memoryContext = this.memory.memory;
                     const isTrauma = this.memory.isTraumaContext();
 
                     let response = this.generateResponse(text, memoryContext, isTrauma);
-
-                    // Cultural adaptation
                     response = this.cultural.adaptResponse(response, memoryContext, this.memory);
 
-                    // Voice emotion
                     const emotion = this.voice.detectEmotionFromText(text);
                     this.voice.speak(response, emotion.dominant);
 
-                    // Avatar expression based on response
                     const expr = isTrauma ? 'empathetic' :
                         emotion.dominant === 'joy' ? 'happy' :
                         emotion.dominant === 'sadness' ? 'sad' :
@@ -3512,19 +3540,13 @@
                     this.removeTyping(typingId);
                     this.addMessage('assistant', response);
 
-                    // Save conversation
                     await this.saveConversation(text, response);
-
-                    // Update gamification
                     await this.gamification.updateStats({
                         traumaShared: memoryContext.trauma_mentioned
                     });
                     this.updateGamificationDisplay();
-
-                    // Update profile
                     this.updateProfileDisplay();
 
-                    // Trigger journal prompt
                     const sessions = await this.db.getConversations();
                     if (sessions.length % 5 === 0) {
                         setTimeout(() => {
@@ -3546,7 +3568,6 @@
                 const name = this.userName || 'Mugisha';
                 let response = '';
 
-                // === ACKNOWLEDGE ===
                 if (isTrauma && memory.trauma_1994) {
                     response += `<div class="response-acknowledge">
                         <span class="response-emoji">🫂</span>
@@ -3559,7 +3580,6 @@
                     </div>`;
                 }
 
-                // === REFLECT ===
                 if (isTrauma) {
                     if (memory.sensory_triggers) {
                         response += `<div class="response-reflect">
@@ -3579,7 +3599,6 @@
                     </div>`;
                 }
 
-                // === GUIDE ===
                 if (isTrauma) {
                     response += `<div class="response-guide">
                         <span class="response-emoji">🌱</span>
@@ -3595,7 +3614,6 @@
                     </div>`;
                 }
 
-                // === SUPPORT ===
                 response += `<div class="response-support">
                     <span class="response-emoji">💚</span>
                     Ndi hano ngo nkumve. Ubu hari ikindi ushaka kuvuga?
@@ -3611,7 +3629,7 @@
 
                 const avatarContent = role === 'user' ?
                     '👤' :
-                    '<i class="fas fa-brain"></i>';
+                    '<img src="tyaza_logo.png" alt="TYAZA" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<i class=\\\'fas fa-brain\\\'></i>\'">';
 
                 msg.innerHTML = `
                     <div class="message-avatar">${avatarContent}</div>
@@ -3648,7 +3666,7 @@
                 typing.id = id;
                 typing.className = 'typing-indicator';
                 typing.innerHTML = `
-                    <div class="typing-avatar"><i class="fas fa-brain"></i></div>
+                    <div class="typing-avatar"><img src="tyaza_logo.png" alt="TYAZA" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\\'fas fa-brain\\'></i>'"></div>
                     <div class="typing-bubble">
                         <span class="typing-dot"></span>
                         <span class="typing-dot"></span>
@@ -3857,7 +3875,7 @@
                     const dayEnd = dayStart + 86400000;
                     const dayMoods = moods.filter(m => m.timestamp >= dayStart && m.timestamp < dayEnd);
                     const avg = dayMoods.length ? Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods.length) :
-                    0;
+                        0;
                     html += `<div class="mood-day mood-level-${avg}">${date.getDate()}</div>`;
                 }
                 this.elements.moodCalendar.innerHTML = html;
@@ -3865,49 +3883,51 @@
 
             // ===== CRISIS =====
             showCrisisModal() {
-                const modal = document.createElement('div');
-                modal.className = 'modal-backdrop active';
-                modal.innerHTML = `
-                    <div class="modal" style="max-width:600px;border-color:var(--color-error);">
-                        <div class="modal-header" style="border-bottom-color:var(--color-error);">
-                            <h3 class="modal-title" style="color:var(--color-error);">🚨 Ukeneye ubufasha bwihutirwa</h3>
-                            <button class="modal-close" id="crisisClose">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <p style="color:var(--color-text-secondary);margin-bottom:16px;">
-                                Niba wumva uri mu byago byihutirwa, ugomba gushaka ubufasha bwihuse.
-                            </p>
-                            <div style="display:flex;flex-direction:column;gap:12px;">
-                                <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:16px;padding:16px;">
-                                    <div style="font-weight:600;color:var(--color-error);">📞 Imitari y'inkunga</div>
-                                    <div style="font-size:1.5rem;font-weight:700;color:var(--color-error);">116</div>
-                                    <div style="font-size:0.8rem;color:var(--color-text-tertiary);">24/7 Crisis Line</div>
+                try {
+                    const modal = document.createElement('div');
+                    modal.className = 'modal-backdrop active';
+                    modal.innerHTML = `
+                        <div class="modal" style="max-width:600px;border-color:var(--color-error);">
+                            <div class="modal-header" style="border-bottom-color:var(--color-error);">
+                                <h3 class="modal-title" style="color:var(--color-error);">🚨 Ukeneye ubufasha bwihutirwa</h3>
+                                <button class="modal-close" id="crisisClose">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <p style="color:var(--color-text-secondary);margin-bottom:16px;">
+                                    Niba wumva uri mu byago byihutirwa, ugomba gushaka ubufasha bwihuse.
+                                </p>
+                                <div style="display:flex;flex-direction:column;gap:12px;">
+                                    <div style="background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:16px;padding:16px;">
+                                        <div style="font-weight:600;color:var(--color-error);">📞 Imitari y'inkunga</div>
+                                        <div style="font-size:1.5rem;font-weight:700;color:var(--color-error);">116</div>
+                                        <div style="font-size:0.8rem;color:var(--color-text-tertiary);">24/7 Crisis Line</div>
+                                    </div>
+                                    <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:16px;padding:16px;">
+                                        <div style="font-weight:600;color:var(--color-info);">🏥 Isange One Stop</div>
+                                        <div style="font-size:1.5rem;font-weight:700;color:var(--color-info);">3029</div>
+                                        <div style="font-size:0.8rem;color:var(--color-text-tertiary);">One Stop Center</div>
+                                    </div>
                                 </div>
-                                <div style="background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.2);border-radius:16px;padding:16px;">
-                                    <div style="font-weight:600;color:var(--color-info);">🏥 Isange One Stop</div>
-                                    <div style="font-size:1.5rem;font-weight:700;color:var(--color-info);">3029</div>
-                                    <div style="font-size:0.8rem;color:var(--color-text-tertiary);">One Stop Center</div>
+                                <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+                                    <button class="btn-secondary flex-1" id="crisisLater">Ndabibuka</button>
+                                    <button class="btn-secondary flex-1" id="crisisNow" style="background:var(--color-error);color:white;border:none;">
+                                        Mpambe noneho (116)
+                                    </button>
                                 </div>
                             </div>
-                            <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
-                                <button class="btn-secondary flex-1" id="crisisLater">Ndabibuka</button>
-                                <button class="btn-secondary flex-1" id="crisisNow" style="background:var(--color-error);color:white;border:none;">
-                                    Mpambe noneho (116)
-                                </button>
-                            </div>
                         </div>
-                    </div>
-                `;
-                document.body.appendChild(modal);
+                    `;
+                    document.body.appendChild(modal);
 
-                modal.querySelector('#crisisClose').onclick = () => modal.remove();
-                modal.querySelector('#crisisLater').onclick = () => modal.remove();
-                modal.querySelector('#crisisNow').onclick = () => {
-                    window.location.href = 'tel:116';
-                };
-                modal.addEventListener('click', (e) => {
-                    if (e.target === modal) modal.remove();
-                });
+                    modal.querySelector('#crisisClose').onclick = () => modal.remove();
+                    modal.querySelector('#crisisLater').onclick = () => modal.remove();
+                    modal.querySelector('#crisisNow').onclick = () => {
+                        window.location.href = 'tel:116';
+                    };
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) modal.remove();
+                    });
+                } catch (e) { console.warn('Crisis modal failed:', e); }
             }
 
             // ===== UI UPDATES =====
@@ -4038,7 +4058,7 @@
             app.init();
         }
 
-        console.log('🚀 TYAZA 10.0 - Digital Mental Health Companion');
+        console.log('🚀 TYAZA 1.0 - Digital Mental Health Companion');
         console.log('📦 All 9 Enhancements:');
         console.log('  1️⃣ Advanced Voice + Emotion Detection');
         console.log('  2️⃣ 3D Avatar with Expressions');
