@@ -855,6 +855,8 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             box-shadow: var(--shadow-glow);
+            min-width: 52px;
+            min-height: 52px;
         }
         .send-btn:hover:not(:disabled) { transform: scale(1.05); }
         .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
@@ -1514,8 +1516,6 @@
         // ============================================================
 
         // ---------- CONFIG ----------
-        // API Key loaded from config.js file
-        
         let HUGGINGFACE_TOKEN = null;
         
         // Try to load from config.js
@@ -1531,24 +1531,10 @@
             console.warn('⚠️ Error loading API key:', e);
         }
         
-        // Fallback - try to get from localStorage
-        if (!HUGGINGFACE_TOKEN) {
-            try {
-                const savedToken = localStorage.getItem('tyaza_api_key');
-                if (savedToken) {
-                    HUGGINGFACE_TOKEN = savedToken;
-                    console.log('✅ API key loaded from localStorage');
-                }
-            } catch(e) {}
-        }
-        
-        // If still no token, use the hardcoded one as last resort
+        // Fallback - hardcoded
         if (!HUGGINGFACE_TOKEN) {
             HUGGINGFACE_TOKEN = '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';
             console.log('⚠️ Using fallback API key');
-            try {
-                localStorage.setItem('tyaza_api_key', HUGGINGFACE_TOKEN);
-            } catch(e) {}
         }
         
         const API_URL = 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-V3';
@@ -1872,11 +1858,10 @@
         }
 
         // ============================================================
-        // AI SERVICE - DeepSeek V3 via Hugging Face
+        // AI SERVICE
         // ============================================================
         async function getAIResponse(userMessage) {
             if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
-                console.warn('⚠️ No valid API key, using fallback');
                 return getFallbackResponse(userMessage);
             }
 
@@ -1911,13 +1896,11 @@
                 });
 
                 if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error('❌ API Error:', response.status, errorText);
+                    console.error('❌ API Error:', response.status);
                     return await getFallbackAIResponse(userMessage);
                 }
 
                 const data = await response.json();
-                console.log('✅ API Response received');
                 
                 let text = '';
                 if (Array.isArray(data) && data.length > 0) {
@@ -1930,13 +1913,6 @@
                     text = data.response;
                 } else if (typeof data === 'string') {
                     text = data;
-                } else {
-                    for (const key of ['output', 'result', 'message', 'content']) {
-                        if (data[key]) {
-                            text = data[key];
-                            break;
-                        }
-                    }
                 }
 
                 text = text.replace(context, '').trim();
@@ -1952,13 +1928,13 @@
                 return getFallbackAIResponse(userMessage);
 
             } catch (error) {
-                console.error('❌ DeepSeek API Error:', error);
+                console.error('❌ API Error:', error);
                 return await getFallbackAIResponse(userMessage);
             }
         }
 
         // ============================================================
-        // FALLBACK AI - Mistral-7B
+        // FALLBACK AI
         // ============================================================
         async function getFallbackAIResponse(userMessage) {
             if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
@@ -1987,7 +1963,6 @@
                 });
 
                 if (!response.ok) {
-                    console.error('❌ Fallback API Error:', response.status);
                     return getFallbackResponse(userMessage);
                 }
 
@@ -2013,7 +1988,7 @@
                 return getFallbackResponse(userMessage);
 
             } catch (error) {
-                console.error('❌ Fallback API Error:', error);
+                console.error('❌ Fallback Error:', error);
                 return getFallbackResponse(userMessage);
             }
         }
@@ -2331,30 +2306,34 @@
         }
 
         // ============================================================
-        // SEND MESSAGE
+        // SEND MESSAGE - FIXED
         // ============================================================
         async function sendMessage() {
             const text = document.getElementById('messageInput').value.trim();
             if (!text || state.isGenerating) return;
 
-            document.getElementById('messageInput').value = '';
+            // Disable button while processing
             document.getElementById('sendBtn').disabled = true;
+            document.getElementById('messageInput').value = '';
             handleInput();
 
+            // Analyze risks
             const risks = analyzeRisks(text);
             state.riskFlags = risks;
             updateRiskIndicators(risks);
 
+            // Crisis detection
             const crisisWords = ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
                 'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye'];
             if (crisisWords.some(w => text.toLowerCase().includes(w))) {
                 showCrisisModal();
                 addMessage('user', text);
                 addMessage('assistant', 'Urakoze kuvuga. Ibi ni ibintu bikomeye. Reka twite ku mibereho yawe. 📞 116 ni imitari y\'inkunga ihari 24/7. Urakoze kugira ubutwari bwo kuvuga. 💙');
-                state.isGenerating = false;
+                document.getElementById('sendBtn').disabled = false;
                 return;
             }
 
+            // Name extraction
             const nameMatch = text.match(
                 /(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i
             );
@@ -2388,6 +2367,7 @@
                     showCrisisModal();
                     state.isGenerating = false;
                     document.getElementById('statusText').textContent = 'Igisubizo kindimo';
+                    document.getElementById('sendBtn').disabled = false;
                     return;
                 }
 
@@ -2800,6 +2780,9 @@
             renderHistory();
             updateMemoryStats();
             updateWelcome();
+
+            // Enable send button by default
+            document.getElementById('sendBtn').disabled = false;
 
             document.getElementById('messageInput').addEventListener('input', handleInput);
             document.getElementById('messageInput').addEventListener('keydown', (e) => {
