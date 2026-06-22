@@ -2711,7 +2711,7 @@
         </div>
     </div>
 
-    <!-- Loading screen - hidden by default, shown only during initial load -->
+    <!-- Loading screen - hidden by default -->
     <div class="loading-screen hidden" id="loadingScreen" role="status" aria-label="Loading">
         <div class="loading-logo">
             <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -2972,41 +2972,6 @@
             }
         };
 
-        // Simple fallback responses
-        const FALLBACK_RESPONSES = [
-            "Ndumva. Urakoze kunsangiza ibi. 💙",
-            "Ndi kumwe nawe. Wumva ute ubu? 😊",
-            "Urakoze kundekera. Ubu ngaho ugire icyo uvuga. ✨",
-            "Ibyo uravuga bingira akamaro. Ngaho komeza. 🌟",
-            "Ndakumva neza. Reka turebe hamwe. 🤗"
-        ];
-
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        function formatMessageTime() {
-            return new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
-        }
-
-        function formatRelativeTime(timestamp) {
-            const diff = Date.now() - timestamp;
-            const minutes = Math.floor(diff / 60000);
-            const hours = Math.floor(diff / 3600000);
-            const days = Math.floor(diff / 86400000);
-            if (minutes < 1) return 'none';
-            if (minutes < 60) return `${minutes} min`;
-            if (hours < 24) return `${hours} hr`;
-            if (days < 7) return `${days} d`;
-            return new Date(timestamp).toLocaleDateString('rw-RW');
-        }
-
         // Speech Service
         class SpeechService {
             constructor() {
@@ -3129,12 +3094,98 @@
         }
         customElements.define('tyaza-toast', TyazaToast);
 
-        // Simple AI service with fallback
-        class SimpleAIService {
+        // AI Service with Puter, on-device, and fallback
+        class AIService {
             constructor() {
+                this.puterAvailable = false;
+                this.onDeviceAvailable = false;
+                this.onDeviceModel = null;
                 this.userName = null;
-                this.fallbackResponses = FALLBACK_RESPONSES;
                 this.crisisTriggers = ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ndashaka gupfa'];
+                this.systemPrompt = this.buildSystemPrompt();
+                this.fallbackResponses = [
+                    "Ndumva. Urakoze kunsangiza ibi. 💙",
+                    "Ndi kumwe nawe. Wumva ute ubu? 😊",
+                    "Urakoze kundekera. Ubu ngaho ugire icyo uvuga. ✨",
+                    "Ibyo uravuga bingira akamaro. Ngaho komeza. 🌟",
+                    "Ndakumva neza. Reka turebe hamwe. 🤗"
+                ];
+            }
+
+            buildSystemPrompt() {
+                const name = this.userName || 'umukunzi';
+                return `Wowe uri TYAZA (Umuvugizi w'Umutima), umuvugizi w'umutima wakozwe na KIVURA LABS.
+
+ABOUT KIVURA LABS:
+- Full Name: KIVURA LABS (Kivura Labs)
+- Meaning: "Kivura" in Kinyarwanda means "healing"
+- Founded: 2024 · Headquarters: Kigali, Rwanda
+- Founder & CEO: Yves HIRWA TUYISHIME
+- Mission: "Kugira ngo nta wusigara inyuma mu bijyanye n'ikoranabuhanga — haba mu rurimi, haba mu mibereho"
+- Vision: Africa's leading mental health technology company
+- Philosophy: "Healthy citizens, wealthy nation"
+
+YOUR ROLE:
+- Therapeutic assistant (not replacement for professional help)
+- Speak Kinyarwanda with empathy and warmth
+- Remember user's name: ${name}
+- Detect crisis keywords and trigger emergency protocols
+- Provide evidence-based responses (CBT, DBT, MI, ACT)
+- Represent Kivura Labs' mission of accessible mental health
+
+GUIDELINES:
+- Shyashya mu ijwi ryuje impuhwe
+- Koresha amagambo nk' "umva", "umutima", "mahoro"
+- Komeza ibiganiro bigufi kandi byuje ubushyuhe
+- Igihe uhari, ibaza, umve, ugire inama
+- Koresha emoticons nk' 😊, 💛, ✨, 🌟, 🤗, 💙
+
+Remember: You embody the vision that "Healthy citizens build a wealthy nation."`;
+            }
+
+            async init() {
+                // Check Puter
+                await this.checkPuter();
+
+                // Try to load on-device model in background
+                this.loadOnDevice().catch(() => {});
+            }
+
+            async checkPuter() {
+                return new Promise(resolve => {
+                    let attempts = 0;
+                    const check = setInterval(() => {
+                        if (window.puter?.ai) {
+                            this.puterAvailable = true;
+                            clearInterval(check);
+                            resolve(true);
+                        } else if (attempts++ >= 20) {
+                            this.puterAvailable = false;
+                            clearInterval(check);
+                            resolve(false);
+                        }
+                    }, 200);
+                });
+            }
+
+            async loadOnDevice() {
+                try {
+                    // Try to dynamically import transformers
+                    const { pipeline, env } = await import('https://esm.sh/@xenova/transformers@2.17.1');
+                    env.useBrowserCache = true;
+                    env.allowRemoteModels = true;
+
+                    this.onDeviceModel = await pipeline('text-generation',
+                        'Xenova/tinyllama-1.1b-chat-v1.0-4bit', {
+                            quantized: true,
+                            device: 'wasm'
+                        }
+                    );
+                    this.onDeviceAvailable = true;
+                    console.log('On-device AI loaded');
+                } catch (e) {
+                    console.log('On-device AI unavailable:', e.message);
+                }
             }
 
             extractUserName(text) {
@@ -3162,40 +3213,103 @@
                 return this.crisisTriggers.some(t => lower.includes(t));
             }
 
-            generateResponse(text) {
+            async generateResponse(text, history = []) {
+                // Check crisis
                 if (this.detectCrisis(text)) {
                     return { type: 'crisis', content: null };
                 }
 
+                // Extract user name
+                const extractedName = this.extractUserName(text);
+                if (extractedName && extractedName !== this.userName) {
+                    this.userName = extractedName;
+                    this.systemPrompt = this.buildSystemPrompt();
+                }
+
+                const messages = [
+                    { role: 'system', content: this.systemPrompt },
+                    ...history.slice(-5),
+                    { role: 'user', content: text }
+                ];
+
+                // Try Puter
+                if (this.puterAvailable) {
+                    try {
+                        const response = await window.puter.ai.chat(messages, { model: 'gpt-4o-mini' });
+                        let content = response.message?.content || response;
+                        return { type: 'normal', content: this.enhanceResponse(content, text) };
+                    } catch (e) {
+                        console.log('Puter error:', e);
+                    }
+                }
+
+                // Try on-device
+                if (this.onDeviceAvailable && this.onDeviceModel) {
+                    try {
+                        const prompt = messages.map(m => `<|${m.role}|>\n${m.content}`).join('\n') + '\n<|assistant|>\n';
+                        const result = await this.onDeviceModel(prompt, {
+                            max_new_tokens: 150,
+                            temperature: 0.7,
+                            top_k: 50
+                        });
+                        let content = result[0].generated_text.replace(prompt, '').trim();
+                        if (!content) content = this.getFallback();
+                        return { type: 'normal', content: this.enhanceResponse(content, text) };
+                    } catch (e) {
+                        console.log('On-device error:', e);
+                    }
+                }
+
+                // Fallback
+                return { type: 'normal', content: this.getFallback(text) };
+            }
+
+            getFallback(text) {
                 let response = this.fallbackResponses[Math.floor(Math.random() * this.fallbackResponses.length)];
 
-                const name = this.extractUserName(text);
-                if (name && name !== this.userName) {
-                    this.userName = name;
-                    response = `✨ Murakaza neza, ${name}! ` + response;
+                // Simple contextual enhancement
+                if (text && text.length > 0) {
+                    if (text.includes('?')) {
+                        response += " Ni ikibazo cyiza!";
+                    }
+                    if (text.length > 30) {
+                        response += " Urakoze kubw'ibyo utubwiye byinshi. 💛";
+                    }
                 }
 
-                if (text.length > 30) {
-                    response += " Urakoze kubw'ibyo utubwiye byinshi. 💛";
+                return response;
+            }
+
+            enhanceResponse(content, userText) {
+                let enhanced = content;
+
+                // Add name if available
+                if (this.userName && !enhanced.includes(this.userName)) {
+                    if (Math.random() < 0.3) {
+                        const prefixes = [`Nibyo ${this.userName}, `, `${this.userName}, `];
+                        enhanced = prefixes[Math.floor(Math.random() * prefixes.length)] + enhanced;
+                    }
                 }
 
-                if (text.includes('?')) {
-                    const validations = [' Ni ikibazo cyiza!', ' Ndumva neza!', ' Nibyo ko ubaza!'];
-                    response += validations[Math.floor(Math.random() * validations.length)];
+                // Add validation for longer messages
+                if (userText && userText.length > 20 && !enhanced.includes('Ndumva')) {
+                    const validations = ['Ndumva neza... ', 'Nabona ko... ', 'Ndakumva... '];
+                    enhanced = validations[Math.floor(Math.random() * validations.length)] + enhanced;
                 }
 
-                return { type: 'normal', content: response };
+                return enhanced;
             }
 
             setUserName(name) {
                 this.userName = name;
+                this.systemPrompt = this.buildSystemPrompt();
             }
         }
 
         // Main App
         class TyazaApp {
             constructor() {
-                this.ai = new SimpleAIService();
+                this.ai = new AIService();
                 this.speech = new SpeechService();
 
                 this.messages = [];
@@ -3268,6 +3382,9 @@
                 // Init DB
                 await TyazaDB.init();
 
+                // Init AI
+                await this.ai.init();
+
                 // Load user data
                 const userData = await TyazaDB.get('userData', 'user');
                 if (userData && userData.name) {
@@ -3303,8 +3420,20 @@
                     el.style.cursor = 'pointer';
                 });
 
+                // Update connection status
+                if (this.elements.connectionStatus) {
+                    if (this.ai.puterAvailable) {
+                        this.elements.connectionStatus.textContent = '✅ Ndahari AI';
+                    } else if (this.ai.onDeviceAvailable) {
+                        this.elements.connectionStatus.textContent = '🧠 On-Device AI';
+                    } else {
+                        this.elements.connectionStatus.textContent = '💬 Offline Mode';
+                    }
+                }
+
                 console.log('✨ TYAZA v6.1 - 2030 Edition');
                 console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
+                console.log('🧠 AI Mode:', this.ai.puterAvailable ? 'Puter AI' : this.ai.onDeviceAvailable ? 'On-Device' : 'Fallback');
             }
 
             fixMobileSidebar() {
@@ -3611,16 +3740,6 @@
                 const text = this.elements.messageInput.value.trim();
                 if (!text || this.isGenerating) return;
 
-                const extractedName = this.ai.extractUserName(text);
-                if (extractedName && extractedName !== this.userName) {
-                    this.userName = extractedName;
-                    this.ai.setUserName(extractedName);
-                    await TyazaDB.put('userData', { name: extractedName }, 'user');
-                    this.elements.userNameInput.value = extractedName;
-                    this.updateWelcomeGreeting();
-                    this.showToast(`✨ Murakaza neza, ${extractedName}!`, 'success');
-                }
-
                 this.elements.welcomeScreen.style.display = 'none';
                 this.addMessage('user', text);
 
@@ -3633,7 +3752,8 @@
                 this.closeSidebar();
 
                 try {
-                    const response = this.ai.generateResponse(text);
+                    const history = this.messages.map(m => ({ role: m.role, content: m.content }));
+                    const response = await this.ai.generateResponse(text, history);
 
                     if (response.type === 'crisis') {
                         this.removeTyping(typingId);
@@ -3645,7 +3765,7 @@
                     this.removeTyping(typingId);
                     this.addMessage('assistant', response.content);
                     await this.saveConversation(text, response.content);
-                } catch {
+                } catch (e) {
                     this.removeTyping(typingId);
                     this.addMessage('assistant', 'Hari ikibazo. Ngaho tuganire. 💙');
                 } finally {
@@ -3784,6 +3904,18 @@
                         }
                     });
                 });
+            }
+
+            formatRelativeTime(timestamp) {
+                const diff = Date.now() - timestamp;
+                const minutes = Math.floor(diff / 60000);
+                const hours = Math.floor(diff / 3600000);
+                const days = Math.floor(diff / 86400000);
+                if (minutes < 1) return 'none';
+                if (minutes < 60) return `${minutes} min`;
+                if (hours < 24) return `${hours} hr`;
+                if (days < 7) return `${days} d`;
+                return new Date(timestamp).toLocaleDateString('rw-RW');
             }
 
             async loadChat(id) {
@@ -3952,6 +4084,32 @@
             }
         }
 
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function formatMessageTime() {
+            return new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function formatRelativeTime(timestamp) {
+            const diff = Date.now() - timestamp;
+            const minutes = Math.floor(diff / 60000);
+            const hours = Math.floor(diff / 3600000);
+            const days = Math.floor(diff / 86400000);
+            if (minutes < 1) return 'none';
+            if (minutes < 60) return `${minutes} min`;
+            if (hours < 24) return `${hours} hr`;
+            if (days < 7) return `${days} d`;
+            return new Date(timestamp).toLocaleDateString('rw-RW');
+        }
+
         // Initialize app
         const app = new TyazaApp();
         window.app = app;
@@ -3962,6 +4120,8 @@
             app.init();
         }
     </script>
+
+    <script src="https://js.puter.com/v2/" defer></script>
 
     <noscript>
         <div style="position: fixed; inset: 0; background: #0a0612; color: white; display: flex; align-items: center; justify-content: center; padding: 40px; text-align: center; font-family: sans-serif; z-index: 9999;">
