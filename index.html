@@ -1748,13 +1748,13 @@
     <script>
         // ============================================================
         // TYAZA - Umuvugizi w'Umutima
-        // AI Therapy Assistant with Gemini API
+        // AI Therapy Assistant with DeepSeek V3 via Hugging Face
         // KIVURA LABS - Rwanda
         // ============================================================
 
         // ---------- CONFIG ----------
-        const GEMINI_API_KEY = 'YOUR_GEMINI_API_KEY_HERE';
-        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+        const HUGGINGFACE_TOKEN = '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';
+        const API_URL = 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-V3';
 
         // ---------- STATE ----------
         let state = {
@@ -1863,7 +1863,6 @@
             const conversations = storageGetAll('conversations');
             const userName = storageGet('userName', null);
 
-            // Extract triggers from user messages
             const allUserMessages = [];
             conversations.forEach(conv => {
                 if (conv.messages) {
@@ -1878,7 +1877,6 @@
                 allUserMessages.some(msg => msg.toLowerCase().includes(word))
             );
 
-            // Extract goals from messages
             const goalPatterns = ['ngomba', 'ndashaka', 'nshaka', 'nifuza', 'nzageraho', 'goal', 'want to'];
             const goals = [];
             allUserMessages.forEach(msg => {
@@ -1892,24 +1890,19 @@
                 }
             });
 
-            // Mood trends (last 30 days)
             const cutoff = Date.now() - (30 * 86400000);
             const recentMoods = moodData.filter(m => m.timestamp >= cutoff);
             const avgMood = recentMoods.length > 0
                 ? recentMoods.reduce((a, b) => a + b.mood, 0) / recentMoods.length
                 : 0;
 
-            // Active days
             const uniqueDays = new Set();
             moodData.forEach(m => {
                 uniqueDays.add(new Date(m.timestamp).toDateString());
             });
             const activeDays = uniqueDays.size;
 
-            // Session count
             const sessionCount = conversations.length || 1;
-
-            // Therapy progress
             const totalMessages = conversations.reduce((acc, c) => acc + (c.messages ? c.messages.length : 0), 0);
             const engagement = totalMessages > 0 ? Math.min(totalMessages / 5, 100) : 0;
 
@@ -1924,7 +1917,7 @@
                 totalMessages,
                 engagement: Math.round(engagement),
                 recentMoods: recentMoods.slice(-7),
-                riskHistory: [], // Could store risk flags over time
+                riskHistory: [],
             };
         }
 
@@ -1934,7 +1927,6 @@
             document.getElementById('statMoods').textContent = profile.moodEntries;
             document.getElementById('statActiveDays').textContent = profile.activeDays;
 
-            // Risk level from current state
             const riskCount = Object.values(state.riskFlags).filter(v => v).length;
             const riskEmoji = riskCount === 0 ? '✅' : riskCount === 1 ? '⚠️' : '🚨';
             document.getElementById('statRiskLevel').textContent = riskEmoji;
@@ -1989,7 +1981,6 @@
         // RETRIEVAL SYSTEM - Mental Health Knowledge Base
         // ============================================================
         const knowledgeBase = [
-            // Rwanda-specific resources
             {
                 keywords: ['inkunga', 'ubufasha', 'help', 'fashe', 'crisis', '116'],
                 entry: '📞 **Imitari y\'inkunga (116)**: 24/7 crisis helpline. Call 116 for immediate support.\n🏥 **Isange One Stop Center (3029)**: Integrated support for survivors of gender-based violence.'
@@ -1998,7 +1989,6 @@
                 keywords: ['police', '112', 'emergency', 'byihutirwa'],
                 entry: '🚔 **Police (112)**: For immediate safety threats.\n🚑 **Ambulance (912)**: Medical emergencies.'
             },
-            // Psychoeducation
             {
                 keywords: ['guhangayika', 'anxiety', 'stress', 'ubwoba', 'gushishikara'],
                 entry: '🧠 **Guhangayika (Anxiety)**: Ni ibisanzwe kumva ubwoba cyangwa guhangayika. Gerageza:\n- Guhumeka neza: hemera mu nda, uhinde umwanya\n- Kugira icyo ukora: genda, soma, cyangwa andika\n- Kuvugana n\'umuntu wizeye'
@@ -2011,7 +2001,6 @@
                 keywords: ['trauma', 'ptsd', 'flashback', 'ibibazo', 'byabaye'],
                 entry: '🕊️ **Trauma na PTSD**: Ibyabaye bishobora gutuma umva utameze neza. Gerageza:\n- Kugira amahoro\n- Kwandika ibiri ku mutima\n- Gushaka inkunga kuva kuri 116 cyangwa Isange One Stop'
             },
-            // Protocols
             {
                 keywords: ['safety plan', 'umutekano', 'plani', 'kwirinda'],
                 entry: '🛡️ **Safety Planning**:\n1. Menya ibikubangamira\n2. Menya abantu ushobora kuvugana\n3. Kora ibintu bikubangamira\n4. Shakira ubufasha bwihutirwa\n📞 **116** - 24/7 support'
@@ -2034,7 +2023,7 @@
                     results.push(item.entry);
                 }
             }
-            return results.slice(0, 3); // Max 3 results
+            return results.slice(0, 3);
         }
 
         // ============================================================
@@ -2042,7 +2031,7 @@
         // ============================================================
         function getSystemContext(userMessage) {
             const risks = analyzeRisks(userMessage);
-            state.riskFlags = risks; // Store for UI
+            state.riskFlags = risks;
 
             const profile = getUserProfile();
             const kbResults = searchKnowledgeBase(userMessage);
@@ -2055,13 +2044,11 @@
             Subiza mu nteruro 2-4 gusa.
             Ntutange inama z'ubuvuzi, ahubwo utange inkunga y'amarangamutima.`;
 
-            // Add risk assessment
             const activeRisks = Object.entries(risks).filter(([k, v]) => v).map(([k]) => k);
             if (activeRisks.length > 0) {
                 context += `\n\n⚠️ **RISK DETECTED**: ${activeRisks.join(', ')}. Koresha ubushishozi bukomeye, kora ibibazo by'ubutwari, kandi ugire impuhwe zikomeye. Niba hari ikibazo gikomeye, ohereza "CRISIS".`;
             }
 
-            // Add user profile summary
             context += `\n\n🧠 **User Profile**:`;
             if (profile.userName) context += `\n- Name: ${profile.userName}`;
             context += `\n- Sessions: ${profile.sessionCount}`;
@@ -2070,12 +2057,10 @@
             if (profile.triggers.length > 0) context += `\n- Triggers: ${profile.triggers.join(', ')}`;
             if (profile.goals.length > 0) context += `\n- Goals: ${profile.goals.slice(0,2).join(', ')}`;
 
-            // Add knowledge base results
             if (kbResults.length > 0) {
                 context += `\n\n📚 **Knowledge Base**: ${kbResults.join(' ')}`;
             }
 
-            // Add conversation history
             const history = state.messages.slice(-3);
             if (history.length > 0) {
                 context += `\n\n📝 **Recent conversation**: ${JSON.stringify(history.map(m => `${m.role}: ${m.content}`))}`;
@@ -2086,51 +2071,77 @@
             return context;
         }
 
-        // ---------- AI SERVICE ----------
+        // ============================================================
+        // AI SERVICE - DeepSeek V3 via Hugging Face
+        // ============================================================
         async function getAIResponse(userMessage) {
-            if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_GEMINI_API_KEY_HERE') {
-                return getFallbackResponse(userMessage);
-            }
-
             try {
                 const context = getSystemContext(userMessage);
-
-                const response = await fetch(`${API_URL}?key=${GEMINI_API_KEY}`, {
+                
+                const response = await fetch(API_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Authorization': `Bearer ${HUGGINGFACE_TOKEN}`,
+                        'Content-Type': 'application/json',
+                    },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{ text: context }]
-                        }],
-                        generationConfig: {
-                            temperature: 0.8,
-                            maxOutputTokens: 250,
-                            topP: 0.9,
+                        inputs: context,
+                        parameters: {
+                            max_new_tokens: 300,
+                            temperature: 0.7,
+                            top_p: 0.9,
+                            do_sample: true,
+                            return_full_text: false,
                         }
                     })
                 });
 
                 if (!response.ok) {
-                    console.error('API Error:', await response.text());
+                    console.error('API Error:', response.status, await response.text());
                     return getFallbackResponse(userMessage);
                 }
 
                 const data = await response.json();
-                const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (text) return text.trim();
+                
+                // Handle different response formats
+                let text = '';
+                if (Array.isArray(data) && data.length > 0) {
+                    text = data[0]?.generated_text || '';
+                } else if (data.generated_text) {
+                    text = data.generated_text;
+                } else if (data.text) {
+                    text = data.text;
+                } else if (typeof data === 'string') {
+                    text = data;
+                } else {
+                    text = JSON.stringify(data);
+                }
+
+                // Clean up the response
+                text = text.replace(context, '').trim();
+                
+                if (text) {
+                    // Check for crisis keywords in response
+                    if (text.toLowerCase().includes('crisis') || text.toLowerCase().includes('116')) {
+                        return 'CRISIS';
+                    }
+                    return text;
+                }
+                
                 return getFallbackResponse(userMessage);
 
             } catch (error) {
-                console.error('AI Error:', error);
+                console.error('DeepSeek API Error:', error);
                 return getFallbackResponse(userMessage);
             }
         }
 
-        // ---------- FALLBACK RESPONSES ----------
+        // ============================================================
+        // FALLBACK RESPONSES
+        // ============================================================
         function getFallbackResponse(text) {
             const lower = text.toLowerCase();
 
-            // Crisis detection (enhanced)
             const crisisWords = [
                 'kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa',
                 'kwiyica', 'ndashaka gupfa', 'suicide', 'die', 'kill',
@@ -2140,7 +2151,6 @@
                 return 'CRISIS';
             }
 
-            // Name extraction
             const nameMatch = text.match(
                 /(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i
             );
@@ -2156,13 +2166,11 @@
                 }
             }
 
-            // Check for knowledge base matches
             const kbResults = searchKnowledgeBase(text);
             if (kbResults.length > 0) {
                 return `${kbResults[0]}\n\nUbu wumva ute? 💙`;
             }
 
-            // Context-aware responses
             let responses = [];
             if (lower.includes('ntacyo') || lower.includes('mbi') || lower.includes('byacye') ||
                 lower.includes('sad') || lower.includes('depressed') || lower.includes('anxious') ||
@@ -2208,7 +2216,9 @@
             return response;
         }
 
-        // ---------- STORAGE ----------
+        // ============================================================
+        // STORAGE
+        // ============================================================
         function storageGet(key, fallback = null) {
             try {
                 const data = localStorage.getItem('tyaza_' + key);
@@ -2240,7 +2250,9 @@
 
         function storageClear(key) { storageSet(key, []); }
 
-        // ---------- TOAST ----------
+        // ============================================================
+        // TOAST
+        // ============================================================
         function showToast(message, type = 'info') {
             const toast = document.createElement('div');
             toast.className = `toast toast-${type}`;
@@ -2249,7 +2261,9 @@
             setTimeout(() => toast.remove(), 3500);
         }
 
-        // ---------- SPEECH ----------
+        // ============================================================
+        // SPEECH
+        // ============================================================
         function loadVoices() {
             state.voices = state.speechSynthesis.getVoices();
             if (state.speechSynthesis.onvoiceschanged) {
@@ -2319,7 +2333,9 @@
         }
         const hasSpeech = initSpeechRecognition();
 
-        // ---------- UI HELPERS ----------
+        // ============================================================
+        // UI HELPERS
+        // ============================================================
         function updateWelcome() {
             const name = state.userName || '';
             document.getElementById('welcomeGreeting').textContent = name ? `✨ Murakaza neza, ${name}` : '✨ Murakaza neza';
@@ -2413,7 +2429,9 @@
             updateMemoryStats();
         }
 
-        // ---------- SEND MESSAGE ----------
+        // ============================================================
+        // SEND MESSAGE
+        // ============================================================
         async function sendMessage() {
             const text = document.getElementById('messageInput').value.trim();
             if (!text || state.isGenerating) return;
@@ -2422,26 +2440,20 @@
             document.getElementById('sendBtn').disabled = true;
             handleInput();
 
-            // Analyze risks for this message
             const risks = analyzeRisks(text);
             state.riskFlags = risks;
             updateRiskIndicators(risks);
 
-            // Crisis detection
-            if (Object.values(risks).some(v => v)) {
-                // Check for explicit crisis signals
-                const crisisWords = ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
-                    'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye'];
-                if (crisisWords.some(w => text.toLowerCase().includes(w))) {
-                    showCrisisModal();
-                    addMessage('user', text);
-                    addMessage('assistant', 'Urakoze kuvuga. Ibi ni ibintu bikomeye. Reka twite ku mibereho yawe. 📞 116 ni imitari y\'inkunga ihari 24/7. Urakoze kugira ubutwari bwo kuvuga. 💙');
-                    state.isGenerating = false;
-                    return;
-                }
+            const crisisWords = ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
+                'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye'];
+            if (crisisWords.some(w => text.toLowerCase().includes(w))) {
+                showCrisisModal();
+                addMessage('user', text);
+                addMessage('assistant', 'Urakoze kuvuga. Ibi ni ibintu bikomeye. Reka twite ku mibereho yawe. 📞 116 ni imitari y\'inkunga ihari 24/7. Urakoze kugira ubutwari bwo kuvuga. 💙');
+                state.isGenerating = false;
+                return;
             }
 
-            // Check for name
             const nameMatch = text.match(
                 /(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i
             );
@@ -2489,7 +2501,9 @@
             updateMemoryStats();
         }
 
-        // ---------- CONVERSATION STORAGE ----------
+        // ============================================================
+        // CONVERSATION STORAGE
+        // ============================================================
         function saveConversation() {
             if (state.messages.length === 0) return;
             const title = state.messages[0]?.content?.slice(0, 40) || 'Ikiganiro';
@@ -2683,7 +2697,9 @@
             showToast('Ikiganiro cyoherejwe ✨', 'success');
         }
 
-        // ---------- SIDEBAR ----------
+        // ============================================================
+        // SIDEBAR
+        // ============================================================
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('open');
             document.getElementById('sidebarOverlay').classList.toggle('active');
@@ -2694,7 +2710,9 @@
             document.getElementById('sidebarOverlay').classList.remove('active');
         }
 
-        // ---------- MOOD ----------
+        // ============================================================
+        // MOOD
+        // ============================================================
         function openMoodModal() {
             document.getElementById('moodModal').classList.add('active');
             renderMoodCalendar();
@@ -2749,7 +2767,9 @@
             document.getElementById('moodCalendar').innerHTML = html;
         }
 
-        // ---------- CRISIS ----------
+        // ============================================================
+        // CRISIS
+        // ============================================================
         function showCrisisModal() {
             document.getElementById('crisisModal').classList.add('active');
         }
@@ -2758,7 +2778,9 @@
             document.getElementById('crisisModal').classList.remove('active');
         }
 
-        // ---------- VOICE ----------
+        // ============================================================
+        // VOICE
+        // ============================================================
         function toggleVoice() {
             if (!hasSpeech) {
                 showVoiceDialog();
@@ -2843,28 +2865,24 @@
             }
         }
 
-        // ---------- INIT ----------
+        // ============================================================
+        // INIT
+        // ============================================================
         function init() {
-            // Load state
             state.userName = storageGet('userName', null);
             state.settings = storageGet('settings', state.settings);
             state.moodData = storageGetAll('moodData');
 
-            // Apply settings
             document.getElementById('voiceSelect').value = state.settings.voice;
             document.getElementById('rateSlider').value = state.settings.rate;
             document.getElementById('pitchSlider').value = state.settings.pitch;
             document.getElementById('rateValue').textContent = state.settings.rate;
             document.getElementById('pitchValue').textContent = state.settings.pitch;
 
-            // Load history
             renderHistory();
             updateMemoryStats();
-
-            // Update welcome
             updateWelcome();
 
-            // Input events
             document.getElementById('messageInput').addEventListener('input', handleInput);
             document.getElementById('messageInput').addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -2874,11 +2892,8 @@
             });
 
             document.getElementById('sendBtn').addEventListener('click', sendMessage);
-
-            // Voice
             document.getElementById('voiceBtn').addEventListener('click', toggleVoice);
 
-            // Settings
             document.getElementById('voiceSelect').addEventListener('change', (e) => {
                 state.settings.voice = e.target.value;
                 storageSet('settings', state.settings);
@@ -2898,36 +2913,28 @@
 
             document.getElementById('micTestBtn').addEventListener('click', testMic);
 
-            // AI Toggle
             document.getElementById('aiToggleBtn').addEventListener('click', () => {
                 state.useAI = !state.useAI;
                 document.getElementById('aiToggleBtn').innerHTML = state.useAI ?
                     '<i class="fas fa-cloud"></i> AI' :
                     '<i class="fas fa-microchip"></i> Gahunda';
-                showToast(state.useAI ? 'AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
+                showToast(state.useAI ? 'DeepSeek AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
             });
 
-            // Sidebar
             document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
             document.getElementById('sidebarClose').addEventListener('click', closeSidebar);
             document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
 
-            // New chat
             document.getElementById('newChatBtn').addEventListener('click', newChat);
 
-            // Clear chat
             document.getElementById('clearChatBtn').addEventListener('click', () => {
                 if (state.messages.length === 0) return;
                 if (confirm('Hanagura iki kiganiro?')) newChat();
             });
 
-            // Clear history
             document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
-
-            // Export
             document.getElementById('exportBtn').addEventListener('click', exportChat);
 
-            // Profile
             document.getElementById('viewProfileBtn').addEventListener('click', showProfileModal);
             document.getElementById('profileModalClose').addEventListener('click', () => {
                 document.getElementById('profileModal').classList.remove('active');
@@ -2938,11 +2945,9 @@
                 }
             });
 
-            // Scroll
             document.getElementById('messages').addEventListener('scroll', handleScroll);
             document.getElementById('scrollBottom').addEventListener('click', scrollToBottom);
 
-            // Suggestions
             document.querySelectorAll('.suggestion-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     document.getElementById('messageInput').value = btn.dataset.prompt;
@@ -2954,7 +2959,6 @@
                 });
             });
 
-            // Mood
             document.getElementById('openMoodModal').addEventListener('click', openMoodModal);
             document.getElementById('moodModalClose').addEventListener('click', closeMoodModal);
             document.getElementById('moodModal').addEventListener('click', (e) => {
@@ -2976,7 +2980,6 @@
                 });
             });
 
-            // Crisis
             document.getElementById('crisisBtn').addEventListener('click', showCrisisModal);
             document.getElementById('crisisModalClose').addEventListener('click', closeCrisisModal);
             document.getElementById('crisisLater').addEventListener('click', closeCrisisModal);
@@ -2984,7 +2987,6 @@
                 window.location.href = 'tel:116';
             });
 
-            // Keyboard shortcuts
             document.addEventListener('keydown', (e) => {
                 if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
                     e.preventDefault();
@@ -2998,15 +3000,12 @@
                 }
             });
 
-            // Hide loading
             setTimeout(() => {
                 document.getElementById('loading').classList.add('hidden');
             }, 800);
 
-            // Focus input
             setTimeout(() => document.getElementById('messageInput').focus(), 1000);
 
-            // Mobile: prevent zoom on double tap
             document.addEventListener('touchend', (e) => {
                 const now = Date.now();
                 if (now - (document.lastTouch || 0) < 300) e.preventDefault();
@@ -3015,12 +3014,14 @@
 
             console.log('✨ TYAZA v2.1 - Umuvugizi w\'Umutima');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-            console.log('🤖 AI:', state.useAI ? 'Irakoreshwa' : 'Gahunda ikoreshwa');
+            console.log('🤖 AI:', state.useAI ? 'DeepSeek V3 irakoreshwa' : 'Gahunda ikoreshwa');
             console.log('🧠 Risk Engine, Memory Engine, Retrieval System initialized');
             console.log('🌍 Rwanda, 2026');
         }
 
-        // ---------- GLOBAL EXPOSURE ----------
+        // ============================================================
+        // GLOBAL EXPOSURE
+        // ============================================================
         window.showToast = showToast;
         window.speakText = speakText;
         window.sendMessage = sendMessage;
@@ -3040,7 +3041,9 @@
         window.getUserProfile = getUserProfile;
         window.searchKnowledgeBase = searchKnowledgeBase;
 
-        // ---------- START ----------
+        // ============================================================
+        // START
+        // ============================================================
         document.addEventListener('DOMContentLoaded', init);
     </script>
 
