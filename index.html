@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
     <style>
-        /* ... all CSS stays the same as before ... */
         * {
             margin: 0;
             padding: 0;
@@ -1561,7 +1560,7 @@
         </div>
     </div>
 
-    <!-- LOADING SCREEN - Will be hidden by JavaScript immediately -->
+    <!-- LOADING SCREEN - Will be hidden instantly by the synchronous script below -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-logo">
             <img src="tyaza-logo.png" alt="TYAZA">
@@ -1597,6 +1596,18 @@
             </div>
         </div>
     </div>
+
+    <!-- ===== IMMEDIATE LOADING SCREEN HIDE – NO MODULE BLOCK ===== -->
+    <script>
+        (function() {
+            var loader = document.getElementById('loadingScreen');
+            if (loader) {
+                loader.style.display = 'none';   // hide instantly
+                loader.classList.add('hidden');  // keep semantic class
+                console.log('✅ Loading screen hidden');
+            }
+        })();
+    </script>
 
     <script type="importmap">
         {
