@@ -1172,9 +1172,6 @@
             visibility: visible;
             pointer-events: auto;
         }
-
-        /* LOADING SCREEN REMOVED - No more loading overlay */
-
         @media (max-width: 768px) {
             .sidebar {
                 position: fixed;
@@ -1224,8 +1221,6 @@
     </style>
 </head>
 <body>
-
-    <!-- LOADING SCREEN COMPLETELY REMOVED -->
 
     <div class="bg-effects" aria-hidden="true"></div>
     <div class="stars" id="stars" aria-hidden="true"></div>
@@ -1405,7 +1400,7 @@
                     <textarea id="messageInput" placeholder="Sangiza icyo utekereza..." rows="1"></textarea>
                     <div class="input-actions">
                         <button class="input-btn voice-btn" id="voiceBtn"><i class="fas fa-microphone"></i></button>
-                        <button class="input-btn send-btn" id="sendBtn" disabled><i class="fas fa-paper-plane"></i></button>
+                        <button class="input-btn send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </div>
                 <div class="voice-status" id="voiceStatus"></div>
@@ -1520,33 +1515,40 @@
 
         // ---------- CONFIG ----------
         // API Key loaded from config.js file
-        // Make sure config.js exists with: const HUGGINGFACE_TOKEN = 'your-token-here';
         
         let HUGGINGFACE_TOKEN = null;
         
-        // Check if API key is loaded from config.js
-        if (typeof window.HUGGINGFACE_TOKEN !== 'undefined') {
-            HUGGINGFACE_TOKEN = window.HUGGINGFACE_TOKEN;
-            console.log('✅ API key loaded successfully from config.js');
-        } else if (typeof HUGGINGFACE_TOKEN !== 'undefined') {
-            HUGGINGFACE_TOKEN = HUGGINGFACE_TOKEN;
-            console.log('✅ API key loaded successfully from global scope');
-        } else {
-            console.warn('⚠️ No API key found in config.js - using fallback');
-            // Try to load from localStorage
+        // Try to load from config.js
+        try {
+            if (typeof window.HUGGINGFACE_TOKEN !== 'undefined') {
+                HUGGINGFACE_TOKEN = window.HUGGINGFACE_TOKEN;
+                console.log('✅ API key loaded from config.js');
+            } else if (typeof HUGGINGFACE_TOKEN !== 'undefined') {
+                HUGGINGFACE_TOKEN = HUGGINGFACE_TOKEN;
+                console.log('✅ API key loaded from global scope');
+            }
+        } catch(e) {
+            console.warn('⚠️ Error loading API key:', e);
+        }
+        
+        // Fallback - try to get from localStorage
+        if (!HUGGINGFACE_TOKEN) {
             try {
-                const saved = localStorage.getItem('tyaza_api_key');
-                if (saved) {
-                    HUGGINGFACE_TOKEN = saved;
+                const savedToken = localStorage.getItem('tyaza_api_key');
+                if (savedToken) {
+                    HUGGINGFACE_TOKEN = savedToken;
                     console.log('✅ API key loaded from localStorage');
                 }
             } catch(e) {}
-            
-            // If still no token, use the hardcoded one as last resort
-            if (!HUGGINGFACE_TOKEN) {
-                HUGGINGFACE_TOKEN = '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';
-                console.log('⚠️ Using fallback API key');
-            }
+        }
+        
+        // If still no token, use the hardcoded one as last resort
+        if (!HUGGINGFACE_TOKEN) {
+            HUGGINGFACE_TOKEN = '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';
+            console.log('⚠️ Using fallback API key');
+            try {
+                localStorage.setItem('tyaza_api_key', HUGGINGFACE_TOKEN);
+            } catch(e) {}
         }
         
         const API_URL = 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-V3';
@@ -1870,28 +1872,22 @@
         }
 
         // ============================================================
-        // AI SERVICE - DeepSeek V3 via Hugging Face with rate limiting
+        // AI SERVICE - DeepSeek V3 via Hugging Face
         // ============================================================
         async function getAIResponse(userMessage) {
-            // Check if API key is available
             if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
-                console.warn('⚠️ No valid API key, using fallback responses');
-                showToast('⚠️ API key missing - using local mode', 'warning');
+                console.warn('⚠️ No valid API key, using fallback');
                 return getFallbackResponse(userMessage);
             }
 
-            // Rate limiting - wait 1.5 seconds between API calls
             const now = Date.now();
             const timeSinceLastCall = now - state.lastApiCall;
             if (timeSinceLastCall < 1500 && state.apiCallCount > 0) {
-                console.log('⏳ Rate limiting, waiting...');
                 await new Promise(resolve => setTimeout(resolve, 1500 - timeSinceLastCall));
             }
 
             try {
                 const context = getSystemContext(userMessage);
-                
-                console.log('📤 Sending request to DeepSeek V3...');
                 state.apiCallCount++;
                 state.lastApiCall = Date.now();
                 
@@ -1917,13 +1913,6 @@
                 if (!response.ok) {
                     const errorText = await response.text();
                     console.error('❌ API Error:', response.status, errorText);
-                    
-                    if (response.status === 429) {
-                        showToast('⚠️ Rate limit reached, using fallback', 'warning');
-                    } else if (response.status === 503) {
-                        showToast('⚠️ Model loading, using fallback', 'warning');
-                    }
-                    
                     return await getFallbackAIResponse(userMessage);
                 }
 
@@ -1960,7 +1949,6 @@
                     return text;
                 }
                 
-                console.warn('⚠️ Empty response from API, using fallback');
                 return getFallbackAIResponse(userMessage);
 
             } catch (error) {
@@ -2031,7 +2019,7 @@
         }
 
         // ============================================================
-        // INTELLIGENT FALLBACK RESPONSES
+        // FALLBACK RESPONSES
         // ============================================================
         function getFallbackResponse(text) {
             const lower = text.toLowerCase();
@@ -2417,9 +2405,10 @@
             }
 
             state.isGenerating = false;
-            document.getElementById('sendBtn').disabled = true;
+            document.getElementById('sendBtn').disabled = false;
             document.getElementById('statusText').textContent = 'Igisubizo kindimo';
             updateMemoryStats();
+            document.getElementById('messageInput').focus();
         }
 
         // ============================================================
@@ -2790,7 +2779,6 @@
         // INIT
         // ============================================================
         function init() {
-            // Check if API key is loaded
             if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
                 console.warn('⚠️ No valid API key found');
                 showToast('⚠️ API key missing - using local mode', 'warning');
@@ -2817,7 +2805,8 @@
             document.getElementById('messageInput').addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
-                    if (!document.getElementById('sendBtn').disabled) sendMessage();
+                    const btn = document.getElementById('sendBtn');
+                    if (!btn.disabled) sendMessage();
                 }
             });
 
