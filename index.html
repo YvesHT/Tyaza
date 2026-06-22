@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
     <style>
-        /* ... all CSS stays the same ... */
+        /* ... all CSS stays the same as before ... */
         * {
             margin: 0;
             padding: 0;
@@ -63,7 +63,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ===== APP BACKGROUND ===== */
         .app-background {
             position: fixed;
             inset: 0;
@@ -82,22 +81,12 @@
         }
 
         @keyframes cosmicDrift {
-            0%,
-            100% {
-                transform: translate(0, 0) scale(1);
-            }
-            25% {
-                transform: translate(2%, 1%) scale(1.02);
-            }
-            50% {
-                transform: translate(-1%, 2%) scale(0.98);
-            }
-            75% {
-                transform: translate(1%, -1%) scale(1.01);
-            }
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            25% { transform: translate(2%, 1%) scale(1.02); }
+            50% { transform: translate(-1%, 2%) scale(0.98); }
+            75% { transform: translate(1%, -1%) scale(1.01); }
         }
 
-        /* ===== LAYOUT ===== */
         .app-layout {
             display: flex;
             width: 100vw;
@@ -107,7 +96,6 @@
             overflow: hidden;
         }
 
-        /* ===== SIDEBAR ===== */
         .app-sidebar {
             width: var(--sidebar-width);
             height: 100vh;
@@ -373,7 +361,6 @@
             transition: width 0.8s ease;
         }
 
-        /* ===== CHAT MAIN ===== */
         .chat-main {
             flex: 1;
             display: flex;
@@ -473,14 +460,8 @@
         }
 
         @keyframes statusPulse {
-            0%,
-            100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-                transform: scale(1.3);
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; transform: scale(1.3); }
         }
 
         .header-actions {
@@ -503,7 +484,6 @@
             color: var(--color-text-primary);
         }
 
-        /* ===== AVATAR ===== */
         .avatar-container {
             position: relative;
             width: 120px;
@@ -529,16 +509,10 @@
         }
 
         @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-8px);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
-        /* ===== MESSAGES ===== */
         .messages-container {
             flex: 1;
             overflow-y: auto;
@@ -571,14 +545,8 @@
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .welcome-title {
@@ -644,7 +612,6 @@
             transition: opacity 0.8s ease;
         }
 
-        /* ===== MESSAGE BUBBLES ===== */
         .message {
             display: flex;
             gap: 12px;
@@ -705,14 +672,8 @@
         }
 
         @keyframes messageSlide {
-            from {
-                opacity: 0;
-                transform: translateY(10px) scale(0.98);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0) scale(1);
-            }
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
         .message-meta {
@@ -744,7 +705,6 @@
             background: var(--color-surface-700);
         }
 
-        /* ===== RESPONSE STYLES ===== */
         .response-acknowledge {
             padding: 12px 16px;
             background: rgba(139, 92, 246, 0.08);
@@ -792,7 +752,6 @@
             margin-bottom: 10px;
         }
 
-        /* ===== TYPING ===== */
         .typing-indicator {
             display: flex;
             align-items: center;
@@ -837,32 +796,15 @@
             animation: typingBounce 1.4s ease-in-out infinite;
         }
 
-        .typing-dot:nth-child(1) {
-            background: var(--color-primary-500);
-        }
-        .typing-dot:nth-child(2) {
-            background: var(--color-secondary-500);
-            animation-delay: 0.2s;
-        }
-        .typing-dot:nth-child(3) {
-            background: var(--color-success);
-            animation-delay: 0.4s;
-        }
+        .typing-dot:nth-child(1) { background: var(--color-primary-500); }
+        .typing-dot:nth-child(2) { background: var(--color-secondary-500); animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { background: var(--color-success); animation-delay: 0.4s; }
 
         @keyframes typingBounce {
-            0%,
-            60%,
-            100% {
-                transform: translateY(0);
-                opacity: 0.4;
-            }
-            30% {
-                transform: translateY(-12px);
-                opacity: 1;
-            }
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-12px); opacity: 1; }
         }
 
-        /* ===== INPUT ===== */
         .input-area {
             padding: 16px 24px 24px;
             background: linear-gradient(to top, var(--color-surface-950) 50%, transparent);
@@ -943,12 +885,8 @@
         }
 
         @keyframes micPulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4);
-            }
-            70% {
-                box-shadow: 0 0 0 20px rgba(236, 72, 153, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(236, 72, 153, 0); }
         }
 
         .send-btn {
@@ -1002,7 +940,6 @@
             transform: translateY(0);
         }
 
-        /* ===== MODALS ===== */
         .modal-backdrop {
             position: fixed;
             inset: 0;
@@ -1158,30 +1095,13 @@
             color: var(--color-text-tertiary);
         }
 
-        .mood-day.mood-level-1 {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--color-error);
-        }
-        .mood-day.mood-level-2 {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--color-warning);
-        }
-        .mood-day.mood-level-3 {
-            background: rgba(245, 158, 11, 0.1);
-            color: var(--color-text-secondary);
-        }
-        .mood-day.mood-level-4 {
-            background: rgba(139, 92, 246, 0.15);
-            color: var(--color-primary-400);
-        }
-        .mood-day.mood-level-5 {
-            background: rgba(236, 72, 153, 0.2);
-            color: var(--color-secondary-400);
-        }
+        .mood-day.mood-level-1 { background: rgba(239, 68, 68, 0.2); color: var(--color-error); }
+        .mood-day.mood-level-2 { background: rgba(245, 158, 11, 0.2); color: var(--color-warning); }
+        .mood-day.mood-level-3 { background: rgba(245, 158, 11, 0.1); color: var(--color-text-secondary); }
+        .mood-day.mood-level-4 { background: rgba(139, 92, 246, 0.15); color: var(--color-primary-400); }
+        .mood-day.mood-level-5 { background: rgba(236, 72, 153, 0.2); color: var(--color-secondary-400); }
 
-        .btn-block {
-            width: 100%;
-        }
+        .btn-block { width: 100%; }
 
         .btn-secondary {
             background: var(--color-surface-700);
@@ -1199,10 +1119,7 @@
             background: var(--color-surface-600);
         }
 
-        .btn-sm {
-            padding: 4px 12px;
-            font-size: 0.75rem;
-        }
+        .btn-sm { padding: 4px 12px; font-size: 0.75rem; }
 
         .btn-ghost {
             background: transparent;
@@ -1330,37 +1247,16 @@
             animation: sttWave 0.7s ease-in-out infinite alternate;
         }
 
-        .stt-bar:nth-child(1) {
-            height: 25px;
-        }
-        .stt-bar:nth-child(2) {
-            height: 40px;
-            animation-delay: 0.1s;
-        }
-        .stt-bar:nth-child(3) {
-            height: 60px;
-            animation-delay: 0.2s;
-        }
-        .stt-bar:nth-child(4) {
-            height: 45px;
-            animation-delay: 0.3s;
-        }
-        .stt-bar:nth-child(5) {
-            height: 70px;
-            animation-delay: 0.4s;
-        }
-        .stt-bar:nth-child(6) {
-            height: 35px;
-            animation-delay: 0.5s;
-        }
+        .stt-bar:nth-child(1) { height: 25px; }
+        .stt-bar:nth-child(2) { height: 40px; animation-delay: 0.1s; }
+        .stt-bar:nth-child(3) { height: 60px; animation-delay: 0.2s; }
+        .stt-bar:nth-child(4) { height: 45px; animation-delay: 0.3s; }
+        .stt-bar:nth-child(5) { height: 70px; animation-delay: 0.4s; }
+        .stt-bar:nth-child(6) { height: 35px; animation-delay: 0.5s; }
 
         @keyframes sttWave {
-            from {
-                height: 15px;
-            }
-            to {
-                height: 70px;
-            }
+            from { height: 15px; }
+            to { height: 70px; }
         }
 
         .stt-text {
@@ -1416,22 +1312,14 @@
         }
 
         @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
+            to { transform: rotate(360deg); }
         }
 
         @keyframes logoFloat {
-            0%,
-            100% {
-                transform: translateY(0) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-10px) rotate(-2deg);
-            }
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(-2deg); }
         }
 
-        /* ===== TOAST ===== */
         tyaza-toast {
             display: block;
             background: var(--color-surface-800);
@@ -1444,31 +1332,16 @@
             max-width: 350px;
         }
 
-        tyaza-toast[type="success"] {
-            border-left-color: var(--color-success);
-        }
-        tyaza-toast[type="error"] {
-            border-left-color: var(--color-error);
-        }
-        tyaza-toast[type="info"] {
-            border-left-color: var(--color-info);
-        }
-        tyaza-toast[type="warning"] {
-            border-left-color: var(--color-warning);
-        }
+        tyaza-toast[type="success"] { border-left-color: var(--color-success); }
+        tyaza-toast[type="error"] { border-left-color: var(--color-error); }
+        tyaza-toast[type="info"] { border-left-color: var(--color-info); }
+        tyaza-toast[type="warning"] { border-left-color: var(--color-warning); }
 
         @keyframes toastSlideIn {
-            from {
-                opacity: 0;
-                transform: translateX(100%) scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0) scale(1);
-            }
+            from { opacity: 0; transform: translateX(100%) scale(0.9); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
         }
 
-        /* ===== MOBILE ===== */
         @media (max-width: 768px) {
             :root {
                 --sidebar-width: 85vw;
@@ -1492,71 +1365,28 @@
                 transition: transform 0.3s, pointer-events 0s 0s;
             }
 
-            .sidebar-close {
-                display: flex !important;
-            }
-            .menu-toggle {
-                display: flex !important;
-            }
-            .sidebar-overlay.active {
-                z-index: 499 !important;
-            }
+            .sidebar-close { display: flex !important; }
+            .menu-toggle { display: flex !important; }
+            .sidebar-overlay.active { z-index: 499 !important; }
 
-            .welcome-title {
-                font-size: 2.5rem;
-            }
-            .message {
-                max-width: 92%;
-            }
-            .messages-container {
-                padding: 16px;
-            }
-            .input-area {
-                padding: 12px 16px 16px;
-            }
-            .chat-header {
-                padding: 0 16px;
-            }
-            .header-actions .btn span {
-                display: none;
-            }
-            .modal {
-                padding: 20px;
-            }
-            .welcome-suggestions {
-                flex-direction: column;
-                align-items: center;
-            }
-            .suggestion-btn {
-                width: 100%;
-                max-width: 280px;
-            }
-            .avatar-container {
-                width: 80px;
-                height: 80px;
-            }
-            .avatar-expression {
-                font-size: 1.5rem;
-            }
+            .welcome-title { font-size: 2.5rem; }
+            .message { max-width: 92%; }
+            .messages-container { padding: 16px; }
+            .input-area { padding: 12px 16px 16px; }
+            .chat-header { padding: 0 16px; }
+            .header-actions .btn span { display: none; }
+            .modal { padding: 20px; }
+            .welcome-suggestions { flex-direction: column; align-items: center; }
+            .suggestion-btn { width: 100%; max-width: 280px; }
+            .avatar-container { width: 80px; height: 80px; }
+            .avatar-expression { font-size: 1.5rem; }
         }
 
         @media (max-width: 480px) {
-            .welcome-title {
-                font-size: 2rem;
-            }
-            .input-container {
-                padding: 6px;
-                gap: 6px;
-            }
-            .input-btn {
-                width: 40px;
-                height: 40px;
-                font-size: 0.85rem;
-            }
-            textarea {
-                font-size: 0.9rem;
-                padding: 8px 0;
-            }
+            .welcome-title { font-size: 2rem; }
+            .input-container { padding: 6px; gap: 6px; }
+            .input-btn { width: 40px; height: 40px; font-size: 0.85rem; }
+            textarea { font-size: 0.9rem; padding: 8px 0; }
         }
     </style>
 </head>
@@ -1583,7 +1413,6 @@
             <div class="sidebar-content">
                 <button class="new-chat-btn" id="newChatBtn">✨ Ikiganiro Gishya</button>
 
-                <!-- Profile -->
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">👤 Indangamuntu</div>
                     <div class="settings-card">
@@ -1604,7 +1433,6 @@
                     </div>
                 </div>
 
-                <!-- Mood -->
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">💚 Uko wumva</div>
                     <div class="settings-card">
@@ -1621,7 +1449,6 @@
                     </div>
                 </div>
 
-                <!-- Progress -->
                 <div class="sidebar-section">
                     <div class="sidebar-section-title">📈 Intambwe</div>
                     <div class="settings-card">
@@ -1636,7 +1463,6 @@
                     </div>
                 </div>
 
-                <!-- History -->
                 <div class="sidebar-section" style="flex:1;">
                     <div class="sidebar-section-title" style="display:flex;justify-content:space-between;">
                         <span>📜 Amateka</span>
@@ -1647,7 +1473,6 @@
                     </div>
                 </div>
 
-                <!-- Info -->
                 <div class="info-card">
                     <div class="info-card-title"><i class="fas fa-microchip"></i> KIVURA LABS</div>
                     <div style="font-size:0.7rem;color:var(--color-text-muted);">
@@ -1783,43 +1608,39 @@
 
     <script type="module">
         // ============================================================
-        // CRITICAL FIX: HIDE LOADING SCREEN IMMEDIATELY
+        // ULTIMATE FIX: HIDE LOADING SCREEN BEFORE ANYTHING ELSE
         // ============================================================
         const loadingScreen = document.getElementById('loadingScreen');
         if (loadingScreen) {
-            // Hide instantly - no delay
             loadingScreen.classList.add('hidden');
             console.log('⏱️ Loading screen hidden INSTANTLY');
         }
 
         // ============================================================
-        // SAFETY: Also hide on any error or after 200ms max
-        // ============================================================
-        setTimeout(() => {
-            const ls = document.getElementById('loadingScreen');
-            if (ls && !ls.classList.contains('hidden')) {
-                ls.classList.add('hidden');
-                console.log('⏱️ Loading screen hidden (200ms backup)');
-            }
-        }, 200);
-
-        // ============================================================
-        // Now import everything and run in the background
+        // NOW import and run everything - but NOTHING blocks
         // ============================================================
         import { openDB } from 'idb';
 
         // ============================================================
-        // DATABASE - with timeout protection
+        // DATABASE - with ULTIMATE fallback (no await on init)
         // ============================================================
         class Database {
             constructor() {
                 this.db = null;
                 this.ready = false;
+                this.initialized = false;
             }
 
-            async init() {
+            // NON-BLOCKING init - fires and forgets
+            init() {
+                // Don't await - run in background
+                this._initAsync().catch(() => {});
+                return this;
+            }
+
+            async _initAsync() {
                 try {
-                    // Use Promise.race to timeout database initialization
+                    // Try to open DB with a timeout using a controlled approach
                     const dbPromise = openDB('Tyaza10DB', 10, {
                         upgrade(db) {
                             if (!db.objectStoreNames.contains('conversations')) {
@@ -1846,22 +1667,32 @@
                         }
                     });
 
-                    // Race against a timeout - if DB takes more than 1.5s, use fallback
-                    const timeout = new Promise((_, reject) => {
-                        setTimeout(() => reject(new Error('Database timeout')), 1500);
-                    });
+                    // Use a manual timeout - if it takes more than 2 seconds, give up
+                    let timedOut = false;
+                    const timeoutId = setTimeout(() => {
+                        timedOut = true;
+                        console.warn('Database timeout, using fallback mode');
+                        this.ready = true;
+                        this.initialized = true;
+                    }, 2000);
 
-                    this.db = await Promise.race([dbPromise, timeout]);
-                    this.ready = true;
+                    if (!timedOut) {
+                        this.db = await dbPromise;
+                        this.ready = true;
+                        this.initialized = true;
+                        clearTimeout(timeoutId);
+                        console.log('✅ Database initialized successfully');
+                    }
                 } catch (error) {
-                    console.warn('Database init failed or timed out, using memory fallback:', error);
+                    console.warn('Database init failed, using memory fallback:', error);
                     this.ready = true;
+                    this.initialized = true;
                     this.db = null;
                 }
                 return this;
             }
 
-            // ... all other methods remain the same with error handling ...
+            // All methods now check if DB is ready and return empty/fallback if not
             async getConversations() {
                 if (!this.ready || !this.db) return [];
                 try { return await this.db.getAll('conversations'); } catch { return []; }
@@ -3052,8 +2883,7 @@
                     { id: 'courage', name: 'Courage', icon: '🦁', condition: (s) => s.traumaShared },
                     { id: 'resilience', name: 'Resilience', icon: '💪', condition: (s) => s.streak >= 7 },
                     { id: 'hope', name: 'Hope', icon: '🌟', condition: (s) => s.moodTrend >= 0.5 },
-                    { id: 'healing', name: 'Healing', icon: '💚', condition: (s) => s.totalSessions >= 30 && s.moodTrend >=
-                            0.5 }
+                    { id: 'healing', name: 'Healing', icon: '💚', condition: (s) => s.totalSessions >= 30 && s.moodTrend >= 0.5 }
                 ];
 
                 this.state = {
@@ -3077,8 +2907,7 @@
             }
 
             async saveState() {
-                try { await this.db.setSettings('gamification', this.state); } catch (e) { console.warn(
-                        'Gamification save failed:', e); }
+                try { await this.db.setSettings('gamification', this.state); } catch (e) { console.warn('Gamification save failed:', e); }
             }
 
             async updateStats(sessionData) {
@@ -3248,41 +3077,37 @@
             }
 
             // ===== INIT - LOADING SCREEN ALREADY HIDDEN =====
-            async init() {
-                try {
-                    if (this.initialized) return;
-                    this.initialized = true;
+            init() {
+                if (this.initialized) return;
+                this.initialized = true;
 
-                    // All of this runs in the background - user already sees the app
-                    try {
-                        await this.db.init();
-                        await this.memory.load();
-                    } catch (e) {
-                        console.warn('DB/Memory init failed, continuing:', e);
+                // Start DB in background - DON'T AWAIT
+                this.db.init();
+
+                // Start everything else in the background
+                this._initBackground().catch(() => {});
+                
+                // Return immediately - app is ready
+                return this;
+            }
+
+            async _initBackground() {
+                try {
+                    await this.memory.load();
+                    
+                    const profile = await this.db.getUserProfile();
+                    if (profile) {
+                        this.userName = profile.name || null;
                     }
 
-                    try {
-                        const profile = await this.db.getUserProfile();
-                        if (profile) {
-                            this.userName = profile.name || null;
-                        }
-                    } catch (e) { console.warn('Profile load failed:', e); }
-
-                    try {
-                        await this.gamification.loadState();
-                    } catch (e) { console.warn('Gamification load failed:', e); }
-
-                    try {
-                        this.crisis.start();
-                    } catch (e) { console.warn('Crisis prevention start failed:', e); }
+                    await this.gamification.loadState();
+                    this.crisis.start();
 
                     this.updateProfileDisplay();
                     this.updateGamificationDisplay();
                     this.bindEvents();
 
-                    try {
-                        await this.loadHistory();
-                    } catch (e) { console.warn('History load failed:', e); }
+                    await this.loadHistory();
 
                     setTimeout(() => {
                         this.avatar.setExpression('smiling', 4);
@@ -3295,11 +3120,8 @@
                     this.checkJournalPrompt();
 
                     console.log('🚀 TYAZA 10.0 Enhanced');
-                    console.log('📦 Features: Voice+Emotion, Avatar, Memory, Crisis, Cultural, Journal, Community, Professional, Gamification');
-
                 } catch (error) {
-                    console.error('Init failed:', error);
-                    this.showToast('⚠️ Habaye ikibazo, ariko TYAZA ikomeje.', 'error');
+                    console.error('Background init error:', error);
                 }
             }
 
@@ -3328,8 +3150,7 @@
                 btn.style.marginTop = '8px';
                 btn.innerHTML = '📝 Andika Journal';
                 btn.onclick = () => this.journal.startJournal();
-                document.querySelector('.sidebar-content').insertBefore(btn, document.querySelector('.sidebar-content')
-                    .children[2]);
+                document.querySelector('.sidebar-content').insertBefore(btn, document.querySelector('.sidebar-content').children[2]);
             }
 
             checkMobileVoice() {
@@ -3347,8 +3168,7 @@
             showVoiceDialog() {
                 try {
                     const dialog = document.createElement('div');
-                    dialog.style.cssText =
-                        'position:fixed;inset:0;background:rgba(3,0,20,0.95);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;z-index:600;';
+                    dialog.style.cssText = 'position:fixed;inset:0;background:rgba(3,0,20,0.95);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:center;z-index:600;';
                     dialog.innerHTML = `
                         <div style="background:#130d24;border:2px solid #ec4899;border-radius:32px;padding:32px;max-width:90vw;width:400px;">
                             <h3 style="color:#f8fafc;margin-bottom:16px;">🎤 Vuga cyangwa andika</h3>
@@ -3444,8 +3264,7 @@
 
                 this.elements.moodScale.querySelectorAll('.mood-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
-                        this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList
-                            .remove('selected'));
+                        this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
                         btn.classList.add('selected');
                     });
                 });
@@ -3882,8 +3701,7 @@
                     const dayStart = new Date(date.setHours(0, 0, 0, 0)).getTime();
                     const dayEnd = dayStart + 86400000;
                     const dayMoods = moods.filter(m => m.timestamp >= dayStart && m.timestamp < dayEnd);
-                    const avg = dayMoods.length ? Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods.length) :
-                        0;
+                    const avg = dayMoods.length ? Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods.length) : 0;
                     html += `<div class="mood-day mood-level-${avg}">${date.getDate()}</div>`;
                 }
                 this.elements.moodCalendar.innerHTML = html;
@@ -4014,8 +3832,7 @@
                 const message = this.getAttribute('message') || '';
                 const type = this.getAttribute('type') || 'info';
                 const colors = { success: '#22c55e', error: '#ef4444', info: '#3b82f6', warning: '#f59e0b' };
-                const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle',
-                    warning: 'exclamation-triangle' };
+                const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle', warning: 'exclamation-triangle' };
 
                 this.attachShadow({ mode: 'open' }).innerHTML = `
                     <style>
@@ -4057,26 +3874,21 @@
         customElements.define('tyaza-toast', TyazaToast);
 
         // ============================================================
-        // START THE APP
+        // START THE APP - NO BLOCKING
         // ============================================================
         const app = new TyazaApp();
         window.app = app;
 
-        // EXTRA SAFETY: Hide loading screen again at 300ms if not already hidden
+        // Start the app - this returns immediately
+        app.init();
+
+        // Safety: hide loading screen if anything went wrong
         setTimeout(() => {
             const ls = document.getElementById('loadingScreen');
             if (ls && !ls.classList.contains('hidden')) {
                 ls.classList.add('hidden');
-                console.log('⏱️ Loading screen hidden (300ms final backup)');
             }
-        }, 300);
-
-        // Start the app initialization (runs in background)
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', () => app.init());
-        } else {
-            app.init();
-        }
+        }, 500);
 
         console.log('🚀 TYAZA 10.0 - Digital Mental Health Companion');
         console.log('💚 KIVURA LABS - "Healthy citizens, wealthy nation"');
