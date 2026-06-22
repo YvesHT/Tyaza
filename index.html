@@ -2529,21 +2529,6 @@
                 </button>
 
                 <div class="sidebar-section">
-                    <div class="sidebar-section-title">Umwirondoro</div>
-                    <div class="settings-card">
-                        <div class="settings-row">
-                            <label class="settings-label" for="userNameInput">Izina ryawe</label>
-                            <input type="text" class="input" id="userNameInput" placeholder="Injira izina ryawe..." value="" aria-label="Your name">
-                        </div>
-                        <div class="settings-row mt-2">
-                            <button class="btn btn-secondary btn-sm" id="saveNameBtn">
-                                <i class="fas fa-save" aria-hidden="true"></i> Bika izina
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-section">
                     <div class="sidebar-section-title">Uko wumva</div>
                     <div class="settings-card">
                         <div class="mood-scale-compact" id="moodQuickSelect" role="group" aria-label="Quick mood selection">
@@ -3172,8 +3157,7 @@
                     engaged += this.getPhrase('joining') + ' ';
                 }
 
-                // Add validation based on user message length or emotion indicators
-                if (userMessage.length > 20 || userMessage.includes('?')) {
+                // Add validation based on user message length or emotion indicators                if (userMessage.length > 20 || userMessage.includes('?')) {
                     engaged += this.getPhrase('validating') + ' ';
                 }
 
