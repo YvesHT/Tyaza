@@ -1560,7 +1560,7 @@
         </div>
     </div>
 
-    <!-- LOADING SCREEN - Will be hidden instantly by the synchronous script below -->
+    <!-- LOADING SCREEN - hidden instantly by synchronous script below -->
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-logo">
             <img src="tyaza-logo.png" alt="TYAZA">
@@ -1597,14 +1597,18 @@
         </div>
     </div>
 
-    <!-- ===== IMMEDIATE LOADING SCREEN HIDE – NO MODULE BLOCK ===== -->
+    <!-- ============================================================
+         🔧 THE ONLY FIX: Synchronous script that runs BEFORE module
+            loading starts. This executes instantly during HTML parsing.
+         ============================================================ -->
     <script>
+        // Kill loading screen before ANY imports/parsing can block
         (function() {
             var loader = document.getElementById('loadingScreen');
             if (loader) {
-                loader.style.display = 'none';   // hide instantly
-                loader.classList.add('hidden');  // keep semantic class
-                console.log('✅ Loading screen hidden');
+                loader.style.display = 'none';
+                loader.classList.add('hidden');
+                console.log('✅ Loading screen hidden synchronously');
             }
         })();
     </script>
@@ -1619,21 +1623,13 @@
 
     <script type="module">
         // ============================================================
-        // ULTIMATE FIX: HIDE LOADING SCREEN BEFORE ANYTHING ELSE
-        // ============================================================
-        const loadingScreen = document.getElementById('loadingScreen');
-        if (loadingScreen) {
-            loadingScreen.classList.add('hidden');
-            console.log('⏱️ Loading screen hidden INSTANTLY');
-        }
-
-        // ============================================================
-        // NOW import and run everything - but NOTHING blocks
+        // Loading screen already hidden by synchronous script above.
+        // Module can now load idb asynchronously without blocking the UI.
         // ============================================================
         import { openDB } from 'idb';
 
         // ============================================================
-        // DATABASE - with ULTIMATE fallback (no await on init)
+        // DATABASE - with fallback (no await on init)
         // ============================================================
         class Database {
             constructor() {
@@ -1644,14 +1640,12 @@
 
             // NON-BLOCKING init - fires and forgets
             init() {
-                // Don't await - run in background
                 this._initAsync().catch(() => {});
                 return this;
             }
 
             async _initAsync() {
                 try {
-                    // Try to open DB with a timeout using a controlled approach
                     const dbPromise = openDB('Tyaza10DB', 10, {
                         upgrade(db) {
                             if (!db.objectStoreNames.contains('conversations')) {
@@ -1678,7 +1672,6 @@
                         }
                     });
 
-                    // Use a manual timeout - if it takes more than 2 seconds, give up
                     let timedOut = false;
                     const timeoutId = setTimeout(() => {
                         timedOut = true;
@@ -1703,7 +1696,6 @@
                 return this;
             }
 
-            // All methods now check if DB is ready and return empty/fallback if not
             async getConversations() {
                 if (!this.ready || !this.db) return [];
                 try { return await this.db.getAll('conversations'); } catch { return []; }
@@ -3087,7 +3079,7 @@
                 };
             }
 
-            // ===== INIT - LOADING SCREEN ALREADY HIDDEN =====
+            // ===== INIT - LOADING SCREEN ALREADY HIDDEN BY SYNC SCRIPT =====
             init() {
                 if (this.initialized) return;
                 this.initialized = true;
@@ -3885,21 +3877,11 @@
         customElements.define('tyaza-toast', TyazaToast);
 
         // ============================================================
-        // START THE APP - NO BLOCKING
+        // START THE APP
         // ============================================================
         const app = new TyazaApp();
         window.app = app;
-
-        // Start the app - this returns immediately
         app.init();
-
-        // Safety: hide loading screen if anything went wrong
-        setTimeout(() => {
-            const ls = document.getElementById('loadingScreen');
-            if (ls && !ls.classList.contains('hidden')) {
-                ls.classList.add('hidden');
-            }
-        }, 500);
 
         console.log('🚀 TYAZA 10.0 - Digital Mental Health Companion');
         console.log('💚 KIVURA LABS - "Healthy citizens, wealthy nation"');
