@@ -390,6 +390,7 @@
             text-decoration: none;
             position: relative;
             overflow: hidden;
+            pointer-events: auto;
         }
 
         .btn::after {
@@ -1511,6 +1512,7 @@
             transition: all 0.2s var(--transition-smooth);
             border: none;
             font-size: 1.1rem;
+            pointer-events: auto;
         }
 
         .voice-btn {
@@ -1752,13 +1754,15 @@
             justify-content: center;
             gap: var(--space-6);
             z-index: 1000;
+            opacity: 1;
+            visibility: visible;
             transition: opacity 0.5s ease, visibility 0.5s ease;
+            pointer-events: none;
         }
 
         .loading-screen.hidden {
             opacity: 0;
             visibility: hidden;
-            pointer-events: none;
         }
 
         .loading-logo {
@@ -2707,7 +2711,8 @@
         </div>
     </div>
 
-    <div class="loading-screen" id="loadingScreen" role="status" aria-label="Loading">
+    <!-- Loading screen - hidden by default, shown only during initial load -->
+    <div class="loading-screen hidden" id="loadingScreen" role="status" aria-label="Loading">
         <div class="loading-logo">
             <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <i class="fas fa-robot" style="display: none;" aria-hidden="true"></i>
@@ -2843,36 +2848,25 @@
     </button>
 
     <script>
-        // Simple loading screen hide - executes immediately
+        // Hide loading screen immediately
         (function() {
-            // Hide loading screen after a short delay
-            setTimeout(function() {
-                var ls = document.getElementById('loadingScreen');
-                if (ls) ls.classList.add('hidden');
-            }, 800);
-
-            // Also hide on any click/tap
-            document.addEventListener('click', function() {
-                var ls = document.getElementById('loadingScreen');
-                if (ls && !ls.classList.contains('hidden')) {
-                    ls.classList.add('hidden');
-                }
-            }, { once: true });
+            var ls = document.getElementById('loadingScreen');
+            if (ls) {
+                ls.classList.add('hidden');
+            }
         })();
     </script>
 
     <script type="importmap">
         {
             "imports": {
-                "idb": "https://esm.sh/idb@8.0.0",
-                "@xenova/transformers": "https://esm.sh/@xenova/transformers@2.17.1"
+                "idb": "https://esm.sh/idb@8.0.0"
             }
         }
     </script>
 
     <script type="module">
         import { openDB } from 'idb';
-        // import { pipeline, env } from '@xenova/transformers';
 
         // Simple fallback responses
         const FALLBACK_RESPONSES = [
@@ -3269,9 +3263,7 @@
                 this.bindEvents();
                 await this.loadHistory();
 
-                // Hide loading screen - ensure it's hidden
-                const ls = document.getElementById('loadingScreen');
-                if (ls) ls.classList.add('hidden');
+                // Loading screen is already hidden
 
                 setTimeout(() => {
                     if (this.elements.welcomeGreeting) {
@@ -3281,6 +3273,12 @@
 
                 this.checkMobileVoiceSupport();
                 this.fixMobileSidebar();
+
+                // Ensure all buttons are clickable
+                document.querySelectorAll('button, .btn, .input-btn, .send-btn, .voice-btn, .menu-toggle, .sidebar-close, .new-chat-btn, .suggestion-btn, .mood-btn-small, .crisis-floating-btn, .modal-close, .btn-ghost, .btn-secondary, .btn-primary, .btn-danger, .btn-block, .btn-sm, .btn-icon').forEach(el => {
+                    el.style.pointerEvents = 'auto';
+                    el.style.cursor = 'pointer';
+                });
             }
 
             fixMobileSidebar() {
@@ -3948,7 +3946,7 @@
 
         console.log('✨ TYAZA v6.1 - 2030 Edition');
         console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-        console.log('💙 Loading screen fixed - loads instantly');
+        console.log('💙 All buttons are clickable now');
     </script>
 
     <noscript>
