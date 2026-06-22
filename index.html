@@ -11,8 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
+    <!-- Load config file with API key -->
+    <script src="config.js"></script>
+    
     <style>
-        /* Same styles as before - keeping it concise */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --primary: #8b5cf6;
@@ -1561,8 +1563,19 @@
         // ============================================================
 
         // ---------- CONFIG ----------
-        const HUGGINGFACE_TOKEN = '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';
+        // API Key loaded from config.js file
+        // Make sure config.js exists with: const HUGGINGFACE_TOKEN = 'your-token-here';
+        
+        // Check if API key is loaded
+        if (typeof HUGGINGFACE_TOKEN === 'undefined') {
+            console.error('❌ HUGGINGFACE_TOKEN not found! Make sure config.js is loaded.');
+            alert('⚠️ API key not found! Please create config.js file with your Hugging Face token.');
+        } else {
+            console.log('✅ API key loaded successfully from config.js');
+        }
+        
         const API_URL = 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-V3';
+        const FALLBACK_API_URL = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1';
 
         // ---------- STATE ----------
         let state = {
@@ -1835,7 +1848,7 @@
         }
 
         // ============================================================
-        // SYSTEM CONTEXT - Combines all engines for AI prompt
+        // SYSTEM CONTEXT
         // ============================================================
         function getSystemContext(userMessage) {
             const risks = analyzeRisks(userMessage);
@@ -1880,13 +1893,20 @@
         }
 
         // ============================================================
-        // AI SERVICE - DeepSeek V3 via Hugging Face with improved handling
+        // AI SERVICE - DeepSeek V3 via Hugging Face
         // ============================================================
         async function getAIResponse(userMessage) {
+            // Check if API key is available
+            if (typeof HUGGINGFACE_TOKEN === 'undefined' || !HUGGINGFACE_TOKEN) {
+                console.warn('⚠️ No API key found, using fallback responses');
+                showToast('⚠️ API key missing - using local mode', 'warning');
+                return getFallbackResponse(userMessage);
+            }
+
             try {
                 const context = getSystemContext(userMessage);
                 
-                console.log('Sending request to DeepSeek V3...');
+                console.log('📤 Sending request to DeepSeek V3...');
                 
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -1909,16 +1929,20 @@
 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    console.error('API Error Response:', errorText);
+                    console.error('❌ API Error:', response.status, errorText);
                     
-                    // Try fallback model if DeepSeek V3 fails
+                    if (response.status === 429) {
+                        showToast('⚠️ Rate limit reached, using fallback', 'warning');
+                    } else if (response.status === 503) {
+                        showToast('⚠️ Model loading, using fallback', 'warning');
+                    }
+                    
                     return await getFallbackAIResponse(userMessage);
                 }
 
                 const data = await response.json();
-                console.log('API Response:', data);
+                console.log('✅ API Response received');
                 
-                // Handle different response formats
                 let text = '';
                 if (Array.isArray(data) && data.length > 0) {
                     text = data[0]?.generated_text || data[0]?.text || '';
@@ -1931,7 +1955,6 @@
                 } else if (typeof data === 'string') {
                     text = data;
                 } else {
-                    // Try to extract from any field
                     for (const key of ['output', 'result', 'message', 'content']) {
                         if (data[key]) {
                             text = data[key];
@@ -1940,42 +1963,37 @@
                     }
                 }
 
-                // Clean up the response - remove the input prompt if it's included
                 text = text.replace(context, '').trim();
-                
-                // Remove any leftover "Umuntu:" or "Igisubizo cyawe" prefix
                 text = text.replace(/^(Umuntu:|Igisubizo cyawe:|Igisubizo:)/, '').trim();
                 
                 if (text && text.length > 5) {
-                    // Check for crisis keywords in response
                     if (text.toLowerCase().includes('crisis') || text.toLowerCase().includes('116')) {
                         return 'CRISIS';
                     }
                     return text;
                 }
                 
-                // If we got empty or very short response, try fallback
-                console.warn('Empty or short response from API, using fallback');
+                console.warn('⚠️ Empty response from API, using fallback');
                 return getFallbackAIResponse(userMessage);
 
             } catch (error) {
-                console.error('DeepSeek API Error:', error);
-                // Try fallback model
+                console.error('❌ DeepSeek API Error:', error);
                 return await getFallbackAIResponse(userMessage);
             }
         }
 
         // ============================================================
-        // FALLBACK AI - Try a smaller model if DeepSeek V3 fails
+        // FALLBACK AI - Mistral-7B
         // ============================================================
         async function getFallbackAIResponse(userMessage) {
+            if (typeof HUGGINGFACE_TOKEN === 'undefined' || !HUGGINGFACE_TOKEN) {
+                return getFallbackResponse(userMessage);
+            }
+
             try {
                 const context = getSystemContext(userMessage);
                 
-                // Try a smaller, faster model as fallback
-                const fallbackUrl = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1';
-                
-                const response = await fetch(fallbackUrl, {
+                const response = await fetch(FALLBACK_API_URL, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${HUGGINGFACE_TOKEN}`,
@@ -1994,7 +2012,7 @@
                 });
 
                 if (!response.ok) {
-                    console.error('Fallback API Error:', response.status);
+                    console.error('❌ Fallback API Error:', response.status);
                     return getFallbackResponse(userMessage);
                 }
 
@@ -2020,13 +2038,13 @@
                 return getFallbackResponse(userMessage);
 
             } catch (error) {
-                console.error('Fallback API Error:', error);
+                console.error('❌ Fallback API Error:', error);
                 return getFallbackResponse(userMessage);
             }
         }
 
         // ============================================================
-        // FALLBACK RESPONSES - Local responses when API fails
+        // FALLBACK RESPONSES
         // ============================================================
         function getFallbackResponse(text) {
             const lower = text.toLowerCase();
@@ -2060,7 +2078,6 @@
                 return `${kbResults[0]}\n\nUbu wumva ute? 💙`;
             }
 
-            // More context-aware responses
             let responses = [];
             if (lower.includes('ntacyo') || lower.includes('mbi') || lower.includes('byacye') ||
                 lower.includes('sad') || lower.includes('depressed') || lower.includes('anxious') ||
@@ -2773,6 +2790,15 @@
         // INIT
         // ============================================================
         function init() {
+            // Check if API key is loaded
+            if (typeof HUGGINGFACE_TOKEN === 'undefined' || !HUGGINGFACE_TOKEN) {
+                console.warn('⚠️ No API key found in config.js');
+                showToast('⚠️ API key missing - using local mode', 'warning');
+            } else {
+                console.log('✅ API key loaded from config.js');
+                showToast('✅ DeepSeek AI yiteguye!', 'success');
+            }
+
             state.userName = storageGet('userName', null);
             state.settings = storageGet('settings', state.settings);
             state.moodData = storageGetAll('moodData');
@@ -2919,46 +2945,9 @@
             console.log('✨ TYAZA v2.1 - Umuvugizi w\'Umutima');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
             console.log('🤖 AI:', state.useAI ? 'DeepSeek V3 irakoreshwa' : 'Gahunda ikoreshwa');
+            console.log('🔑 API Key:', typeof HUGGINGFACE_TOKEN !== 'undefined' && HUGGINGFACE_TOKEN ? '✅ Loaded' : '❌ Missing');
             console.log('🧠 Risk Engine, Memory Engine, Retrieval System initialized');
             console.log('🌍 Rwanda, 2026');
-            
-            // Test API connection on startup
-            testAPIConnection();
-        }
-
-        // ============================================================
-        // TEST API CONNECTION
-        // ============================================================
-        async function testAPIConnection() {
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${HUGGINGFACE_TOKEN}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        inputs: "Muraho",
-                        parameters: {
-                            max_new_tokens: 10,
-                            temperature: 0.5,
-                            do_sample: false,
-                            return_full_text: false,
-                        }
-                    })
-                });
-                
-                if (response.ok) {
-                    console.log('✅ DeepSeek V3 API is accessible');
-                    showToast('DeepSeek AI yiteguye! ✨', 'success');
-                } else {
-                    console.warn('⚠️ DeepSeek V3 API may have rate limits, fallback ready');
-                    showToast('DeepSeek: Rate limits may apply, fallback ready', 'warning');
-                }
-            } catch (error) {
-                console.warn('⚠️ API test failed, using fallback mode');
-                showToast('Using local mode (API not available)', 'warning');
-            }
         }
 
         // ============================================================
