@@ -3157,7 +3157,8 @@
                     engaged += this.getPhrase('joining') + ' ';
                 }
 
-                // Add validation based on user message length or emotion indicators                if (userMessage.length > 20 || userMessage.includes('?')) {
+                // Add validation based on user message length or emotion indicators
+                if (userMessage.length > 20 || userMessage.includes('?')) {
                     engaged += this.getPhrase('validating') + ' ';
                 }
 
@@ -3345,7 +3346,7 @@
             }
 
             buildSystemPrompt() {
-                const name = this.userName || 'Mugisha';
+                const name = this.userName || '';
                 return `Wowe uri TYAZA (Umuvugizi w'Umutima), umuvugizi w'umutima wakozwe na KIVURA LABS.
 
             ABOUT KIVURA LABS:
@@ -3360,7 +3361,7 @@
             YOUR ROLE:
             - Therapeutic assistant (not replacement for professional help)
             - Speak Kinyarwanda with empathy and warmth
-            - Remember user's name: ${name}
+            - Remember user's name: ${name || 'umukunzi'}
             - Detect crisis keywords and trigger emergency protocols
             - Provide evidence-based responses (CBT, DBT, MI, ACT)
             - Represent Kivura Labs' mission of accessible mental health
@@ -3712,9 +3713,13 @@
                 };
 
                 this.voiceFallbackActive = false;
+                this.initDone = false;
             }
 
             async init() {
+                if (this.initDone) return;
+                this.initDone = true;
+
                 this.createStars();
                 await this.db.init();
 
@@ -3733,12 +3738,16 @@
                 if (settings) this.settings = { ...this.settings, ...settings };
                 this.applySettings();
 
-                await this.ai.init();
+                // Don't wait for AI init, it can load in background
+                this.ai.init().catch(() => {});
 
                 this.bindEvents();
                 await this.loadHistory();
 
-                setTimeout(() => this.elements.loadingScreen.classList.add('hidden'), 1200);
+                // Hide loading screen
+                setTimeout(() => {
+                    this.elements.loadingScreen.classList.add('hidden');
+                }, 800);
 
                 setTimeout(() => {
                     if (this.elements.welcomeGreeting) {
