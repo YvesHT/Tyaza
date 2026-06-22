@@ -1389,17 +1389,14 @@
         }
 
         .loading-logo {
-            width: 80px;
-            height: 80px;
+            width: 100px;
+            height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--gradient-primary);
-            border-radius: 20px;
-            font-size: 2.5rem;
-            color: white;
-            animation: logoFloat 3s ease-in-out infinite;
+            border-radius: 24px;
             overflow: hidden;
+            animation: logoFloat 3s ease-in-out infinite;
         }
 
         .loading-logo img {
@@ -1573,7 +1570,7 @@
         <aside class="app-sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo-container">
-                    <div class="logo-icon"><img src="tyaza_logo.png" alt="TYAZA Logo" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-brain\'></i>'"></div>
+                    <div class="logo-icon"><img src="tyaza-logo.png" alt="TYAZA Logo"></div>
                     <div class="logo-text">
                         <div class="logo-title">TYAZA 10.0</div>
                         <div class="logo-subtitle">Digital Mental Health Companion</div>
@@ -1668,7 +1665,7 @@
                     <button class="btn-icon menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
                     <div class="chat-title">
                         <div class="chat-avatar">
-                            <img src="tyaza_logo.png" alt="TYAZA" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-brain\'></i>'">
+                            <img src="tyaza-logo.png" alt="TYAZA">
                             <span class="status-dot"></span>
                         </div>
                         <div class="chat-info">
@@ -1740,7 +1737,7 @@
 
     <div class="loading-screen" id="loadingScreen">
         <div class="loading-logo">
-            <img src="tyaza_logo.png" alt="TYAZA" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\'fas fa-brain\'></i>'">
+            <img src="tyaza-logo.png" alt="TYAZA">
         </div>
         <div class="loading-spinner"></div>
         <div id="loadingText">Itegura...</div>
@@ -1824,7 +1821,7 @@
                     this.ready = true;
                 } catch (error) {
                     console.warn('Database init failed, using memory fallback:', error);
-                    this.ready = true; // Still mark ready to prevent hanging
+                    this.ready = true;
                     this.db = null;
                 }
                 return this;
@@ -3228,19 +3225,28 @@
                 };
             }
 
+            // ===== CRITICAL FIX: LOADING SCREEN HIDES WITHIN 1 SECOND =====
             async init() {
                 try {
                     if (this.initialized) return;
                     this.initialized = true;
 
-                    this.elements.loadingText.textContent = 'Kubona amakuru...';
-
-                    await this.db.init();
-                    await this.memory.load();
-
-                    this.elements.loadingText.textContent = 'Kugira amahoro...';
+                    // CRITICAL: Force hide loading screen within 1 second MAX
+                    const forceHide = setTimeout(() => {
+                        this.elements.loadingScreen.classList.add('hidden');
+                        console.log('⏱️ Loading screen force-hidden (1s timeout)');
+                    }, 1000);
 
                     try {
+                        this.elements.loadingText.textContent = 'Kubona amakuru...';
+                        await this.db.init();
+                        await this.memory.load();
+                    } catch (e) {
+                        console.warn('DB/Memory init failed, continuing:', e);
+                    }
+
+                    try {
+                        this.elements.loadingText.textContent = 'Kugira amahoro...';
                         const profile = await this.db.getUserProfile();
                         if (profile) {
                             this.userName = profile.name || null;
@@ -3251,15 +3257,12 @@
                         await this.gamification.loadState();
                     } catch (e) { console.warn('Gamification load failed:', e); }
 
-                    this.elements.loadingText.textContent = 'Itegura...';
-
                     try {
                         this.crisis.start();
                     } catch (e) { console.warn('Crisis prevention start failed:', e); }
 
                     this.updateProfileDisplay();
                     this.updateGamificationDisplay();
-
                     this.bindEvents();
 
                     try {
@@ -3279,19 +3282,17 @@
                     console.log('🚀 TYAZA 10.0 Enhanced');
                     console.log('📦 Features: Voice+Emotion, Avatar, Memory, Crisis, Cultural, Journal, Community, Professional, Gamification');
 
+                    // Clear the force-hide timeout since everything is done
+                    clearTimeout(forceHide);
+
+                    // Ensure loading screen is hidden
+                    this.elements.loadingScreen.classList.add('hidden');
+
                 } catch (error) {
                     console.error('Init failed:', error);
                     this.showToast('⚠️ Habaye ikibazo, ariko TYAZA ikomeje.', 'error');
-                } finally {
-                    // ALWAYS hide loading screen with fallback timeouts
-                    setTimeout(() => {
-                        this.elements.loadingScreen.classList.add('hidden');
-                    }, 500);
-
-                    // Force hide after 3 seconds max
-                    setTimeout(() => {
-                        this.elements.loadingScreen.classList.add('hidden');
-                    }, 3000);
+                    // ALWAYS hide loading screen on error
+                    this.elements.loadingScreen.classList.add('hidden');
                 }
             }
 
@@ -3629,7 +3630,7 @@
 
                 const avatarContent = role === 'user' ?
                     '👤' :
-                    '<img src="tyaza_logo.png" alt="TYAZA" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<i class=\\\'fas fa-brain\\\'></i>\'">';
+                    '<img src="tyaza-logo.png" alt="TYAZA" style="width:100%;height:100%;object-fit:cover;">';
 
                 msg.innerHTML = `
                     <div class="message-avatar">${avatarContent}</div>
@@ -3666,7 +3667,7 @@
                 typing.id = id;
                 typing.className = 'typing-indicator';
                 typing.innerHTML = `
-                    <div class="typing-avatar"><img src="tyaza_logo.png" alt="TYAZA" onerror="this.style.display='none';this.parentElement.innerHTML='<i class=\\'fas fa-brain\\'></i>'"></div>
+                    <div class="typing-avatar"><img src="tyaza-logo.png" alt="TYAZA" style="width:100%;height:100%;object-fit:cover;"></div>
                     <div class="typing-bubble">
                         <span class="typing-dot"></span>
                         <span class="typing-dot"></span>
@@ -4051,6 +4052,16 @@
         // ===== INIT =====
         const app = new TyazaApp();
         window.app = app;
+
+        // CRITICAL: Also force-hide loading screen from outside in case anything else goes wrong
+        // This ensures the loading screen is ALWAYS gone within 1.5 seconds max
+        setTimeout(() => {
+            const loadingScreen = document.getElementById('loadingScreen');
+            if (loadingScreen) {
+                loadingScreen.classList.add('hidden');
+                console.log('⏱️ Loading screen force-hidden (global fallback)');
+            }
+        }, 1500);
 
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', () => app.init());
