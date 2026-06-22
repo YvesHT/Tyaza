@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
-    <!-- Load config file with API key -->
+    <!-- Load config file with API key from GitHub -->
     <script src="config.js"></script>
     
     <style>
@@ -1563,15 +1563,52 @@
         // ============================================================
 
         // ---------- CONFIG ----------
-        // API Key loaded from config.js file
-        // Make sure config.js exists with: const HUGGINGFACE_TOKEN = 'your-token-here';
+        // API Key loaded from config.js on GitHub
         
-        // Check if API key is loaded
-        if (typeof HUGGINGFACE_TOKEN === 'undefined') {
-            console.error('❌ HUGGINGFACE_TOKEN not found! Make sure config.js is loaded.');
-            alert('⚠️ API key not found! Please create config.js file with your Hugging Face token.');
-        } else {
-            console.log('✅ API key loaded successfully from config.js');
+        let HUGGINGFACE_TOKEN = null;
+        
+        // Try to load from config.js (loaded via script tag)
+        try {
+            if (typeof window.HUGGINGFACE_TOKEN !== 'undefined') {
+                HUGGINGFACE_TOKEN = window.HUGGINGFACE_TOKEN;
+                console.log('✅ API key loaded from config.js');
+            } else if (typeof HUGGINGFACE_TOKEN !== 'undefined' && typeof window === 'undefined') {
+                HUGGINGFACE_TOKEN = HUGGINGFACE_TOKEN;
+                console.log('✅ API key loaded from global scope');
+            } else {
+                // Try to get it from the global scope
+                const keys = ['HUGGINGFACE_TOKEN', 'HF_TOKEN', 'API_KEY'];
+                for (const key of keys) {
+                    if (typeof window[key] !== 'undefined' && window[key]) {
+                        HUGGINGFACE_TOKEN = window[key];
+                        console.log(`✅ API key loaded from window.${key}`);
+                        break;
+                    }
+                }
+            }
+        } catch(e) {
+            console.warn('⚠️ Error loading API key:', e);
+        }
+        
+        // Fallback - try to get from localStorage if available
+        if (!HUGGINGFACE_TOKEN) {
+            try {
+                const savedToken = localStorage.getItem('tyaza_api_key');
+                if (savedToken) {
+                    HUGGINGFACE_TOKEN = savedToken;
+                    console.log('✅ API key loaded from localStorage');
+                }
+            } catch(e) {}
+        }
+        
+        // If still no token, use the hardcoded one as last resort
+        if (!HUGGINGFACE_TOKEN) {
+            HUGGINGFACE_TOKEN = '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';
+            console.log('⚠️ Using fallback API key');
+            // Save to localStorage for future use
+            try {
+                localStorage.setItem('tyaza_api_key', HUGGINGFACE_TOKEN);
+            } catch(e) {}
         }
         
         const API_URL = 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-V3';
@@ -1603,7 +1640,9 @@
                 violence: false,
                 ptsd: false,
                 abuse: false
-            }
+            },
+            apiCallCount: 0,
+            lastApiCall: 0
         };
 
         // ============================================================
@@ -1893,20 +1932,30 @@
         }
 
         // ============================================================
-        // AI SERVICE - DeepSeek V3 via Hugging Face
+        // AI SERVICE - DeepSeek V3 via Hugging Face with rate limiting
         // ============================================================
         async function getAIResponse(userMessage) {
             // Check if API key is available
-            if (typeof HUGGINGFACE_TOKEN === 'undefined' || !HUGGINGFACE_TOKEN) {
-                console.warn('⚠️ No API key found, using fallback responses');
+            if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
+                console.warn('⚠️ No valid API key, using fallback responses');
                 showToast('⚠️ API key missing - using local mode', 'warning');
                 return getFallbackResponse(userMessage);
+            }
+
+            // Rate limiting - wait 2 seconds between API calls
+            const now = Date.now();
+            const timeSinceLastCall = now - state.lastApiCall;
+            if (timeSinceLastCall < 2000 && state.apiCallCount > 0) {
+                console.log('⏳ Rate limiting, waiting...');
+                await new Promise(resolve => setTimeout(resolve, 2000 - timeSinceLastCall));
             }
 
             try {
                 const context = getSystemContext(userMessage);
                 
                 console.log('📤 Sending request to DeepSeek V3...');
+                state.apiCallCount++;
+                state.lastApiCall = Date.now();
                 
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -1917,7 +1966,7 @@
                     body: JSON.stringify({
                         inputs: context,
                         parameters: {
-                            max_new_tokens: 250,
+                            max_new_tokens: 200,
                             temperature: 0.8,
                             top_p: 0.95,
                             do_sample: true,
@@ -1986,7 +2035,7 @@
         // FALLBACK AI - Mistral-7B
         // ============================================================
         async function getFallbackAIResponse(userMessage) {
-            if (typeof HUGGINGFACE_TOKEN === 'undefined' || !HUGGINGFACE_TOKEN) {
+            if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
                 return getFallbackResponse(userMessage);
             }
 
@@ -2002,7 +2051,7 @@
                     body: JSON.stringify({
                         inputs: context,
                         parameters: {
-                            max_new_tokens: 200,
+                            max_new_tokens: 150,
                             temperature: 0.7,
                             top_p: 0.9,
                             do_sample: true,
@@ -2044,11 +2093,12 @@
         }
 
         // ============================================================
-        // FALLBACK RESPONSES
+        // INTELLIGENT FALLBACK RESPONSES - More varied and contextual
         // ============================================================
         function getFallbackResponse(text) {
             const lower = text.toLowerCase();
 
+            // Crisis detection
             const crisisWords = [
                 'kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa',
                 'kwiyica', 'ndashaka gupfa', 'suicide', 'die', 'kill',
@@ -2058,6 +2108,7 @@
                 return 'CRISIS';
             }
 
+            // Name extraction
             const nameMatch = text.match(
                 /(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i
             );
@@ -2073,59 +2124,102 @@
                 }
             }
 
+            // Knowledge base check
             const kbResults = searchKnowledgeBase(text);
             if (kbResults.length > 0) {
                 return `${kbResults[0]}\n\nUbu wumva ute? 💙`;
             }
 
+            // Context-aware responses with more variety
             let responses = [];
-            if (lower.includes('ntacyo') || lower.includes('mbi') || lower.includes('byacye') ||
+            
+            // Check for specific keywords - FAITH BASED
+            if (lower.includes('yesu') || lower.includes('imana') || lower.includes('hane') || lower.includes('umugisha') || lower.includes('aduhane')) {
+                responses = [
+                    "Urakoze kuvuga iby'umwuka. Ni byiza kugira ukwizera. Ubu wumva ute? 💙",
+                    "Imana ikugirire umugisha. Ubu wumva ute? 🙏",
+                    "Ni byiza kugira ukwizera. Reka tuvugane ibiri ku mutima wawe. 💛",
+                    "Ubutwari bwo kuvuga iby'umwuka ni ikintu cyiza. Ubu wumva ute? ✨"
+                ];
+            } 
+            // STRENGTH/ENCOURAGEMENT
+            else if (lower.includes('mukomere') || lower.includes('komera') || lower.includes('strength') || lower.includes('power') || lower.includes('nkomeye')) {
+                responses = [
+                    "Urakoze kubwira ibyo! Ni byiza kumva ko ukomeye. Ubu wumva ute? 💪",
+                    "Ukomeye cyane! Ubu wumva ute? 🌟",
+                    "Ni byiza kubona ko ukomeye. Reka tuvugane byinshi. ✨",
+                    "Komera! Urukundo n'impuhwe ni byo bihaza umutima. Ubu wumva ute? 💛"
+                ];
+            } 
+            // POSITIVE FEELINGS
+            else if (lower.includes('neza') || lower.includes('meza') || lower.includes('good') || lower.includes('great') || lower.includes('happy') || lower.includes('nishimiye')) {
+                responses = [
+                    "Nishimiye ko wumva umeze neza! 🎉 Mbega ikintu cyiza. Ubu uvuga iki?",
+                    "Ni byiza kumva ibyo! Urakoze kunsangiza ibyiza. 🌟",
+                    "Murakoze kunsangiza ibyiza! Ubu wumva ute? 😊"
+                ];
+            } 
+            // NEGATIVE FEELINGS
+            else if (lower.includes('ntacyo') || lower.includes('mbi') || lower.includes('byacye') ||
                 lower.includes('sad') || lower.includes('depressed') || lower.includes('anxious') ||
-                lower.includes('guhangayika') || lower.includes('gushishikara')) {
+                lower.includes('guhangayika') || lower.includes('gushishikara') || lower.includes('agahinda') ||
+                lower.includes('bibazo') || lower.includes('ibibazo')) {
                 responses = [
                     "Ndumva ibi bikugoye cyane. Urakoze kumbwira ibiri ku mutima wawe. Ubwihe ukiri he? 💙",
                     "Ibyo uravuga bingira akamaro. Ndi kumwe nawe. Wumva ute ubu? 😊",
                     "Reka tuvugane byinshi. Ni byiza kuvuga ibiri ku mutima. Ubu wumva ute? 🤗"
                 ];
-            } else if (lower.includes('kuvuga') || lower.includes('ganira') || lower.includes('talk') ||
-                lower.includes('sangiza') || lower.includes('vuga')) {
+            } 
+            // TALKING
+            else if (lower.includes('kuvuga') || lower.includes('ganira') || lower.includes('talk') ||
+                lower.includes('sangiza') || lower.includes('vuga') || lower.includes('kuganira') ||
+                lower.includes('mvuga') || lower.includes('ndavuga')) {
                 responses = [
                     "Urakoze kuvuga. Ndi hano ngo nkugire. Kora ubutwari uvuge ibiri ku mutima wawe. 💛",
-                    "Ni byiza kuvuga. Ndakumva neza. Ubu uvuga iki? 🌟"
+                    "Ni byiza kuvuga. Ndakumva neza. Ubu uvuga iki? 🌟",
+                    "Urakoze kuganira n'umutima wawe. Ndi hano kugira nkugire. 💙"
                 ];
-            } else if (lower.includes('nkunga') || lower.includes('fashe') || lower.includes('help') ||
-                lower.includes('ubufasha') || lower.includes('inkunga')) {
+            } 
+            // SUPPORT
+            else if (lower.includes('nkunga') || lower.includes('fashe') || lower.includes('help') ||
+                lower.includes('ubufasha') || lower.includes('inkunga') || lower.includes('support') ||
+                lower.includes('fasha') || lower.includes('mfasha')) {
                 responses = [
                     "Urakoze gushaka inkunga. Iki ni ikintu cyiza cyane. Reka turebe hamwe uko twakugira. 🤝",
-                    "Ndi hano kugira nkugire. Ubu wumva ute? Urakoze kuvuga. 💙"
+                    "Ndi hano kugira nkugire. Ubu wumva ute? Urakoze kuvuga. 💙",
+                    "Ni byiza gushaka inkunga. Reka tuvugane byinshi. 💛"
                 ];
-            } else if (lower.includes('narushijeho') || lower.includes('meza') || lower.includes('neza') ||
-                lower.includes('good') || lower.includes('great') || lower.includes('happy')) {
-                responses = [
-                    "Nishimiye ko wumva umeze neza! 🎉 Mbega ikintu cyiza. Ubu uvuga iki?",
-                    "Ni byiza kumva ibyo! Urakoze kunsangiza ibyiza. 🌟"
-                ];
-            } else if (lower.includes('muraho') || lower.includes('hello') || lower.includes('hi') || lower.includes('bonjour')) {
-                responses = [
+            } 
+            // GREETINGS
+            else if (lower.includes('muraho') || lower.includes('hello') || lower.includes('hi') || 
+                     lower.includes('bonjour') || lower.includes('mwaramutse') || lower.includes('mwaramuke')) {
+                const greetings = [
                     "Muraho! Ndi hano kugira nkugire. Ubu wumva ute? 💙",
                     "Murakaza neza! Ndi TYAZA, umuvugizi w'umutima. Ubu wumva ute? 😊",
-                    "Muraho! Ndi hano ngo mbavugane. Ubu wumva ute? 💛"
+                    "Muraho! Ndi hano ngo mbavugane. Ubu wumva ute? 💛",
+                    "Mwaramutse! Ubu wumva ute? 🌟"
                 ];
-            } else {
+                responses = greetings;
+            } 
+            // DEFAULT
+            else {
                 responses = [
                     "Ndumva neza. Urakoze kunsangiza ibi. Wumva ute ubu? 💙",
                     "Ndi kumwe nawe. Wumva ute ubu? 😊",
-                    "Urakoze kundekera. Ngaho ugire icyo uvuga. ✨"
+                    "Urakoze kundekera. Ngaho ugire icyo uvuga. ✨",
+                    "Ni byiza kumva ibyo. Ubu wumva ute? 💛"
                 ];
             }
 
             let response = responses[Math.floor(Math.random() * responses.length)];
-            if (state.userName) {
-                response = response.replace(/\b(we|wawe|wewe)\b/gi, state.userName);
-                if (!response.includes(state.userName)) {
-                    response = response.replace('wumva ute', `${state.userName}, wumva ute`);
-                }
+            
+            // Add user name if available
+            if (state.userName && !response.includes(state.userName)) {
+                response = response.replace('wumva ute', `${state.userName}, wumva ute`);
+                response = response.replace('uvuga iki', `${state.userName}, uvuga iki`);
+                response = response.replace('Wumva ute', `${state.userName}, wumva ute`);
             }
+            
             return response;
         }
 
@@ -2791,11 +2885,11 @@
         // ============================================================
         function init() {
             // Check if API key is loaded
-            if (typeof HUGGINGFACE_TOKEN === 'undefined' || !HUGGINGFACE_TOKEN) {
-                console.warn('⚠️ No API key found in config.js');
+            if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
+                console.warn('⚠️ No valid API key found');
                 showToast('⚠️ API key missing - using local mode', 'warning');
             } else {
-                console.log('✅ API key loaded from config.js');
+                console.log('✅ API key loaded:', HUGGINGFACE_TOKEN.substring(0, 10) + '...');
                 showToast('✅ DeepSeek AI yiteguye!', 'success');
             }
 
@@ -2945,7 +3039,7 @@
             console.log('✨ TYAZA v2.1 - Umuvugizi w\'Umutima');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
             console.log('🤖 AI:', state.useAI ? 'DeepSeek V3 irakoreshwa' : 'Gahunda ikoreshwa');
-            console.log('🔑 API Key:', typeof HUGGINGFACE_TOKEN !== 'undefined' && HUGGINGFACE_TOKEN ? '✅ Loaded' : '❌ Missing');
+            console.log('🔑 API Key:', HUGGINGFACE_TOKEN && HUGGINGFACE_TOKEN.length > 10 ? '✅ Loaded' : '❌ Missing');
             console.log('🧠 Risk Engine, Memory Engine, Retrieval System initialized');
             console.log('🌍 Rwanda, 2026');
         }
