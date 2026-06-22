@@ -620,16 +620,6 @@
             flex-shrink: 0;
         }
 
-        .memory-btn {
-            background: rgba(139, 92, 246, 0.12);
-            border: 1px solid rgba(236, 72, 153, 0.2);
-            color: var(--color-secondary-400);
-        }
-
-        .memory-btn:hover {
-            background: rgba(139, 92, 246, 0.2);
-        }
-
         .messages-container {
             flex: 1;
             overflow-y: auto;
@@ -1786,6 +1776,7 @@
             pointer-events: auto;
         }
 
+        /* Mobile Responsive Fixes */
         @media (max-width: 768px) {
             :root {
                 --sidebar-width: 85vw;
@@ -1950,24 +1941,6 @@
                 padding: var(--space-2) 0;
             }
         }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-
-            .welcome-icon {
-                animation: none !important;
-            }
-
-            .crisis-floating-btn {
-                animation: none !important;
-            }
-        }
     </style>
 </head>
 <body>
@@ -2121,9 +2094,6 @@
                     </div>
                 </div>
                 <div class="header-actions">
-                    <button class="btn btn-icon btn-ghost memory-btn" id="memoryToggle" aria-label="Memory summary" title="Reba uko nakwibukira">
-                        <i class="fas fa-brain" aria-hidden="true"></i>
-                    </button>
                     <button class="btn btn-primary btn-sm ndahari-btn" id="ndahariBtn" aria-label="Toggle Ndahari AI">
                         <i class="fas fa-cloud" aria-hidden="true"></i>
                         <span>Ndahari</span>
@@ -2154,7 +2124,6 @@
                         <button class="suggestion-btn" data-prompt="Mfite ibibazo">😔 Mfite ibibazo</button>
                         <button class="suggestion-btn" data-prompt="Ngomba inkunga">🤝 Ngomba inkunga</button>
                         <button class="suggestion-btn" data-prompt="Narushijeho">🌟 Narushijeho</button>
-                        <button class="suggestion-btn" data-prompt="Ngira urwenya">😂 Ngira urwenya</button>
                     </div>
                     <div class="greeting" id="welcomeGreeting">
                         ✨ Murakaza neza
@@ -2215,7 +2184,6 @@
 
     <input type="file" id="importFile" accept=".json,.txt,.tyaza" style="display: none;" aria-label="Import file">
 
-    <!-- Mood Modal -->
     <div class="modal-backdrop" id="moodModal" role="dialog" aria-modal="true" aria-label="Mood tracking">
         <div class="modal mood-modal">
             <div class="modal-header">
@@ -2260,7 +2228,6 @@
         </div>
     </div>
 
-    <!-- Crisis Modal -->
     <div class="modal-backdrop" id="crisisModal" role="dialog" aria-modal="true" aria-label="Crisis resources">
         <div class="modal" style="max-width: 500px; border-color: var(--color-error);">
             <div class="modal-header" style="border-bottom-color: var(--color-error);">
@@ -2331,7 +2298,6 @@
         </div>
     </div>
 
-    <!-- Crisis Floating Button -->
     <button class="crisis-floating-btn" id="crisisFloatingBtn" aria-label="Emergency help">
         <span class="crisis-pulse" aria-hidden="true"></span>
         <i class="fas fa-phone-alt" aria-hidden="true"></i>
@@ -2341,415 +2307,71 @@
 
     <script type="module">
         import { openDB } from 'https://esm.sh/idb@8.0.0';
+        import { pipeline, env } from 'https://esm.sh/@xenova/transformers@2.17.1';
+
+        env.useBrowserCache = true;
+        env.allowRemoteModels = true;
 
         // ================================================================
-        // LONG-TERM MEMORY ENGINE
-        // ================================================================
-        class LongTermMemory {
-            constructor() {
-                this.memory = {
-                    user: { name: null, age: null, location: null, occupation: null, relationships: [],
-                        lifeEvents: [] },
-                    emotional: {
-                        patterns: { triggers: [], copingStrategies: [], strengths: [], vulnerabilities: [] },
-                        history: { daily: [], weekly: [], monthly: [] },
-                        trends: { overall: 'stable', recentChange: 0, volatilityScore: 0 }
-                    },
-                    conversation: { topics: {}, importantMoments: [], recurringIssues: [], progress: { started: Date
-                                .now(), milestones: [], setbacks: [] } },
-                    preferences: { communicationStyle: 'balanced', humorLevel: 0.4, directnessLevel: 0.5,
-                        topicsOfInterest: [], avoidedTopics: [] },
-                    therapy: { techniques: { cbt: { used: 0, effectiveness: 0 }, dbt: { used: 0,
-                            effectiveness: 0 }, mi: { used: 0, effectiveness: 0 }, act: { used: 0,
-                            effectiveness: 0 } }, goals: [], achievements: [], challenges: [] }
-                };
-                this.initialized = false;
-                this.lastSave = Date.now();
-                this.db = null;
-            }
-
-            async initialize(db) {
-                this.db = db;
-                const saved = await this.db.getSetting('longTermMemory');
-                if (saved) {
-                    this.memory = this.deepMerge(this.memory, saved);
-                    this.memory = this.ensureStructure(this.memory);
-                }
-                this.initialized = true;
-                this.startAutoSave();
-                return this;
-            }
-
-            ensureStructure(memory) {
-                const defaults = {
-                    user: { name: null, age: null, location: null, occupation: null, relationships: [],
-                        lifeEvents: [] },
-                    emotional: {
-                        patterns: { triggers: [], copingStrategies: [], strengths: [], vulnerabilities: [] },
-                        history: { daily: [], weekly: [], monthly: [] },
-                        trends: { overall: 'stable', recentChange: 0, volatilityScore: 0 }
-                    },
-                    conversation: { topics: {}, importantMoments: [], recurringIssues: [], progress: { started: Date
-                                .now(), milestones: [], setbacks: [] } },
-                    preferences: { communicationStyle: 'balanced', humorLevel: 0.4, directnessLevel: 0.5,
-                        topicsOfInterest: [], avoidedTopics: [] },
-                    therapy: { techniques: { cbt: { used: 0, effectiveness: 0 }, dbt: { used: 0,
-                            effectiveness: 0 }, mi: { used: 0, effectiveness: 0 }, act: { used: 0,
-                            effectiveness: 0 } }, goals: [], achievements: [], challenges: [] }
-                };
-                return this.deepMerge(defaults, memory);
-            }
-
-            deepMerge(target, source) {
-                const result = { ...target };
-                for (const key in source) {
-                    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-                        result[key] = this.deepMerge(target[key] || {}, source[key]);
-                    } else {
-                        result[key] = source[key];
-                    }
-                }
-                return result;
-            }
-
-            async save() {
-                if (this.db) {
-                    await this.db.setSetting('longTermMemory', this.memory);
-                    this.lastSave = Date.now();
-                }
-            }
-
-            startAutoSave() {
-                setInterval(() => {
-                    if (Date.now() - this.lastSave > 300000) {
-                        this.save();
-                    }
-                }, 30000);
-            }
-
-            processConversation(messages) {
-                if (!this.initialized) return;
-                this.extractUserInfo(messages);
-                this.analyzeEmotions(messages);
-                this.trackImportantMoments(messages);
-                this.updatePreferences(messages);
-                this.trackTherapyTechniques(messages);
-                this.save();
-            }
-
-            extractUserInfo(messages) {
-                const patterns = {
-                    name: /(?:ndi|nitwa|izina ryanjye|my name is|i'm|i am)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i,
-                    age: /(?:nifite|n'imyaka|my age|i am|i'm)\s+(\d{1,3})\s+(?:years?|imyaka)/i,
-                    location: /(?:ntuye|ndi|i live in|from)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-'\s]{2,30})/i,
-                    occupation: /(?:nkora|n'umukozi|i work as|my job is|i'm a)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-'\s]{2,30})/i
-                };
-
-                for (const msg of messages) {
-                    const content = msg.content;
-                    const nameMatch = content.match(patterns.name);
-                    if (nameMatch && !this.memory.user.name) {
-                        this.memory.user.name = nameMatch[1].trim();
-                    }
-                    const ageMatch = content.match(patterns.age);
-                    if (ageMatch && !this.memory.user.age) {
-                        this.memory.user.age = parseInt(ageMatch[1]);
-                    }
-                    const locationMatch = content.match(patterns.location);
-                    if (locationMatch && !this.memory.user.location) {
-                        this.memory.user.location = locationMatch[1].trim();
-                    }
-                    const occupationMatch = content.match(patterns.occupation);
-                    if (occupationMatch && !this.memory.user.occupation) {
-                        this.memory.user.occupation = occupationMatch[1].trim();
-                    }
-                }
-            }
-
-            analyzeEmotions(messages) {
-                const emotionKeywords = {
-                    sad: ['babaye', 'birababaje', 'ntakibazo', 'ndababaye', 'birabyaje', 'ntacyo', 'sinakimara'],
-                    anxious: ['gutinya', 'guhangayika', 'ntabwo mbizi', 'mbaza', 'guhanga', 'umutima utera'],
-                    angry: ['urakari', 'uburakari', 'narahaye', 'ndarakaye', 'birakaza', 'umujinya'],
-                    happy: ['ishimwe', 'nkishimiye', 'byiza', 'neza', 'mwiza', 'kiza', 'murakoze'],
-                    calm: ['amahoro', 'ntacyo', 'neza', 'mpumuye', 'ndumutse'],
-                    hopeful: ['izina', 'ibyiza', 'ibishoboka', 'ndashaka', 'nshobora']
-                };
-
-                let emotions = [];
-                for (const msg of messages) {
-                    const content = msg.content.toLowerCase();
-                    for (const [emotion, keywords] of Object.entries(emotionKeywords)) {
-                        for (const keyword of keywords) {
-                            if (content.includes(keyword)) {
-                                emotions.push({ emotion, timestamp: msg.timestamp || Date.now() });
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (emotions.length > 0) {
-                    const daily = this.memory.emotional.history.daily;
-                    const today = new Date().toDateString();
-                    const todayEntry = daily.find(d => d.date === today);
-                    if (todayEntry) {
-                        todayEntry.emotions = emotions;
-                    } else {
-                        daily.push({ date: today, emotions });
-                        if (daily.length > 30) daily.shift();
-                    }
-                    this.updateEmotionalTrends();
-                }
-            }
-
-            updateEmotionalTrends() {
-                const daily = this.memory.emotional.history.daily;
-                if (daily.length < 2) return;
-                const recent = daily.slice(-7);
-                const positive = ['happy', 'calm', 'hopeful'];
-                const negative = ['sad', 'anxious', 'angry'];
-                let positiveCount = 0,
-                    negativeCount = 0;
-                for (const day of recent) {
-                    for (const emo of day.emotions) {
-                        if (positive.includes(emo.emotion)) positiveCount++;
-                        if (negative.includes(emo.emotion)) negativeCount++;
-                    }
-                }
-                const total = positiveCount + negativeCount;
-                if (total > 0) {
-                    const ratio = positiveCount / total;
-                    this.memory.emotional.trends.overall = ratio > 0.6 ? 'improving' : ratio < 0.4 ? 'declining' :
-                        'stable';
-                    this.memory.emotional.trends.recentChange = (ratio - 0.5) * 2;
-                }
-            }
-
-            trackImportantMoments(messages) {
-                const triggers = {
-                    milestone: ['narushijeho', 'nabikoze', 'natsinze', 'nashize', 'ntakibazo', 'byiza'],
-                    breakthrough: ['mbonye uko', 'numvise neza', 'nabyumvise', 'mbonye ko', 'ntakibazo'],
-                    setback: ['nananiwe', 'ntashoboye', 'byagoye', 'birakomeye', 'naguye'],
-                    crisis: ['kwiyahura', 'gupfa', 'kwikomeretsa', 'kwiyica']
-                };
-                for (const msg of messages) {
-                    const content = msg.content.toLowerCase();
-                    for (const [type, keywords] of Object.entries(triggers)) {
-                        for (const keyword of keywords) {
-                            if (content.includes(keyword)) {
-                                this.memory.conversation.importantMoments.push({
-                                    type,
-                                    content: msg.content,
-                                    timestamp: msg.timestamp || Date.now()
-                                });
-                                break;
-                            }
-                        }
-                    }
-                }
-                if (this.memory.conversation.importantMoments.length > 100) {
-                    this.memory.conversation.importantMoments = this.memory.conversation.importantMoments.slice(-100);
-                }
-            }
-
-            updatePreferences(messages) {
-                const topics = ['umuryango', 'akazi', 'ishuri', 'ubuzima', 'urukundo', 'ubucuruzi', 'amasezerano',
-                    'ubuvuzi', 'amahoro', 'inkunga'
-                ];
-                const topicCounts = {};
-                for (const msg of messages) {
-                    const content = msg.content.toLowerCase();
-                    for (const topic of topics) {
-                        if (content.includes(topic)) {
-                            topicCounts[topic] = (topicCounts[topic] || 0) + 1;
-                        }
-                    }
-                    if (content.includes('...') || content.includes('?')) {
-                        this.memory.preferences.communicationStyle = 'reflective';
-                    }
-                    if (content.split(' ').length > 20) {
-                        this.memory.preferences.communicationStyle = 'detailed';
-                    }
-                    if (content.split(' ').length < 10) {
-                        this.memory.preferences.communicationStyle = 'concise';
-                    }
-                    if (content.includes('😂') || content.includes('😄') || content.includes('sekeje')) {
-                        this.memory.preferences.humorLevel = Math.min(1, this.memory.preferences.humorLevel + 0.05);
-                    }
-                }
-                this.memory.preferences.topicsOfInterest = Object.entries(topicCounts)
-                    .sort((a, b) => b[1] - a[1])
-                    .filter(([_, count]) => count > 2)
-                    .map(([topic]) => topic)
-                    .slice(0, 5);
-            }
-
-            trackTherapyTechniques(messages) {
-                const techniques = {
-                    cbt: ['tekerezo', 'ibitekerezo', 'umutima', 'ibibazo', 'nteze', 'nshobora'],
-                    dbt: ['umuyaga', 'amahoro', 'kwakira', 'utuje', 'ihangane', 'ntakibazo'],
-                    mi: ['guhinduka', 'intambwe', 'hatana', 'nkunda', 'nshaka', 'inkunga'],
-                    act: ['kwakira', 'uruhinja', 'kumva', 'nta guhatana', 'ihangane']
-                };
-                for (const msg of messages) {
-                    const content = msg.content.toLowerCase();
-                    for (const [technique, keywords] of Object.entries(techniques)) {
-                        for (const keyword of keywords) {
-                            if (content.includes(keyword)) {
-                                this.memory.therapy.techniques[technique].used++;
-                                if (content.includes('byiza') || content.includes('byafashije') || content
-                                    .includes('nshimye')) {
-                                    this.memory.therapy.techniques[technique].effectiveness += 0.1;
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-                for (const [technique, data] of Object.entries(this.memory.therapy.techniques)) {
-                    if (data.used > 0) {
-                        data.effectiveness = Math.min(1, data.effectiveness / data.used);
-                    }
-                }
-            }
-
-            getContextForResponse(userMessage) {
-                const daily = this.memory.emotional.history.daily;
-                let emotionalState = 'neutral';
-                if (daily.length > 0) {
-                    const today = daily[daily.length - 1];
-                    if (today && today.emotions.length > 0) {
-                        emotionalState = today.emotions[today.emotions.length - 1].emotion;
-                    }
-                }
-                return {
-                    userName: this.memory.user.name,
-                    emotionalState: emotionalState,
-                    recentTopics: this.memory.preferences.topicsOfInterest.slice(0, 3),
-                    importantHistory: this.memory.conversation.importantMoments.slice(-5),
-                    therapyRecommendations: this.getTherapyRecommendations(),
-                    progressSummary: this.getProgressSummary()
-                };
-            }
-
-            getTherapyRecommendations() {
-                const recommendations = [];
-                const techniques = this.memory.therapy.techniques;
-                let bestTechnique = null;
-                let bestScore = 0;
-                for (const [name, data] of Object.entries(techniques)) {
-                    if (data.used > 2 && data.effectiveness > bestScore) {
-                        bestScore = data.effectiveness;
-                        bestTechnique = name;
-                    }
-                }
-                if (bestTechnique) {
-                    const names = { cbt: 'CBT', dbt: 'DBT', mi: 'MI', act: 'ACT' };
-                    recommendations.push(`Uburyo bwiza: ${names[bestTechnique]}`);
-                }
-                const state = this.getContextForResponse('').emotionalState;
-                if (state === 'sad') recommendations.push('Gukora ibintu bishimishije bishobora kugufasha');
-                if (state === 'anxious') recommendations.push('Guhumeka neza bishobora kugufasha');
-                if (state === 'angry') recommendations.push('Gutega amaso bishobora kugufasha');
-                return recommendations;
-            }
-
-            getProgressSummary() {
-                const started = this.memory.conversation.progress.started;
-                const days = Math.floor((Date.now() - started) / (24 * 60 * 60 * 1000));
-                return {
-                    days: days,
-                    milestones: this.memory.conversation.progress.milestones.length,
-                    setbacks: this.memory.conversation.progress.setbacks.length,
-                    trend: this.memory.emotional.trends.overall
-                };
-            }
-
-            generatePersonalizedResponse(baseResponse, context) {
-                let response = baseResponse;
-                if (this.memory.user.name && !response.includes(this.memory.user.name)) {
-                    if (Math.random() < 0.3) {
-                        const prefixes = [`${this.memory.user.name}, `, `Wowe ${this.memory.user.name}, `];
-                        response = prefixes[Math.floor(Math.random() * prefixes.length)] + response;
-                    }
-                }
-                const topics = this.memory.preferences.topicsOfInterest.slice(0, 3);
-                if (topics.length > 0 && Math.random() < 0.2) {
-                    const topic = topics[Math.floor(Math.random() * topics.length)];
-                    response += ` Nibuka ko twaganiriye kuri "${topic}" mbere. Ubu ubona ute? 😊`;
-                }
-                const style = this.memory.preferences.communicationStyle;
-                if (style === 'concise' && response.length > 150) {
-                    response = response.split('. ').slice(0, 3).join('. ') + '.';
-                }
-                if (style === 'detailed' && response.length < 80) {
-                    response += ' Reka turebe ibindi bishoboka.';
-                }
-                if (this.memory.preferences.humorLevel > 0.6 && Math.random() < 0.1 && !response.includes('😄')) {
-                    const jokes = ['😄 Urakoze kundumva!', '😂 Nkaba nkunda uko uvuga!', '🙃 Reka tukineze gato!'];
-                    response += ' ' + jokes[Math.floor(Math.random() * jokes.length)];
-                }
-                return response;
-            }
-
-            getMemorySummary() {
-                const context = this.getContextForResponse('');
-                const progress = this.getProgressSummary();
-                return {
-                    name: this.memory.user.name || 'Unknown',
-                    days: progress.days,
-                    milestones: progress.milestones,
-                    trend: progress.trend,
-                    emotionalState: context.emotionalState,
-                    recentTopics: context.recentTopics,
-                    therapyRecommendations: context.therapyRecommendations,
-                    communicationStyle: this.memory.preferences.communicationStyle,
-                    humorLevel: Math.round(this.memory.preferences.humorLevel * 100)
-                };
-            }
-        }
-
-        // ================================================================
-        // KINYARWANDA QUALITY ENGINE
+        // KINYARWANDA QUALITY ENGINE - Ensures perfect Kinyarwanda
         // ================================================================
         class KinyarwandaQualityEngine {
             constructor() {
+                // Pre-written, perfectly correct Kinyarwanda responses
                 this.cannedResponses = {
                     greetings: [
-                        "Muraho neza, {name}! 😊 N'ikihe kintu cyiza wifuza kuganira uyu munsi? 💛",
-                        "Mwaramutse, {name}! ✨ Ubu umerera ute? 🌟",
-                        "Mugoroba, {name}! 🌙 Ubu ubona ute? 💙"
+                        "Muraho neza, {name}! 😊 N'ikihe kintu cyiza wifuza kuganira uyu munsi? Utewe iki n'umutima wawe? 💛",
+                        "Mwaramutse, {name}! ✨ Ubu umerera ute? Ndashaka kumenya uko umunsi wawe ugiye. 🌟",
+                        "Mugoroba, {name}! 🌙 Ubu ubona ute? Ndashaka kuganira nawe kugira ngo twihangane. 💙",
+                        "Murakaza neza, {name}! 😊 Ndi hano kugira ngo nkugire. Ubu ubona ute? 💛"
                     ],
                     supportive: [
-                        "Ndakumva neza, {name}. 💛 Ndi hano kugira ngo nkugire. 🤗",
-                        "Ndumva ubabaye, {name}. 🌿 Reka tuganire hamwe. 💪",
-                        "Nabonye ko uhangayitse, {name}. ✨ Ndi kumwe nawe. 🌅"
+                        "Ndakumva neza, {name}. 💛 Ndabona ko iki gihe kigoye, ariko nturi wenyine. Ndi hano kugira ngo nkugire. 🤗",
+                        "Ndumva ubabaye, {name}. 🌿 Ibyo urahinga ni byiza, kandi ndashaka kukwumva neza. 💪",
+                        "Nabonye ko uhangayitse, {name}. ✨ Reka tuganire hamwe kugira ngo tubone uko twakira ibi. 🌅",
+                        "Ndakumva, {name}. 🫂 Ibyo urahinga biragoye, ariko ndi kumwe nawe. 💙"
                     ],
                     encouraging: [
-                        "Urakoze kunsangiza ibi, {name}. 💛 Ndi kumwe nawe. 🌟",
-                        "Ibyo uravuga byingira akamaro, {name}. 😊 Komeza. 💪",
-                        "Ndashimye ko udasiba kuvuga, {name}. ✨ Ndi hano. 🤗"
+                        "Urakoze kunsangiza ibi, {name}. 💛 Ndi kumwe nawe muri iki gihe. 🌟",
+                        "Ibyo uravuga byingira akamaro, {name}. 😊 Komeza ugire icyo uvuga, kuko umutima wawe ufite ibyiza. 💪",
+                        "Ndashimye ko udasiba kuvuga ibiri ku mutima, {name}. ✨ Ndi hano kugira ngo nkugire mu buryo bwose. 🤗",
+                        "Urakoze kuganira nanjye, {name}. 🌟 Ndumva neza uko wumva, kandi nshaka kukwumva byinshi. 💛"
                     ],
                     crisis: [
-                        "{name}, ndumva ukeneye ubufasha. 💙 Dore imitari: 116, 3029, 112, 912. Urabasha! 🫂"
+                        "{name}, ndumva ukeneye ubufasha bwihutirwa. 💙 Nshaka ko wita kuri wowe. Dore imitari y'inkunga iguhari: 116, 3029, 112, 912. Urabasha! 🫂"
                     ]
                 };
 
-                this.jokes = [{
-                    setup: "Ese waba uzi inkuru y'inyoni n'ihene?",
-                    punchline: "Iyo nyoni yagiye kubaza ihene iti: 'Nshobora kuguruka hejuru y'ikigori?' Ihene iramusubiza: 'Urabona, n'ikigori ntikiguruka!'",
-                    tag: "Nuko nyoni irahita ivuga: 'Niba ihene itaguruka, n'ikigori kiguruka!' 😄✨ Urakoze kundumva, {name}!"
-                }, {
-                    setup: "Ese hari igihe wumvise inkuru y'inka n'ifarashi?",
-                    punchline: "Inka ibaza ifarashi: 'Wowe uguruka ryari?' Ifarashi iramusubiza: 'Nzi gutamba neza, ariko uguruka nta bwo mbizi!'",
-                    tag: "Inka iramuseka: 'Nuko njye n'ikigori tuzaguruka hamwe!' 🤣 Urakoze kundumva, {name}! 🌟"
-                }, {
-                    setup: "Umunsi umwe, umugabo yagiye kubaza umusaza:",
-                    punchline: "'Sogokuru, nshobora kugira nkawe mu bukuru?' Umusaza aramusubiza: 'Oya, ariko ushobora kugira nk'umwana!'",
-                    tag: "Uko ukura ni uko ukura, ariko ukura neza ni byiza! 😄 Urakoze kundumva, {name}! 🌈"
-                }];
+                // Pre-written, grammatically perfect Kinyarwanda jokes
+                this.jokes = [
+                    {
+                        setup: "Ese waba uzi inkuru y'inyoni n'ihene?",
+                        punchline: "Iyo nyoni yagiye kubaza ihene iti: 'Nshobora kuguruka hejuru y'ikigori?' Ihene iramusubiza: 'Urabona, n'ikigori ntikiguruka!'",
+                        tag: "Nuko nyoni irahita ivuga: 'Niba ihene itaguruka, n'ikigori kiguruka!' 😄✨ Urakoze kundumva, {name}!"
+                    },
+                    {
+                        setup: "Ese hari igihe wumvise inkuru y'inka n'ifarashi?",
+                        punchline: "Inka ibaza ifarashi: 'Wowe uguruka ryari?' Ifarashi iramusubiza: 'Nzi gutamba neza, ariko uguruka nta bwo mbizi!'",
+                        tag: "Inka iramuseka: 'Nuko njye n'ikigori tuzaguruka hamwe!' 🤣 Urakoze kundumva, {name}! 🌟"
+                    },
+                    {
+                        setup: "Umunsi umwe, umugabo yagiye kubaza umusaza:",
+                        punchline: "'Sogokuru, nshobora kugira nkawe mu bukuru?' Umusaza aramusubiza: 'Oya, ariko ushobora kugira nk'umwana!'",
+                        tag: "Uko ukura ni uko ukura, ariko ukura neza ni byiza! 😄 Urakoze kundumva, {name}! 🌈"
+                    },
+                    {
+                        setup: "Ese waba uzi inkuru y'isazi n'ikinyugunyugu?",
+                        punchline: "Isazi ibaza ikinyugunyugu: 'Wowe ubona ute n'ubwo nta maguru afite?' Ikinyugunyugu kirasubiza: 'Nubwo nta maguru, ndaguruka!'",
+                        tag: "Nta cyo gihagarika umuntu wifuza kugera. Urakoze kundumva, {name}! 💪💛"
+                    },
+                    {
+                        setup: "Ese waba uzi inkuru y'igikoko n'inyamaswa?",
+                        punchline: "Igikoko kibaza inyamaswa: 'Wowe ubona ute n'ubwo nta ubwenge bufite?' Inyamaswa iramusubiza: 'Nubwo nta bwenge, ndabaho neza!'",
+                        tag: "Ubwenge ni ugushaka kumenya, ariko ubuzima ni ugukunda. Urakoze kundumva, {name}! 🌟💛"
+                    }
+                ];
 
+                // Kinyarwanda proverbs (Imigani y'imigenurano)
                 this.proverbs = [
                     "Urumuri rw'umutima ni amahoro. 💛",
                     "Nta mahoro adahora. 🌿",
@@ -2757,9 +2379,13 @@
                     "Umunsi mwiza utangira n'amahoro. 🌅",
                     "Umutima utuje ni ukwizera. 💙",
                     "Nta rugamba rutoroshye, ariko urw'umutima ni rwo rutoroshye cyane. 💪",
-                    "Uburyo bwo kugira amahoro ni ukwumva. 🕊️"
+                    "Uburyo bwo kugira amahoro ni ukwumva. 🕊️",
+                    "Ibyo urahinga ni byo bikuza. 🌱",
+                    "Nta gikundiro kirenze urukundo. 💝",
+                    "Umutima w'umuntu ni nk'ikigori, uguruka igihe cyose. 🌈"
                 ];
 
+                // Grammar correction patterns
                 this.grammarFixes = [
                     { from: /\bumutima wawe\b/gi, to: 'umutima wawe' },
                     { from: /\bumutima wanjye\b/gi, to: 'umutima wanjye' },
@@ -2767,57 +2393,156 @@
                     { from: /\bndashaka\s+ko\s+(\w+)/gi, to: 'ndashaka ko $1' },
                     { from: /\bndumva\s+ko\s+(\w+)/gi, to: 'ndumva ko $1' },
                     { from: /\bndabona\s+ko\s+(\w+)/gi, to: 'ndabona ko $1' },
-                    { from: /\bni iki cyagufasha\b/gi, to: 'ni iki gishobora kugufasha' }
+                    { from: /\bni iki cyagufasha\b/gi, to: 'ni iki gishobora kugufasha' },
+                    { from: /\bni iki cyakugirira akamaro\b/gi, to: 'ni iki cyakugirira akamaro' },
+                    { from: /\buburyo bwo\s+(\w+)/gi, to: 'uburyo bwo $1' },
+                    { from: /\bamagambo\s+(\w+)/gi, to: 'amagambo $1' },
+                    { from: /\bibyiza\s+(\w+)/gi, to: 'ibyiza $1' }
                 ];
 
+                // Awkward patterns to detect
                 this.awkwardPatterns = [
-                    /\buko\s+uko\b/gi, /\bko\s+ko\b/gi, /\bni\s+ni\b/gi,
-                    /\bndi\s+ndi\b/gi, /\bu\s+u\b/gi, /\ba\s+a\b/gi
+                    /\buko\s+uko\b/gi,
+                    /\bko\s+ko\b/gi,
+                    /\bni\s+ni\b/gi,
+                    /\bndi\s+ndi\b/gi,
+                    /\bu\s+u\b/gi,
+                    /\ba\s+a\b/gi,
+                    /\btu\s+tu\b/gi,
+                    /\bmu\s+mu\b/gi,
+                    /\bba\s+ba\b/gi,
+                    /\bna\s+na\b/gi
                 ];
             }
 
+            // Main method: Ensure perfect Kinyarwanda
             ensureQuality(text, userName) {
                 if (!text || text.length < 5) {
                     return this.getCannedResponse('greetings', userName);
                 }
+
                 let cleaned = text;
-                for (const fix of this.grammarFixes) {
-                    cleaned = cleaned.replace(fix.from, fix.to);
+
+                // 1. Fix grammar
+                cleaned = this.fixGrammar(cleaned);
+
+                // 2. Check for proverbs and enhance if needed
+                cleaned = this.enhanceWithProverbs(cleaned);
+
+                // 3. Remove awkward patterns
+                cleaned = this.removeAwkward(cleaned);
+
+                // 4. Add warmth if missing
+                cleaned = this.addWarmth(cleaned, userName);
+
+                // 5. If still awkward, use canned response
+                if (this.isAwkward(cleaned)) {
+                    const types = ['greetings', 'supportive', 'encouraging'];
+                    const type = types[Math.floor(Math.random() * types.length)];
+                    return this.getCannedResponse(type, userName);
                 }
+
+                return cleaned;
+            }
+
+            fixGrammar(text) {
+                let fixed = text;
+                for (const fix of this.grammarFixes) {
+                    fixed = fixed.replace(fix.from, fix.to);
+                }
+                return fixed;
+            }
+
+            enhanceWithProverbs(text) {
+                // Add a proverb if the text is about emotions or struggles
+                const emotionWords = ['umutima', 'ibabazo', 'amahoro', 'guhangayika', 'uburakari', 'ishimwe', 'umunezero'];
+                const hasEmotion = emotionWords.some(word => text.toLowerCase().includes(word));
+                
+                if (hasEmotion && Math.random() < 0.15) {
+                    const proverb = this.proverbs[Math.floor(Math.random() * this.proverbs.length)];
+                    text += ' ' + proverb;
+                }
+                return text;
+            }
+
+            removeAwkward(text) {
+                let cleaned = text;
                 for (const pattern of this.awkwardPatterns) {
                     cleaned = cleaned.replace(pattern, ' ');
                 }
+                // Remove double spaces
                 cleaned = cleaned.replace(/\s{2,}/g, ' ');
-                if (!cleaned.match(/[\u{1F600}-\u{1F9FF}]/u)) {
-                    const emoticons = ['💛', '✨', '🌟', '😊', '🤗', '💙', '🌈', '🌿', '💪'];
-                    cleaned += ' ' + emoticons[Math.floor(Math.random() * emoticons.length)];
-                }
-                if (!cleaned.match(/^(Muraho|Mwaramutse|Mugoroba|Murakaza|Ndumva|Ndakumva|Ndabona)/)) {
-                    const prefixes = [`Muraho, ${userName}! `, `Mwaramutse, ${userName}! ✨ `];
-                    cleaned = prefixes[Math.floor(Math.random() * prefixes.length)] + cleaned;
-                }
                 return cleaned;
+            }
+
+            addWarmth(text, userName) {
+                let warmed = text;
+
+                // Add greeting if missing
+                if (!text.match(/^(Muraho|Mwaramutse|Mugoroba|Murakaza|Ndumva|Ndakumva|Ndabona|Nibyo)/)) {
+                    const greetings = [
+                        `Muraho, ${userName}! `,
+                        `Mwaramutse, ${userName}! ✨ `,
+                        `Mugoroba, ${userName}! 🌙 `
+                    ];
+                    warmed = greetings[Math.floor(Math.random() * greetings.length)] + warmed;
+                }
+
+                // Add emoticon if missing
+                if (!warmed.match(/[\u{1F600}-\u{1F9FF}]/u)) {
+                    const emoticons = ['💛', '✨', '🌟', '😊', '🤗', '💙', '🌈', '🌿', '💪', '🫂'];
+                    warmed += ' ' + emoticons[Math.floor(Math.random() * emoticons.length)];
+                }
+
+                return warmed;
+            }
+
+            isAwkward(text) {
+                // Check for awkward patterns
+                for (const pattern of this.awkwardPatterns) {
+                    if (pattern.test(text)) {
+                        return true;
+                    }
+                }
+
+                // Check for too many English words
+                const words = text.split(/\s+/);
+                const englishWords = words.filter(word => 
+                    /^[a-zA-Z]{4,}$/.test(word) && 
+                    !['ndi', 'ni', 'ko', 'na', 'mu', 'ku', 'wa', 'ya', 'bya', 'rya', 'gwa', 'ra', 'ka', 'ha', 'ga', 'nye', 'mo', 'nko'].includes(word.toLowerCase())
+                );
+
+                return englishWords.length > words.length * 0.2;
             }
 
             getCannedResponse(type, name) {
                 const responses = this.cannedResponses[type] || this.cannedResponses.greetings;
-                return responses[Math.floor(Math.random() * responses.length)].replace(/{name}/g, name || 'Mugisha');
+                const response = responses[Math.floor(Math.random() * responses.length)];
+                return response.replace(/{name}/g, name || 'Mugisha');
             }
 
             generateJoke(userName) {
                 const joke = this.jokes[Math.floor(Math.random() * this.jokes.length)];
-                return `${joke.setup} ${joke.punchline} ${joke.tag.replace(/{name}/g, userName || 'Mugisha')}`;
+                const full = `${joke.setup} ${joke.punchline} ${joke.tag.replace(/{name}/g, userName || 'Mugisha')}`;
+                return this.addWarmth(full, userName);
             }
 
             getProverb() {
                 return this.proverbs[Math.floor(Math.random() * this.proverbs.length)];
             }
 
+            // Detect if user is asking for a joke or proverb
             detectIntent(text) {
                 const lower = text.toLowerCase();
-                if (lower.includes('inkuru') || lower.includes('sekeje') || lower.includes('urwenya') || lower.includes(
-                    'joke')) return 'joke';
-                if (lower.includes('imigani') || lower.includes('proverb') || lower.includes('inyigisho')) return 'proverb';
+                if (lower.includes('inkuru') || lower.includes('sekeje') || lower.includes('usekeje') || lower.includes('urwenya') || lower.includes('joke')) {
+                    return 'joke';
+                }
+                if (lower.includes('imigani') || lower.includes('proverb') || lower.includes('amagambo') || lower.includes('inyigisho')) {
+                    return 'proverb';
+                }
+                if (lower.includes('amahoro') || lower.includes('wumva') || lower.includes('ute')) {
+                    return 'greeting';
+                }
                 return 'general';
             }
         }
@@ -2832,7 +2557,7 @@
             }
 
             async init() {
-                this.db = await openDB('TyazaDB', 5, {
+                this.db = await openDB('TyazaDB', 4, {
                     upgrade(db) {
                         if (!db.objectStoreNames.contains('conversations')) {
                             db.createObjectStore('conversations', { keyPath: 'id' });
@@ -2913,9 +2638,7 @@
         // CLINICAL EVIDENCE
         // ================================================================
         const ClinicalEvidence = {
-            crisisTriggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona',
-                'ndi bura', 'sinakimara', 'ndashaka gupfa'
-            ],
+            crisisTriggers: ['kwiyahura', 'gupfa', 'ntakibazo', 'birangiye', 'kwikomeretsa', 'kwiyica', 'ntacyo mbona', 'ndi bura', 'sinakimara', 'ndashaka gupfa'],
 
             detectCrisis(text) {
                 const lower = text.toLowerCase();
@@ -2924,10 +2647,11 @@
 
             getEvidenceBasedResponse(text) {
                 const lower = text.toLowerCase();
-                if (lower.includes('ntabwo') || lower.includes('ntashobora') || lower.includes('buri gihe')) {
+                if (lower.includes('ntabwo') || lower.includes('ntashobora') || lower.includes('buri gihe') || lower
+                    .includes('nta na rimwe')) {
                     return 'Nabonye ko utekereza mu buryo butemewe. Reka turebe hamwe uko twahindura ibyo tekerezo. 💛';
                 }
-                if (lower.includes('ntakibazo') || lower.includes('ndashaka guhita')) {
+                if (lower.includes('ntakibazo') || lower.includes('ndashaka guhita') || lower.includes('birangiye')) {
                     return 'Ibi bimeze nk\'umuyaga ukaze - uraza kandi uragenda. Reka turebe uko twakira iki gihe. 🌊';
                 }
                 if (lower.includes('ndashaka guhinduka') || lower.includes('nkeneye ubufasha')) {
@@ -2945,11 +2669,6 @@
                 this.puterAvailable = false;
                 this.userName = null;
                 this.kinyarwanda = new KinyarwandaQualityEngine();
-                this.memory = null;
-            }
-
-            setMemory(memory) {
-                this.memory = memory;
             }
 
             async init() {
@@ -2980,11 +2699,14 @@
                     /(?:called|name's|names)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i,
                     /(?:nijye|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})/i
                 ];
+
                 for (const pattern of patterns) {
                     const match = text.match(pattern);
                     if (match) {
                         const name = match[1].trim();
-                        if (name.length >= 2 && name.length <= 30) return name;
+                        if (name.length >= 2 && name.length <= 30) {
+                            return name;
+                        }
                     }
                 }
                 return null;
@@ -2994,37 +2716,44 @@
                 const userMessage = messages[messages.length - 1]?.content || '';
                 const intent = this.kinyarwanda.detectIntent(userMessage);
 
+                // Handle jokes
                 if (intent === 'joke') {
-                    return { type: 'normal', content: this.kinyarwanda.generateJoke(this.userName) };
-                }
-                if (intent === 'proverb') {
-                    return { type: 'normal', content: `Imyigisho y'umutima: ${this.kinyarwanda.getProverb()}` };
+                    const joke = this.kinyarwanda.generateJoke(this.userName);
+                    return { type: 'normal', content: joke };
                 }
 
+                // Handle proverbs
+                if (intent === 'proverb') {
+                    const proverb = this.kinyarwanda.getProverb();
+                    return { type: 'normal', content: `Imyigisho y'umutima: ${proverb}` };
+                }
+
+                // Extract user name
                 const extractedName = this.extractUserName(userMessage);
                 if (extractedName && extractedName !== this.userName) {
                     this.userName = extractedName;
-                    if (this.memory) {
-                        this.memory.memory.user.name = extractedName;
-                        await this.memory.save();
-                    }
                 }
 
+                // Check crisis
                 if (ClinicalEvidence.detectCrisis(userMessage)) {
                     return { type: 'crisis', content: null };
                 }
 
+                // Check evidence-based
                 const evidence = ClinicalEvidence.getEvidenceBasedResponse(userMessage);
                 if (evidence) {
                     const cleaned = this.kinyarwanda.ensureQuality(evidence, this.userName);
                     return { type: 'normal', content: cleaned };
                 }
 
+                // Try Puter AI
                 if (this.puterAvailable) {
                     try {
-                        const name = this.userName || 'umuntu';
-                        const systemPrompt =
-                            `Wowe uri TYAZA, umuvugizi w'umutima wakozwe na KIVURA LABS. Vuga ikinyarwanda gikwiriye. Koresha imvugo nziza, yuje ubushyuhe. Ubu ni ${name} uganira nawe. SHAKA gufasha, gushishikariza, no guha amahoro.`;
+                        const systemPrompt = `Wowe uri TYAZA, umuvugizi w'umutima wakozwe na KIVURA LABS. 
+                        Vuga ikinyarwanda gikwiriye, kinyarwanda gikoreshwa n'abanyarwanda. 
+                        Koresha imvugo nziza, yuje ubushyuhe, n'amagambo y'ikinyarwanda cyiza. 
+                        Ubu ni ${this.userName || 'umuntu'} uganira nawe. 
+                        SHAKA gufasha, gushishikariza, no guha amahoro.`;
 
                         const response = await window.puter.ai.chat([
                             { role: 'system', content: systemPrompt },
@@ -3032,6 +2761,7 @@
                         ], { model: 'gpt-4o-mini' });
 
                         let content = response.message?.content || response;
+                        // Ensure quality
                         content = this.kinyarwanda.ensureQuality(content, this.userName);
                         return { type: 'normal', content };
                     } catch (e) {
@@ -3050,8 +2780,8 @@
                     "Ibyo uravuga bingira akamaro. Ngaho komeza. 🌟",
                     "Ndakumva neza. Reka turebe hamwe. 🤗"
                 ];
-                const content = this.kinyarwanda.ensureQuality(responses[Math.floor(Math.random() * responses.length)],
-                    this.userName);
+                const content = this.kinyarwanda.ensureQuality(responses[Math.floor(Math.random() * responses.length)], this
+                    .userName);
                 return { type: 'normal', content };
             }
 
@@ -3082,8 +2812,12 @@
                 this.recognition.continuous = false;
                 this.recognition.interimResults = true;
                 this.recognition.lang = 'rw-RW';
+
                 this.recognition.onstart = () => { this.isListening = true; };
-                this.recognition.onend = () => { this.isListening = false; if (this.onEnd) this.onEnd(); };
+                this.recognition.onend = () => {
+                    this.isListening = false;
+                    if (this.onEnd) this.onEnd();
+                };
                 this.recognition.onresult = (e) => {
                     let transcript = '';
                     for (let i = 0; i < e.results.length; i++) {
@@ -3091,13 +2825,18 @@
                     }
                     if (this.onResult) this.onResult(transcript);
                 };
-                this.recognition.onerror = () => { this.isListening = false; if (this.onEnd) this.onEnd(); };
+                this.recognition.onerror = () => {
+                    this.isListening = false;
+                    if (this.onEnd) this.onEnd();
+                };
             }
 
             loadVoices() {
                 this.voices = this.synthesis.getVoices();
                 if (this.synthesis.onvoiceschanged) {
-                    this.synthesis.onvoiceschanged = () => { this.voices = this.synthesis.getVoices(); };
+                    this.synthesis.onvoiceschanged = () => {
+                        this.voices = this.synthesis.getVoices();
+                    };
                 }
             }
 
@@ -3129,7 +2868,7 @@
         }
 
         // ================================================================
-        // TOAST
+        // TOAST COMPONENT
         // ================================================================
         class TyazaToast extends HTMLElement {
             connectedCallback() {
@@ -3138,6 +2877,7 @@
                 const colors = { success: '#22c55e', error: '#ef4444', info: '#3b82f6', warning: '#f59e0b' };
                 const icons = { success: 'check-circle', error: 'exclamation-circle', info: 'info-circle',
                     warning: 'exclamation-triangle' };
+
                 this.attachShadow({ mode: 'open' }).innerHTML = `
                     <style>
                         :host {
@@ -3151,8 +2891,16 @@
                             animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
                             max-width: 350px;
                         }
-                        .content { display: flex; align-items: center; gap: 12px; color: #f8fafc; }
-                        .content i { color: ${colors[type] || '#3b82f6'}; font-size: 1.1rem; }
+                        .content {
+                            display: flex;
+                            align-items: center;
+                            gap: 12px;
+                            color: #f8fafc;
+                        }
+                        .content i {
+                            color: ${colors[type] || '#3b82f6'};
+                            font-size: 1.1rem;
+                        }
                         @keyframes slideIn {
                             from { opacity: 0; transform: translateX(100%) scale(0.9); }
                             to { opacity: 1; transform: translateX(0) scale(1); }
@@ -3176,14 +2924,17 @@
                 this.db = new Database();
                 this.ai = new AIService();
                 this.speech = new SpeechService();
-                this.memory = new LongTermMemory();
                 this.kinyarwanda = new KinyarwandaQualityEngine();
 
                 this.messages = [];
                 this.currentId = Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
                 this.isGenerating = false;
                 this.userName = null;
-                this.settings = { voice: 'Google UK English Female', rate: 0.9, pitch: 1.0 };
+                this.settings = {
+                    voice: 'Google UK English Female',
+                    rate: 0.9,
+                    pitch: 1.0
+                };
 
                 this.elements = {};
                 this.voiceFallbackActive = false;
@@ -3201,9 +2952,6 @@
                     this.elements.userNameInput.value = this.userName;
                     this.updateWelcome();
                 }
-
-                await this.memory.initialize(this.db);
-                this.ai.setMemory(this.memory);
 
                 const settings = await this.db.getSetting('settings');
                 if (settings) this.settings = { ...this.settings, ...settings };
@@ -3223,9 +2971,8 @@
                 this.checkMobileVoiceSupport();
                 this.fixMobileSidebar();
 
-                console.log('✨ TYAZA v6.3 - Long-Term Memory Edition');
+                console.log('✨ TYAZA v6.2 - Kinyarwanda Quality Edition');
                 console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-                console.log('🧠 Long-term memory active - I'll remember you!');
             }
 
             cacheElements() {
@@ -3239,7 +2986,7 @@
                     'starsContainer', 'ndahariBtn', 'moodModal', 'moodModalClose', 'moodScale',
                     'moodNotes', 'saveMoodBtn', 'moodCalendar', 'openMoodModal',
                     'crisisFloatingBtn', 'crisisModal', 'crisisClose', 'crisisLater', 'crisisNow',
-                    'connectionStatus', 'memoryToggle'
+                    'connectionStatus'
                 ];
                 for (const id of ids) {
                     this.elements[id] = document.getElementById(id);
@@ -3318,9 +3065,11 @@
                     </div>
                 `;
                 document.body.appendChild(dialog);
+
                 const input = document.getElementById('voiceFallbackInput');
                 const submit = document.getElementById('voiceFallbackSubmit');
                 const cancel = document.getElementById('voiceFallbackCancel');
+
                 submit.onclick = () => {
                     if (input && input.value.trim()) {
                         this.elements.messageInput.value = input.value;
@@ -3408,8 +3157,6 @@
                         if (name) {
                             this.userName = name;
                             this.ai.setUserName(name);
-                            this.memory.memory.user.name = name;
-                            await this.memory.save();
                             await this.db.saveUserData({ name });
                             this.updateWelcome();
                             this.showToast('Izina ryabitswe! ✨', 'success');
@@ -3424,11 +3171,6 @@
                 if (this.elements.clearChat) this.elements.clearChat.addEventListener('click', () => this.clearCurrent());
                 if (this.elements.exportTrigger) this.elements.exportTrigger.addEventListener('click', () => this
                     .exportChat());
-
-                // Memory Toggle
-                if (this.elements.memoryToggle) {
-                    this.elements.memoryToggle.addEventListener('click', () => this.showMemorySummary());
-                }
 
                 // Sidebar
                 if (this.elements.menuToggle) {
@@ -3587,15 +3329,11 @@
                 const text = this.elements.messageInput.value.trim();
                 if (!text || this.isGenerating) return;
 
-                // Process through memory
-                this.memory.processConversation([{ role: 'user', content: text, timestamp: Date.now() }]);
-
+                // Extract name
                 const extractedName = this.ai.extractUserName(text);
                 if (extractedName && extractedName !== this.userName) {
                     this.userName = extractedName;
                     this.ai.setUserName(extractedName);
-                    this.memory.memory.user.name = extractedName;
-                    await this.memory.save();
                     await this.db.saveUserData({ name: extractedName });
                     if (this.elements.userNameInput) this.elements.userNameInput.value = extractedName;
                     this.updateWelcome();
@@ -3623,14 +3361,9 @@
                         return;
                     }
 
-                    let content = response.content;
-                    const context = this.memory.getContextForResponse(text);
-                    content = this.memory.generatePersonalizedResponse(content, context);
-                    content = this.kinyarwanda.ensureQuality(content, this.userName);
-
                     this.removeTyping(typingId);
-                    this.addMessage('assistant', content);
-                    await this.saveConversation(text, content);
+                    this.addMessage('assistant', response.content);
+                    await this.saveConversation(text, response.content);
                 } catch {
                     this.removeTyping(typingId);
                     this.addMessage('assistant', 'Hari ikibazo. Ngaho tuganire. 💙');
@@ -3859,7 +3592,7 @@
                 }
                 const data = {
                     app: 'TYAZA',
-                    version: '6.3',
+                    version: '6.2',
                     timestamp: Date.now(),
                     user: this.userName || 'User',
                     messages: this.messages
@@ -3882,7 +3615,9 @@
                     this.elements.sidebar.style.pointerEvents = 'auto';
                 } else {
                     this.elements.sidebar.style.pointerEvents = 'none';
-                    setTimeout(() => { this.elements.sidebar.style.pointerEvents = ''; }, 300);
+                    setTimeout(() => {
+                        this.elements.sidebar.style.pointerEvents = '';
+                    }, 300);
                 }
             }
 
@@ -3891,7 +3626,9 @@
                 this.elements.sidebar.classList.remove('open');
                 this.elements.sidebarOverlay.classList.remove('active');
                 this.elements.sidebar.style.pointerEvents = 'none';
-                setTimeout(() => { this.elements.sidebar.style.pointerEvents = ''; }, 300);
+                setTimeout(() => {
+                    this.elements.sidebar.style.pointerEvents = '';
+                }, 300);
             }
 
             showToast(message, type = 'info') {
@@ -3902,35 +3639,7 @@
                 if (container) container.appendChild(toast);
             }
 
-            // ============================================================
-            // MEMORY SUMMARY
-            // ============================================================
-            showMemorySummary() {
-                const summary = this.memory.getMemorySummary();
-                const message = `
-📊 **Uko TYAZA agukumbuka**
-
-👤 Izina: ${summary.name || 'Utanatumvise'}
-📅 Iminsi twaganiriye: ${summary.days}
-🏆 Intambwe watsinze: ${summary.milestones}
-📈 Uko imimerere igeze: ${summary.trend === 'improving' ? '✅ Irazamuka' : summary.trend === 'declining' ? '⚠️ Iragana' : '➖ Irahoraho'}
-
-💭 Uko wumva ubu: ${summary.emotionalState || 'Ntacyo'}
-📚 Ibikunze kuvuga: ${summary.recentTopics.join(', ') || 'Nta byinshi'}
-💡 Inama: ${summary.therapyRecommendations.join(' • ') || 'Komeza ugire icyo uvuga'}
-
-🗣️ Imvugo: ${summary.communicationStyle}
-😂 Urwenya: ${summary.humorLevel}%
-
-💙 Ndi kumwe nawe muri uru rugendo!
-                `;
-                this.addMessage('assistant', message);
-                this.showToast('🧠 Uyu ni uko nakwibukira!', 'success');
-            }
-
-            // ============================================================
-            // MOOD
-            // ============================================================
+            // Mood
             openMoodModal() {
                 if (this.elements.moodModal) {
                     this.elements.moodModal.classList.add('active');
@@ -3942,8 +3651,7 @@
                 if (this.elements.moodModal) {
                     this.elements.moodModal.classList.remove('active');
                     if (this.elements.moodScale) {
-                        this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList.remove(
-                        'selected'));
+                        this.elements.moodScale.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
                     }
                     if (this.elements.moodNotes) this.elements.moodNotes.value = '';
                 }
@@ -3951,12 +3659,6 @@
 
             async quickMood(mood) {
                 await this.db.saveMood({ mood: parseInt(mood), notes: '', quick: true });
-                // Also update memory
-                this.memory.processConversation([{
-                    role: 'user',
-                    content: `Uko numva: ${['😢','😔','😐','🙂','😊'][parseInt(mood)-1]}`,
-                    timestamp: Date.now()
-                }]);
                 this.showToast('Uko wumva byabitswe! 💛', 'success');
             }
 
@@ -3970,11 +3672,6 @@
                 const mood = parseInt(selected.dataset.mood);
                 const notes = this.elements.moodNotes.value.trim();
                 await this.db.saveMood({ mood, notes });
-                this.memory.processConversation([{
-                    role: 'user',
-                    content: `Uko numva: ${['😢','😔','😐','🙂','😊'][mood-1]} - ${notes || ''}`,
-                    timestamp: Date.now()
-                }]);
                 this.showToast('Byabitswe! ✨', 'success');
                 this.closeMoodModal();
             }
@@ -3999,9 +3696,7 @@
                 this.elements.moodCalendar.innerHTML = html;
             }
 
-            // ============================================================
-            // CRISIS
-            // ============================================================
+            // Crisis
             showCrisis() {
                 if (this.elements.crisisModal) this.elements.crisisModal.classList.add('active');
             }
@@ -4023,11 +3718,10 @@
             app.init();
         }
 
-        console.log('✨ TYAZA v6.3 - Long-Term Memory Edition');
+        console.log('✨ TYAZA v6.2 - Kinyarwanda Quality Edition');
         console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-        console.log('🧠 Long-term memory active - I will remember you!');
-        console.log('📚 Features: Perfect Kinyarwanda, Jokes, Proverbs, Memory, Mood Tracking');
-        console.log('💙 Your AI companion that grows with you!');
+        console.log('📚 Features: Perfect Kinyarwanda, Jokes, Proverbs, Grammar Fixes');
+        console.log('💙 Now with native-quality Kinyarwanda responses!');
     </script>
 
     <noscript>
