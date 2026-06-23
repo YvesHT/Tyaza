@@ -1513,10 +1513,10 @@
         // ============================================================
 
         // ---------- CONFIG ----------
-        // Your Hugging Face API Key
+        // REPLACE WITH YOUR ACTUAL HUGGING FACE API KEY
         const HUGGINGFACE_TOKEN = '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';
         
-        // SOLUTION 1: Using CORS Proxy to bypass CORS restrictions
+        // Using Hugging Face API directly (with CORS proxy for browser compatibility)
         const CORS_PROXY = 'https://corsproxy.io/?';
         const API_URL = CORS_PROXY + 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-V3';
         const FALLBACK_API_URL = CORS_PROXY + 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1';
@@ -1535,7 +1535,7 @@
             moodData: [],
             conversations: [],
             isListening: false,
-            useAI: true,
+            useAI: true,  // AI is enabled by default
             speechRecognition: null,
             speechSynthesis: window.speechSynthesis,
             voices: [],
@@ -1836,7 +1836,7 @@
         // ============================================================
         async function getAIResponse(userMessage) {
             if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
-                console.log('⚠️ No API key, using fallback');
+                console.log('⚠️ No valid API key, using fallback');
                 return getFallbackResponse(userMessage);
             }
 
@@ -1853,6 +1853,7 @@
                 
                 console.log('🤖 Sending request to DeepSeek via CORS proxy...');
                 console.log('📝 Context length:', context.length);
+                console.log('🔑 Using API key:', HUGGINGFACE_TOKEN.substring(0, 10) + '...');
                 
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -2335,8 +2336,10 @@
             try {
                 let response = '';
                 if (state.useAI) {
+                    // Use AI backend (default)
                     response = await getAIResponse(text);
                 } else {
+                    // Fallback to local responses
                     response = getFallbackResponse(text);
                 }
 
@@ -2737,31 +2740,46 @@
         // INIT
         // ============================================================
         function init() {
+            // Validate API key
             if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
                 console.warn('⚠️ No valid API key found');
                 showToast('⚠️ API key missing - using local mode', 'warning');
+                state.useAI = false; // Fallback to local mode
             } else {
                 console.log('✅ API key loaded:', HUGGINGFACE_TOKEN.substring(0, 10) + '...');
                 console.log('🌐 Using CORS proxy:', CORS_PROXY);
+                state.useAI = true; // AI is enabled by default
                 showToast('✅ DeepSeek AI yiteguye! (via CORS proxy)', 'success');
             }
 
+            // Load stored data
             state.userName = storageGet('userName', null);
             state.settings = storageGet('settings', state.settings);
             state.moodData = storageGetAll('moodData');
 
+            // Set UI controls
             document.getElementById('voiceSelect').value = state.settings.voice;
             document.getElementById('rateSlider').value = state.settings.rate;
             document.getElementById('pitchSlider').value = state.settings.pitch;
             document.getElementById('rateValue').textContent = state.settings.rate;
             document.getElementById('pitchValue').textContent = state.settings.pitch;
 
+            // Update UI
             renderHistory();
             updateMemoryStats();
             updateWelcome();
 
+            // Show AI status
+            const aiBtn = document.getElementById('aiToggleBtn');
+            aiBtn.innerHTML = state.useAI ? 
+                '<i class="fas fa-cloud"></i> AI' : 
+                '<i class="fas fa-microchip"></i> Gahunda';
+            aiBtn.classList.toggle('btn-primary', state.useAI);
+            aiBtn.classList.toggle('btn-secondary', !state.useAI);
+
             document.getElementById('sendBtn').disabled = false;
 
+            // Event listeners
             document.getElementById('messageInput').addEventListener('input', handleInput);
             document.getElementById('messageInput').addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -2795,9 +2813,12 @@
 
             document.getElementById('aiToggleBtn').addEventListener('click', () => {
                 state.useAI = !state.useAI;
-                document.getElementById('aiToggleBtn').innerHTML = state.useAI ?
+                const btn = document.getElementById('aiToggleBtn');
+                btn.innerHTML = state.useAI ?
                     '<i class="fas fa-cloud"></i> AI' :
                     '<i class="fas fa-microchip"></i> Gahunda';
+                btn.classList.toggle('btn-primary', state.useAI);
+                btn.classList.toggle('btn-secondary', !state.useAI);
                 showToast(state.useAI ? 'DeepSeek AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
             });
 
@@ -2806,7 +2827,6 @@
             document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
 
             document.getElementById('newChatBtn').addEventListener('click', newChat);
-
             document.getElementById('clearChatBtn').addEventListener('click', () => {
                 if (state.messages.length === 0) return;
                 if (confirm('Hanagura iki kiganiro?')) newChat();
