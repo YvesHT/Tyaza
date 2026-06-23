@@ -1513,11 +1513,13 @@
         // ============================================================
 
         // ---------- CONFIG ----------
-        // Use your actual API key here
-        const HUGGINGFACE_TOKEN = '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';
+        // Your Hugging Face API Key
+        const HUGGINGFACE_TOKEN = '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';
         
-        const API_URL = 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-V3';
-        const FALLBACK_API_URL = 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1';
+        // SOLUTION 1: Using CORS Proxy to bypass CORS restrictions
+        const CORS_PROXY = 'https://corsproxy.io/?';
+        const API_URL = CORS_PROXY + 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-V3';
+        const FALLBACK_API_URL = CORS_PROXY + 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1';
 
         // ---------- STATE ----------
         let state = {
@@ -1830,10 +1832,11 @@
         }
 
         // ============================================================
-        // AI SERVICE
+        // AI SERVICE - FIXED WITH CORS PROXY
         // ============================================================
         async function getAIResponse(userMessage) {
             if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
+                console.log('⚠️ No API key, using fallback');
                 return getFallbackResponse(userMessage);
             }
 
@@ -1847,6 +1850,9 @@
                 const context = getSystemContext(userMessage);
                 state.apiCallCount++;
                 state.lastApiCall = Date.now();
+                
+                console.log('🤖 Sending request to DeepSeek via CORS proxy...');
+                console.log('📝 Context length:', context.length);
                 
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -1867,12 +1873,17 @@
                     })
                 });
 
+                console.log('📡 Response status:', response.status);
+
                 if (!response.ok) {
-                    console.error('❌ API Error:', response.status);
+                    const errorText = await response.text();
+                    console.error('❌ API Error:', response.status, errorText);
+                    console.log('🔄 Trying fallback model...');
                     return await getFallbackAIResponse(userMessage);
                 }
 
                 const data = await response.json();
+                console.log('✅ Response received from DeepSeek!');
                 
                 let text = '';
                 if (Array.isArray(data) && data.length > 0) {
@@ -1897,7 +1908,8 @@
                     return text;
                 }
                 
-                return getFallbackAIResponse(userMessage);
+                console.log('⚠️ Empty response, using fallback');
+                return await getFallbackAIResponse(userMessage);
 
             } catch (error) {
                 console.error('❌ API Error:', error);
@@ -1915,6 +1927,8 @@
 
             try {
                 const context = getSystemContext(userMessage);
+                
+                console.log('🔄 Trying fallback model via CORS proxy...');
                 
                 const response = await fetch(FALLBACK_API_URL, {
                     method: 'POST',
@@ -1935,6 +1949,7 @@
                 });
 
                 if (!response.ok) {
+                    console.log('⚠️ Fallback model failed, using local responses');
                     return getFallbackResponse(userMessage);
                 }
 
@@ -1981,7 +1996,7 @@
                 return 'CRISIS';
             }
 
-            // Name extraction - IMPROVED: Only match if it's a clear name introduction
+            // Name extraction
             const nameMatch = text.match(
                 /^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})$/i
             );
@@ -2016,20 +2031,10 @@
                 return `${kbResults[0]}\n\nUbu wumva ute? 💙`;
             }
 
-            // Generic responses based on content
+            // Generic responses
             let responses = [];
             
-            if (lower.includes('yesu') || lower.includes('imana') || lower.includes('hane') || lower.includes('umugisha')) {
-                responses = [
-                    "Urakoze kuvuga iby'umwuka. Ni byiza kugira ukwizera. Ubu wumva ute? 💙",
-                    "Imana ikugirire umugisha. Ubu wumva ute? 🙏"
-                ];
-            } else if (lower.includes('mukomere') || lower.includes('komera') || lower.includes('strength')) {
-                responses = [
-                    "Urakoze kubwira ibyo! Ni byiza kumva ko ukomeye. Ubu wumva ute? 💪",
-                    "Ukomeye cyane! Ubu wumva ute? 🌟"
-                ];
-            } else if (lower.includes('quantum') || lower.includes('physics') || lower.includes('science')) {
+            if (lower.includes('quantum') || lower.includes('physics') || lower.includes('science')) {
                 responses = [
                     "Mmm, ibyo ni ibintu birambuye. Ariko reka tuvugane ibyo uhangayikishijwe. Ubu wumva ute? 💙",
                     "Ibyo ni byiza, ariko ndi hano kugira nkugire. Ubu wumva ute? 😊"
@@ -2041,25 +2046,7 @@
                     "Ibyo uravuga bingira akamaro. Ndi kumwe nawe. Wumva ute ubu? 😊",
                     "Reka tuvugane byinshi. Ni byiza kuvuga ibiri ku mutima. Ubu wumva ute? 🤗"
                 ];
-            } else if (lower.includes('kuvuga') || lower.includes('ganira') || lower.includes('talk') ||
-                lower.includes('sangiza') || lower.includes('vuga')) {
-                responses = [
-                    "Urakoze kuvuga. Ndi hano ngo nkugire. Kora ubutwari uvuge ibiri ku mutima wawe. 💛",
-                    "Ni byiza kuvuga. Ndakumva neza. Ubu uvuga iki? 🌟"
-                ];
-            } else if (lower.includes('nkunga') || lower.includes('fashe') || lower.includes('help') ||
-                lower.includes('ubufasha') || lower.includes('inkunga')) {
-                responses = [
-                    "Urakoze gushaka inkunga. Iki ni ikintu cyiza cyane. Reka turebe hamwe uko twakugira. 🤝",
-                    "Ndi hano kugira nkugire. Ubu wumva ute? Urakoze kuvuga. 💙"
-                ];
-            } else if (lower.includes('narushijeho') || lower.includes('meza') || lower.includes('neza') ||
-                lower.includes('good') || lower.includes('great') || lower.includes('happy')) {
-                responses = [
-                    "Nishimiye ko wumva umeze neza! 🎉 Mbega ikintu cyiza. Ubu uvuga iki?",
-                    "Ni byiza kumva ibyo! Urakoze kunsangiza ibyiza. 🌟"
-                ];
-            } else if (lower.includes('muraho') || lower.includes('hello') || lower.includes('hi') || lower.includes('bonjour')) {
+            } else if (lower.includes('muraho') || lower.includes('hello') || lower.includes('hi')) {
                 responses = [
                     "Muraho! Ndi hano kugira nkugire. Ubu wumva ute? 💙",
                     "Murakaza neza! Ndi TYAZA, umuvugizi w'umutima. Ubu wumva ute? 😊"
@@ -2324,7 +2311,7 @@
                 return;
             }
 
-            // Name extraction - IMPROVED
+            // Name extraction
             const nameMatch = text.match(
                 /^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})$/i
             );
@@ -2755,7 +2742,8 @@
                 showToast('⚠️ API key missing - using local mode', 'warning');
             } else {
                 console.log('✅ API key loaded:', HUGGINGFACE_TOKEN.substring(0, 10) + '...');
-                showToast('✅ DeepSeek AI yiteguye!', 'success');
+                console.log('🌐 Using CORS proxy:', CORS_PROXY);
+                showToast('✅ DeepSeek AI yiteguye! (via CORS proxy)', 'success');
             }
 
             state.userName = storageGet('userName', null);
@@ -2898,6 +2886,7 @@
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
             console.log('🤖 AI:', state.useAI ? 'DeepSeek V3 irakoreshwa' : 'Gahunda ikoreshwa');
             console.log('🔑 API Key:', HUGGINGFACE_TOKEN && HUGGINGFACE_TOKEN.length > 10 ? '✅ Loaded' : '❌ Missing');
+            console.log('🌐 CORS Proxy:', CORS_PROXY);
             console.log('🧠 Risk Engine, Memory Engine, Retrieval System initialized');
             console.log('🌍 Rwanda, 2026');
         }
