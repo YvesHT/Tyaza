@@ -11,6 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
+    <!-- Puter AI SDK -->
+    <script src="https://js.puter.com/v2/"></script>
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -1362,7 +1365,7 @@
                 </div>
                 <div class="header-actions">
                     <div class="risk-indicators" id="riskIndicators"></div>
-                    <button class="btn btn-primary btn-sm" id="aiToggleBtn"><i class="fas fa-cloud"></i> AI</button>
+                    <button class="btn btn-primary btn-sm" id="aiToggleBtn"><i class="fas fa-cloud"></i> Puter AI</button>
                     <button class="btn btn-icon btn-ghost" id="exportBtn"><i class="fas fa-download"></i></button>
                     <button class="btn btn-icon btn-ghost" id="clearChatBtn"><i class="fas fa-trash-alt"></i></button>
                 </div>
@@ -1508,19 +1511,14 @@
     <script>
         // ============================================================
         // TYAZA - Umuvugizi w'Umutima
-        // AI Therapy Assistant with DeepSeek V3 via Hugging Face
+        // AI Therapy Assistant with Puter AI (No API Key Required!)
         // KIVURA LABS - Rwanda
         // ============================================================
 
-        // ---------- CONFIG ----------
-        // REPLACE WITH YOUR ACTUAL HUGGING FACE API KEY
-        const HUGGINGFACE_TOKEN = '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';
+        // ---------- PUTER AI CONFIG ----------
+        // Puter AI works without any API key - just use the SDK!
+        // The SDK is loaded from: https://js.puter.com/v2/
         
-        // Using Hugging Face API directly (with CORS proxy for browser compatibility)
-        const CORS_PROXY = 'https://corsproxy.io/?';
-        const API_URL = CORS_PROXY + 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-V3';
-        const FALLBACK_API_URL = CORS_PROXY + 'https://api-inference.huggingface.co/models/mistralai/Mistral-7B-Instruct-v0.1';
-
         // ---------- STATE ----------
         let state = {
             messages: [],
@@ -1535,7 +1533,7 @@
             moodData: [],
             conversations: [],
             isListening: false,
-            useAI: true,  // AI is enabled by default
+            useAI: true,  // Puter AI is enabled by default
             speechRecognition: null,
             speechSynthesis: window.speechSynthesis,
             voices: [],
@@ -1548,8 +1546,7 @@
                 ptsd: false,
                 abuse: false
             },
-            apiCallCount: 0,
-            lastApiCall: 0
+            puterReady: false
         };
 
         // ============================================================
@@ -1826,157 +1823,55 @@
                 context += `\n\n📝 **Recent conversation**: ${JSON.stringify(history.map(m => `${m.role}: ${m.content}`))}`;
             }
 
-            context += `\n\nUmuntu: ${userMessage}\n\nIgisubizo cyawe (mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe):`;
-
             return context;
         }
 
         // ============================================================
-        // AI SERVICE - FIXED WITH CORS PROXY
+        // PUTER AI SERVICE - No API Key Required!
         // ============================================================
-        async function getAIResponse(userMessage) {
-            if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
-                console.log('⚠️ No valid API key, using fallback');
-                return getFallbackResponse(userMessage);
-            }
-
-            const now = Date.now();
-            const timeSinceLastCall = now - state.lastApiCall;
-            if (timeSinceLastCall < 1500 && state.apiCallCount > 0) {
-                await new Promise(resolve => setTimeout(resolve, 1500 - timeSinceLastCall));
-            }
-
+        async function getPuterAIResponse(userMessage) {
             try {
+                // Check if Puter is available
+                if (typeof puter === 'undefined') {
+                    console.log('⚠️ Puter SDK not loaded, using fallback');
+                    showToast('⏳ Puter AI ikora...', 'info');
+                    return getFallbackResponse(userMessage);
+                }
+
                 const context = getSystemContext(userMessage);
-                state.apiCallCount++;
-                state.lastApiCall = Date.now();
                 
-                console.log('🤖 Sending request to DeepSeek via CORS proxy...');
+                console.log('🤖 Sending request to Puter AI...');
                 console.log('📝 Context length:', context.length);
-                console.log('🔑 Using API key:', HUGGINGFACE_TOKEN.substring(0, 10) + '...');
                 
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${HUGGINGFACE_TOKEN}`,
-                        'Content-Type': 'application/json',
+                // Using Puter AI's chat completion - NO API KEY NEEDED!
+                const response = await puter.ai.chat([
+                    {
+                        role: 'system',
+                        content: context
                     },
-                    body: JSON.stringify({
-                        inputs: context,
-                        parameters: {
-                            max_new_tokens: 200,
-                            temperature: 0.8,
-                            top_p: 0.95,
-                            do_sample: true,
-                            return_full_text: false,
-                            repetition_penalty: 1.1,
-                        }
-                    })
-                });
+                    {
+                        role: 'user',
+                        content: userMessage
+                    }
+                ]);
 
-                console.log('📡 Response status:', response.status);
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    console.error('❌ API Error:', response.status, errorText);
-                    console.log('🔄 Trying fallback model...');
-                    return await getFallbackAIResponse(userMessage);
-                }
-
-                const data = await response.json();
-                console.log('✅ Response received from DeepSeek!');
+                console.log('✅ Response received from Puter AI!');
                 
-                let text = '';
-                if (Array.isArray(data) && data.length > 0) {
-                    text = data[0]?.generated_text || data[0]?.text || '';
-                } else if (data.generated_text) {
-                    text = data.generated_text;
-                } else if (data.text) {
-                    text = data.text;
-                } else if (data.response) {
-                    text = data.response;
-                } else if (typeof data === 'string') {
-                    text = data;
-                }
-
-                text = text.replace(context, '').trim();
-                text = text.replace(/^(Umuntu:|Igisubizo cyawe:|Igisubizo:)/, '').trim();
+                let text = response.message?.content || response.text || '';
                 
                 if (text && text.length > 5) {
                     if (text.toLowerCase().includes('crisis') || text.toLowerCase().includes('116')) {
                         return 'CRISIS';
                     }
-                    return text;
+                    return text.trim();
                 }
                 
                 console.log('⚠️ Empty response, using fallback');
-                return await getFallbackAIResponse(userMessage);
-
-            } catch (error) {
-                console.error('❌ API Error:', error);
-                return await getFallbackAIResponse(userMessage);
-            }
-        }
-
-        // ============================================================
-        // FALLBACK AI
-        // ============================================================
-        async function getFallbackAIResponse(userMessage) {
-            if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
-                return getFallbackResponse(userMessage);
-            }
-
-            try {
-                const context = getSystemContext(userMessage);
-                
-                console.log('🔄 Trying fallback model via CORS proxy...');
-                
-                const response = await fetch(FALLBACK_API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': `Bearer ${HUGGINGFACE_TOKEN}`,
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        inputs: context,
-                        parameters: {
-                            max_new_tokens: 150,
-                            temperature: 0.7,
-                            top_p: 0.9,
-                            do_sample: true,
-                            return_full_text: false,
-                        }
-                    })
-                });
-
-                if (!response.ok) {
-                    console.log('⚠️ Fallback model failed, using local responses');
-                    return getFallbackResponse(userMessage);
-                }
-
-                const data = await response.json();
-                let text = '';
-                if (Array.isArray(data) && data.length > 0) {
-                    text = data[0]?.generated_text || data[0]?.text || '';
-                } else if (data.generated_text) {
-                    text = data.generated_text;
-                } else if (data.text) {
-                    text = data.text;
-                } else if (typeof data === 'string') {
-                    text = data;
-                }
-
-                text = text.replace(context, '').trim();
-                text = text.replace(/^(Umuntu:|Igisubizo cyawe:|Igisubizo:)/, '').trim();
-                
-                if (text && text.length > 5) {
-                    return text;
-                }
-                
                 return getFallbackResponse(userMessage);
 
             } catch (error) {
-                console.error('❌ Fallback Error:', error);
+                console.error('❌ Puter AI Error:', error);
+                showToast('⚠️ Puter AI yanze, nkoresha gahunda', 'warning');
                 return getFallbackResponse(userMessage);
             }
         }
@@ -2035,12 +1930,7 @@
             // Generic responses
             let responses = [];
             
-            if (lower.includes('quantum') || lower.includes('physics') || lower.includes('science')) {
-                responses = [
-                    "Mmm, ibyo ni ibintu birambuye. Ariko reka tuvugane ibyo uhangayikishijwe. Ubu wumva ute? 💙",
-                    "Ibyo ni byiza, ariko ndi hano kugira nkugire. Ubu wumva ute? 😊"
-                ];
-            } else if (lower.includes('ntacyo') || lower.includes('mbi') || lower.includes('byacye') ||
+            if (lower.includes('ntacyo') || lower.includes('mbi') || lower.includes('byacye') ||
                 lower.includes('sad') || lower.includes('depressed') || lower.includes('anxious')) {
                 responses = [
                     "Ndumva ibi bikugoye cyane. Urakoze kumbwira ibiri ku mutima wawe. Ubwihe ukiri he? 💙",
@@ -2284,7 +2174,7 @@
         }
 
         // ============================================================
-        // SEND MESSAGE - FIXED
+        // SEND MESSAGE - USING PUTER AI AS DEFAULT (No API Key!)
         // ============================================================
         async function sendMessage() {
             const input = document.getElementById('messageInput');
@@ -2331,15 +2221,15 @@
 
             const typingId = showTyping();
             state.isGenerating = true;
-            document.getElementById('statusText').textContent = 'DeepSeek AI itegura...';
+            document.getElementById('statusText').textContent = 'Puter AI itegura...';
 
             try {
                 let response = '';
                 if (state.useAI) {
-                    // Use AI backend (default)
-                    response = await getAIResponse(text);
+                    // Use Puter AI - NO API KEY REQUIRED!
+                    response = await getPuterAIResponse(text);
                 } else {
-                    // Fallback to local responses
+                    // Fallback to local responses if AI is disabled
                     response = getFallbackResponse(text);
                 }
 
@@ -2740,16 +2630,15 @@
         // INIT
         // ============================================================
         function init() {
-            // Validate API key
-            if (!HUGGINGFACE_TOKEN || HUGGINGFACE_TOKEN.length < 10) {
-                console.warn('⚠️ No valid API key found');
-                showToast('⚠️ API key missing - using local mode', 'warning');
-                state.useAI = false; // Fallback to local mode
+            // Check if Puter SDK is loaded
+            if (typeof puter !== 'undefined') {
+                state.puterReady = true;
+                console.log('✅ Puter AI SDK loaded successfully!');
+                showToast('✅ Puter AI yiteguye! (Nta API key isabwa)', 'success');
             } else {
-                console.log('✅ API key loaded:', HUGGINGFACE_TOKEN.substring(0, 10) + '...');
-                console.log('🌐 Using CORS proxy:', CORS_PROXY);
-                state.useAI = true; // AI is enabled by default
-                showToast('✅ DeepSeek AI yiteguye! (via CORS proxy)', 'success');
+                console.warn('⚠️ Puter SDK not loaded');
+                showToast('⚠️ Puter SDK itaboneka - nkoresha gahunda', 'warning');
+                state.useAI = false;
             }
 
             // Load stored data
@@ -2769,10 +2658,10 @@
             updateMemoryStats();
             updateWelcome();
 
-            // Show AI status
+            // Show AI status - Puter AI enabled by default
             const aiBtn = document.getElementById('aiToggleBtn');
             aiBtn.innerHTML = state.useAI ? 
-                '<i class="fas fa-cloud"></i> AI' : 
+                '<i class="fas fa-cloud"></i> Puter AI' : 
                 '<i class="fas fa-microchip"></i> Gahunda';
             aiBtn.classList.toggle('btn-primary', state.useAI);
             aiBtn.classList.toggle('btn-secondary', !state.useAI);
@@ -2815,11 +2704,11 @@
                 state.useAI = !state.useAI;
                 const btn = document.getElementById('aiToggleBtn');
                 btn.innerHTML = state.useAI ?
-                    '<i class="fas fa-cloud"></i> AI' :
+                    '<i class="fas fa-cloud"></i> Puter AI' :
                     '<i class="fas fa-microchip"></i> Gahunda';
                 btn.classList.toggle('btn-primary', state.useAI);
                 btn.classList.toggle('btn-secondary', !state.useAI);
-                showToast(state.useAI ? 'DeepSeek AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
+                showToast(state.useAI ? 'Puter AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
             });
 
             document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
@@ -2904,9 +2793,8 @@
 
             console.log('✨ TYAZA v2.1 - Umuvugizi w\'Umutima');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-            console.log('🤖 AI:', state.useAI ? 'DeepSeek V3 irakoreshwa' : 'Gahunda ikoreshwa');
-            console.log('🔑 API Key:', HUGGINGFACE_TOKEN && HUGGINGFACE_TOKEN.length > 10 ? '✅ Loaded' : '❌ Missing');
-            console.log('🌐 CORS Proxy:', CORS_PROXY);
+            console.log('🤖 AI:', state.useAI ? 'Puter AI irakoreshwa (Nta API key!)' : 'Gahunda ikoreshwa');
+            console.log('🔑 Puter SDK:', state.puterReady ? '✅ Loaded' : '❌ Not loaded');
             console.log('🧠 Risk Engine, Memory Engine, Retrieval System initialized');
             console.log('🌍 Rwanda, 2026');
         }
