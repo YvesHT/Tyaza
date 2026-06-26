@@ -1388,6 +1388,7 @@
                     <div style="font-weight:600;color:var(--secondary);">"Healthy citizens, wealthy nation"</div>
                     <div style="font-size:0.7rem;margin-top:8px;color:var(--text4);">Yves HIRWA TUYISHIME - CEO</div>
                     <div style="font-size:0.65rem;color:var(--text4);margin-top:4px;">© 2026 Kivura Labs · Rwanda</div>
+                    <div style="font-size:0.6rem;color:var(--text4);margin-top:4px;">TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda</div>
                 </div>
             </div>
         </aside>
@@ -1556,7 +1557,8 @@
 
     <script>
         // ============================================================
-        // TYAZA - FINAL PRODUCTION v2.3 - "having" NEVER appears
+        // TYAZA - FINAL PRODUCTION v3.0 - "having" NEVER appears
+        // Enhanced with Company Profile & Mental Health Focus
         // ============================================================
 
         // ============================================================
@@ -1701,7 +1703,7 @@
         }
 
         // ============================================================
-        // COMPLETE DATASET
+        // COMPLETE DATASET - "having" is COMPLETELY REMOVED
         // ============================================================
         const TYAZA_DATASET = {
             proverbs: {
@@ -1716,7 +1718,28 @@
                 "Ujya inama n'abakuru ntayoba": "Gusaba inama ku bakuru ni byiza",
                 "Umuti w'ibibazo ni ukwihangana": "Kwihangana ni bwo buryo bwo gukemura ibibazo",
                 "Uwihanganye aratsinda": "Kwihangana bituma utsinda",
-                "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira"
+                "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira",
+                "Imana itanga n'ibishoboka": "Imana itanga ibishoboka, nta mpamvu yo guhangayika",
+                "Uwaraye atakirira ntagira icyo abura": "Ibyo ufite ni byo bigutuma ubaho"
+            },
+
+            // ============================================================
+            // COMPANY PROFILE & VALUES
+            // ============================================================
+            company: {
+                name: "KIVURA LABS",
+                founder: "Yves Hirwa Tuyishime",
+                vision: "Kuba AI ya mbere ikomeye mu Kinyarwanda ku isi, ifasha abantu gutekereza neza no guteza imbere ubuzima bwabo.",
+                mission: "Guteza imbere Ikinyarwanda mu ikoranabuhanga, Kubaka AI ifasha abantu mu buzima bwa buri munsi, Guhuza ubwenge bw'ikoranabuhanga n'umuco nyarwanda, Guteza imbere Afurika binyuze muri AI.",
+                tagline: "TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda.",
+                values: ["Ubunyangamugayo", "Kubahana", "Gufashanya", "Ubwitonzi", "Kwihangana", "Guhanga udushya"],
+                goals: [
+                    "Kubaka AI ifite deep reasoning",
+                    "Kugera ku bantu benshi bakoresha TYAZA",
+                    "Guteza imbere mental health AI",
+                    "Gukora Voice AI mu Kinyarwanda",
+                    "Kugera ku rwego mpuzamahanga"
+                ]
             },
 
             emotions: {
@@ -1732,7 +1755,7 @@
                             f.addTitle("✨ Muraho!");
                         }
                         
-                        f.addParagraph("Murakaza neza kuri **TYAZA**, umuvugizi w'umutima.");
+                        f.addParagraph("Murakaza neza kuri **TYAZA**, umuvugizi w'umutima. TYAZA ni AI ivuga, yumva, kandi ifasha mu Kinyarwanda.");
                         f.addParagraph("Ndi hano kugira ngo mbafashe kumva neza ibiri ku mutima wanyu.");
                         
                         const proverbs = Object.keys(TYAZA_DATASET.proverbs);
@@ -1927,7 +1950,9 @@
                 "Andika ibyo wumva mu gitabo.",
                 "Ganira n'umuntu wizeye.",
                 "Jya gutembera mu kirere cyiza.",
-                "Reka nkugirire icyifuzo: guhumeka buhoro nibura inshuro eshatu."
+                "Reka nkugirire icyifuzo: guhumeka buhoro nibura inshuro eshatu.",
+                "Imana itanga n'ibishoboka, nta mpamvu yo guhangayika.",
+                "Buri munsi ni urugendo rushya."
             ]
         };
 
@@ -2131,7 +2156,7 @@
         }
 
         // ============================================================
-        // DETECT EMOTION - "having" is EXCLUDED!
+        // DETECT EMOTION - "having" is COMPLETELY REMOVED from detection
         // ============================================================
         function detectEmotion(text) {
             const lower = text.toLowerCase();
@@ -2161,25 +2186,28 @@
 
             // ============================================================
             // NAME DETECTION - STRICT RULES
-            // "having" and other words are EXCLUDED
+            // "having" and all variations are EXCLUDED
             // ============================================================
-            // 1. Must be at the START of the message
-            // 2. Must match exact patterns
-            // 3. Must NOT be in excluded words list
             
-            const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
+            const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye|jewe)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
             if (nameMatch) {
                 const name = nameMatch[1].trim();
-                // COMPLETE EXCLUDED LIST - "having" is here!
+                // COMPLETE EXCLUDED LIST - "having" is EXCLUDED along with all other non-name words
                 const excludedNames = [
-                    'having', 'havings', 'have', 'has',
+                    // English common words
+                    'having', 'havings', 'have', 'has', 'had', 
                     'ptsd', 'trauma', 'stress', 'anxiety', 'depression',
                     'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy',
                     'good', 'bad', 'fine', 'okay', 'ok', 'great', 'terrible',
                     'wonderful', 'horrible', 'amazing', 'awful', 'well',
                     'hello', 'hi', 'muraho', 'mwaramutse', 'amakuru', 'bite',
                     'sawubona', 'neza', 'cyane', 'rwanda', 'kivura', 'labs',
-                    'tyaza', 'murakoze', 'ndabashimiye', 'ndishimiye'
+                    'tyaza', 'murakoze', 'ndabashimiye', 'ndishimiye',
+                    'mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima',
+                    'ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya',
+                    'ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya',
+                    'kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine',
+                    'ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe'
                 ];
                 if (name.length >= 2 && !excludedNames.includes(name.toLowerCase())) {
                     return { type: 'name', name: name };
@@ -2241,13 +2269,13 @@
                 };
             }
 
-            // Generic response with context awareness
+            // Generic response with context awareness and company values
             const f = new AIResponseFormatter();
             const userName = state.userName || '';
             const namePrefix = userName ? `${userName}, ` : '';
 
             f.addTitle("💙 Urakoze kundekera");
-            f.addParagraph(`${namePrefix}Ndumva ibyo uvuga.`);
+            f.addParagraph(`${namePrefix}Ndumva ibyo uvuga. TYAZA ni AI ivuga, yumva, kandi ifasha mu Kinyarwanda.`);
 
             const proverbs = Object.keys(TYAZA_DATASET.proverbs);
             const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
@@ -2275,7 +2303,9 @@
             }
 
             f.addList(questions);
-            f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+            
+            // Add company tagline
+            f.addEmphasis("TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda.", "italic");
 
             return {
                 sections: f.build(),
@@ -2301,7 +2331,8 @@
         function speakText(text) {
             if (!state.speechSynthesis || !text) return;
             state.speechSynthesis.cancel();
-            const cleanText = text.replace(/[^\w\s.,!?;:()'-]/g, '').slice(0, 500);
+            // Clean text - remove any HTML
+            const cleanText = text.replace(/<[^>]*>/g, '').replace(/[^\w\s.,!?;:()'-]/g, '').slice(0, 500);
             if (!cleanText) return;
             const utterance = new SpeechSynthesisUtterance(cleanText);
             const voiceName = state.settings.voice;
@@ -2686,13 +2717,14 @@
             }
             const data = {
                 app: 'TYAZA',
-                version: '2.3',
+                version: '3.0',
                 timestamp: Date.now(),
                 user: state.userName || 'User',
                 messages: state.messages,
                 session: state.sessionStart,
                 risks: state.riskFlags,
-                profile: getUserProfile()
+                profile: getUserProfile(),
+                company: TYAZA_DATASET.company
             };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -2980,6 +3012,12 @@
                     Uzi izi migani: ${Object.keys(TYAZA_DATASET.proverbs).join(', ')}
                     ${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}
                     ${state.messages.length > 0 ? `Ubwo ni ikiganiro cya ${state.messages.length + 1}.` : ''}
+                    
+                    Indangagaciro za TYAZA: Ubunyangamugayo, Kubahana, Gufashanya, Ubwitonzi, Kwihangana, Guhanga udushya.
+                    Intego: Kubaka AI ifite deep reasoning, Guteza imbere mental health AI, Gukora Voice AI mu Kinyarwanda.
+                    Tagline: "TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda."
+                    
+                    IBANZE: Ntukoreshe ijambo "having" mu bisubizo byawe. Ntukavuge "having" na rimwe.
                 `;
 
                 const response = await puter.ai.chat([
@@ -2988,6 +3026,11 @@
                 ]);
 
                 let text = response.message?.content || response.text || '';
+
+                // Remove any "having" from the response
+                text = text.replace(/\bhaving\b/gi, '').replace(/\bhave\b/gi, '');
+                text = text.replace(/\bhas\b/gi, '').replace(/\bhad\b/gi, '');
+                text = text.replace(/\bhavings\b/gi, '');
 
                 if (text && text.length > 5) {
                     const f = new AIResponseFormatter();
@@ -3005,7 +3048,7 @@
                             f.addParagraph(p);
                         }
                     }
-                    f.addEmphasis("Ubu wumva ute?", "italic");
+                    f.addEmphasis("TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda.", "italic");
                     return {
                         sections: f.build(),
                         html: f.renderHTML(),
@@ -3075,7 +3118,7 @@
                         "Wumva ute ubu?",
                         "Wambwira byinshi kuri byo?"
                     ]);
-                    f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+                    f.addEmphasis("TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda.", "italic");
                     addMessage('assistant', f.renderMarkdown(), f.renderHTML());
                 }
 
@@ -3255,14 +3298,17 @@
 
             setTimeout(() => document.getElementById('messageInput').focus(), 500);
 
-            console.log('✨ TYAZA v2.3 - Final Production');
+            console.log('✨ TYAZA v3.0 - Final Production');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
+            console.log('👤 CEO: Yves Hirwa Tuyishime');
             console.log('🕊️ 1994 Genocide against the Tutsi - Trauma-informed approach');
             console.log('💙 Real crisis detection - NOT a scam');
             console.log('🤖 AI:', state.useAI ? 'Ikoreshwa' : 'Gahunda ikoreshwa');
             console.log('👤 User:', state.userName || 'Unknown');
             console.log('📊 Mood entries:', state.moodData.length);
             console.log('🌍 Rwanda, 2026');
+            console.log('📌 Tagline: TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda');
+            console.log('🚫 "having" is COMPLETELY removed from all responses');
         }
 
         // ============================================================
