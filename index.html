@@ -1388,7 +1388,7 @@
                     <div style="font-weight:600;color:var(--secondary);">"Healthy citizens, wealthy nation"</div>
                     <div style="font-size:0.7rem;margin-top:8px;color:var(--text4);">Yves HIRWA TUYISHIME - CEO</div>
                     <div style="font-size:0.65rem;color:var(--text4);margin-top:4px;">© 2026 Kivura Labs · Rwanda</div>
-                    <div style="font-size:0.6rem;color:var(--text4);margin-top:4px;">TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda</div>
+                    <div style="font-size:0.6rem;color:var(--text4);margin-top:4px;">TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda</div>
                 </div>
             </div>
         </aside>
@@ -1557,8 +1557,7 @@
 
     <script>
         // ============================================================
-        // TYAZA - FINAL PRODUCTION v3.0 - "having" NEVER appears
-        // Enhanced with Company Profile & Mental Health Focus
+        // TYAZA - FINAL PRODUCTION v3.1 - Corrected Kinyarwanda
         // ============================================================
 
         // ============================================================
@@ -1703,7 +1702,8 @@
         }
 
         // ============================================================
-        // COMPLETE DATASET - "having" is COMPLETELY REMOVED
+        // COMPLETE DATASET - Corrected Kinyarwanda
+        // "having" is COMPLETELY REMOVED from all responses
         // ============================================================
         const TYAZA_DATASET = {
             proverbs: {
@@ -1712,32 +1712,29 @@
                 "Uwitonze arusha uwihuta kugera kure": "Kwihangana bituma ugera ku ntsinzi irambye",
                 "Nta gahinda gahoraho": "Ibibazo birashira uko igihe kigenda",
                 "Uko ubiba ni ko usarura": "Ibyo ukora ni byo bigena ibizakugeraho",
-                "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ingenzi kugira ngo wige",
+                "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ngombwa kugira ngo wige",
                 "Agasozi katarimwe ntikamenya ko kari kure": "Utagerageje ntamenya uburemere bw'ikintu",
                 "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi",
                 "Ujya inama n'abakuru ntayoba": "Gusaba inama ku bakuru ni byiza",
                 "Umuti w'ibibazo ni ukwihangana": "Kwihangana ni bwo buryo bwo gukemura ibibazo",
                 "Uwihanganye aratsinda": "Kwihangana bituma utsinda",
                 "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira",
-                "Imana itanga n'ibishoboka": "Imana itanga ibishoboka, nta mpamvu yo guhangayika",
+                "Imana itanga ibishoboka": "Imana itanga ibishoboka, nta mpamvu yo guhangayika",
                 "Uwaraye atakirira ntagira icyo abura": "Ibyo ufite ni byo bigutuma ubaho"
             },
 
-            // ============================================================
-            // COMPANY PROFILE & VALUES
-            // ============================================================
             company: {
                 name: "KIVURA LABS",
                 founder: "Yves Hirwa Tuyishime",
                 vision: "Kuba AI ya mbere ikomeye mu Kinyarwanda ku isi, ifasha abantu gutekereza neza no guteza imbere ubuzima bwabo.",
                 mission: "Guteza imbere Ikinyarwanda mu ikoranabuhanga, Kubaka AI ifasha abantu mu buzima bwa buri munsi, Guhuza ubwenge bw'ikoranabuhanga n'umuco nyarwanda, Guteza imbere Afurika binyuze muri AI.",
-                tagline: "TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda.",
+                tagline: "TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.",
                 values: ["Ubunyangamugayo", "Kubahana", "Gufashanya", "Ubwitonzi", "Kwihangana", "Guhanga udushya"],
                 goals: [
-                    "Kubaka AI ifite deep reasoning",
+                    "Kubaka AI ifite ubwenge buhanitse",
                     "Kugera ku bantu benshi bakoresha TYAZA",
-                    "Guteza imbere mental health AI",
-                    "Gukora Voice AI mu Kinyarwanda",
+                    "Guteza imbere AI y'ubuzima bwo mu mutwe",
+                    "Kubaka AI ivuga mu Kinyarwanda",
                     "Kugera ku rwego mpuzamahanga"
                 ]
             },
@@ -1755,7 +1752,7 @@
                             f.addTitle("✨ Muraho!");
                         }
                         
-                        f.addParagraph("Murakaza neza kuri **TYAZA**, umuvugizi w'umutima. TYAZA ni AI ivuga, yumva, kandi ifasha mu Kinyarwanda.");
+                        f.addParagraph("Murakaza neza kuri **TYAZA**, umuvugizi w'umutima. TYAZA ni AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.");
                         f.addParagraph("Ndi hano kugira ngo mbafashe kumva neza ibiri ku mutima wanyu.");
                         
                         const proverbs = Object.keys(TYAZA_DATASET.proverbs);
@@ -1781,7 +1778,7 @@
                         
                         f.addList([
                             "Ubu wumva ute?",
-                            "Ni iki ukiri ku mutima?",
+                            "Ni iki kiri ku mutima wawe?",
                             "Hari ikintu ushaka kuganiraho?"
                         ]);
                         f.addEmphasis("Ndi hano kugira nkugire.", "italic");
@@ -1945,13 +1942,13 @@
             ],
 
             calmingTechniques: [
-                "Gerageza guhumeka buhoro: winjize umwuka, uwusohore buhoro.",
+                "Gerageza guhumeka buhoro: winjiza umwuka, uwusohore buhoro.",
                 "Fata umwanya w'ituze utekereze ku bintu byiza.",
                 "Andika ibyo wumva mu gitabo.",
                 "Ganira n'umuntu wizeye.",
                 "Jya gutembera mu kirere cyiza.",
                 "Reka nkugirire icyifuzo: guhumeka buhoro nibura inshuro eshatu.",
-                "Imana itanga n'ibishoboka, nta mpamvu yo guhangayika.",
+                "Imana itanga ibishoboka, nta mpamvu yo guhangayika.",
                 "Buri munsi ni urugendo rushya."
             ]
         };
@@ -2156,7 +2153,7 @@
         }
 
         // ============================================================
-        // DETECT EMOTION - "having" is COMPLETELY REMOVED from detection
+        // DETECT EMOTION - "having" is COMPLETELY REMOVED
         // ============================================================
         function detectEmotion(text) {
             const lower = text.toLowerCase();
@@ -2192,9 +2189,8 @@
             const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye|jewe)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
             if (nameMatch) {
                 const name = nameMatch[1].trim();
-                // COMPLETE EXCLUDED LIST - "having" is EXCLUDED along with all other non-name words
+                // COMPLETE EXCLUDED LIST - "having" is EXCLUDED
                 const excludedNames = [
-                    // English common words
                     'having', 'havings', 'have', 'has', 'had', 
                     'ptsd', 'trauma', 'stress', 'anxiety', 'depression',
                     'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy',
@@ -2269,13 +2265,13 @@
                 };
             }
 
-            // Generic response with context awareness and company values
+            // Generic response with context awareness
             const f = new AIResponseFormatter();
             const userName = state.userName || '';
             const namePrefix = userName ? `${userName}, ` : '';
 
             f.addTitle("💙 Urakoze kundekera");
-            f.addParagraph(`${namePrefix}Ndumva ibyo uvuga. TYAZA ni AI ivuga, yumva, kandi ifasha mu Kinyarwanda.`);
+            f.addParagraph(`${namePrefix}Ndumva ibyo uvuga. TYAZA ni AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.`);
 
             const proverbs = Object.keys(TYAZA_DATASET.proverbs);
             const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
@@ -2303,9 +2299,7 @@
             }
 
             f.addList(questions);
-            
-            // Add company tagline
-            f.addEmphasis("TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda.", "italic");
+            f.addEmphasis("TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.", "italic");
 
             return {
                 sections: f.build(),
@@ -2331,7 +2325,6 @@
         function speakText(text) {
             if (!state.speechSynthesis || !text) return;
             state.speechSynthesis.cancel();
-            // Clean text - remove any HTML
             const cleanText = text.replace(/<[^>]*>/g, '').replace(/[^\w\s.,!?;:()'-]/g, '').slice(0, 500);
             if (!cleanText) return;
             const utterance = new SpeechSynthesisUtterance(cleanText);
@@ -2717,7 +2710,7 @@
             }
             const data = {
                 app: 'TYAZA',
-                version: '3.0',
+                version: '3.1',
                 timestamp: Date.now(),
                 user: state.userName || 'User',
                 messages: state.messages,
@@ -3014,8 +3007,8 @@
                     ${state.messages.length > 0 ? `Ubwo ni ikiganiro cya ${state.messages.length + 1}.` : ''}
                     
                     Indangagaciro za TYAZA: Ubunyangamugayo, Kubahana, Gufashanya, Ubwitonzi, Kwihangana, Guhanga udushya.
-                    Intego: Kubaka AI ifite deep reasoning, Guteza imbere mental health AI, Gukora Voice AI mu Kinyarwanda.
-                    Tagline: "TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda."
+                    Intego: Kubaka AI ifite ubwenge buhanitse, Guteza imbere AI y'ubuzima bwo mu mutwe, Kubaka AI ivuga mu Kinyarwanda.
+                    Tagline: "TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda."
                     
                     IBANZE: Ntukoreshe ijambo "having" mu bisubizo byawe. Ntukavuge "having" na rimwe.
                 `;
@@ -3048,7 +3041,7 @@
                             f.addParagraph(p);
                         }
                     }
-                    f.addEmphasis("TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda.", "italic");
+                    f.addEmphasis("TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.", "italic");
                     return {
                         sections: f.build(),
                         html: f.renderHTML(),
@@ -3118,7 +3111,7 @@
                         "Wumva ute ubu?",
                         "Wambwira byinshi kuri byo?"
                     ]);
-                    f.addEmphasis("TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda.", "italic");
+                    f.addEmphasis("TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.", "italic");
                     addMessage('assistant', f.renderMarkdown(), f.renderHTML());
                 }
 
@@ -3298,7 +3291,7 @@
 
             setTimeout(() => document.getElementById('messageInput').focus(), 500);
 
-            console.log('✨ TYAZA v3.0 - Final Production');
+            console.log('✨ TYAZA v3.1 - Corrected Kinyarwanda');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
             console.log('👤 CEO: Yves Hirwa Tuyishime');
             console.log('🕊️ 1994 Genocide against the Tutsi - Trauma-informed approach');
@@ -3307,8 +3300,9 @@
             console.log('👤 User:', state.userName || 'Unknown');
             console.log('📊 Mood entries:', state.moodData.length);
             console.log('🌍 Rwanda, 2026');
-            console.log('📌 Tagline: TYAZA – AI ivuga, yumva, kandi ifasha mu Kinyarwanda');
+            console.log('📌 Tagline: TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda');
             console.log('🚫 "having" is COMPLETELY removed from all responses');
+            console.log('✅ Kinyarwanda iboneye - Corrected grammar');
         }
 
         // ============================================================
