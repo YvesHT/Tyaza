@@ -1219,7 +1219,6 @@
             .welcome-icon { animation: none !important; }
             .crisis-btn { animation: none !important; }
         }
-        /* Proverb styling - full row, not inline */
         .proverb-box {
             background: rgba(139,92,246,0.08);
             border-left: 4px solid var(--primary);
@@ -1556,11 +1555,11 @@
 
     <script>
         // ============================================================
-        // TYAZA - FIXED: Proper Markdown Rendering, Proverbs on Own Row
+        // TYAZA - ENHANCED: Name Tracking, History, Mood Integration
         // ============================================================
 
         // ============================================================
-        // AI RESPONSE FORMATTER - With Markdown Support
+        // AI RESPONSE FORMATTER
         // ============================================================
         class AIResponseFormatter {
             constructor() {
@@ -1606,7 +1605,6 @@
                 return this.sections;
             }
 
-            // Helper: Convert Markdown **bold** and *italic* to HTML
             renderMarkdownToHTML(text) {
                 let result = text;
                 result = result.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--secondary);">$1</strong>');
@@ -1641,7 +1639,6 @@
                             }
                             break;
                         case "proverb":
-                            // PROVERB ON ITS OWN ROW - FULL BLOCK
                             output += `<div class="proverb-box">`;
                             output += `<div class="proverb-text">"${this.renderMarkdownToHTML(sec.proverb)}"</div>`;
                             output += `<div class="proverb-meaning">→ ${this.renderMarkdownToHTML(sec.meaning)}</div>`;
@@ -1703,7 +1700,7 @@
         }
 
         // ============================================================
-        // COMPLETE DATASET
+        // COMPLETE ENHANCED DATASET
         // ============================================================
         const TYAZA_DATASET = {
             proverbs: {
@@ -1714,22 +1711,59 @@
                 "Uko ubiba ni ko usarura": "Ibyo ukora ni byo bigena ibizakugeraho",
                 "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ingenzi kugira ngo wige",
                 "Agasozi katarimwe ntikamenya ko kari kure": "Utagerageje ntamenya uburemere bw'ikintu",
-                "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi"
+                "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi",
+                "Ujya inama n'abakuru ntayoba": "Gusaba inama ku bakuru ni byiza",
+                "Umuti w'ibibazo ni ukwihangana": "Kwihangana ni bwo buryo bwo gukemura ibibazo",
+                "Uwihanganye aratsinda": "Kwihangana bituma utsinda",
+                "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira"
             },
 
+            // Enhanced emotions with history-aware responses
             emotions: {
                 greeting: {
                     patterns: ['muraho', 'hello', 'hi', 'mwaramutse', 'amakuru', 'bite', 'sawubona'],
                     generate: function() {
                         const f = new AIResponseFormatter();
-                        f.addTitle("✨ Muraho!");
+                        const userName = state.userName || null;
+                        
+                        if (userName) {
+                            f.addTitle(`✨ Muraho, ${userName}!`);
+                        } else {
+                            f.addTitle("✨ Muraho!");
+                        }
+                        
                         f.addParagraph("Murakaza neza kuri **TYAZA**, umuvugizi w'umutima.");
                         f.addParagraph("Ndi hano kugira ngo mbafashe kumva neza ibiri ku mutima wanyu.");
-                        // Proverb on its OWN ROW - not inline
-                        f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
+                        
+                        // Add proverb
+                        const proverbs = Object.keys(TYAZA_DATASET.proverbs);
+                        const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+                        f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
+                        
+                        // Ask for name if unknown
+                        if (!userName) {
+                            f.addParagraph("Niba ushaka, wambwira izina ryawe kugira ngo tubane mu buryo bw'umuntu ku muntu?");
+                        }
+                        
+                        // Returning user context
+                        if (state.messages.length > 2 && userName) {
+                            f.addParagraph(`Ndibuka ko twiganiye mbere, ${userName}. Ubu wumva ute?`);
+                        }
+                        
+                        // Check if user has recorded moods
+                        const profile = getUserProfile();
+                        if (profile.moodEntries > 0 && userName) {
+                            const lastMood = profile.recentMoods[profile.recentMoods.length - 1];
+                            if (lastMood) {
+                                const moodEmojis = ['😢', '😔', '😐', '🙂', '😊'];
+                                f.addParagraph(`Ndibuka ko uheruka kumva ${moodEmojis[lastMood.mood - 1]} ${lastMood.mood}/5. Ubu wumva ute?`);
+                            }
+                        }
+                        
                         f.addList([
                             "Ubu wumva ute?",
-                            "Ni iki ukiri ku mutima?"
+                            "Ni iki ukiri ku mutima?",
+                            "Hari ikintu ushaka kuganiraho?"
                         ]);
                         f.addEmphasis("Ndi hano kugira nkugire.", "italic");
                         return f;
@@ -1739,8 +1773,11 @@
                     patterns: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'nariraye'],
                     generate: function() {
                         const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
                         f.addTitle("💙 Mbabajwe no kumva ko ubabaye.");
-                        f.addParagraph("Ndumva ufite agahinda. Ni iki cyaguteye kumva utyo?");
+                        f.addParagraph(`${namePrefix}Ndumva ufite agahinda. Ni iki cyaguteye kumva utyo?`);
                         f.addProverb("Nta gahinda gahoraho", "Ibibazo birashira uko igihe kigenda");
                         f.addList([
                             "Wambwira byinshi kuri byo?",
@@ -1754,8 +1791,11 @@
                     patterns: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo'],
                     generate: function() {
                         const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
                         f.addTitle("✨ Ni byiza cyane kumva wishimye!");
-                        f.addParagraph("Ibyishimo ni impamvu yo gukomeza mu buzima.");
+                        f.addParagraph(`${namePrefix}Ibyishimo ni impamvu yo gukomeza mu buzima.`);
                         f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
                         f.addList([
                             "Ni iki cyaguteye ibyishimo?",
@@ -1769,8 +1809,11 @@
                     patterns: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya'],
                     generate: function() {
                         const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
                         f.addTitle("🔥 Birumvikana ko urakaye.");
-                        f.addParagraph("Kurakara ni ibisanzwe, ariko ni byiza kubivugaho.");
+                        f.addParagraph(`${namePrefix}Kurakara ni ibisanzwe, ariko ni byiza kubivugaho.`);
                         f.addProverb("Uwitonze arusha uwihuta kugera kure", "Kwihangana bituma ugera ku ntsinzi irambye");
                         f.addList([
                             "Ni iki cyaguteye uburakari?",
@@ -1784,8 +1827,11 @@
                     patterns: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya'],
                     generate: function() {
                         const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
                         f.addTitle("😰 Ndumva ufite ubwoba.");
-                        f.addParagraph("Gutekereza ku hazaza bishobora gutera ubwoba.");
+                        f.addParagraph(`${namePrefix}Gutekereza ku hazaza bishobora gutera ubwoba.`);
                         f.addProverb("Buhoro buhoro ni rwo rugendo", "Kugenda buhoro ni uburyo bwo kugera kure");
                         f.addList([
                             "Ni iki kiguteye ubwoba?",
@@ -1799,14 +1845,35 @@
                     patterns: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'ndi wenyine'],
                     generate: function() {
                         const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
                         f.addTitle("🕊️ Kumva uri wenyine biraremereye.");
-                        f.addParagraph("Nta muntu ugomba kwihanganira ibyago yonyine.");
+                        f.addParagraph(`${namePrefix}Nta muntu ugomba kwihanganira ibyago yonyine.`);
                         f.addProverb("Ijoro ribara uwariraye", "Abariraye ni bo bumva iby'ijoro");
                         f.addList([
                             "Waba wifuza kuganira n'umuntu?",
                             "Cyangwa gusangira ibyo wumva?"
                         ]);
                         f.addEmphasis("Nturi wenyine. Ndi hano.", "bold");
+                        return f;
+                    }
+                },
+                fatigue: {
+                    patterns: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'ndumva ndushye'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("😓 Ndumva ufite umunaniro.");
+                        f.addParagraph(`${namePrefix}Birashoboka ko ukeneye kuruhuka.`);
+                        f.addProverb("Buhoro buhoro ni rwo rugendo", "Kugenda buhoro ni uburyo bwo kugera kure");
+                        f.addList([
+                            "Ni iki cyaguteye kurambirwa?",
+                            "Waba wararuhutse bihagije?"
+                        ]);
+                        f.addEmphasis("Kuruhuka ni ingenzi ku mutima.", "italic");
                         return f;
                     }
                 }
@@ -1848,129 +1915,41 @@
                     f.addEmphasis("Ubu wumva ute? Urafite icyo ushaka kuvuga?", "italic");
                     return f;
                 }
-            }
+            },
+
+            // Context-aware follow-up questions
+            followUpQuestions: [
+                "Hari ikintu cyihariye wifuza kuganiraho uyu munsi?",
+                "Waba ufite ikibazo gikomeye kiri ku mutima?",
+                "Ni iki cyagufasha kumva neza ubu?",
+                "Umutima wawe uvuze iki ubu?",
+                "Hari ibyo wifuza ko twongera kubiganiraho?"
+            ],
+
+            // Calming techniques
+            calmingTechniques: [
+                "Gerageza guhumeka buhoro: winjize umwuka, uwusohore buhoro.",
+                "Fata umwanya w'ituze utekereze ku bintu byiza.",
+                "Andika ibyo wumva mu gitabo.",
+                "Ganira n'umuntu wizeye.",
+                "Jya gutembera mu kirere cyiza.",
+                "Reka nkugirire icyifuzo: guhumeka buhoro nibura inshuro eshatu."
+            ]
         };
 
         // ============================================================
-        // DETECT EMOTION
-        // ============================================================
-        function detectEmotion(text) {
-            const lower = text.toLowerCase();
-
-            for (const pattern of TYAZA_DATASET.crisis.patterns) {
-                if (lower.includes(pattern)) return { type: 'crisis' };
-            }
-
-            for (const pattern of TYAZA_DATASET.genocide.patterns) {
-                if (lower.includes(pattern)) return { type: 'genocide' };
-            }
-
-            for (const pattern of TYAZA_DATASET.emotions.greeting.patterns) {
-                if (lower.includes(pattern)) return { type: 'greeting' };
-            }
-
-            for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
-                if (emotion === 'greeting') continue;
-                for (const pattern of data.patterns) {
-                    if (lower.includes(pattern)) return { type: emotion };
-                }
-            }
-
-            const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})$/i);
-            if (nameMatch) {
-                const name = nameMatch[1].trim();
-                if (name.length >= 2 && !['having', 'ptsd', 'trauma', 'stress', 'anxiety', 'depression'].includes(name.toLowerCase())) {
-                    return { type: 'name', name: name };
-                }
-            }
-
-            return null;
-        }
-
-        // ============================================================
-        // GENERATE RESPONSE
-        // ============================================================
-        function generateResponse(userInput) {
-            const detection = detectEmotion(userInput);
-
-            if (detection && detection.type === 'name') {
-                const f = new AIResponseFormatter();
-                f.addTitle(`✨ Murakaza neza, **${detection.name}**!`);
-                f.addParagraph(`Ndi **TYAZA**, umuvugizi w'umutima.`);
-                f.addParagraph("Ndi hano kugira ngo mbafashe kumva neza ibiri ku mutima wanyu.");
-                f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
-                f.addList([
-                    "Ubu wumva ute?",
-                    "Ni iki ukiri ku mutima?"
-                ]);
-                f.addEmphasis("Ndi hano kugira nkugire.", "italic");
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: detection.name
-                };
-            }
-
-            if (detection && detection.type === 'crisis') {
-                const f = TYAZA_DATASET.crisis.generate();
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null
-                };
-            }
-
-            if (detection && detection.type === 'genocide') {
-                const f = TYAZA_DATASET.genocide.generate();
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null
-                };
-            }
-
-            if (detection && detection.type && TYAZA_DATASET.emotions[detection.type]) {
-                const f = TYAZA_DATASET.emotions[detection.type].generate();
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null
-                };
-            }
-
-            // Generic response
-            const f = new AIResponseFormatter();
-            f.addTitle("💙 Urakoze kundekera");
-            f.addParagraph("Ndumva ibyo uvuga.");
-            const proverbs = Object.keys(TYAZA_DATASET.proverbs);
-            const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-            f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
-            f.addList([
-                "Wumva ute ubu?",
-                "Wambwira byinshi kuri byo?"
-            ]);
-            f.addEmphasis("Ndi hano kugira nkugire.", "italic");
-            return {
-                sections: f.build(),
-                html: f.renderHTML(),
-                markdown: f.renderMarkdown(),
-                userName: null
-            };
-        }
-
-        // ============================================================
-        // APPLICATION STATE (simplified for this fix)
+        // STATE MANAGEMENT
         // ============================================================
         let state = {
             messages: [],
             currentId: 'chat_' + Date.now(),
             isGenerating: false,
             userName: null,
-            settings: { voice: 'Google UK English Female', rate: 0.9, pitch: 1.0 },
+            settings: {
+                voice: 'Google UK English Female',
+                rate: 0.9,
+                pitch: 1.0
+            },
             moodData: [],
             conversations: [],
             isListening: false,
@@ -1979,8 +1958,16 @@
             speechSynthesis: window.speechSynthesis,
             voices: [],
             sessionStart: Date.now(),
-            riskFlags: { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false },
-            puterReady: false
+            riskFlags: {
+                suicide: false,
+                selfHarm: false,
+                violence: false,
+                ptsd: false,
+                abuse: false,
+                genocideTrauma: false
+            },
+            puterReady: false,
+            messageCount: 0
         };
 
         // ============================================================
@@ -1989,10 +1976,27 @@
         function storageGet(key, fallback = null) {
             try { const data = localStorage.getItem('tyaza_' + key); return data ? JSON.parse(data) : fallback; } catch { return fallback; }
         }
-        function storageSet(key, value) { try { localStorage.setItem('tyaza_' + key, JSON.stringify(value)); } catch {} }
+
+        function storageSet(key, value) {
+            try { localStorage.setItem('tyaza_' + key, JSON.stringify(value)); } catch {}
+        }
+
         function storageGetAll(key) { return storageGet(key, []); }
-        function storageAdd(key, item) { const items = storageGetAll(key); items.push(item); storageSet(key, items); return items; }
-        function storageDelete(key, id) { const items = storageGetAll(key); const filtered = items.filter(i => i.id !== id); storageSet(key, filtered); return filtered; }
+
+        function storageAdd(key, item) {
+            const items = storageGetAll(key);
+            items.push(item);
+            storageSet(key, items);
+            return items;
+        }
+
+        function storageDelete(key, id) {
+            const items = storageGetAll(key);
+            const filtered = items.filter(i => i.id !== id);
+            storageSet(key, filtered);
+            return filtered;
+        }
+
         function storageClear(key) { storageSet(key, []); }
 
         // ============================================================
@@ -2007,60 +2011,133 @@
         }
 
         // ============================================================
-        // CRISIS
+        // CRISIS DETECTION
         // ============================================================
         function analyzeRisks(text) {
             const lower = text.toLowerCase();
-            const risks = { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false };
+            const risks = {
+                suicide: false,
+                selfHarm: false,
+                violence: false,
+                ptsd: false,
+                abuse: false,
+                genocideTrauma: false
+            };
+
             for (const pattern of TYAZA_DATASET.crisis.patterns) {
-                if (lower.includes(pattern)) { risks.suicide = true; risks.selfHarm = true; }
+                if (lower.includes(pattern)) { risks.suicide = true;
+                    risks.selfHarm = true; }
             }
+
             for (const pattern of TYAZA_DATASET.genocide.patterns) {
                 if (lower.includes(pattern)) { risks.genocideTrauma = true; }
             }
+
+            const violencePatterns = ['gukubita', 'kwica', 'kurasa', 'guterana', 'violent', 'umujinya'];
+            for (const pattern of violencePatterns) {
+                if (lower.includes(pattern)) { risks.violence = true; }
+            }
+
+            const abusePatterns = ['guhohoterwa', 'gufatwa nabi', 'abuse', 'kubangamira', 'guhohotwa'];
+            for (const pattern of abusePatterns) {
+                if (lower.includes(pattern)) { risks.abuse = true; }
+            }
+
+            const traumaPatterns = ['trauma', 'ptsd', 'flashback', 'ibibazo', 'byabaye', 'nibuka'];
+            for (const pattern of traumaPatterns) {
+                if (lower.includes(pattern)) { risks.ptsd = true; }
+            }
+
             return risks;
         }
 
         function updateRiskIndicators(risks) {
             const container = document.getElementById('riskIndicators');
             const activeRisks = Object.entries(risks).filter(([k, v]) => v).map(([k]) => k);
-            if (activeRisks.length === 0) { container.classList.remove('visible'); container.innerHTML = ''; return; }
+
+            if (activeRisks.length === 0) {
+                container.classList.remove('visible');
+                container.innerHTML = '';
+                return;
+            }
+
             container.classList.add('visible');
             container.innerHTML = activeRisks.map(risk => {
-                const labels = { suicide: '⚠️ Kwiyahura', selfHarm: '⚠️ Kwikomeretsa', violence: '⚠️ Umujinya', ptsd: '⚠️ Trauma', abuse: '⚠️ Guhohoterwa', genocideTrauma: '🕊️ Jenoside' };
+                const labels = {
+                    suicide: '⚠️ Kwiyahura',
+                    selfHarm: '⚠️ Kwikomeretsa',
+                    violence: '⚠️ Umujinya',
+                    ptsd: '⚠️ Trauma',
+                    abuse: '⚠️ Guhohoterwa',
+                    genocideTrauma: '🕊️ Jenoside'
+                };
                 return `<span class="risk-badge high">${labels[risk] || risk}</span>`;
             }).join('');
         }
 
         // ============================================================
-        // USER PROFILE
+        // USER PROFILE - ENHANCED
         // ============================================================
         function getUserProfile() {
             const moodData = storageGetAll('moodData');
             const conversations = storageGetAll('conversations');
             const userName = storageGet('userName', null);
+
             const allUserMessages = [];
-            conversations.forEach(conv => { if (conv.messages) { conv.messages.forEach(msg => { if (msg.role === 'user') allUserMessages.push(msg.content); }); } });
+            conversations.forEach(conv => {
+                if (conv.messages) {
+                    conv.messages.forEach(msg => {
+                        if (msg.role === 'user') allUserMessages.push(msg.content);
+                    });
+                }
+            });
+
             const triggerWords = ['byibura', 'guhangayika', 'ubwoba', 'umujinya', 'agahinda', 'stress', 'trauma', 'ptsd', 'jenoside', '1994'];
-            const triggers = triggerWords.filter(word => allUserMessages.some(msg => msg.toLowerCase().includes(word)));
+            const triggers = triggerWords.filter(word =>
+                allUserMessages.some(msg => msg.toLowerCase().includes(word))
+            );
+
             const goalPatterns = ['ngomba', 'ndashaka', 'nshaka', 'nifuza', 'nzageraho'];
             const goals = [];
             allUserMessages.forEach(msg => {
                 if (goalPatterns.some(p => msg.toLowerCase().includes(p))) {
                     const sentences = msg.split(/[.?!]/);
-                    sentences.forEach(s => { if (goalPatterns.some(p => s.toLowerCase().includes(p)) && s.length > 5) goals.push(s.trim()); });
+                    sentences.forEach(s => {
+                        if (goalPatterns.some(p => s.toLowerCase().includes(p)) && s.length > 5) {
+                            goals.push(s.trim());
+                        }
+                    });
                 }
             });
+
             const cutoff = Date.now() - (30 * 86400000);
             const recentMoods = moodData.filter(m => m.timestamp >= cutoff);
-            const avgMood = recentMoods.length > 0 ? recentMoods.reduce((a, b) => a + b.mood, 0) / recentMoods.length : 0;
+            const avgMood = recentMoods.length > 0 ?
+                recentMoods.reduce((a, b) => a + b.mood, 0) / recentMoods.length :
+                0;
+
             const uniqueDays = new Set();
-            moodData.forEach(m => { uniqueDays.add(new Date(m.timestamp).toDateString()); });
+            moodData.forEach(m => {
+                uniqueDays.add(new Date(m.timestamp).toDateString());
+            });
             const activeDays = uniqueDays.size;
+
             const sessionCount = conversations.length || 1;
             const totalMessages = conversations.reduce((acc, c) => acc + (c.messages ? c.messages.length : 0), 0);
             const engagement = totalMessages > 0 ? Math.min(totalMessages / 5, 100) : 0;
-            return { userName, sessionCount, moodEntries: moodData.length, activeDays, avgMood, triggers, goals: goals.slice(0, 5), totalMessages, engagement: Math.round(engagement), recentMoods: recentMoods.slice(-7) };
+
+            return {
+                userName,
+                sessionCount,
+                moodEntries: moodData.length,
+                activeDays,
+                avgMood,
+                triggers,
+                goals: goals.slice(0, 5),
+                totalMessages,
+                engagement: Math.round(engagement),
+                recentMoods: recentMoods.slice(-7)
+            };
         }
 
         function updateMemoryStats() {
@@ -2068,9 +2145,150 @@
             document.getElementById('statSessions').textContent = profile.sessionCount;
             document.getElementById('statMoods').textContent = profile.moodEntries;
             document.getElementById('statActiveDays').textContent = profile.activeDays;
+
             const riskCount = Object.values(state.riskFlags).filter(v => v).length;
             const riskEmoji = riskCount === 0 ? '✅' : riskCount === 1 ? '⚠️' : '🚨';
             document.getElementById('statRiskLevel').textContent = riskEmoji;
+        }
+
+        // ============================================================
+        // DETECT EMOTION - ENHANCED
+        // ============================================================
+        function detectEmotion(text) {
+            const lower = text.toLowerCase();
+
+            // Crisis first
+            for (const pattern of TYAZA_DATASET.crisis.patterns) {
+                if (lower.includes(pattern)) return { type: 'crisis' };
+            }
+
+            // Genocide
+            for (const pattern of TYAZA_DATASET.genocide.patterns) {
+                if (lower.includes(pattern)) return { type: 'genocide' };
+            }
+
+            // Greeting
+            for (const pattern of TYAZA_DATASET.emotions.greeting.patterns) {
+                if (lower.includes(pattern)) return { type: 'greeting' };
+            }
+
+            // Other emotions
+            for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
+                if (emotion === 'greeting') continue;
+                for (const pattern of data.patterns) {
+                    if (lower.includes(pattern)) return { type: emotion };
+                }
+            }
+
+            // Name extraction
+            const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})$/i);
+            if (nameMatch) {
+                const name = nameMatch[1].trim();
+                if (name.length >= 2 && !['having', 'ptsd', 'trauma', 'stress', 'anxiety', 'depression'].includes(name.toLowerCase())) {
+                    return { type: 'name', name: name };
+                }
+            }
+
+            return null;
+        }
+
+        // ============================================================
+        // GENERATE RESPONSE - ENHANCED
+        // ============================================================
+        function generateResponse(userInput) {
+            const detection = detectEmotion(userInput);
+
+            // Handle name
+            if (detection && detection.type === 'name') {
+                state.userName = detection.name;
+                storageSet('userName', state.userName);
+                const f = TYAZA_DATASET.emotions.greeting.generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: detection.name
+                };
+            }
+
+            // Handle crisis
+            if (detection && detection.type === 'crisis') {
+                const f = TYAZA_DATASET.crisis.generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
+                };
+            }
+
+            // Handle genocide
+            if (detection && detection.type === 'genocide') {
+                const f = TYAZA_DATASET.genocide.generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
+                };
+            }
+
+            // Handle emotions
+            if (detection && detection.type && TYAZA_DATASET.emotions[detection.type]) {
+                const f = TYAZA_DATASET.emotions[detection.type].generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
+                };
+            }
+
+            // Generic response with context awareness
+            const f = new AIResponseFormatter();
+            const userName = state.userName || '';
+            const namePrefix = userName ? `${userName}, ` : '';
+
+            f.addTitle("💙 Urakoze kundekera");
+            f.addParagraph(`${namePrefix}Ndumva ibyo uvuga.`);
+
+            // Add appropriate proverb
+            const proverbs = Object.keys(TYAZA_DATASET.proverbs);
+            const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+            f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
+
+            // Context-aware questions
+            let questions = [
+                "Wumva ute ubu?",
+                "Wambwira byinshi kuri byo?"
+            ];
+
+            // Add follow-up if conversation is deep enough
+            if (state.messages.length > 3) {
+                const followUps = TYAZA_DATASET.followUpQuestions;
+                const randomFollowUp = followUps[Math.floor(Math.random() * followUps.length)];
+                questions.push(randomFollowUp);
+            }
+
+            // Add calming technique if user seems stressed
+            if (state.messages.some(m => 
+                m.role === 'user' && 
+                ['ubwoba', 'guhangayika', 'ndatinya', 'stress'].some(w => m.content.toLowerCase().includes(w))
+            )) {
+                const techniques = TYAZA_DATASET.calmingTechniques;
+                const randomTechnique = techniques[Math.floor(Math.random() * techniques.length)];
+                f.addParagraph(`💡 Gerageza: ${randomTechnique}`);
+            }
+
+            f.addList(questions);
+            f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+
+            return {
+                sections: f.build(),
+                html: f.renderHTML(),
+                markdown: f.renderMarkdown(),
+                userName: null
+            };
         }
 
         // ============================================================
@@ -2079,7 +2297,9 @@
         function loadVoices() {
             state.voices = state.speechSynthesis.getVoices();
             if (state.speechSynthesis.onvoiceschanged) {
-                state.speechSynthesis.onvoiceschanged = () => { state.voices = state.speechSynthesis.getVoices(); };
+                state.speechSynthesis.onvoiceschanged = () => {
+                    state.voices = state.speechSynthesis.getVoices();
+                };
             }
         }
         loadVoices();
@@ -2106,16 +2326,39 @@
             state.speechRecognition.continuous = false;
             state.speechRecognition.interimResults = true;
             state.speechRecognition.lang = 'rw-RW';
-            state.speechRecognition.onstart = () => { state.isListening = true; document.getElementById('voiceBtn').classList.add('listening'); document.getElementById('voiceStatus').textContent = '🎤 Mvuga none...'; };
-            state.speechRecognition.onend = () => { state.isListening = false; document.getElementById('voiceBtn').classList.remove('listening'); document.getElementById('voiceStatus').textContent = ''; };
+
+            state.speechRecognition.onstart = () => {
+                state.isListening = true;
+                document.getElementById('voiceBtn').classList.add('listening');
+                document.getElementById('voiceStatus').textContent = '🎤 Mvuga none...';
+            };
+
+            state.speechRecognition.onend = () => {
+                state.isListening = false;
+                document.getElementById('voiceBtn').classList.remove('listening');
+                document.getElementById('voiceStatus').textContent = '';
+            };
+
             state.speechRecognition.onresult = (e) => {
                 let transcript = '';
-                for (let i = 0; i < e.results.length; i++) { transcript += e.results[i][0].transcript; }
+                for (let i = 0; i < e.results.length; i++) {
+                    transcript += e.results[i][0].transcript;
+                }
                 document.getElementById('messageInput').value = transcript;
                 handleInput();
-                if (e.results[0].isFinal) { setTimeout(() => { if (document.getElementById('messageInput').value.trim()) sendMessage(); }, 500); }
+                if (e.results[0].isFinal) {
+                    setTimeout(() => {
+                        if (document.getElementById('messageInput').value.trim()) sendMessage();
+                    }, 500);
+                }
             };
-            state.speechRecognition.onerror = () => { state.isListening = false; document.getElementById('voiceBtn').classList.remove('listening'); document.getElementById('voiceStatus').textContent = '❌ Mikorofoni yanze.'; };
+
+            state.speechRecognition.onerror = () => {
+                state.isListening = false;
+                document.getElementById('voiceBtn').classList.remove('listening');
+                document.getElementById('voiceStatus').textContent = '❌ Mikorofoni yanze.';
+            };
+
             return true;
         }
         const hasSpeech = initSpeechRecognition();
@@ -2136,7 +2379,11 @@
             document.getElementById('messageInput').style.height = Math.min(document.getElementById('messageInput').scrollHeight, 150) + 'px';
         }
 
-        function scrollToBottom() { const messages = document.getElementById('messages'); messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' }); }
+        function scrollToBottom() {
+            const messages = document.getElementById('messages');
+            messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+        }
+
         function handleScroll() {
             const messages = document.getElementById('messages');
             const { scrollTop, scrollHeight, clientHeight } = messages;
@@ -2149,21 +2396,38 @@
             const el = document.createElement('div');
             el.id = id;
             el.className = 'typing';
-            el.innerHTML = `<div class="msg-avatar"><img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'"></div><div class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+            el.innerHTML = `
+                <div class="msg-avatar">
+                    <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">
+                </div>
+                <div class="typing-dots">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            `;
             document.getElementById('messages').appendChild(el);
             scrollToBottom();
             return id;
         }
 
-        function removeTyping(id) { const el = document.getElementById(id); if (el) el.remove(); }
+        function removeTyping(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
 
         function addMessage(role, content, htmlContent = null) {
             document.getElementById('welcome').style.display = 'none';
             const msg = document.createElement('div');
             msg.className = `message ${role}`;
             const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
+
             const displayContent = htmlContent || content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-            const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">`;
+
+            const avatarContent = role === 'user' ?
+                '👤' :
+                `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">`;
+
             msg.innerHTML = `
                 <div class="msg-avatar">${avatarContent}</div>
                 <div>
@@ -2171,16 +2435,28 @@
                     <div class="msg-meta">
                         <span>${time}</span>
                         <div class="msg-actions">
-                            ${role === 'assistant' ? `<button class="msg-action" onclick="speakText('${content.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}')"><i class="fas fa-volume-up"></i></button>` : ''}
-                            <button class="msg-action" onclick="navigator.clipboard.writeText('${content.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}'); showToast('Ibyakiriwe!', 'success')"><i class="fas fa-copy"></i></button>
+                            ${role === 'assistant' ? `
+                                <button class="msg-action" onclick="speakText('${content.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            ` : ''}
+                            <button class="msg-action" onclick="navigator.clipboard.writeText('${content.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}'); showToast('Ibyakiriwe!', 'success')">
+                                <i class="fas fa-copy"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
             `;
+
             document.getElementById('messages').appendChild(msg);
             state.messages.push({ role, content, timestamp: Date.now() });
+            state.messageCount++;
             scrollToBottom();
-            if (state.messages.length > 100) state.messages.splice(0, 50);
+
+            if (state.messages.length > 100) {
+                state.messages.splice(0, 50);
+            }
+
             saveConversation();
             updateMemoryStats();
         }
@@ -2203,6 +2479,7 @@
 
             const result = generateResponse(text);
 
+            // Handle name
             if (result.userName) {
                 state.userName = result.userName;
                 storageSet('userName', state.userName);
@@ -2215,6 +2492,7 @@
                 return;
             }
 
+            // Handle crisis
             const detection = detectEmotion(text);
             if (detection && detection.type === 'crisis') {
                 addMessage('user', text);
@@ -2245,11 +2523,20 @@
         function saveConversation() {
             if (state.messages.length === 0) return;
             const title = state.messages[0]?.content?.slice(0, 40) || 'Ikiganiro';
-            const conv = { id: state.currentId, title: title, messages: state.messages.slice(-20), timestamp: Date.now() };
+            const conv = {
+                id: state.currentId,
+                title: title,
+                messages: state.messages.slice(-20),
+                timestamp: Date.now()
+            };
+
             const convs = storageGetAll('conversations');
             const existing = convs.findIndex(c => c.id === state.currentId);
-            if (existing >= 0) convs[existing] = conv;
-            else convs.push(conv);
+            if (existing >= 0) {
+                convs[existing] = conv;
+            } else {
+                convs.push(conv);
+            }
             storageSet('conversations', convs);
             renderHistory();
         }
@@ -2257,16 +2544,38 @@
         function renderHistory() {
             const convs = storageGetAll('conversations');
             const list = document.getElementById('historyList');
-            if (convs.length === 0) { list.innerHTML = `<div class="history-empty"><i class="fas fa-history"></i><span>Nta mateka</span></div>`; return; }
-            list.innerHTML = convs.sort((a, b) => b.timestamp - a.timestamp).slice(0, 20).map(c => `
-                <div class="history-item ${c.id === state.currentId ? 'active' : ''}" data-id="${c.id}">
-                    <div class="history-title">${escapeHtml(c.title || 'Ikiganiro')}</div>
-                    <div class="history-meta"><span>${formatTime(c.timestamp)}</span><span>${c.messages ? c.messages.length : 0} ubutumwa</span></div>
-                </div>
-            `).join('');
+
+            if (convs.length === 0) {
+                list.innerHTML = `
+                    <div class="history-empty">
+                        <i class="fas fa-history"></i>
+                        <span>Nta mateka</span>
+                    </div>
+                `;
+                return;
+            }
+
+            list.innerHTML = convs
+                .sort((a, b) => b.timestamp - a.timestamp)
+                .slice(0, 20)
+                .map(c => `
+                    <div class="history-item ${c.id === state.currentId ? 'active' : ''}" data-id="${c.id}">
+                        <div class="history-title">${escapeHtml(c.title || 'Ikiganiro')}</div>
+                        <div class="history-meta">
+                            <span>${formatTime(c.timestamp)}</span>
+                            <span>${c.messages ? c.messages.length : 0} ubutumwa</span>
+                        </div>
+                    </div>
+                `).join('');
+
             list.querySelectorAll('.history-item').forEach(item => {
                 item.addEventListener('click', () => loadChat(item.dataset.id));
-                item.addEventListener('contextmenu', (e) => { e.preventDefault(); if (confirm('Hanagura iki kiganiro?')) deleteChat(item.dataset.id); });
+                item.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    if (confirm('Hanagura iki kiganiro?')) {
+                        deleteChat(item.dataset.id);
+                    }
+                });
             });
         }
 
@@ -2282,26 +2591,38 @@
             return new Date(timestamp).toLocaleDateString('rw-RW');
         }
 
-        function escapeHtml(text) { const div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
         function loadChat(id) {
             const convs = storageGetAll('conversations');
             const chat = convs.find(c => c.id === id);
             if (!chat) return;
+
             state.currentId = chat.id;
             state.messages = chat.messages || [];
+
             const messagesContainer = document.getElementById('messages');
-            while (messagesContainer.firstChild) messagesContainer.removeChild(messagesContainer.firstChild);
+            while (messagesContainer.firstChild) {
+                messagesContainer.removeChild(messagesContainer.firstChild);
+            }
             document.getElementById('welcome').style.display = 'none';
+
             state.messages.forEach(msg => {
                 const role = msg.role || 'assistant';
                 const content = msg.content || '';
                 if (content) {
                     const msgEl = document.createElement('div');
                     msgEl.className = `message ${role}`;
-                    const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
+                    const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('rw-RW', { hour: '2-digit',
+                        minute: '2-digit' });
                     const escaped = content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-                    const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">`;
+                    const avatarContent = role === 'user' ?
+                        '👤' :
+                        `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">`;
                     msgEl.innerHTML = `
                         <div class="msg-avatar">${avatarContent}</div>
                         <div>
@@ -2309,8 +2630,14 @@
                             <div class="msg-meta">
                                 <span>${time}</span>
                                 <div class="msg-actions">
-                                    ${role === 'assistant' ? `<button class="msg-action" onclick="speakText('${escaped.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}')"><i class="fas fa-volume-up"></i></button>` : ''}
-                                    <button class="msg-action" onclick="navigator.clipboard.writeText('${escaped.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}'); showToast('Ibyakiriwe!', 'success')"><i class="fas fa-copy"></i></button>
+                                    ${role === 'assistant' ? `
+                                        <button class="msg-action" onclick="speakText('${escaped.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}')">
+                                            <i class="fas fa-volume-up"></i>
+                                        </button>
+                                    ` : ''}
+                                    <button class="msg-action" onclick="navigator.clipboard.writeText('${escaped.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}'); showToast('Ibyakiriwe!', 'success')">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -2318,6 +2645,7 @@
                     messagesContainer.appendChild(msgEl);
                 }
             });
+
             scrollToBottom();
             renderHistory();
             updateMemoryStats();
@@ -2326,18 +2654,24 @@
 
         function deleteChat(id) {
             storageDelete('conversations', id);
-            if (state.currentId === id) newChat();
+            if (state.currentId === id) {
+                newChat();
+            }
             renderHistory();
             showToast('Ikiganiro kihanaguwe', 'success');
         }
 
         function newChat() {
             state.messages = [];
+            state.messageCount = 0;
             state.currentId = 'chat_' + Date.now();
             state.riskFlags = { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false };
             updateRiskIndicators(state.riskFlags);
+
             const messagesContainer = document.getElementById('messages');
-            while (messagesContainer.firstChild) messagesContainer.removeChild(messagesContainer.firstChild);
+            while (messagesContainer.firstChild) {
+                messagesContainer.removeChild(messagesContainer.firstChild);
+            }
             document.getElementById('welcome').style.display = 'flex';
             updateWelcome();
             renderHistory();
@@ -2354,8 +2688,20 @@
         }
 
         function exportChat() {
-            if (state.messages.length === 0) { showToast('Nta kiganiro cyohereza', 'warning'); return; }
-            const data = { app: 'TYAZA', version: '2.1', timestamp: Date.now(), user: state.userName || 'User', messages: state.messages, session: state.sessionStart, risks: state.riskFlags, profile: getUserProfile() };
+            if (state.messages.length === 0) {
+                showToast('Nta kiganiro cyohereza', 'warning');
+                return;
+            }
+            const data = {
+                app: 'TYAZA',
+                version: '2.2',
+                timestamp: Date.now(),
+                user: state.userName || 'User',
+                messages: state.messages,
+                session: state.sessionStart,
+                risks: state.riskFlags,
+                profile: getUserProfile()
+            };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -2371,18 +2717,36 @@
         // ============================================================
         // SIDEBAR
         // ============================================================
-        function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); document.getElementById('sidebarOverlay').classList.toggle('active'); }
-        function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('active'); }
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('sidebarOverlay').classList.toggle('active');
+        }
+
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('active');
+        }
 
         // ============================================================
         // MOOD
         // ============================================================
-        function openMoodModal() { document.getElementById('moodModal').classList.add('active'); renderMoodCalendar(); }
-        function closeMoodModal() { document.getElementById('moodModal').classList.remove('active'); document.querySelectorAll('#moodScale .mood-btn').forEach(b => b.classList.remove('selected')); document.getElementById('moodNotes').value = ''; }
+        function openMoodModal() {
+            document.getElementById('moodModal').classList.add('active');
+            renderMoodCalendar();
+        }
+
+        function closeMoodModal() {
+            document.getElementById('moodModal').classList.remove('active');
+            document.querySelectorAll('#moodScale .mood-btn').forEach(b => b.classList.remove('selected'));
+            document.getElementById('moodNotes').value = '';
+        }
 
         function saveMood() {
             const selected = document.querySelector('#moodScale .mood-btn.selected');
-            if (!selected) { showToast('Hitamo uko wumva', 'warning'); return; }
+            if (!selected) {
+                showToast('Hitamo uko wumva', 'warning');
+                return;
+            }
             const mood = parseInt(selected.dataset.mood);
             const notes = document.getElementById('moodNotes').value.trim();
             storageAdd('moodData', { mood, notes, timestamp: Date.now() });
@@ -2395,7 +2759,9 @@
         function quickMood(mood) {
             storageAdd('moodData', { mood: parseInt(mood), notes: '', quick: true, timestamp: Date.now() });
             showToast('Uko wumva byabitswe! 💛', 'success');
-            document.querySelectorAll('#moodQuick .mood-btn-small').forEach(b => b.classList.toggle('active', b.dataset.mood === mood));
+            document.querySelectorAll('#moodQuick .mood-btn-small').forEach(b => {
+                b.classList.toggle('active', b.dataset.mood === mood);
+            });
             updateMemoryStats();
         }
 
@@ -2405,6 +2771,7 @@
             const weekMoods = moods.filter(m => m.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
             const days = ['Ku', 'Ma', 'We', 'Ku', 'Ke', 'Sa', 'Ku'];
             let html = days.map(d => `<div class="mood-day-label">${d}</div>`).join('');
+
             for (let i = 6; i >= 0; i--) {
                 const date = new Date();
                 date.setDate(date.getDate() - i);
@@ -2420,16 +2787,33 @@
         // ============================================================
         // CRISIS
         // ============================================================
-        function showCrisisModal() { document.getElementById('crisisModal').classList.add('active'); }
-        function closeCrisisModal() { document.getElementById('crisisModal').classList.remove('active'); }
+        function showCrisisModal() {
+            document.getElementById('crisisModal').classList.add('active');
+        }
+
+        function closeCrisisModal() {
+            document.getElementById('crisisModal').classList.remove('active');
+        }
 
         // ============================================================
         // VOICE
         // ============================================================
         function toggleVoice() {
-            if (!hasSpeech) { showVoiceDialog(); return; }
-            if (state.isListening) { state.speechRecognition.stop(); return; }
-            try { state.speechRecognition.start(); } catch { showVoiceDialog(); }
+            if (!hasSpeech) {
+                showVoiceDialog();
+                return;
+            }
+
+            if (state.isListening) {
+                state.speechRecognition.stop();
+                return;
+            }
+
+            try {
+                state.speechRecognition.start();
+            } catch {
+                showVoiceDialog();
+            }
         }
 
         function showVoiceDialog() {
@@ -2440,20 +2824,42 @@
                     <h3>🎤 Vuga cyangwa andika</h3>
                     <input type="text" id="voiceFallbackInput" placeholder="Andika cyangwa vuga..." autofocus>
                     <div style="display:flex;gap:8px;">
-                        <button class="btn btn-primary" id="voiceFallbackSubmit" style="flex:1;"><i class="fas fa-paper-plane"></i> Ohereza</button>
-                        <button class="btn btn-secondary" id="voiceFallbackCancel"><i class="fas fa-times"></i></button>
+                        <button class="btn btn-primary" id="voiceFallbackSubmit" style="flex:1;">
+                            <i class="fas fa-paper-plane"></i> Ohereza
+                        </button>
+                        <button class="btn btn-secondary" id="voiceFallbackCancel">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
                 </div>
             `;
             document.body.appendChild(dialog);
+
             const input = document.getElementById('voiceFallbackInput');
             const submit = document.getElementById('voiceFallbackSubmit');
             const cancel = document.getElementById('voiceFallbackCancel');
-            submit.onclick = () => { if (input.value.trim()) { document.getElementById('messageInput').value = input.value; handleInput(); sendMessage(); dialog.remove(); } };
+
+            submit.onclick = () => {
+                if (input.value.trim()) {
+                    document.getElementById('messageInput').value = input.value;
+                    handleInput();
+                    sendMessage();
+                    dialog.remove();
+                }
+            };
+
             cancel.onclick = () => dialog.remove();
-            input.onkeydown = (e) => { if (e.key === 'Enter') { e.preventDefault(); submit.click(); } if (e.key === 'Escape') dialog.remove(); };
+
+            input.onkeydown = (e) => {
+                if (e.key === 'Enter') { e.preventDefault();
+                    submit.click(); }
+                if (e.key === 'Escape') dialog.remove();
+            };
+
             setTimeout(() => input.focus(), 300);
-            dialog.addEventListener('click', (e) => { if (e.target === dialog) dialog.remove(); });
+            dialog.addEventListener('click', (e) => {
+                if (e.target === dialog) dialog.remove();
+            });
         }
 
         async function testMic() {
@@ -2465,7 +2871,10 @@
                 btn.innerHTML = '✅ yiteguye';
                 document.getElementById('voiceStatus').textContent = '✅ Mikorofoni yiteguye';
                 showToast('Mikorofoni yiteguye! 🎤', 'success');
-                setTimeout(() => { btn.innerHTML = '🎤 Gerageza mikorofoni'; document.getElementById('voiceStatus').textContent = ''; }, 2000);
+                setTimeout(() => {
+                    btn.innerHTML = '🎤 Gerageza mikorofoni';
+                    document.getElementById('voiceStatus').textContent = '';
+                }, 2000);
             } catch {
                 btn.innerHTML = '❌ emerera';
                 document.getElementById('voiceStatus').textContent = '❌ Emera mikorofoni';
@@ -2480,27 +2889,81 @@
             const profile = getUserProfile();
             const modal = document.getElementById('profileModal');
             const content = document.getElementById('profileContent');
+
             const moodEmojis = ['😢', '😔', '😐', '🙂', '😊'];
-            const avgMoodText = profile.avgMood > 0 ? `${moodEmojis[Math.round(profile.avgMood) - 1] || '😐'} ${profile.avgMood.toFixed(1)}/5` : 'Nta data';
+            const avgMoodText = profile.avgMood > 0 ?
+                `${moodEmojis[Math.round(profile.avgMood) - 1] || '😐'} ${profile.avgMood.toFixed(1)}/5` :
+                'Nta data';
+
             const recentMoodsHtml = profile.recentMoods.map(m => {
                 const date = new Date(m.timestamp).toLocaleDateString('rw-RW');
-                return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--surface4);"><span>${date}</span><span>${moodEmojis[m.mood - 1] || '😐'} ${m.mood}/5</span></div>`;
+                return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--surface4);">
+                    <span>${date}</span>
+                    <span>${moodEmojis[m.mood - 1] || '😐'} ${m.mood}/5</span>
+                </div>`;
             }).join('');
+
             content.innerHTML = `
                 <div style="display:grid;gap:16px;">
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                        <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;"><div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${profile.sessionCount}</div><div style="font-size:0.7rem;color:var(--text3);">Ibikorwa</div></div>
-                        <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;"><div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${profile.moodEntries}</div><div style="font-size:0.7rem;color:var(--text3);">Mood Entries</div></div>
-                        <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;"><div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${profile.activeDays}</div><div style="font-size:0.7rem;color:var(--text3);">Iminsi ikora</div></div>
-                        <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;"><div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${avgMoodText}</div><div style="font-size:0.7rem;color:var(--text3);">Uko yumva</div></div>
+                        <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;">
+                            <div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${profile.sessionCount}</div>
+                            <div style="font-size:0.7rem;color:var(--text3);">Ibikorwa</div>
+                        </div>
+                        <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;">
+                            <div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${profile.moodEntries}</div>
+                            <div style="font-size:0.7rem;color:var(--text3);">Mood Entries</div>
+                        </div>
+                        <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;">
+                            <div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${profile.activeDays}</div>
+                            <div style="font-size:0.7rem;color:var(--text3);">Iminsi ikora</div>
+                        </div>
+                        <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;">
+                            <div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${avgMoodText}</div>
+                            <div style="font-size:0.7rem;color:var(--text3);">Uko yumva</div>
+                        </div>
                     </div>
-                    ${profile.userName ? `<div style="background:var(--surface3);padding:12px;border-radius:8px;"><div style="font-weight:600;color:var(--text2);">👤 Izina</div><div style="color:var(--text);">${profile.userName}</div></div>` : ''}
-                    ${profile.triggers.length > 0 ? `<div style="background:var(--surface3);padding:12px;border-radius:8px;"><div style="font-weight:600;color:var(--text2);">⚠️ Ibimubangamira</div><div style="color:var(--text);">${profile.triggers.join(', ')}</div></div>` : ''}
-                    ${profile.goals.length > 0 ? `<div style="background:var(--surface3);padding:12px;border-radius:8px;"><div style="font-weight:600;color:var(--text2);">🎯 Intego</div><div style="color:var(--text);">${profile.goals.map(g => `• ${g}`).join('<br>')}</div></div>` : ''}
-                    ${recentMoodsHtml ? `<div style="background:var(--surface3);padding:12px;border-radius:8px;"><div style="font-weight:600;color:var(--text2);margin-bottom:8px;">📊 Imimerere iheruka</div>${recentMoodsHtml}</div>` : ''}
-                    <div style="background:var(--surface3);padding:12px;border-radius:8px;"><div style="font-weight:600;color:var(--text2);">📊 Ingirakamaro</div><div style="display:flex;align-items:center;gap:12px;margin-top:4px;"><div style="flex:1;height:8px;background:var(--surface4);border-radius:4px;overflow:hidden;"><div style="width:${profile.engagement}%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:4px;"></div></div><span style="font-size:0.875rem;font-weight:600;color:var(--primary);">${profile.engagement}%</span></div></div>
+
+                    ${profile.userName ? `
+                        <div style="background:var(--surface3);padding:12px;border-radius:8px;">
+                            <div style="font-weight:600;color:var(--text2);">👤 Izina</div>
+                            <div style="color:var(--text);">${profile.userName}</div>
+                        </div>
+                    ` : ''}
+
+                    ${profile.triggers.length > 0 ? `
+                        <div style="background:var(--surface3);padding:12px;border-radius:8px;">
+                            <div style="font-weight:600;color:var(--text2);">⚠️ Ibimubangamira</div>
+                            <div style="color:var(--text);">${profile.triggers.join(', ')}</div>
+                        </div>
+                    ` : ''}
+
+                    ${profile.goals.length > 0 ? `
+                        <div style="background:var(--surface3);padding:12px;border-radius:8px;">
+                            <div style="font-weight:600;color:var(--text2);">🎯 Intego</div>
+                            <div style="color:var(--text);">${profile.goals.map(g => `• ${g}`).join('<br>')}</div>
+                        </div>
+                    ` : ''}
+
+                    ${recentMoodsHtml ? `
+                        <div style="background:var(--surface3);padding:12px;border-radius:8px;">
+                            <div style="font-weight:600;color:var(--text2);margin-bottom:8px;">📊 Imimerere iheruka</div>
+                            ${recentMoodsHtml}
+                        </div>
+                    ` : ''}
+
+                    <div style="background:var(--surface3);padding:12px;border-radius:8px;">
+                        <div style="font-weight:600;color:var(--text2);">📊 Ingirakamaro</div>
+                        <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
+                            <div style="flex:1;height:8px;background:var(--surface4);border-radius:4px;overflow:hidden;">
+                                <div style="width:${profile.engagement}%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:4px;"></div>
+                            </div>
+                            <span style="font-size:0.875rem;font-weight:600;color:var(--primary);">${profile.engagement}%</span>
+                        </div>
+                    </div>
                 </div>
             `;
+
             modal.classList.add('active');
         }
 
@@ -2510,9 +2973,11 @@
         async function getPuterAIResponse(userInput) {
             try {
                 if (typeof puter === 'undefined') return generateResponse(userInput);
+
                 const detection = detectEmotion(userInput);
                 let emotionContext = '';
                 if (detection && detection.type !== 'name') emotionContext = `Umukoresha arumva ${detection.type}.`;
+
                 const context = `
                     Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
                     ${emotionContext}
@@ -2521,12 +2986,17 @@
                     Jya ugira impuhwe zikomeye.
                     Ntutange inama z'ubuvuzi.
                     Uzi izi migani: ${Object.keys(TYAZA_DATASET.proverbs).join(', ')}
+                    ${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}
+                    ${state.messages.length > 0 ? `Ubwo ni ikiganiro cya ${state.messages.length + 1}.` : ''}
                 `;
+
                 const response = await puter.ai.chat([
                     { role: 'system', content: context },
                     { role: 'user', content: userInput }
                 ]);
+
                 let text = response.message?.content || response.text || '';
+
                 if (text && text.length > 5) {
                     const f = new AIResponseFormatter();
                     f.addTitle("💬 TYAZA");
@@ -2534,14 +3004,24 @@
                     for (const p of paragraphs) {
                         if (p.startsWith('-') || p.startsWith('•')) {
                             const items = p.split('\n').filter(line => line.trim().startsWith('-') || line.trim().startsWith('•'));
-                            if (items.length > 0) f.addList(items.map(item => item.replace(/^[-•]\s*/, '').trim()));
-                            else f.addParagraph(p);
-                        } else f.addParagraph(p);
+                            if (items.length > 0) {
+                                f.addList(items.map(item => item.replace(/^[-•]\s*/, '').trim()));
+                            } else {
+                                f.addParagraph(p);
+                            }
+                        } else {
+                            f.addParagraph(p);
+                        }
                     }
                     f.addEmphasis("Ubu wumva ute?", "italic");
-                    return { sections: f.build(), html: f.renderHTML(), markdown: f.renderMarkdown() };
+                    return {
+                        sections: f.build(),
+                        html: f.renderHTML(),
+                        markdown: f.renderMarkdown()
+                    };
                 }
                 return generateResponse(userInput);
+
             } catch (error) {
                 console.error('Puter AI Error:', error);
                 return generateResponse(userInput);
@@ -2549,7 +3029,7 @@
         }
 
         // ============================================================
-        // SEND MESSAGE WITH AI
+        // SEND MESSAGE WITH AI - ENHANCED
         // ============================================================
         async function sendMessageWithAI() {
             const input = document.getElementById('messageInput');
@@ -2575,28 +3055,38 @@
             }
 
             addMessage('user', text);
+
             const typingId = showTyping();
             state.isGenerating = true;
             document.getElementById('statusText').textContent = 'TYAZA irategura...';
 
             try {
                 let result;
-                if (state.useAI && typeof puter !== 'undefined') result = await getPuterAIResponse(text);
-                else result = generateResponse(text);
+                if (state.useAI && typeof puter !== 'undefined') {
+                    result = await getPuterAIResponse(text);
+                } else {
+                    result = generateResponse(text);
+                }
 
                 removeTyping(typingId);
-                if (result && result.html) addMessage('assistant', result.markdown || text, result.html);
-                else {
+
+                if (result && result.html) {
+                    addMessage('assistant', result.markdown || text, result.html);
+                } else {
                     const f = new AIResponseFormatter();
                     f.addTitle("💙 TYAZA");
                     f.addParagraph("Ndumva ibyo uvuga.");
                     const proverbs = Object.keys(TYAZA_DATASET.proverbs);
                     const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
                     f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
-                    f.addList(["Wumva ute ubu?", "Wambwira byinshi kuri byo?"]);
+                    f.addList([
+                        "Wumva ute ubu?",
+                        "Wambwira byinshi kuri byo?"
+                    ]);
                     f.addEmphasis("Ndi hano kugira nkugire.", "italic");
                     addMessage('assistant', f.renderMarkdown(), f.renderHTML());
                 }
+
             } catch (error) {
                 console.error('Send error:', error);
                 removeTyping(typingId);
@@ -2643,7 +3133,9 @@
             updateWelcome();
 
             const aiBtn = document.getElementById('aiToggleBtn');
-            aiBtn.innerHTML = state.useAI ? '<i class="fas fa-brain"></i> AI' : '<i class="fas fa-microchip"></i> Gahunda';
+            aiBtn.innerHTML = state.useAI ?
+                '<i class="fas fa-brain"></i> AI' :
+                '<i class="fas fa-microchip"></i> Gahunda';
             aiBtn.classList.toggle('btn-primary', state.useAI);
             aiBtn.classList.toggle('btn-secondary', !state.useAI);
 
@@ -2651,22 +3143,41 @@
 
             document.getElementById('messageInput').addEventListener('input', handleInput);
             document.getElementById('messageInput').addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); const btn = document.getElementById('sendBtn'); if (!btn.disabled) sendMessageWithAI(); }
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    const btn = document.getElementById('sendBtn');
+                    if (!btn.disabled) sendMessageWithAI();
+                }
             });
+
             document.getElementById('sendBtn').addEventListener('click', sendMessageWithAI);
             document.getElementById('voiceBtn').addEventListener('click', toggleVoice);
 
-            document.getElementById('voiceSelect').addEventListener('change', (e) => { state.settings.voice = e.target.value; storageSet('settings', state.settings); });
-            document.getElementById('rateSlider').addEventListener('input', (e) => { document.getElementById('rateValue').textContent = e.target.value; state.settings.rate = parseFloat(e.target.value); });
+            document.getElementById('voiceSelect').addEventListener('change', (e) => {
+                state.settings.voice = e.target.value;
+                storageSet('settings', state.settings);
+            });
+
+            document.getElementById('rateSlider').addEventListener('input', (e) => {
+                document.getElementById('rateValue').textContent = e.target.value;
+                state.settings.rate = parseFloat(e.target.value);
+            });
             document.getElementById('rateSlider').addEventListener('change', () => storageSet('settings', state.settings));
-            document.getElementById('pitchSlider').addEventListener('input', (e) => { document.getElementById('pitchValue').textContent = e.target.value; state.settings.pitch = parseFloat(e.target.value); });
+
+            document.getElementById('pitchSlider').addEventListener('input', (e) => {
+                document.getElementById('pitchValue').textContent = e.target.value;
+                state.settings.pitch = parseFloat(e.target.value);
+            });
             document.getElementById('pitchSlider').addEventListener('change', () => storageSet('settings', state.settings));
+
             document.getElementById('micTestBtn').addEventListener('click', testMic);
 
             document.getElementById('aiToggleBtn').addEventListener('click', () => {
                 state.useAI = !state.useAI;
                 const btn = document.getElementById('aiToggleBtn');
-                btn.innerHTML = state.useAI ? '<i class="fas fa-brain"></i> AI' : '<i class="fas fa-microchip"></i> Gahunda';
+                btn.innerHTML = state.useAI ?
+                    '<i class="fas fa-brain"></i> AI' :
+                    '<i class="fas fa-microchip"></i> Gahunda';
                 btn.classList.toggle('btn-primary', state.useAI);
                 btn.classList.toggle('btn-secondary', !state.useAI);
                 showToast(state.useAI ? 'AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
@@ -2677,13 +3188,23 @@
             document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
 
             document.getElementById('newChatBtn').addEventListener('click', newChat);
-            document.getElementById('clearChatBtn').addEventListener('click', () => { if (state.messages.length === 0) return; if (confirm('Hanagura iki kiganiro?')) newChat(); });
+            document.getElementById('clearChatBtn').addEventListener('click', () => {
+                if (state.messages.length === 0) return;
+                if (confirm('Hanagura iki kiganiro?')) newChat();
+            });
+
             document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
             document.getElementById('exportBtn').addEventListener('click', exportChat);
 
             document.getElementById('viewProfileBtn').addEventListener('click', showProfileModal);
-            document.getElementById('profileModalClose').addEventListener('click', () => { document.getElementById('profileModal').classList.remove('active'); });
-            document.getElementById('profileModal').addEventListener('click', (e) => { if (e.target === document.getElementById('profileModal')) document.getElementById('profileModal').classList.remove('active'); });
+            document.getElementById('profileModalClose').addEventListener('click', () => {
+                document.getElementById('profileModal').classList.remove('active');
+            });
+            document.getElementById('profileModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('profileModal')) {
+                    document.getElementById('profileModal').classList.remove('active');
+                }
+            });
 
             document.getElementById('messages').addEventListener('scroll', handleScroll);
             document.getElementById('scrollBottom').addEventListener('click', scrollToBottom);
@@ -2693,40 +3214,62 @@
                     document.getElementById('messageInput').value = btn.dataset.prompt;
                     handleInput();
                     document.getElementById('messageInput').focus();
-                    setTimeout(() => { if (document.getElementById('messageInput').value.trim()) sendMessageWithAI(); }, 300);
+                    setTimeout(() => {
+                        if (document.getElementById('messageInput').value.trim()) sendMessageWithAI();
+                    }, 300);
                 });
             });
 
             document.getElementById('openMoodModal').addEventListener('click', openMoodModal);
             document.getElementById('moodModalClose').addEventListener('click', closeMoodModal);
-            document.getElementById('moodModal').addEventListener('click', (e) => { if (e.target === document.getElementById('moodModal')) closeMoodModal(); });
+            document.getElementById('moodModal').addEventListener('click', (e) => {
+                if (e.target === document.getElementById('moodModal')) closeMoodModal();
+            });
 
             document.querySelectorAll('#moodScale .mood-btn').forEach(btn => {
-                btn.addEventListener('click', () => { document.querySelectorAll('#moodScale .mood-btn').forEach(b => b.classList.remove('selected')); btn.classList.add('selected'); });
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('#moodScale .mood-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                });
             });
+
             document.getElementById('saveMoodBtn').addEventListener('click', saveMood);
 
             document.querySelectorAll('#moodQuick .mood-btn-small').forEach(btn => {
-                btn.addEventListener('click', () => { quickMood(btn.dataset.mood); });
+                btn.addEventListener('click', () => {
+                    quickMood(btn.dataset.mood);
+                });
             });
 
             document.getElementById('crisisBtn').addEventListener('click', showCrisisModal);
             document.getElementById('crisisModalClose').addEventListener('click', closeCrisisModal);
             document.getElementById('crisisLater').addEventListener('click', closeCrisisModal);
-            document.getElementById('crisisNow').addEventListener('click', () => { window.location.href = 'tel:116'; });
+            document.getElementById('crisisNow').addEventListener('click', () => {
+                window.location.href = 'tel:116';
+            });
 
             document.addEventListener('keydown', (e) => {
-                if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); document.getElementById('messageInput').focus(); }
-                if (e.key === 'Escape') { closeSidebar(); closeMoodModal(); closeCrisisModal(); if (state.isListening) toggleVoice(); }
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                    e.preventDefault();
+                    document.getElementById('messageInput').focus();
+                }
+                if (e.key === 'Escape') {
+                    closeSidebar();
+                    closeMoodModal();
+                    closeCrisisModal();
+                    if (state.isListening) toggleVoice();
+                }
             });
 
             setTimeout(() => document.getElementById('messageInput').focus(), 500);
 
-            console.log('✨ TYAZA v2.1 - Umuvugizi w\'Umutima');
+            console.log('✨ TYAZA v2.2 - Enhanced Edition');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
             console.log('🕊️ 1994 Genocide against the Tutsi - Trauma-informed approach');
             console.log('💙 Real crisis detection - NOT a scam');
             console.log('🤖 AI:', state.useAI ? 'Ikoreshwa' : 'Gahunda ikoreshwa');
+            console.log('👤 User:', state.userName || 'Unknown');
+            console.log('📊 Mood entries:', state.moodData.length);
             console.log('🌍 Rwanda, 2026');
         }
 
