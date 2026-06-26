@@ -1386,7 +1386,7 @@
                         KIVURA LABS
                     </div>
                     <div style="font-weight:600;color:var(--secondary);">"Healthy citizens, wealthy nation"</div>
-                    <div style="font-size:0.7rem;margin-top:8px;color:var(--text4);">Yves HIRWA TUYISHIME - CEO</div>
+                    <div style="font-size:0.7rem;margin-top:8px;color:var(--text4);">Yves HIRWA TUYISHIME - CEO & Founder</div>
                     <div style="font-size:0.65rem;color:var(--text4);margin-top:4px;">© 2026 Kivura Labs · Rwanda</div>
                     <div style="font-size:0.6rem;color:var(--text4);margin-top:4px;">TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda</div>
                 </div>
@@ -1557,7 +1557,14 @@
 
     <script>
         // ============================================================
-        // TYAZA - FINAL PRODUCTION v3.1 - Corrected Kinyarwanda
+        // TYAZA v3.2 - CORRECT COMPANY INFORMATION
+        // ============================================================
+        // 
+        // COMPANY: KIVURA LABS
+        // FOUNDER & CEO: Yves Hirwa Tuyishime
+        // QUOTE: "Healthy citizens, wealthy nation"
+        // PRODUCT: TYAZA - AI ivuga, yumva, kandi ikafasha mu Kinyarwanda
+        // 
         // ============================================================
 
         // ============================================================
@@ -1702,8 +1709,23 @@
         }
 
         // ============================================================
+        // CORRECT COMPANY INFORMATION
+        // ============================================================
+        const COMPANY_INFO = {
+            name: "KIVURA LABS",
+            founder: "Yves Hirwa Tuyishime",
+            ceo: "Yves Hirwa Tuyishime",
+            quote: "Healthy citizens, wealthy nation",
+            product: "TYAZA",
+            tagline: "TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda",
+            description: "KIVURA LABS ni uruganda rw'ikoranabuhanga rushinzwe na Yves Hirwa Tuyishime, rukora TYAZA, AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.",
+            founded: 2024,
+            location: "Rwanda"
+        };
+
+        // ============================================================
         // COMPLETE DATASET - Corrected Kinyarwanda
-        // "having" is COMPLETELY REMOVED from all responses
+        // "having" is COMPLETELY REMOVED
         // ============================================================
         const TYAZA_DATASET = {
             proverbs: {
@@ -1723,21 +1745,7 @@
                 "Uwaraye atakirira ntagira icyo abura": "Ibyo ufite ni byo bigutuma ubaho"
             },
 
-            company: {
-                name: "KIVURA LABS",
-                founder: "Yves Hirwa Tuyishime",
-                vision: "Kuba AI ya mbere ikomeye mu Kinyarwanda ku isi, ifasha abantu gutekereza neza no guteza imbere ubuzima bwabo.",
-                mission: "Guteza imbere Ikinyarwanda mu ikoranabuhanga, Kubaka AI ifasha abantu mu buzima bwa buri munsi, Guhuza ubwenge bw'ikoranabuhanga n'umuco nyarwanda, Guteza imbere Afurika binyuze muri AI.",
-                tagline: "TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.",
-                values: ["Ubunyangamugayo", "Kubahana", "Gufashanya", "Ubwitonzi", "Kwihangana", "Guhanga udushya"],
-                goals: [
-                    "Kubaka AI ifite ubwenge buhanitse",
-                    "Kugera ku bantu benshi bakoresha TYAZA",
-                    "Guteza imbere AI y'ubuzima bwo mu mutwe",
-                    "Kubaka AI ivuga mu Kinyarwanda",
-                    "Kugera ku rwego mpuzamahanga"
-                ]
-            },
+            companyInfo: COMPANY_INFO,
 
             emotions: {
                 greeting: {
@@ -1753,6 +1761,7 @@
                         }
                         
                         f.addParagraph("Murakaza neza kuri **TYAZA**, umuvugizi w'umutima. TYAZA ni AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.");
+                        f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**. Ijambo rye ni: *"Healthy citizens, wealthy nation"*.`);
                         f.addParagraph("Ndi hano kugira ngo mbafashe kumva neza ibiri ku mutima wanyu.");
                         
                         const proverbs = Object.keys(TYAZA_DATASET.proverbs);
@@ -1767,21 +1776,53 @@
                             f.addParagraph(`Ndibuka ko twiganiye mbere, ${userName}. Ubu wumva ute?`);
                         }
                         
-                        const profile = getUserProfile();
-                        if (profile.moodEntries > 0 && userName) {
-                            const lastMood = profile.recentMoods[profile.recentMoods.length - 1];
-                            if (lastMood) {
-                                const moodEmojis = ['😢', '😔', '😐', '🙂', '😊'];
-                                f.addParagraph(`Ndibuka ko uheruka kumva ${moodEmojis[lastMood.mood - 1]} ${lastMood.mood}/5. Ubu wumva ute?`);
-                            }
-                        }
-                        
                         f.addList([
                             "Ubu wumva ute?",
                             "Ni iki kiri ku mutima wawe?",
                             "Hari ikintu ushaka kuganiraho?"
                         ]);
                         f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+                        f.addEmphasis("TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.", "italic");
+                        return f;
+                    }
+                },
+                about_company: {
+                    patterns: ['kivura labs', 'kivura', 'kampani', 'company', 'uruganda', 'washinze'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("🏢 KIVURA LABS");
+                        f.addParagraph("**KIVURA LABS** ni uruganda rw'ikoranabuhanga rushinzwe na **Yves Hirwa Tuyishime** mu Rwanda.");
+                        f.addParagraph(`Ijambo rye rikomeye: *"Healthy citizens, wealthy nation"*.`);
+                        f.addParagraph("KIVURA LABS yakoreye **TYAZA**, AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.");
+                        f.addList([
+                            "👤 **CEO & Founder:** Yves Hirwa Tuyishime",
+                            "📅 **Yashinzwe:** 2024",
+                            "🌍 **Aho iri:** Rwanda",
+                            "💡 **Intego:** Guteza imbere AI mu Kinyarwanda no gufasha abantu mu buzima bwo mu mutwe",
+                            "📌 **Tagline:** TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda"
+                        ]);
+                        f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
+                        f.addEmphasis("Niba ufite ikindi ushaka kumenya ku KIVURA LABS, wambwira?", "italic");
+                        return f;
+                    }
+                },
+                about_ceo: {
+                    patterns: ['yves', 'hirwa', 'tuyishime', 'washinze', 'founder', 'ceo', 'umuyobozi'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("👤 Yves Hirwa Tuyishime");
+                        f.addParagraph("**Yves Hirwa Tuyishime** ni we washinze **KIVURA LABS** kandi ni CEO wacyo.");
+                        f.addParagraph(`Ijambo rye rikomeye: *"Healthy citizens, wealthy nation"*.`);
+                        f.addParagraph("Yashinze KIVURA LABS mu 2024 mu Rwanda, agamije gukora AI ivuga mu Kinyarwanda ifasha abantu mu buzima bwo mu mutwe.");
+                        f.addList([
+                            "👤 **Izina:** Yves Hirwa Tuyishime",
+                            "🏢 **Position:** CEO & Founder wa KIVURA LABS",
+                            "💡 **Product:** TYAZA - AI ivuga mu Kinyarwanda",
+                            "📌 **Quote:** 'Healthy citizens, wealthy nation'",
+                            "🌍 **Aho akorera:** Rwanda"
+                        ]);
+                        f.addProverb("Ujya inama n'abakuru ntayoba", "Gusaba inama ku bakuru ni byiza");
+                        f.addEmphasis("Niba wifuza kumenya byinshi kuri Yves Hirwa Tuyishime, wambwira?", "italic");
                         return f;
                     }
                 },
@@ -2168,6 +2209,21 @@
                 if (lower.includes(pattern)) return { type: 'genocide' };
             }
 
+            // Company questions
+            if (lower.includes('kivura labs') || lower.includes('kivura') || 
+                lower.includes('kampani') || lower.includes('company') || 
+                lower.includes('uruganda')) {
+                return { type: 'about_company' };
+            }
+
+            // CEO questions
+            if (lower.includes('yves') || lower.includes('hirwa') || 
+                lower.includes('tuyishime') || lower.includes('washinze') || 
+                lower.includes('founder') || lower.includes('ceo') || 
+                lower.includes('umuyobozi')) {
+                return { type: 'about_ceo' };
+            }
+
             // Greeting
             for (const pattern of TYAZA_DATASET.emotions.greeting.patterns) {
                 if (lower.includes(pattern)) return { type: 'greeting' };
@@ -2175,21 +2231,19 @@
 
             // Other emotions
             for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
-                if (emotion === 'greeting') continue;
+                if (emotion === 'greeting' || emotion === 'about_company' || emotion === 'about_ceo') continue;
                 for (const pattern of data.patterns) {
                     if (lower.includes(pattern)) return { type: emotion };
                 }
             }
 
             // ============================================================
-            // NAME DETECTION - STRICT RULES
-            // "having" and all variations are EXCLUDED
+            // NAME DETECTION - "having" is EXCLUDED
             // ============================================================
             
             const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye|jewe)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
             if (nameMatch) {
                 const name = nameMatch[1].trim();
-                // COMPLETE EXCLUDED LIST - "having" is EXCLUDED
                 const excludedNames = [
                     'having', 'havings', 'have', 'has', 'had', 
                     'ptsd', 'trauma', 'stress', 'anxiety', 'depression',
@@ -2219,7 +2273,7 @@
         function generateResponse(userInput) {
             const detection = detectEmotion(userInput);
 
-            // Handle name - ONLY if valid name was detected
+            // Handle name
             if (detection && detection.type === 'name') {
                 state.userName = detection.name;
                 storageSet('userName', state.userName);
@@ -2254,6 +2308,28 @@
                 };
             }
 
+            // Handle company questions
+            if (detection && detection.type === 'about_company') {
+                const f = TYAZA_DATASET.emotions.about_company.generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
+                };
+            }
+
+            // Handle CEO questions
+            if (detection && detection.type === 'about_ceo') {
+                const f = TYAZA_DATASET.emotions.about_ceo.generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
+                };
+            }
+
             // Handle emotions
             if (detection && detection.type && TYAZA_DATASET.emotions[detection.type]) {
                 const f = TYAZA_DATASET.emotions[detection.type].generate();
@@ -2265,13 +2341,14 @@
                 };
             }
 
-            // Generic response with context awareness
+            // Generic response with company context
             const f = new AIResponseFormatter();
             const userName = state.userName || '';
             const namePrefix = userName ? `${userName}, ` : '';
 
             f.addTitle("💙 Urakoze kundekera");
             f.addParagraph(`${namePrefix}Ndumva ibyo uvuga. TYAZA ni AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.`);
+            f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**. Ijambo rye ni: *"Healthy citizens, wealthy nation"*.`);
 
             const proverbs = Object.keys(TYAZA_DATASET.proverbs);
             const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
@@ -2288,7 +2365,6 @@
                 questions.push(randomFollowUp);
             }
 
-            // Check if user seems stressed
             if (state.messages.some(m => 
                 m.role === 'user' && 
                 ['ubwoba', 'guhangayika', 'ndatinya', 'stress'].some(w => m.content.toLowerCase().includes(w))
@@ -2710,14 +2786,14 @@
             }
             const data = {
                 app: 'TYAZA',
-                version: '3.1',
+                version: '3.2',
                 timestamp: Date.now(),
                 user: state.userName || 'User',
                 messages: state.messages,
                 session: state.sessionStart,
                 risks: state.riskFlags,
                 profile: getUserProfile(),
-                company: TYAZA_DATASET.company
+                company: COMPANY_INFO
             };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -2978,6 +3054,19 @@
                             <span style="font-size:0.875rem;font-weight:600;color:var(--primary);">${profile.engagement}%</span>
                         </div>
                     </div>
+
+                    <div style="background:var(--surface3);padding:12px;border-radius:8px;border:1px solid var(--primary);">
+                        <div style="font-weight:600;color:var(--secondary);">🏢 KIVURA LABS</div>
+                        <div style="font-size:0.8rem;color:var(--text2);margin-top:4px;">
+                            <strong>CEO & Founder:</strong> Yves Hirwa Tuyishime
+                        </div>
+                        <div style="font-size:0.8rem;color:var(--text3);font-style:italic;">
+                            "Healthy citizens, wealthy nation"
+                        </div>
+                        <div style="font-size:0.7rem;color:var(--text4);margin-top:4px;">
+                            TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda
+                        </div>
+                    </div>
                 </div>
             `;
 
@@ -3006,9 +3095,14 @@
                     ${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}
                     ${state.messages.length > 0 ? `Ubwo ni ikiganiro cya ${state.messages.length + 1}.` : ''}
                     
-                    Indangagaciro za TYAZA: Ubunyangamugayo, Kubahana, Gufashanya, Ubwitonzi, Kwihangana, Guhanga udushya.
-                    Intego: Kubaka AI ifite ubwenge buhanitse, Guteza imbere AI y'ubuzima bwo mu mutwe, Kubaka AI ivuga mu Kinyarwanda.
-                    Tagline: "TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda."
+                    IBANZE: Ibya KIVURA LABS:
+                    - Yashinzwe na Yves Hirwa Tuyishime (CEO & Founder)
+                    - Ijambo rye: "Healthy citizens, wealthy nation"
+                    - Product: TYAZA - AI ivuga mu Kinyarwanda
+                    - Yashinzwe mu 2024 mu Rwanda
+                    - Tagline: "TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda"
+                    
+                    NTA NDI UMUNTU. NDI TYAZA, AI ya KIVURA LABS.
                     
                     IBANZE: Ntukoreshe ijambo "having" mu bisubizo byawe. Ntukavuge "having" na rimwe.
                 `;
@@ -3104,6 +3198,7 @@
                     const f = new AIResponseFormatter();
                     f.addTitle("💙 TYAZA");
                     f.addParagraph("Ndumva ibyo uvuga.");
+                    f.addParagraph("TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**.");
                     const proverbs = Object.keys(TYAZA_DATASET.proverbs);
                     const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
                     f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
@@ -3291,9 +3386,9 @@
 
             setTimeout(() => document.getElementById('messageInput').focus(), 500);
 
-            console.log('✨ TYAZA v3.1 - Corrected Kinyarwanda');
+            console.log('✨ TYAZA v3.2 - Correct Company Information');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
-            console.log('👤 CEO: Yves Hirwa Tuyishime');
+            console.log('👤 CEO & Founder: Yves Hirwa Tuyishime');
             console.log('🕊️ 1994 Genocide against the Tutsi - Trauma-informed approach');
             console.log('💙 Real crisis detection - NOT a scam');
             console.log('🤖 AI:', state.useAI ? 'Ikoreshwa' : 'Gahunda ikoreshwa');
@@ -3309,6 +3404,7 @@
         // GLOBAL EXPOSURE
         // ============================================================
         window.TYAZA_DATASET = TYAZA_DATASET;
+        window.COMPANY_INFO = COMPANY_INFO;
         window.AIResponseFormatter = AIResponseFormatter;
         window.showToast = showToast;
         window.speakText = speakText;
