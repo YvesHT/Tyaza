@@ -1219,6 +1219,42 @@
             .welcome-icon { animation: none !important; }
             .crisis-btn { animation: none !important; }
         }
+        .msg-bubble h1, .msg-bubble h2, .msg-bubble h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            margin: 8px 0;
+        }
+        .msg-bubble ul {
+            margin: 8px 0 12px 20px;
+            line-height: 1.8;
+        }
+        .msg-bubble strong {
+            color: var(--secondary);
+        }
+        .msg-bubble em {
+            color: var(--text3);
+        }
+        .proverb-box {
+            background: rgba(139,92,246,0.08);
+            border-left: 4px solid var(--primary);
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 4px;
+            font-style: italic;
+            color: var(--text2);
+        }
+        .proverb-box .meaning {
+            color: var(--text3);
+            font-size: 0.9rem;
+        }
+        .crisis-box {
+            background: rgba(239,68,68,0.15);
+            border-left: 4px solid var(--error);
+            padding: 12px 16px;
+            margin: 8px 0;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--error);
+        }
     </style>
 </head>
 <body>
@@ -1385,8 +1421,6 @@
                         <button class="suggestion-btn" data-prompt="Mfite ibibazo">😔 Mfite ibibazo</button>
                         <button class="suggestion-btn" data-prompt="Ngomba inkunga">🤝 Ngomba inkunga</button>
                         <button class="suggestion-btn" data-prompt="Narushijeho">🌟 Narushijeho</button>
-                        <button class="suggestion-btn" data-prompt="Ni iki kigutera ibyishimo?">❓ Ni iki kigutera ibyishimo?</button>
-                        <button class="suggestion-btn" data-prompt="Mbabarira">🙏 Mbabarira</button>
                     </div>
                     <div id="welcomeGreeting" style="font-size:1.1rem;color:var(--secondary);opacity:0;transition:opacity 0.8s;">
                         ✨ Murakaza neza
@@ -1511,406 +1545,11 @@
 
     <script>
         // ============================================================
-        // TYAZA - Complete Production Code with Full Dataset
+        // TYAZA - FIXED: Proper Formatter, Correct Kinyarwanda
         // ============================================================
 
         // ============================================================
-        // COMPLETE DATASET FROM TYAZA_KINYARWANDA_CLEAN_DATA.txt
-        // ============================================================
-        const TYAZA_DATASET = {
-            // Section 1: IMIVUGIRE (Pronunciation & Natural Speech)
-            pronunciation: {
-                rules: [
-                    "Vuga buhoro kandi usobanure amagambo neza.",
-                    "Irinde kuvuga amagambo uyavangiye cyangwa uyihutishije cyane.",
-                    "Koresha amagambo yoroshye yumvikana ku bantu bose.",
-                    "Vuga interuro yuzuye aho gukoresha amagambo make cyane.",
-                    "Ijwi rikwiye kuba riringaniye, ridakabije hejuru cyangwa hasi cyane."
-                ],
-                examples: {
-                    bad: "Ndaza k… k… kugenda",
-                    good: "Ndaza kugenda"
-                }
-            },
-
-            // Section 2: IMYANDIKIRE INOZE (Correct Writing)
-            writing: {
-                rules: [
-                    "Tangira interuro n'inyuguti nkuru.",
-                    "Soza interuro ukoresheje akadomo (.)",
-                    "Koresha utwatuzo neza (,, . ! ? :)",
-                    "Irinde amagambo yanditse nabi cyangwa atuzuye."
-                ],
-                examples: {
-                    bad: "ndaza ejo uzaza?",
-                    good: "Ndaza ejo. Uzaza?"
-                }
-            },
-
-            // Section 3: GUKOSORA AMAKOSA ASANZWE (Common Typos)
-            typos: {
-                "nshak": "nshaka",
-                "kubela": "kubera",
-                "kugila": "kugira",
-                "umuntuu": "umuntu",
-                "ikibazoo": "ikibazo",
-                "cange": "cyanjye",
-                "integer": "intege",
-                "pe": ""
-            },
-
-            // Section 4: AMAGAMBO YOROSHYE (Simple Vocabulary)
-            simpleVocab: {
-                "umunezero": "ibyishimo",
-                "agahinda": "umubabaro",
-                "kugerageza": "gukora uko ushoboye",
-                "gutekereza": "gutuma umutima utekereza",
-                "kuganira": "kuvugana"
-            },
-
-            // Section 5: AMAGAMBO AGORANYE (Advanced Vocabulary)
-            advancedVocab: {
-                "ubudaheranwa": "kudacika intege",
-                "ubunyangamugayo": "kuvuga ukuri no gukora neza",
-                "ubushishozi": "gutekereza witonze mbere yo gukora",
-                "ubwitange": "gukora utitaye ku nyungu zawe bwite",
-                "ukwihangana": "kwihanganira ibihe bikomeye"
-            },
-
-            // Section 6: INSHOBERAMAHANGA (Idioms)
-            idioms: {
-                "Gucira umuntu akari urutega": "kumugirira nabi mu ibanga",
-                "Kurya iminwa": "guceceka cyangwa kwihangana",
-                "Gufata iya mbere": "kuyobora abandi",
-                "Gushyira umutima hamwe": "kwihangana",
-                "Kugira umutima mwiza": "kugira neza",
-                "Guca mu rihumye": "gukora ikintu mu ibanga",
-                "Gushyira amaguru ku meza": "kwirara",
-                "Kurya ruswa": "kwakira ibitemewe",
-                "Gukubita agashyi k'amagambo": "kuvuga nabi",
-                "Gufata nk'ukuri": "kwemera ibintu nta gushidikanya",
-                "Guhuma amaso": "kwirengagiza ukuri",
-                "Gushyira mu bikorwa": "gukora ibyo wavuze",
-                "Guca bugufi": "kwicisha bugufi",
-                "Guterura ikibazo": "kugitangira",
-                "Gufata icyemezo": "guhitamo"
-            },
-
-            // Section 7: IMIGANI MIGUFI (Proverbs)
-            proverbs: {
-                "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ingenzi kugira ngo wige",
-                "Uwitonze arusha uwihuta kugera kure": "Kwihangana bituma ugera ku ntsinzi irambye",
-                "Agasozi katarimwe ntikamenya ko kari kure": "Utagerageje ntamenya uburemere bw'ikintu",
-                "Umuti w'ibibazo ni ukwihangana": "Kwihangana ni bwo buryo bwo gukemura ibibazo",
-                "Ujya inama n'abakuru ntayoba": "Gusaba inama ku bakuru ni byiza",
-                "Nta gahinda gahoraho": "Ibibazo birashira uko igihe kigenda",
-                "Uko ubiba ni ko usarura": "Ibyo ukora ni byo bigena ibizakugeraho",
-                "Ijoro ribara uwariraye": "Abariraye ni bo bumva iby'ijoro",
-                "Buhoro buhoro ni rwo rugendo": "Kugenda buhoro ni uburyo bwo kugera kure",
-                "Akebo kajya iwa mugarura": "Icyo ukoze kigaruka kuri wowe",
-                "Ujya guhakwa ahakwa n'abe": "Aho ugiye hose, ubona ibikugenewe",
-                "Ijya kurisha ihera ku rugo": "Ibyo ukora bitangirira hafi yawe",
-                "Umugabo arigira akagwa ku gasozi": "Kwiringira wenyine bishobora guteza ikibazo",
-                "Uwanga amazimwe abandwa habona": "Utitwara neza abandi barabibona",
-                "Uburere buruta ubuvuke": "Imico myiza iruta inkomoko",
-                "Utazi iyo ava ntamenya iyo ajya": "Kumenya amateka yawe ni ingenzi",
-                "Ntawe utinya ijoro utinya icyo ririmo": "Ubwoba buba bufite impamvu",
-                "Icyo umutima ushaka ni cyo ukurikira": "Ibyifuzo by'umuntu bimuyobora",
-                "Umwana apfa mu iterura": "Kurera nabi bigira ingaruka",
-                "Ak'imuhana kaza imvura ihise": "Igihano gitangwa igihe gikwiye",
-                "Amaso y'inkware aruta ay'inkoko": "Ubushishozi buruta ubwinshi",
-                "Iminsi ibyara indi": "Ibihe bihinduka",
-                "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi",
-                "Utagira inama agira ibibazo": "Kutumvira inama bitera ibibazo",
-                "Uwera ntaribwa n'imbwa": "Umuntu mwiza arindwa",
-                "Uwicira isazi mu jisho ntayivana": "Uwikururira ibibazo biramugora kubikemura",
-                "Uko uvuze niko wumvwa": "Imvugo igaragaza umuntu",
-                "Icyizere kiraza amasinde": "Ibyiza bigerwaho buhoro buhoro",
-                "Uwihanganye aratsinda": "Kwihangana bituma utsinda",
-                "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira"
-            },
-
-            // Section 8: IBIBAZO N'IBISUBIZO (Q&A)
-            qa: [
-                { question: "Ni iki kigutera ibyishimo?", answer: "Ibyishimo mbikura mu kuganira n'abandi no kugera ku ntego zanjye." },
-                { question: "Ni ryari uheruka kurira?", answer: "Nari ndiriye igihe nari mfite agahinda kenshi." },
-                { question: "Ni iki kigoye kuvuga?", answer: "Rimwe na rimwe kuvuga amarangamutima yanjye birangora." },
-                { question: "Ni iki ukora wituza?", answer: "Mfata umwanya wo gutekereza no guhumeka neza." }
-            ],
-
-            // Section 9: AMARANGAMUTIMA (Emotions)
-            emotions: {
-                sadness: {
-                    patterns: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'nariraye', 'narihebye', 'ndababaye cyane'],
-                    responses: [
-                        "Mbabajwe no kumva ko ubabaye. Ni iki cyaguteye agahinda?",
-                        "Ndumva ufite agahinda. Wambwira icyabiguteye?",
-                        "Mbabajwe no kumva uko umeze. Ni iki cyaguteye agahinda?",
-                        "Ndumva biremereye. Wifuza kubivugaho?",
-                        "Si byoroshye kunyura muri ibi. Ndi hano ngo twumvikane."
-                    ]
-                },
-                anger: {
-                    patterns: ['ndarakaye', 'uburakari', 'ndarakajwe', 'ndababaye cyane', 'umujinya', 'ndarakaye cyane'],
-                    responses: [
-                        "Birumvikana ko ushobora kurakara. Ni iki cyaguteye uwo burakari?",
-                        "Ndumva ufite uburakari. Ni iki cyakubabaje?",
-                        "Kurakara birakumvikana. Wambwira icyaguteye uburakari?"
-                    ]
-                },
-                anxiety: {
-                    patterns: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'mfite ubwoba'],
-                    responses: [
-                        "Ubwoba burumvikana. Ni iki kiguteye ubwoba?",
-                        "Ndumva ufite ubwoba. Hari ikintu cyihariye kiguhangayikishije?",
-                        "Gutekereza ku hazaza bishobora gutera ubwoba. Ni iki kiguhangayikishije cyane?"
-                    ]
-                },
-                joy: {
-                    patterns: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo', 'ndishimye cyane'],
-                    responses: [
-                        "Ni byiza cyane kumva wishimye! Ni iki cyaguteye ibyishimo?",
-                        "Ndumva ufite ibyishimo. Ni iki cyaguteye kumva utyo?",
-                        "Ni byiza kumva wishimye! Ni iki cyaguteye ibyishimo?"
-                    ]
-                },
-                loneliness: {
-                    patterns: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'ndi wenyine', 'ndumva ndi wenyine'],
-                    responses: [
-                        "Kumva uri wenyine biraremereye. Waba wifuza kuganira n'umuntu cyangwa gusangira ibyo wumva?",
-                        "Ndumva uri wenyine. Wifuza kuganira kuri byo?",
-                        "Kumva uri wenyine birashobora kuremerera umutima. Wifuza kuganira kuri byo?"
-                    ]
-                },
-                fatigue: {
-                    patterns: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'ndumva ndushye'],
-                    responses: [
-                        "Urasa n'ufite umunaniro. Ni iki cyaguteye kumva utyo?",
-                        "Birashoboka ko ukeneye kuruhuka. Ni iki cyaguteye kurambirwa?",
-                        "Ndumva ufite umunaniro. Waba wararuhutse bihagije?"
-                    ]
-                }
-            },
-
-            // Section 10-11: INTERURO ZISANZWE (Daily Sentences)
-            dailySentences: [
-                "Mwaramutse neza.",
-                "Amakuru yawe?",
-                "Ndagushimira cyane.",
-                "Mbabarira.",
-                "Ndishimye kukubona.",
-                "Tugire umunsi mwiza.",
-                "Ndashaka kuganira nawe.",
-                "Mbabarira niba narakubabaje.",
-                "Ndagushimira cyane ku bufasha bwawe.",
-                "Ndumva ibyo uvuga bifite agaciro.",
-                "Wambwira byinshi kuri byo?",
-                "Ndifuza kumva uko ubibona.",
-                "Ndumva ibyo uvuga.",
-                "Wambwira byinshi kuri byo?",
-                "Ndashaka kugufasha.",
-                "Ufite ikibazo? Reka tuganire.",
-                "Ibyo wumva ni ingenzi."
-            ],
-
-            // Section 12: GUKORESHA URURIMI NEZA (Language Guidelines)
-            languageGuidelines: [
-                "Irinde kuvanga Ikinyarwanda n'Indimi z'amahanga cyane.",
-                "Koresha interuro ngufi zisobanutse.",
-                "Irinde amagambo maremare atari ngombwa.",
-                "Vuga mu buryo bwiyubashye kandi bwuje ubwitonzi."
-            ],
-
-            // Section 13: AMATEGEKO RUSANGE YA AI (Core Rules)
-            coreRules: [
-                "Jya usubiza mu Kinyarwanda cyumvikana neza kandi cyoroheje.",
-                "Irinde amagambo akomeretsa cyangwa aca intege.",
-                "Emera amarangamutima y'uvugana nawe mbere yo gutanga igisubizo.",
-                "Jya ubaza ibibazo bifunguye (open-ended questions).",
-                "Ntugahite utanga inama, banza wumve neza ikibazo.",
-                "Jya ugaragaza impuhwe n'ubwitonzi."
-            ],
-
-            // Section 14: IBIBAZO BY'UBUVUZI BW'AMARANGAMUTIMA (Therapy Questions)
-            therapyQuestions: [
-                "Ni iki wumva kiguteye guhangayika cyane muri iki gihe?",
-                "Ni iki cyaguteye agahinda uheruka kumva?",
-                "Ni iki kigufasha gutuza iyo ufite ikibazo?",
-                "Ni ryari wiyumvise wishimye cyane uheruka?",
-                "Ni iki kigora kuvuga ku bandi?",
-                "Ni nde ukwumva neza kurusha abandi?",
-                "Ni iki wifuza guhindura mu buzima bwawe?",
-                "Ni iki kigutera amahoro?",
-                "Ni iki cyaguteye kuba uwo uri we uyu munsi?",
-                "Ni iki wiga ku makosa wakoze?",
-                "Ni iki cyaguteye guhinduka?"
-            ],
-
-            // Section 15: GUTANGA IBISUBIZO BYUZUYE IMPUHWE (Empathetic Responses)
-            empatheticResponses: [
-                "Ndumva ibyo uvuga bifite uburemere.",
-                "Si byoroshye kunyura muri ibyo.",
-                "Uri umuntu ukomeye kuba ukivuga ibi.",
-                "Ibyo wumva ni ibisanzwe mu buzima.",
-                "Nturi wenyine muri ibi.",
-                "Ndumva ibyo uvuga.",
-                "Birumvikana ko byakubabaje.",
-                "Ni ikibazo gikomeye.",
-                "Wifuza ko tuganira ku gisubizo?"
-            ],
-
-            // Section 16: GUTUZA NO KUGABANYA STRESS (Calming Techniques)
-            calmingTechniques: [
-                "Gerageza guhumeka buhoro (winjize umwuka, uwusohore buhoro).",
-                "Fata umwanya w'ituze utekereze ku bintu byiza.",
-                "Andika ibyo wumva mu gitabo.",
-                "Ganira n'umuntu wizeye.",
-                "Jya gutembera mu kirere cyiza."
-            ],
-
-            // Section 17: SCENARIOS NYINSHI (Real-Life Situations)
-            scenarios: {
-                sadness: {
-                    pattern: "Nabuze umuntu w'ingenzi",
-                    response: "Mbabajwe cyane n'igihombo wagize. Wifuza kumbwira uwo muntu yari uwuhe kuri wowe?"
-                },
-                anxiety: {
-                    pattern: "Mfite ubwoba bw'ejo hazaza",
-                    response: "Gutekereza ku hazaza bishobora gutera ubwoba. Ni iki kiguhangayikishije cyane?"
-                },
-                anger: {
-                    pattern: "Narakajwe n'inshuti yanjye",
-                    response: "Birashoboka ko byakubabaje. Ni iki yagukoreye cyaguteye uburakari?"
-                },
-                loneliness: {
-                    pattern: "Nta muntu mfite",
-                    response: "Kumva uri wenyine biraremereye. Waba wifuza kuganira n'umuntu cyangwa gushaka uburyo bwo guhura n'abandi?"
-                },
-                family: {
-                    pattern: "Ababyeyi banjye ntibanyumva",
-                    response: "Birashobora kubabaza cyane. Mu muco nyarwanda, kuganira n'ababyeyi bisaba ubwitonzi. Wigeze ugerageza kubegera buhoro ubasobanurira uko wiyumva?"
-                },
-                marriage: {
-                    pattern: "Ndahangayikishijwe n'ubukwe bwanjye",
-                    response: "Ubukwe ni intambwe ikomeye. Ni iki kiguhangayikishije cyane—imyiteguro cyangwa ubuzima buzakurikiraho?"
-                },
-                job: {
-                    pattern: "Nabuze akazi",
-                    response: "Mbabajwe no kubyumva. Kubura akazi biragora. Waba wifuza ko turebera hamwe uburyo bwo gushaka andi mahirwe?"
-                }
-            },
-
-            // Section 18: AMAGAMBO Y'AMARANGAMUTIMA (Expanded Emotions)
-            expandedEmotions: [
-                "agahinda gakabije",
-                "ibyishimo byinshi",
-                "kwiheba",
-                "guhangayika",
-                "kwigunga",
-                "gutinya",
-                "kwizera",
-                "kwicuza",
-                "gukunda",
-                "kubabara umutima"
-            ],
-
-            // Section 19: IMIGANI IJYANYE N'UBUZIMA (Therapeutic Proverbs)
-            therapeuticProverbs: [
-                "Uwihanganye aratsinda.",
-                "Nta gahinda gahoraho.",
-                "Ijoro ribara uwariraye.",
-                "Nyuma y'ibihe bibi haza ibyiza.",
-                "Umutima wihangana utsinda ibibazo."
-            ],
-
-            // Section 20: POSITIVE REINFORCEMENT
-            positiveReinforcement: [
-                "Uri kugerageza, kandi ibyo ni ingenzi.",
-                "Intambwe nto nazo zifite agaciro.",
-                "Uri mu nzira nziza.",
-                "Wakoze neza kuba uganira kuri ibi.",
-                "Uri umuntu ufite imbaraga.",
-                "Ibyo ufite agaciro.",
-                "Uri kugerageza.",
-                "Intambwe nto nazo ni ingenzi."
-            ],
-
-            // Section 21: DAILY CHECK-IN
-            dailyCheckins: [
-                "Uyu munsi wifashe ute?",
-                "Ni iki cyagushimishije uyu munsi?",
-                "Ni iki cyakubabaje?",
-                "Waba warabonye igihe cyo kuruhuka?",
-                "Ni iki wigiyeho uyu munsi?",
-                "Ni iki wifuza gukora ejo?"
-            ],
-
-            // Section 22: SELF-REFLECTION
-            selfReflection: [
-                "Ni iki cyaguteye kuba uwo uri we uyu munsi?",
-                "Ni iki wifuza guhindura mu buzima bwawe?",
-                "Ni iki kigutera amahoro?",
-                "Ni iki wiga ku makosa wakoze?",
-                "Ni iki cyaguteye guhinduka?",
-                "Ni iki kigutera guhitamo uko ubaho?",
-                "Ni iki cyaguhinduye cyane mu buzima?",
-                "Ni iki kigutera gutinya gutsindwa?"
-            ],
-
-            // Section 23: BOUNDARIES (AI Limits)
-            boundaries: [
-                "AI ntigomba kwigira umuganga.",
-                "AI igomba gushishikariza gushaka ubufasha bw'umuntu nyawe igihe bikomeye.",
-                "AI igomba kuguma mu ruhande rwo gutega amatwi no gutanga inama zoroshye."
-            ],
-
-            // Section 24: CRISIS SAFE RESPONSES
-            crisisResponses: [
-                "Ndumva ibi bikomeye cyane. Byaba byiza uganiriye n'umuntu wizeye hafi yawe.",
-                "Niba wumva ibintu bikabije, ushobora gushaka ubufasha bwihuse ku muganga cyangwa inshuti."
-            ],
-
-            // Section 25: CRISIS PATTERNS
-            crisis: {
-                patterns: ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa', 
-                          'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye', 
-                          'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo'],
-                response: 'Mbabajwe cyane no kumva utyo. Ni ingenzi cyane ko wabona ubufasha bwihuse. Wavugana n\'umuntu wizeye cyangwa muganga?'
-            },
-
-            // Section 26: GENOCIDE TRAUMA
-            genocide: {
-                patterns: ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 
-                          'gutsemba', 'guhohotwa', 'umutima', 'ibibazo', 'byabaye mbere'],
-                response: '🕊️ Ibyo wavuze ni ibintu bikomeye cyane. TYAZA yumva neza ko jenoside yakorewe Abatutsi mu 1994 yasize ibyago byinshi. Nta muntu ugomba kwihanganira ibyago yonyine.\n\n📞 116 - Bafasha abahangayikishijwe na jenoside\n🏥 Isange One Stop (3029) - Ubufasha ku bahinzwe\n\n💙 Ubu wumva ute? Urafite icyo ushaka kuvuga?'
-            },
-
-            // Section 27: LANGUAGE NORMALIZATION
-            languageNormalization: {
-                "ndashaka kugenda": "Ndashaka kugenda.",
-                "ikibazo cange niki": "Ikibazo cyanjye ni iki?",
-                "mfite ubwoba bwinshi": "Mfite ubwoba bwinshi."
-            },
-
-            // Section 28: RESPONSE STYLES
-            responseStyles: {
-                soft: [
-                    "Ndumva ibyo uvuga",
-                    "Biragoye kunyura muri ibi"
-                ],
-                supportive: [
-                    "Uri kugerageza",
-                    "Ibyo ufite agaciro"
-                ],
-                curious: [
-                    "Wambwira byinshi?",
-                    "Ni iki cyabiteye?"
-                ]
-            }
-        };
-
-        // ============================================================
-        // AI RESPONSE FORMATTER
+        // AI RESPONSE FORMATTER - PROPER STRUCTURE
         // ============================================================
         class AIResponseFormatter {
             constructor() {
@@ -1918,59 +1557,37 @@
             }
 
             addTitle(text) {
-                this.sections.push({
-                    type: "title",
-                    content: text
-                });
+                this.sections.push({ type: "title", content: text });
                 return this;
             }
 
             addParagraph(text) {
-                this.sections.push({
-                    type: "paragraph",
-                    content: text
-                });
+                this.sections.push({ type: "paragraph", content: text });
                 return this;
             }
 
             addList(items) {
-                this.sections.push({
-                    type: "list",
-                    content: items
-                });
+                this.sections.push({ type: "list", content: items });
                 return this;
             }
 
             addEmphasis(text, style = "bold") {
-                this.sections.push({
-                    type: "emphasis",
-                    style: style,
-                    content: text
-                });
-                return this;
-            }
-
-            addCrisisAlert(text) {
-                this.sections.push({
-                    type: "crisis",
-                    content: text
-                });
-                return this;
-            }
-
-            addDivider() {
-                this.sections.push({
-                    type: "divider"
-                });
+                this.sections.push({ type: "emphasis", style: style, content: text });
                 return this;
             }
 
             addProverb(proverb, meaning) {
-                this.sections.push({
-                    type: "proverb",
-                    proverb: proverb,
-                    meaning: meaning
-                });
+                this.sections.push({ type: "proverb", proverb: proverb, meaning: meaning });
+                return this;
+            }
+
+            addCrisis(text) {
+                this.sections.push({ type: "crisis", content: text });
+                return this;
+            }
+
+            addDivider() {
+                this.sections.push({ type: "divider" });
                 return this;
             }
 
@@ -1983,10 +1600,10 @@
                 for (const sec of this.sections) {
                     switch (sec.type) {
                         case "title":
-                            output += `<div style="font-family:'Space Grotesk',sans-serif;font-size:1.25rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px;">${sec.content}</div>`;
+                            output += `<h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0 10px 0;">${sec.content}</h3>`;
                             break;
                         case "paragraph":
-                            output += `<div style="margin-bottom:8px;line-height:1.75;">${sec.content}</div>`;
+                            output += `<p style="margin:6px 0;line-height:1.7;">${sec.content}</p>`;
                             break;
                         case "list":
                             output += `<ul style="margin:8px 0 12px 20px;line-height:1.8;">`;
@@ -2004,11 +1621,11 @@
                                 output += sec.content;
                             }
                             break;
-                        case "crisis":
-                            output += `<div style="background:rgba(239,68,68,0.15);border-left:4px solid var(--error);padding:12px 16px;margin:8px 0;border-radius:4px;font-weight:600;color:var(--error);">⚠️ ${sec.content}</div>`;
-                            break;
                         case "proverb":
-                            output += `<div style="background:rgba(139,92,246,0.08);border-left:4px solid var(--primary);padding:12px 16px;margin:8px 0;border-radius:4px;font-style:italic;color:var(--text2);">"${sec.proverb}"<br><span style="color:var(--text3);font-size:0.9rem;">→ ${sec.meaning}</span></div>`;
+                            output += `<div class="proverb-box">"${sec.proverb}"<br><span class="meaning">→ ${sec.meaning}</span></div>`;
+                            break;
+                        case "crisis":
+                            output += `<div class="crisis-box">⚠️ ${sec.content}</div>`;
                             break;
                         case "divider":
                             output += `<hr style="border:none;border-top:1px solid var(--surface4);margin:12px 0;">`;
@@ -2045,11 +1662,11 @@
                                 output += `${sec.content}\n\n`;
                             }
                             break;
-                        case "crisis":
-                            output += `⚠️ **CRISIS:** ${sec.content}\n\n`;
-                            break;
                         case "proverb":
                             output += `> "${sec.proverb}"\n> *${sec.meaning}*\n\n`;
+                            break;
+                        case "crisis":
+                            output += `⚠️ **CRISIS:** ${sec.content}\n\n`;
                             break;
                         case "divider":
                             output += `---\n\n`;
@@ -2063,90 +1680,215 @@
         }
 
         // ============================================================
-        // DATASET KNOWLEDGE RETRIEVAL
+        // COMPLETE DATASET
         // ============================================================
-        function searchDataset(query) {
-            const lower = query.toLowerCase();
-            const results = [];
+        const TYAZA_DATASET = {
+            // PROPER KINYARWANDA PROVERBS
+            proverbs: {
+                "Uwitonze arusha uwihuta kugera kure": "Kwihangana bituma ugera ku ntsinzi irambye",
+                "Nta gahinda gahoraho": "Ibibazo birashira uko igihe kigenda",
+                "Uko ubiba ni ko usarura": "Ibyo ukora ni byo bigena ibizakugeraho",
+                "Ijoro ribara uwariraye": "Abariraye ni bo bumva iby'ijoro",
+                "Buhoro buhoro ni rwo rugendo": "Kugenda buhoro ni uburyo bwo kugera kure",
+                "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ingenzi kugira ngo wige",
+                "Agasozi katarimwe ntikamenya ko kari kure": "Utagerageje ntamenya uburemere bw'ikintu",
+                "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi"
+            },
 
-            // Search proverbs
-            for (const [proverb, meaning] of Object.entries(TYAZA_DATASET.proverbs)) {
-                if (lower.includes(proverb.toLowerCase()) || lower.includes(meaning.toLowerCase())) {
-                    results.push({ type: 'proverb', proverb, meaning });
+            // EMOTIONS WITH PROPER RESPONSES
+            emotions: {
+                greeting: {
+                    patterns: ['muraho', 'hello', 'hi', 'mwaramutse', 'amakuru', 'bite', 'sawubona'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("✨ Muraho!");
+                        f.addParagraph("Murakaza neza kuri TYAZA, umuvugizi w'umutima.");
+                        const proverbs = Object.keys(TYAZA_DATASET.proverbs);
+                        const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+                        f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
+                        f.addList([
+                            "Ubu wumva ute?",
+                            "Ni iki ukiri ku mutima?"
+                        ]);
+                        f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+                        return f;
+                    }
+                },
+                sadness: {
+                    patterns: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'nariraye'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("💙 Mbabajwe no kumva ko ubabaye.");
+                        f.addParagraph("Ndumva ufite agahinda. Ni iki cyaguteye kumva utyo?");
+                        f.addProverb("Nta gahinda gahoraho", "Ibibazo birashira uko igihe kigenda");
+                        f.addList([
+                            "Wambwira byinshi kuri byo?",
+                            "Ni iki gishobora kugufasha kumva neza?"
+                        ]);
+                        f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+                        return f;
+                    }
+                },
+                joy: {
+                    patterns: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("✨ Ni byiza cyane kumva wishimye!");
+                        f.addParagraph("Ibyishimo ni impamvu yo gukomeza mu buzima.");
+                        f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
+                        f.addList([
+                            "Ni iki cyaguteye ibyishimo?",
+                            "Wifuza kubiganiraho byinshi?"
+                        ]);
+                        f.addEmphasis("Uko wumva ni ingenzi.", "italic");
+                        return f;
+                    }
+                },
+                anger: {
+                    patterns: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("🔥 Birumvikana ko urakaye.");
+                        f.addParagraph("Kurakara ni ibisanzwe, ariko ni byiza kubivugaho.");
+                        f.addProverb("Uwitonze arusha uwihuta kugera kure", "Kwihangana bituma ugera ku ntsinzi irambye");
+                        f.addList([
+                            "Ni iki cyaguteye uburakari?",
+                            "Waba wifuza kuvuga byinshi kuri byo?"
+                        ]);
+                        f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+                        return f;
+                    }
+                },
+                anxiety: {
+                    patterns: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("😰 Ndumva ufite ubwoba.");
+                        f.addParagraph("Gutekereza ku hazaza bishobora gutera ubwoba.");
+                        f.addProverb("Buhoro buhoro ni rwo rugendo", "Kugenda buhoro ni uburyo bwo kugera kure");
+                        f.addList([
+                            "Ni iki kiguteye ubwoba?",
+                            "Hari ikintu cyihariye kiguhangayikishije?"
+                        ]);
+                        f.addEmphasis("Nturi wenyine muri ibi.", "bold");
+                        return f;
+                    }
+                },
+                loneliness: {
+                    patterns: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'ndi wenyine'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("🕊️ Kumva uri wenyine biraremereye.");
+                        f.addParagraph("Nta muntu ugomba kwihanganira ibyago yonyine.");
+                        f.addProverb("Ijoro ribara uwariraye", "Abariraye ni bo bumva iby'ijoro");
+                        f.addList([
+                            "Waba wifuza kuganira n'umuntu?",
+                            "Cyangwa gusangira ibyo wumva?"
+                        ]);
+                        f.addEmphasis("Nturi wenyine. Ndi hano.", "bold");
+                        return f;
+                    }
                 }
-            }
+            },
 
-            // Search idioms
-            for (const [idiom, meaning] of Object.entries(TYAZA_DATASET.idioms)) {
-                if (lower.includes(idiom.toLowerCase())) {
-                    results.push({ type: 'idiom', idiom, meaning });
+            // CRISIS - REAL DETECTION
+            crisis: {
+                patterns: ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa', 
+                          'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye', 
+                          'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo'],
+                generate: function() {
+                    const f = new AIResponseFormatter();
+                    f.addTitle("⚠️ Ukeneye ubufasha bwihutirwa");
+                    f.addCrisis("Ibi ni ibintu bikomeye cyane. Mbabajwe cyane no kumva utyo.");
+                    f.addParagraph("Ni ingenzi cyane ko wabona ubufasha bwihuse.");
+                    f.addList([
+                        "📞 116 - Imitari y'inkunga (24/7)",
+                        "📞 3029 - Isange One Stop",
+                        "🏥 Kwa muganga wawe",
+                        "🤝 Vugana n'umuntu wizeye"
+                    ]);
+                    f.addEmphasis("Nturi wenyine. Ubu hashoboka ubufasha.", "bold");
+                    return f;
                 }
-            }
+            },
 
-            // Search advanced vocabulary
-            for (const [word, meaning] of Object.entries(TYAZA_DATASET.advancedVocab)) {
-                if (lower.includes(word.toLowerCase())) {
-                    results.push({ type: 'vocab', word, meaning });
+            // GENOCIDE TRAUMA - CULTURALLY SENSITIVE
+            genocide: {
+                patterns: ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice'],
+                generate: function() {
+                    const f = new AIResponseFormatter();
+                    f.addTitle("🕊️ Ibyo wavuze ni ibintu bikomeye");
+                    f.addParagraph("TYAZA yumva neza ko jenoside yakorewe Abatutsi mu 1994 yasize ibyago byinshi.");
+                    f.addParagraph("Nta muntu ugomba kwihanganira ibyago yonyine.");
+                    f.addList([
+                        "📞 116 - Bafasha abahangayikishijwe na jenoside",
+                        "📞 3029 - Isange One Stop - Ubufasha ku bahinzwe",
+                        "🤝 Vugana n'umuntu wizeye"
+                    ]);
+                    f.addEmphasis("Ubu wumva ute? Urafite icyo ushaka kuvuga?", "italic");
+                    return f;
                 }
-            }
+            },
 
-            // Search simple vocabulary
-            for (const [word, meaning] of Object.entries(TYAZA_DATASET.simpleVocab)) {
-                if (lower.includes(word.toLowerCase())) {
-                    results.push({ type: 'vocab', word, meaning });
-                }
-            }
+            // THERAPY QUESTIONS
+            therapyQuestions: [
+                "Ni iki wumva kiguteye guhangayika cyane muri iki gihe?",
+                "Ni iki cyaguteye agahinda uheruka kumva?",
+                "Ni iki kigufasha gutuza iyo ufite ikibazo?",
+                "Ni ryari wiyumvise wishimye cyane uheruka?",
+                "Ni iki kigora kuvuga ku bandi?",
+                "Ni nde ukwumva neza kurusha abandi?"
+            ],
 
-            // Search QA
-            for (const qa of TYAZA_DATASET.qa) {
-                if (lower.includes(qa.question.toLowerCase())) {
-                    results.push({ type: 'qa', question: qa.question, answer: qa.answer });
-                }
-            }
-
-            // Search scenarios
-            for (const [key, scenario] of Object.entries(TYAZA_DATASET.scenarios)) {
-                if (lower.includes(scenario.pattern.toLowerCase())) {
-                    results.push({ type: 'scenario', scenario: scenario.response });
-                }
-            }
-
-            return results.slice(0, 5);
-        }
+            // CALMING TECHNIQUES
+            calming: [
+                "Gerageza guhumeka buhoro: winjize umwuka, uwusohore buhoro.",
+                "Fata umwanya w'ituze utekereze ku bintu byiza.",
+                "Andika ibyo wumva mu gitabo.",
+                "Ganira n'umuntu wizeye.",
+                "Jya gutembera mu kirere cyiza."
+            ]
+        };
 
         // ============================================================
-        // DETECT EMOTION FROM DATASET
+        // DETECT EMOTION - PROPER KINYARWANDA
         // ============================================================
         function detectEmotion(text) {
             const lower = text.toLowerCase();
 
-            // Check crisis first
+            // Crisis first
             for (const pattern of TYAZA_DATASET.crisis.patterns) {
                 if (lower.includes(pattern)) {
-                    return { type: 'crisis', data: TYAZA_DATASET.crisis };
+                    return { type: 'crisis' };
                 }
             }
 
-            // Check genocide
+            // Genocide
             for (const pattern of TYAZA_DATASET.genocide.patterns) {
                 if (lower.includes(pattern)) {
-                    return { type: 'genocide', data: TYAZA_DATASET.genocide };
+                    return { type: 'genocide' };
                 }
             }
 
-            // Check emotions
+            // Greeting
+            for (const pattern of TYAZA_DATASET.emotions.greeting.patterns) {
+                if (lower.includes(pattern)) {
+                    return { type: 'greeting' };
+                }
+            }
+
+            // Other emotions
             for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
+                if (emotion === 'greeting') continue;
                 for (const pattern of data.patterns) {
                     if (lower.includes(pattern)) {
-                        return { type: emotion, data: data };
+                        return { type: emotion };
                     }
                 }
             }
 
-            // Check for name
-            const nameMatch = text.match(
-                /^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})$/i
-            );
+            // Name detection
+            const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})$/i);
             if (nameMatch) {
                 const name = nameMatch[1].trim();
                 if (name.length >= 2 && !['having', 'ptsd', 'trauma', 'stress', 'anxiety', 'depression'].includes(name.toLowerCase())) {
@@ -2158,7 +1900,7 @@
         }
 
         // ============================================================
-        // GENERATE RESPONSE USING DATASET
+        // GENERATE RESPONSE - USING FORMATTER ONLY
         // ============================================================
         function generateResponse(userInput) {
             const detection = detectEmotion(userInput);
@@ -2166,9 +1908,9 @@
             // Handle name
             if (detection && detection.type === 'name') {
                 const f = new AIResponseFormatter();
-                f.addTitle("✨ Murakaza neza!");
-                f.addParagraph(`Murakaza neza, ${detection.name}!`);
-                f.addParagraph("Ndi hano kugira nkugire.");
+                f.addTitle(`✨ Murakaza neza, ${detection.name}!`);
+                f.addParagraph(`Ndi TYAZA, umuvugizi w'umutima.`);
+                f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
                 f.addList([
                     "Ubu wumva ute?",
                     "Ni iki ukiri ku mutima?"
@@ -2184,16 +1926,7 @@
 
             // Handle crisis
             if (detection && detection.type === 'crisis') {
-                const f = new AIResponseFormatter();
-                f.addTitle("⚠️ Ukeneye ubufasha bwihutirwa");
-                f.addCrisisAlert(detection.data.response);
-                f.addList([
-                    "📞 116 - Imitari y'inkunga (24/7)",
-                    "📞 3029 - Isange One Stop",
-                    "🏥 Kwa muganga wawe",
-                    "🤝 Vugana n'umuntu wizeye"
-                ]);
-                f.addEmphasis("Nturi wenyine. Ubu hashoboka ubufasha.", "bold");
+                const f = TYAZA_DATASET.crisis.generate();
                 return {
                     sections: f.build(),
                     html: f.renderHTML(),
@@ -2204,10 +1937,7 @@
 
             // Handle genocide
             if (detection && detection.type === 'genocide') {
-                const f = new AIResponseFormatter();
-                f.addTitle("🕊️ Ibyo wavuze ni ibintu bikomeye");
-                f.addParagraph(detection.data.response);
-                f.addEmphasis("Ubu wumva ute? Urafite icyo ushaka kuvuga?", "italic");
+                const f = TYAZA_DATASET.genocide.generate();
                 return {
                     sections: f.build(),
                     html: f.renderHTML(),
@@ -2216,24 +1946,9 @@
                 };
             }
 
-            // Handle emotion
-            if (detection && detection.data && detection.data.responses) {
-                const responses = detection.data.responses;
-                const response = responses[Math.floor(Math.random() * responses.length)];
-                const f = new AIResponseFormatter();
-                f.addTitle("💙 Uko wumva");
-                f.addParagraph(response);
-                
-                // Add relevant proverbs
-                const proverbs = Object.entries(TYAZA_DATASET.proverbs);
-                const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-                f.addProverb(randomProverb[0], randomProverb[1]);
-                
-                f.addList([
-                    "Wambwira byinshi kuri byo?",
-                    "Ni iki kigufasha kumva neza?"
-                ]);
-                f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+            // Handle emotions
+            if (detection && detection.type && TYAZA_DATASET.emotions[detection.type]) {
+                const f = TYAZA_DATASET.emotions[detection.type].generate();
                 return {
                     sections: f.build(),
                     html: f.renderHTML(),
@@ -2242,44 +1957,16 @@
                 };
             }
 
-            // Search knowledge base
-            const kbResults = searchDataset(userInput);
-            if (kbResults.length > 0) {
-                const f = new AIResponseFormatter();
-                f.addTitle("📚 Ubu bwenge");
-                for (const result of kbResults) {
-                    if (result.type === 'proverb') {
-                        f.addProverb(result.proverb, result.meaning);
-                    } else if (result.type === 'idiom') {
-                        f.addParagraph(`📖 **${result.idiom}** - ${result.meaning}`);
-                    } else if (result.type === 'vocab') {
-                        f.addParagraph(`📚 **${result.word}** - ${result.meaning}`);
-                    } else if (result.type === 'qa') {
-                        f.addParagraph(`❓ ${result.question}\n💡 ${result.answer}`);
-                    } else if (result.type === 'scenario') {
-                        f.addParagraph(result.scenario);
-                    }
-                }
-                f.addEmphasis("Ubu wumva ute?", "italic");
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null
-                };
-            }
-
-            // Generic response with a proverb
+            // Generic response - ALWAYS use formatter
             const f = new AIResponseFormatter();
             f.addTitle("💙 Urakoze kundekera");
             f.addParagraph("Ndumva ibyo uvuga.");
-            const proverbs = Object.entries(TYAZA_DATASET.proverbs);
+            const proverbs = Object.keys(TYAZA_DATASET.proverbs);
             const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-            f.addProverb(randomProverb[0], randomProverb[1]);
+            f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
             f.addList([
                 "Wumva ute ubu?",
-                "Wambwira byinshi kuri byo?",
-                "Hari ikindi ushaka kuvuga?"
+                "Wambwira byinshi kuri byo?"
             ]);
             f.addEmphasis("Ndi hano kugira nkugire.", "italic");
             return {
@@ -2311,7 +1998,6 @@
             speechSynthesis: window.speechSynthesis,
             voices: [],
             sessionStart: Date.now(),
-            sessionCount: 0,
             riskFlags: {
                 suicide: false,
                 selfHarm: false,
@@ -2395,27 +2081,6 @@
                 }
             }
 
-            const violencePatterns = ['gukubita', 'kwica', 'kurasa', 'guterana', 'violent', 'umujinya'];
-            for (const pattern of violencePatterns) {
-                if (lower.includes(pattern)) {
-                    risks.violence = true;
-                }
-            }
-
-            const abusePatterns = ['guhohoterwa', 'gufatwa nabi', 'abuse', 'kubangamira', 'guhohotwa'];
-            for (const pattern of abusePatterns) {
-                if (lower.includes(pattern)) {
-                    risks.abuse = true;
-                }
-            }
-
-            const traumaPatterns = ['trauma', 'ptsd', 'flashback', 'ibibazo', 'byabaye', 'nibuka'];
-            for (const pattern of traumaPatterns) {
-                if (lower.includes(pattern)) {
-                    risks.ptsd = true;
-                }
-            }
-
             return risks;
         }
 
@@ -2465,7 +2130,7 @@
                 allUserMessages.some(msg => msg.toLowerCase().includes(word))
             );
 
-            const goalPatterns = ['ngomba', 'ndashaka', 'nshaka', 'nifuza', 'nzageraho', 'goal', 'want to'];
+            const goalPatterns = ['ngomba', 'ndashaka', 'nshaka', 'nifuza', 'nzageraho'];
             const goals = [];
             allUserMessages.forEach(msg => {
                 if (goalPatterns.some(p => msg.toLowerCase().includes(p))) {
@@ -2504,8 +2169,7 @@
                 goals: goals.slice(0, 5),
                 totalMessages,
                 engagement: Math.round(engagement),
-                recentMoods: recentMoods.slice(-7),
-                riskHistory: [],
+                recentMoods: recentMoods.slice(-7)
             };
         }
 
@@ -2650,7 +2314,7 @@
             const msg = document.createElement('div');
             msg.className = `message ${role}`;
             const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
-            
+
             const displayContent = htmlContent || content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
             const avatarContent = role === 'user' ?
@@ -2690,7 +2354,7 @@
         }
 
         // ============================================================
-        // SEND MESSAGE
+        // SEND MESSAGE - PROPER FORMATTER USAGE
         // ============================================================
         async function sendMessage() {
             const input = document.getElementById('messageInput');
@@ -2705,10 +2369,10 @@
             state.riskFlags = risks;
             updateRiskIndicators(risks);
 
-            // Generate response using dataset
+            // Generate response using formatter
             const result = generateResponse(text);
 
-            // Handle name detection
+            // Handle name
             if (result.userName) {
                 state.userName = result.userName;
                 storageSet('userName', state.userName);
@@ -2722,7 +2386,8 @@
             }
 
             // Handle crisis
-            if (detectEmotion(text) && detectEmotion(text).type === 'crisis') {
+            const detection = detectEmotion(text);
+            if (detection && detection.type === 'crisis') {
                 addMessage('user', text);
                 addMessage('assistant', result.markdown, result.html);
                 showCrisisModal();
@@ -3195,7 +2860,7 @@
         }
 
         // ============================================================
-        // PUTER AI INTEGRATION (Optional Enhancement)
+        // PUTER AI INTEGRATION
         // ============================================================
         async function getPuterAIResponse(userInput) {
             try {
@@ -3217,10 +2882,7 @@
                     Jya ugira impuhwe zikomeye.
                     Ntutange inama z'ubuvuzi.
                     
-                    Uzi ibi byose:
-                    - Imigani (proverbs): ${Object.keys(TYAZA_DATASET.proverbs).join(', ')}
-                    - Inshoberamahanga (idioms): ${Object.keys(TYAZA_DATASET.idioms).join(', ')}
-                    - Amagambo agoranye: ${Object.keys(TYAZA_DATASET.advancedVocab).join(', ')}
+                    Uzi izi migani: ${Object.keys(TYAZA_DATASET.proverbs).join(', ')}
                 `;
 
                 const response = await puter.ai.chat([
@@ -3232,32 +2894,27 @@
                 
                 if (text && text.length > 5) {
                     const f = new AIResponseFormatter();
+                    f.addTitle("💬 TYAZA");
                     const paragraphs = text.split('\n\n').filter(p => p.trim());
-                    
-                    if (paragraphs.length > 0) {
-                        f.addTitle("💬 TYAZA");
-                        for (const p of paragraphs) {
-                            if (p.startsWith('-') || p.startsWith('•')) {
-                                const items = p.split('\n').filter(line => line.trim().startsWith('-') || line.trim().startsWith('•'));
-                                if (items.length > 0) {
-                                    f.addList(items.map(item => item.replace(/^[-•]\s*/, '').trim()));
-                                } else {
-                                    f.addParagraph(p);
-                                }
+                    for (const p of paragraphs) {
+                        if (p.startsWith('-') || p.startsWith('•')) {
+                            const items = p.split('\n').filter(line => line.trim().startsWith('-') || line.trim().startsWith('•'));
+                            if (items.length > 0) {
+                                f.addList(items.map(item => item.replace(/^[-•]\s*/, '').trim()));
                             } else {
                                 f.addParagraph(p);
                             }
+                        } else {
+                            f.addParagraph(p);
                         }
-                        f.addEmphasis("Ubu wumva ute?", "italic");
-                        return {
-                            sections: f.build(),
-                            html: f.renderHTML(),
-                            markdown: f.renderMarkdown()
-                        };
                     }
-                    return generateResponse(userInput);
+                    f.addEmphasis("Ubu wumva ute?", "italic");
+                    return {
+                        sections: f.build(),
+                        html: f.renderHTML(),
+                        markdown: f.renderMarkdown()
+                    };
                 }
-                
                 return generateResponse(userInput);
 
             } catch (error) {
@@ -3315,9 +2972,9 @@
                     const f = new AIResponseFormatter();
                     f.addTitle("💙 TYAZA");
                     f.addParagraph("Ndumva ibyo uvuga.");
-                    const proverbs = Object.entries(TYAZA_DATASET.proverbs);
+                    const proverbs = Object.keys(TYAZA_DATASET.proverbs);
                     const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-                    f.addProverb(randomProverb[0], randomProverb[1]);
+                    f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
                     f.addList([
                         "Wumva ute ubu?",
                         "Wambwira byinshi kuri byo?"
@@ -3347,7 +3004,6 @@
         // INIT
         // ============================================================
         function init() {
-            // Check if Puter SDK is loaded
             if (typeof puter !== 'undefined') {
                 state.puterReady = true;
                 console.log('✅ TYAZA yiteguye!');
@@ -3358,24 +3014,20 @@
                 state.useAI = false;
             }
 
-            // Load stored data
             state.userName = storageGet('userName', null);
             state.settings = storageGet('settings', state.settings);
             state.moodData = storageGetAll('moodData');
 
-            // Set UI controls
             document.getElementById('voiceSelect').value = state.settings.voice;
             document.getElementById('rateSlider').value = state.settings.rate;
             document.getElementById('pitchSlider').value = state.settings.pitch;
             document.getElementById('rateValue').textContent = state.settings.rate;
             document.getElementById('pitchValue').textContent = state.settings.pitch;
 
-            // Update UI
             renderHistory();
             updateMemoryStats();
             updateWelcome();
 
-            // Show AI status
             const aiBtn = document.getElementById('aiToggleBtn');
             aiBtn.innerHTML = state.useAI ? 
                 '<i class="fas fa-brain"></i> AI' : 
@@ -3385,7 +3037,6 @@
 
             document.getElementById('sendBtn').disabled = false;
 
-            // Event listeners
             document.getElementById('messageInput').addEventListener('input', handleInput);
             document.getElementById('messageInput').addEventListener('keydown', (e) => {
                 if (e.key === 'Enter' && !e.shiftKey) {
@@ -3514,10 +3165,7 @@
             console.log('💙 Real crisis detection - NOT a scam');
             console.log('🤖 AI:', state.useAI ? 'Ikoreshwa' : 'Gahunda ikoreshwa');
             console.log('🌍 Rwanda, 2026');
-            console.log('📚 Dataset loaded:', Object.keys(TYAZA_DATASET).length, 'categories');
-            console.log('📖 Proverbs:', Object.keys(TYAZA_DATASET.proverbs).length);
-            console.log('📖 Idioms:', Object.keys(TYAZA_DATASET.idioms).length);
-            console.log('📖 Emotions:', Object.keys(TYAZA_DATASET.emotions).length);
+            console.log('📚 Dataset loaded with proper formatter');
         }
 
         // ============================================================
@@ -3545,11 +3193,7 @@
         window.showProfileModal = showProfileModal;
         window.generateResponse = generateResponse;
         window.detectEmotion = detectEmotion;
-        window.searchDataset = searchDataset;
 
-        // ============================================================
-        // START
-        // ============================================================
         document.addEventListener('DOMContentLoaded', init);
     </script>
 
