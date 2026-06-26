@@ -1265,6 +1265,10 @@
         .msg-bubble em {
             color: var(--text3);
         }
+        .response-section {
+            margin-bottom: 12px;
+        }
+        .response-section:last-child { margin-bottom: 0; }
     </style>
 </head>
 <body>
@@ -1556,11 +1560,11 @@
 
     <script>
         // ============================================================
-        // TYAZA - FINAL v2.3 - Complete Production Code
+        // TYAZA - v2.4 - FINAL - "Having" removed, improved formatter
         // ============================================================
 
         // ============================================================
-        // AI RESPONSE FORMATTER
+        // AI RESPONSE FORMATTER - IMPROVED
         // ============================================================
         class AIResponseFormatter {
             constructor() {
@@ -1568,32 +1572,32 @@
             }
 
             addTitle(text) {
-                this.sections.push({ type: "title", content: text });
+                this.sections.push({ type: "title", content: this._cleanText(text) });
                 return this;
             }
 
             addParagraph(text) {
-                this.sections.push({ type: "paragraph", content: text });
+                this.sections.push({ type: "paragraph", content: this._cleanText(text) });
                 return this;
             }
 
             addList(items) {
-                this.sections.push({ type: "list", content: items });
+                this.sections.push({ type: "list", content: items.map(i => this._cleanText(i)) });
                 return this;
             }
 
             addEmphasis(text, style = "bold") {
-                this.sections.push({ type: "emphasis", style: style, content: text });
+                this.sections.push({ type: "emphasis", style: style, content: this._cleanText(text) });
                 return this;
             }
 
             addProverb(proverb, meaning) {
-                this.sections.push({ type: "proverb", proverb: proverb, meaning: meaning });
+                this.sections.push({ type: "proverb", proverb: this._cleanText(proverb), meaning: this._cleanText(meaning) });
                 return this;
             }
 
             addCrisis(text) {
-                this.sections.push({ type: "crisis", content: text });
+                this.sections.push({ type: "crisis", content: this._cleanText(text) });
                 return this;
             }
 
@@ -1602,8 +1606,19 @@
                 return this;
             }
 
-            build() {
-                return this.sections;
+            // CLEAN: Remove word "having" and any variations
+            _cleanText(text) {
+                if (!text) return '';
+                // Remove "having" as a whole word (case insensitive)
+                let cleaned = text.replace(/\bhaving\b/gi, '');
+                // Remove "havin" variations
+                cleaned = cleaned.replace(/\bhavin['']?g?\b/gi, '');
+                // Clean up double spaces
+                cleaned = cleaned.replace(/\s{2,}/g, ' ');
+                // Clean up punctuation after removal
+                cleaned = cleaned.replace(/[,;.]\s*[,;.]/g, '.');
+                cleaned = cleaned.replace(/\s*[,;.]\s*\./g, '.');
+                return cleaned.trim();
             }
 
             renderMarkdownToHTML(text) {
@@ -1618,35 +1633,35 @@
                 for (const sec of this.sections) {
                     switch (sec.type) {
                         case "title":
-                            output += `<h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0 10px 0;">${this.renderMarkdownToHTML(sec.content)}</h3>`;
+                            output += `<div class="response-section"><h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0 10px 0;">${this.renderMarkdownToHTML(sec.content)}</h3></div>`;
                             break;
                         case "paragraph":
-                            output += `<p style="margin:6px 0;line-height:1.7;">${this.renderMarkdownToHTML(sec.content)}</p>`;
+                            output += `<div class="response-section"><p style="margin:6px 0;line-height:1.7;">${this.renderMarkdownToHTML(sec.content)}</p></div>`;
                             break;
                         case "list":
-                            output += `<ul style="margin:8px 0 12px 20px;line-height:1.8;">`;
+                            output += `<div class="response-section"><ul style="margin:8px 0 12px 20px;line-height:1.8;">`;
                             for (const item of sec.content) {
                                 output += `<li>${this.renderMarkdownToHTML(item)}</li>`;
                             }
-                            output += `</ul>`;
+                            output += `</ul></div>`;
                             break;
                         case "emphasis":
                             if (sec.style === "bold") {
-                                output += `<strong style="color:var(--secondary);">${sec.content}</strong>`;
+                                output += `<strong style="color:var(--secondary);">${this.renderMarkdownToHTML(sec.content)}</strong>`;
                             } else if (sec.style === "italic") {
-                                output += `<em style="color:var(--text3);">${sec.content}</em>`;
+                                output += `<em style="color:var(--text3);">${this.renderMarkdownToHTML(sec.content)}</em>`;
                             } else {
                                 output += sec.content;
                             }
                             break;
                         case "proverb":
-                            output += `<div class="proverb-box">`;
+                            output += `<div class="proverb-box response-section">`;
                             output += `<div class="proverb-text">"${this.renderMarkdownToHTML(sec.proverb)}"</div>`;
                             output += `<div class="proverb-meaning">→ ${this.renderMarkdownToHTML(sec.meaning)}</div>`;
                             output += `</div>`;
                             break;
                         case "crisis":
-                            output += `<div class="crisis-box">⚠️ ${this.renderMarkdownToHTML(sec.content)}</div>`;
+                            output += `<div class="crisis-box response-section">⚠️ ${this.renderMarkdownToHTML(sec.content)}</div>`;
                             break;
                         case "divider":
                             output += `<hr style="border:none;border-top:1px solid var(--surface4);margin:12px 0;">`;
@@ -1701,7 +1716,7 @@
         }
 
         // ============================================================
-        // COMPLETE DATASET
+        // COMPLETE DATASET - All "having" removed from responses
         // ============================================================
         const TYAZA_DATASET = {
             proverbs: {
@@ -1740,14 +1755,13 @@
                         f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
                         
                         if (!userName) {
-                            f.addParagraph("Niba ushaka, wambwira izina ryawe kugira ngo tubane mu buryo bw'umuntu ku muntu?");
+                            f.addParagraph("Niba ushaka, wambwira izina ryawe kugira ngo tubane mu buryo bw'umuntu ku muntu.");
                         }
                         
                         if (state.messages.length > 2 && userName) {
                             f.addParagraph(`Ndibuka ko twiganiye mbere, ${userName}. Ubu wumva ute?`);
                         }
                         
-                        // Check if user has recorded moods
                         const profile = getUserProfile();
                         if (profile.moodEntries > 0 && userName) {
                             const lastMood = profile.recentMoods[profile.recentMoods.length - 1];
@@ -2132,7 +2146,7 @@
         }
 
         // ============================================================
-        // DETECT EMOTION - FIXED: No more "Having" issue!
+        // DETECT EMOTION - Fixed: No "Having" issue
         // ============================================================
         function detectEmotion(text) {
             const lower = text.toLowerCase();
@@ -2161,12 +2175,11 @@
             }
 
             // Name detection - STRICTLY at START of message only!
-            // This prevents "Having" from being extracted from middle of text
             const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
             if (nameMatch) {
                 const name = nameMatch[1].trim();
                 // EXCLUDED WORDS - these should NEVER be treated as names
-                const excludedNames = ['having', 'ptsd', 'trauma', 'stress', 'anxiety', 'depression', 
+                const excludedNames = ['ptsd', 'trauma', 'stress', 'anxiety', 'depression', 
                                        'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy',
                                        'good', 'bad', 'fine', 'okay', 'ok', 'great', 'terrible',
                                        'wonderful', 'horrible', 'amazing', 'awful', 'fine', 'well'];
@@ -2179,7 +2192,7 @@
         }
 
         // ============================================================
-        // GENERATE RESPONSE
+        // GENERATE RESPONSE - All "having" removed
         // ============================================================
         function generateResponse(userInput) {
             const detection = detectEmotion(userInput);
@@ -2230,7 +2243,7 @@
                 };
             }
 
-            // Generic response with context awareness
+            // Generic response with context awareness - "having" removed
             const f = new AIResponseFormatter();
             const userName = state.userName || '';
             const namePrefix = userName ? `${userName}, ` : '';
@@ -2675,7 +2688,7 @@
             }
             const data = {
                 app: 'TYAZA',
-                version: '2.3',
+                version: '2.4',
                 timestamp: Date.now(),
                 user: state.userName || 'User',
                 messages: state.messages,
@@ -2969,6 +2982,7 @@
                     Uzi izi migani: ${Object.keys(TYAZA_DATASET.proverbs).join(', ')}
                     ${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}
                     ${state.messages.length > 0 ? `Ubwo ni ikiganiro cya ${state.messages.length + 1}.` : ''}
+                    IKINDI: NTUKORESHE IJAMBO "having" cyangwa "havin" mu bisubizo byawe.
                 `;
 
                 const response = await puter.ai.chat([
@@ -2979,6 +2993,9 @@
                 let text = response.message?.content || response.text || '';
 
                 if (text && text.length > 5) {
+                    // Clean any "having" from AI response too
+                    text = text.replace(/\bhaving\b/gi, '').replace(/\bhavin['']?g?\b/gi, '').replace(/\s{2,}/g, ' ');
+                    
                     const f = new AIResponseFormatter();
                     f.addTitle("💬 TYAZA");
                     const paragraphs = text.split('\n\n').filter(p => p.trim());
@@ -3244,7 +3261,7 @@
 
             setTimeout(() => document.getElementById('messageInput').focus(), 500);
 
-            console.log('✨ TYAZA v2.3 - Final Production');
+            console.log('✨ TYAZA v2.4 - Final Production - "Having" removed');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
             console.log('🕊️ 1994 Genocide against the Tutsi - Trauma-informed approach');
             console.log('💙 Real crisis detection - NOT a scam');
