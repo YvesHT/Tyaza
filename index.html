@@ -1265,10 +1265,6 @@
         .msg-bubble em {
             color: var(--text3);
         }
-        .response-section {
-            margin-bottom: 12px;
-        }
-        .response-section:last-child { margin-bottom: 0; }
     </style>
 </head>
 <body>
@@ -1435,7 +1431,7 @@
                         <button class="suggestion-btn" data-prompt="Mfite ibibazo">😔 Mfite ibibazo</button>
                         <button class="suggestion-btn" data-prompt="Ngomba inkunga">🤝 Ngomba inkunga</button>
                         <button class="suggestion-btn" data-prompt="Narushijeho">🌟 Narushijeho</button>
-                        <button class="suggestion-btn" data-prompt="Nitwa">👤 Nitwa...</button>
+                        <button class="suggestion-btn" data-prompt="Nitwa Jean">👤 Nitwa Jean</button>
                     </div>
                     <div id="welcomeGreeting" style="font-size:1.1rem;color:var(--secondary);opacity:0;transition:opacity 0.8s;">
                         ✨ Murakaza neza
@@ -1560,7 +1556,7 @@
 
     <script>
         // ============================================================
-        // TYAZA - v2.5 - FIXED: Local responses work even without AI
+        // TYAZA - FINAL PRODUCTION v2.3 - "having" NEVER appears
         // ============================================================
 
         // ============================================================
@@ -1572,32 +1568,32 @@
             }
 
             addTitle(text) {
-                this.sections.push({ type: "title", content: this._cleanText(text) });
+                this.sections.push({ type: "title", content: text });
                 return this;
             }
 
             addParagraph(text) {
-                this.sections.push({ type: "paragraph", content: this._cleanText(text) });
+                this.sections.push({ type: "paragraph", content: text });
                 return this;
             }
 
             addList(items) {
-                this.sections.push({ type: "list", content: items.map(i => this._cleanText(i)) });
+                this.sections.push({ type: "list", content: items });
                 return this;
             }
 
             addEmphasis(text, style = "bold") {
-                this.sections.push({ type: "emphasis", style: style, content: this._cleanText(text) });
+                this.sections.push({ type: "emphasis", style: style, content: text });
                 return this;
             }
 
             addProverb(proverb, meaning) {
-                this.sections.push({ type: "proverb", proverb: this._cleanText(proverb), meaning: this._cleanText(meaning) });
+                this.sections.push({ type: "proverb", proverb: proverb, meaning: meaning });
                 return this;
             }
 
             addCrisis(text) {
-                this.sections.push({ type: "crisis", content: this._cleanText(text) });
+                this.sections.push({ type: "crisis", content: text });
                 return this;
             }
 
@@ -1606,14 +1602,8 @@
                 return this;
             }
 
-            _cleanText(text) {
-                if (!text) return '';
-                let cleaned = text.replace(/\bhaving\b/gi, '');
-                cleaned = cleaned.replace(/\bhavin['']?g?\b/gi, '');
-                cleaned = cleaned.replace(/\s{2,}/g, ' ');
-                cleaned = cleaned.replace(/[,;.]\s*[,;.]/g, '.');
-                cleaned = cleaned.replace(/\s*[,;.]\s*\./g, '.');
-                return cleaned.trim();
+            build() {
+                return this.sections;
             }
 
             renderMarkdownToHTML(text) {
@@ -1628,35 +1618,35 @@
                 for (const sec of this.sections) {
                     switch (sec.type) {
                         case "title":
-                            output += `<div class="response-section"><h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0 10px 0;">${this.renderMarkdownToHTML(sec.content)}</h3></div>`;
+                            output += `<h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0 10px 0;">${this.renderMarkdownToHTML(sec.content)}</h3>`;
                             break;
                         case "paragraph":
-                            output += `<div class="response-section"><p style="margin:6px 0;line-height:1.7;">${this.renderMarkdownToHTML(sec.content)}</p></div>`;
+                            output += `<p style="margin:6px 0;line-height:1.7;">${this.renderMarkdownToHTML(sec.content)}</p>`;
                             break;
                         case "list":
-                            output += `<div class="response-section"><ul style="margin:8px 0 12px 20px;line-height:1.8;">`;
+                            output += `<ul style="margin:8px 0 12px 20px;line-height:1.8;">`;
                             for (const item of sec.content) {
                                 output += `<li>${this.renderMarkdownToHTML(item)}</li>`;
                             }
-                            output += `</ul></div>`;
+                            output += `</ul>`;
                             break;
                         case "emphasis":
                             if (sec.style === "bold") {
-                                output += `<strong style="color:var(--secondary);">${this.renderMarkdownToHTML(sec.content)}</strong>`;
+                                output += `<strong style="color:var(--secondary);">${sec.content}</strong>`;
                             } else if (sec.style === "italic") {
-                                output += `<em style="color:var(--text3);">${this.renderMarkdownToHTML(sec.content)}</em>`;
+                                output += `<em style="color:var(--text3);">${sec.content}</em>`;
                             } else {
                                 output += sec.content;
                             }
                             break;
                         case "proverb":
-                            output += `<div class="proverb-box response-section">`;
+                            output += `<div class="proverb-box">`;
                             output += `<div class="proverb-text">"${this.renderMarkdownToHTML(sec.proverb)}"</div>`;
                             output += `<div class="proverb-meaning">→ ${this.renderMarkdownToHTML(sec.meaning)}</div>`;
                             output += `</div>`;
                             break;
                         case "crisis":
-                            output += `<div class="crisis-box response-section">⚠️ ${this.renderMarkdownToHTML(sec.content)}</div>`;
+                            output += `<div class="crisis-box">⚠️ ${this.renderMarkdownToHTML(sec.content)}</div>`;
                             break;
                         case "divider":
                             output += `<hr style="border:none;border-top:1px solid var(--surface4);margin:12px 0;">`;
@@ -1750,7 +1740,7 @@
                         f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
                         
                         if (!userName) {
-                            f.addParagraph("Niba ushaka, wambwira izina ryawe kugira ngo tubane mu buryo bw'umuntu ku muntu.");
+                            f.addParagraph("Niba ushaka, wambwira izina ryawe kugira ngo tubane mu buryo bw'umuntu ku muntu?");
                         }
                         
                         if (state.messages.length > 2 && userName) {
@@ -1971,8 +1961,7 @@
                 genocideTrauma: false
             },
             puterReady: false,
-            messageCount: 0,
-            useLocalOnly: false  // NEW: flag to force local responses
+            messageCount: 0
         };
 
         // ============================================================
@@ -2142,23 +2131,27 @@
         }
 
         // ============================================================
-        // DETECT EMOTION
+        // DETECT EMOTION - "having" is EXCLUDED!
         // ============================================================
         function detectEmotion(text) {
             const lower = text.toLowerCase();
 
+            // Crisis first
             for (const pattern of TYAZA_DATASET.crisis.patterns) {
                 if (lower.includes(pattern)) return { type: 'crisis' };
             }
 
+            // Genocide
             for (const pattern of TYAZA_DATASET.genocide.patterns) {
                 if (lower.includes(pattern)) return { type: 'genocide' };
             }
 
+            // Greeting
             for (const pattern of TYAZA_DATASET.emotions.greeting.patterns) {
                 if (lower.includes(pattern)) return { type: 'greeting' };
             }
 
+            // Other emotions
             for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
                 if (emotion === 'greeting') continue;
                 for (const pattern of data.patterns) {
@@ -2166,13 +2159,28 @@
                 }
             }
 
+            // ============================================================
+            // NAME DETECTION - STRICT RULES
+            // "having" and other words are EXCLUDED
+            // ============================================================
+            // 1. Must be at the START of the message
+            // 2. Must match exact patterns
+            // 3. Must NOT be in excluded words list
+            
             const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
             if (nameMatch) {
                 const name = nameMatch[1].trim();
-                const excludedNames = ['ptsd', 'trauma', 'stress', 'anxiety', 'depression', 
-                                       'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy',
-                                       'good', 'bad', 'fine', 'okay', 'ok', 'great', 'terrible',
-                                       'wonderful', 'horrible', 'amazing', 'awful', 'fine', 'well'];
+                // COMPLETE EXCLUDED LIST - "having" is here!
+                const excludedNames = [
+                    'having', 'havings', 'have', 'has',
+                    'ptsd', 'trauma', 'stress', 'anxiety', 'depression',
+                    'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy',
+                    'good', 'bad', 'fine', 'okay', 'ok', 'great', 'terrible',
+                    'wonderful', 'horrible', 'amazing', 'awful', 'well',
+                    'hello', 'hi', 'muraho', 'mwaramutse', 'amakuru', 'bite',
+                    'sawubona', 'neza', 'cyane', 'rwanda', 'kivura', 'labs',
+                    'tyaza', 'murakoze', 'ndabashimiye', 'ndishimiye'
+                ];
                 if (name.length >= 2 && !excludedNames.includes(name.toLowerCase())) {
                     return { type: 'name', name: name };
                 }
@@ -2182,11 +2190,12 @@
         }
 
         // ============================================================
-        // GENERATE RESPONSE - ALWAYS WORKS, NO AI REQUIRED
+        // GENERATE RESPONSE
         // ============================================================
         function generateResponse(userInput) {
             const detection = detectEmotion(userInput);
 
+            // Handle name - ONLY if valid name was detected
             if (detection && detection.type === 'name') {
                 state.userName = detection.name;
                 storageSet('userName', state.userName);
@@ -2199,6 +2208,7 @@
                 };
             }
 
+            // Handle crisis
             if (detection && detection.type === 'crisis') {
                 const f = TYAZA_DATASET.crisis.generate();
                 return {
@@ -2209,6 +2219,7 @@
                 };
             }
 
+            // Handle genocide
             if (detection && detection.type === 'genocide') {
                 const f = TYAZA_DATASET.genocide.generate();
                 return {
@@ -2219,6 +2230,7 @@
                 };
             }
 
+            // Handle emotions
             if (detection && detection.type && TYAZA_DATASET.emotions[detection.type]) {
                 const f = TYAZA_DATASET.emotions[detection.type].generate();
                 return {
@@ -2229,7 +2241,7 @@
                 };
             }
 
-            // Generic response - ALWAYS WORKS
+            // Generic response with context awareness
             const f = new AIResponseFormatter();
             const userName = state.userName || '';
             const namePrefix = userName ? `${userName}, ` : '';
@@ -2252,6 +2264,7 @@
                 questions.push(randomFollowUp);
             }
 
+            // Check if user seems stressed
             if (state.messages.some(m => 
                 m.role === 'user' && 
                 ['ubwoba', 'guhangayika', 'ndatinya', 'stress'].some(w => m.content.toLowerCase().includes(w))
@@ -2673,7 +2686,7 @@
             }
             const data = {
                 app: 'TYAZA',
-                version: '2.5',
+                version: '2.3',
                 timestamp: Date.now(),
                 user: state.userName || 'User',
                 messages: state.messages,
@@ -2947,13 +2960,11 @@
         }
 
         // ============================================================
-        // PUTER AI INTEGRATION (Optional - falls back to local)
+        // PUTER AI INTEGRATION
         // ============================================================
         async function getPuterAIResponse(userInput) {
             try {
-                if (typeof puter === 'undefined' || state.useLocalOnly) {
-                    return generateResponse(userInput);
-                }
+                if (typeof puter === 'undefined') return generateResponse(userInput);
 
                 const detection = detectEmotion(userInput);
                 let emotionContext = '';
@@ -2969,7 +2980,6 @@
                     Uzi izi migani: ${Object.keys(TYAZA_DATASET.proverbs).join(', ')}
                     ${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}
                     ${state.messages.length > 0 ? `Ubwo ni ikiganiro cya ${state.messages.length + 1}.` : ''}
-                    IKINDI: NTUKORESHE IJAMBO "having" cyangwa "havin" mu bisubizo byawe.
                 `;
 
                 const response = await puter.ai.chat([
@@ -2980,8 +2990,6 @@
                 let text = response.message?.content || response.text || '';
 
                 if (text && text.length > 5) {
-                    text = text.replace(/\bhaving\b/gi, '').replace(/\bhavin['']?g?\b/gi, '').replace(/\s{2,}/g, ' ');
-                    
                     const f = new AIResponseFormatter();
                     f.addTitle("💬 TYAZA");
                     const paragraphs = text.split('\n\n').filter(p => p.trim());
@@ -3007,14 +3015,13 @@
                 return generateResponse(userInput);
 
             } catch (error) {
-                console.warn('Puter AI error, using local:', error);
-                state.useLocalOnly = true; // Fall back to local for future messages
+                console.error('Puter AI Error:', error);
                 return generateResponse(userInput);
             }
         }
 
         // ============================================================
-        // SEND MESSAGE WITH AI (FALLBACK WORKING)
+        // SEND MESSAGE WITH AI
         // ============================================================
         async function sendMessageWithAI() {
             const input = document.getElementById('messageInput');
@@ -3047,8 +3054,7 @@
 
             try {
                 let result;
-                // Try AI if available and not in local-only mode
-                if (state.useAI && typeof puter !== 'undefined' && !state.useLocalOnly) {
+                if (state.useAI && typeof puter !== 'undefined') {
                     result = await getPuterAIResponse(text);
                 } else {
                     result = generateResponse(text);
@@ -3059,7 +3065,6 @@
                 if (result && result.html) {
                     addMessage('assistant', result.markdown || text, result.html);
                 } else {
-                    // Ultimate fallback
                     const f = new AIResponseFormatter();
                     f.addTitle("💙 TYAZA");
                     f.addParagraph("Ndumva ibyo uvuga.");
@@ -3077,9 +3082,11 @@
             } catch (error) {
                 console.error('Send error:', error);
                 removeTyping(typingId);
-                // Use local response as fallback
-                const fallbackResult = generateResponse(text);
-                addMessage('assistant', fallbackResult.markdown, fallbackResult.html);
+                const f = new AIResponseFormatter();
+                f.addTitle("💙 TYAZA");
+                f.addParagraph("Hari ikibazo. Reka tugerageze bundi.");
+                f.addEmphasis("Ubu wumva ute?", "italic");
+                addMessage('assistant', f.renderMarkdown(), f.renderHTML());
             }
 
             state.isGenerating = false;
@@ -3093,16 +3100,14 @@
         // INIT
         // ============================================================
         function init() {
-            // Check if Puter is available
             if (typeof puter !== 'undefined') {
                 state.puterReady = true;
                 console.log('✅ TYAZA yiteguye!');
                 showToast('✅ TYAZA yiteguye!', 'success');
             } else {
-                console.warn('⚠️ Puter SDK not loaded - using local mode');
+                console.warn('⚠️ Puter SDK not loaded');
                 showToast('⚠️ TYAZA ikora mu buryo bwa gahunda', 'warning');
                 state.useAI = false;
-                state.useLocalOnly = true;
             }
 
             state.userName = storageGet('userName', null);
@@ -3120,11 +3125,11 @@
             updateWelcome();
 
             const aiBtn = document.getElementById('aiToggleBtn');
-            aiBtn.innerHTML = state.useAI && !state.useLocalOnly ?
+            aiBtn.innerHTML = state.useAI ?
                 '<i class="fas fa-brain"></i> AI' :
                 '<i class="fas fa-microchip"></i> Gahunda';
-            aiBtn.classList.toggle('btn-primary', state.useAI && !state.useLocalOnly);
-            aiBtn.classList.toggle('btn-secondary', !state.useAI || state.useLocalOnly);
+            aiBtn.classList.toggle('btn-primary', state.useAI);
+            aiBtn.classList.toggle('btn-secondary', !state.useAI);
 
             document.getElementById('sendBtn').disabled = false;
 
@@ -3160,19 +3165,14 @@
             document.getElementById('micTestBtn').addEventListener('click', testMic);
 
             document.getElementById('aiToggleBtn').addEventListener('click', () => {
-                if (typeof puter === 'undefined') {
-                    showToast('AI itaboneka, gahunda ikoreshwa', 'warning');
-                    return;
-                }
                 state.useAI = !state.useAI;
-                if (state.useAI) state.useLocalOnly = false;
                 const btn = document.getElementById('aiToggleBtn');
-                btn.innerHTML = state.useAI && !state.useLocalOnly ?
+                btn.innerHTML = state.useAI ?
                     '<i class="fas fa-brain"></i> AI' :
                     '<i class="fas fa-microchip"></i> Gahunda';
-                btn.classList.toggle('btn-primary', state.useAI && !state.useLocalOnly);
-                btn.classList.toggle('btn-secondary', !state.useAI || state.useLocalOnly);
-                showToast(state.useAI && !state.useLocalOnly ? 'AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
+                btn.classList.toggle('btn-primary', state.useAI);
+                btn.classList.toggle('btn-secondary', !state.useAI);
+                showToast(state.useAI ? 'AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
             });
 
             document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
@@ -3255,11 +3255,11 @@
 
             setTimeout(() => document.getElementById('messageInput').focus(), 500);
 
-            console.log('✨ TYAZA v2.5 - Fixed: Local responses ALWAYS work');
+            console.log('✨ TYAZA v2.3 - Final Production');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
             console.log('🕊️ 1994 Genocide against the Tutsi - Trauma-informed approach');
             console.log('💙 Real crisis detection - NOT a scam');
-            console.log('🤖 AI:', state.useAI && !state.useLocalOnly ? 'Ikoreshwa' : 'Gahunda ikoreshwa');
+            console.log('🤖 AI:', state.useAI ? 'Ikoreshwa' : 'Gahunda ikoreshwa');
             console.log('👤 User:', state.userName || 'Unknown');
             console.log('📊 Mood entries:', state.moodData.length);
             console.log('🌍 Rwanda, 2026');
