@@ -673,35 +673,6 @@
             transform: translateY(-2px);
             box-shadow: var(--shadow-glow);
         }
-        .language-toggle {
-            display: flex;
-            gap: 4px;
-            background: var(--surface3);
-            border-radius: var(--radius-full);
-            padding: 4px;
-            border: 1px solid var(--surface4);
-        }
-        .lang-btn {
-            padding: 6px 14px;
-            border: none;
-            border-radius: var(--radius-full);
-            background: transparent;
-            color: var(--text3);
-            font-family: inherit;
-            font-size: 0.75rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            pointer-events: auto;
-        }
-        .lang-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-        .lang-btn:hover:not(.active) {
-            color: var(--text);
-            background: var(--surface4);
-        }
         .message {
             display: flex;
             gap: 16px;
@@ -1242,7 +1213,6 @@
             .input-btn { width: 44px; height: 44px; font-size: 0.9rem; }
             .input-container textarea { font-size: 0.9rem; }
             .memory-stats { grid-template-columns: 1fr 1fr; }
-            .language-toggle .lang-btn { font-size: 0.65rem; padding: 4px 10px; }
         }
         @media (prefers-reduced-motion: reduce) {
             * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
@@ -1418,7 +1388,7 @@
                     <div style="font-weight:600;color:var(--secondary);">"Healthy citizens, wealthy nation"</div>
                     <div style="font-size:0.7rem;margin-top:8px;color:var(--text4);">Yves HIRWA TUYISHIME - CEO & Founder</div>
                     <div style="font-size:0.65rem;color:var(--text4);margin-top:4px;">© 2026 Kivura Labs · Rwanda</div>
-                    <div style="font-size:0.6rem;color:var(--text4);margin-top:4px;">TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda</div>
+                    <div style="font-size:0.6rem;color:var(--text4);margin-top:4px;">TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda.</div>
                 </div>
             </div>
         </aside>
@@ -1441,14 +1411,6 @@
                 </div>
                 <div class="header-actions">
                     <div class="risk-indicators" id="riskIndicators"></div>
-                    
-                    <!-- Language Toggle -->
-                    <div class="language-toggle">
-                        <button class="lang-btn active" data-lang="rw">🇷🇼 RW</button>
-                        <button class="lang-btn" data-lang="fr">🇫🇷 FR</button>
-                        <button class="lang-btn" data-lang="en">🇬🇧 EN</button>
-                    </div>
-                    
                     <button class="btn btn-primary btn-sm" id="aiToggleBtn"><i class="fas fa-brain"></i> AI</button>
                     <button class="btn btn-icon btn-ghost" id="exportBtn"><i class="fas fa-download"></i></button>
                     <button class="btn btn-icon btn-ghost" id="clearChatBtn"><i class="fas fa-trash-alt"></i></button>
@@ -1461,11 +1423,11 @@
                         <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">
                     </div>
                     <h1 class="welcome-title">TYAZA</h1>
-                    <p class="welcome-subtitle" id="welcomeSubtitle">Umuvugizi w'Umutima</p>
-                    <div class="welcome-quote" id="welcomeQuote">
-                        <em>"Ndi hano kugira nkugire. Buri mwanya, buri jambo — byakiriwe mu mahoro n'igondero."</em>
+                    <p class="welcome-subtitle">Umuvugizi w'Umutima</p>
+                    <div class="welcome-quote">
+                        <em>"TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda."</em>
                     </div>
-                    <div class="suggestions" id="suggestions">
+                    <div class="suggestions">
                         <button class="suggestion-btn" data-prompt="Ndashaka kuvuga">💬 Ndashaka kuvuga</button>
                         <button class="suggestion-btn" data-prompt="Mfite ibibazo">😔 Mfite ibibazo</button>
                         <button class="suggestion-btn" data-prompt="Ngomba inkunga">🤝 Ngomba inkunga</button>
@@ -1595,270 +1557,57 @@
 
     <script>
         // ============================================================
-        // TYAZA v3.3 - FLUID CONVERSATION FLEXIBILITY
-        // Multiple languages: Kinyarwanda (primary), French, English
+        // TYAZA v3.3 - AUTOMATIC LANGUAGE SWITCHING
+        // Primary: Kinyarwanda | Auto-detects: French, English
         // ============================================================
         // 
         // COMPANY: KIVURA LABS
         // FOUNDER & CEO: Yves Hirwa Tuyishime
         // QUOTE: "Healthy citizens, wealthy nation"
-        // PRODUCT: TYAZA - AI ivuga, yumva, kandi ikafasha mu Kinyarwanda
+        // TAGLINE: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda."
         // 
         // ============================================================
 
         // ============================================================
-        // LANGUAGE CONTENT
+        // TYAZA MISSION & VISION - Core Knowledge
         // ============================================================
-        const LANGUAGE_CONTENT = {
-            rw: {
-                name: 'Kinyarwanda',
-                flag: '🇷🇼',
-                welcome: {
-                    title: 'TYAZA',
-                    subtitle: 'Umuvugizi w\'Umutima',
-                    quote: '"Ndi hano kugira nkugire. Buri mwanya, buri jambo — byakiriwe mu mahoro n\'igondero."',
-                    greeting: 'Murakaza neza',
-                    inputPlaceholder: 'Sangiza icyo utekereza...',
-                    scrollBottom: 'subira hasi',
-                    status: 'Igisubizo kindimo',
-                    suggestions: {
-                        talk: '💬 Ndashaka kuvuga',
-                        problems: '😔 Mfite ibibazo',
-                        support: '🤝 Ngomba inkunga',
-                        better: '🌟 Narushijeho',
-                        name: '👤 Nitwa Jean'
-                    },
-                    moods: {
-                        title: 'Uko wumva',
-                        prompt: 'Ubu umerera gute?',
-                        buttons: ['Byacye', 'Ntacyo', 'Harinkomeye', 'Ni meza', 'Neza cyane'],
-                        save: 'Bika uko numva',
-                        week: 'Imimerere y\'icyumweru'
-                    },
-                    crisis: {
-                        title: '⚠️ Ukeneye ubufasha bwihutirwa?',
-                        desc: 'Ni byiza kuvugana n\'umuntu w\'umubiri. Dore imitari y\'inkunga:',
-                        later: 'Ndabibuka',
-                        now: 'Mpambe noneho'
-                    },
-                    profile: {
-                        title: '🧠 User Profile',
-                        stats: {
-                            sessions: 'Ibikorwa',
-                            moods: 'Mood Entries',
-                            days: 'Iminsi ikora',
-                            risk: 'Ibyago'
-                        }
-                    },
-                    memory: '🧠 Memory Engine',
-                    voice: 'Amajwi',
-                    history: '📜 Amateka',
-                    clear: 'Hanagura',
-                    newChat: '✨ Ikiganiro Gishya',
-                    company: 'KIVURA LABS',
-                    tagline: 'TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda',
-                    noHistory: 'Nta mateka'
-                },
-                proverbs: {
-                    "Ijoro ribara uwariraye": "Abariraye ni bo bumva iby'ijoro",
-                    "Buhoro buhoro ni rwo rugendo": "Kugenda buhoro ni uburyo bwo kugera kure",
-                    "Uwitonze arusha uwihuta kugera kure": "Kwihangana bituma ugera ku ntsinzi irambye",
-                    "Nta gahinda gahoraho": "Ibibazo birashira uko igihe kigenda",
-                    "Uko ubiba ni ko usarura": "Ibyo ukora ni byo bigena ibizakugeraho",
-                    "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ngombwa kugira ngo wige",
-                    "Agasozi katarimwe ntikamenya ko kari kure": "Utagerageje ntamenya uburemere bw'ikintu",
-                    "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi",
-                    "Ujya inama n'abakuru ntayoba": "Gusaba inama ku bakuru ni byiza",
-                    "Umuti w'ibibazo ni ukwihangana": "Kwihangana ni bwo buryo bwo gukemura ibibazo",
-                    "Uwihanganye aratsinda": "Kwihangana bituma utsinda",
-                    "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira",
-                    "Imana itanga ibishoboka": "Imana itanga ibishoboka, nta mpamvu yo guhangayika",
-                    "Uwaraye atakirira ntagira icyo abura": "Ibyo ufite ni byo bigutuma ubaho"
-                },
-                followUpQuestions: [
-                    "Hari ikintu cyihariye wifuza kuganiraho uyu munsi?",
-                    "Waba ufite ikibazo gikomeye kiri ku mutima?",
-                    "Ni iki cyagufasha kumva neza ubu?",
-                    "Umutima wawe uvuze iki ubu?",
-                    "Hari ibyo wifuza ko twongera kubiganiraho?"
-                ],
-                calmingTechniques: [
-                    "Gerageza guhumeka buhoro: winjiza umwuka, uwusohore buhoro.",
-                    "Fata umwanya w'ituze utekereze ku bintu byiza.",
-                    "Andika ibyo wumva mu gitabo.",
-                    "Ganira n'umuntu wizeye.",
-                    "Jya gutembera mu kirere cyiza.",
-                    "Reka nkugirire icyifuzo: guhumeka buhoro nibura inshuro eshatu.",
-                    "Imana itanga ibishoboka, nta mpamvu yo guhangayika.",
-                    "Buri munsi ni urugendo rushya."
-                ]
-            },
-            fr: {
-                name: 'Français',
-                flag: '🇫🇷',
-                welcome: {
-                    title: 'TYAZA',
-                    subtitle: 'La Voix du Cœur',
-                    quote: '"Je suis ici pour vous écouter. Chaque instant, chaque parole — accueillis dans la paix et la douceur."',
-                    greeting: 'Bienvenue',
-                    inputPlaceholder: 'Partagez ce que vous ressentez...',
-                    scrollBottom: 'descendre',
-                    status: 'En attente de réponse',
-                    suggestions: {
-                        talk: '💬 Je veux parler',
-                        problems: '😔 J\'ai des soucis',
-                        support: '🤝 J\'ai besoin de soutien',
-                        better: '🌟 Je vais mieux',
-                        name: '👤 Je m\'appelle Jean'
-                    },
-                    moods: {
-                        title: 'Comment vous sentez-vous?',
-                        prompt: 'Comment allez-vous en ce moment?',
-                        buttons: ['Très mal', 'Mal', 'Moyen', 'Bien', 'Très bien'],
-                        save: 'Enregistrer mon humeur',
-                        week: 'Humeur de la semaine'
-                    },
-                    crisis: {
-                        title: '⚠️ Vous avez besoin d\'aide urgente?',
-                        desc: 'Il est bon de parler à une personne réelle. Voici des numéros d\'aide:',
-                        later: 'Je retiens',
-                        now: 'Appeler maintenant'
-                    },
-                    profile: {
-                        title: '🧠 Profil utilisateur',
-                        stats: {
-                            sessions: 'Sessions',
-                            moods: 'Humeurs',
-                            days: 'Jours actifs',
-                            risk: 'Risque'
-                        }
-                    },
-                    memory: '🧠 Mémoire',
-                    voice: 'Voix',
-                    history: '📜 Historique',
-                    clear: 'Effacer',
-                    newChat: '✨ Nouvelle conversation',
-                    company: 'KIVURA LABS',
-                    tagline: 'TYAZA – IA qui parle, écoute et aide en Kinyarwanda',
-                    noHistory: 'Aucun historique'
-                },
-                proverbs: {
-                    "Ijoro ribara uwariraye": "Ceux qui souffrent comprennent les nuits",
-                    "Buhoro buhoro ni rwo rugendo": "La patience mène au but",
-                    "Uwitonze arusha uwihuta kugera kure": "La patience porte ses fruits",
-                    "Nta gahinda gahoraho": "Aucune douleur n'est éternelle",
-                    "Uko ubiba ni ko usarura": "On récolte ce que l'on sème",
-                    "Ijambo ryiza riruta zahabu": "Une bonne parole vaut de l'or",
-                    "Ujya inama n'abakuru ntayoba": "Qui prend conseil des sages ne se trompe pas",
-                    "Uwihanganye aratsinda": "La patience triomphe",
-                    "Nyuma y'ibihe bibi haza ibyiza": "Après les mauvais moments viennent les bons"
-                },
-                followUpQuestions: [
-                    "Y a-t-il quelque chose de particulier dont vous voulez parler aujourd'hui?",
-                    "Avez-vous une préoccupation majeure?",
-                    "Qu'est-ce qui pourrait vous aider à vous sentir mieux maintenant?",
-                    "Que dit votre cœur en ce moment?",
-                    "Voulez-vous qu'on reparle de quelque chose?"
-                ],
-                calmingTechniques: [
-                    "Essayez de respirer lentement: inspirez, expirez doucement.",
-                    "Prenez un moment de calme pour penser aux choses positives.",
-                    "Écrivez ce que vous ressentez dans un carnet.",
-                    "Parlez à une personne de confiance.",
-                    "Allez vous promener au grand air.",
-                    "Je vous souhaite de respirer doucement au moins trois fois.",
-                    "Dieu donne le possible, ne vous inquiétez pas.",
-                    "Chaque jour est un nouveau chemin."
-                ]
-            },
-            en: {
-                name: 'English',
-                flag: '🇬🇧',
-                welcome: {
-                    title: 'TYAZA',
-                    subtitle: 'The Voice of the Heart',
-                    quote: '"I am here for you. Every moment, every word — received in peace and gentleness."',
-                    greeting: 'Welcome',
-                    inputPlaceholder: 'Share what\'s on your mind...',
-                    scrollBottom: 'scroll down',
-                    status: 'Awaiting response',
-                    suggestions: {
-                        talk: '💬 I want to talk',
-                        problems: '😔 I have worries',
-                        support: '🤝 I need support',
-                        better: '🌟 I feel better',
-                        name: '👤 My name is Jean'
-                    },
-                    moods: {
-                        title: 'How are you feeling?',
-                        prompt: 'How are you feeling right now?',
-                        buttons: ['Very bad', 'Bad', 'OK', 'Good', 'Very good'],
-                        save: 'Save my mood',
-                        week: 'Mood of the week'
-                    },
-                    crisis: {
-                        title: '⚠️ Do you need urgent help?',
-                        desc: 'It\'s good to speak with a real person. Here are helplines:',
-                        later: 'I\'ll remember',
-                        now: 'Call now'
-                    },
-                    profile: {
-                        title: '🧠 User Profile',
-                        stats: {
-                            sessions: 'Sessions',
-                            moods: 'Mood Entries',
-                            days: 'Active Days',
-                            risk: 'Risk'
-                        }
-                    },
-                    memory: '🧠 Memory Engine',
-                    voice: 'Voice',
-                    history: '📜 History',
-                    clear: 'Clear',
-                    newChat: '✨ New Chat',
-                    company: 'KIVURA LABS',
-                    tagline: 'TYAZA – AI that speaks, listens, and helps in Kinyarwanda',
-                    noHistory: 'No history'
-                },
-                proverbs: {
-                    "Ijoro ribara uwariraye": "Those who suffer understand the nights",
-                    "Buhoro buhoro ni rwo rugendo": "Slowly is the way to go far",
-                    "Uwitonze arusha uwihuta kugera kure": "Patience leads to lasting success",
-                    "Nta gahinda gahoraho": "No pain lasts forever",
-                    "Uko ubiba ni ko usarura": "You reap what you sow",
-                    "Ijambo ryiza riruta zahabu": "A good word is worth more than gold",
-                    "Ujya inama n'abakuru ntayoba": "Those who seek counsel from elders don't fail",
-                    "Uwihanganye aratsinda": "Patience wins",
-                    "Nyuma y'ibihe bibi haza ibyiza": "After hard times come good ones"
-                },
-                followUpQuestions: [
-                    "Is there something specific you'd like to talk about today?",
-                    "Do you have a major concern on your mind?",
-                    "What could help you feel better now?",
-                    "What is your heart saying right now?",
-                    "Is there something you'd like us to revisit?"
-                ],
-                calmingTechniques: [
-                    "Try breathing slowly: breathe in, breathe out gently.",
-                    "Take a calm moment to think about positive things.",
-                    "Write down what you feel in a notebook.",
-                    "Talk to someone you trust.",
-                    "Go for a walk in the fresh air.",
-                    "I wish you to breathe gently at least three times.",
-                    "God provides what is possible, don't worry.",
-                    "Every day is a new journey."
-                ]
-            }
+        const TYAZA_MISSION = {
+            reason: `TYAZA yashinzwe kugira ngo:
+1. Guhuza icyuho kiri hagati y'abagezweho n'ikoranabuhanga n'abasigaye inyuma naryo,
+   cyane cyane mu muryango nyarwanda.
+2. Gutanga ubufasha ku buzima bwo mu mutwe (mental health) ku buryo bworoshye,
+   bwumvikana, kandi ku buntu — nta muntu ugomba kubura ubufasha kubera ubushobozi buke.
+3. Gutuma buri muntu abasha kubona uwo avugisha umwumva,
+   umusobanukirwa mu rurimi rwe bwite — IKINYARWANDA KIBONEYE.
+4. Kubungabunga no guteza imbere ururimi rwacu rw'umubyeyi (Ikinyarwanda),
+   kugira ngo rutazacika cyangwa ngo rusimburwe n'indimi z'amahanga ziganje ku isi.`,
+
+            mission: `Gutanga ubwenge bw'ikoranabuhanga bwimbitse, bufite ubumuntu,
+bufasha abantu gusobanukirwa amarangamutima yabo,
+kumenya ibibazo hakiri kare, no kubona ibisubizo bifatika mu buzima bwa buri munsi.`,
+
+            vision: `Kubaka sisitemu ihuriweho y'ubwenge (Unified Intelligence System)
+ishobora gutekereza, kumva, kurinda, no gufasha abantu
+mu buryo bujyanye n'umuco n'ururimi rwabo,
+ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
+
+            values: [
+                "Ubumuntu (Human-centered intelligence)",
+                "Ukuri n'ubunyangamugayo",
+                "Kurengera ubuzima n'umutekano w'umuntu",
+                "Kubaha umuco n'ururimi",
+                "Gufasha nta kurobanura"
+            ],
+
+            tagline: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda."
         };
 
         // ============================================================
-        // AI RESPONSE FORMATTER - Multi-language support
+        // AI RESPONSE FORMATTER
         // ============================================================
         class AIResponseFormatter {
-            constructor(lang = 'rw') {
+            constructor() {
                 this.sections = [];
-                this.lang = lang;
-                this.content = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
             }
 
             addTitle(text) {
@@ -2003,10 +1752,280 @@
             ceo: "Yves Hirwa Tuyishime",
             quote: "Healthy citizens, wealthy nation",
             product: "TYAZA",
-            tagline: "TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda",
+            tagline: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda.",
             description: "KIVURA LABS ni uruganda rw'ikoranabuhanga rushinzwe na Yves Hirwa Tuyishime, rukora TYAZA, AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.",
             founded: 2024,
             location: "Rwanda"
+        };
+
+        // ============================================================
+        // COMPLETE DATASET - Corrected Kinyarwanda
+        // ============================================================
+        const TYAZA_DATASET = {
+            proverbs: {
+                "Ijoro ribara uwariraye": "Abariraye ni bo bumva iby'ijoro",
+                "Buhoro buhoro ni rwo rugendo": "Kugenda buhoro ni uburyo bwo kugera kure",
+                "Uwitonze arusha uwihuta kugera kure": "Kwihangana bituma ugera ku ntsinzi irambye",
+                "Nta gahinda gahoraho": "Ibibazo birashira uko igihe kigenda",
+                "Uko ubiba ni ko usarura": "Ibyo ukora ni byo bigena ibizakugeraho",
+                "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ngombwa kugira ngo wige",
+                "Agasozi katarimwe ntikamenya ko kari kure": "Utagerageje ntamenya uburemere bw'ikintu",
+                "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi",
+                "Ujya inama n'abakuru ntayoba": "Gusaba inama ku bakuru ni byiza",
+                "Umuti w'ibibazo ni ukwihangana": "Kwihangana ni bwo buryo bwo gukemura ibibazo",
+                "Uwihanganye aratsinda": "Kwihangana bituma utsinda",
+                "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira",
+                "Imana itanga ibishoboka": "Imana itanga ibishoboka, nta mpamvu yo guhangayika",
+                "Uwaraye atakirira ntagira icyo abura": "Ibyo ufite ni byo bigutuma ubaho"
+            },
+
+            companyInfo: COMPANY_INFO,
+            mission: TYAZA_MISSION,
+
+            emotions: {
+                greeting: {
+                    patterns: ['muraho', 'hello', 'hi', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'bonjour', 'hey'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || null;
+                        
+                        if (userName) {
+                            f.addTitle(`✨ Muraho, ${userName}!`);
+                        } else {
+                            f.addTitle("✨ Muraho!");
+                        }
+                        
+                        f.addParagraph("Murakaza neza kuri **TYAZA**, umuvugizi w'umutima.");
+                        f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**. Ijambo rye ni: *"${COMPANY_INFO.quote}"*.`);
+                        f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
+                        f.addParagraph("Ndi hano kugira ngo mbafashe kumva neza ibiri ku mutima wanyu.");
+                        
+                        const proverbs = Object.keys(TYAZA_DATASET.proverbs);
+                        const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+                        f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
+                        
+                        if (!userName) {
+                            f.addParagraph("Niba ushaka, wambwira izina ryawe kugira ngo tubane mu buryo bw'umuntu ku muntu?");
+                        }
+                        
+                        f.addList([
+                            "Ubu wumva ute?",
+                            "Ni iki kiri ku mutima wawe?",
+                            "Hari ikintu ushaka kuganiraho?"
+                        ]);
+                        f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+                        f.addEmphasis(TYAZA_MISSION.tagline, "italic");
+                        return f;
+                    }
+                },
+                about_company: {
+                    patterns: ['kivura labs', 'kivura', 'kampani', 'company', 'uruganda'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("🏢 KIVURA LABS");
+                        f.addParagraph(`**${COMPANY_INFO.name}** ni uruganda rw'ikoranabuhanga rushinzwe na **${COMPANY_INFO.founder}** mu Rwanda.`);
+                        f.addParagraph(`Ijambo rye rikomeye: *"${COMPANY_INFO.quote}"*.`);
+                        f.addParagraph(`${COMPANY_INFO.name} yakoreye **${COMPANY_INFO.product}**, AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.`);
+                        f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
+                        f.addList([
+                            `👤 **CEO & Founder:** ${COMPANY_INFO.founder}`,
+                            `📅 **Yashinzwe:** 2024`,
+                            `🌍 **Aho iri:** Rwanda`,
+                            `💡 **Intego:** Guteza imbere AI mu Kinyarwanda no gufasha abantu mu buzima bwo mu mutwe`,
+                            `📌 **Tagline:** ${TYAZA_MISSION.tagline}`
+                        ]);
+                        f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
+                        f.addEmphasis("Niba ufite ikindi ushaka kumenya ku KIVURA LABS, wambwira?", "italic");
+                        return f;
+                    }
+                },
+                about_ceo: {
+                    patterns: ['yves', 'hirwa', 'tuyishime', 'washinze', 'founder', 'ceo', 'umuyobozi'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("👤 Yves Hirwa Tuyishime");
+                        f.addParagraph(`**${COMPANY_INFO.founder}** ni we washinze **${COMPANY_INFO.name}** kandi ni CEO wacyo.`);
+                        f.addParagraph(`Ijambo rye rikomeye: *"${COMPANY_INFO.quote}"*.`);
+                        f.addParagraph(`Yashinze ${COMPANY_INFO.name} mu 2024 mu Rwanda, agamije gukora AI ivuga mu Kinyarwanda ifasha abantu mu buzima bwo mu mutwe.`);
+                        f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
+                        f.addList([
+                            `👤 **Izina:** ${COMPANY_INFO.founder}`,
+                            `🏢 **Position:** CEO & Founder wa ${COMPANY_INFO.name}`,
+                            `💡 **Product:** ${COMPANY_INFO.product} - AI ivuga mu Kinyarwanda`,
+                            `📌 **Quote:** "${COMPANY_INFO.quote}"`,
+                            `🌍 **Aho akorera:** Rwanda`
+                        ]);
+                        f.addProverb("Ujya inama n'abakuru ntayoba", "Gusaba inama ku bakuru ni byiza");
+                        f.addEmphasis("Niba wifuza kumenya byinshi kuri Yves Hirwa Tuyishime, wambwira?", "italic");
+                        return f;
+                    }
+                },
+                sadness: {
+                    patterns: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'nariraye', 'triste', 'peine'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("💙 Mbabajwe no kumva ko ubabaye.");
+                        f.addParagraph(`${namePrefix}Ndumva ufite agahinda. Ni iki cyaguteye kumva utyo?`);
+                        f.addProverb("Nta gahinda gahoraho", "Ibibazo birashira uko igihe kigenda");
+                        f.addList([
+                            "Wambwira byinshi kuri byo?",
+                            "Ni iki gishobora kugufasha kumva neza?"
+                        ]);
+                        f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+                        return f;
+                    }
+                },
+                joy: {
+                    patterns: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo', 'heureux', 'joy'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("✨ Ni byiza cyane kumva wishimye!");
+                        f.addParagraph(`${namePrefix}Ibyishimo ni impamvu yo gukomeza mu buzima.`);
+                        f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
+                        f.addList([
+                            "Ni iki cyaguteye ibyishimo?",
+                            "Wifuza kubiganiraho byinshi?"
+                        ]);
+                        f.addEmphasis("Uko wumva ni ingenzi.", "italic");
+                        return f;
+                    }
+                },
+                anger: {
+                    patterns: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'en colère', 'fâché'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("🔥 Birumvikana ko urakaye.");
+                        f.addParagraph(`${namePrefix}Kurakara ni ibisanzwe, ariko ni byiza kubivugaho.`);
+                        f.addProverb("Uwitonze arusha uwihuta kugera kure", "Kwihangana bituma ugera ku ntsinzi irambye");
+                        f.addList([
+                            "Ni iki cyaguteye uburakari?",
+                            "Waba wifuza kuvuga byinshi kuri byo?"
+                        ]);
+                        f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+                        return f;
+                    }
+                },
+                anxiety: {
+                    patterns: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'anxieux', 'peur', 'stress'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("😰 Ndumva ufite ubwoba.");
+                        f.addParagraph(`${namePrefix}Gutekereza ku hazaza bishobora gutera ubwoba.`);
+                        f.addProverb("Buhoro buhoro ni rwo rugendo", "Kugenda buhoro ni uburyo bwo kugera kure");
+                        f.addList([
+                            "Ni iki kiguteye ubwoba?",
+                            "Hari ikintu cyihariye kiguhangayikishije?"
+                        ]);
+                        f.addEmphasis("Nturi wenyine muri ibi.", "bold");
+                        return f;
+                    }
+                },
+                loneliness: {
+                    patterns: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'seul', 'alone'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("🕊️ Kumva uri wenyine biraremereye.");
+                        f.addParagraph(`${namePrefix}Nta muntu ugomba kwihanganira ibyago yonyine.`);
+                        f.addProverb("Ijoro ribara uwariraye", "Abariraye ni bo bumva iby'ijoro");
+                        f.addList([
+                            "Waba wifuza kuganira n'umuntu?",
+                            "Cyangwa gusangira ibyo wumva?"
+                        ]);
+                        f.addEmphasis("Nturi wenyine. Ndi hano.", "bold");
+                        return f;
+                    }
+                },
+                fatigue: {
+                    patterns: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'fatigué', 'tired'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("😓 Ndumva ufite umunaniro.");
+                        f.addParagraph(`${namePrefix}Birashoboka ko ukeneye kuruhuka.`);
+                        f.addProverb("Buhoro buhoro ni rwo rugendo", "Kugenda buhoro ni uburyo bwo kugera kure");
+                        f.addList([
+                            "Ni iki cyaguteye kurambirwa?",
+                            "Waba wararuhutse bihagije?"
+                        ]);
+                        f.addEmphasis("Kuruhuka ni ingenzi ku mutima.", "italic");
+                        return f;
+                    }
+                }
+            },
+
+            crisis: {
+                patterns: ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa', 
+                          'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye', 
+                          'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'],
+                generate: function() {
+                    const f = new AIResponseFormatter();
+                    f.addTitle("⚠️ Ukeneye ubufasha bwihutirwa");
+                    f.addCrisis("Ibi ni ibintu bikomeye cyane. Mbabajwe cyane no kumva utyo.");
+                    f.addParagraph("Ni ingenzi cyane ko wabona ubufasha bwihuse.");
+                    f.addList([
+                        "📞 **116** - Imitari y'inkunga (24/7)",
+                        "📞 **3029** - Isange One Stop",
+                        "🏥 Kwa muganga wawe",
+                        "🤝 Vugana n'umuntu wizeye"
+                    ]);
+                    f.addEmphasis("Nturi wenyine. Ubu hashoboka ubufasha.", "bold");
+                    return f;
+                }
+            },
+
+            genocide: {
+                patterns: ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 'génocide', 'genocide'],
+                generate: function() {
+                    const f = new AIResponseFormatter();
+                    f.addTitle("🕊️ Ibyo wavuze ni ibintu bikomeye");
+                    f.addParagraph("TYAZA yumva neza ko jenoside yakorewe Abatutsi mu 1994 yasize ibyago byinshi.");
+                    f.addParagraph("Nta muntu ugomba kwihanganira ibyago yonyine.");
+                    f.addProverb("Ijoro ribara uwariraye", "Abariraye ni bo bumva iby'ijoro");
+                    f.addList([
+                        "📞 **116** - Bafasha abahangayikishijwe na jenoside",
+                        "📞 **3029** - Isange One Stop - Ubufasha ku bahinzwe",
+                        "🤝 Vugana n'umuntu wizeye"
+                    ]);
+                    f.addEmphasis("Ubu wumva ute? Urafite icyo ushaka kuvuga?", "italic");
+                    return f;
+                }
+            },
+
+            followUpQuestions: [
+                "Hari ikintu cyihariye wifuza kuganiraho uyu munsi?",
+                "Waba ufite ikibazo gikomeye kiri ku mutima?",
+                "Ni iki cyagufasha kumva neza ubu?",
+                "Umutima wawe uvuze iki ubu?",
+                "Hari ibyo wifuza ko twongera kubiganiraho?"
+            ],
+
+            calmingTechniques: [
+                "Gerageza guhumeka buhoro: winjiza umwuka, uwusohore buhoro.",
+                "Fata umwanya w'ituze utekereze ku bintu byiza.",
+                "Andika ibyo wumva mu gitabo.",
+                "Ganira n'umuntu wizeye.",
+                "Jya gutembera mu kirere cyiza.",
+                "Reka nkugirire icyifuzo: guhumeka buhoro nibura inshuro eshatu.",
+                "Imana itanga ibishoboka, nta mpamvu yo guhangayika.",
+                "Buri munsi ni urugendo rushya."
+            ]
         };
 
         // ============================================================
@@ -2020,8 +2039,7 @@
             settings: {
                 voice: 'Google UK English Female',
                 rate: 0.9,
-                pitch: 1.0,
-                language: 'rw' // 'rw', 'fr', 'en'
+                pitch: 1.0
             },
             moodData: [],
             conversations: [],
@@ -2040,7 +2058,8 @@
                 genocideTrauma: false
             },
             puterReady: false,
-            messageCount: 0
+            messageCount: 0,
+            detectedLanguage: 'rw' // auto-detected language
         };
 
         // ============================================================
@@ -2084,21 +2103,74 @@
         }
 
         // ============================================================
+        // LANGUAGE DETECTION - AUTO SWITCH
+        // ============================================================
+        function detectLanguage(text) {
+            const lower = text.toLowerCase();
+            
+            // Check for French indicators
+            const frenchPatterns = ['bonjour', 'salut', 'comment', 'je', 'tu', 'il', 'elle', 'nous', 'vous', 
+                                   'français', 'merci', 's\'il vous plaît', 's\'il te plaît', 'oui', 'non',
+                                   'triste', 'peine', 'heureux', 'joie', 'en colère', 'fâché', 'anxieux',
+                                   'peur', 'seul', 'solitaire', 'fatigué', 'épuisé', 'génocide', 'trauma'];
+            for (const pattern of frenchPatterns) {
+                if (lower.includes(pattern)) return 'fr';
+            }
+            
+            // Check for English indicators
+            const englishPatterns = ['hello', 'hi', 'hey', 'how', 'are', 'you', 'i', 'me', 'my', 'am', 
+                                    'is', 'was', 'were', 'have', 'has', 'had', 'do', 'does', 'did',
+                                    'sad', 'happy', 'angry', 'afraid', 'scared', 'anxious', 'worried',
+                                    'alone', 'lonely', 'tired', 'exhausted', 'genocide', 'trauma',
+                                    'please', 'thank', 'thanks', 'okay', 'ok', 'yes', 'no'];
+            for (const pattern of englishPatterns) {
+                if (lower.includes(pattern)) return 'en';
+            }
+            
+            // Default: Kinyarwanda
+            return 'rw';
+        }
+
+        // ============================================================
+        // GET LANGUAGE-SPECIFIC CONTENT
+        // ============================================================
+        function getLangContent(lang) {
+            const content = {
+                rw: {
+                    greeting: "✨ Murakaza neza",
+                    subtitle: "Umuvugizi w'Umutima",
+                    quote: `"${TYAZA_MISSION.tagline}"`,
+                    status: "Igisubizo kindimo",
+                    placeholder: "Sangiza icyo utekereza...",
+                    scrollBottom: "subira hasi",
+                    tagline: TYAZA_MISSION.tagline
+                },
+                fr: {
+                    greeting: "✨ Bienvenue",
+                    subtitle: "La Voix du Cœur",
+                    quote: `"${TYAZA_MISSION.tagline}"`,
+                    status: "En attente de réponse",
+                    placeholder: "Partagez ce que vous ressentez...",
+                    scrollBottom: "descendre",
+                    tagline: "TYAZA — L'intelligence qui écoute, aide et protège chaque Rwandais."
+                },
+                en: {
+                    greeting: "✨ Welcome",
+                    subtitle: "The Voice of the Heart",
+                    quote: `"${TYAZA_MISSION.tagline}"`,
+                    status: "Awaiting response",
+                    placeholder: "Share what's on your mind...",
+                    scrollBottom: "scroll down",
+                    tagline: "TYAZA — Intelligence that listens, helps, and protects every Rwandan."
+                }
+            };
+            return content[lang] || content.rw;
+        }
+
+        // ============================================================
         // CRISIS DETECTION - Multi-language
         // ============================================================
-        const CRISIS_PATTERNS = {
-            rw: ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa', 'ndashaka gupfa', 'byarangiye', 'sinashoboye', 'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo'],
-            fr: ['suicide', 'me tuer', 'me faire du mal', 'je veux mourir', 'c\'est fini', 'je n\'en peux plus', 'je ne peux plus continuer', 'plus de raison de vivre'],
-            en: ['kill myself', 'suicide', 'die', 'self harm', 'end it all', 'can\'t go on', 'no reason to live', 'want to die']
-        };
-
-        const GENOCIDE_PATTERNS = {
-            rw: ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice'],
-            fr: ['génocide', '1994', 'trauma', 'massacre', 'tutsi'],
-            en: ['genocide', '1994', 'trauma', 'massacre', 'tutsi']
-        };
-
-        function analyzeRisks(text, lang = 'rw') {
+        function analyzeRisks(text) {
             const lower = text.toLowerCase();
             const risks = {
                 suicide: false,
@@ -2109,15 +2181,21 @@
                 genocideTrauma: false
             };
 
-            const crisisPatterns = CRISIS_PATTERNS[lang] || CRISIS_PATTERNS.rw;
-            for (const pattern of crisisPatterns) {
-                if (lower.includes(pattern.toLowerCase())) { risks.suicide = true;
-                    risks.selfHarm = true; }
-            }
-
-            const genocidePatterns = GENOCIDE_PATTERNS[lang] || GENOCIDE_PATTERNS.rw;
-            for (const pattern of genocidePatterns) {
-                if (lower.includes(pattern.toLowerCase())) { risks.genocideTrauma = true; }
+            const allCrisisPatterns = [
+                ...TYAZA_DATASET.crisis.patterns,
+                ...TYAZA_DATASET.genocide.patterns
+            ];
+            
+            for (const pattern of allCrisisPatterns) {
+                if (lower.includes(pattern.toLowerCase())) { 
+                    if (TYAZA_DATASET.crisis.patterns.includes(pattern)) {
+                        risks.suicide = true;
+                        risks.selfHarm = true;
+                    }
+                    if (TYAZA_DATASET.genocide.patterns.includes(pattern)) {
+                        risks.genocideTrauma = true;
+                    }
+                }
             }
 
             return risks;
@@ -2136,12 +2214,12 @@
             container.classList.add('visible');
             container.innerHTML = activeRisks.map(risk => {
                 const labels = {
-                    suicide: '⚠️ Crisis',
-                    selfHarm: '⚠️ Self-harm',
-                    violence: '⚠️ Violence',
+                    suicide: '⚠️ Kwiyahura',
+                    selfHarm: '⚠️ Kwikomeretsa',
+                    violence: '⚠️ Umujinya',
                     ptsd: '⚠️ Trauma',
-                    abuse: '⚠️ Abuse',
-                    genocideTrauma: '🕊️ Genocide'
+                    abuse: '⚠️ Guhohoterwa',
+                    genocideTrauma: '🕊️ Jenoside'
                 };
                 return `<span class="risk-badge high">${labels[risk] || risk}</span>`;
             }).join('');
@@ -2214,9 +2292,6 @@
 
         function updateMemoryStats() {
             const profile = getUserProfile();
-            const lang = state.settings.language;
-            const content = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
-            
             document.getElementById('statSessions').textContent = profile.sessionCount;
             document.getElementById('statMoods').textContent = profile.moodEntries;
             document.getElementById('statActiveDays').textContent = profile.activeDays;
@@ -2227,99 +2302,46 @@
         }
 
         // ============================================================
-        // DETECT EMOTION - Multi-language
+        // DETECT EMOTION
         // ============================================================
-        function detectEmotion(text, lang = 'rw') {
+        function detectEmotion(text) {
             const lower = text.toLowerCase();
-            const content = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
 
             // Crisis first
-            const crisisPatterns = CRISIS_PATTERNS[lang] || CRISIS_PATTERNS.rw;
-            for (const pattern of crisisPatterns) {
+            for (const pattern of TYAZA_DATASET.crisis.patterns) {
                 if (lower.includes(pattern.toLowerCase())) return { type: 'crisis' };
             }
 
             // Genocide
-            const genocidePatterns = GENOCIDE_PATTERNS[lang] || GENOCIDE_PATTERNS.rw;
-            for (const pattern of genocidePatterns) {
+            for (const pattern of TYAZA_DATASET.genocide.patterns) {
                 if (lower.includes(pattern.toLowerCase())) return { type: 'genocide' };
             }
 
-            // Company questions (multi-language)
-            const companyPatterns = {
-                rw: ['kivura labs', 'kivura', 'kampani', 'company', 'uruganda'],
-                fr: ['kivura labs', 'kivura', 'entreprise', 'société', 'compagnie'],
-                en: ['kivura labs', 'kivura', 'company', 'corporation']
-            };
-            const compPatterns = companyPatterns[lang] || companyPatterns.rw;
-            for (const pattern of compPatterns) {
+            // Company questions
+            for (const pattern of TYAZA_DATASET.emotions.about_company.patterns) {
                 if (lower.includes(pattern.toLowerCase())) return { type: 'about_company' };
             }
 
-            // CEO questions (multi-language)
-            const ceoPatterns = {
-                rw: ['yves', 'hirwa', 'tuyishime', 'washinze', 'founder', 'ceo', 'umuyobozi'],
-                fr: ['yves', 'hirwa', 'tuyishime', 'fondateur', 'ceo', 'dirigeant'],
-                en: ['yves', 'hirwa', 'tuyishime', 'founder', 'ceo']
-            };
-            const ceoPats = ceoPatterns[lang] || ceoPatterns.rw;
-            for (const pattern of ceoPats) {
+            // CEO questions
+            for (const pattern of TYAZA_DATASET.emotions.about_ceo.patterns) {
                 if (lower.includes(pattern.toLowerCase())) return { type: 'about_ceo' };
             }
 
-            // Greeting patterns (multi-language)
-            const greetingPatterns = {
-                rw: ['muraho', 'hello', 'hi', 'mwaramutse', 'amakuru', 'bite', 'sawubona'],
-                fr: ['bonjour', 'salut', 'coucou', 'hello', 'hi'],
-                en: ['hello', 'hi', 'hey', 'greetings', 'good morning', 'good afternoon', 'good evening']
-            };
-            const greetPats = greetingPatterns[lang] || greetingPatterns.rw;
-            for (const pattern of greetPats) {
+            // Greeting
+            for (const pattern of TYAZA_DATASET.emotions.greeting.patterns) {
                 if (lower.includes(pattern.toLowerCase())) return { type: 'greeting' };
             }
 
-            // Emotion patterns (multi-language)
-            const emotionPatterns = {
-                rw: {
-                    sadness: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'nariraye'],
-                    joy: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo'],
-                    anger: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya'],
-                    anxiety: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya'],
-                    loneliness: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine'],
-                    fatigue: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'ndumva ndushye']
-                },
-                fr: {
-                    sadness: ['triste', 'peine', 'déprimé', 'mal', 'chagrin', 'désespoir'],
-                    joy: ['heureux', 'joie', 'content', 'satisfait', 'bien'],
-                    anger: ['en colère', 'fâché', 'furieux', 'rage'],
-                    anxiety: ['anxieux', 'inquiet', 'peur', 'stressé', 'angoissé'],
-                    loneliness: ['seul', 'solitaire', 'isolé', 'abandonné'],
-                    fatigue: ['fatigué', 'épuisé', 'épuisée', 'à bout', 'épuisement']
-                },
-                en: {
-                    sadness: ['sad', 'depressed', 'unhappy', 'down', 'blue', 'grief', 'sorrow'],
-                    joy: ['happy', 'joy', 'glad', 'delighted', 'wonderful', 'amazing', 'great'],
-                    anger: ['angry', 'mad', 'furious', 'rage', 'annoyed', 'frustrated'],
-                    anxiety: ['anxious', 'worried', 'scared', 'fear', 'nervous', 'stressed', 'panicked'],
-                    loneliness: ['lonely', 'alone', 'isolated', 'abandoned', 'forsaken'],
-                    fatigue: ['tired', 'exhausted', 'drained', 'fatigue', 'worn out', 'burned out']
-                }
-            };
-
-            const emoPats = emotionPatterns[lang] || emotionPatterns.rw;
-            for (const [emotion, patterns] of Object.entries(emoPats)) {
-                for (const pattern of patterns) {
+            // Other emotions
+            for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
+                if (emotion === 'greeting' || emotion === 'about_company' || emotion === 'about_ceo') continue;
+                for (const pattern of data.patterns) {
                     if (lower.includes(pattern.toLowerCase())) return { type: emotion };
                 }
             }
 
-            // Name detection - multi-language
-            const namePatterns = {
-                rw: /^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye|jewe)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i,
-                fr: /^(?:je m'appelle|je suis|mon nom est|moi c'est|my name is|i'?m|i am)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i,
-                en: /^(?:my name is|i'm|i am|call me|this is|meet)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i
-            };
-            const nameMatch = text.match(namePatterns[lang] || namePatterns.rw);
+            // Name detection
+            const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye|jewe|je m'appelle|je suis|mon nom est)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
             if (nameMatch) {
                 const name = nameMatch[1].trim();
                 const excludedNames = [
@@ -2346,23 +2368,16 @@
         }
 
         // ============================================================
-        // GENERATE RESPONSE - Multi-language
+        // GENERATE RESPONSE
         // ============================================================
-        function generateResponse(userInput, lang = 'rw') {
-            const content = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
-            const detection = detectEmotion(userInput, lang);
+        function generateResponse(userInput) {
+            const detection = detectEmotion(userInput);
 
             // Handle name
             if (detection && detection.type === 'name') {
                 state.userName = detection.name;
                 storageSet('userName', state.userName);
-                const f = new AIResponseFormatter(lang);
-                const nameGreeting = lang === 'rw' ? `✨ Muraho, ${detection.name}!` :
-                                   lang === 'fr' ? `✨ Bonjour, ${detection.name}!` :
-                                   `✨ Hello, ${detection.name}!`;
-                f.addTitle(nameGreeting);
-                f.addParagraph(content.welcome.quote);
-                f.addProverb(Object.keys(content.proverbs)[0], Object.values(content.proverbs)[0]);
+                const f = TYAZA_DATASET.emotions.greeting.generate();
                 return {
                     sections: f.build(),
                     html: f.renderHTML(),
@@ -2373,31 +2388,7 @@
 
             // Handle crisis
             if (detection && detection.type === 'crisis') {
-                const f = new AIResponseFormatter(lang);
-                const crisisTitle = lang === 'rw' ? '⚠️ Ukeneye ubufasha bwihutirwa' :
-                                   lang === 'fr' ? '⚠️ Vous avez besoin d\'aide urgente' :
-                                   '⚠️ You need urgent help';
-                f.addTitle(crisisTitle);
-                f.addCrisis(lang === 'rw' ? 'Ibi ni ibintu bikomeye cyane. Mbabajwe cyane no kumva utyo.' :
-                           lang === 'fr' ? 'C\'est très grave. Je suis vraiment désolé d\'entendre cela.' :
-                           'This is very serious. I\'m so sorry to hear that.');
-                f.addParagraph(lang === 'rw' ? 'Ni ingenzi cyane ko wabona ubufasha bwihuse.' :
-                              lang === 'fr' ? 'Il est très important que vous obteniez de l\'aide rapidement.' :
-                              'It is very important that you get help right away.');
-                f.addList([
-                    lang === 'rw' ? '📞 **116** - Imitari y\'inkunga (24/7)' :
-                    lang === 'fr' ? '📞 **116** - Ligne d\'écoute (24/7)' :
-                    '📞 **116** - Helpline (24/7)',
-                    lang === 'rw' ? '📞 **3029** - Isange One Stop' :
-                    lang === 'fr' ? '📞 **3029** - Isange One Stop' :
-                    '📞 **3029** - Isange One Stop',
-                    lang === 'rw' ? '🏥 Kwa muganga wawe' :
-                    lang === 'fr' ? '🏥 Chez votre médecin' :
-                    '🏥 At your doctor'
-                ]);
-                f.addEmphasis(lang === 'rw' ? 'Nturi wenyine. Ubu hashoboka ubufasha.' :
-                             lang === 'fr' ? 'Vous n\'êtes pas seul. De l\'aide est disponible.' :
-                             'You are not alone. Help is available.', "bold");
+                const f = TYAZA_DATASET.crisis.generate();
                 return {
                     sections: f.build(),
                     html: f.renderHTML(),
@@ -2408,21 +2399,7 @@
 
             // Handle genocide
             if (detection && detection.type === 'genocide') {
-                const f = new AIResponseFormatter(lang);
-                const genocideTitle = lang === 'rw' ? '🕊️ Ibyo wavuze ni ibintu bikomeye' :
-                                     lang === 'fr' ? '🕊️ Ce que vous dites est très lourd' :
-                                     '🕊️ What you said is very heavy';
-                f.addTitle(genocideTitle);
-                f.addParagraph(lang === 'rw' ? 'TYAZA yumva neza ko jenoside yakorewe Abatutsi mu 1994 yasize ibyago byinshi.' :
-                              lang === 'fr' ? 'TYAZA comprend que le génocide des Tutsi en 1994 a laissé de lourdes séquelles.' :
-                              'TYAZA understands that the 1994 genocide against the Tutsi left deep wounds.');
-                f.addParagraph(lang === 'rw' ? 'Nta muntu ugomba kwihanganira ibyago yonyine.' :
-                              lang === 'fr' ? 'Personne ne doit traverser ces épreuves seul.' :
-                              'No one should go through this alone.');
-                f.addProverb(Object.keys(content.proverbs)[0], Object.values(content.proverbs)[0]);
-                f.addEmphasis(lang === 'rw' ? 'Ubu wumva ute? Urafite icyo ushaka kuvuga?' :
-                             lang === 'fr' ? 'Comment vous sentez-vous maintenant? Avez-vous quelque chose à dire?' :
-                             'How are you feeling now? Is there something you want to say?', "italic");
+                const f = TYAZA_DATASET.genocide.generate();
                 return {
                     sections: f.build(),
                     html: f.renderHTML(),
@@ -2433,28 +2410,7 @@
 
             // Handle company questions
             if (detection && detection.type === 'about_company') {
-                const f = new AIResponseFormatter(lang);
-                const companyTitle = lang === 'rw' ? '🏢 KIVURA LABS' :
-                                   lang === 'fr' ? '🏢 KIVURA LABS' :
-                                   '🏢 KIVURA LABS';
-                f.addTitle(companyTitle);
-                f.addParagraph(`**${COMPANY_INFO.name}** ${lang === 'rw' ? 'ni uruganda rw\'ikoranabuhanga rushinzwe na' :
-                                                             lang === 'fr' ? 'est une entreprise technologique fondée par' :
-                                                             'is a technology company founded by'} **${COMPANY_INFO.founder}** ${lang === 'rw' ? 'mu Rwanda.' : lang === 'fr' ? 'au Rwanda.' : 'in Rwanda.'}`);
-                f.addParagraph(`${lang === 'rw' ? 'Ijambo rye rikomeye:' : lang === 'fr' ? 'Sa devise est:' : 'Its motto is:'} *"${COMPANY_INFO.quote}"*`);
-                f.addList([
-                    `${lang === 'rw' ? '👤 **CEO & Founder:**' : lang === 'fr' ? '👤 **CEO & Fondateur:**' : '👤 **CEO & Founder:**'} ${COMPANY_INFO.founder}`,
-                    `${lang === 'rw' ? '📅 **Yashinzwe:**' : lang === 'fr' ? '📅 **Fondée en:**' : '📅 **Founded:**'} 2024`,
-                    `${lang === 'rw' ? '🌍 **Aho iri:**' : lang === 'fr' ? '🌍 **Localisation:**' : '🌍 **Location:**'} Rwanda`,
-                    `${lang === 'rw' ? '💡 **Intego:**' : lang === 'fr' ? '💡 **Objectif:**' : '💡 **Mission:**'} ${lang === 'rw' ? 'Guteza imbere AI mu Kinyarwanda no gufasha abantu mu buzima bwo mu mutwe' :
-                                                                               lang === 'fr' ? 'Développer l\'IA en Kinyarwanda et aider les gens en santé mentale' :
-                                                                               'Advance AI in Kinyarwanda and help people with mental health'}`,
-                    `${lang === 'rw' ? '📌 **Tagline:**' : lang === 'fr' ? '📌 **Slogan:**' : '📌 **Tagline:**'} ${content.tagline}`
-                ]);
-                f.addProverb(Object.keys(content.proverbs)[0], Object.values(content.proverbs)[0]);
-                f.addEmphasis(lang === 'rw' ? 'Niba ufite ikindi ushaka kumenya ku KIVURA LABS, wambwira?' :
-                             lang === 'fr' ? 'Si vous voulez en savoir plus sur KIVURA LABS, dites-moi?' :
-                             'If you want to know more about KIVURA LABS, tell me?', "italic");
+                const f = TYAZA_DATASET.emotions.about_company.generate();
                 return {
                     sections: f.build(),
                     html: f.renderHTML(),
@@ -2465,82 +2421,7 @@
 
             // Handle CEO questions
             if (detection && detection.type === 'about_ceo') {
-                const f = new AIResponseFormatter(lang);
-                const ceoTitle = lang === 'rw' ? '👤 Yves Hirwa Tuyishime' :
-                               lang === 'fr' ? '👤 Yves Hirwa Tuyishime' :
-                               '👤 Yves Hirwa Tuyishime';
-                f.addTitle(ceoTitle);
-                f.addParagraph(`**${COMPANY_INFO.founder}** ${lang === 'rw' ? 'ni we washinze **KIVURA LABS** kandi ni CEO wacyo.' :
-                                                           lang === 'fr' ? 'est le fondateur de **KIVURA LABS** et son CEO.' :
-                                                           'is the founder of **KIVURA LABS** and its CEO.'}`);
-                f.addParagraph(`${lang === 'rw' ? 'Ijambo rye rikomeye:' : lang === 'fr' ? 'Sa devise est:' : 'His motto is:'} *"${COMPANY_INFO.quote}"*`);
-                f.addList([
-                    `${lang === 'rw' ? '👤 **Izina:**' : lang === 'fr' ? '👤 **Nom:**' : '👤 **Name:**'} ${COMPANY_INFO.founder}`,
-                    `${lang === 'rw' ? '🏢 **Position:**' : lang === 'fr' ? '🏢 **Poste:**' : '🏢 **Position:**'} ${lang === 'rw' ? 'CEO & Founder wa KIVURA LABS' : lang === 'fr' ? 'CEO & Fondateur de KIVURA LABS' : 'CEO & Founder of KIVURA LABS'}`,
-                    `${lang === 'rw' ? '💡 **Product:**' : lang === 'fr' ? '💡 **Produit:**' : '💡 **Product:**'} ${COMPANY_INFO.product}`,
-                    `${lang === 'rw' ? '📌 **Quote:**' : lang === 'fr' ? '📌 **Citation:**' : '📌 **Quote:**'} "${COMPANY_INFO.quote}"`,
-                    `${lang === 'rw' ? '🌍 **Aho akorera:**' : lang === 'fr' ? '🌍 **Où il travaille:**' : '🌍 **Location:**'} Rwanda`
-                ]);
-                f.addProverb(Object.keys(content.proverbs)[0], Object.values(content.proverbs)[0]);
-                f.addEmphasis(lang === 'rw' ? 'Niba wifuza kumenya byinshi kuri Yves Hirwa Tuyishime, wambwira?' :
-                             lang === 'fr' ? 'Si vous voulez en savoir plus sur Yves Hirwa Tuyishime, dites-moi?' :
-                             'If you want to know more about Yves Hirwa Tuyishime, tell me?', "italic");
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null
-                };
-            }
-
-            // Handle greeting
-            if (detection && detection.type === 'greeting') {
-                const f = new AIResponseFormatter(lang);
-                const userName = state.userName || null;
-                
-                if (userName) {
-                    const greetingText = lang === 'rw' ? `✨ Muraho, ${userName}!` :
-                                       lang === 'fr' ? `✨ Bonjour, ${userName}!` :
-                                       `✨ Hello, ${userName}!`;
-                    f.addTitle(greetingText);
-                } else {
-                    const greetingText = lang === 'rw' ? '✨ Muraho!' :
-                                       lang === 'fr' ? '✨ Bonjour!' :
-                                       '✨ Hello!';
-                    f.addTitle(greetingText);
-                }
-                
-                f.addParagraph(lang === 'rw' ? 'Murakaza neza kuri **TYAZA**, umuvugizi w\'umutima.' :
-                              lang === 'fr' ? 'Bienvenue sur **TYAZA**, la voix du cœur.' :
-                              'Welcome to **TYAZA**, the voice of the heart.');
-                f.addParagraph(`${lang === 'rw' ? 'TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**.' :
-                               lang === 'fr' ? 'TYAZA a été créé par **KIVURA LABS**, une entreprise fondée par **Yves Hirwa Tuyishime**.' :
-                               'TYAZA was created by **KIVURA LABS**, a company founded by **Yves Hirwa Tuyishime**.'}`);
-                f.addParagraph(`${lang === 'rw' ? 'Ijambo rye ni:' : lang === 'fr' ? 'Sa devise est:' : 'His motto is:'} *"${COMPANY_INFO.quote}"*`);
-                
-                const proverbs = Object.keys(content.proverbs);
-                const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-                f.addProverb(randomProverb, content.proverbs[randomProverb]);
-                
-                if (!userName) {
-                    f.addParagraph(lang === 'rw' ? 'Niba ushaka, wambwira izina ryawe kugira ngo tubane mu buryo bw\'umuntu ku muntu?' :
-                                  lang === 'fr' ? 'Si vous voulez, vous pouvez me donner votre nom pour qu\'on se parle plus personnellement?' :
-                                  'If you want, you can tell me your name so we can talk more personally?');
-                }
-                
-                f.addList([
-                    lang === 'rw' ? 'Ubu wumva ute?' :
-                    lang === 'fr' ? 'Comment vous sentez-vous maintenant?' :
-                    'How are you feeling now?',
-                    lang === 'rw' ? 'Ni iki kiri ku mutima wawe?' :
-                    lang === 'fr' ? 'Qu\'est-ce qui est sur votre cœur?' :
-                    'What\'s on your mind?'
-                ]);
-                
-                f.addEmphasis(lang === 'rw' ? 'Ndi hano kugira nkugire.' :
-                             lang === 'fr' ? 'Je suis là pour vous.' :
-                             'I\'m here for you.', "italic");
-                f.addEmphasis(content.tagline, "italic");
+                const f = TYAZA_DATASET.emotions.about_ceo.generate();
                 return {
                     sections: f.build(),
                     html: f.renderHTML(),
@@ -2550,117 +2431,52 @@
             }
 
             // Handle emotions
-            if (detection && detection.type) {
-                const f = new AIResponseFormatter(lang);
-                const userName = state.userName || '';
-                const namePrefix = userName ? `${userName}, ` : '';
-
-                const emotionResponses = {
-                    sadness: {
-                        title: lang === 'rw' ? '💙 Mbabajwe no kumva ko ubabaye.' :
-                               lang === 'fr' ? '💙 Je suis désolé d\'apprendre que vous êtes triste.' :
-                               '💙 I\'m sorry to hear that you\'re sad.',
-                        proverb: Object.keys(content.proverbs)[0],
-                        questions: lang === 'rw' ? ['Wambwira byinshi kuri byo?', 'Ni iki gishobora kugufasha kumva neza?'] :
-                                  lang === 'fr' ? ['Pouvez-vous m\'en dire plus?', 'Qu\'est-ce qui pourrait vous aider à vous sentir mieux?'] :
-                                  ['Can you tell me more about it?', 'What could help you feel better?']
-                    },
-                    joy: {
-                        title: lang === 'rw' ? '✨ Ni byiza cyane kumva wishimye!' :
-                              lang === 'fr' ? '✨ C\'est merveilleux de vous savoir heureux!' :
-                              '✨ It\'s wonderful to hear you\'re happy!',
-                        proverb: Object.keys(content.proverbs)[1] || Object.keys(content.proverbs)[0],
-                        questions: lang === 'rw' ? ['Ni iki cyaguteye ibyishimo?', 'Wifuza kubiganiraho byinshi?'] :
-                                  lang === 'fr' ? ['Qu\'est-ce qui vous rend heureux?', 'Voulez-vous en parler plus?'] :
-                                  ['What made you happy?', 'Do you want to talk more about it?']
-                    },
-                    anger: {
-                        title: lang === 'rw' ? '🔥 Birumvikana ko urakaye.' :
-                              lang === 'fr' ? '🔥 Je comprends que vous êtes en colère.' :
-                              '🔥 It\'s understandable that you\'re angry.',
-                        proverb: Object.keys(content.proverbs)[2] || Object.keys(content.proverbs)[0],
-                        questions: lang === 'rw' ? ['Ni iki cyaguteye uburakari?', 'Waba wifuza kuvuga byinshi kuri byo?'] :
-                                  lang === 'fr' ? ['Qu\'est-ce qui vous a mis en colère?', 'Voulez-vous en parler plus?'] :
-                                  ['What made you angry?', 'Do you want to talk more about it?']
-                    },
-                    anxiety: {
-                        title: lang === 'rw' ? '😰 Ndumva ufite ubwoba.' :
-                              lang === 'fr' ? '😰 Je sens que vous êtes anxieux.' :
-                              '😰 I sense you\'re feeling anxious.',
-                        proverb: Object.keys(content.proverbs)[3] || Object.keys(content.proverbs)[0],
-                        questions: lang === 'rw' ? ['Ni iki kiguteye ubwoba?', 'Hari ikintu cyihariye kiguhangayikishije?'] :
-                                  lang === 'fr' ? ['Qu\'est-ce qui vous fait peur?', 'Y a-t-il quelque chose de particulier qui vous inquiète?'] :
-                                  ['What\'s making you afraid?', 'Is there something specific that\'s worrying you?']
-                    },
-                    loneliness: {
-                        title: lang === 'rw' ? '🕊️ Kumva uri wenyine biraremereye.' :
-                              lang === 'fr' ? '🕊️ Se sentir seul est difficile.' :
-                              '🕊️ Feeling alone is hard.',
-                        proverb: Object.keys(content.proverbs)[4] || Object.keys(content.proverbs)[0],
-                        questions: lang === 'rw' ? ['Waba wifuza kuganira n\'umuntu?', 'Cyangwa gusangira ibyo wumva?'] :
-                                  lang === 'fr' ? ['Voulez-vous parler à quelqu\'un?', 'Ou partager ce que vous ressentez?'] :
-                                  ['Do you want to talk to someone?', 'Or share what you\'re feeling?']
-                    },
-                    fatigue: {
-                        title: lang === 'rw' ? '😓 Ndumva ufite umunaniro.' :
-                              lang === 'fr' ? '😓 Je sens que vous êtes fatigué.' :
-                              '😓 I sense you\'re tired.',
-                        proverb: Object.keys(content.proverbs)[5] || Object.keys(content.proverbs)[0],
-                        questions: lang === 'rw' ? ['Ni iki cyaguteye kurambirwa?', 'Waba wararuhutse bihagije?'] :
-                                  lang === 'fr' ? ['Qu\'est-ce qui vous a épuisé?', 'Avez-vous assez reposé?'] :
-                                  ['What\'s been draining you?', 'Have you been resting enough?']
-                    }
+            if (detection && detection.type && TYAZA_DATASET.emotions[detection.type]) {
+                const f = TYAZA_DATASET.emotions[detection.type].generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
                 };
-
-                const response = emotionResponses[detection.type];
-                if (response) {
-                    f.addTitle(response.title);
-                    f.addParagraph(`${namePrefix}${lang === 'rw' ? 'Ndumva ibyo uvuga.' : lang === 'fr' ? 'Je comprends ce que vous dites.' : 'I hear what you\'re saying.'}`);
-                    f.addProverb(response.proverb, content.proverbs[response.proverb]);
-                    f.addList(response.questions);
-                    f.addEmphasis(lang === 'rw' ? 'Ndi hano kugira nkugire.' :
-                                 lang === 'fr' ? 'Je suis là pour vous.' :
-                                 'I\'m here for you.', "italic");
-                    return {
-                        sections: f.build(),
-                        html: f.renderHTML(),
-                        markdown: f.renderMarkdown(),
-                        userName: null
-                    };
-                }
             }
 
-            // Generic response
-            const f = new AIResponseFormatter(lang);
+            // Generic response with company context and mission
+            const f = new AIResponseFormatter();
             const userName = state.userName || '';
             const namePrefix = userName ? `${userName}, ` : '';
 
-            const genericTitle = lang === 'rw' ? '💙 Urakoze kundekera' :
-                               lang === 'fr' ? '💙 Merci de me parler' :
-                               '💙 Thank you for talking to me';
-            f.addTitle(genericTitle);
-            f.addParagraph(`${namePrefix}${lang === 'rw' ? 'Ndumva ibyo uvuga.' : lang === 'fr' ? 'Je comprends ce que vous dites.' : 'I hear what you\'re saying.'}`);
-            f.addParagraph(`${lang === 'rw' ? 'TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**.' :
-                           lang === 'fr' ? 'TYAZA a été créé par **KIVURA LABS**, une entreprise fondée par **Yves Hirwa Tuyishime**.' :
-                           'TYAZA was created by **KIVURA LABS**, a company founded by **Yves Hirwa Tuyishime**.'}`);
-            f.addParagraph(`${lang === 'rw' ? 'Ijambo rye ni:' : lang === 'fr' ? 'Sa devise est:' : 'His motto is:'} *"${COMPANY_INFO.quote}"*`);
+            f.addTitle("💙 Urakoze kundekera");
+            f.addParagraph(`${namePrefix}Ndumva ibyo uvuga. TYAZA ni AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.`);
+            f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**. Ijambo rye ni: *"${COMPANY_INFO.quote}"*.`);
+            f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
 
-            const proverbs = Object.keys(content.proverbs);
+            const proverbs = Object.keys(TYAZA_DATASET.proverbs);
             const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-            f.addProverb(randomProverb, content.proverbs[randomProverb]);
+            f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
 
-            let questions = lang === 'rw' ? ['Wumva ute ubu?', 'Wambwira byinshi kuri byo?'] :
-                          lang === 'fr' ? ['Comment vous sentez-vous maintenant?', 'Pouvez-vous m\'en dire plus?'] :
-                          ['How are you feeling now?', 'Can you tell me more about that?'];
+            let questions = [
+                "Wumva ute ubu?",
+                "Wambwira byinshi kuri byo?"
+            ];
 
             if (state.messages.length > 3) {
-                const followUps = content.followUpQuestions || LANGUAGE_CONTENT.rw.followUpQuestions;
+                const followUps = TYAZA_DATASET.followUpQuestions;
                 const randomFollowUp = followUps[Math.floor(Math.random() * followUps.length)];
                 questions.push(randomFollowUp);
             }
 
+            if (state.messages.some(m => 
+                m.role === 'user' && 
+                ['ubwoba', 'guhangayika', 'ndatinya', 'stress'].some(w => m.content.toLowerCase().includes(w))
+            )) {
+                const techniques = TYAZA_DATASET.calmingTechniques;
+                const randomTechnique = techniques[Math.floor(Math.random() * techniques.length)];
+                f.addParagraph(`💡 Gerageza: ${randomTechnique}`);
+            }
+
             f.addList(questions);
-            f.addEmphasis(content.tagline, "italic");
+            f.addEmphasis(TYAZA_MISSION.tagline, "italic");
 
             return {
                 sections: f.build(),
@@ -2695,9 +2511,9 @@
             utterance.rate = state.settings.rate;
             utterance.pitch = state.settings.pitch;
             
-            // Set language
+            // Set language based on detected language
             const langMap = { rw: 'rw-RW', fr: 'fr-FR', en: 'en-US' };
-            utterance.lang = langMap[state.settings.language] || 'rw-RW';
+            utterance.lang = langMap[state.detectedLanguage] || 'rw-RW';
             
             state.speechSynthesis.speak(utterance);
         }
@@ -2708,17 +2524,12 @@
             state.speechRecognition = new SR();
             state.speechRecognition.continuous = false;
             state.speechRecognition.interimResults = true;
-            
-            const langMap = { rw: 'rw-RW', fr: 'fr-FR', en: 'en-US' };
-            state.speechRecognition.lang = langMap[state.settings.language] || 'rw-RW';
+            state.speechRecognition.lang = 'rw-RW';
 
             state.speechRecognition.onstart = () => {
                 state.isListening = true;
                 document.getElementById('voiceBtn').classList.add('listening');
-                const statusText = state.settings.language === 'rw' ? '🎤 Mvuga none...' :
-                                 state.settings.language === 'fr' ? '🎤 Parlez maintenant...' :
-                                 '🎤 Speak now...';
-                document.getElementById('voiceStatus').textContent = statusText;
+                document.getElementById('voiceStatus').textContent = '🎤 Mvuga none...';
             };
 
             state.speechRecognition.onend = () => {
@@ -2752,45 +2563,18 @@
         const hasSpeech = initSpeechRecognition();
 
         // ============================================================
-        // UI HELPERS - Multi-language
+        // UI HELPERS
         // ============================================================
         function updateWelcome() {
-            const lang = state.settings.language;
-            const content = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
             const name = state.userName || '';
+            const lang = state.detectedLanguage || 'rw';
+            const content = getLangContent(lang);
             
-            document.getElementById('welcomeSubtitle').textContent = content.welcome.subtitle;
-            document.getElementById('welcomeQuote').innerHTML = `<em>${content.welcome.quote}</em>`;
-            document.getElementById('welcomeGreeting').textContent = name ? `${content.welcome.greeting}, ${name}` : content.welcome.greeting;
+            document.getElementById('welcomeGreeting').textContent = name ? `${content.greeting}, ${name}` : content.greeting;
             document.getElementById('welcomeGreeting').style.opacity = '1';
-            document.getElementById('messageInput').placeholder = content.welcome.inputPlaceholder;
-            document.getElementById('scrollBottom').innerHTML = `<i class="fas fa-arrow-down"></i> ${content.welcome.scrollBottom}`;
-            document.getElementById('statusText').textContent = content.welcome.status;
-
-            // Update suggestions
-            const suggestions = document.getElementById('suggestions');
-            const suggestionBtns = suggestions.querySelectorAll('.suggestion-btn');
-            const suggestionTexts = [
-                content.welcome.suggestions.talk,
-                content.welcome.suggestions.problems,
-                content.welcome.suggestions.support,
-                content.welcome.suggestions.better,
-                content.welcome.suggestions.name
-            ];
-            suggestionBtns.forEach((btn, i) => {
-                if (suggestionTexts[i]) {
-                    const emoji = btn.textContent.match(/^[^\s]+/);
-                    btn.innerHTML = emoji ? `${emoji[0]} ${suggestionTexts[i].replace(/^[^\s]+\s*/, '')}` : suggestionTexts[i];
-                    btn.dataset.prompt = suggestionTexts[i].replace(/^[^\s]+\s*/, '');
-                }
-            });
-
-            // Update sidebar
-            document.querySelector('.sidebar-section-title').textContent = content.memory;
-            document.querySelectorAll('.sidebar-section-title')[1].textContent = content.voice;
-            document.querySelectorAll('.sidebar-section-title')[2].textContent = content.history;
-            document.querySelector('.new-chat-btn').innerHTML = `✨ ${content.welcome.newChat}`;
-            document.querySelector('.sidebar-close').innerHTML = '<i class="fas fa-times"></i>';
+            document.getElementById('messageInput').placeholder = content.placeholder;
+            document.getElementById('scrollBottom').innerHTML = `<i class="fas fa-arrow-down"></i> ${content.scrollBottom}`;
+            document.getElementById('statusText').textContent = content.status;
         }
 
         function handleInput() {
@@ -2861,7 +2645,7 @@
                                     <i class="fas fa-volume-up"></i>
                                 </button>
                             ` : ''}
-                            <button class="msg-action" onclick="navigator.clipboard.writeText('${content.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}'); showToast('${state.settings.language === 'rw' ? 'Ibyakiriwe!' : state.settings.language === 'fr' ? 'Copié!' : 'Copied!}', 'success')">
+                            <button class="msg-action" onclick="navigator.clipboard.writeText('${content.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}'); showToast('Ibyakiriwe!', 'success')">
                                 <i class="fas fa-copy"></i>
                             </button>
                         </div>
@@ -2894,14 +2678,30 @@
             input.style.height = 'auto';
             document.getElementById('sendBtn').disabled = true;
 
-            const lang = state.settings.language;
-            const risks = analyzeRisks(text, lang);
+            // AUTO-DETECT LANGUAGE from user input
+            state.detectedLanguage = detectLanguage(text);
+            updateWelcome();
+
+            const risks = analyzeRisks(text);
             state.riskFlags = risks;
             updateRiskIndicators(risks);
 
-            const detection = detectEmotion(text, lang);
+            const result = generateResponse(text);
+
+            if (result.userName) {
+                state.userName = result.userName;
+                storageSet('userName', state.userName);
+                updateWelcome();
+                updateMemoryStats();
+                addMessage('user', text);
+                addMessage('assistant', result.markdown, result.html);
+                showToast(`✨ Murakaza neza, ${state.userName}!`, 'success');
+                document.getElementById('sendBtn').disabled = false;
+                return;
+            }
+
+            const detection = detectEmotion(text);
             if (detection && detection.type === 'crisis') {
-                const result = generateResponse(text, lang);
                 addMessage('user', text);
                 addMessage('assistant', result.markdown, result.html);
                 showCrisisModal();
@@ -2910,67 +2710,18 @@
             }
 
             addMessage('user', text);
-
             const typingId = showTyping();
             state.isGenerating = true;
-            const statusText = lang === 'rw' ? 'TYAZA irategura...' :
-                             lang === 'fr' ? 'TYAZA prépare une réponse...' :
-                             'TYAZA is preparing...';
-            document.getElementById('statusText').textContent = statusText;
+            document.getElementById('statusText').textContent = 'TYAZA irategura...';
 
-            try {
-                let result;
-                if (state.useAI && typeof puter !== 'undefined') {
-                    result = await getPuterAIResponse(text, lang);
-                } else {
-                    result = generateResponse(text, lang);
-                }
-
+            setTimeout(() => {
                 removeTyping(typingId);
-
-                if (result && result.html) {
-                    addMessage('assistant', result.markdown || text, result.html);
-                } else {
-                    const f = new AIResponseFormatter(lang);
-                    const genericTitle = lang === 'rw' ? '💙 TYAZA' :
-                                       lang === 'fr' ? '💙 TYAZA' :
-                                       '💙 TYAZA';
-                    f.addTitle(genericTitle);
-                    f.addParagraph(lang === 'rw' ? 'Ndumva ibyo uvuga.' :
-                                  lang === 'fr' ? 'Je comprends ce que vous dites.' :
-                                  'I hear what you\'re saying.');
-                    f.addParagraph(`${lang === 'rw' ? 'TYAZA yakozwe na **KIVURA LABS**.' :
-                                   lang === 'fr' ? 'TYAZA a été créé par **KIVURA LABS**.' :
-                                   'TYAZA was created by **KIVURA LABS**.'}`);
-                    const proverbs = Object.keys(LANGUAGE_CONTENT[lang].proverbs);
-                    const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-                    f.addProverb(randomProverb, LANGUAGE_CONTENT[lang].proverbs[randomProverb]);
-                    f.addList(lang === 'rw' ? ['Wumva ute ubu?', 'Wambwira byinshi kuri byo?'] :
-                             lang === 'fr' ? ['Comment vous sentez-vous maintenant?', 'Pouvez-vous m\'en dire plus?'] :
-                             ['How are you feeling now?', 'Can you tell me more about that?']);
-                    f.addEmphasis(LANGUAGE_CONTENT[lang].tagline, "italic");
-                    addMessage('assistant', f.renderMarkdown(), f.renderHTML());
-                }
-
-            } catch (error) {
-                console.error('Send error:', error);
-                removeTyping(typingId);
-                const f = new AIResponseFormatter(lang);
-                f.addTitle(lang === 'rw' ? '💙 TYAZA' : '💙 TYAZA');
-                f.addParagraph(lang === 'rw' ? 'Hari ikibazo. Reka tugerageze bundi.' :
-                              lang === 'fr' ? 'Un problème est survenu. Réessayons.' :
-                              'Something went wrong. Let\'s try again.');
-                f.addEmphasis(lang === 'rw' ? 'Ubu wumva ute?' :
-                             lang === 'fr' ? 'Comment vous sentez-vous maintenant?' :
-                             'How are you feeling now?', "italic");
-                addMessage('assistant', f.renderMarkdown(), f.renderHTML());
-            }
-
-            state.isGenerating = false;
-            document.getElementById('sendBtn').disabled = false;
-            document.getElementById('statusText').textContent = LANGUAGE_CONTENT[lang].welcome.status;
-            updateMemoryStats();
-            document.getElementById('messageInput').focus();
+                addMessage('assistant', result.markdown, result.html);
+                state.isGenerating = false;
+                document.getElementById('sendBtn').disabled = false;
+                document.getElementById('statusText').textContent = getLangContent(state.detectedLanguage).status;
+                updateMemoryStats();
+            }, 600);
         }
 
         // ============================================================
@@ -2984,7 +2735,7 @@
                 title: title,
                 messages: state.messages.slice(-20),
                 timestamp: Date.now(),
-                language: state.settings.language
+                language: state.detectedLanguage
             };
 
             const convs = storageGetAll('conversations');
@@ -3001,14 +2752,12 @@
         function renderHistory() {
             const convs = storageGetAll('conversations');
             const list = document.getElementById('historyList');
-            const lang = state.settings.language;
-            const content = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
 
             if (convs.length === 0) {
                 list.innerHTML = `
                     <div class="history-empty">
                         <i class="fas fa-history"></i>
-                        <span>${content.welcome.noHistory}</span>
+                        <span>Nta mateka</span>
                     </div>
                 `;
                 return;
@@ -3022,7 +2771,7 @@
                         <div class="history-title">${escapeHtml(c.title || 'Ikiganiro')}</div>
                         <div class="history-meta">
                             <span>${formatTime(c.timestamp)}</span>
-                            <span>${c.messages ? c.messages.length : 0} ${lang === 'rw' ? 'ubutumwa' : lang === 'fr' ? 'messages' : 'messages'}</span>
+                            <span>${c.messages ? c.messages.length : 0} ubutumwa</span>
                         </div>
                     </div>
                 `).join('');
@@ -3031,10 +2780,7 @@
                 item.addEventListener('click', () => loadChat(item.dataset.id));
                 item.addEventListener('contextmenu', (e) => {
                     e.preventDefault();
-                    const confirmText = lang === 'rw' ? 'Hanagura iki kiganiro?' :
-                                      lang === 'fr' ? 'Supprimer cette conversation?' :
-                                      'Delete this conversation?';
-                    if (confirm(confirmText)) {
+                    if (confirm('Hanagura iki kiganiro?')) {
                         deleteChat(item.dataset.id);
                     }
                 });
@@ -3067,8 +2813,7 @@
             state.currentId = chat.id;
             state.messages = chat.messages || [];
             if (chat.language) {
-                state.settings.language = chat.language;
-                updateLanguageUI();
+                state.detectedLanguage = chat.language;
             }
 
             const messagesContainer = document.getElementById('messages');
@@ -3101,7 +2846,7 @@
                                             <i class="fas fa-volume-up"></i>
                                         </button>
                                     ` : ''}
-                                    <button class="msg-action" onclick="navigator.clipboard.writeText('${escaped.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}'); showToast('${state.settings.language === 'rw' ? 'Ibyakiriwe!' : state.settings.language === 'fr' ? 'Copié!' : 'Copied!}', 'success')">
+                                    <button class="msg-action" onclick="navigator.clipboard.writeText('${escaped.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}'); showToast('Ibyakiriwe!', 'success')">
                                         <i class="fas fa-copy"></i>
                                     </button>
                                 </div>
@@ -3115,6 +2860,7 @@
             scrollToBottom();
             renderHistory();
             updateMemoryStats();
+            updateWelcome();
             closeSidebar();
         }
 
@@ -3124,10 +2870,7 @@
                 newChat();
             }
             renderHistory();
-            const msg = state.settings.language === 'rw' ? 'Ikiganiro kihanaguwe' :
-                       state.settings.language === 'fr' ? 'Conversation supprimée' :
-                       'Conversation deleted';
-            showToast(msg, 'success');
+            showToast('Ikiganiro kihanaguwe', 'success');
         }
 
         function newChat() {
@@ -3150,25 +2893,15 @@
         }
 
         function clearHistory() {
-            const lang = state.settings.language;
-            const confirmText = lang === 'rw' ? 'Hanagura amateka yose?' :
-                              lang === 'fr' ? 'Effacer tout l\'historique?' :
-                              'Clear all history?';
-            if (!confirm(confirmText)) return;
+            if (!confirm('Hanagura amateka yose?')) return;
             storageClear('conversations');
             newChat();
-            const msg = lang === 'rw' ? 'Amateka yahanaguwe' :
-                       lang === 'fr' ? 'Historique effacé' :
-                       'History cleared';
-            showToast(msg, 'success');
+            showToast('Amateka yahanaguwe', 'success');
         }
 
         function exportChat() {
             if (state.messages.length === 0) {
-                const msg = state.settings.language === 'rw' ? 'Nta kiganiro cyohereza' :
-                           state.settings.language === 'fr' ? 'Aucune conversation à exporter' :
-                           'No conversation to export';
-                showToast(msg, 'warning');
+                showToast('Nta kiganiro cyohereza', 'warning');
                 return;
             }
             const data = {
@@ -3181,7 +2914,8 @@
                 risks: state.riskFlags,
                 profile: getUserProfile(),
                 company: COMPANY_INFO,
-                language: state.settings.language
+                mission: TYAZA_MISSION,
+                detectedLanguage: state.detectedLanguage
             };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -3192,10 +2926,7 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            const msg = state.settings.language === 'rw' ? 'Ikiganiro cyoherejwe ✨' :
-                       state.settings.language === 'fr' ? 'Conversation exportée ✨' :
-                       'Conversation exported ✨';
-            showToast(msg, 'success');
+            showToast('Ikiganiro cyoherejwe ✨', 'success');
         }
 
         // ============================================================
@@ -3212,48 +2943,11 @@
         }
 
         // ============================================================
-        // LANGUAGE TOGGLE
-        // ============================================================
-        function setLanguage(lang) {
-            if (lang === state.settings.language) return;
-            state.settings.language = lang;
-            storageSet('settings', state.settings);
-            updateLanguageUI();
-            updateWelcome();
-            
-            const msg = lang === 'rw' ? '🇷🇼 Kinyarwanda' :
-                       lang === 'fr' ? '🇫🇷 Français' :
-                       '🇬🇧 English';
-            showToast(`${msg} ✓`, 'success');
-        }
-
-        function updateLanguageUI() {
-            const lang = state.settings.language;
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.lang === lang);
-            });
-            
-            // Update speech recognition language
-            if (state.speechRecognition) {
-                const langMap = { rw: 'rw-RW', fr: 'fr-FR', en: 'en-US' };
-                state.speechRecognition.lang = langMap[lang] || 'rw-RW';
-            }
-        }
-
-        // ============================================================
         // MOOD
         // ============================================================
         function openMoodModal() {
             document.getElementById('moodModal').classList.add('active');
             renderMoodCalendar();
-            const lang = state.settings.language;
-            const content = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
-            document.querySelector('#moodModal .modal-title').textContent = content.welcome.moods.title;
-            document.querySelector('#moodModal p').textContent = content.welcome.moods.prompt;
-            document.getElementById('saveMoodBtn').innerHTML = `<i class="fas fa-save"></i> ${content.welcome.moods.save}`;
-            document.querySelector('#moodModal .mood-notes').placeholder = lang === 'rw' ? 'Andika icyo uhererwa...' :
-                                                                          lang === 'fr' ? 'Écrivez ce que vous ressentez...' :
-                                                                          'Write what you\'re feeling...';
         }
 
         function closeMoodModal() {
@@ -3265,30 +2959,21 @@
         function saveMood() {
             const selected = document.querySelector('#moodScale .mood-btn.selected');
             if (!selected) {
-                const msg = state.settings.language === 'rw' ? 'Hitamo uko wumva' :
-                           state.settings.language === 'fr' ? 'Choisissez comment vous vous sentez' :
-                           'Select how you feel';
-                showToast(msg, 'warning');
+                showToast('Hitamo uko wumva', 'warning');
                 return;
             }
             const mood = parseInt(selected.dataset.mood);
             const notes = document.getElementById('moodNotes').value.trim();
-            storageAdd('moodData', { mood, notes, timestamp: Date.now(), language: state.settings.language });
-            const msg = state.settings.language === 'rw' ? 'Byabitswe! ✨' :
-                       state.settings.language === 'fr' ? 'Enregistré! ✨' :
-                       'Saved! ✨';
-            showToast(msg, 'success');
+            storageAdd('moodData', { mood, notes, timestamp: Date.now(), language: state.detectedLanguage });
+            showToast('Byabitswe! ✨', 'success');
             closeMoodModal();
             renderMoodCalendar();
             updateMemoryStats();
         }
 
         function quickMood(mood) {
-            storageAdd('moodData', { mood: parseInt(mood), notes: '', quick: true, timestamp: Date.now(), language: state.settings.language });
-            const msg = state.settings.language === 'rw' ? 'Uko wumva byabitswe! 💛' :
-                       state.settings.language === 'fr' ? 'Humeur enregistrée! 💛' :
-                       'Mood saved! 💛';
-            showToast(msg, 'success');
+            storageAdd('moodData', { mood: parseInt(mood), notes: '', quick: true, timestamp: Date.now(), language: state.detectedLanguage });
+            showToast('Uko wumva byabitswe! 💛', 'success');
             document.querySelectorAll('#moodQuick .mood-btn-small').forEach(b => {
                 b.classList.toggle('active', b.dataset.mood === mood);
             });
@@ -3299,10 +2984,7 @@
             const moods = storageGetAll('moodData');
             const cutoff = Date.now() - (7 * 86400000);
             const weekMoods = moods.filter(m => m.timestamp >= cutoff).sort((a, b) => a.timestamp - b.timestamp);
-            const lang = state.settings.language;
-            const days = lang === 'rw' ? ['Ku', 'Ma', 'We', 'Ku', 'Ke', 'Sa', 'Ku'] :
-                        lang === 'fr' ? ['Lu', 'Ma', 'Me', 'Je', 'Ve', 'Sa', 'Di'] :
-                        ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
+            const days = ['Ku', 'Ma', 'We', 'Ku', 'Ke', 'Sa', 'Ku'];
             let html = days.map(d => `<div class="mood-day-label">${d}</div>`).join('');
 
             for (let i = 6; i >= 0; i--) {
@@ -3312,7 +2994,7 @@
                 const dayEnd = dayStart + 86400000;
                 const dayMoods = weekMoods.filter(m => m.timestamp >= dayStart && m.timestamp < dayEnd);
                 const avg = dayMoods.length ? Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods.length) : 0;
-                html += `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString(lang === 'rw' ? 'rw-RW' : lang === 'fr' ? 'fr-FR' : 'en-US')}">${date.getDate()}</div>`;
+                html += `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString('rw-RW')}">${date.getDate()}</div>`;
             }
             document.getElementById('moodCalendar').innerHTML = html;
         }
@@ -3322,12 +3004,6 @@
         // ============================================================
         function showCrisisModal() {
             document.getElementById('crisisModal').classList.add('active');
-            const lang = state.settings.language;
-            const content = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
-            document.querySelector('#crisisModal .modal-title').textContent = content.welcome.crisis.title;
-            document.querySelector('#crisisModal p').innerHTML = `<strong>${content.welcome.crisis.desc}</strong>`;
-            document.getElementById('crisisLater').textContent = content.welcome.crisis.later;
-            document.getElementById('crisisNow').textContent = content.welcome.crisis.now;
         }
 
         function closeCrisisModal() {
@@ -3356,17 +3032,15 @@
         }
 
         function showVoiceDialog() {
-            const lang = state.settings.language;
-            const content = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
             const dialog = document.createElement('div');
             dialog.className = 'voice-dialog';
             dialog.innerHTML = `
                 <div class="voice-dialog-content">
-                    <h3>🎤 ${lang === 'rw' ? 'Vuga cyangwa andika' : lang === 'fr' ? 'Parlez ou tapez' : 'Speak or type'}</h3>
-                    <input type="text" id="voiceFallbackInput" placeholder="${content.welcome.inputPlaceholder}" autofocus>
+                    <h3>🎤 Vuga cyangwa andika</h3>
+                    <input type="text" id="voiceFallbackInput" placeholder="Andika cyangwa vuga..." autofocus>
                     <div style="display:flex;gap:8px;">
                         <button class="btn btn-primary" id="voiceFallbackSubmit" style="flex:1;">
-                            <i class="fas fa-paper-plane"></i> ${lang === 'rw' ? 'Ohereza' : lang === 'fr' ? 'Envoyer' : 'Send'}
+                            <i class="fas fa-paper-plane"></i> Ohereza
                         </button>
                         <button class="btn btn-secondary" id="voiceFallbackCancel">
                             <i class="fas fa-times"></i>
@@ -3405,34 +3079,21 @@
 
         async function testMic() {
             const btn = document.getElementById('micTestBtn');
-            const lang = state.settings.language;
-            btn.innerHTML = lang === 'rw' ? '⏳ ndategura...' :
-                          lang === 'fr' ? '⏳ préparation...' :
-                          '⏳ preparing...';
+            btn.innerHTML = '⏳ ndategura...';
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 stream.getTracks().forEach(t => t.stop());
-                const successMsg = lang === 'rw' ? '✅ yiteguye' :
-                                  lang === 'fr' ? '✅ prêt' :
-                                  '✅ ready';
-                btn.innerHTML = successMsg;
-                document.getElementById('voiceStatus').textContent = successMsg;
-                showToast(lang === 'rw' ? 'Mikorofoni yiteguye! 🎤' :
-                         lang === 'fr' ? 'Microphone prêt! 🎤' :
-                         'Microphone ready! 🎤', 'success');
+                btn.innerHTML = '✅ yiteguye';
+                document.getElementById('voiceStatus').textContent = '✅ Mikorofoni yiteguye';
+                showToast('Mikorofoni yiteguye! 🎤', 'success');
                 setTimeout(() => {
                     btn.innerHTML = '🎤 Gerageza mikorofoni';
                     document.getElementById('voiceStatus').textContent = '';
                 }, 2000);
             } catch {
-                const errorMsg = lang === 'rw' ? '❌ emerera' :
-                                lang === 'fr' ? '❌ erreur' :
-                                '❌ error';
-                btn.innerHTML = errorMsg;
-                document.getElementById('voiceStatus').textContent = errorMsg;
-                showToast(lang === 'rw' ? 'Emerge mikorofoni kugira ngo ukoreshe ijwi.' :
-                         lang === 'fr' ? 'Autorisez le microphone pour utiliser la voix.' :
-                         'Allow microphone to use voice.', 'error');
+                btn.innerHTML = '❌ emerera';
+                document.getElementById('voiceStatus').textContent = '❌ Emera mikorofoni';
+                showToast('Emerge mikorofoni kugira ngo ukoreshe ijwi.', 'error');
             }
         }
 
@@ -3443,75 +3104,71 @@
             const profile = getUserProfile();
             const modal = document.getElementById('profileModal');
             const content = document.getElementById('profileContent');
-            const lang = state.settings.language;
-            const contentText = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
 
             const moodEmojis = ['😢', '😔', '😐', '🙂', '😊'];
             const avgMoodText = profile.avgMood > 0 ?
                 `${moodEmojis[Math.round(profile.avgMood) - 1] || '😐'} ${profile.avgMood.toFixed(1)}/5` :
-                'N/A';
+                'Nta data';
 
             const recentMoodsHtml = profile.recentMoods.map(m => {
-                const date = new Date(m.timestamp).toLocaleDateString(lang === 'rw' ? 'rw-RW' : lang === 'fr' ? 'fr-FR' : 'en-US');
+                const date = new Date(m.timestamp).toLocaleDateString('rw-RW');
                 return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--surface4);">
                     <span>${date}</span>
                     <span>${moodEmojis[m.mood - 1] || '😐'} ${m.mood}/5</span>
                 </div>`;
             }).join('');
 
-            const stats = contentText.welcome.profile.stats;
-
             content.innerHTML = `
                 <div style="display:grid;gap:16px;">
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
                         <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;">
                             <div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${profile.sessionCount}</div>
-                            <div style="font-size:0.7rem;color:var(--text3);">${stats.sessions}</div>
+                            <div style="font-size:0.7rem;color:var(--text3);">Ibikorwa</div>
                         </div>
                         <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;">
                             <div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${profile.moodEntries}</div>
-                            <div style="font-size:0.7rem;color:var(--text3);">${stats.moods}</div>
+                            <div style="font-size:0.7rem;color:var(--text3);">Mood Entries</div>
                         </div>
                         <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;">
                             <div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${profile.activeDays}</div>
-                            <div style="font-size:0.7rem;color:var(--text3);">${stats.days}</div>
+                            <div style="font-size:0.7rem;color:var(--text3);">Iminsi ikora</div>
                         </div>
                         <div style="background:var(--surface3);padding:12px;border-radius:8px;text-align:center;">
                             <div style="font-size:1.5rem;font-weight:700;color:var(--primary);">${avgMoodText}</div>
-                            <div style="font-size:0.7rem;color:var(--text3);">${lang === 'rw' ? 'Uko yumva' : lang === 'fr' ? 'Humeur' : 'Mood'}</div>
+                            <div style="font-size:0.7rem;color:var(--text3);">Uko yumva</div>
                         </div>
                     </div>
 
                     ${profile.userName ? `
                         <div style="background:var(--surface3);padding:12px;border-radius:8px;">
-                            <div style="font-weight:600;color:var(--text2);">👤 ${lang === 'rw' ? 'Izina' : lang === 'fr' ? 'Nom' : 'Name'}</div>
+                            <div style="font-weight:600;color:var(--text2);">👤 Izina</div>
                             <div style="color:var(--text);">${profile.userName}</div>
                         </div>
                     ` : ''}
 
                     ${profile.triggers.length > 0 ? `
                         <div style="background:var(--surface3);padding:12px;border-radius:8px;">
-                            <div style="font-weight:600;color:var(--text2);">⚠️ ${lang === 'rw' ? 'Ibimubangamira' : lang === 'fr' ? 'Déclencheurs' : 'Triggers'}</div>
+                            <div style="font-weight:600;color:var(--text2);">⚠️ Ibimubangamira</div>
                             <div style="color:var(--text);">${profile.triggers.join(', ')}</div>
                         </div>
                     ` : ''}
 
                     ${profile.goals.length > 0 ? `
                         <div style="background:var(--surface3);padding:12px;border-radius:8px;">
-                            <div style="font-weight:600;color:var(--text2);">🎯 ${lang === 'rw' ? 'Intego' : lang === 'fr' ? 'Objectifs' : 'Goals'}</div>
+                            <div style="font-weight:600;color:var(--text2);">🎯 Intego</div>
                             <div style="color:var(--text);">${profile.goals.map(g => `• ${g}`).join('<br>')}</div>
                         </div>
                     ` : ''}
 
                     ${recentMoodsHtml ? `
                         <div style="background:var(--surface3);padding:12px;border-radius:8px;">
-                            <div style="font-weight:600;color:var(--text2);margin-bottom:8px;">📊 ${lang === 'rw' ? 'Imimerere iheruka' : lang === 'fr' ? 'Humeurs récentes' : 'Recent moods'}</div>
+                            <div style="font-weight:600;color:var(--text2);margin-bottom:8px;">📊 Imimerere iheruka</div>
                             ${recentMoodsHtml}
                         </div>
                     ` : ''}
 
                     <div style="background:var(--surface3);padding:12px;border-radius:8px;">
-                        <div style="font-weight:600;color:var(--text2);">📊 ${lang === 'rw' ? 'Ingirakamaro' : lang === 'fr' ? 'Engagement' : 'Engagement'}</div>
+                        <div style="font-weight:600;color:var(--text2);">📊 Ingirakamaro</div>
                         <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
                             <div style="flex:1;height:8px;background:var(--surface4);border-radius:4px;overflow:hidden;">
                                 <div style="width:${profile.engagement}%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:4px;"></div>
@@ -3529,7 +3186,7 @@
                             "Healthy citizens, wealthy nation"
                         </div>
                         <div style="font-size:0.7rem;color:var(--text4);margin-top:4px;">
-                            ${contentText.tagline}
+                            ${TYAZA_MISSION.tagline}
                         </div>
                     </div>
                 </div>
@@ -3539,31 +3196,32 @@
         }
 
         // ============================================================
-        // PUTER AI INTEGRATION - Multi-language
+        // PUTER AI INTEGRATION
         // ============================================================
-        async function getPuterAIResponse(userInput, lang = 'rw') {
+        async function getPuterAIResponse(userInput) {
             try {
-                if (typeof puter === 'undefined') return generateResponse(userInput, lang);
+                if (typeof puter === 'undefined') return generateResponse(userInput);
 
-                const detection = detectEmotion(userInput, lang);
+                const detection = detectEmotion(userInput);
                 let emotionContext = '';
                 if (detection && detection.type !== 'name') {
-                    emotionContext = lang === 'rw' ? `Umukoresha arumva ${detection.type}.` :
-                                   lang === 'fr' ? `L'utilisateur ressent ${detection.type}.` :
-                                   `User is feeling ${detection.type}.`;
+                    emotionContext = `Umukoresha arumva ${detection.type}.`;
                 }
 
-                const content = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
-                const proverbsList = Object.keys(content.proverbs).join(', ');
-                
-                const systemPrompt = `
+                // Auto-detect language for the AI
+                const lang = state.detectedLanguage || 'rw';
+                const langInstruction = lang === 'rw' ? 'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe.' :
+                                     lang === 'fr' ? 'Répondez en Français, avec empathie et chaleur.' :
+                                     'Respond in English, with empathy and warmth.';
+
+                const context = `
                     Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
                     ${emotionContext}
-                    Subiza mu ${lang === 'rw' ? 'Kinyarwanda' : lang === 'fr' ? 'Français' : 'English'} gikomeye, gishyuha, kandi gifite impuhwe.
-                    Koresha ${lang === 'rw' ? 'ikinyarwanda' : lang === 'fr' ? 'le français' : 'English'} kiboneye.
+                    ${langInstruction}
+                    Koresha ikinyarwanda kiboneye.
                     Jya ugira impuhwe zikomeye.
                     Ntutange inama z'ubuvuzi.
-                    Uzi izi migani: ${proverbsList}
+                    Uzi izi migani: ${Object.keys(TYAZA_DATASET.proverbs).join(', ')}
                     ${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}
                     ${state.messages.length > 0 ? `Ubwo ni ikiganiro cya ${state.messages.length + 1}.` : ''}
                     
@@ -3572,18 +3230,24 @@
                     - Ijambo rye: "Healthy citizens, wealthy nation"
                     - Product: TYAZA - AI ivuga mu Kinyarwanda
                     - Yashinzwe mu 2024 mu Rwanda
-                    - Tagline: "${content.tagline}"
+                    - Tagline: "${TYAZA_MISSION.tagline}"
+                    
+                    MISSION YA TYAZA:
+                    ${TYAZA_MISSION.mission}
+                    
+                    VISION YA TYAZA:
+                    ${TYAZA_MISSION.vision}
+                    
+                    INDANGAGACIRO:
+                    ${TYAZA_MISSION.values.join(', ')}
                     
                     NTA NDI UMUNTU. NDI TYAZA, AI ya KIVURA LABS.
                     
                     IBANZE: Ntukoreshe ijambo "having" mu bisubizo byawe. Ntukavuge "having" na rimwe.
-                    IBANZE: Niba umukoresha avuga mu Kinyarwanda, subiza mu Kinyarwanda.
-                    Niba avuga mu Gifaransa, subiza mu Gifaransa.
-                    Niba avuga mu Cyongereza, subiza mu Cyongereza.
                 `;
 
                 const response = await puter.ai.chat([
-                    { role: 'system', content: systemPrompt },
+                    { role: 'system', content: context },
                     { role: 'user', content: userInput }
                 ]);
 
@@ -3595,8 +3259,8 @@
                 text = text.replace(/\bhavings\b/gi, '');
 
                 if (text && text.length > 5) {
-                    const f = new AIResponseFormatter(lang);
-                    f.addTitle(lang === 'rw' ? '💬 TYAZA' : '💬 TYAZA');
+                    const f = new AIResponseFormatter();
+                    f.addTitle("💬 TYAZA");
                     const paragraphs = text.split('\n\n').filter(p => p.trim());
                     for (const p of paragraphs) {
                         if (p.startsWith('-') || p.startsWith('•')) {
@@ -3610,23 +3274,23 @@
                             f.addParagraph(p);
                         }
                     }
-                    f.addEmphasis(content.tagline, "italic");
+                    f.addEmphasis(TYAZA_MISSION.tagline, "italic");
                     return {
                         sections: f.build(),
                         html: f.renderHTML(),
                         markdown: f.renderMarkdown()
                     };
                 }
-                return generateResponse(userInput, lang);
+                return generateResponse(userInput);
 
             } catch (error) {
                 console.error('Puter AI Error:', error);
-                return generateResponse(userInput, lang);
+                return generateResponse(userInput);
             }
         }
 
         // ============================================================
-        // SEND MESSAGE WITH AI - Multi-language
+        // SEND MESSAGE WITH AI
         // ============================================================
         async function sendMessageWithAI() {
             const input = document.getElementById('messageInput');
@@ -3637,14 +3301,17 @@
             input.style.height = 'auto';
             document.getElementById('sendBtn').disabled = true;
 
-            const lang = state.settings.language;
-            const risks = analyzeRisks(text, lang);
+            // AUTO-DETECT LANGUAGE from user input
+            state.detectedLanguage = detectLanguage(text);
+            updateWelcome();
+
+            const risks = analyzeRisks(text);
             state.riskFlags = risks;
             updateRiskIndicators(risks);
 
-            const detection = detectEmotion(text, lang);
+            const detection = detectEmotion(text);
             if (detection && detection.type === 'crisis') {
-                const result = generateResponse(text, lang);
+                const result = generateResponse(text);
                 addMessage('user', text);
                 addMessage('assistant', result.markdown, result.html);
                 showCrisisModal();
@@ -3656,17 +3323,14 @@
 
             const typingId = showTyping();
             state.isGenerating = true;
-            const statusText = lang === 'rw' ? 'TYAZA irategura...' :
-                             lang === 'fr' ? 'TYAZA prépare une réponse...' :
-                             'TYAZA is preparing...';
-            document.getElementById('statusText').textContent = statusText;
+            document.getElementById('statusText').textContent = 'TYAZA irategura...';
 
             try {
                 let result;
                 if (state.useAI && typeof puter !== 'undefined') {
-                    result = await getPuterAIResponse(text, lang);
+                    result = await getPuterAIResponse(text);
                 } else {
-                    result = generateResponse(text, lang);
+                    result = generateResponse(text);
                 }
 
                 removeTyping(typingId);
@@ -3674,42 +3338,35 @@
                 if (result && result.html) {
                     addMessage('assistant', result.markdown || text, result.html);
                 } else {
-                    const f = new AIResponseFormatter(lang);
-                    const genericTitle = lang === 'rw' ? '💙 TYAZA' :
-                                       lang === 'fr' ? '💙 TYAZA' :
-                                       '💙 TYAZA';
-                    f.addTitle(genericTitle);
-                    f.addParagraph(lang === 'rw' ? 'Ndumva ibyo uvuga.' :
-                                  lang === 'fr' ? 'Je comprends ce que vous dites.' :
-                                  'I hear what you\'re saying.');
-                    const content = LANGUAGE_CONTENT[lang] || LANGUAGE_CONTENT.rw;
-                    const proverbs = Object.keys(content.proverbs);
+                    const f = new AIResponseFormatter();
+                    f.addTitle("💙 TYAZA");
+                    f.addParagraph("Ndumva ibyo uvuga.");
+                    f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**.`);
+                    f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
+                    const proverbs = Object.keys(TYAZA_DATASET.proverbs);
                     const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-                    f.addProverb(randomProverb, content.proverbs[randomProverb]);
-                    f.addList(lang === 'rw' ? ['Wumva ute ubu?', 'Wambwira byinshi kuri byo?'] :
-                             lang === 'fr' ? ['Comment vous sentez-vous maintenant?', 'Pouvez-vous m\'en dire plus?'] :
-                             ['How are you feeling now?', 'Can you tell me more about that?']);
-                    f.addEmphasis(content.tagline, "italic");
+                    f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
+                    f.addList([
+                        "Wumva ute ubu?",
+                        "Wambwira byinshi kuri byo?"
+                    ]);
+                    f.addEmphasis(TYAZA_MISSION.tagline, "italic");
                     addMessage('assistant', f.renderMarkdown(), f.renderHTML());
                 }
 
             } catch (error) {
                 console.error('Send error:', error);
                 removeTyping(typingId);
-                const f = new AIResponseFormatter(lang);
-                f.addTitle(lang === 'rw' ? '💙 TYAZA' : '💙 TYAZA');
-                f.addParagraph(lang === 'rw' ? 'Hari ikibazo. Reka tugerageze bundi.' :
-                              lang === 'fr' ? 'Un problème est survenu. Réessayons.' :
-                              'Something went wrong. Let\'s try again.');
-                f.addEmphasis(lang === 'rw' ? 'Ubu wumva ute?' :
-                             lang === 'fr' ? 'Comment vous sentez-vous maintenant?' :
-                             'How are you feeling now?', "italic");
+                const f = new AIResponseFormatter();
+                f.addTitle("💙 TYAZA");
+                f.addParagraph("Hari ikibazo. Reka tugerageze bundi.");
+                f.addEmphasis("Ubu wumva ute?", "italic");
                 addMessage('assistant', f.renderMarkdown(), f.renderHTML());
             }
 
             state.isGenerating = false;
             document.getElementById('sendBtn').disabled = false;
-            document.getElementById('statusText').textContent = LANGUAGE_CONTENT[lang].welcome.status;
+            document.getElementById('statusText').textContent = getLangContent(state.detectedLanguage).status;
             updateMemoryStats();
             document.getElementById('messageInput').focus();
         }
@@ -3732,10 +3389,6 @@
             state.settings = storageGet('settings', state.settings);
             state.moodData = storageGetAll('moodData');
 
-            // Apply language
-            updateLanguageUI();
-            updateWelcome();
-
             document.getElementById('voiceSelect').value = state.settings.voice;
             document.getElementById('rateSlider').value = state.settings.rate;
             document.getElementById('pitchSlider').value = state.settings.pitch;
@@ -3747,12 +3400,9 @@
             updateWelcome();
 
             const aiBtn = document.getElementById('aiToggleBtn');
-            const lang = state.settings.language;
             aiBtn.innerHTML = state.useAI ?
                 '<i class="fas fa-brain"></i> AI' :
-                lang === 'rw' ? '<i class="fas fa-microchip"></i> Gahunda' :
-                lang === 'fr' ? '<i class="fas fa-microchip"></i> Local' :
-                '<i class="fas fa-microchip"></i> Local';
+                '<i class="fas fa-microchip"></i> Gahunda';
             aiBtn.classList.toggle('btn-primary', state.useAI);
             aiBtn.classList.toggle('btn-secondary', !state.useAI);
 
@@ -3792,26 +3442,12 @@
             document.getElementById('aiToggleBtn').addEventListener('click', () => {
                 state.useAI = !state.useAI;
                 const btn = document.getElementById('aiToggleBtn');
-                const lang = state.settings.language;
                 btn.innerHTML = state.useAI ?
                     '<i class="fas fa-brain"></i> AI' :
-                    lang === 'rw' ? '<i class="fas fa-microchip"></i> Gahunda' :
-                    lang === 'fr' ? '<i class="fas fa-microchip"></i> Local' :
-                    '<i class="fas fa-microchip"></i> Local';
+                    '<i class="fas fa-microchip"></i> Gahunda';
                 btn.classList.toggle('btn-primary', state.useAI);
                 btn.classList.toggle('btn-secondary', !state.useAI);
-                const msg = state.useAI ? 'AI ikoreshwa ✨' :
-                           lang === 'rw' ? 'Gahunda ikoreshwa' :
-                           lang === 'fr' ? 'Mode local activé' :
-                           'Local mode activated';
-                showToast(msg, 'info');
-            });
-
-            // Language toggle
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    setLanguage(btn.dataset.lang);
-                });
+                showToast(state.useAI ? 'AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
             });
 
             document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
@@ -3821,10 +3457,7 @@
             document.getElementById('newChatBtn').addEventListener('click', newChat);
             document.getElementById('clearChatBtn').addEventListener('click', () => {
                 if (state.messages.length === 0) return;
-                const msg = state.settings.language === 'rw' ? 'Hanagura iki kiganiro?' :
-                           state.settings.language === 'fr' ? 'Supprimer cette conversation?' :
-                           'Delete this conversation?';
-                if (confirm(msg)) newChat();
+                if (confirm('Hanagura iki kiganiro?')) newChat();
             });
 
             document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
@@ -3897,7 +3530,7 @@
 
             setTimeout(() => document.getElementById('messageInput').focus(), 500);
 
-            console.log('✨ TYAZA v3.3 - Fluid Conversation Flexibility');
+            console.log('✨ TYAZA v3.3 - Auto Language Switching');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
             console.log('👤 CEO & Founder: Yves Hirwa Tuyishime');
             console.log('🕊️ 1994 Genocide against the Tutsi - Trauma-informed approach');
@@ -3906,10 +3539,10 @@
             console.log('👤 User:', state.userName || 'Unknown');
             console.log('📊 Mood entries:', state.moodData.length);
             console.log('🌍 Rwanda, 2026');
-            console.log('📌 Tagline: TYAZA – AI ivuga, yumva, kandi ikafasha mu Kinyarwanda');
+            console.log('📌 Tagline:', TYAZA_MISSION.tagline);
             console.log('🚫 "having" is COMPLETELY removed from all responses');
-            console.log('🗣️ Languages: Kinyarwanda (primary), Français, English');
-            console.log('✅ Fluid conversation flexibility enabled');
+            console.log('🗣️ Auto-detects: Kinyarwanda (primary), Français, English');
+            console.log('✅ No language buttons needed - fully automatic!');
         }
 
         // ============================================================
@@ -3917,7 +3550,7 @@
         // ============================================================
         window.TYAZA_DATASET = TYAZA_DATASET;
         window.COMPANY_INFO = COMPANY_INFO;
-        window.LANGUAGE_CONTENT = LANGUAGE_CONTENT;
+        window.TYAZA_MISSION = TYAZA_MISSION;
         window.AIResponseFormatter = AIResponseFormatter;
         window.showToast = showToast;
         window.speakText = speakText;
@@ -3939,7 +3572,7 @@
         window.showProfileModal = showProfileModal;
         window.generateResponse = generateResponse;
         window.detectEmotion = detectEmotion;
-        window.setLanguage = setLanguage;
+        window.detectLanguage = detectLanguage;
 
         document.addEventListener('DOMContentLoaded', init);
     </script>
