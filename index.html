@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     
-    <!-- Puter AI SDK -->
     <script src="https://js.puter.com/v2/"></script>
     
     <style>
@@ -1266,106 +1265,6 @@
         .msg-bubble em {
             color: var(--text3);
         }
-        .msg-bubble.risk-high {
-            border: 1px solid var(--risk-high);
-            background: rgba(239,68,68,0.1);
-        }
-        .msg-bubble.risk-medium {
-            border: 1px solid var(--risk-medium);
-            background: rgba(245,158,11,0.08);
-        }
-        .msg-bubble.risk-low {
-            border: 1px solid var(--risk-low);
-            background: rgba(34,197,94,0.05);
-        }
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-        .action-btn {
-            padding: 8px 16px;
-            border-radius: var(--radius-full);
-            font-size: 0.8rem;
-            font-weight: 500;
-            border: 1px solid var(--surface4);
-            background: var(--surface3);
-            color: var(--text2);
-            cursor: pointer;
-            transition: all 0.2s;
-            pointer-events: auto;
-        }
-        .action-btn:hover {
-            transform: translateY(-2px);
-            border-color: var(--primary);
-        }
-        .action-btn.primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-color: transparent;
-        }
-        .action-btn.danger {
-            background: var(--error);
-            color: white;
-            border-color: transparent;
-        }
-        .action-btn.danger:hover {
-            box-shadow: 0 0 30px rgba(239,68,68,0.4);
-        }
-        .tongue-twister-box {
-            background: rgba(139,92,246,0.12);
-            border-left: 4px solid var(--secondary);
-            padding: 14px 18px;
-            margin: 12px 0;
-            border-radius: 4px;
-            display: block;
-            width: 100%;
-        }
-        .tongue-twister-box .tt-text {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--text);
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        .tongue-twister-box .tt-meaning {
-            color: var(--text3);
-            font-size: 0.9rem;
-            margin-top: 4px;
-        }
-        .tongue-twister-box .tt-hint {
-            color: var(--secondary);
-            font-size: 0.8rem;
-            margin-top: 6px;
-            font-style: italic;
-        }
-        /* AI Status Indicator */
-        .ai-status {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.65rem;
-            color: var(--text3);
-            padding: 4px 12px;
-            border-radius: var(--radius-full);
-            background: var(--surface3);
-            border: 1px solid var(--surface4);
-        }
-        .ai-status .ai-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--success);
-            animation: pulse 2s ease-in-out infinite;
-        }
-        .ai-status .ai-dot.offline {
-            background: var(--text4);
-            animation: none;
-        }
-        .ai-status .ai-dot.loading {
-            background: var(--warning);
-            animation: pulse 0.5s ease-in-out infinite;
-        }
     </style>
 </head>
 <body>
@@ -1490,7 +1389,6 @@
                     <div style="font-size:0.7rem;margin-top:8px;color:var(--text4);">Yves HIRWA TUYISHIME - CEO & Founder</div>
                     <div style="font-size:0.65rem;color:var(--text4);margin-top:4px;">© 2026 Kivura Labs · Rwanda</div>
                     <div style="font-size:0.6rem;color:var(--text4);margin-top:4px;">TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda.</div>
-                    <div style="font-size:0.6rem;color:var(--text4);margin-top:4px;" id="aiStatusDisplay">🤖 AI: Loading...</div>
                 </div>
             </div>
         </aside>
@@ -1535,14 +1433,9 @@
                         <button class="suggestion-btn" data-prompt="Ngomba inkunga">🤝 Ngomba inkunga</button>
                         <button class="suggestion-btn" data-prompt="Narushijeho">🌟 Narushijeho</button>
                         <button class="suggestion-btn" data-prompt="Nitwa Jean">👤 Nitwa Jean</button>
-                        <button class="suggestion-btn" data-prompt="Mpwana igihombe">🗣️ Mpwana igihombe</button>
-                        <button class="suggestion-btn" data-prompt="Mpwana imvugo y'umuco">💬 Mpwana imvugo</button>
                     </div>
                     <div id="welcomeGreeting" style="font-size:1.1rem;color:var(--secondary);opacity:0;transition:opacity 0.8s;">
                         ✨ Murakaza neza
-                    </div>
-                    <div id="aiWelcomeStatus" style="font-size:0.8rem;color:var(--text3);margin-top:8px;">
-                        🤖 Puter AI: <span id="aiStatusText">Loading...</span>
                     </div>
                 </div>
             </div>
@@ -1664,19 +1557,21 @@
 
     <script>
         // ============================================================
-        // TYAZA v6.0 - UNIFIED INTELLIGENCE + PUTER AI + AMAGORANE
+        // TYAZA v4.0 - COMPLETE KNOWLEDGE INTEGRATION
+        // Includes: Mission, Vision, Company Info, Proverbs,
+        // Rare words, Deep cultural vocabulary, Idioms,
+        // Advanced Kinyarwanda language rules, and more.
         // ============================================================
-        // Full integration of Puter AI with:
-        // 1. Unified Intelligence System (Risk Scoring, Transition, Decision Engine)
-        // 2. Complete Amagorane (Tongue Twisters) dataset
-        // 3. Kinyarwanda cultural idioms and expressions
-        // 4. Rare words and proverbs
-        // 5. Crisis detection with safety first
-        // 6. Puter AI for advanced responses
+        // 
+        // COMPANY: KIVURA LABS
+        // FOUNDER & CEO: Yves Hirwa Tuyishime
+        // QUOTE: "Healthy citizens, wealthy nation"
+        // TAGLINE: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda."
+        // 
         // ============================================================
 
         // ============================================================
-        // TYAZA MISSION & VISION
+        // TYAZA MISSION & VISION - Core Knowledge
         // ============================================================
         const TYAZA_MISSION = {
             reason: `TYAZA yashinzwe kugira ngo:
@@ -1710,7 +1605,148 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
         };
 
         // ============================================================
-        // COMPANY INFO
+        // AI RESPONSE FORMATTER
+        // ============================================================
+        class AIResponseFormatter {
+            constructor() {
+                this.sections = [];
+            }
+
+            addTitle(text) {
+                this.sections.push({ type: "title", content: text });
+                return this;
+            }
+
+            addParagraph(text) {
+                this.sections.push({ type: "paragraph", content: text });
+                return this;
+            }
+
+            addList(items) {
+                this.sections.push({ type: "list", content: items });
+                return this;
+            }
+
+            addEmphasis(text, style = "bold") {
+                this.sections.push({ type: "emphasis", style: style, content: text });
+                return this;
+            }
+
+            addProverb(proverb, meaning) {
+                this.sections.push({ type: "proverb", proverb: proverb, meaning: meaning });
+                return this;
+            }
+
+            addCrisis(text) {
+                this.sections.push({ type: "crisis", content: text });
+                return this;
+            }
+
+            addDivider() {
+                this.sections.push({ type: "divider" });
+                return this;
+            }
+
+            build() {
+                return this.sections;
+            }
+
+            renderMarkdownToHTML(text) {
+                let result = text;
+                result = result.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--secondary);">$1</strong>');
+                result = result.replace(/\*(.*?)\*/g, '<em style="color:var(--text3);">$1</em>');
+                return result;
+            }
+
+            renderHTML() {
+                let output = '';
+                for (const sec of this.sections) {
+                    switch (sec.type) {
+                        case "title":
+                            output += `<h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0 10px 0;">${this.renderMarkdownToHTML(sec.content)}</h3>`;
+                            break;
+                        case "paragraph":
+                            output += `<p style="margin:6px 0;line-height:1.7;">${this.renderMarkdownToHTML(sec.content)}</p>`;
+                            break;
+                        case "list":
+                            output += `<ul style="margin:8px 0 12px 20px;line-height:1.8;">`;
+                            for (const item of sec.content) {
+                                output += `<li>${this.renderMarkdownToHTML(item)}</li>`;
+                            }
+                            output += `</ul>`;
+                            break;
+                        case "emphasis":
+                            if (sec.style === "bold") {
+                                output += `<strong style="color:var(--secondary);">${sec.content}</strong>`;
+                            } else if (sec.style === "italic") {
+                                output += `<em style="color:var(--text3);">${sec.content}</em>`;
+                            } else {
+                                output += sec.content;
+                            }
+                            break;
+                        case "proverb":
+                            output += `<div class="proverb-box">`;
+                            output += `<div class="proverb-text">"${this.renderMarkdownToHTML(sec.proverb)}"</div>`;
+                            output += `<div class="proverb-meaning">→ ${this.renderMarkdownToHTML(sec.meaning)}</div>`;
+                            output += `</div>`;
+                            break;
+                        case "crisis":
+                            output += `<div class="crisis-box">⚠️ ${this.renderMarkdownToHTML(sec.content)}</div>`;
+                            break;
+                        case "divider":
+                            output += `<hr style="border:none;border-top:1px solid var(--surface4);margin:12px 0;">`;
+                            break;
+                        default:
+                            output += sec.content || '';
+                    }
+                }
+                return output;
+            }
+
+            renderMarkdown() {
+                let output = '';
+                for (const sec of this.sections) {
+                    switch (sec.type) {
+                        case "title":
+                            output += `# ${sec.content}\n\n`;
+                            break;
+                        case "paragraph":
+                            output += `${sec.content}\n\n`;
+                            break;
+                        case "list":
+                            for (const item of sec.content) {
+                                output += `- ${item}\n`;
+                            }
+                            output += `\n`;
+                            break;
+                        case "emphasis":
+                            if (sec.style === "bold") {
+                                output += `**${sec.content}**\n\n`;
+                            } else if (sec.style === "italic") {
+                                output += `*${sec.content}*\n\n`;
+                            } else {
+                                output += `${sec.content}\n\n`;
+                            }
+                            break;
+                        case "proverb":
+                            output += `> "${sec.proverb}"\n> *${sec.meaning}*\n\n`;
+                            break;
+                        case "crisis":
+                            output += `⚠️ **CRISIS:** ${sec.content}\n\n`;
+                            break;
+                        case "divider":
+                            output += `---\n\n`;
+                            break;
+                        default:
+                            output += sec.content || '';
+                    }
+                }
+                return output;
+            }
+        }
+
+        // ============================================================
+        // CORRECT COMPANY INFORMATION
         // ============================================================
         const COMPANY_INFO = {
             name: "KIVURA LABS",
@@ -1725,96 +1761,12 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
         };
 
         // ============================================================
-        // AMAGORANE (TONGUE TWISTERS) - Full Dataset
-        // ============================================================
-        const AMAGORANE = {
-            inkoko_nka: [
-                { text: "Inkoko y'inkuku n'inkoko y'inkungane ziri mu nkuge z'inkorogoto.", 
-                  meaning: "Ivuga ku nkoko z'ubwoko butandukanye zihuriye mu kintu kibitsemo ibikoresho cyangwa mu bwato." },
-                { text: "Inka z'i Kanyanza zanyarukiye mu kanyamashamba k'i Kanyanza.",
-                  meaning: "Ivuga ku gatsiko k'inka zahungiye cyangwa zanyarukiye mu gashamba k'ahitwa i Kanyanza." }
-            ],
-            ururimi_ruzi: [
-                { text: "Ururimi rwa rurema ruracyari rwo rwa rurema.",
-                  meaning: "Ishimangira ko ururimi rw'umuntu cyangwa ikintu kiremye kigihagaze ku kuri cyangwa kigifite imiterere yarwo y'umwimerere." },
-                { text: "Uruzi ruzindutse runyura mu ruzi ruri mu ruzitiro rw'i Ruzizi.",
-                  meaning: "Igereranya amazi menshi atemba anyura mu zindi nzira z'amazi zizituye hafi y'umugezi wa Ruzizi." }
-            ],
-            inyamaswa_ibiti: [
-                { text: "Inyamanza y'inyamibwa yicaye ku giti cy'inyamibwa.",
-                  meaning: "Ivuga ku nyoni y'inyamanza nziza cyane (iy'indashyikirwa) yicaye ku giti cyiza na cyo cy'indashyikirwa." },
-                { text: "Gashure kashutse Gashuri, Gashuri ashuka Gashure.",
-                  meaning: "Ivuga ku bantu cyangwa inyamaswa zifite amazina asa (Gashure na Gashuri) bafatanyije gushukana cyangwa kubeshjanya." }
-            ],
-            magufi_akomeye: [
-                { text: "Imbwebwe n'imbwa biri mu mbwija." },
-                { text: "Umusaza n'umusazi basangiye umusazi." },
-                { text: "Akanyamasyo mu kanyamashamba." },
-                { text: "Ikijuju cy'ikijuju cyicaye ku kijuju." },
-                { text: "Agaca k'agacaca kanyuze mu gashyamba k'agacaca." },
-                { text: "Amata y'amashashi yashatse amashashi." },
-                { text: "Ibitoki by'ibitoki biri mu bitoki." },
-                { text: "Uruvu rw'uruvuri ruri mu rurembo rw'uruvuri." }
-            ],
-            inyoni: [
-                { text: "Inyoni y'inyange yanyarukiye mu nyenga y'inyange.",
-                  meaning: "Ivuga ku nyoni y'inyange yagurutse vuba ikajya mu cyari cyangwa mu mwanya wihishe w'izindi nyange." },
-                { text: "Sakabaka isatira isake, isake isatira sakabaka.",
-                  meaning: "Ivuga ku ruziga n'isake bitatirana cyangwa byirukankana bishaka kurwana." },
-                { text: "Imbwanajana z'imbwa zose ziri mu mbwija y'imbwanajana.",
-                  meaning: "Ivuga ku mbwa n'icyana cyazo byabaye byinshi cyane bikajya mu gashamba k'imbwija." }
-            ],
-            abantu: [
-                { text: "Umusaza w'umusazi yasize umusazi mu musozi w'abasazi.",
-                  meaning: "Amagambo asa y'umusaza n'umusazi avuga ku muntu ushaje rwagati mu misozi agasiga mugenzi we ufite ikibazo cyo mu mutwe." },
-                { text: "Gakuba yakubise Gakuru, Gakuru akubita Gakuba.",
-                  meaning: "Abantu babiri bafite amazina asa batangira kurwana cyangwa gukubitana umwe ku wundi." },
-                { text: "Umukobwa w'umukongikazi yakonze umukonge w'umukongikazi.",
-                  meaning: "Ivuga ku mukobwa ukomoka mu gace runaka cyangwa afite imiterere runaka ufashe cyangwa ukorera ikintu cy'umwimerere cyaho." }
-            ]
-        };
-
-        // ============================================================
-        // KINYARWANDA IDIOMS
-        // ============================================================
-        const KINYARWANDA_IDIOMS = {
-            "Kuvoma hafi": "Kurakazwa n'ubusa cyangwa kubura ukwihangana mu buryo bworoshye.",
-            "Kuruma ugahuha": "Kubera umuntu induryarya (kumugirira nabi hanyuma ukamwiyenzaho nk'aho umugiriye neza).",
-            "Gukingira ikibaba": "Guhishira umuntu wakoze amakosa cyangwa kumurinda ingaruka z'ibyo yakoze.",
-            "Gutera isekuru": "Kujya gucumbagira cyangwa kugenda nabi nka wa muntu ufite ikibazo mu maguru.",
-            "Kureba igitsure": "Kurebana umujinya, agasuzuguro, cyangwa kutishimira umuntu.",
-            "Kwanga amashyiga": "Kwanga gutuza mu rugo ngo wubake, cyangwa guhora uzerera udafite aho uba hazwi.",
-            "Kureba itabi": "Guhura n'akaga, ibyago, cyangwa kubona ibintu bikomeye bikugora.",
-            "Gukubita igihwereye": "Guhura n'ikibazo gikomeye cyangwa guhomba mu buryo butunguranye ntacyo utahanye.",
-            "Gutera ububyara": "Gushyenga cyangwa gukina n'umuntu mu buryo bwa gicuti kandi bwo kwisanzuranaho.",
-            "Guhekenya amenyo": "Kwerekana umujinya ukomeye cyangwa kwifuza kwihorera ku muntu.",
-            "Gushira amanga": "Kugira ubutwari bwo kuvuga cyangwa gukora ikintu abandi batinya.",
-            "Kwiha akanyabugabo": "Kwiyanduramo ubutwari n'imbaraga mu gihe uri mu kaga cyangwa mu gushidikanya.",
-            "Kurambika inda ku muyaga": "Kwicwa n'inzara ikomeye cyangwa kubura icyo urya rwose.",
-            "Turirira mu myotsi": "Kubabara ariko ukabihisha abandi, abantu bakabona umerewe neza kandi imbere ugorwa.",
-            "Kukabona": "Guhura n'akaga n'amakuba akomeye cyane mu buzima.",
-            "Kukanyamura": "Kurokoka amakuba mu buryo bw'igitangaza cyangwa gucika ikibazo cyari kigiye kuguhitana.",
-            "Yagiye umuti wa mperezayo": "Kugenda burundu ntagaruke cyangwa kuburirwa irengero.",
-            "Gusiga rurese": "Kwica cyangwa gusenya ibyiza byari bitangiye kugerwaho, cyangwa guteza umwanzuro mubi mu gihugu.",
-            "Gukubita umutwe ku rukuta": "Guhatiriza gukora ikintu kidashoboka cyangwa gishobora kuguteza ibyago gusa.",
-            "Kugwa mu mazi amari": "Guhura n'amakuba n'ibigeragezo by'ingutu bituma ugera mu kaga gahambaye.",
-            "Guca amano": "Guhura n'umunyamfu ukomeye ku buryo unanirwa cyane kubera urugendo rurerure.",
-            "Gushyira urutoki ku gakaraza": "Gukora ibintu utitaye ku ngaruka, cyangwa gufata umwanzuro unyuranyije n'amategeko.",
-            "Gukubita amaguru mu bitugu": "Kwiruka n'imbaraga zose kubera ubwoba cyangwa ushaka guhunga ikibazo.",
-            "Kugwa mu kantu": "Kugwa mu kantu: Gutungurwa cyangwa gushoberwa cyane n'ibintu bidasanzwe ubonye cyangwa wumvise.",
-            "Guheka umwana ku mugongo w'undi": "Kubyara abana bakurikirana cyane bataracuka neza.",
-            "Gutera ipaliza": "Guhagarika akazi cyangwa kutitabira inshingano ku bushake kubera kwigaragambya.",
-            "Kureba kure": "Kugira ubushishozi no gutekereza ku bintu bishobora kuba mu gihe kizaza.",
-            "Kunanirwa n'ubusa": "Guhura n'ikibazo cyoroheje ariko kikakunanira gukemura kubera kubura ubwenge.",
-            "Gukora mu mufuka": "Gutanga amafaranga cyangwa kwishura ibintu biba bikenewe mu buryo butunguranye.",
-            "Guta mu matwi": "Kwirengagiza inama cyangwa amagambo ubwirwa, ukanga kuyatega amatwi."
-        };
-
-        // ============================================================
-        // COMPLETE DATASET
+        // COMPLETE DATASET - All new knowledge integrated
         // ============================================================
         const TYAZA_DATASET = {
+            // ========== PROVERBS ==========
             proverbs: {
+                // Original + new
                 "Ijoro ribara uwariraye": "Abariraye ni bo bumva iby'ijoro",
                 "Buhoro buhoro ni rwo rugendo": "Kugenda buhoro ni uburyo bwo kugera kure",
                 "Uwitonze arusha uwihuta kugera kure": "Kwihangana bituma ugera ku ntsinzi irambye",
@@ -1860,13 +1812,13 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                 "Icyo ushaka kigutwara igihe": "Ibyiza bisaba kwihangana"
             },
 
+            // ========== COMPANY INFO ==========
             companyInfo: COMPANY_INFO,
             mission: TYAZA_MISSION,
 
-            amagorane: AMAGORANE,
-            idioms: KINYARWANDA_IDIOMS,
-
+            // ========== RARE WORDS (All new vocabulary) ==========
             rareWords: {
+                // Part 1 - Traits & Behavior
                 "Urwangano": "Urwango rwinshi rurenze urugero",
                 "Ubwirasi": "Kwiyemera gukabije",
                 "Ubwoba bw'igicucu": "Gutinya ibintu bidafite ishingiro",
@@ -1874,23 +1826,31 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                 "Ubusambo bw'umutima": "Gukunda iby'abandi cyane",
                 "Uburiganya": "Uburiganya bukomeye, bw'amayeri",
                 "Ubugome": "Kugira umutima mubi cyane",
+                
+                // Part 2 - Deep Emotions
                 "Ihungabana": "Guhungabana k'umutima n'ibitekerezo",
                 "Agahinda kenshi": "Intimba irenze urugero",
                 "Ikiruhuko cy'umutima": "Amahoro yo mu mutima",
                 "Umutima uhagaze": "Umuntu ufite impagarara",
                 "Ikiniga cy'umutima": "Kubura aho uhurira n'amarangamutima",
                 "Umubabaro w'ituze": "Kubabara ariko ucecetse",
+                
+                // Part 3 - Archaic / Traditional
                 "Indyarya": "Umuntu wiyoberanya",
                 "Indyamirizi": "Umuntu ukunda guteza ibibazo",
                 "Inkotanyi": "Intwari idatinya (mu mvugo ya kera)",
                 "Ishyano": "Ibyago bikomeye cyane",
                 "Ubugabo butisubira": "Ubutwari bukabije",
                 "Ikinyoma cy'amaso": "Kubeshya ugaragara neza",
+                
+                // Part 4 - Life & Society
                 "Ubukene bukabije": "Ubukene bwo hasi cyane",
                 "Ubusabirizi": "Gusabiriza ubuzima",
                 "Ubupfura": "Imyitwarire myiza iranga umuntu",
                 "Ubunyamwuga": "Gukora ibintu neza nk'umwuga",
                 "Uburere gakondo": "Uburere bwa kinyarwanda bwa kera",
+                
+                // Part 5 - Deep / Rare Words
                 "Gucura umugambi": "Gutegura ibintu mu ibanga",
                 "Gushyira mu gaciro": "Gutekereza neza",
                 "Kwirara mu bandi": "Kutigira ahubwo ugashingira ku bandi",
@@ -1902,46 +1862,289 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                 "Umunyabigwi": "Umuntu uvugwa cyane kubera ibikorwa",
                 "Umunyabwenge nyakuri": "Utekereza kure kandi neza",
                 "Umunyacyubahiro": "Umuntu wubahwa cyane",
+                
+                // Part 6 - Ultra Rare Words (continued)
                 "Ubunyamaswa": "Imyitwarire idafite ubumuntu",
                 "Ubusuzugurano": "Kwirengagiza abandi ubona nk'abatagira agaciro",
                 "Ubuswa": "Kutamenya n'ibigaragara",
                 "Umunyempuhwe nke": "Utita ku bandi",
                 "Umunyagitugu": "Ukunda gutegeka abandi ku gahato",
-                "Umunyanduranziza": "Utangira ibintu neza ariko akabisoza nabi"
+                "Umunyanduranziza": "Utangira ibintu neza ariko akabisoza nabi",
+                
+                // Part 7 - Cultural Core Words
+                "Ubupfura nyabwo": "Imyitwarire myiza ishingiye ku muco",
+                "Uburere bw'ikirenga": "Uburere burenze ibisanzwe",
+                "Ubumuntu busesuye": "Kugira umutima wita ku bandi by'ukuri",
+                "Ubugwaneza": "Gutuza no kugirira abandi neza",
+                "Ubutwari bwuje ituze": "Ubutwari budafite urusaku",
+                "Icyubahiro ndengakamere": "Kubahwa cyane mu bandi",
+                "Umunyabuntu": "Umuntu ugira impuhwe n'ubugwaneza",
+                "Umuco gakondo": "Imigenzo ya kera iranga Abanyarwanda",
+                "Uruhererekane rw'imico": "Uburyo umuco uhererekanywa",
+                "Indangagaciro z'umuco": "Iby'ingenzi bigize umuco",
+                
+                // Part 8 - High-Level Words
+                "Ubushishozi buhanitse": "Ubushobozi bwo kubona kure cyane",
+                "Gucengera ibintu": "Kumva ibintu byimbitse",
+                "Gusesengura mu mizi": "Gusobanukirwa ibintu mu buryo bwagutse",
+                "Gutandukanya ukuri n'ikinyoma": "Kumenya neza icy'ukuri",
+                "Gufata icyemezo gitekerejweho": "Kudahubuka",
+                "Guhuza ibitekerezo": "Gutunganya logic",
+                "Kwagura imitekerereze": "Gutekereza hanze y'ibisanzwe",
+                "Gushyira mu gaciro nyabwo": "Gutekereza neza nta kubogama",
+                "Gusesa ibitekerezo bitari byo": "Gukosora imyumvire",
+                "Kugaragaza ishingiro": "Gusobanura impamvu y'ikintu",
+                
+                // Part 9 - Idioms & Figurative
+                "Kurya iminwa": "Kwifata ngo utavuga",
+                "Guca ku ruhande": "Kwirinda ikibazo",
+                "Gushyira umutima hamwe": "Gufatanya n'abandi",
+                "Guterera agati mu ryinyo": "Kugira icyo utanga mu kiganiro",
+                "Gushyira ku munzani": "Gupima ibintu neza",
+                "Kurenga imbibi": "Gukora ibirenze ibiteganyijwe",
+                "Gukubita agatoki ku kandi": "Kwicuza",
+                "Gushyira hasi umutima": "Koroherwa",
+                "Gufata bugwate amarangamutima": "Kugenzura uko wiyumva",
+                "Gushyira mu mucyo": "Gusobanura neza",
+                
+                // Part 10 - Poetic Words
+                "Icyizere gishengutse": "Icyizere cyapfuye",
+                "Umutima utagira aho ubarizwa": "Kumva utazi aho uri mu buzima",
+                "Ijwi rituje ry'umutima": "Kumva ijwi ry'imbere muri wowe",
+                "Imbaraga z'ituze": "Imbaraga zidafite urusaku",
+                "Umwijima w'amarangamutima": "Kumva ubuzima bwijimye",
+                "Irumuri ry'imbere": "Ibyiringiro byo mu mutima",
+                "Umutima uremerewe": "Kumva ufite ibibazo byinshi",
+                "Ikinyoma cyuje ukuri": "Ikintu kigaragara nk'ukuri ariko atari ko",
+                "Ubugingo bucecetse": "Kubaho utagaragaza ibiri imbere",
+                "Imirindi y'ibitekerezo": "Ibitekerezo byinshi byiruka mu mutwe",
+                
+                // Part 11 - Ultra Deep
+                "Ubugome bushukana": "Gukora nabi ubigize neza inyuma",
+                "Ubusumbane bw'imitekerereze": "Kutangana mu buryo bwo gutekereza",
+                "Ubwibone": "Kwishyira hejuru utekereza ko uri hejuru y'abandi",
+                "Umunyagasuzuguro": "Usuzugura buri wese",
+                "Umunyagihagararo": "Ufite imyitwarire igaragaza uburemere n'icyubahiro",
+                "Umunyabitekerezo bicumbagira": "Utekereza uhindagurika",
+                "Umunyamahane ucecetse": "Urakara ariko ntubigaragaze",
+                "Umunyamakenga": "Uhora atekereza ko hari ikitagenda neza",
+                
+                // Part 12 - Even more rare
+                "Ubugome ndengakamere": "Ubugome burenze ibisanzwe",
+                "Ubusumbane": "Kutangana (social imbalance)",
+                "Ubusugire": "Kudahinduka, kuba kizima",
+                "Ubukangarane": "Gukangarana cyane / gutungurwa bikabije",
+                "Ubusabirizi": "Gusaba cyane (kera byakoreshwaga cyane)",
+                "Ubuhanya": "Ubwenge bwo kwirinda no kwitwararika",
+                "Ubugenge": "Ubwitonzi bujyanye n'uburambe",
+                "Ubugengebuke": "Kubura ubushishozi",
+                "Ubugaragara": "Imiterere igaragara y'ikintu",
+                
+                // Part 13 - More Cultural
+                "Ubwitange": "Sacrifice",
+                "Ubufatanye": "Cooperation",
+                "Ubudahemuka": "Loyalty",
+                "Ubutabera": "Justice",
+                "Ubugwari": "Kubura ubutwari no guhunga inshingano",
+                "Uburangare ndengakamere": "Kutita ku bintu by'ingenzi ku rwego rwo hejuru",
+                "Icyanya": "Agace k'ubutaka",
+                "Umukenke": "Amazi make asigaye",
+                "Icyobo": "Aho hacukuwe",
+                "Umusozi": "Hill (deep cultural centrality)",
+                "Igikumba": "Igice kinini cy'ishyamba",
+                "Uruzi": "River (often poetic)",
+                "Ikibaya": "Valley",
+                "Igishanga": "Swamp",
+                "Umwero": "Umusaruro mwiza",
+                "Icyambu": "Port / resting point"
             },
 
+            // ========== EMOTIONS ==========
             emotions: {
+                greeting: {
+                    patterns: ['muraho', 'hello', 'hi', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'bonjour', 'hey'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || null;
+                        
+                        if (userName) {
+                            f.addTitle(`✨ Muraho, ${userName}!`);
+                        } else {
+                            f.addTitle("✨ Muraho!");
+                        }
+                        
+                        f.addParagraph("Murakaza neza kuri **TYAZA**, umuvugizi w'umutima.");
+                        f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**. Ijambo rye ni: *"${COMPANY_INFO.quote}"*.`);
+                        f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
+                        f.addParagraph("Ndi hano kugira ngo mbafashe kumva neza ibiri ku mutima wanyu.");
+                        
+                        const proverbs = Object.keys(TYAZA_DATASET.proverbs);
+                        const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+                        f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
+                        
+                        if (!userName) {
+                            f.addParagraph("Niba ushaka, wambwira izina ryawe kugira ngo tubane mu buryo bw'umuntu ku muntu?");
+                        }
+                        
+                        f.addList([
+                            "Ubu wumva ute?",
+                            "Ni iki kiri ku mutima wawe?",
+                            "Hari ikintu ushaka kuganiraho?"
+                        ]);
+                        f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+                        f.addEmphasis(TYAZA_MISSION.tagline, "italic");
+                        return f;
+                    }
+                },
+                about_company: {
+                    patterns: ['kivura labs', 'kivura', 'kampani', 'company', 'uruganda'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("🏢 KIVURA LABS");
+                        f.addParagraph(`**${COMPANY_INFO.name}** ni uruganda rw'ikoranabuhanga rushinzwe na **${COMPANY_INFO.founder}** mu Rwanda.`);
+                        f.addParagraph(`Ijambo rye rikomeye: *"${COMPANY_INFO.quote}"*.`);
+                        f.addParagraph(`${COMPANY_INFO.name} yakoreye **${COMPANY_INFO.product}**, AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.`);
+                        f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
+                        f.addList([
+                            `👤 **CEO & Founder:** ${COMPANY_INFO.founder}`,
+                            `📅 **Yashinzwe:** 2024`,
+                            `🌍 **Aho iri:** Rwanda`,
+                            `💡 **Intego:** Guteza imbere AI mu Kinyarwanda no gufasha abantu mu buzima bwo mu mutwe`,
+                            `📌 **Tagline:** ${TYAZA_MISSION.tagline}`
+                        ]);
+                        f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
+                        f.addEmphasis("Niba ufite ikindi ushaka kumenya ku KIVURA LABS, wambwira?", "italic");
+                        return f;
+                    }
+                },
+                about_ceo: {
+                    patterns: ['yves', 'hirwa', 'tuyishime', 'washinze', 'founder', 'ceo', 'umuyobozi'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        f.addTitle("👤 Yves Hirwa Tuyishime");
+                        f.addParagraph(`**${COMPANY_INFO.founder}** ni we washinze **${COMPANY_INFO.name}** kandi ni CEO wacyo.`);
+                        f.addParagraph(`Ijambo rye rikomeye: *"${COMPANY_INFO.quote}"*.`);
+                        f.addParagraph(`Yashinze ${COMPANY_INFO.name} mu 2024 mu Rwanda, agamije gukora AI ivuga mu Kinyarwanda ifasha abantu mu buzima bwo mu mutwe.`);
+                        f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
+                        f.addList([
+                            `👤 **Izina:** ${COMPANY_INFO.founder}`,
+                            `🏢 **Position:** CEO & Founder wa ${COMPANY_INFO.name}`,
+                            `💡 **Product:** ${COMPANY_INFO.product} - AI ivuga mu Kinyarwanda`,
+                            `📌 **Quote:** "${COMPANY_INFO.quote}"`,
+                            `🌍 **Aho akorera:** Rwanda`
+                        ]);
+                        f.addProverb("Ujya inama n'abakuru ntayoba", "Gusaba inama ku bakuru ni byiza");
+                        f.addEmphasis("Niba wifuza kumenya byinshi kuri Yves Hirwa Tuyishime, wambwira?", "italic");
+                        return f;
+                    }
+                },
                 sadness: {
                     patterns: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'nariraye', 'triste', 'peine'],
-                    weight: 20
-                },
-                stress: {
-                    patterns: ['stress', 'guhangayika', 'ndahangayitse', 'ubwoba', 'ndatinya', 'anxieux', 'peur'],
-                    weight: 15
-                },
-                burnout: {
-                    patterns: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'fatigué', 'tired', 'épuisé'],
-                    weight: 15
-                },
-                self_doubt: {
-                    patterns: ['nta mbaraga', 'nshobora', 'ntabwo nshobora', 'ntagaciro', 'sinakomeza', 'self-doubt', 'insecurity'],
-                    weight: 25
-                },
-                hopelessness: {
-                    patterns: ['nta mpamvu', 'ntakibazo', 'byarangiye', 'ntacyo kizahinduka', 'hopeless', 'desperate'],
-                    weight: 30
-                },
-                loneliness: {
-                    patterns: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'seul', 'alone'],
-                    weight: 15
-                },
-                anger: {
-                    patterns: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'en colère', 'fâché'],
-                    weight: 15
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("💙 Mbabajwe no kumva ko ubabaye.");
+                        f.addParagraph(`${namePrefix}Ndumva ufite agahinda. Ni iki cyaguteye kumva utyo?`);
+                        f.addProverb("Nta gahinda gahoraho", "Ibibazo birashira uko igihe kigenda");
+                        f.addList([
+                            "Wambwira byinshi kuri byo?",
+                            "Ni iki gishobora kugufasha kumva neza?"
+                        ]);
+                        f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+                        return f;
+                    }
                 },
                 joy: {
                     patterns: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo', 'heureux', 'joy'],
-                    weight: -10
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("✨ Ni byiza cyane kumva wishimye!");
+                        f.addParagraph(`${namePrefix}Ibyishimo ni impamvu yo gukomeza mu buzima.`);
+                        f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
+                        f.addList([
+                            "Ni iki cyaguteye ibyishimo?",
+                            "Wifuza kubiganiraho byinshi?"
+                        ]);
+                        f.addEmphasis("Uko wumva ni ingenzi.", "italic");
+                        return f;
+                    }
+                },
+                anger: {
+                    patterns: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'en colère', 'fâché'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("🔥 Birumvikana ko urakaye.");
+                        f.addParagraph(`${namePrefix}Kurakara ni ibisanzwe, ariko ni byiza kubivugaho.`);
+                        f.addProverb("Uwitonze arusha uwihuta kugera kure", "Kwihangana bituma ugera ku ntsinzi irambye");
+                        f.addList([
+                            "Ni iki cyaguteye uburakari?",
+                            "Waba wifuza kuvuga byinshi kuri byo?"
+                        ]);
+                        f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+                        return f;
+                    }
+                },
+                anxiety: {
+                    patterns: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'anxieux', 'peur', 'stress'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("😰 Ndumva ufite ubwoba.");
+                        f.addParagraph(`${namePrefix}Gutekereza ku hazaza bishobora gutera ubwoba.`);
+                        f.addProverb("Buhoro buhoro ni rwo rugendo", "Kugenda buhoro ni uburyo bwo kugera kure");
+                        f.addList([
+                            "Ni iki kiguteye ubwoba?",
+                            "Hari ikintu cyihariye kiguhangayikishije?"
+                        ]);
+                        f.addEmphasis("Nturi wenyine muri ibi.", "bold");
+                        return f;
+                    }
+                },
+                loneliness: {
+                    patterns: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'seul', 'alone'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("🕊️ Kumva uri wenyine biraremereye.");
+                        f.addParagraph(`${namePrefix}Nta muntu ugomba kwihanganira ibyago yonyine.`);
+                        f.addProverb("Ijoro ribara uwariraye", "Abariraye ni bo bumva iby'ijoro");
+                        f.addList([
+                            "Waba wifuza kuganira n'umuntu?",
+                            "Cyangwa gusangira ibyo wumva?"
+                        ]);
+                        f.addEmphasis("Nturi wenyine. Ndi hano.", "bold");
+                        return f;
+                    }
+                },
+                fatigue: {
+                    patterns: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'fatigué', 'tired'],
+                    generate: function() {
+                        const f = new AIResponseFormatter();
+                        const userName = state.userName || '';
+                        const namePrefix = userName ? `${userName}, ` : '';
+                        
+                        f.addTitle("😓 Ndumva ufite umunaniro.");
+                        f.addParagraph(`${namePrefix}Birashoboka ko ukeneye kuruhuka.`);
+                        f.addProverb("Buhoro buhoro ni rwo rugendo", "Kugenda buhoro ni uburyo bwo kugera kure");
+                        f.addList([
+                            "Ni iki cyaguteye kurambirwa?",
+                            "Waba wararuhutse bihagije?"
+                        ]);
+                        f.addEmphasis("Kuruhuka ni ingenzi ku mutima.", "italic");
+                        return f;
+                    }
                 }
             },
 
@@ -1949,225 +2152,59 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                 patterns: ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa', 
                           'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye', 
                           'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'],
-                weight: 50
+                generate: function() {
+                    const f = new AIResponseFormatter();
+                    f.addTitle("⚠️ Ukeneye ubufasha bwihutirwa");
+                    f.addCrisis("Ibi ni ibintu bikomeye cyane. Mbabajwe cyane no kumva utyo.");
+                    f.addParagraph("Ni ingenzi cyane ko wabona ubufasha bwihuse.");
+                    f.addList([
+                        "📞 **116** - Imitari y'inkunga (24/7)",
+                        "📞 **3029** - Isange One Stop",
+                        "🏥 Kwa muganga wawe",
+                        "🤝 Vugana n'umuntu wizeye"
+                    ]);
+                    f.addEmphasis("Nturi wenyine. Ubu hashoboka ubufasha.", "bold");
+                    return f;
+                }
             },
 
             genocide: {
                 patterns: ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 'génocide', 'genocide'],
-                weight: 40
-            }
+                generate: function() {
+                    const f = new AIResponseFormatter();
+                    f.addTitle("🕊️ Ibyo wavuze ni ibintu bikomeye");
+                    f.addParagraph("TYAZA yumva neza ko jenoside yakorewe Abatutsi mu 1994 yasize ibyago byinshi.");
+                    f.addParagraph("Nta muntu ugomba kwihanganira ibyago yonyine.");
+                    f.addProverb("Ijoro ribara uwariraye", "Abariraye ni bo bumva iby'ijoro");
+                    f.addList([
+                        "📞 **116** - Bafasha abahangayikishijwe na jenoside",
+                        "📞 **3029** - Isange One Stop - Ubufasha ku bahinzwe",
+                        "🤝 Vugana n'umuntu wizeye"
+                    ]);
+                    f.addEmphasis("Ubu wumva ute? Urafite icyo ushaka kuvuga?", "italic");
+                    return f;
+                }
+            },
+
+            followUpQuestions: [
+                "Hari ikintu cyihariye wifuza kuganiraho uyu munsi?",
+                "Waba ufite ikibazo gikomeye kiri ku mutima?",
+                "Ni iki cyagufasha kumva neza ubu?",
+                "Umutima wawe uvuze iki ubu?",
+                "Hari ibyo wifuza ko twongera kubiganiraho?"
+            ],
+
+            calmingTechniques: [
+                "Gerageza guhumeka buhoro: winjiza umwuka, uwusohore buhoro.",
+                "Fata umwanya w'ituze utekereze ku bintu byiza.",
+                "Andika ibyo wumva mu gitabo.",
+                "Ganira n'umuntu wizeye.",
+                "Jya gutembera mu kirere cyiza.",
+                "Reka nkugirire icyifuzo: guhumeka buhoro nibura inshuro eshatu.",
+                "Imana itanga ibishoboka, nta mpamvu yo guhangayika.",
+                "Buri munsi ni urugendo rushya."
+            ]
         };
-
-        // ============================================================
-        // AIResponseFormatter
-        // ============================================================
-        class AIResponseFormatter {
-            constructor() {
-                this.sections = [];
-                this.riskLevel = 'low';
-            }
-
-            setRisk(level) {
-                this.riskLevel = level || 'low';
-                return this;
-            }
-
-            addTitle(text) {
-                this.sections.push({ type: "title", content: text });
-                return this;
-            }
-
-            addParagraph(text) {
-                this.sections.push({ type: "paragraph", content: text });
-                return this;
-            }
-
-            addList(items) {
-                this.sections.push({ type: "list", content: items });
-                return this;
-            }
-
-            addEmphasis(text, style = "bold") {
-                this.sections.push({ type: "emphasis", style: style, content: text });
-                return this;
-            }
-
-            addProverb(proverb, meaning) {
-                this.sections.push({ type: "proverb", proverb: proverb, meaning: meaning });
-                return this;
-            }
-
-            addTongueTwister(text, meaning = null, hint = null) {
-                this.sections.push({ type: "tongue_twister", text: text, meaning: meaning, hint: hint });
-                return this;
-            }
-
-            addIdiom(idiom, meaning) {
-                this.sections.push({ type: "idiom", idiom: idiom, meaning: meaning });
-                return this;
-            }
-
-            addCrisis(text) {
-                this.sections.push({ type: "crisis", content: text });
-                return this;
-            }
-
-            addActionButtons(buttons) {
-                this.sections.push({ type: "actions", content: buttons });
-                return this;
-            }
-
-            addDivider() {
-                this.sections.push({ type: "divider" });
-                return this;
-            }
-
-            build() {
-                return this.sections;
-            }
-
-            renderMarkdownToHTML(text) {
-                let result = text;
-                result = result.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--secondary);">$1</strong>');
-                result = result.replace(/\*(.*?)\*/g, '<em style="color:var(--text3);">$1</em>');
-                return result;
-            }
-
-            renderHTML() {
-                let output = '';
-                const riskClass = this.riskLevel === 'high' ? 'risk-high' : 
-                                this.riskLevel === 'medium' ? 'risk-medium' : 'risk-low';
-                
-                for (const sec of this.sections) {
-                    switch (sec.type) {
-                        case "title":
-                            output += `<h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.15rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin:6px 0 10px 0;">${this.renderMarkdownToHTML(sec.content)}</h3>`;
-                            break;
-                        case "paragraph":
-                            output += `<p style="margin:6px 0;line-height:1.7;">${this.renderMarkdownToHTML(sec.content)}</p>`;
-                            break;
-                        case "list":
-                            output += `<ul style="margin:8px 0 12px 20px;line-height:1.8;">`;
-                            for (const item of sec.content) {
-                                output += `<li>${this.renderMarkdownToHTML(item)}</li>`;
-                            }
-                            output += `</ul>`;
-                            break;
-                        case "emphasis":
-                            if (sec.style === "bold") {
-                                output += `<strong style="color:var(--secondary);">${sec.content}</strong>`;
-                            } else if (sec.style === "italic") {
-                                output += `<em style="color:var(--text3);">${sec.content}</em>`;
-                            } else {
-                                output += sec.content;
-                            }
-                            break;
-                        case "proverb":
-                            output += `<div class="proverb-box">`;
-                            output += `<div class="proverb-text">"${this.renderMarkdownToHTML(sec.proverb)}"</div>`;
-                            output += `<div class="proverb-meaning">→ ${this.renderMarkdownToHTML(sec.meaning)}</div>`;
-                            output += `</div>`;
-                            break;
-                        case "tongue_twister":
-                            output += `<div class="tongue-twister-box">`;
-                            output += `<div class="tt-text">🗣️ ${sec.text}</div>`;
-                            if (sec.meaning) {
-                                output += `<div class="tt-meaning">→ ${this.renderMarkdownToHTML(sec.meaning)}</div>`;
-                            }
-                            if (sec.hint) {
-                                output += `<div class="tt-hint">💡 ${sec.hint}</div>`;
-                            }
-                            output += `</div>`;
-                            break;
-                        case "idiom":
-                            output += `<div class="proverb-box" style="border-left-color:var(--secondary);">`;
-                            output += `<div class="proverb-text" style="font-weight:500;">💬 ${sec.idiom}</div>`;
-                            output += `<div class="proverb-meaning">→ ${this.renderMarkdownToHTML(sec.meaning)}</div>`;
-                            output += `</div>`;
-                            break;
-                        case "crisis":
-                            output += `<div class="crisis-box">⚠️ ${this.renderMarkdownToHTML(sec.content)}</div>`;
-                            break;
-                        case "divider":
-                            output += `<hr style="border:none;border-top:1px solid var(--surface4);margin:12px 0;">`;
-                            break;
-                        case "actions":
-                            if (sec.content && sec.content.length > 0) {
-                                output += `<div class="action-buttons">`;
-                                for (const btn of sec.content) {
-                                    const cls = btn.type === 'primary' ? 'action-btn primary' :
-                                               btn.type === 'danger' ? 'action-btn danger' : 'action-btn';
-                                    output += `<button class="${cls}" data-action="${btn.action || ''}">${btn.label}</button>`;
-                                }
-                                output += `</div>`;
-                            }
-                            break;
-                        default:
-                            output += sec.content || '';
-                    }
-                }
-                return `<div class="msg-bubble ${riskClass}">${output}</div>`;
-            }
-
-            renderMarkdown() {
-                let output = '';
-                for (const sec of this.sections) {
-                    switch (sec.type) {
-                        case "title":
-                            output += `# ${sec.content}\n\n`;
-                            break;
-                        case "paragraph":
-                            output += `${sec.content}\n\n`;
-                            break;
-                        case "list":
-                            for (const item of sec.content) {
-                                output += `- ${item}\n`;
-                            }
-                            output += `\n`;
-                            break;
-                        case "emphasis":
-                            if (sec.style === "bold") {
-                                output += `**${sec.content}**\n\n`;
-                            } else if (sec.style === "italic") {
-                                output += `*${sec.content}*\n\n`;
-                            } else {
-                                output += `${sec.content}\n\n`;
-                            }
-                            break;
-                        case "proverb":
-                            output += `> "${sec.proverb}"\n> *${sec.meaning}*\n\n`;
-                            break;
-                        case "tongue_twister":
-                            output += `🗣️ ${sec.text}\n`;
-                            if (sec.meaning) output += `→ ${sec.meaning}\n`;
-                            if (sec.hint) output += `💡 ${sec.hint}\n`;
-                            output += `\n`;
-                            break;
-                        case "idiom":
-                            output += `💬 ${sec.idiom}\n→ ${sec.meaning}\n\n`;
-                            break;
-                        case "crisis":
-                            output += `⚠️ **CRISIS:** ${sec.content}\n\n`;
-                            break;
-                        case "divider":
-                            output += `---\n\n`;
-                            break;
-                        case "actions":
-                            if (sec.content && sec.content.length > 0) {
-                                output += `**Actions:**\n`;
-                                for (const btn of sec.content) {
-                                    output += `- ${btn.label}\n`;
-                                }
-                                output += `\n`;
-                            }
-                            break;
-                        default:
-                            output += sec.content || '';
-                    }
-                }
-                return output;
-            }
-        }
 
         // ============================================================
         // STATE MANAGEMENT
@@ -2200,21 +2237,7 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
             },
             puterReady: false,
             messageCount: 0,
-            detectedLanguage: 'rw',
-            currentRisk: {
-                score: 0,
-                level: 'low',
-                previousScore: 0,
-                previousLevel: 'low',
-                history: [],
-                duration: 0
-            },
-            emotionHistory: [],
-            userContext: {
-                triggers: [],
-                goals: [],
-                themes: []
-            }
+            detectedLanguage: 'rw' // auto-detected language
         };
 
         // ============================================================
@@ -2258,10 +2281,12 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
         }
 
         // ============================================================
-        // LANGUAGE DETECTION
+        // LANGUAGE DETECTION - AUTO SWITCH
         // ============================================================
         function detectLanguage(text) {
             const lower = text.toLowerCase();
+            
+            // Check for French indicators
             const frenchPatterns = ['bonjour', 'salut', 'comment', 'je', 'tu', 'il', 'elle', 'nous', 'vous', 
                                    'français', 'merci', 's\'il vous plaît', 's\'il te plaît', 'oui', 'non',
                                    'triste', 'peine', 'heureux', 'joie', 'en colère', 'fâché', 'anxieux',
@@ -2269,6 +2294,8 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
             for (const pattern of frenchPatterns) {
                 if (lower.includes(pattern)) return 'fr';
             }
+            
+            // Check for English indicators
             const englishPatterns = ['hello', 'hi', 'hey', 'how', 'are', 'you', 'i', 'me', 'my', 'am', 
                                     'is', 'was', 'were', 'have', 'has', 'had', 'do', 'does', 'did',
                                     'sad', 'happy', 'angry', 'afraid', 'scared', 'anxious', 'worried',
@@ -2277,11 +2304,13 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
             for (const pattern of englishPatterns) {
                 if (lower.includes(pattern)) return 'en';
             }
+            
+            // Default: Kinyarwanda
             return 'rw';
         }
 
         // ============================================================
-        // GET LANGUAGE CONTENT
+        // GET LANGUAGE-SPECIFIC CONTENT
         // ============================================================
         function getLangContent(lang) {
             const content = {
@@ -2292,12 +2321,7 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                     status: "Igisubizo kindimo",
                     placeholder: "Sangiza icyo utekereza...",
                     scrollBottom: "subira hasi",
-                    tagline: TYAZA_MISSION.tagline,
-                    riskLabels: {
-                        high: "⚠️ IBYAGO BIKOMEYE",
-                        medium: "⚠️ Ibyago bigera",
-                        low: "✅ Ibyago bike"
-                    }
+                    tagline: TYAZA_MISSION.tagline
                 },
                 fr: {
                     greeting: "✨ Bienvenue",
@@ -2306,12 +2330,7 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                     status: "En attente de réponse",
                     placeholder: "Partagez ce que vous ressentez...",
                     scrollBottom: "descendre",
-                    tagline: "TYAZA — L'intelligence qui écoute, aide et protège chaque Rwandais.",
-                    riskLabels: {
-                        high: "⚠️ RISQUE ÉLEVÉ",
-                        medium: "⚠️ Risque modéré",
-                        low: "✅ Risque faible"
-                    }
+                    tagline: "TYAZA — L'intelligence qui écoute, aide et protège chaque Rwandais."
                 },
                 en: {
                     greeting: "✨ Welcome",
@@ -2320,1162 +2339,14 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                     status: "Awaiting response",
                     placeholder: "Share what's on your mind...",
                     scrollBottom: "scroll down",
-                    tagline: "TYAZA — Intelligence that listens, helps, and protects every Rwandan.",
-                    riskLabels: {
-                        high: "⚠️ HIGH RISK",
-                        medium: "⚠️ Medium risk",
-                        low: "✅ Low risk"
-                    }
+                    tagline: "TYAZA — Intelligence that listens, helps, and protects every Rwandan."
                 }
             };
             return content[lang] || content.rw;
         }
 
         // ============================================================
-        // RISK SCORING ENGINE
-        // ============================================================
-        function calculateRiskScore(text, emotionType = null) {
-            let score = 0;
-            const lower = text.toLowerCase();
-
-            for (const pattern of TYAZA_DATASET.crisis.patterns) {
-                if (lower.includes(pattern.toLowerCase())) {
-                    score += 50;
-                    state.riskFlags.suicide = true;
-                    state.riskFlags.selfHarm = true;
-                    break;
-                }
-            }
-
-            for (const pattern of TYAZA_DATASET.genocide.patterns) {
-                if (lower.includes(pattern.toLowerCase())) {
-                    score += 40;
-                    state.riskFlags.genocideTrauma = true;
-                    break;
-                }
-            }
-
-            for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
-                for (const pattern of data.patterns) {
-                    if (lower.includes(pattern.toLowerCase())) {
-                        const weight = data.weight || 0;
-                        if (weight > 0) {
-                            score += weight;
-                        }
-                        state.emotionHistory.push({ emotion, timestamp: Date.now() });
-                        break;
-                    }
-                }
-            }
-
-            const hopelessWords = ['nta mpamvu', 'ntakibazo', 'byarangiye', 'sinakomeza', 'hopeless', 'desperate'];
-            for (const word of hopelessWords) {
-                if (lower.includes(word)) {
-                    score += 30;
-                    break;
-                }
-            }
-
-            const selfWorthWords = ['ntagaciro', 'ntamwanya', 'sinakwiye', 'worthless', 'useless'];
-            for (const word of selfWorthWords) {
-                if (lower.includes(word)) {
-                    score += 25;
-                    break;
-                }
-            }
-
-            score = Math.min(score, 100);
-            return score;
-        }
-
-        function getRiskLevel(score) {
-            if (score >= 80) return 'high';
-            if (score >= 41) return 'medium';
-            return 'low';
-        }
-
-        function transitionEngine(newScore) {
-            const previousScore = state.currentRisk.score;
-            const previousLevel = state.currentRisk.level;
-            const newLevel = getRiskLevel(newScore);
-
-            if (state.currentRisk.level !== newLevel) {
-                state.currentRisk.duration = 0;
-            } else {
-                state.currentRisk.duration += 1;
-            }
-
-            state.currentRisk.history.push({
-                previousScore,
-                newScore,
-                previousLevel,
-                newLevel,
-                duration: state.currentRisk.duration,
-                timestamp: Date.now()
-            });
-
-            if (state.currentRisk.history.length > 20) {
-                state.currentRisk.history.shift();
-            }
-
-            state.currentRisk.previousScore = previousScore;
-            state.currentRisk.previousLevel = previousLevel;
-            state.currentRisk.score = newScore;
-            state.currentRisk.level = newLevel;
-
-            const escalated = newScore > previousScore;
-            const deescalated = newScore < previousScore;
-
-            if (newLevel === 'high') {
-                state.riskFlags.suicide = true;
-            }
-
-            return {
-                level: newLevel,
-                score: newScore,
-                escalated,
-                deescalated,
-                duration: state.currentRisk.duration
-            };
-        }
-
-        // ============================================================
-        // CONTEXT AWARENESS
-        // ============================================================
-        function extractContext(text) {
-            const lower = text.toLowerCase();
-            const triggers = [];
-            const goals = [];
-            const themes = [];
-
-            const triggerWords = ['ubwoba', 'guhangayika', 'umujinya', 'agahinda', 'stress', 'trauma', 'ptsd', 'jenoside'];
-            for (const word of triggerWords) {
-                if (lower.includes(word)) {
-                    triggers.push(word);
-                }
-            }
-
-            const goalPatterns = ['ngomba', 'ndashaka', 'nshaka', 'nifuza', 'nzageraho', 'want to', 'need to'];
-            for (const pattern of goalPatterns) {
-                if (lower.includes(pattern)) {
-                    const sentences = text.split(/[.?!]/);
-                    for (const s of sentences) {
-                        if (s.toLowerCase().includes(pattern) && s.length > 5) {
-                            goals.push(s.trim());
-                        }
-                    }
-                }
-            }
-
-            if (lower.includes('jenoside') || lower.includes('1994') || lower.includes('genocide')) {
-                themes.push('genocide_trauma');
-            }
-            if (lower.includes('family') || lower.includes('umuryango')) {
-                themes.push('family');
-            }
-            if (lower.includes('work') || lower.includes('akazi') || lower.includes('umurimo')) {
-                themes.push('work');
-            }
-            if (lower.includes('love') || lower.includes('urukundo') || lower.includes('friendship')) {
-                themes.push('relationships');
-            }
-
-            if (lower.includes('igihombe') || lower.includes('amagorane') || lower.includes('tongue') || lower.includes('twister')) {
-                themes.push('tongue_twister_request');
-            }
-
-            if (lower.includes('imvugo') || lower.includes('idiyome') || lower.includes('idiom')) {
-                themes.push('idiom_request');
-            }
-
-            return { triggers, goals, themes };
-        }
-
-        // ============================================================
-        // GET RANDOM TONGUE TWISTER / IDIOM
-        // ============================================================
-        function getRandomTongueTwister() {
-            const allTongueTwisters = [];
-            for (const category of Object.values(TYAZA_DATASET.amagorane)) {
-                for (const item of category) {
-                    allTongueTwisters.push(item);
-                }
-            }
-            return allTongueTwisters[Math.floor(Math.random() * allTongueTwisters.length)];
-        }
-
-        function getRandomIdiom() {
-            const keys = Object.keys(TYAZA_DATASET.idioms);
-            const key = keys[Math.floor(Math.random() * keys.length)];
-            return { idiom: key, meaning: TYAZA_DATASET.idioms[key] };
-        }
-
-        // ============================================================
-        // DECISION ENGINE
-        // ============================================================
-        function decisionEngine(riskLevel, userInput, context) {
-            const f = new AIResponseFormatter();
-            f.setRisk(riskLevel);
-
-            const lang = state.detectedLanguage || 'rw';
-            const langContent = getLangContent(lang);
-
-            // Check for tongue twister request
-            if (context.themes.includes('tongue_twister_request')) {
-                const tt = getRandomTongueTwister();
-                f.addTitle("🗣️ Amagorane (Tongue Twister)");
-                f.addTongueTwister(tt.text, tt.meaning || null, "Gerageza gusubiramo vuba vuba inshuro nyinshi!");
-                f.addParagraph("Amagorane ni imvugo zikomatanyije zigorana kuzivuga usubiramo inshuro nyinshi. Zifashishwa mu gutyaza ubwenge, kwenyereza ururimi, no gushimisha abantu.");
-                f.addParagraph("Wifuza ikindi gihombe cyangwa ushaka kuganira ku kindi kintu?");
-                f.addEmphasis(TYAZA_MISSION.tagline, "italic");
-                return f;
-            }
-
-            // Check for idiom request
-            if (context.themes.includes('idiom_request')) {
-                const idiom = getRandomIdiom();
-                f.addTitle("💬 Imvugo y'Ikinyarwanda");
-                f.addIdiom(idiom.idiom, idiom.meaning);
-                f.addParagraph("Iyi ni imwe mu mvugo z'ikinyarwanda gikomeye. Zikoreshwa mu mvugo y'umuco nyarwanda kavukire.");
-                f.addParagraph("Wifuza kumenya izindi mvugo cyangwa ukaganira ku kindi kintu?");
-                f.addEmphasis(TYAZA_MISSION.tagline, "italic");
-                return f;
-            }
-
-            if (riskLevel === 'high') {
-                f.addTitle(`🚨 ${langContent.riskLabels.high}`);
-                f.addCrisis("Ibi ni ibintu bikomeye cyane. Ukeneye ubufasha bwihuse.");
-                f.addParagraph("Ni ingenzi cyane ko wabona ubufasha bw'umuntu w'umubiri ubu.");
-                f.addList([
-                    "📞 **116** - Imitari y'inkunga (24/7)",
-                    "📞 **3029** - Isange One Stop",
-                    "🏥 Kwa muganga wawe cyangwa ibitaro bya hafi",
-                    "🤝 Vugana n'umuntu wizeye ubu"
-                ]);
-                f.addEmphasis("Nturi wenyine. Ubu hashoboka ubufasha.", "bold");
-                f.addActionButtons([
-                    { label: "📞 Hamagara 116", type: "danger", action: "call_116" },
-                    { label: "💬 Komeza uganire", type: "primary", action: "continue" }
-                ]);
-
-            } else if (riskLevel === 'medium') {
-                f.addTitle(`⚠️ ${langContent.riskLabels.medium}`);
-                const userName = state.userName || '';
-                const namePrefix = userName ? `${userName}, ` : '';
-                f.addParagraph(`${namePrefix}Ndumva ko hari ibintu biguhangayikishije.`);
-
-                if (context.triggers.length > 0) {
-                    f.addParagraph(`Nibonye ko uvuga ibyaha: **${context.triggers.join(', ')}**.`);
-                    const techniques = [
-                        "Gerageza guhumeka buhoro: winjiza umwuka, uwusohore buhoro.",
-                        "Fata umwanya w'ituze utekereze ku bintu byiza.",
-                        "Andika ibyo wumva mu gitabo.",
-                        "Ganira n'umuntu wizeye.",
-                        "Jya gutembera mu kirere cyiza."
-                    ];
-                    const randomTech = techniques[Math.floor(Math.random() * techniques.length)];
-                    f.addParagraph(`💡 Gerageza: ${randomTech}`);
-                }
-
-                if (state.currentRisk.duration > 3) {
-                    f.addParagraph("Nibona ko ibi byamaze igihe. Waba watekereje kuvugana n'umufasha w'umwuga?");
-                }
-
-                f.addList([
-                    "Ni iki cyagufasha kumva neza ubu?",
-                    "Hari ikintu ushaka kuvuga byinshi kuri byo?"
-                ]);
-
-                f.addActionButtons([
-                    { label: "🌱 Gerageza iki gikorwa", type: "primary", action: "action" },
-                    { label: "💬 Komeza uganire", type: "secondary", action: "continue" }
-                ]);
-
-            } else {
-                f.addTitle(`💙 ${langContent.riskLabels.low}`);
-                const userName = state.userName || '';
-                const namePrefix = userName ? `${userName}, ` : '';
-                f.addParagraph(`${namePrefix}Ndumva ibyo uvuga. Ubu wumva ute?`);
-
-                const proverbs = Object.keys(TYAZA_DATASET.proverbs);
-                const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-                f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
-
-                if (Math.random() < 0.15) {
-                    const tt = getRandomTongueTwister();
-                    f.addTongueTwister(tt.text, tt.meaning || null, "Gerageza gusubiramo vuba vuba!");
-                } else if (Math.random() < 0.15) {
-                    const idiom = getRandomIdiom();
-                    f.addIdiom(idiom.idiom, idiom.meaning);
-                }
-
-                if (context.goals.length > 0) {
-                    f.addParagraph(`Nibonye ko ufite intego: *"${context.goals[0]}"*. Ni byiza cyane!`);
-                }
-
-                f.addList([
-                    "Ubu wumva ute?",
-                    "Wambwira byinshi kuri byo?"
-                ]);
-
-                f.addActionButtons([
-                    { label: "💬 Komeza uganire", type: "secondary", action: "continue" }
-                ]);
-            }
-
-            if (riskLevel !== 'high') {
-                f.addDivider();
-                f.addParagraph(`TYAZA yakozwe na **${COMPANY_INFO.name}** rushinzwe na **${COMPANY_INFO.founder}**. ${TYAZA_MISSION.tagline}`);
-            }
-
-            f.addEmphasis(TYAZA_MISSION.tagline, "italic");
-            return f;
-        }
-
-        // ============================================================
-        // DETECT EMOTION
-        // ============================================================
-        function detectEmotion(text) {
-            const lower = text.toLowerCase();
-
-            for (const pattern of TYAZA_DATASET.crisis.patterns) {
-                if (lower.includes(pattern.toLowerCase())) {
-                    return { type: 'crisis', weight: 50 };
-                }
-            }
-
-            for (const pattern of TYAZA_DATASET.genocide.patterns) {
-                if (lower.includes(pattern.toLowerCase())) {
-                    return { type: 'genocide', weight: 40 };
-                }
-            }
-
-            const companyPatterns = ['kivura labs', 'kivura', 'kampani', 'company', 'uruganda'];
-            for (const pattern of companyPatterns) {
-                if (lower.includes(pattern.toLowerCase())) {
-                    return { type: 'about_company' };
-                }
-            }
-
-            const ceoPatterns = ['yves', 'hirwa', 'tuyishime', 'washinze', 'founder', 'ceo', 'umuyobozi'];
-            for (const pattern of ceoPatterns) {
-                if (lower.includes(pattern.toLowerCase())) {
-                    return { type: 'about_ceo' };
-                }
-            }
-
-            const greetingPatterns = ['muraho', 'hello', 'hi', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'bonjour', 'hey'];
-            for (const pattern of greetingPatterns) {
-                if (lower.includes(pattern.toLowerCase())) {
-                    return { type: 'greeting' };
-                }
-            }
-
-            for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
-                for (const pattern of data.patterns) {
-                    if (lower.includes(pattern.toLowerCase())) {
-                        return { type: emotion, weight: data.weight || 10 };
-                    }
-                }
-            }
-
-            const ttPatterns = ['igihombe', 'amagorane', 'tongue twister', 'twister'];
-            for (const pattern of ttPatterns) {
-                if (lower.includes(pattern.toLowerCase())) {
-                    return { type: 'tongue_twister' };
-                }
-            }
-
-            const idiomPatterns = ['imvugo', 'idiyome', 'idiom', 'amagambo y'umuco'];
-            for (const pattern of idiomPatterns) {
-                if (lower.includes(pattern.toLowerCase())) {
-                    return { type: 'idiom' };
-                }
-            }
-
-            const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye|jewe|je m'appelle|je suis|mon nom est)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
-            if (nameMatch) {
-                const name = nameMatch[1].trim();
-                const excludedNames = [
-                    'having', 'havings', 'have', 'has', 'had', 
-                    'ptsd', 'trauma', 'stress', 'anxiety', 'depression',
-                    'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy',
-                    'good', 'bad', 'fine', 'okay', 'ok', 'great', 'terrible',
-                    'wonderful', 'horrible', 'amazing', 'awful', 'well',
-                    'hello', 'hi', 'muraho', 'mwaramutse', 'amakuru', 'bite',
-                    'sawubona', 'neza', 'cyane', 'rwanda', 'kivura', 'labs',
-                    'tyaza', 'murakoze', 'ndabashimiye', 'ndishimiye',
-                    'mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima',
-                    'ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya',
-                    'ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya',
-                    'kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine',
-                    'ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe',
-                    'tyaza', 'uri', 'ndi'
-                ];
-                if (name.length >= 2 && !excludedNames.includes(name.toLowerCase())) {
-                    return { type: 'name', name: name };
-                }
-            }
-
-            const rareWords = Object.keys(TYAZA_DATASET.rareWords);
-            for (const word of rareWords) {
-                if (lower.includes(word.toLowerCase())) {
-                    return { type: 'rare_word', word: word };
-                }
-            }
-
-            return null;
-        }
-
-        // ============================================================
-        // GENERATE RESPONSE - With Puter AI Integration
-        // ============================================================
-        function generateResponse(userInput) {
-            const detection = detectEmotion(userInput);
-
-            // Handle special cases first (these don't need Puter AI)
-            if (detection && detection.type === 'rare_word') {
-                const word = detection.word;
-                const meaning = TYAZA_DATASET.rareWords[word] || "ikintu cyihariye";
-                const f = new AIResponseFormatter();
-                f.addTitle(`📖 "**${word}**"`);
-                f.addParagraph(`Iryo jambo risobanura: *${meaning}*.`);
-                f.addParagraph("Ni jambo ry'ikinyarwanda gikomeye, rikoreshwa mu mvugo y'umuco nyarwanda.");
-                const proverbs = Object.keys(TYAZA_DATASET.proverbs);
-                const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-                f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
-                f.addParagraph("Waba ufite ikindi ushaka kuvuga?");
-                f.addEmphasis(TYAZA_MISSION.tagline, "italic");
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null,
-                    riskScore: 0,
-                    riskLevel: 'low',
-                    usedPuter: false
-                };
-            }
-
-            if (detection && detection.type === 'tongue_twister') {
-                const f = new AIResponseFormatter();
-                const tt = getRandomTongueTwister();
-                f.addTitle("🗣️ Amagorane (Tongue Twister)");
-                f.addTongueTwister(tt.text, tt.meaning || null, "Gerageza gusubiramo vuba vuba inshuro nyinshi!");
-                f.addParagraph("Amagorane ni imvugo zikomatanyije zigorana kuzivuga usubiramo inshuro nyinshi. Zifashishwa mu gutyaza ubwenge, kwenyereza ururimi, no gushimisha abantu.");
-                f.addParagraph("Wifuza ikindi gihombe cyangwa ushaka kuganira ku kindi kintu?");
-                f.addEmphasis(TYAZA_MISSION.tagline, "italic");
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null,
-                    riskScore: 0,
-                    riskLevel: 'low',
-                    usedPuter: false
-                };
-            }
-
-            if (detection && detection.type === 'idiom') {
-                const f = new AIResponseFormatter();
-                const idiom = getRandomIdiom();
-                f.addTitle("💬 Imvugo y'Ikinyarwanda");
-                f.addIdiom(idiom.idiom, idiom.meaning);
-                f.addParagraph("Iyi ni imwe mu mvugo z'ikinyarwanda gikomeye. Zikoreshwa mu mvugo y'umuco nyarwanda kavukire.");
-                f.addParagraph("Wifuza kumenya izindi mvugo cyangwa ukaganira ku kindi kintu?");
-                f.addEmphasis(TYAZA_MISSION.tagline, "italic");
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null,
-                    riskScore: 0,
-                    riskLevel: 'low',
-                    usedPuter: false
-                };
-            }
-
-            if (detection && detection.type === 'name') {
-                state.userName = detection.name;
-                storageSet('userName', state.userName);
-                const f = new AIResponseFormatter();
-                f.addTitle(`✨ Muraho, ${state.userName}!`);
-                f.addParagraph("Murakaza neza kuri **TYAZA**, umuvugizi w'umutima.");
-                f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**. Ijambo rye ni: *"${COMPANY_INFO.quote}"*.`);
-                f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
-                f.addParagraph("Ndi hano kugira ngo mbafashe kumva neza ibiri ku mutima wanyu.");
-                const proverbs = Object.keys(TYAZA_DATASET.proverbs);
-                const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-                f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
-                f.addList([
-                    "Ubu wumva ute?",
-                    "Ni iki kiri ku mutima wawe?",
-                    "Hari ikintu ushaka kuganiraho?"
-                ]);
-                f.addEmphasis("Ndi hano kugira nkugire.", "italic");
-                f.addEmphasis(TYAZA_MISSION.tagline, "italic");
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: detection.name,
-                    riskScore: 0,
-                    riskLevel: 'low',
-                    usedPuter: false
-                };
-            }
-
-            if (detection && detection.type === 'about_company') {
-                const f = new AIResponseFormatter();
-                f.addTitle("🏢 KIVURA LABS");
-                f.addParagraph(`**${COMPANY_INFO.name}** ni uruganda rw'ikoranabuhanga rushinzwe na **${COMPANY_INFO.founder}** mu Rwanda.`);
-                f.addParagraph(`Ijambo rye rikomeye: *"${COMPANY_INFO.quote}"*.`);
-                f.addParagraph(`${COMPANY_INFO.name} yakoreye **${COMPANY_INFO.product}**, AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.`);
-                f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
-                f.addList([
-                    `👤 **CEO & Founder:** ${COMPANY_INFO.founder}`,
-                    `📅 **Yashinzwe:** 2024`,
-                    `🌍 **Aho iri:** Rwanda`,
-                    `💡 **Intego:** Guteza imbere AI mu Kinyarwanda no gufasha abantu mu buzima bwo mu mutwe`,
-                    `📌 **Tagline:** ${TYAZA_MISSION.tagline}`
-                ]);
-                f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
-                f.addEmphasis("Niba ufite ikindi ushaka kumenya ku KIVURA LABS, wambwira?", "italic");
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null,
-                    riskScore: 0,
-                    riskLevel: 'low',
-                    usedPuter: false
-                };
-            }
-
-            if (detection && detection.type === 'about_ceo') {
-                const f = new AIResponseFormatter();
-                f.addTitle("👤 Yves Hirwa Tuyishime");
-                f.addParagraph(`**${COMPANY_INFO.founder}** ni we washinze **${COMPANY_INFO.name}** kandi ni CEO wacyo.`);
-                f.addParagraph(`Ijambo rye rikomeye: *"${COMPANY_INFO.quote}"*.`);
-                f.addParagraph(`Yashinze ${COMPANY_INFO.name} mu 2024 mu Rwanda, agamije gukora AI ivuga mu Kinyarwanda ifasha abantu mu buzima bwo mu mutwe.`);
-                f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
-                f.addList([
-                    `👤 **Izina:** ${COMPANY_INFO.founder}`,
-                    `🏢 **Position:** CEO & Founder wa ${COMPANY_INFO.name}`,
-                    `💡 **Product:** ${COMPANY_INFO.product} - AI ivuga mu Kinyarwanda`,
-                    `📌 **Quote:** "${COMPANY_INFO.quote}"`,
-                    `🌍 **Aho akorera:** Rwanda`
-                ]);
-                f.addProverb("Ujya inama n'abakuru ntayoba", "Gusaba inama ku bakuru ni byiza");
-                f.addEmphasis("Niba wifuza kumenya byinshi kuri Yves Hirwa Tuyishime, wambwira?", "italic");
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null,
-                    riskScore: 0,
-                    riskLevel: 'low',
-                    usedPuter: false
-                };
-            }
-
-            if (detection && detection.type === 'crisis') {
-                const f = new AIResponseFormatter();
-                f.setRisk('high');
-                f.addTitle("🚨 ⚠️ Ukeneye ubufasha bwihutirwa");
-                f.addCrisis("Ibi ni ibintu bikomeye cyane. Mbabajwe cyane no kumva utyo.");
-                f.addParagraph("Ni ingenzi cyane ko wabona ubufasha bwihuse.");
-                f.addList([
-                    "📞 **116** - Imitari y'inkunga (24/7)",
-                    "📞 **3029** - Isange One Stop",
-                    "🏥 Kwa muganga wawe",
-                    "🤝 Vugana n'umuntu wizeye"
-                ]);
-                f.addEmphasis("Nturi wenyine. Ubu hashoboka ubufasha.", "bold");
-                f.addActionButtons([
-                    { label: "📞 Hamagara 116", type: "danger", action: "call_116" },
-                    { label: "💬 Komeza uganire", type: "primary", action: "continue" }
-                ]);
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null,
-                    riskScore: 100,
-                    riskLevel: 'high',
-                    usedPuter: false
-                };
-            }
-
-            if (detection && detection.type === 'genocide') {
-                const f = new AIResponseFormatter();
-                f.setRisk('high');
-                f.addTitle("🕊️ Ibyo wavuze ni ibintu bikomeye");
-                f.addParagraph("TYAZA yumva neza ko jenoside yakorewe Abatutsi mu 1994 yasize ibyago byinshi.");
-                f.addParagraph("Nta muntu ugomba kwihanganira ibyago yonyine.");
-                f.addProverb("Ijoro ribara uwariraye", "Abariraye ni bo bumva iby'ijoro");
-                f.addList([
-                    "📞 **116** - Bafasha abahangayikishijwe na jenoside",
-                    "📞 **3029** - Isange One Stop - Ubufasha ku bahinzwe",
-                    "🤝 Vugana n'umuntu wizeye"
-                ]);
-                f.addEmphasis("Ubu wumva ute? Urafite icyo ushaka kuvuga?", "italic");
-                f.addActionButtons([
-                    { label: "📞 Hamagara 116", type: "danger", action: "call_116" },
-                    { label: "💬 Komeza uganire", type: "primary", action: "continue" }
-                ]);
-                return {
-                    sections: f.build(),
-                    html: f.renderHTML(),
-                    markdown: f.renderMarkdown(),
-                    userName: null,
-                    riskScore: 80,
-                    riskLevel: 'high',
-                    usedPuter: false
-                };
-            }
-
-            // ==========================================================
-            // UNIFIED INTELLIGENCE FLOW with Puter AI
-            // ==========================================================
-            const context = extractContext(userInput);
-            state.userContext.triggers = [...new Set([...state.userContext.triggers, ...context.triggers])];
-            state.userContext.goals = [...new Set([...state.userContext.goals, ...context.goals])];
-            state.userContext.themes = [...new Set([...state.userContext.themes, ...context.themes])];
-
-            let riskScore = calculateRiskScore(userInput, detection ? detection.type : null);
-            const transition = transitionEngine(riskScore);
-            
-            // Use Puter AI if available and enabled
-            if (state.useAI && typeof puter !== 'undefined') {
-                // Return a marker that we'll use Puter AI
-                return {
-                    usePuter: true,
-                    userInput: userInput,
-                    context: context,
-                    riskScore: riskScore,
-                    riskLevel: transition.level,
-                    transition: transition,
-                    detection: detection
-                };
-            }
-
-            // Fallback to decision engine
-            const decision = decisionEngine(transition.level, userInput, context);
-            return {
-                sections: decision.build(),
-                html: decision.renderHTML(),
-                markdown: decision.renderMarkdown(),
-                userName: null,
-                riskScore: riskScore,
-                riskLevel: transition.level,
-                transition: transition,
-                usedPuter: false
-            };
-        }
-
-        // ============================================================
-        // PUTER AI RESPONSE - Advanced AI integration
-        // ============================================================
-        async function getPuterAIResponse(userInput, context, riskLevel, riskScore) {
-            try {
-                if (typeof puter === 'undefined') {
-                    const decision = decisionEngine(riskLevel, userInput, context);
-                    return {
-                        sections: decision.build(),
-                        html: decision.renderHTML(),
-                        markdown: decision.renderMarkdown(),
-                        usedPuter: false
-                    };
-                }
-
-                const detection = detectEmotion(userInput);
-                let emotionContext = '';
-                if (detection && detection.type !== 'name') {
-                    emotionContext = `Umukoresha arumva ${detection.type}.`;
-                }
-
-                const lang = state.detectedLanguage || 'rw';
-                const langInstruction = lang === 'rw' ? 'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe.' :
-                                     lang === 'fr' ? 'Répondez en Français, avec empathie et chaleur.' :
-                                     'Respond in English, with empathy and warmth.';
-
-                const rareWordsList = Object.keys(TYAZA_DATASET.rareWords).slice(0, 30).join(', ');
-                const proverbsList = Object.keys(TYAZA_DATASET.proverbs).slice(0, 20).join(', ');
-
-                const ttExamples = [];
-                for (const category of Object.values(TYAZA_DATASET.amagorane)) {
-                    for (const item of category.slice(0, 2)) {
-                        ttExamples.push(item.text);
-                    }
-                }
-                const ttList = ttExamples.slice(0, 5).join('; ');
-
-                const idiomKeys = Object.keys(TYAZA_DATASET.idioms).slice(0, 10);
-                const idiomList = idiomKeys.join(', ');
-
-                const riskLevelEmoji = riskLevel === 'high' ? '🚨' : riskLevel === 'medium' ? '⚠️' : '✅';
-                const riskContext = `Ibyago by'umukoresha ni ${riskLevelEmoji} ${riskLevel} (${riskScore}%).`;
-
-                const contextStr = `
-                    Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
-                    ${emotionContext}
-                    ${langInstruction}
-                    Koresha ikinyarwanda kiboneye.
-                    Jya ugira impuhwe zikomeye.
-                    Ntutange inama z'ubuvuzi.
-                    
-                    Uzi izi migani: ${proverbsList}
-                    Uzi aya magambo adasanzwe: ${rareWordsList}
-                    Uzi aya magorane (tongue twisters): ${ttList}
-                    Uzi izi mvugo z'umuco: ${idiomList}
-                    
-                    ${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}
-                    ${state.messages.length > 0 ? `Ubwo ni ikiganiro cya ${state.messages.length + 1}.` : ''}
-                    
-                    ${riskContext}
-                    
-                    IBANZE: Ibya KIVURA LABS:
-                    - Yashinzwe na Yves Hirwa Tuyishime (CEO & Founder)
-                    - Ijambo rye: "Healthy citizens, wealthy nation"
-                    - Product: TYAZA - AI ivuga mu Kinyarwanda
-                    - Yashinzwe mu 2024 mu Rwanda
-                    - Tagline: "${TYAZA_MISSION.tagline}"
-                    
-                    MISSION YA TYAZA:
-                    ${TYAZA_MISSION.mission}
-                    
-                    VISION YA TYAZA:
-                    ${TYAZA_MISSION.vision}
-                    
-                    INDANGAGACIRO:
-                    ${TYAZA_MISSION.values.join(', ')}
-                    
-                    NTA NDI UMUNTU. NDI TYAZA, AI ya KIVURA LABS.
-                    
-                    IBANZE: Ntukoreshe ijambo "having" mu bisubizo byawe.
-                    Iyo ukoresha amagambo adasanzwe, sobanura icyo asobanura.
-                    Koresha imigani nk'ubuhanga bw'umuco nyarwanda.
-                    Iyo usabwe igihombe (amagorane), tanga kimwe mu by'ukuri.
-                    Iyo usabwe imvugo y'umuco, tanga imwe mu mvugo z'ikinyarwanda.
-                    
-                    UBUZA:
-                    Niba umukoresha avuga ibintu by'akaga (kwiyahura, kwikomeretsa, guhohoterwa),
-                    tanga ubutumwa bwihutirwa bwerekana aho bakwishyura (116, 3029, 112, 912).
-                    
-                    Iyo risk ari HIGH, tanga ubutumwa bwihutirwa bw'ubufasha.
-                    Iyo risk ari MEDIUM, tanga ibitekerezo n'ibikorwa byoroheje.
-                    Iyo risk ari LOW, tanga ibyishimo n'inkunga.
-                `;
-
-                const response = await puter.ai.chat([
-                    { role: 'system', content: contextStr },
-                    { role: 'user', content: userInput }
-                ]);
-
-                let text = response.message?.content || response.text || '';
-                text = text.replace(/\bhaving\b/gi, '').replace(/\bhave\b/gi, '');
-                text = text.replace(/\bhas\b/gi, '').replace(/\bhad\b/gi, '');
-                text = text.replace(/\bhavings\b/gi, '');
-
-                if (text && text.length > 5) {
-                    const f = new AIResponseFormatter();
-                    f.setRisk(riskLevel);
-                    
-                    f.addTitle("💬 TYAZA");
-                    const paragraphs = text.split('\n\n').filter(p => p.trim());
-                    for (const p of paragraphs) {
-                        if (p.startsWith('-') || p.startsWith('•')) {
-                            const items = p.split('\n').filter(line => line.trim().startsWith('-') || line.trim().startsWith('•'));
-                            if (items.length > 0) {
-                                f.addList(items.map(item => item.replace(/^[-•]\s*/, '').trim()));
-                            } else {
-                                f.addParagraph(p);
-                            }
-                        } else {
-                            f.addParagraph(p);
-                        }
-                    }
-                    
-                    const proverbs = Object.keys(TYAZA_DATASET.proverbs);
-                    const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-                    f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
-                    f.addEmphasis(TYAZA_MISSION.tagline, "italic");
-                    
-                    if (riskLevel === 'high') {
-                        f.addActionButtons([
-                            { label: "📞 Hamagara 116", type: "danger", action: "call_116" },
-                            { label: "💬 Komeza uganire", type: "primary", action: "continue" }
-                        ]);
-                    } else if (riskLevel === 'medium') {
-                        f.addActionButtons([
-                            { label: "🌱 Gerageza iki gikorwa", type: "primary", action: "action" },
-                            { label: "💬 Komeza uganire", type: "secondary", action: "continue" }
-                        ]);
-                    } else {
-                        f.addActionButtons([
-                            { label: "💬 Komeza uganire", type: "secondary", action: "continue" }
-                        ]);
-                    }
-                    
-                    return {
-                        sections: f.build(),
-                        html: f.renderHTML(),
-                        markdown: f.renderMarkdown(),
-                        usedPuter: true
-                    };
-                }
-
-                // Fallback
-                const decision = decisionEngine(riskLevel, userInput, context);
-                return {
-                    sections: decision.build(),
-                    html: decision.renderHTML(),
-                    markdown: decision.renderMarkdown(),
-                    usedPuter: false
-                };
-
-            } catch (error) {
-                console.error('Puter AI Error:', error);
-                const decision = decisionEngine(riskLevel, userInput, context);
-                return {
-                    sections: decision.build(),
-                    html: decision.renderHTML(),
-                    markdown: decision.renderMarkdown(),
-                    usedPuter: false
-                };
-            }
-        }
-
-        // ============================================================
-        // SPEECH
-        // ============================================================
-        function loadVoices() {
-            state.voices = state.speechSynthesis.getVoices();
-            if (state.speechSynthesis.onvoiceschanged) {
-                state.speechSynthesis.onvoiceschanged = () => {
-                    state.voices = state.speechSynthesis.getVoices();
-                };
-            }
-        }
-        loadVoices();
-
-        function speakText(text) {
-            if (!state.speechSynthesis || !text) return;
-            state.speechSynthesis.cancel();
-            const cleanText = text.replace(/<[^>]*>/g, '').replace(/[^\w\s.,!?;:()'-]/g, '').slice(0, 500);
-            if (!cleanText) return;
-            const utterance = new SpeechSynthesisUtterance(cleanText);
-            const voiceName = state.settings.voice;
-            const voice = state.voices.find(v => v.name.includes(voiceName.split(' ')[0]));
-            if (voice) utterance.voice = voice;
-            utterance.rate = state.settings.rate;
-            utterance.pitch = state.settings.pitch;
-            const langMap = { rw: 'rw-RW', fr: 'fr-FR', en: 'en-US' };
-            utterance.lang = langMap[state.detectedLanguage] || 'rw-RW';
-            state.speechSynthesis.speak(utterance);
-        }
-
-        function initSpeechRecognition() {
-            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-            if (!SR) return false;
-            state.speechRecognition = new SR();
-            state.speechRecognition.continuous = false;
-            state.speechRecognition.interimResults = true;
-            state.speechRecognition.lang = 'rw-RW';
-
-            state.speechRecognition.onstart = () => {
-                state.isListening = true;
-                document.getElementById('voiceBtn').classList.add('listening');
-                document.getElementById('voiceStatus').textContent = '🎤 Mvuga none...';
-            };
-
-            state.speechRecognition.onend = () => {
-                state.isListening = false;
-                document.getElementById('voiceBtn').classList.remove('listening');
-                document.getElementById('voiceStatus').textContent = '';
-            };
-
-            state.speechRecognition.onresult = (e) => {
-                let transcript = '';
-                for (let i = 0; i < e.results.length; i++) {
-                    transcript += e.results[i][0].transcript;
-                }
-                document.getElementById('messageInput').value = transcript;
-                handleInput();
-                if (e.results[0].isFinal) {
-                    setTimeout(() => {
-                        if (document.getElementById('messageInput').value.trim()) sendMessage();
-                    }, 500);
-                }
-            };
-
-            state.speechRecognition.onerror = () => {
-                state.isListening = false;
-                document.getElementById('voiceBtn').classList.remove('listening');
-                document.getElementById('voiceStatus').textContent = '❌ Mikorofoni yanze.';
-            };
-
-            return true;
-        }
-        const hasSpeech = initSpeechRecognition();
-
-        // ============================================================
-        // UI HELPERS
-        // ============================================================
-        function updateWelcome() {
-            const name = state.userName || '';
-            const lang = state.detectedLanguage || 'rw';
-            const content = getLangContent(lang);
-            
-            document.getElementById('welcomeGreeting').textContent = name ? `${content.greeting}, ${name}` : content.greeting;
-            document.getElementById('welcomeGreeting').style.opacity = '1';
-            document.getElementById('messageInput').placeholder = content.placeholder;
-            document.getElementById('scrollBottom').innerHTML = `<i class="fas fa-arrow-down"></i> ${content.scrollBottom}`;
-            document.getElementById('statusText').textContent = content.status;
-            updateRiskIndicators(state.riskFlags);
-            
-            // Update AI status
-            const aiStatusText = document.getElementById('aiStatusText');
-            if (typeof puter !== 'undefined') {
-                aiStatusText.textContent = '✅ Online';
-                aiStatusText.style.color = 'var(--success)';
-                document.getElementById('aiStatusDisplay').textContent = '🤖 AI: Puter AI Online';
-            } else {
-                aiStatusText.textContent = '⚠️ Offline (Local)';
-                aiStatusText.style.color = 'var(--warning)';
-                document.getElementById('aiStatusDisplay').textContent = '🤖 AI: Local Mode';
-            }
-        }
-
-        function handleInput() {
-            const val = document.getElementById('messageInput').value.trim();
-            document.getElementById('sendBtn').disabled = !val || state.isGenerating;
-            document.getElementById('messageInput').style.height = 'auto';
-            document.getElementById('messageInput').style.height = Math.min(document.getElementById('messageInput').scrollHeight, 150) + 'px';
-        }
-
-        function scrollToBottom() {
-            const messages = document.getElementById('messages');
-            messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
-        }
-
-        function handleScroll() {
-            const messages = document.getElementById('messages');
-            const { scrollTop, scrollHeight, clientHeight } = messages;
-            const atBottom = scrollHeight - scrollTop - clientHeight < 150;
-            document.getElementById('scrollBottom').classList.toggle('visible', !atBottom);
-        }
-
-        function showTyping() {
-            const id = 'typing-' + Date.now();
-            const el = document.createElement('div');
-            el.id = id;
-            el.className = 'typing';
-            el.innerHTML = `
-                <div class="msg-avatar">
-                    <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">
-                </div>
-                <div class="typing-dots">
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                    <span class="typing-dot"></span>
-                </div>
-            `;
-            document.getElementById('messages').appendChild(el);
-            scrollToBottom();
-            return id;
-        }
-
-        function removeTyping(id) {
-            const el = document.getElementById(id);
-            if (el) el.remove();
-        }
-
-        function addMessage(role, content, htmlContent = null, riskLevel = 'low', usedPuter = false) {
-            document.getElementById('welcome').style.display = 'none';
-            const msg = document.createElement('div');
-            msg.className = `message ${role}`;
-            const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
-
-            const displayContent = htmlContent || content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
-
-            const avatarContent = role === 'user' ?
-                '👤' :
-                `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">`;
-
-            let metaExtra = '';
-            if (role === 'assistant' && usedPuter) {
-                metaExtra = `<span style="font-size:0.6rem;color:var(--secondary);">🤖 AI</span>`;
-            }
-
-            msg.innerHTML = `
-                <div class="msg-avatar">${avatarContent}</div>
-                <div>
-                    ${displayContent}
-                    <div class="msg-meta">
-                        <span>${time}</span>
-                        ${metaExtra}
-                        <div class="msg-actions">
-                            ${role === 'assistant' ? `
-                                <button class="msg-action" onclick="speakText('${content.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}')">
-                                    <i class="fas fa-volume-up"></i>
-                                </button>
-                            ` : ''}
-                            <button class="msg-action" onclick="navigator.clipboard.writeText('${content.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}'); showToast('Ibyakiriwe!', 'success')">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            document.getElementById('messages').appendChild(msg);
-            state.messages.push({ 
-                role, 
-                content, 
-                timestamp: Date.now(),
-                riskLevel: riskLevel,
-                usedPuter: usedPuter
-            });
-            state.messageCount++;
-            scrollToBottom();
-
-            if (state.messages.length > 100) {
-                state.messages.splice(0, 50);
-            }
-
-            saveConversation();
-            updateMemoryStats();
-
-            if (role === 'assistant') {
-                msg.querySelectorAll('.action-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const action = btn.dataset.action;
-                        if (action === 'call_116') {
-                            window.location.href = 'tel:116';
-                            showCrisisModal();
-                        } else if (action === 'continue') {
-                            document.getElementById('messageInput').focus();
-                        } else if (action === 'action') {
-                            const techniques = [
-                                "Gerageza guhumeka buhoro: winjiza umwuka, uwusohore buhoro.",
-                                "Fata umwanya w'ituze utekereze ku bintu byiza.",
-                                "Andika ibyo wumva mu gitabo.",
-                                "Ganira n'umuntu wizeye.",
-                                "Jya gutembera mu kirere cyiza."
-                            ];
-                            const randomTech = techniques[Math.floor(Math.random() * techniques.length)];
-                            document.getElementById('messageInput').value = randomTech;
-                            handleInput();
-                            setTimeout(() => sendMessage(), 300);
-                        }
-                    });
-                });
-            }
-        }
-
-        // ============================================================
-        // SEND MESSAGE - With Puter AI
-        // ============================================================
-        async function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const text = input.value.trim();
-            if (!text || state.isGenerating) return;
-
-            input.value = '';
-            input.style.height = 'auto';
-            document.getElementById('sendBtn').disabled = true;
-
-            state.detectedLanguage = detectLanguage(text);
-            updateWelcome();
-
-            const result = generateResponse(text);
-
-            const risks = analyzeRisks(text);
-            state.riskFlags = risks;
-            updateRiskIndicators(risks);
-
-            // Handle special cases that don't need Puter AI
-            if (result.userName) {
-                state.userName = result.userName;
-                storageSet('userName', state.userName);
-                updateWelcome();
-                updateMemoryStats();
-                addMessage('user', text);
-                addMessage('assistant', result.markdown, result.html, result.riskLevel || 'low', false);
-                showToast(`✨ Murakaza neza, ${state.userName}!`, 'success');
-                document.getElementById('sendBtn').disabled = false;
-                return;
-            }
-
-            const detection = detectEmotion(text);
-            if (detection && (detection.type === 'crisis' || detection.type === 'genocide')) {
-                addMessage('user', text);
-                addMessage('assistant', result.markdown, result.html, 'high', false);
-                if (detection.type === 'crisis') {
-                    showCrisisModal();
-                }
-                document.getElementById('sendBtn').disabled = false;
-                return;
-            }
-
-            // Handle tongue twister and idiom requests (no Puter AI needed)
-            if (detection && (detection.type === 'tongue_twister' || detection.type === 'idiom' || detection.type === 'rare_word')) {
-                addMessage('user', text);
-                addMessage('assistant', result.markdown, result.html, result.riskLevel || 'low', false);
-                document.getElementById('sendBtn').disabled = false;
-                return;
-            }
-
-            // Normal flow with Puter AI if enabled
-            addMessage('user', text);
-            const typingId = showTyping();
-            state.isGenerating = true;
-            document.getElementById('statusText').textContent = 'TYAZA irategura...';
-
-            try {
-                let finalResult;
-                
-                if (result.usePuter && state.useAI && typeof puter !== 'undefined') {
-                    // Use Puter AI
-                    const aiResult = await getPuterAIResponse(
-                        result.userInput, 
-                        result.context, 
-                        result.riskLevel, 
-                        result.riskScore
-                    );
-                    finalResult = aiResult;
-                } else {
-                    // Use decision engine
-                    const decision = decisionEngine(result.riskLevel || 'low', text, result.context || { triggers: [], goals: [], themes: [] });
-                    finalResult = {
-                        sections: decision.build(),
-                        html: decision.renderHTML(),
-                        markdown: decision.renderMarkdown(),
-                        usedPuter: false
-                    };
-                }
-
-                removeTyping(typingId);
-                addMessage('assistant', finalResult.markdown, finalResult.html, result.riskLevel || 'low', finalResult.usedPuter || false);
-
-            } catch (error) {
-                console.error('Send error:', error);
-                removeTyping(typingId);
-                const fallback = decisionEngine('low', text, { triggers: [], goals: [], themes: [] });
-                addMessage('assistant', fallback.renderMarkdown(), fallback.renderHTML(), 'low', false);
-            }
-
-            state.isGenerating = false;
-            document.getElementById('sendBtn').disabled = false;
-            document.getElementById('statusText').textContent = getLangContent(state.detectedLanguage).status;
-            updateMemoryStats();
-            document.getElementById('messageInput').focus();
-        }
-
-        // ============================================================
-        // CRISIS DETECTION
+        // CRISIS DETECTION - Multi-language
         // ============================================================
         function analyzeRisks(text) {
             const lower = text.toLowerCase();
@@ -3589,12 +2460,11 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                 moodEntries: moodData.length,
                 activeDays,
                 avgMood,
-                triggers: triggers.slice(0, 10),
+                triggers,
                 goals: goals.slice(0, 5),
                 totalMessages,
                 engagement: Math.round(engagement),
-                recentMoods: recentMoods.slice(-7),
-                riskHistory: state.currentRisk.history.slice(-5)
+                recentMoods: recentMoods.slice(-7)
             };
         }
 
@@ -3610,6 +2480,461 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
         }
 
         // ============================================================
+        // DETECT EMOTION - With rare words support
+        // ============================================================
+        function detectEmotion(text) {
+            const lower = text.toLowerCase();
+
+            // Crisis first
+            for (const pattern of TYAZA_DATASET.crisis.patterns) {
+                if (lower.includes(pattern.toLowerCase())) return { type: 'crisis' };
+            }
+
+            // Genocide
+            for (const pattern of TYAZA_DATASET.genocide.patterns) {
+                if (lower.includes(pattern.toLowerCase())) return { type: 'genocide' };
+            }
+
+            // Company questions
+            for (const pattern of TYAZA_DATASET.emotions.about_company.patterns) {
+                if (lower.includes(pattern.toLowerCase())) return { type: 'about_company' };
+            }
+
+            // CEO questions
+            for (const pattern of TYAZA_DATASET.emotions.about_ceo.patterns) {
+                if (lower.includes(pattern.toLowerCase())) return { type: 'about_ceo' };
+            }
+
+            // Greeting
+            for (const pattern of TYAZA_DATASET.emotions.greeting.patterns) {
+                if (lower.includes(pattern.toLowerCase())) return { type: 'greeting' };
+            }
+
+            // Other emotions
+            for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
+                if (emotion === 'greeting' || emotion === 'about_company' || emotion === 'about_ceo') continue;
+                for (const pattern of data.patterns) {
+                    if (lower.includes(pattern.toLowerCase())) return { type: emotion };
+                }
+            }
+
+            // Name detection - CORRECTED: "ndi tyaza" vs "ndi uri tyaza"
+            const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye|jewe|je m'appelle|je suis|mon nom est)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
+            if (nameMatch) {
+                const name = nameMatch[1].trim();
+                const excludedNames = [
+                    'having', 'havings', 'have', 'has', 'had', 
+                    'ptsd', 'trauma', 'stress', 'anxiety', 'depression',
+                    'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy',
+                    'good', 'bad', 'fine', 'okay', 'ok', 'great', 'terrible',
+                    'wonderful', 'horrible', 'amazing', 'awful', 'well',
+                    'hello', 'hi', 'muraho', 'mwaramutse', 'amakuru', 'bite',
+                    'sawubona', 'neza', 'cyane', 'rwanda', 'kivura', 'labs',
+                    'tyaza', 'murakoze', 'ndabashimiye', 'ndishimiye',
+                    'mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima',
+                    'ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya',
+                    'ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya',
+                    'kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine',
+                    'ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe',
+                    'tyaza', 'uri', 'ndi' // added 'tyaza' and 'uri' to prevent false detection
+                ];
+                if (name.length >= 2 && !excludedNames.includes(name.toLowerCase())) {
+                    return { type: 'name', name: name };
+                }
+            }
+
+            // Check for rare word usage - show appreciation
+            const rareWords = Object.keys(TYAZA_DATASET.rareWords);
+            for (const word of rareWords) {
+                if (lower.includes(word.toLowerCase())) {
+                    return { type: 'rare_word', word: word };
+                }
+            }
+
+            return null;
+        }
+
+        // ============================================================
+        // GENERATE RESPONSE - Enhanced with rare words and proverbs
+        // ============================================================
+        function generateResponse(userInput) {
+            const detection = detectEmotion(userInput);
+
+            // Handle rare word
+            if (detection && detection.type === 'rare_word') {
+                const word = detection.word;
+                const meaning = TYAZA_DATASET.rareWords[word] || "ikintu cyihariye";
+                const f = new AIResponseFormatter();
+                f.addTitle(`📖 "**${word}**"`);
+                f.addParagraph(`Iryo jambo risobanura: *${meaning}*.`);
+                f.addParagraph("Ni jambo ry'ikinyarwanda gikomeye, rikoreshwa mu mvugo y'umuco nyarwanda.");
+                
+                const proverbs = Object.keys(TYAZA_DATASET.proverbs);
+                const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+                f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
+                
+                f.addParagraph("Waba ufite ikindi ushaka kuvuga?");
+                f.addEmphasis(TYAZA_MISSION.tagline, "italic");
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
+                };
+            }
+
+            // Handle name - CORRECTED: "ndi tyaza" is self-identification
+            if (detection && detection.type === 'name') {
+                state.userName = detection.name;
+                storageSet('userName', state.userName);
+                const f = TYAZA_DATASET.emotions.greeting.generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: detection.name
+                };
+            }
+
+            // Handle crisis
+            if (detection && detection.type === 'crisis') {
+                const f = TYAZA_DATASET.crisis.generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
+                };
+            }
+
+            // Handle genocide
+            if (detection && detection.type === 'genocide') {
+                const f = TYAZA_DATASET.genocide.generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
+                };
+            }
+
+            // Handle company questions
+            if (detection && detection.type === 'about_company') {
+                const f = TYAZA_DATASET.emotions.about_company.generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
+                };
+            }
+
+            // Handle CEO questions
+            if (detection && detection.type === 'about_ceo') {
+                const f = TYAZA_DATASET.emotions.about_ceo.generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
+                };
+            }
+
+            // Handle emotions
+            if (detection && detection.type && TYAZA_DATASET.emotions[detection.type]) {
+                const f = TYAZA_DATASET.emotions[detection.type].generate();
+                return {
+                    sections: f.build(),
+                    html: f.renderHTML(),
+                    markdown: f.renderMarkdown(),
+                    userName: null
+                };
+            }
+
+            // Generic response with company context and mission
+            const f = new AIResponseFormatter();
+            const userName = state.userName || '';
+            const namePrefix = userName ? `${userName}, ` : '';
+
+            f.addTitle("💙 Urakoze kundekera");
+            f.addParagraph(`${namePrefix}Ndumva ibyo uvuga. TYAZA ni AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.`);
+            f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**. Ijambo rye ni: *"${COMPANY_INFO.quote}"*.`);
+            f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
+
+            const proverbs = Object.keys(TYAZA_DATASET.proverbs);
+            const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+            f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
+
+            let questions = [
+                "Wumva ute ubu?",
+                "Wambwira byinshi kuri byo?"
+            ];
+
+            if (state.messages.length > 3) {
+                const followUps = TYAZA_DATASET.followUpQuestions;
+                const randomFollowUp = followUps[Math.floor(Math.random() * followUps.length)];
+                questions.push(randomFollowUp);
+            }
+
+            if (state.messages.some(m => 
+                m.role === 'user' && 
+                ['ubwoba', 'guhangayika', 'ndatinya', 'stress'].some(w => m.content.toLowerCase().includes(w))
+            )) {
+                const techniques = TYAZA_DATASET.calmingTechniques;
+                const randomTechnique = techniques[Math.floor(Math.random() * techniques.length)];
+                f.addParagraph(`💡 Gerageza: ${randomTechnique}`);
+            }
+
+            f.addList(questions);
+            f.addEmphasis(TYAZA_MISSION.tagline, "italic");
+
+            return {
+                sections: f.build(),
+                html: f.renderHTML(),
+                markdown: f.renderMarkdown(),
+                userName: null
+            };
+        }
+
+        // ============================================================
+        // SPEECH
+        // ============================================================
+        function loadVoices() {
+            state.voices = state.speechSynthesis.getVoices();
+            if (state.speechSynthesis.onvoiceschanged) {
+                state.speechSynthesis.onvoiceschanged = () => {
+                    state.voices = state.speechSynthesis.getVoices();
+                };
+            }
+        }
+        loadVoices();
+
+        function speakText(text) {
+            if (!state.speechSynthesis || !text) return;
+            state.speechSynthesis.cancel();
+            const cleanText = text.replace(/<[^>]*>/g, '').replace(/[^\w\s.,!?;:()'-]/g, '').slice(0, 500);
+            if (!cleanText) return;
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            const voiceName = state.settings.voice;
+            const voice = state.voices.find(v => v.name.includes(voiceName.split(' ')[0]));
+            if (voice) utterance.voice = voice;
+            utterance.rate = state.settings.rate;
+            utterance.pitch = state.settings.pitch;
+            
+            // Set language based on detected language
+            const langMap = { rw: 'rw-RW', fr: 'fr-FR', en: 'en-US' };
+            utterance.lang = langMap[state.detectedLanguage] || 'rw-RW';
+            
+            state.speechSynthesis.speak(utterance);
+        }
+
+        function initSpeechRecognition() {
+            const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SR) return false;
+            state.speechRecognition = new SR();
+            state.speechRecognition.continuous = false;
+            state.speechRecognition.interimResults = true;
+            state.speechRecognition.lang = 'rw-RW';
+
+            state.speechRecognition.onstart = () => {
+                state.isListening = true;
+                document.getElementById('voiceBtn').classList.add('listening');
+                document.getElementById('voiceStatus').textContent = '🎤 Mvuga none...';
+            };
+
+            state.speechRecognition.onend = () => {
+                state.isListening = false;
+                document.getElementById('voiceBtn').classList.remove('listening');
+                document.getElementById('voiceStatus').textContent = '';
+            };
+
+            state.speechRecognition.onresult = (e) => {
+                let transcript = '';
+                for (let i = 0; i < e.results.length; i++) {
+                    transcript += e.results[i][0].transcript;
+                }
+                document.getElementById('messageInput').value = transcript;
+                handleInput();
+                if (e.results[0].isFinal) {
+                    setTimeout(() => {
+                        if (document.getElementById('messageInput').value.trim()) sendMessage();
+                    }, 500);
+                }
+            };
+
+            state.speechRecognition.onerror = () => {
+                state.isListening = false;
+                document.getElementById('voiceBtn').classList.remove('listening');
+                document.getElementById('voiceStatus').textContent = '❌ Mikorofoni yanze.';
+            };
+
+            return true;
+        }
+        const hasSpeech = initSpeechRecognition();
+
+        // ============================================================
+        // UI HELPERS
+        // ============================================================
+        function updateWelcome() {
+            const name = state.userName || '';
+            const lang = state.detectedLanguage || 'rw';
+            const content = getLangContent(lang);
+            
+            document.getElementById('welcomeGreeting').textContent = name ? `${content.greeting}, ${name}` : content.greeting;
+            document.getElementById('welcomeGreeting').style.opacity = '1';
+            document.getElementById('messageInput').placeholder = content.placeholder;
+            document.getElementById('scrollBottom').innerHTML = `<i class="fas fa-arrow-down"></i> ${content.scrollBottom}`;
+            document.getElementById('statusText').textContent = content.status;
+        }
+
+        function handleInput() {
+            const val = document.getElementById('messageInput').value.trim();
+            document.getElementById('sendBtn').disabled = !val || state.isGenerating;
+            document.getElementById('messageInput').style.height = 'auto';
+            document.getElementById('messageInput').style.height = Math.min(document.getElementById('messageInput').scrollHeight, 150) + 'px';
+        }
+
+        function scrollToBottom() {
+            const messages = document.getElementById('messages');
+            messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+        }
+
+        function handleScroll() {
+            const messages = document.getElementById('messages');
+            const { scrollTop, scrollHeight, clientHeight } = messages;
+            const atBottom = scrollHeight - scrollTop - clientHeight < 150;
+            document.getElementById('scrollBottom').classList.toggle('visible', !atBottom);
+        }
+
+        function showTyping() {
+            const id = 'typing-' + Date.now();
+            const el = document.createElement('div');
+            el.id = id;
+            el.className = 'typing';
+            el.innerHTML = `
+                <div class="msg-avatar">
+                    <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">
+                </div>
+                <div class="typing-dots">
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                    <span class="typing-dot"></span>
+                </div>
+            `;
+            document.getElementById('messages').appendChild(el);
+            scrollToBottom();
+            return id;
+        }
+
+        function removeTyping(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function addMessage(role, content, htmlContent = null) {
+            document.getElementById('welcome').style.display = 'none';
+            const msg = document.createElement('div');
+            msg.className = `message ${role}`;
+            const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
+
+            const displayContent = htmlContent || content.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
+            const avatarContent = role === 'user' ?
+                '👤' :
+                `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">`;
+
+            msg.innerHTML = `
+                <div class="msg-avatar">${avatarContent}</div>
+                <div>
+                    <div class="msg-bubble">${displayContent}</div>
+                    <div class="msg-meta">
+                        <span>${time}</span>
+                        <div class="msg-actions">
+                            ${role === 'assistant' ? `
+                                <button class="msg-action" onclick="speakText('${content.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}')">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                            ` : ''}
+                            <button class="msg-action" onclick="navigator.clipboard.writeText('${content.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}'); showToast('Ibyakiriwe!', 'success')">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('messages').appendChild(msg);
+            state.messages.push({ role, content, timestamp: Date.now() });
+            state.messageCount++;
+            scrollToBottom();
+
+            if (state.messages.length > 100) {
+                state.messages.splice(0, 50);
+            }
+
+            saveConversation();
+            updateMemoryStats();
+        }
+
+        // ============================================================
+        // SEND MESSAGE
+        // ============================================================
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (!text || state.isGenerating) return;
+
+            input.value = '';
+            input.style.height = 'auto';
+            document.getElementById('sendBtn').disabled = true;
+
+            // AUTO-DETECT LANGUAGE from user input
+            state.detectedLanguage = detectLanguage(text);
+            updateWelcome();
+
+            const risks = analyzeRisks(text);
+            state.riskFlags = risks;
+            updateRiskIndicators(risks);
+
+            const result = generateResponse(text);
+
+            if (result.userName) {
+                state.userName = result.userName;
+                storageSet('userName', state.userName);
+                updateWelcome();
+                updateMemoryStats();
+                addMessage('user', text);
+                addMessage('assistant', result.markdown, result.html);
+                showToast(`✨ Murakaza neza, ${state.userName}!`, 'success');
+                document.getElementById('sendBtn').disabled = false;
+                return;
+            }
+
+            const detection = detectEmotion(text);
+            if (detection && detection.type === 'crisis') {
+                addMessage('user', text);
+                addMessage('assistant', result.markdown, result.html);
+                showCrisisModal();
+                document.getElementById('sendBtn').disabled = false;
+                return;
+            }
+
+            addMessage('user', text);
+            const typingId = showTyping();
+            state.isGenerating = true;
+            document.getElementById('statusText').textContent = 'TYAZA irategura...';
+
+            setTimeout(() => {
+                removeTyping(typingId);
+                addMessage('assistant', result.markdown, result.html);
+                state.isGenerating = false;
+                document.getElementById('sendBtn').disabled = false;
+                document.getElementById('statusText').textContent = getLangContent(state.detectedLanguage).status;
+                updateMemoryStats();
+            }, 600);
+        }
+
+        // ============================================================
         // CONVERSATION STORAGE
         // ============================================================
         function saveConversation() {
@@ -3620,9 +2945,7 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                 title: title,
                 messages: state.messages.slice(-20),
                 timestamp: Date.now(),
-                language: state.detectedLanguage,
-                riskLevel: state.currentRisk.level,
-                riskScore: state.currentRisk.score
+                language: state.detectedLanguage
             };
 
             const convs = storageGetAll('conversations');
@@ -3659,7 +2982,6 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                         <div class="history-meta">
                             <span>${formatTime(c.timestamp)}</span>
                             <span>${c.messages ? c.messages.length : 0} ubutumwa</span>
-                            ${c.riskLevel ? `<span class="risk-badge ${c.riskLevel}">${c.riskLevel}</span>` : ''}
                         </div>
                     </div>
                 `).join('');
@@ -3713,8 +3035,6 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
             state.messages.forEach(msg => {
                 const role = msg.role || 'assistant';
                 const content = msg.content || '';
-                const riskLevel = msg.riskLevel || 'low';
-                const usedPuter = msg.usedPuter || false;
                 if (content) {
                     const msgEl = document.createElement('div');
                     msgEl.className = `message ${role}`;
@@ -3724,21 +3044,12 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                     const avatarContent = role === 'user' ?
                         '👤' :
                         `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.innerHTML='🧠'">`;
-                    const isHTML = content.includes('<') && content.includes('>');
-                    const displayContent = isHTML ? content : escaped;
-                    
-                    let metaExtra = '';
-                    if (role === 'assistant' && usedPuter) {
-                        metaExtra = `<span style="font-size:0.6rem;color:var(--secondary);">🤖 AI</span>`;
-                    }
-                    
                     msgEl.innerHTML = `
                         <div class="msg-avatar">${avatarContent}</div>
                         <div>
-                            <div class="msg-bubble ${role === 'assistant' ? `risk-${riskLevel}` : ''}">${displayContent}</div>
+                            <div class="msg-bubble">${escaped}</div>
                             <div class="msg-meta">
                                 <span>${time}</span>
-                                ${metaExtra}
                                 <div class="msg-actions">
                                     ${role === 'assistant' ? `
                                         <button class="msg-action" onclick="speakText('${escaped.replace(/'/g, "\\'").replace(/<[^>]*>/g, '')}')">
@@ -3777,14 +3088,6 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
             state.messageCount = 0;
             state.currentId = 'chat_' + Date.now();
             state.riskFlags = { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false };
-            state.currentRisk = {
-                score: 0,
-                level: 'low',
-                previousScore: 0,
-                previousLevel: 'low',
-                history: [],
-                duration: 0
-            };
             updateRiskIndicators(state.riskFlags);
 
             const messagesContainer = document.getElementById('messages');
@@ -3813,21 +3116,17 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
             }
             const data = {
                 app: 'TYAZA',
-                version: '6.0',
+                version: '4.0',
                 timestamp: Date.now(),
                 user: state.userName || 'User',
                 messages: state.messages,
                 session: state.sessionStart,
                 risks: state.riskFlags,
-                riskHistory: state.currentRisk.history,
                 profile: getUserProfile(),
                 company: COMPANY_INFO,
                 mission: TYAZA_MISSION,
                 detectedLanguage: state.detectedLanguage,
-                rareWords: Object.keys(TYAZA_DATASET.rareWords),
-                amagorane: Object.keys(TYAZA_DATASET.amagorane),
-                idioms: Object.keys(TYAZA_DATASET.idioms),
-                puterAI: state.useAI && typeof puter !== 'undefined'
+                rareWords: Object.keys(TYAZA_DATASET.rareWords)
             };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
@@ -4030,15 +3329,6 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                 </div>`;
             }).join('');
 
-            const riskHistoryHtml = profile.riskHistory.map(r => {
-                const date = new Date(r.timestamp).toLocaleDateString('rw-RW');
-                const levelEmoji = r.newLevel === 'high' ? '🚨' : r.newLevel === 'medium' ? '⚠️' : '✅';
-                return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--surface4);font-size:0.8rem;">
-                    <span>${date}</span>
-                    <span>${levelEmoji} ${r.newLevel} (${r.newScore}%)</span>
-                </div>`;
-            }).join('');
-
             content.innerHTML = `
                 <div style="display:grid;gap:16px;">
                     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
@@ -4088,13 +3378,6 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                         </div>
                     ` : ''}
 
-                    ${riskHistoryHtml ? `
-                        <div style="background:var(--surface3);padding:12px;border-radius:8px;">
-                            <div style="font-weight:600;color:var(--text2);margin-bottom:8px;">🚨 Amateka y'ibyago</div>
-                            ${riskHistoryHtml}
-                        </div>
-                    ` : ''}
-
                     <div style="background:var(--surface3);padding:12px;border-radius:8px;">
                         <div style="font-weight:600;color:var(--text2);">📊 Ingirakamaro</div>
                         <div style="display:flex;align-items:center;gap:12px;margin-top:4px;">
@@ -4116,9 +3399,6 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                         <div style="font-size:0.7rem;color:var(--text4);margin-top:4px;">
                             ${TYAZA_MISSION.tagline}
                         </div>
-                        <div style="font-size:0.6rem;color:var(--text4);margin-top:4px;">
-                            🤖 Puter AI: ${state.useAI && typeof puter !== 'undefined' ? '✅ Online' : '⚠️ Offline'}
-                        </div>
                     </div>
                 </div>
             `;
@@ -4127,43 +3407,208 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
         }
 
         // ============================================================
-        // STARS GENERATOR
+        // PUTER AI INTEGRATION
         // ============================================================
-        function generateStars() {
-            const container = document.getElementById('stars');
-            for (let i = 0; i < 80; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 4 + 's';
-                star.style.width = (Math.random() * 2 + 1) + 'px';
-                star.style.height = star.style.width;
-                container.appendChild(star);
+        async function getPuterAIResponse(userInput) {
+            try {
+                if (typeof puter === 'undefined') return generateResponse(userInput);
+
+                const detection = detectEmotion(userInput);
+                let emotionContext = '';
+                if (detection && detection.type !== 'name') {
+                    emotionContext = `Umukoresha arumva ${detection.type}.`;
+                }
+
+                // Auto-detect language for the AI
+                const lang = state.detectedLanguage || 'rw';
+                const langInstruction = lang === 'rw' ? 'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe.' :
+                                     lang === 'fr' ? 'Répondez en Français, avec empathie et chaleur.' :
+                                     'Respond in English, with empathy and warmth.';
+
+                // Build context with all the new knowledge
+                const rareWordsList = Object.keys(TYAZA_DATASET.rareWords).slice(0, 30).join(', ');
+                const proverbsList = Object.keys(TYAZA_DATASET.proverbs).slice(0, 20).join(', ');
+
+                const context = `
+                    Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
+                    ${emotionContext}
+                    ${langInstruction}
+                    Koresha ikinyarwanda kiboneye.
+                    Jya ugira impuhwe zikomeye.
+                    Ntutange inama z'ubuvuzi.
+                    
+                    Uzi izi migani: ${proverbsList}
+                    Uzi aya magambo adasanzwe: ${rareWordsList}
+                    
+                    ${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}
+                    ${state.messages.length > 0 ? `Ubwo ni ikiganiro cya ${state.messages.length + 1}.` : ''}
+                    
+                    IBANZE: Ibya KIVURA LABS:
+                    - Yashinzwe na Yves Hirwa Tuyishime (CEO & Founder)
+                    - Ijambo rye: "Healthy citizens, wealthy nation"
+                    - Product: TYAZA - AI ivuga mu Kinyarwanda
+                    - Yashinzwe mu 2024 mu Rwanda
+                    - Tagline: "${TYAZA_MISSION.tagline}"
+                    
+                    MISSION YA TYAZA:
+                    ${TYAZA_MISSION.mission}
+                    
+                    VISION YA TYAZA:
+                    ${TYAZA_MISSION.vision}
+                    
+                    INDANGAGACIRO:
+                    ${TYAZA_MISSION.values.join(', ')}
+                    
+                    NTA NDI UMUNTU. NDI TYAZA, AI ya KIVURA LABS.
+                    
+                    IBANZE: Ntukoreshe ijambo "having" mu bisubizo byawe.
+                    Iyo ukoresha amagambo adasanzwe, sobanura icyo asobanura.
+                    Koresha imigani nk'ubuhanga bw'umuco nyarwanda.
+                `;
+
+                const response = await puter.ai.chat([
+                    { role: 'system', content: context },
+                    { role: 'user', content: userInput }
+                ]);
+
+                let text = response.message?.content || response.text || '';
+
+                // Remove any "having" from the response
+                text = text.replace(/\bhaving\b/gi, '').replace(/\bhave\b/gi, '');
+                text = text.replace(/\bhas\b/gi, '').replace(/\bhad\b/gi, '');
+                text = text.replace(/\bhavings\b/gi, '');
+
+                if (text && text.length > 5) {
+                    const f = new AIResponseFormatter();
+                    f.addTitle("💬 TYAZA");
+                    const paragraphs = text.split('\n\n').filter(p => p.trim());
+                    for (const p of paragraphs) {
+                        if (p.startsWith('-') || p.startsWith('•')) {
+                            const items = p.split('\n').filter(line => line.trim().startsWith('-') || line.trim().startsWith('•'));
+                            if (items.length > 0) {
+                                f.addList(items.map(item => item.replace(/^[-•]\s*/, '').trim()));
+                            } else {
+                                f.addParagraph(p);
+                            }
+                        } else {
+                            f.addParagraph(p);
+                        }
+                    }
+                    
+                    // Add a random proverb
+                    const proverbs = Object.keys(TYAZA_DATASET.proverbs);
+                    const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+                    f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
+                    
+                    f.addEmphasis(TYAZA_MISSION.tagline, "italic");
+                    return {
+                        sections: f.build(),
+                        html: f.renderHTML(),
+                        markdown: f.renderMarkdown()
+                    };
+                }
+                return generateResponse(userInput);
+
+            } catch (error) {
+                console.error('Puter AI Error:', error);
+                return generateResponse(userInput);
             }
+        }
+
+        // ============================================================
+        // SEND MESSAGE WITH AI
+        // ============================================================
+        async function sendMessageWithAI() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (!text || state.isGenerating) return;
+
+            input.value = '';
+            input.style.height = 'auto';
+            document.getElementById('sendBtn').disabled = true;
+
+            // AUTO-DETECT LANGUAGE from user input
+            state.detectedLanguage = detectLanguage(text);
+            updateWelcome();
+
+            const risks = analyzeRisks(text);
+            state.riskFlags = risks;
+            updateRiskIndicators(risks);
+
+            const detection = detectEmotion(text);
+            if (detection && detection.type === 'crisis') {
+                const result = generateResponse(text);
+                addMessage('user', text);
+                addMessage('assistant', result.markdown, result.html);
+                showCrisisModal();
+                document.getElementById('sendBtn').disabled = false;
+                return;
+            }
+
+            addMessage('user', text);
+
+            const typingId = showTyping();
+            state.isGenerating = true;
+            document.getElementById('statusText').textContent = 'TYAZA irategura...';
+
+            try {
+                let result;
+                if (state.useAI && typeof puter !== 'undefined') {
+                    result = await getPuterAIResponse(text);
+                } else {
+                    result = generateResponse(text);
+                }
+
+                removeTyping(typingId);
+
+                if (result && result.html) {
+                    addMessage('assistant', result.markdown || text, result.html);
+                } else {
+                    const f = new AIResponseFormatter();
+                    f.addTitle("💙 TYAZA");
+                    f.addParagraph("Ndumva ibyo uvuga.");
+                    f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**.`);
+                    f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
+                    const proverbs = Object.keys(TYAZA_DATASET.proverbs);
+                    const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+                    f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
+                    f.addList([
+                        "Wumva ute ubu?",
+                        "Wambwira byinshi kuri byo?"
+                    ]);
+                    f.addEmphasis(TYAZA_MISSION.tagline, "italic");
+                    addMessage('assistant', f.renderMarkdown(), f.renderHTML());
+                }
+
+            } catch (error) {
+                console.error('Send error:', error);
+                removeTyping(typingId);
+                const f = new AIResponseFormatter();
+                f.addTitle("💙 TYAZA");
+                f.addParagraph("Hari ikibazo. Reka tugerageze bundi.");
+                f.addEmphasis("Ubu wumva ute?", "italic");
+                addMessage('assistant', f.renderMarkdown(), f.renderHTML());
+            }
+
+            state.isGenerating = false;
+            document.getElementById('sendBtn').disabled = false;
+            document.getElementById('statusText').textContent = getLangContent(state.detectedLanguage).status;
+            updateMemoryStats();
+            document.getElementById('messageInput').focus();
         }
 
         // ============================================================
         // INIT
         // ============================================================
         function init() {
-            generateStars();
-
-            // Check Puter AI availability
             if (typeof puter !== 'undefined') {
                 state.puterReady = true;
-                console.log('✅ Puter AI is ready!');
-                showToast('✅ Puter AI yiteguye!', 'success');
-                document.getElementById('aiStatusText').textContent = '✅ Online';
-                document.getElementById('aiStatusText').style.color = 'var(--success)';
-                document.getElementById('aiStatusDisplay').textContent = '🤖 AI: Puter AI Online';
+                console.log('✅ TYAZA yiteguye!');
+                showToast('✅ TYAZA yiteguye!', 'success');
             } else {
-                console.warn('⚠️ Puter AI not loaded - using local intelligence');
-                showToast('⚠️ Puter AI ntiboneka - ikoresha gahunda', 'warning');
+                console.warn('⚠️ Puter SDK not loaded');
+                showToast('⚠️ TYAZA ikora mu buryo bwa gahunda', 'warning');
                 state.useAI = false;
-                document.getElementById('aiStatusText').textContent = '⚠️ Offline';
-                document.getElementById('aiStatusText').style.color = 'var(--warning)';
-                document.getElementById('aiStatusDisplay').textContent = '🤖 AI: Local Mode';
             }
 
             state.userName = storageGet('userName', null);
@@ -4194,11 +3639,11 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                 if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
                     const btn = document.getElementById('sendBtn');
-                    if (!btn.disabled) sendMessage();
+                    if (!btn.disabled) sendMessageWithAI();
                 }
             });
 
-            document.getElementById('sendBtn').addEventListener('click', sendMessage);
+            document.getElementById('sendBtn').addEventListener('click', sendMessageWithAI);
             document.getElementById('voiceBtn').addEventListener('click', toggleVoice);
 
             document.getElementById('voiceSelect').addEventListener('change', (e) => {
@@ -4228,8 +3673,7 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                     '<i class="fas fa-microchip"></i> Gahunda';
                 btn.classList.toggle('btn-primary', state.useAI);
                 btn.classList.toggle('btn-secondary', !state.useAI);
-                showToast(state.useAI ? 'Puter AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
-                updateWelcome();
+                showToast(state.useAI ? 'AI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
             });
 
             document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
@@ -4264,7 +3708,7 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
                     handleInput();
                     document.getElementById('messageInput').focus();
                     setTimeout(() => {
-                        if (document.getElementById('messageInput').value.trim()) sendMessage();
+                        if (document.getElementById('messageInput').value.trim()) sendMessageWithAI();
                     }, 300);
                 });
             });
@@ -4312,24 +3756,23 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
 
             setTimeout(() => document.getElementById('messageInput').focus(), 500);
 
-            console.log('✨ TYAZA v6.0 - UNIFIED INTELLIGENCE + PUTER AI + AMAGORANE');
+            console.log('✨ TYAZA v4.0 - Complete Knowledge Integration');
             console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
             console.log('👤 CEO & Founder: Yves Hirwa Tuyishime');
             console.log('🕊️ 1994 Genocide against the Tutsi - Trauma-informed approach');
             console.log('💙 Real crisis detection - NOT a scam');
             console.log('📚 Rare Words Loaded:', Object.keys(TYAZA_DATASET.rareWords).length);
             console.log('📖 Proverbs Loaded:', Object.keys(TYAZA_DATASET.proverbs).length);
-            console.log('🗣️ Amagorane (Tongue Twisters):', Object.keys(TYAZA_DATASET.amagorane).reduce((acc, cat) => acc + TYAZA_DATASET.amagorane[cat].length, 0));
-            console.log('💬 Idioms Loaded:', Object.keys(TYAZA_DATASET.idioms).length);
-            console.log('🧠 UNIFIED INTELLIGENCE: Risk Scoring, Transition, Decision Engine');
-            console.log('🤖 Puter AI:', state.useAI && typeof puter !== 'undefined' ? '✅ Online' : '⚠️ Offline');
+            console.log('🤖 AI:', state.useAI ? 'Ikoreshwa' : 'Gahunda ikoreshwa');
             console.log('👤 User:', state.userName || 'Unknown');
             console.log('📊 Mood entries:', state.moodData.length);
             console.log('🌍 Rwanda, 2026');
             console.log('📌 Tagline:', TYAZA_MISSION.tagline);
-            console.log('✅ Safety is ALWAYS prioritized');
-            console.log('🔀 Auto-detects: Kinyarwanda, Français, English');
-            console.log('🎯 Smart responses based on risk level');
+            console.log('🚫 "having" is COMPLETELY removed from all responses');
+            console.log('🗣️ Auto-detects: Kinyarwanda (primary), Français, English');
+            console.log('✅ No language buttons needed - fully automatic!');
+            console.log('📖 Rare word support: detect and explain deep Kinyarwanda vocabulary');
+            console.log('🔄 Limited proverb repetition - variety of proverbs available');
         }
 
         // ============================================================
@@ -4338,12 +3781,10 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
         window.TYAZA_DATASET = TYAZA_DATASET;
         window.COMPANY_INFO = COMPANY_INFO;
         window.TYAZA_MISSION = TYAZA_MISSION;
-        window.AMAGORANE = AMAGORANE;
-        window.KINYARWANDA_IDIOMS = KINYARWANDA_IDIOMS;
         window.AIResponseFormatter = AIResponseFormatter;
         window.showToast = showToast;
         window.speakText = speakText;
-        window.sendMessage = sendMessage;
+        window.sendMessage = sendMessageWithAI;
         window.newChat = newChat;
         window.loadChat = loadChat;
         window.deleteChat = deleteChat;
@@ -4362,14 +3803,6 @@ ikaba igikoresho cy'ingenzi mu buzima bwa buri munsi.`,
         window.generateResponse = generateResponse;
         window.detectEmotion = detectEmotion;
         window.detectLanguage = detectLanguage;
-        window.calculateRiskScore = calculateRiskScore;
-        window.getRiskLevel = getRiskLevel;
-        window.transitionEngine = transitionEngine;
-        window.extractContext = extractContext;
-        window.decisionEngine = decisionEngine;
-        window.getRandomTongueTwister = getRandomTongueTwister;
-        window.getRandomIdiom = getRandomIdiom;
-        window.getPuterAIResponse = getPuterAIResponse;
 
         document.addEventListener('DOMContentLoaded', init);
     </script>
