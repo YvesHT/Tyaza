@@ -2296,11 +2296,7 @@ body {
 
 <script>
 // ============================================================
-// TYAZA v5.0 - BRAIN INSTRUCTIONS LAYER + PRIMARY RESPONSE
-// ============================================================
-
-// ============================================================
-// TYAZA BRAIN - Complete Knowledge Base (The Instructions Layer)
+// TYAZA v5.0 - ULTRA-REALISTIC RESPONSES + OPENAI VIA PUTER AI
 // ============================================================
 
 const TYAZA_MISSION = {
@@ -2333,7 +2329,7 @@ const COMPANY_INFO = {
   location: "Rwanda"
 };
 
-const TYAZA_BRAIN = {
+const TYAZA_DATASET = {
   proverbs: {
     "Ijoro ribara uwariraye": "Abariraye ni bo bumva iby'ijoro",
     "Buhoro buhoro ni rwo rugendo": "Kugenda buhoro ni uburyo bwo kugera kure",
@@ -2490,9 +2486,9 @@ const TYAZA_BRAIN = {
         f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**. Ijambo rye ni: *"${COMPANY_INFO.quote}"*.`);
         f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
         f.addParagraph("Ndi hano kugira ngo mbafashe kumva neza ibiri ku mutima wanyu.");
-        const proverbs = Object.keys(TYAZA_BRAIN.proverbs);
+        const proverbs = Object.keys(TYAZA_DATASET.proverbs);
         const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-        f.addProverb(randomProverb, TYAZA_BRAIN.proverbs[randomProverb]);
+        f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
         if (!userName) {
           f.addParagraph("Niba ushaka, wambwira izina ryawe kugira ngo tubane mu buryo bw'umuntu ku muntu?");
         }
@@ -2756,6 +2752,7 @@ class UltraMarkdownParser {
           block.startsWith('<blockquote') || block.startsWith('<div class="code-block')) {
         return block;
       }
+      // Don't wrap if already wrapped
       if (block.startsWith('<p>')) return block;
       return `<p>${block.replace(/\n/g, '<br>')}</p>`;
     }).join('\n');
@@ -2950,7 +2947,9 @@ let state = {
   },
   puterReady: false,
   messageCount: 0,
-  detectedLanguage: 'rw'
+  detectedLanguage: 'rw',
+  openAIModel: 'gpt-4o', // Track which model is working
+  modelFallbackIndex: 0
 };
 
 // ============================================================
@@ -3047,16 +3046,16 @@ function analyzeRisks(text) {
     ptsd: false, abuse: false, genocideTrauma: false
   };
   const allCrisisPatterns = [
-    ...TYAZA_BRAIN.crisis.patterns,
-    ...TYAZA_BRAIN.genocide.patterns
+    ...TYAZA_DATASET.crisis.patterns,
+    ...TYAZA_DATASET.genocide.patterns
   ];
   for (const pattern of allCrisisPatterns) {
     if (lower.includes(pattern.toLowerCase())) {
-      if (TYAZA_BRAIN.crisis.patterns.includes(pattern)) {
+      if (TYAZA_DATASET.crisis.patterns.includes(pattern)) {
         risks.suicide = true;
         risks.selfHarm = true;
       }
-      if (TYAZA_BRAIN.genocide.patterns.includes(pattern)) {
+      if (TYAZA_DATASET.genocide.patterns.includes(pattern)) {
         risks.genocideTrauma = true;
       }
     }
@@ -3151,22 +3150,22 @@ function updateMemoryStats() {
 // ============================================================
 function detectEmotion(text) {
   const lower = text.toLowerCase();
-  for (const pattern of TYAZA_BRAIN.crisis.patterns) {
+  for (const pattern of TYAZA_DATASET.crisis.patterns) {
     if (lower.includes(pattern.toLowerCase())) return { type: 'crisis' };
   }
-  for (const pattern of TYAZA_BRAIN.genocide.patterns) {
+  for (const pattern of TYAZA_DATASET.genocide.patterns) {
     if (lower.includes(pattern.toLowerCase())) return { type: 'genocide' };
   }
-  for (const pattern of TYAZA_BRAIN.emotions.about_company.patterns) {
+  for (const pattern of TYAZA_DATASET.emotions.about_company.patterns) {
     if (lower.includes(pattern.toLowerCase())) return { type: 'about_company' };
   }
-  for (const pattern of TYAZA_BRAIN.emotions.about_ceo.patterns) {
+  for (const pattern of TYAZA_DATASET.emotions.about_ceo.patterns) {
     if (lower.includes(pattern.toLowerCase())) return { type: 'about_ceo' };
   }
-  for (const pattern of TYAZA_BRAIN.emotions.greeting.patterns) {
+  for (const pattern of TYAZA_DATASET.emotions.greeting.patterns) {
     if (lower.includes(pattern.toLowerCase())) return { type: 'greeting' };
   }
-  for (const [emotion, data] of Object.entries(TYAZA_BRAIN.emotions)) {
+  for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
     if (emotion === 'greeting' || emotion === 'about_company' || emotion === 'about_ceo') continue;
     for (const pattern of data.patterns) {
       if (lower.includes(pattern.toLowerCase())) return { type: emotion };
@@ -3190,7 +3189,7 @@ function detectEmotion(text) {
       return { type: 'name', name: name };
     }
   }
-  const rareWords = Object.keys(TYAZA_BRAIN.rareWords);
+  const rareWords = Object.keys(TYAZA_DATASET.rareWords);
   for (const word of rareWords) {
     if (lower.includes(word.toLowerCase())) {
       return { type: 'rare_word', word: word };
@@ -3200,22 +3199,22 @@ function detectEmotion(text) {
 }
 
 // ============================================================
-// LOCAL RESPONSE GENERATOR (Fallback / Brain Instructions)
+// LOCAL RESPONSE GENERATOR
 // ============================================================
-function generateLocalResponse(userInput) {
+function generateResponse(userInput) {
   const detection = detectEmotion(userInput);
   const startTime = performance.now();
   
   if (detection && detection.type === 'rare_word') {
     const word = detection.word;
-    const meaning = TYAZA_BRAIN.rareWords[word] || "ikintu cyihariye";
+    const meaning = TYAZA_DATASET.rareWords[word] || "ikintu cyihariye";
     const f = new AIResponseFormatter();
     f.addTitle(`📖 "**${word}**"`);
     f.addParagraph(`Iryo jambo risobanura: *${meaning}*.`);
     f.addParagraph("Ni jambo ry'ikinyarwanda gikomeye, rikoreshwa mu mvugo y'umuco nyarwanda.");
-    const proverbs = Object.keys(TYAZA_BRAIN.proverbs);
+    const proverbs = Object.keys(TYAZA_DATASET.proverbs);
     const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-    f.addProverb(randomProverb, TYAZA_BRAIN.proverbs[randomProverb]);
+    f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
     f.addParagraph("Waba ufite ikindi ushaka kuvuga?");
     f.setMetadata('confidence', 0.95);
     f.setMetadata('emotion', 'insightful');
@@ -3233,7 +3232,7 @@ function generateLocalResponse(userInput) {
   if (detection && detection.type === 'name') {
     state.userName = detection.name;
     storageSet('userName', state.userName);
-    const f = TYAZA_BRAIN.emotions.greeting.generate();
+    const f = TYAZA_DATASET.emotions.greeting.generate();
     f.setMetadata('confidence', 0.98);
     f.setMetadata('emotion', 'welcoming');
     f.setMetadata('model', 'local');
@@ -3248,7 +3247,7 @@ function generateLocalResponse(userInput) {
   }
   
   if (detection && detection.type === 'crisis') {
-    const f = TYAZA_BRAIN.crisis.generate();
+    const f = TYAZA_DATASET.crisis.generate();
     f.setMetadata('confidence', 1.0);
     f.setMetadata('emotion', 'crisis');
     f.setMetadata('model', 'local');
@@ -3263,7 +3262,7 @@ function generateLocalResponse(userInput) {
   }
   
   if (detection && detection.type === 'genocide') {
-    const f = TYAZA_BRAIN.genocide.generate();
+    const f = TYAZA_DATASET.genocide.generate();
     f.setMetadata('confidence', 0.95);
     f.setMetadata('emotion', 'somber');
     f.setMetadata('model', 'local');
@@ -3278,7 +3277,7 @@ function generateLocalResponse(userInput) {
   }
   
   if (detection && detection.type === 'about_company') {
-    const f = TYAZA_BRAIN.emotions.about_company.generate();
+    const f = TYAZA_DATASET.emotions.about_company.generate();
     f.setMetadata('confidence', 0.98);
     f.setMetadata('emotion', 'informative');
     f.setMetadata('model', 'local');
@@ -3293,7 +3292,7 @@ function generateLocalResponse(userInput) {
   }
   
   if (detection && detection.type === 'about_ceo') {
-    const f = TYAZA_BRAIN.emotions.about_ceo.generate();
+    const f = TYAZA_DATASET.emotions.about_ceo.generate();
     f.setMetadata('confidence', 0.98);
     f.setMetadata('emotion', 'informative');
     f.setMetadata('model', 'local');
@@ -3307,8 +3306,8 @@ function generateLocalResponse(userInput) {
     };
   }
   
-  if (detection && detection.type && TYAZA_BRAIN.emotions[detection.type]) {
-    const f = TYAZA_BRAIN.emotions[detection.type].generate();
+  if (detection && detection.type && TYAZA_DATASET.emotions[detection.type]) {
+    const f = TYAZA_DATASET.emotions[detection.type].generate();
     f.setMetadata('confidence', 0.88);
     f.setMetadata('emotion', detection.type);
     f.setMetadata('model', 'local');
@@ -3330,12 +3329,12 @@ function generateLocalResponse(userInput) {
   f.addParagraph(`${namePrefix}Ndumva ibyo uvuga. TYAZA ni AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.`);
   f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**. Ijambo rye ni: *"${COMPANY_INFO.quote}"*.`);
   f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
-  const proverbs = Object.keys(TYAZA_BRAIN.proverbs);
+  const proverbs = Object.keys(TYAZA_DATASET.proverbs);
   const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-  f.addProverb(randomProverb, TYAZA_BRAIN.proverbs[randomProverb]);
+  f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
   let questions = ["Wumva ute ubu?", "Wambwira byinshi kuri byo?"];
   if (state.messages.length > 3) {
-    const followUps = TYAZA_BRAIN.followUpQuestions;
+    const followUps = TYAZA_DATASET.followUpQuestions;
     const randomFollowUp = followUps[Math.floor(Math.random() * followUps.length)];
     questions.push(randomFollowUp);
   }
@@ -3351,159 +3350,6 @@ function generateLocalResponse(userInput) {
     metadata: f.metadata,
     userName: null
   };
-}
-
-// ============================================================
-// PUTER AI - PRIMARY RESPONSE GENERATOR WITH BRAIN INSTRUCTIONS
-// ============================================================
-async function getPuterAIResponse(userInput) {
-  const startTime = performance.now();
-  
-  try {
-    if (typeof puter === 'undefined') {
-      throw new Error('Puter SDK not loaded');
-    }
-    
-    const detection = detectEmotion(userInput);
-    let emotionContext = '';
-    if (detection && detection.type !== 'name' && detection.type !== 'rare_word') {
-      emotionContext = `Umukoresha arumva: ${detection.type}.`;
-    }
-    if (detection && detection.type === 'rare_word') {
-      const word = detection.word;
-      const meaning = TYAZA_BRAIN.rareWords[word] || "ikintu cyihariye";
-      emotionContext = `Umukoresha yakoresheje ijambo ridasanzwe: "${word}" risobanura: ${meaning}.`;
-    }
-    
-    const lang = state.detectedLanguage || 'rw';
-    const langInstruction = lang === 'rw' ? 
-      'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe.' :
-      lang === 'fr' ? 'Répondez en Français, avec empathie et chaleur.' :
-      'Respond in English, with empathy and warmth.';
-    
-    const proverbsList = Object.keys(TYAZA_BRAIN.proverbs).slice(0, 30).join(', ');
-    const rareWordsList = Object.keys(TYAZA_BRAIN.rareWords).slice(0, 30).join(', ');
-    
-    // Build conversation history
-    const recentMessages = state.messages.slice(-8).map(m => ({
-      role: m.role,
-      content: m.content
-    }));
-    
-    // Build the BRAIN INSTRUCTIONS SYSTEM PROMPT
-    const systemContext = `Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
-
-${emotionContext}
-${langInstruction}
-
-=== BRAIN INSTRUCTIONS LAYER ===
-
-PERSONALITY:
-- Ufite impuhwe zikomeye, uri umunyabwenge, kandi wita ku muntu
-- Ukoresha ikinyarwanda kiboneye, gishyuha, kandi gifite ubumuntu
-- Ntutange inama z'ubuvuzi - ahubwo uyobora umuntu ku bafasha
-- Ukoresha imigani n'amagambo adasanzwe y'umuco nyarwanda
-- Usubiza mu buryo bwumvikana, butuje, kandi bufasha
-
-=== KIVURA LABS (Company Info) ===
-- Yashinzwe na Yves Hirwa Tuyishime (CEO & Founder)
-- Ijambo rye: "Healthy citizens, wealthy nation"
-- Product: TYAZA - AI ivuga mu Kinyarwanda
-- Yashinzwe mu 2024 mu Rwanda
-- Tagline: "${TYAZA_MISSION.tagline}"
-
-=== MISSION & VALUES ===
-MISSION: ${TYAZA_MISSION.mission}
-VISION: ${TYAZA_MISSION.vision}
-VALUES: ${TYAZA_MISSION.values.join(', ')}
-
-=== INDANGAGACIRO Z'UMUCO NYARWANDA ===
-IMIGANI UZIKO (Proverbs to use): ${proverbsList}
-AMAGAMBO ADASANSWE (Rare words to use): ${rareWordsList}
-
-=== EMOTION RESPONSE GUIDELINES ===
-- If user is sad: Show empathy, listen actively, offer hope
-- If user is angry: Acknowledge, help them process calmly
-- If user is anxious: Grounding techniques, reassure them
-- If user is joyful: Celebrate with them, ask what made them happy
-- If user is lonely: Remind them they are not alone, offer connection
-- If user mentions genocide trauma: Respond with deep respect, offer support resources
-- If user asks about company: Share KIVURA LABS info enthusiastically
-- If user asks about CEO: Share Yves Hirwa Tuyishime info with pride
-- If user shares their name: Remember it, use it in responses
-
-=== STYLE RULES ===
-- Koresha markdown: **bold** for emphasis, *italic* for gentle tone
-- Koresha - lists for bullet points
-- Koresha > quotes for proverbs
-- Sobanura amagambo adasanzwe ukoresha
-- Koresha imigani nk'ubuhanga bw'umuco nyarwanda
-- Subiza mu buryo bw'umwimerere, nk'uko umuntu w'ukuri yavuga
-- Ntukoreshe ijambo "having" cyangwa "havings" mu bisubizo byawe
-- Ntukigire ngo "AI" cyangwa "model" - uri TYAZA gusa
-- Ntukavuge ko uri umuntu - uri TYAZA ya KIVURA LABS
-${state.userName ? `- Izina ry'umukoresha ni ${state.userName}. Koresha izina rye mu bisubizo.` : ''}
-
-=== CRISIS PROTOCOL ===
-Niba umukoresha avuze iby'ukwiyahura, gupfa, cyangwa kwikomeretsa:
-1. Tanga ikibazo cyihutirwa
-2. Tanga numero z'inkunga: 116, 3029, 112, 912
-3. Ushishikarize kuvugana n'umuntu w'umubiri
-4. Subiza mu buryo bworoshye kandi bwihuse
-
-=== RESPONSE STRUCTURE ===
-1. Start with a warm acknowledgment
-2. Address their emotion or question
-3. Use a proverb if appropriate
-4. Offer follow-up questions
-5. End with encouragement
-
-${detection && detection.type === 'crisis' ? 'CRISIS DETECTED: Respond with urgency and care.' : ''}`;
-
-    const messages = [
-      { role: 'system', content: systemContext },
-      ...recentMessages,
-      { role: 'user', content: userInput }
-    ];
-    
-    const response = await puter.ai.chat(messages, { model: 'claude-sonnet-4' });
-    let text = response.message?.content || response.text || '';
-    
-    if (!text || text.length < 3) {
-      throw new Error('Empty response');
-    }
-    
-    // Clean up forbidden words
-    text = text.replace(/\bhaving\b/gi, '').replace(/\bhavings\b/gi, '');
-    text = text.replace(/\bputer\b/gi, '').replace(/\bPuter\b/gi, '');
-    text = text.replace(/\s{2,}/g, ' ').trim();
-    
-    // Parse markdown to HTML
-    const html = UltraMarkdownParser.parse(text);
-    
-    // Calculate metadata (hide actual source)
-    const responseTime = Math.round(performance.now() - startTime);
-    const tokens = text.split(/\s+/).length;
-    const confidence = detection ? 
-      (detection.type === 'crisis' ? 0.95 : 
-       detection.type === 'greeting' ? 0.92 : 0.85) : 0.78;
-    const emotion = detection?.type || 'neutral';
-    
-    return {
-      text: text,
-      html: html,
-      metadata: {
-        confidence: confidence,
-        emotion: emotion,
-        responseTime: responseTime,
-        tokens: tokens,
-        model: 'tyaza'  // Hidden - never shown to user
-      }
-    };
-  } catch (error) {
-    console.error('Response Error:', error);
-    return null;
-  }
 }
 
 // ============================================================
@@ -3668,7 +3514,7 @@ function streamText(element, html, speed = 8) {
   });
 }
 
-// Build metadata HTML (hidden source)
+// Build metadata HTML
 function buildMetadataHTML(metadata) {
   if (!metadata) return '';
   const confidenceClass = metadata.confidence >= 0.85 ? 'confidence-high' : 
@@ -3678,6 +3524,9 @@ function buildMetadataHTML(metadata) {
     <div class="msg-metadata">
       <span class="msg-metadata-item ${confidenceClass}">
         <i class="fas fa-bullseye"></i> ${Math.round(metadata.confidence * 100)}%
+      </span>
+      <span class="msg-metadata-item">
+        <i class="fas fa-${metadata.model === 'puter' || metadata.model === 'openai' ? 'brain' : 'microchip'}"></i> ${metadata.model === 'puter' ? 'Puter AI' : metadata.model === 'openai' ? 'OpenAI' : 'Local'}
       </span>
       ${metadata.responseTime ? `
       <span class="msg-metadata-item">
@@ -3743,7 +3592,169 @@ function addMessage(role, content, htmlContent = null, metadata = null) {
 }
 
 // ============================================================
-// SEND MESSAGE WITH AI - PRIMARY PUTER + BRAIN INSTRUCTIONS
+// PUTER AI WITH OPENAI - PRIMARY RESPONSE GENERATOR (FIXED)
+// ============================================================
+async function getPuterAIResponse(userInput) {
+    const startTime = performance.now();
+    try {
+        if (typeof puter === 'undefined') {
+            throw new Error('Puter SDK not loaded');
+        }
+
+        const detection = detectEmotion(userInput);
+        let emotionContext = '';
+        if (detection && detection.type !== 'name') {
+            emotionContext = `Umukoresha arumva: ${detection.type}.`;
+        }
+
+        const lang = state.detectedLanguage || 'rw';
+        const langInstruction = lang === 'rw' ?
+            'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe.' :
+            lang === 'fr' ? 'Répondez en Français, avec empathie et chaleur.' :
+            'Respond in English, with empathy and warmth.';
+
+        const rareWordsList = Object.keys(TYAZA_DATASET.rareWords).slice(0, 30).join(', ');
+        const proverbsList = Object.keys(TYAZA_DATASET.proverbs).slice(0, 20).join(', ');
+
+        const recentMessages = state.messages.slice(-6).map(m => ({
+            role: m.role,
+            content: m.content
+        }));
+
+        const systemContext = `Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
+${emotionContext}
+${langInstruction}
+
+PERSONALITY:
+- Ufite impuhwe zikomeye, uri umunyabwenge, kandi wita ku muntu
+- Ukoresha ikinyarwanda kiboneye, gishyuha
+- Ntutange inama z'ubuvuzi - ahubwo uyobora umuntu ku bafasha
+- Ukoresha imigani n'amagambo adasanzwe y'umuco nyarwanda
+- Usubiza mu buryo bwumvikana, butuje, kandi bufasha
+
+IBANZE - KIVURA LABS:
+- Yashinzwe na Yves Hirwa Tuyishime (CEO & Founder)
+- Ijambo rye: "Healthy citizens, wealthy nation"
+- Product: TYAZA - AI ivuga mu Kinyarwanda
+- Yashinzwe mu 2024 mu Rwanda
+- Tagline: "${TYAZA_MISSION.tagline}"
+
+MISSION: ${TYAZA_MISSION.mission}
+VISION: ${TYAZA_MISSION.vision}
+VALUES: ${TYAZA_MISSION.values.join(', ')}
+
+IMIGANI UZIKO: ${proverbsList}
+AMAGAMBO ADASANSWE: ${rareWordsList}
+
+${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}
+
+INTEKO:
+- Ntukavuge ko uri umuntu - uri AI ya KIVURA LABS
+- Ntukoreshe ijambo "having" mu bisubizo byawe
+- Sobanura amagambo adasanzwe ukoresha
+- Koresha imigani nk'ubuhanga bw'umuco nyarwanda
+- Subiza mu buryo bw'umwimerere, nk'uko umuntu w'ukuri yavuga
+- Koresha markdown: **bold**, *italic*, - lists, > quotes
+- Subiza mu buryo bugufi kandi bufite ishingiro (nturemere cyane)`;
+
+        const messages = [
+            { role: 'system', content: systemContext },
+            ...recentMessages,
+            { role: 'user', content: userInput }
+        ];
+
+        // ============================================================
+        // OPENAI MODELS VIA PUTER - WITH INTELLIGENT FALLBACK
+        // ============================================================
+        
+        // Primary OpenAI models (in order of preference)
+        const modelOptions = [
+            'gpt-4o',           // Best overall performance
+            'gpt-4.1-nano',     // Fast, efficient, good quality
+            'gpt-4-turbo',      // Reliable alternative
+            'gpt-3.5-turbo'     // Fast fallback
+        ];
+        
+        // Start from the last successful model or beginning
+        const startIndex = Math.min(state.modelFallbackIndex, modelOptions.length - 1);
+        let lastError = null;
+        let text = '';
+        let workingModel = modelOptions[startIndex];
+        
+        // Try each model starting from the last working one
+        for (let i = startIndex; i < modelOptions.length; i++) {
+            const model = modelOptions[i];
+            try {
+                console.log(`🔄 Trying OpenAI model via Puter: ${model}`);
+                
+                // Puter expects model as a string in the second parameter
+                const response = await puter.ai.chat(messages, model);
+                
+                // Parse the response
+                if (typeof response === 'string') {
+                    text = response;
+                } else if (response && typeof response === 'object') {
+                    text = response.message?.content || 
+                           response.text || 
+                           response.choices?.[0]?.message?.content || 
+                           response.output?.[0]?.text || 
+                           response.response ||
+                           '';
+                }
+                
+                if (text && text.length >= 3) {
+                    console.log(`✅ Success with OpenAI model: ${model}`);
+                    workingModel = model;
+                    state.modelFallbackIndex = i; // Remember this model for next time
+                    break;
+                } else {
+                    throw new Error('Empty or too short response');
+                }
+            } catch (modelError) {
+                console.warn(`⚠️ OpenAI model ${model} failed:`, modelError.message);
+                lastError = modelError;
+                // Continue to next model
+            }
+        }
+        
+        // If all models failed, throw error
+        if (!text || text.length < 3) {
+            throw new Error(`All OpenAI models failed. Last error: ${lastError?.message || 'Unknown error'}`);
+        }
+
+        // Clean up forbidden words
+        text = text.replace(/\bhaving\b/gi, '').replace(/\bhavings\b/gi, '');
+        text = text.replace(/\s{2,}/g, ' ').trim();
+
+        const html = UltraMarkdownParser.parse(text);
+        const responseTime = Math.round(performance.now() - startTime);
+        const tokens = text.split(/\s+/).length;
+        const confidence = detection ?
+            (detection.type === 'crisis' ? 0.95 :
+            detection.type === 'greeting' ? 0.92 : 0.85) : 0.78;
+        const emotion = detection?.type || 'neutral';
+
+        return {
+            text: text,
+            html: html,
+            metadata: {
+                confidence: confidence,
+                emotion: emotion,
+                responseTime: responseTime,
+                tokens: tokens,
+                model: 'openai',
+                openaiModel: workingModel
+            }
+        };
+    } catch (error) {
+        console.error('OpenAI via Puter Error:', error);
+        showToast('⚠️ OpenAI yanze. Turakoresha gahunda isanzwe.', 'warning');
+        return null;
+    }
+}
+
+// ============================================================
+// SEND MESSAGE WITH AI
 // ============================================================
 async function sendMessage() {
   const input = document.getElementById('messageInput');
@@ -3754,9 +3765,11 @@ async function sendMessage() {
   input.style.height = 'auto';
   document.getElementById('sendBtn').disabled = true;
   
+  // Detect language
   state.detectedLanguage = detectLanguage(text);
   updateWelcome();
   
+  // Analyze risks
   const risks = analyzeRisks(text);
   state.riskFlags = risks;
   updateRiskIndicators(risks);
@@ -3764,7 +3777,7 @@ async function sendMessage() {
   // Check for crisis first - always use local response for safety
   const detection = detectEmotion(text);
   if (detection && detection.type === 'crisis') {
-    const result = generateLocalResponse(text);
+    const result = generateResponse(text);
     addMessage('user', text);
     await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
     showCrisisModal();
@@ -3772,8 +3785,9 @@ async function sendMessage() {
     return;
   }
   
+  // Handle name detection locally
   if (detection && detection.type === 'name') {
-    const result = generateLocalResponse(text);
+    const result = generateResponse(text);
     if (result.userName) {
       state.userName = result.userName;
       storageSet('userName', state.userName);
@@ -3787,35 +3801,29 @@ async function sendMessage() {
     return;
   }
   
-  if (detection && detection.type === 'rare_word') {
-    const result = generateLocalResponse(text);
-    addMessage('user', text);
-    await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
-    document.getElementById('sendBtn').disabled = false;
-    return;
-  }
-  
   // Add user message
   addMessage('user', text);
   
+  // Show typing
   const typingId = showTyping();
   state.isGenerating = true;
   document.getElementById('statusText').textContent = 'TYAZA irategura...';
   
   let result;
   
-  // PRIMARY: Try Puter AI with Brain Instructions
+  // Try Puter AI with OpenAI first
   if (state.useAI && typeof puter !== 'undefined') {
     result = await getPuterAIResponse(text);
   }
   
-  // FALLBACK: Local response with Brain Instructions
+  // Fallback to local
   if (!result) {
-    result = generateLocalResponse(text);
+    result = generateResponse(text);
   }
   
   removeTyping(typingId);
   
+  // Stream the response
   await addMessageWithStream('assistant', result.text || result.markdown, result.html, result.metadata);
   
   state.isGenerating = false;
@@ -3836,7 +3844,6 @@ async function addMessageWithStream(role, content, htmlContent, metadata) {
     '👤' :
     `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
   
-  // Hide source - always show as TYAZA
   const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
   
   msg.innerHTML = `
@@ -3862,6 +3869,8 @@ async function addMessageWithStream(role, content, htmlContent, metadata) {
   document.getElementById('messages').appendChild(msg);
   
   const bubble = msg.querySelector('.msg-bubble');
+  
+  // Stream the text
   await streamText(bubble, displayContent, 6);
   
   state.messages.push({ 
@@ -4399,15 +4408,54 @@ function initStars() {
 }
 
 // ============================================================
+// TEST OPENAI CONNECTION
+// ============================================================
+async function testOpenAI() {
+    try {
+        showToast('🧪 Testing OpenAI via Puter...', 'info');
+        const testMessages = [
+            { role: 'system', content: 'You are a helpful assistant. Respond in Kinyarwanda.' },
+            { role: 'user', content: 'Vuga "Muraho, TYAZA!"' }
+        ];
+        
+        // Test with gpt-4o
+        const response = await puter.ai.chat(testMessages, 'gpt-4o');
+        console.log('OpenAI Test Result:', response);
+        
+        let text = '';
+        if (typeof response === 'string') {
+            text = response;
+        } else if (response && typeof response === 'object') {
+            text = response.message?.content || response.text || '';
+        }
+        
+        if (text && text.length > 0) {
+            showToast('✅ OpenAI yiteguye!', 'success');
+            console.log('OpenAI Response:', text);
+            return true;
+        } else {
+            throw new Error('Empty response');
+        }
+    } catch (error) {
+        console.error('OpenAI Test Failed:', error);
+        showToast('❌ OpenAI testera ikibazo', 'error');
+        return false;
+    }
+}
+
+// ============================================================
 // INIT
 // ============================================================
 function init() {
   if (typeof puter !== 'undefined') {
     state.puterReady = true;
-    console.log('✅ TYAZA yiteguye na Brain Instructions Layer!');
-    showToast('✅ TYAZA yiteguye ✨', 'success');
+    console.log('✅ TYAZA yiteguye na Puter AI + OpenAI!');
+    showToast('✅ TYAZA yiteguye na OpenAI ✨', 'success');
+    
+    // Test OpenAI connection
+    setTimeout(() => testOpenAI(), 1000);
   } else {
-    console.warn('⚠️ Using Local Brain Instructions Layer');
+    console.warn('⚠️ Puter SDK not loaded');
     showToast('⚠️ TYAZA ikora mu buryo bwa gahunda', 'warning');
     state.useAI = false;
   }
@@ -4463,7 +4511,7 @@ function init() {
     btn.innerHTML = state.useAI ? '<i class="fas fa-brain"></i> AI' : '<i class="fas fa-microchip"></i> Gahunda';
     btn.classList.toggle('btn-primary', state.useAI);
     btn.classList.toggle('btn-secondary', !state.useAI);
-    showToast(state.useAI ? 'TYAZA ikoresha ubwenge buhanitse ✨' : 'TYAZA ikoresha uburyo bwa gahunda', 'info');
+    showToast(state.useAI ? 'OpenAI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
   });
   document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
   document.getElementById('sidebarClose').addEventListener('click', closeSidebar);
@@ -4532,24 +4580,25 @@ function init() {
     }
   });
   
+  // Initialize visual effects
   initStars();
   initNeuralBackground();
   
   setTimeout(() => document.getElementById('messageInput').focus(), 500);
   
-  console.log('✨ TYAZA v5.0 - Brain Instructions Layer + Primary Response');
+  console.log('✨ TYAZA v5.0 - Ultra-Realistic + OpenAI via Puter AI');
   console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
   console.log('👤 CEO & Founder: Yves Hirwa Tuyishime');
-  console.log('🧠 Brain Layer: Proverbs, Emotions, Crisis, Rare Words, Company Info');
-  console.log('📚 Rare Words:', Object.keys(TYAZA_BRAIN.rareWords).length);
-  console.log('📖 Proverbs:', Object.keys(TYAZA_BRAIN.proverbs).length);
+  console.log('🤖 OpenAI Models: gpt-4o, gpt-4.1-nano, gpt-4-turbo, gpt-3.5-turbo');
+  console.log('📚 Rare Words:', Object.keys(TYAZA_DATASET.rareWords).length);
+  console.log('📖 Proverbs:', Object.keys(TYAZA_DATASET.proverbs).length);
   console.log('🌍 Rwanda, 2026');
 }
 
 // ============================================================
 // GLOBAL
 // ============================================================
-window.TYAZA_BRAIN = TYAZA_BRAIN;
+window.TYAZA_DATASET = TYAZA_DATASET;
 window.COMPANY_INFO = COMPANY_INFO;
 window.TYAZA_MISSION = TYAZA_MISSION;
 window.AIResponseFormatter = AIResponseFormatter;
@@ -4572,9 +4621,10 @@ window.testMic = testMic;
 window.analyzeRisks = analyzeRisks;
 window.getUserProfile = getUserProfile;
 window.showProfileModal = showProfileModal;
-window.generateLocalResponse = generateLocalResponse;
+window.generateResponse = generateResponse;
 window.detectEmotion = detectEmotion;
 window.detectLanguage = detectLanguage;
+window.testOpenAI = testOpenAI;
 
 document.addEventListener('DOMContentLoaded', init);
 </script>
