@@ -4,12 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#030014">
-<title>TYAZA · Umuvugizi w'Umutima</title>
+<title>TYAZA · Umuvugizi w'Umutima · Offline AI</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-<script src="https://js.puter.com/v2/"></script>
+<!-- WebLLM - Runs AI completely in your browser -->
+<script src="https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.45/dist/web-llm.min.js"></script>
 <style>
 /* ====== ALL STYLES SAME AS ORIGINAL ====== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1947,9 +1948,105 @@ body {
   .crisis-btn { animation: none !important; }
   .aurora-blob { animation: none !important; }
 }
+
+/* ====== MODEL LOADING OVERLAY ====== */
+.model-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg-deep);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  transition: opacity 0.8s ease;
+}
+
+.model-loading-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.model-loading-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.model-loading-subtitle {
+  color: var(--text-tertiary);
+  font-size: 1rem;
+}
+
+.model-progress-bar {
+  width: 300px;
+  max-width: 80vw;
+  height: 6px;
+  background: var(--surface-3);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.model-progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: var(--radius-full);
+  transition: width 0.3s ease;
+}
+
+.model-progress-text {
+  color: var(--text-tertiary);
+  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.model-status-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  text-align: center;
+  max-width: 400px;
+  padding: 0 20px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--surface-3);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.model-loaded-text {
+  color: var(--success);
+  font-size: 1.2rem;
+  font-weight: 600;
+}
 </style>
 </head>
 <body>
+<!-- Model Loading Overlay -->
+<div class="model-loading-overlay" id="modelLoadingOverlay">
+  <div class="spinner"></div>
+  <div class="model-loading-title">🧠 TYAZA</div>
+  <div class="model-loading-subtitle">Itegura AI ...</div>
+  <div class="model-progress-bar">
+    <div class="model-progress-fill" id="modelProgressFill"></div>
+  </div>
+  <div class="model-progress-text" id="modelProgressText">0%</div>
+  <div class="model-status-text" id="modelStatusText">Kubika modeli mu buryo bwa mbere ...</div>
+</div>
+
 <!-- Neural Network Background -->
 <div class="neural-bg" aria-hidden="true">
   <canvas id="neuralCanvas"></canvas>
@@ -1970,7 +2067,7 @@ body {
         </div>
         <div class="logo-text">
           <div class="title">TYAZA</div>
-          <div class="subtitle">Umuvugizi w'Umutima</div>
+          <div class="subtitle">Umuvugizi w'Umutima · Offline</div>
         </div>
       </div>
       <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
@@ -2077,6 +2174,9 @@ body {
         <div style="font-weight:600;color:var(--secondary);">"Healthy citizens, wealthy nation"</div>
         <div style="font-size:0.65rem;margin-top:6px;color:var(--text-muted);">Yves HIRWA TUYISHIME - CEO & Founder</div>
         <div style="font-size:0.6rem;color:var(--text-muted);margin-top:4px;">© 2026 Kivura Labs · Rwanda</div>
+        <div style="font-size:0.55rem;color:var(--text-muted);margin-top:6px;border-top:1px solid var(--glass-border);padding-top:6px;">
+          🤖 <span id="modelStatusBadge">Loading AI...</span>
+        </div>
       </div>
     </div>
   </aside>
@@ -2092,14 +2192,13 @@ body {
         <div class="chat-info">
           <h1>TYAZA</h1>
           <div class="chat-status">
-            <span class="status-dot"></span>
+            <span class="status-dot" id="statusDot"></span>
             <span id="statusText">Igisubizo kindimo</span>
           </div>
         </div>
       </div>
       <div class="header-actions">
         <div class="risk-indicators" id="riskIndicators"></div>
-        <button class="btn btn-primary btn-sm" id="aiToggleBtn"><i class="fas fa-brain"></i> AI</button>
         <button class="btn btn-icon btn-ghost" id="exportBtn" title="Export"><i class="fas fa-download"></i></button>
         <button class="btn btn-icon btn-ghost" id="clearChatBtn" title="Clear"><i class="fas fa-trash-alt"></i></button>
       </div>
@@ -2249,7 +2348,7 @@ body {
 
 <script>
 // ============================================================
-// TYAZA v6.1 - PUTER AI WITH RETRY & BETTER ERROR HANDLING
+// TYAZA v7.0 - WebLLM Offline AI (NO INTERNET NEEDED)
 // ============================================================
 
 // ---- CONFIGURATION ----
@@ -2291,9 +2390,14 @@ let state = {
     suicide: false, selfHarm: false, violence: false,
     ptsd: false, abuse: false, genocideTrauma: false
   },
-  puterReady: false,
   messageCount: 0,
-  detectedLanguage: 'rw'
+  detectedLanguage: 'rw',
+  webllm: {
+    engine: null,
+    loaded: false,
+    loading: false,
+    model: 'Qwen2-1.5B-Instruct-q4f16_1-MLC'
+  }
 };
 
 // ---- STORAGE ----
@@ -2485,9 +2589,10 @@ function buildMetadataHTML(metadata) {
   return `
     <div class="msg-metadata">
       <span class="msg-metadata-item ${confidenceClass}"><i class="fas fa-bullseye"></i> ${Math.round(metadata.confidence * 100)}%</span>
-      <span class="msg-metadata-item"><i class="fas fa-brain"></i> ${metadata.model || 'Puter AI'}</span>
+      <span class="msg-metadata-item"><i class="fas fa-microchip"></i> WebLLM</span>
       ${metadata.responseTime ? `<span class="msg-metadata-item"><i class="fas fa-bolt"></i> ${metadata.responseTime}ms</span>` : ''}
       ${metadata.emotion && metadata.emotion !== 'neutral' ? `<span class="msg-metadata-item"><i class="fas fa-heart"></i> ${metadata.emotion}</span>` : ''}
+      <span class="msg-metadata-item"><i class="fas fa-shield-alt"></i> Offline</span>
     </div>
   `;
 }
@@ -2578,7 +2683,7 @@ function updateWelcome() {
 
 function handleInput() {
   const val = document.getElementById('messageInput').value.trim();
-  document.getElementById('sendBtn').disabled = !val || state.isGenerating;
+  document.getElementById('sendBtn').disabled = !val || state.isGenerating || !state.webllm.loaded;
   document.getElementById('messageInput').style.height = 'auto';
   document.getElementById('messageInput').style.height = Math.min(document.getElementById('messageInput').scrollHeight, 120) + 'px';
 }
@@ -2669,26 +2774,103 @@ async function addMessageWithStream(role, content, htmlContent, metadata) {
   updateMemoryStats();
 }
 
-// ---- PUTER AI WITH RETRY ----
-async function getPuterAIResponse(userInput, retryCount = 0) {
-  const startTime = performance.now();
-  const maxRetries = 3;
+// ---- WEBLLM - LOAD MODEL ----
+async function loadWebLLMModel() {
+  const overlay = document.getElementById('modelLoadingOverlay');
+  const progressFill = document.getElementById('modelProgressFill');
+  const progressText = document.getElementById('modelProgressText');
+  const statusText = document.getElementById('modelStatusText');
+  const statusBadge = document.getElementById('modelStatusBadge');
+  const statusDot = document.getElementById('statusDot');
   
   try {
-    if (typeof puter === 'undefined') {
-      throw new Error('Puter SDK not loaded. Please check your internet connection.');
+    if (typeof webllm === 'undefined') {
+      statusText.textContent = '❌ WebLLM ntiboneka. Reba ko aho uri hifite interineti.';
+      statusBadge.textContent = '❌ Error loading';
+      return false;
     }
     
+    state.webllm.loading = true;
+    statusText.textContent = '🧠 Gutangiza AI engine ...';
+    progressText.textContent = '0%';
+    
+    const engine = new webllm.Engine();
+    
+    // Progress callback
+    engine.setProgressCallback((progress) => {
+      const percent = Math.round(progress * 100);
+      progressFill.style.width = percent + '%';
+      progressText.textContent = percent + '%';
+      
+      if (progress < 0.3) {
+        statusText.textContent = '📥 Imanura modeli ...';
+      } else if (progress < 0.6) {
+        statusText.textContent = '⚙️ Tunganya modeli ...';
+      } else if (progress < 0.9) {
+        statusText.textContent = '🧠 Itegura AI ...';
+      } else {
+        statusText.textContent = '✨ Bigaruka ...';
+      }
+    });
+    
+    // Load the model
+    statusText.textContent = '📥 Kubika modeli ya mbere ... (Bishobora gufata amaminota 2-5)';
+    await engine.reload(state.webllm.model);
+    
+    state.webllm.engine = engine;
+    state.webllm.loaded = true;
+    state.webllm.loading = false;
+    
+    // Update UI
+    overlay.classList.add('hidden');
+    statusBadge.textContent = '✅ AI yiteguye (Offline)';
+    statusBadge.style.color = 'var(--success)';
+    statusDot.style.background = 'var(--success)';
+    statusDot.style.animation = 'pulse 2s ease-in-out infinite';
+    document.getElementById('statusText').textContent = 'AI yiteguye';
+    
+    showToast('🧠 TYAZA yiteguye! Igena mu kabuto kawe.', 'success');
+    document.getElementById('sendBtn').disabled = false;
+    
+    console.log('✅ WebLLM loaded with model:', state.webllm.model);
+    return true;
+    
+  } catch (error) {
+    console.error('WebLLM load error:', error);
+    state.webllm.loading = false;
+    
+    statusText.textContent = '❌ Error: ' + error.message;
+    statusBadge.textContent = '❌ Error loading';
+    showToast('❌ Kwikuramo AI: ' + error.message, 'error');
+    
+    // Try fallback model
+    if (state.webllm.model === 'Qwen2-1.5B-Instruct-q4f16_1-MLC') {
+      state.webllm.model = 'TinyLlama-1.1B-Chat-v1.0-q4f16_1-MLC';
+      statusText.textContent = '🔄 Kugerageza modeli ntoya ...';
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      return loadWebLLMModel();
+    }
+    
+    return false;
+  }
+}
+
+// ---- WEBLLM - GENERATE RESPONSE ----
+async function getWebLLMResponse(userInput) {
+  if (!state.webllm.loaded || !state.webllm.engine) {
+    throw new Error('AI ntaboneka');
+  }
+  
+  const startTime = performance.now();
+  
+  try {
     const lang = state.detectedLanguage || 'rw';
     const langInstruction = lang === 'rw' ? 
-      'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe. Koresha imigani nk\'"Imana itanga ibishoboka" n\'amagambo adasanzwe.' :
+      'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe. Koresha imigani nk\'"Imana itanga ibishoboka".' :
       lang === 'fr' ? 'Répondez en Français, avec empathie et chaleur.' :
       'Respond in English, with empathy and warmth.';
     
-    const recentMessages = state.messages.slice(-8).map(m => ({ role: m.role, content: m.content }));
-    
-    const systemContext = `Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
-
+    const systemPrompt = `Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
 ${langInstruction}
 
 PERSONALITY:
@@ -2709,27 +2891,39 @@ INTEKO:
 - Ntukavuge ko uri umuntu - uri AI ya KIVURA LABS
 - Ntukoreshe ijambo "having" mu bisubizo byawe
 - Koresha imigani nk'ubuhanga bw'umuco nyarwanda
-- Koresha markdown: **bold** kubintu by'ingenzi, *italic* kubicamo ubwenge, - lists, > quotes
+- Koresha markdown: **bold** kubintu by'ingenzi, *italic* kubicamo ubwenge
 - Koresha emojis nk' 💙, ✨, 🤝, 🕊️, 🔥, 😰, 💡
-- Subiza mu buryo bugufi kandi bufite ishingiro (nturemere cyane)`;
+- Subiza mu buryo bugufi kandi bufite ishingiro`;
 
-    const messages = [
-      { role: 'system', content: systemContext },
-      ...recentMessages,
-      { role: 'user', content: userInput }
+    // Build conversation history
+    const conversation = [
+      { role: 'system', content: systemPrompt }
     ];
     
-    // Try with a timeout
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
+    // Add recent messages (last 6)
+    const recentMessages = state.messages.slice(-6);
+    for (const msg of recentMessages) {
+      conversation.push({
+        role: msg.role === 'user' ? 'user' : 'assistant',
+        content: msg.content
+      });
+    }
     
-    const response = await puter.ai.chat(messages, { model: 'claude-sonnet-4' });
-    clearTimeout(timeoutId);
+    // Add current user message
+    conversation.push({ role: 'user', content: userInput });
     
-    let text = response.message?.content || response.text || '';
+    // Generate response
+    const response = await state.webllm.engine.chat.completions.create({
+      messages: conversation,
+      temperature: 0.7,
+      max_tokens: 512,
+      stream: false
+    });
+    
+    let text = response.choices[0].message.content || '';
     
     if (!text || text.length < 3) {
-      throw new Error('Empty response from Puter AI');
+      throw new Error('Empty response');
     }
     
     text = text.replace(/\bhaving\b/gi, '').replace(/\bhavings\b/gi, '');
@@ -2742,24 +2936,16 @@ INTEKO:
       text: text,
       html: html,
       metadata: {
-        confidence: 0.88,
+        confidence: 0.85,
         emotion: 'thoughtful',
         responseTime: responseTime,
-        model: 'claude-sonnet-4'
+        model: 'WebLLM - ' + state.webllm.model
       }
     };
+    
   } catch (error) {
-    console.error('Puter AI Error:', error);
-    
-    // Retry logic
-    if (retryCount < maxRetries) {
-      showToast(`⏳ Gerageza noneho... (${retryCount + 1}/${maxRetries})`, 'info');
-      await new Promise(resolve => setTimeout(resolve, 1500 * (retryCount + 1)));
-      return getPuterAIResponse(userInput, retryCount + 1);
-    }
-    
-    showToast('❌ Puter AI yanze: ' + error.message, 'error');
-    return null;
+    console.error('WebLLM generation error:', error);
+    throw error;
   }
 }
 
@@ -2768,6 +2954,12 @@ async function sendMessage() {
   const input = document.getElementById('messageInput');
   const text = input.value.trim();
   if (!text || state.isGenerating) return;
+  
+  // Check if model is loaded
+  if (!state.webllm.loaded) {
+    showToast('⏳ TYAZA iracyategura ...', 'warning');
+    return;
+  }
   
   input.value = '';
   input.style.height = 'auto';
@@ -2788,7 +2980,7 @@ async function sendMessage() {
   for (const pattern of crisisPatterns) {
     if (lower.includes(pattern.toLowerCase())) {
       const crisisMsg = "⚠️ **Ukeneye ubufasha bwihutirwa.**\n\nIbi ni ibintu bikomeye cyane. Mbabajwe cyane no kumva utyo. Ni ingenzi cyane ko wabona ubufasha bwihuse.\n\n📞 **116** - Imitari y'inkunga (24/7)\n📞 **3029** - Isange One Stop\n🏥 Kwa muganga wawe\n🤝 Vugana n'umuntu wizeye\n\n**Nturi wenyine. Ubu hashoboka ubufasha.**";
-      addMessageWithStream('user', text, null, null);
+      await addMessageWithStream('user', text, null, null);
       await addMessageWithStream('assistant', crisisMsg, UltraMarkdownParser.parse(crisisMsg), { confidence: 1.0, emotion: 'crisis', model: 'crisis-response', responseTime: 0 });
       showCrisisModal();
       document.getElementById('sendBtn').disabled = false;
@@ -2799,7 +2991,7 @@ async function sendMessage() {
   for (const pattern of genocidePatterns) {
     if (lower.includes(pattern.toLowerCase())) {
       const genocideMsg = "🕊️ **Ibyo wavuze ni ibintu bikomeye.**\n\nTYAZA yumva neza ko jenoside yakorewe Abatutsi mu 1994 yasize ibyago byinshi.\n\nNta muntu ugomba kwihanganira ibyago yonyine.\n\n📞 **116** - Bafasha abahangayikishijwe na jenoside\n📞 **3029** - Isange One Stop\n🤝 Vugana n'umuntu wizeye";
-      addMessageWithStream('user', text, null, null);
+      await addMessageWithStream('user', text, null, null);
       await addMessageWithStream('assistant', genocideMsg, UltraMarkdownParser.parse(genocideMsg), { confidence: 0.95, emotion: 'somber', model: 'genocide-response', responseTime: 0 });
       document.getElementById('sendBtn').disabled = false;
       return;
@@ -2825,19 +3017,26 @@ async function sendMessage() {
   
   const typingId = showTyping();
   state.isGenerating = true;
-  document.getElementById('statusText').textContent = 'TYAZA irategura...';
+  document.getElementById('statusText').textContent = 'TYAZA itekereza...';
   
-  // Try Puter AI with retry
-  let result = await getPuterAIResponse(text);
-  
-  removeTyping(typingId);
-  
-  if (result) {
-    await addMessageWithStream('assistant', result.text, result.html, result.metadata);
-  } else {
-    // Show a friendly error message
-    const errorMsg = "💙 Mbabajwe cyane, ariko ubu ndi mu gukora nk'amazi. Nyamuneka gerageza noneho cyangwa reba ko aho uri hifite interineti. Ubu hashoboka ubufasha bwo mu mutwe: **116** - Imitari y'inkunga (24/7).\n\n**Murakoze cyane kubabarira!** 🙏";
-    await addMessageWithStream('assistant', errorMsg, UltraMarkdownParser.parse(errorMsg), { confidence: 0.5, emotion: 'error', model: 'error', responseTime: 0 });
+  try {
+    // Get WebLLM response
+    const result = await getWebLLMResponse(text);
+    
+    removeTyping(typingId);
+    
+    if (result) {
+      await addMessageWithStream('assistant', result.text, result.html, result.metadata);
+    } else {
+      throw new Error('No response');
+    }
+  } catch (error) {
+    removeTyping(typingId);
+    console.error('Error:', error);
+    
+    // Fallback response
+    const fallbackMsg = "💙 Mbabajwe cyane, ariko ubu ndi mu gukora nk'amazi. Nyamuneka gerageza noneho. Ubu hashoboka ubufasha bwo mu mutwe: **116** - Imitari y'inkunga (24/7).\n\n**Murakoze cyane kubabarira!** 🙏";
+    await addMessageWithStream('assistant', fallbackMsg, UltraMarkdownParser.parse(fallbackMsg), { confidence: 0.5, emotion: 'error', model: 'error', responseTime: 0 });
   }
   
   state.isGenerating = false;
@@ -2974,7 +3173,7 @@ function clearHistory() {
 
 function exportChat() {
   if (state.messages.length === 0) { showToast('Nta kiganiro cyohereza', 'warning'); return; }
-  const data = { app: 'TYAZA', version: '6.1', timestamp: Date.now(), user: state.userName || 'User', messages: state.messages, session: state.sessionStart, risks: state.riskFlags, profile: getUserProfile(), company: COMPANY_INFO, mission: TYAZA_MISSION, detectedLanguage: state.detectedLanguage };
+  const data = { app: 'TYAZA', version: '7.0', timestamp: Date.now(), user: state.userName || 'User', messages: state.messages, session: state.sessionStart, risks: state.riskFlags, profile: getUserProfile(), company: COMPANY_INFO, mission: TYAZA_MISSION, detectedLanguage: state.detectedLanguage };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -3159,6 +3358,7 @@ function showProfileModal() {
         <div style="font-weight:600;color:var(--secondary);font-size:0.8rem;">🏢 KIVURA LABS</div>
         <div style="font-size:0.7rem;color:var(--text-secondary);margin-top:3px;"><strong>CEO & Founder:</strong> Yves Hirwa Tuyishime</div>
         <div style="font-size:0.7rem;color:var(--text-tertiary);font-style:italic;">"Healthy citizens, wealthy nation"</div>
+        <div style="font-size:0.6rem;color:var(--text-muted);margin-top:4px;">🤖 ${state.webllm.loaded ? 'AI yiteguye (Offline)' : 'AI iracyategura...'}</div>
       </div>
     </div>
   `;
@@ -3229,26 +3429,9 @@ function initStars() {
 }
 
 // ---- INIT ----
-function init() {
-  if (typeof puter !== 'undefined') {
-    state.puterReady = true;
-    console.log('✅ TYAZA yiteguye na Puter AI!');
-    showToast('✅ TYAZA yiteguye na Puter AI ✨', 'success');
-  } else {
-    console.warn('⚠️ Puter SDK not loaded - checking again...');
-    // Try to reload Puter SDK
-    const script = document.createElement('script');
-    script.src = 'https://js.puter.com/v2/';
-    script.onload = () => {
-      state.puterReady = true;
-      console.log('✅ Puter SDK loaded after retry!');
-      showToast('✅ TYAZA yiteguye na Puter AI ✨', 'success');
-    };
-    script.onerror = () => {
-      showToast('⚠️ TYAZA ikenera interineti kugira ngo ikore neza', 'warning');
-    };
-    document.head.appendChild(script);
-  }
+async function init() {
+  // Load WebLLM model first
+  await loadWebLLMModel();
   
   state.userName = storageGet('userName', null);
   state.settings = storageGet('settings', state.settings);
@@ -3264,7 +3447,7 @@ function init() {
   updateMemoryStats();
   updateWelcome();
   
-  document.getElementById('sendBtn').disabled = false;
+  document.getElementById('sendBtn').disabled = !state.webllm.loaded;
   document.getElementById('messageInput').addEventListener('input', handleInput);
   document.getElementById('messageInput').addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -3362,10 +3545,12 @@ function init() {
   
   setTimeout(() => document.getElementById('messageInput').focus(), 500);
   
-  console.log('✨ TYAZA v6.1 - Puter AI with Retry');
+  console.log('✨ TYAZA v7.0 - WebLLM Offline AI');
   console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
   console.log('👤 CEO & Founder: Yves Hirwa Tuyishime');
+  console.log('🧠 Model:', state.webllm.model);
   console.log('🌍 Rwanda, 2026');
+  console.log('✅ AI runs completely offline after first download!');
 }
 
 // ---- GLOBAL EXPOSURE ----
