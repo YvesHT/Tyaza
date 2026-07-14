@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <script src="https://js.puter.com/v2/"></script>
 <style>
-/* ====== ALL STYLES SAME AS ORIGINAL ====== */
+/* ====== ALL STYLES ====== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
@@ -1159,22 +1159,6 @@ body {
   51%, 100% { opacity: 0; }
 }
 
-.thinking-block {
-  background: rgba(167, 139, 250, 0.05);
-  border-left: 2px solid var(--primary);
-  padding: 8px 12px;
-  margin: 8px 0;
-  border-radius: var(--radius-md);
-  font-size: 0.75rem;
-  color: var(--text-tertiary);
-  font-style: italic;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.thinking-block::before {
-  content: '💭 ';
-}
-
 /* ====== TYPING INDICATOR ====== */
 .typing {
   display: flex;
@@ -2294,44 +2278,6 @@ const TYAZA_MISSION = {
   tagline: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda."
 };
 
-// ---- DATASET (for context only - all responses come from Puter AI) ----
-const TYAZA_DATASET = {
-  proverbs: {
-    "Ijoro ribara uwariraye": "Abariraye ni bo bumva iby'ijoro",
-    "Buhoro buhoro ni rwo rugendo": "Kugenda buhoro ni uburyo bwo kugera kure",
-    "Uwitonze arusha uwihuta kugera kure": "Kwihangana bituma ugera ku ntsinzi irambye",
-    "Nta gahinda gahoraho": "Ibibazo birashira uko igihe kigenda",
-    "Uko ubiba ni ko usarura": "Ibyo ukora ni byo bigena ibizakugeraho",
-    "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ngombwa kugira ngo wige",
-    "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi",
-    "Ujya inama n'abakuru ntayoba": "Gusaba inama ku bakuru ni byiza",
-    "Umuti w'ibibazo ni ukwihangana": "Kwihangana ni bwo buryo bwo gukemura ibibazo",
-    "Uwihanganye aratsinda": "Kwihangana bituma utsinda",
-    "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira",
-    "Imana itanga ibishoboka": "Imana itanga ibishoboka, nta mpamvu yo guhangayika"
-  },
-  crisis: {
-    patterns: ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
-      'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye',
-      'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'],
-    generate: function() {
-      return {
-        text: "⚠️ Ukeneye ubufasha bwihutirwa. Ibi ni ibintu bikomeye cyane. Mbabajwe cyane no kumva utyo. Ni ingenzi cyane ko wabona ubufasha bwihuse.\n\n📞 **116** - Imitari y'inkunga (24/7)\n📞 **3029** - Isange One Stop\n🏥 Kwa muganga wawe\n🤝 Vugana n'umuntu wizeye\n\n**Nturi wenyine. Ubu hashoboka ubufasha.**",
-        metadata: { confidence: 1.0, emotion: 'crisis', model: 'puter' }
-      };
-    }
-  },
-  genocide: {
-    patterns: ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 'génocide', 'genocide'],
-    generate: function() {
-      return {
-        text: "🕊️ Ibyo wavuze ni ibintu bikomeye. TYAZA yumva neza ko jenoside yakorewe Abatutsi mu 1994 yasize ibyago byinshi.\n\nNta muntu ugomba kwihanganira ibyago yonyine.\n\n📞 **116** - Bafasha abahangayikishijwe na jenoside\n📞 **3029** - Isange One Stop\n🤝 Vugana n'umuntu wizeye",
-        metadata: { confidence: 0.95, emotion: 'somber', model: 'puter' }
-      };
-    }
-  }
-};
-
 // ---- STATE ----
 let state = {
   messages: [],
@@ -2445,19 +2391,20 @@ function analyzeRisks(text) {
     suicide: false, selfHarm: false, violence: false,
     ptsd: false, abuse: false, genocideTrauma: false
   };
-  const allCrisisPatterns = [
-    ...TYAZA_DATASET.crisis.patterns,
-    ...TYAZA_DATASET.genocide.patterns
-  ];
-  for (const pattern of allCrisisPatterns) {
+  const crisisPatterns = ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
+    'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye',
+    'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'];
+  const genocidePatterns = ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 'génocide', 'genocide'];
+  
+  for (const pattern of crisisPatterns) {
     if (lower.includes(pattern.toLowerCase())) {
-      if (TYAZA_DATASET.crisis.patterns.includes(pattern)) {
-        risks.suicide = true;
-        risks.selfHarm = true;
-      }
-      if (TYAZA_DATASET.genocide.patterns.includes(pattern)) {
-        risks.genocideTrauma = true;
-      }
+      risks.suicide = true;
+      risks.selfHarm = true;
+    }
+  }
+  for (const pattern of genocidePatterns) {
+    if (lower.includes(pattern.toLowerCase())) {
+      risks.genocideTrauma = true;
     }
   }
   return risks;
@@ -2541,48 +2488,6 @@ function updateMemoryStats() {
   const riskCount = Object.values(state.riskFlags).filter(v => v).length;
   const riskEmoji = riskCount === 0 ? '✅' : riskCount === 1 ? '⚠️' : '🚨';
   document.getElementById('statRiskLevel').textContent = riskEmoji;
-}
-
-// ---- EMOTION DETECTION (for context only) ----
-function detectEmotion(text) {
-  const lower = text.toLowerCase();
-  
-  for (const pattern of TYAZA_DATASET.crisis.patterns) {
-    if (lower.includes(pattern.toLowerCase())) return { type: 'crisis' };
-  }
-  for (const pattern of TYAZA_DATASET.genocide.patterns) {
-    if (lower.includes(pattern.toLowerCase())) return { type: 'genocide' };
-  }
-  
-  const emotionChecks = [
-    { type: 'sadness', patterns: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'nariraye', 'triste', 'peine'] },
-    { type: 'joy', patterns: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo', 'heureux', 'joy'] },
-    { type: 'anger', patterns: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'en colère', 'fâché'] },
-    { type: 'anxiety', patterns: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'anxieux', 'peur', 'stress'] },
-    { type: 'loneliness', patterns: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'seul', 'alone'] },
-    { type: 'fatigue', patterns: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'fatigué', 'tired'] },
-    { type: 'greeting', patterns: ['muraho', 'hello', 'hi', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'bonjour', 'hey'] }
-  ];
-  
-  for (const check of emotionChecks) {
-    for (const pattern of check.patterns) {
-      if (lower.includes(pattern.toLowerCase())) {
-        return { type: check.type };
-      }
-    }
-  }
-  
-  // Name detection
-  const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye|jewe|je m'appelle|je suis|mon nom est)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
-  if (nameMatch) {
-    const name = nameMatch[1].trim();
-    const excludedNames = ['having', 'havings', 'have', 'has', 'had', 'ptsd', 'trauma', 'stress', 'anxiety', 'depression', 'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy', 'good', 'bad', 'fine', 'okay', 'ok', 'great', 'terrible', 'wonderful', 'horrible', 'amazing', 'awful', 'well', 'hello', 'hi', 'muraho', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'neza', 'cyane', 'rwanda', 'kivura', 'labs', 'tyaza'];
-    if (name.length >= 2 && !excludedNames.includes(name.toLowerCase())) {
-      return { type: 'name', name: name };
-    }
-  }
-  
-  return null;
 }
 
 // ---- ULTRA MARKDOWN PARSER ----
@@ -2979,31 +2884,23 @@ async function getPuterAIResponse(userInput) {
   
   try {
     if (typeof puter === 'undefined') {
-      throw new Error('Puter SDK not loaded - please check your internet connection');
-    }
-    
-    const detection = detectEmotion(userInput);
-    let emotionContext = '';
-    if (detection && detection.type !== 'name') {
-      emotionContext = `Umukoresha arumva: ${detection.type}.`;
+      throw new Error('Puter SDK not loaded. Please check your internet connection.');
     }
     
     const lang = state.detectedLanguage || 'rw';
     const langInstruction = lang === 'rw' ? 
-      'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe.' :
-      lang === 'fr' ? 'Répondez en Français, avec empathie et chaleur.' :
-      'Respond in English, with empathy and warmth.';
+      'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe. Koresha imigani nk\'"Imana itanga ibishoboka" n\'amagambo adasanzwe nk\'"Ubwirasi" ngo ugaragaze ubwenge bw\'umuco nyarwanda.' :
+      lang === 'fr' ? 'Répondez en Français, avec empathie et chaleur. Utilisez des proverbes et des mots rares.' :
+      'Respond in English, with empathy and warmth. Use proverbs and rare words.';
     
-    const proverbsList = Object.keys(TYAZA_DATASET.proverbs).slice(0, 15).join(', ');
-    
-    // Build conversation history for context
+    // Build conversation history
     const recentMessages = state.messages.slice(-8).map(m => ({
       role: m.role,
       content: m.content
     }));
     
     const systemContext = `Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
-${emotionContext}
+
 ${langInstruction}
 
 PERSONALITY:
@@ -3017,25 +2914,20 @@ IBANZE - KIVURA LABS:
 - Yashinzwe na Yves Hirwa Tuyishime (CEO & Founder)
 - Ijambo rye: "Healthy citizens, wealthy nation"
 - Product: TYAZA - AI ivuga mu Kinyarwanda
-- Yashinzwe mu 2024 mu Rwanda
 - Tagline: "${TYAZA_MISSION.tagline}"
 
 MISSION: ${TYAZA_MISSION.mission}
-VISION: ${TYAZA_MISSION.vision}
-VALUES: ${TYAZA_MISSION.values.join(', ')}
 
-IMIGANI UZIKO: ${proverbsList}
-
-${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}
+${state.userName ? `Izina ry'umukoresha ni ${state.userName}. Koresha izina rye mu bisubizo.` : 'Baza umukoresha izina rye niba atariguhaye.'}
 
 INTEKO:
 - Ntukavuge ko uri umuntu - uri AI ya KIVURA LABS
 - Ntukoreshe ijambo "having" mu bisubizo byawe
 - Koresha imigani nk'ubuhanga bw'umuco nyarwanda
-- Subiza mu buryo bw'umwimerere, nk'uko umuntu w'ukuri yavuga
-- Koresha markdown: **bold**, *italic*, - lists, > quotes
+- Koresha markdown: **bold** kubintu by'ingenzi, *italic* kubicamo ubwenge, - lists, > quotes
+- Koresha emojis nk' 💙, ✨, 🤝, 🕊️, 🔥, 😰, 💡
 - Subiza mu buryo bugufi kandi bufite ishingiro (nturemere cyane)
-- Koresha emojis nk' 💙, ✨, 🤝, 🕊️, 🔥, 😰, 💡`;
+- Subiza mu buryo bwihariye bitewe n'uko umukoresha yumva`;
 
     const messages = [
       { role: 'system', content: systemContext },
@@ -3057,10 +2949,8 @@ INTEKO:
     
     const responseTime = Math.round(performance.now() - startTime);
     const tokens = text.split(/\s+/).length;
-    const confidence = detection ? 
-      (detection.type === 'crisis' ? 0.95 : 
-       detection.type === 'greeting' ? 0.92 : 0.85) : 0.78;
-    const emotion = detection?.type || 'neutral';
+    const confidence = 0.88;
+    const emotion = 'thoughtful';
     
     return {
       text: text,
@@ -3097,15 +2987,25 @@ async function sendMessage() {
   state.riskFlags = risks;
   updateRiskIndicators(risks);
   
-  // Check for crisis FIRST - use local crisis response for safety
-  const detection = detectEmotion(text);
-  if (detection && detection.type === 'crisis') {
-    const crisisResult = TYAZA_DATASET.crisis.generate();
+  // CRISIS CHECK - only this uses local response for safety
+  const lower = text.toLowerCase();
+  const crisisPatterns = ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
+    'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye',
+    'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'];
+  const genocidePatterns = ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 'génocide', 'genocide'];
+  
+  let isCrisis = false;
+  for (const pattern of crisisPatterns) {
+    if (lower.includes(pattern.toLowerCase())) { isCrisis = true; break; }
+  }
+  
+  if (isCrisis) {
+    const crisisMsg = "⚠️ **Ukeneye ubufasha bwihutirwa.**\n\nIbi ni ibintu bikomeye cyane. Mbabajwe cyane no kumva utyo. Ni ingenzi cyane ko wabona ubufasha bwihuse.\n\n📞 **116** - Imitari y'inkunga (24/7)\n📞 **3029** - Isange One Stop\n🏥 Kwa muganga wawe\n🤝 Vugana n'umuntu wizeye\n\n**Nturi wenyine. Ubu hashoboka ubufasha.**";
     addMessage('user', text);
-    await addMessageWithStream('assistant', crisisResult.text, UltraMarkdownParser.parse(crisisResult.text), { 
+    await addMessageWithStream('assistant', crisisMsg, UltraMarkdownParser.parse(crisisMsg), { 
       confidence: 1.0, 
       emotion: 'crisis', 
-      model: 'crisis-local',
+      model: 'crisis-response',
       responseTime: 0
     });
     showCrisisModal();
@@ -3113,26 +3013,35 @@ async function sendMessage() {
     return;
   }
   
-  if (detection && detection.type === 'genocide') {
-    const genocideResult = TYAZA_DATASET.genocide.generate();
+  for (const pattern of genocidePatterns) {
+    if (lower.includes(pattern.toLowerCase())) { isCrisis = true; break; }
+  }
+  
+  if (isCrisis) {
+    const genocideMsg = "🕊️ **Ibyo wavuze ni ibintu bikomeye.**\n\nTYAZA yumva neza ko jenoside yakorewe Abatutsi mu 1994 yasize ibyago byinshi.\n\nNta muntu ugomba kwihanganira ibyago yonyine.\n\n📞 **116** - Bafasha abahangayikishijwe na jenoside\n📞 **3029** - Isange One Stop\n🤝 Vugana n'umuntu wizeye";
     addMessage('user', text);
-    await addMessageWithStream('assistant', genocideResult.text, UltraMarkdownParser.parse(genocideResult.text), { 
+    await addMessageWithStream('assistant', genocideMsg, UltraMarkdownParser.parse(genocideMsg), { 
       confidence: 0.95, 
       emotion: 'somber', 
-      model: 'genocide-local',
+      model: 'genocide-response',
       responseTime: 0
     });
     document.getElementById('sendBtn').disabled = false;
     return;
   }
   
-  // Handle name detection
-  if (detection && detection.type === 'name') {
-    state.userName = detection.name;
-    storageSet('userName', state.userName);
-    updateWelcome();
-    updateMemoryStats();
-    // Continue to AI for the actual response
+  // Name detection (simple)
+  const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye|jewe|je m'appelle|je suis|mon nom est)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
+  if (nameMatch) {
+    const name = nameMatch[1].trim();
+    const excludedNames = ['having', 'havings', 'have', 'has', 'had', 'ptsd', 'trauma', 'stress', 'anxiety', 'depression', 'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy', 'good', 'bad', 'fine', 'okay', 'ok', 'great', 'terrible', 'wonderful', 'horrible', 'amazing', 'awful', 'well', 'hello', 'hi', 'muraho', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'neza', 'cyane', 'rwanda', 'kivura', 'labs', 'tyaza'];
+    if (name.length >= 2 && !excludedNames.includes(name.toLowerCase())) {
+      state.userName = name;
+      storageSet('userName', state.userName);
+      updateWelcome();
+      updateMemoryStats();
+      showToast(`✨ Murakaza neza, ${state.userName}!`, 'success');
+    }
   }
   
   addMessage('user', text);
@@ -3143,7 +3052,7 @@ async function sendMessage() {
   
   let result = await getPuterAIResponse(text);
   
-  // If Puter AI fails, show error but don't fall back to local
+  // If Puter AI fails, show a friendly error
   if (!result) {
     removeTyping(typingId);
     const errorMsg = "💙 Mbabajwe cyane, ariko ubu ndi mu gukora nk'amazi. Nyamuneka gerageza noneho cyangwa reba ko aho uri hifite interineti. Ubu hashoboka ubufasha bwo mu mutwe: **116** - Imitari y'inkunga (24/7).\n\n**Murakoze cyane kubabarira!** 🙏";
@@ -3692,9 +3601,8 @@ function init() {
     console.log('✅ TYAZA yiteguye na Puter AI!');
     showToast('✅ TYAZA yiteguye na Puter AI ✨', 'success');
   } else {
-    console.warn('⚠️ Puter SDK not loaded - TYAZA needs Puter AI to work');
+    console.warn('⚠️ Puter SDK not loaded - TYAZA needs Puter AI');
     showToast('⚠️ TYAZA ikenera interineti kugira ngo ikore neza', 'warning');
-    state.useAI = false;
   }
   
   state.userName = storageGet('userName', null);
@@ -3812,12 +3720,12 @@ function init() {
   console.log('✨ TYAZA v6.0 - Puter AI Only');
   console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
   console.log('👤 CEO & Founder: Yves Hirwa Tuyishime');
-  console.log('🤖 Puter AI: PRIMARY (claude-sonnet-4) - NO LOCAL FALLBACK');
+  console.log('🤖 Puter AI: PRIMARY (claude-sonnet-4)');
   console.log('🌍 Rwanda, 2026');
 }
 
 // ---- GLOBAL EXPOSURE ----
-window.TYAZA_DATASET = TYAZA_DATASET;
+window.TYAZA_DATASET = {};
 window.COMPANY_INFO = COMPANY_INFO;
 window.TYAZA_MISSION = TYAZA_MISSION;
 window.UltraMarkdownParser = UltraMarkdownParser;
@@ -3838,8 +3746,6 @@ window.testMic = testMic;
 window.analyzeRisks = analyzeRisks;
 window.getUserProfile = getUserProfile;
 window.showProfileModal = showProfileModal;
-window.detectEmotion = detectEmotion;
-window.detectLanguage = detectLanguage;
 window.handleInput = handleInput;
 
 document.addEventListener('DOMContentLoaded', init);
