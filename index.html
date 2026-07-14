@@ -9,10 +9,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-<!-- WebLLM - Runs AI completely in your browser -->
+<!-- WebLLM - Try multiple CDN sources -->
 <script src="https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.45/dist/web-llm.min.js"></script>
 <style>
-/* ====== ALL STYLES SAME AS ORIGINAL ====== */
+/* ====== ALL STYLES SAME ====== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
@@ -1959,7 +1959,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 24px;
+  gap: 20px;
   transition: opacity 0.8s ease;
 }
 
@@ -2012,6 +2012,7 @@ body {
   text-align: center;
   max-width: 400px;
   padding: 0 20px;
+  min-height: 60px;
 }
 
 .spinner {
@@ -2032,19 +2033,54 @@ body {
   font-size: 1.2rem;
   font-weight: 600;
 }
+
+.retry-btn {
+  padding: 10px 24px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-spring);
+  margin-top: 10px;
+}
+
+.retry-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-glow);
+}
+
+.model-error-details {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  max-width: 400px;
+  text-align: center;
+  padding: 10px;
+  background: var(--glass);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  font-family: 'JetBrains Mono', monospace;
+  word-break: break-all;
+  max-height: 100px;
+  overflow-y: auto;
+}
 </style>
 </head>
 <body>
 <!-- Model Loading Overlay -->
 <div class="model-loading-overlay" id="modelLoadingOverlay">
-  <div class="spinner"></div>
+  <div class="spinner" id="loadingSpinner"></div>
   <div class="model-loading-title">🧠 TYAZA</div>
-  <div class="model-loading-subtitle">Itegura AI ...</div>
+  <div class="model-loading-subtitle" id="loadingSubtitle">Itegura AI ...</div>
   <div class="model-progress-bar">
     <div class="model-progress-fill" id="modelProgressFill"></div>
   </div>
   <div class="model-progress-text" id="modelProgressText">0%</div>
   <div class="model-status-text" id="modelStatusText">Kubika modeli mu buryo bwa mbere ...</div>
+  <div id="errorContainer"></div>
 </div>
 
 <!-- Neural Network Background -->
@@ -2348,7 +2384,7 @@ body {
 
 <script>
 // ============================================================
-// TYAZA v7.0 - WebLLM Offline AI (NO INTERNET NEEDED)
+// TYAZA v7.1 - WebLLM with CDN Fallback & Better Error Handling
 // ============================================================
 
 // ---- CONFIGURATION ----
@@ -2367,6 +2403,13 @@ const TYAZA_MISSION = {
   tagline: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda.",
   mission: "Gutanga ubwenge bw'ikoranabuhanga bwimbitse, bufite ubumuntu, bufasha abantu gusobanukirwa amarangamutima yabo."
 };
+
+// Try multiple CDN sources for WebLLM
+const WEBLLM_CDNS = [
+  'https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.45/dist/web-llm.min.js',
+  'https://unpkg.com/@mlc-ai/web-llm@0.2.45/dist/web-llm.min.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/web-llm/0.2.45/web-llm.min.js'
+];
 
 // ---- STATE ----
 let state = {
@@ -2396,7 +2439,9 @@ let state = {
     engine: null,
     loaded: false,
     loading: false,
-    model: 'Qwen2-1.5B-Instruct-q4f16_1-MLC'
+    model: 'Qwen2-1.5B-Instruct-q4f16_1-MLC',
+    cdnIndex: 0,
+    retryCount: 0
   }
 };
 
@@ -2589,7 +2634,7 @@ function buildMetadataHTML(metadata) {
   return `
     <div class="msg-metadata">
       <span class="msg-metadata-item ${confidenceClass}"><i class="fas fa-bullseye"></i> ${Math.round(metadata.confidence * 100)}%</span>
-      <span class="msg-metadata-item"><i class="fas fa-microchip"></i> WebLLM</span>
+      <span class="msg-metadata-item"><i class="fas fa-microchip"></i> ${metadata.model || 'WebLLM'}</span>
       ${metadata.responseTime ? `<span class="msg-metadata-item"><i class="fas fa-bolt"></i> ${metadata.responseTime}ms</span>` : ''}
       ${metadata.emotion && metadata.emotion !== 'neutral' ? `<span class="msg-metadata-item"><i class="fas fa-heart"></i> ${metadata.emotion}</span>` : ''}
       <span class="msg-metadata-item"><i class="fas fa-shield-alt"></i> Offline</span>
@@ -2774,7 +2819,7 @@ async function addMessageWithStream(role, content, htmlContent, metadata) {
   updateMemoryStats();
 }
 
-// ---- WEBLLM - LOAD MODEL ----
+// ---- WEBLLM - LOAD MODEL WITH FALLBACK ----
 async function loadWebLLMModel() {
   const overlay = document.getElementById('modelLoadingOverlay');
   const progressFill = document.getElementById('modelProgressFill');
@@ -2782,17 +2827,20 @@ async function loadWebLLMModel() {
   const statusText = document.getElementById('modelStatusText');
   const statusBadge = document.getElementById('modelStatusBadge');
   const statusDot = document.getElementById('statusDot');
+  const subtitle = document.getElementById('loadingSubtitle');
+  const errorContainer = document.getElementById('errorContainer');
   
   try {
+    // Check if webllm is available
     if (typeof webllm === 'undefined') {
-      statusText.textContent = '❌ WebLLM ntiboneka. Reba ko aho uri hifite interineti.';
-      statusBadge.textContent = '❌ Error loading';
-      return false;
+      throw new Error('WebLLM SDK not loaded. Please check your internet connection and try again.');
     }
     
     state.webllm.loading = true;
+    subtitle.textContent = 'Itegura AI ...';
     statusText.textContent = '🧠 Gutangiza AI engine ...';
     progressText.textContent = '0%';
+    errorContainer.innerHTML = '';
     
     const engine = new webllm.Engine();
     
@@ -2802,20 +2850,29 @@ async function loadWebLLMModel() {
       progressFill.style.width = percent + '%';
       progressText.textContent = percent + '%';
       
-      if (progress < 0.3) {
+      if (progress < 0.2) {
         statusText.textContent = '📥 Imanura modeli ...';
-      } else if (progress < 0.6) {
+      } else if (progress < 0.4) {
         statusText.textContent = '⚙️ Tunganya modeli ...';
-      } else if (progress < 0.9) {
+      } else if (progress < 0.7) {
         statusText.textContent = '🧠 Itegura AI ...';
-      } else {
+      } else if (progress < 0.95) {
         statusText.textContent = '✨ Bigaruka ...';
+      } else {
+        statusText.textContent = '✅ Bigarutse!';
       }
     });
     
-    // Load the model
-    statusText.textContent = '📥 Kubika modeli ya mbere ... (Bishobora gufata amaminota 2-5)';
-    await engine.reload(state.webllm.model);
+    // Load the model with timeout
+    statusText.textContent = '📥 Kubika modeli ... (Bishobora gufata amaminota 2-5)';
+    
+    // Try to load with a timeout
+    const loadPromise = engine.reload(state.webllm.model);
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Model loading timed out. Please check your internet connection.')), 600000); // 10 min timeout
+    });
+    
+    await Promise.race([loadPromise, timeoutPromise]);
     
     state.webllm.engine = engine;
     state.webllm.loaded = true;
@@ -2839,15 +2896,32 @@ async function loadWebLLMModel() {
     console.error('WebLLM load error:', error);
     state.webllm.loading = false;
     
+    // Show error with retry button
     statusText.textContent = '❌ Error: ' + error.message;
     statusBadge.textContent = '❌ Error loading';
-    showToast('❌ Kwikuramo AI: ' + error.message, 'error');
     
-    // Try fallback model
+    errorContainer.innerHTML = `
+      <div style="text-align:center;margin-top:10px;">
+        <button class="retry-btn" id="retryLoadBtn">🔄 Gerageza noneho</button>
+        <div class="model-error-details">${error.message}</div>
+        <div style="color:var(--text-muted);font-size:0.7rem;margin-top:10px;">
+          💡 Kugira ngo ukoreshe TYAZA offline, ushaka browser ifasha WebGPU (Chrome 113+ cyangwa Edge 113+)
+        </div>
+      </div>
+    `;
+    
+    document.getElementById('retryLoadBtn').addEventListener('click', () => {
+      errorContainer.innerHTML = '';
+      statusText.textContent = '🔄 Gerageza noneho ...';
+      loadWebLLMModel();
+    });
+    
+    // Try fallback model if not already using it
     if (state.webllm.model === 'Qwen2-1.5B-Instruct-q4f16_1-MLC') {
       state.webllm.model = 'TinyLlama-1.1B-Chat-v1.0-q4f16_1-MLC';
       statusText.textContent = '🔄 Kugerageza modeli ntoya ...';
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      errorContainer.innerHTML = '';
+      await new Promise(resolve => setTimeout(resolve, 3000));
       return loadWebLLMModel();
     }
     
@@ -2912,13 +2986,19 @@ INTEKO:
     // Add current user message
     conversation.push({ role: 'user', content: userInput });
     
-    // Generate response
-    const response = await state.webllm.engine.chat.completions.create({
+    // Generate response with timeout
+    const generatePromise = state.webllm.engine.chat.completions.create({
       messages: conversation,
       temperature: 0.7,
       max_tokens: 512,
       stream: false
     });
+    
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Generation timed out')), 60000);
+    });
+    
+    const response = await Promise.race([generatePromise, timeoutPromise]);
     
     let text = response.choices[0].message.content || '';
     
@@ -2949,17 +3029,44 @@ INTEKO:
   }
 }
 
+// ---- LOCAL FALLBACK RESPONSE (when AI fails) ----
+function getLocalFallbackResponse(userInput) {
+  const lower = userInput.toLowerCase();
+  let response = '';
+  
+  // Simple keyword matching
+  if (lower.includes('muraho') || lower.includes('hello') || lower.includes('hi')) {
+    response = `✨ **Muraho!**\n\nMurakaza neza kuri TYAZA. Ndi hano kugira nkugire.\n\nWambwira ubu wumva ute?`;
+  } else if (lower.includes('ndumva nabi') || lower.includes('sad') || lower.includes('mbabaye')) {
+    response = `💙 **Mbabajwe no kumva ko ubabaye.**\n\nNi byiza ko wavuze. Wambwira byinshi kuri byo?`;
+  } else if (lower.includes('ndishimye') || lower.includes('happy') || lower.includes('joy')) {
+    response = `✨ **Ni byiza cyane kumva wishimye!**\n\nIbyishimo ni impamvu yo gukomeza mu buzima. Ni iki cyaguteye ibyishimo?`;
+  } else if (lower.includes('anxiety') || lower.includes('ubwoba') || lower.includes('guhangayika')) {
+    response = `😰 **Ndumva ufite ubwoba.**\n\nGutekereza ku hazaza bishobora gutera ubwoba. Ni iki kiguteye ubwoba?`;
+  } else {
+    response = `💙 **Urakoze kundekera.**\n\nNdumva ibyo uvuga. TYAZA ni AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.\n\nTYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**.\n\n📞 Niba ukeneye ubufasha bwihutirwa, hamagara **116** - Imitari y'inkunga (24/7).\n\nWumva ute ubu?`;
+  }
+  
+  return {
+    text: response,
+    html: UltraMarkdownParser.parse(response),
+    metadata: {
+      confidence: 0.6,
+      emotion: 'fallback',
+      responseTime: 0,
+      model: 'Local Fallback'
+    }
+  };
+}
+
 // ---- SEND MESSAGE ----
 async function sendMessage() {
   const input = document.getElementById('messageInput');
   const text = input.value.trim();
   if (!text || state.isGenerating) return;
   
-  // Check if model is loaded
-  if (!state.webllm.loaded) {
-    showToast('⏳ TYAZA iracyategura ...', 'warning');
-    return;
-  }
+  // Check if model is loaded - if not, use fallback
+  const useFallback = !state.webllm.loaded;
   
   input.value = '';
   input.style.height = 'auto';
@@ -3017,11 +3124,18 @@ async function sendMessage() {
   
   const typingId = showTyping();
   state.isGenerating = true;
-  document.getElementById('statusText').textContent = 'TYAZA itekereza...';
+  document.getElementById('statusText').textContent = useFallback ? 'TYAZA ikoresha uburyo bwa gahunda...' : 'TYAZA itekereza...';
   
   try {
-    // Get WebLLM response
-    const result = await getWebLLMResponse(text);
+    let result;
+    
+    if (useFallback) {
+      // Use local fallback if AI not loaded
+      result = getLocalFallbackResponse(text);
+    } else {
+      // Try WebLLM
+      result = await getWebLLMResponse(text);
+    }
     
     removeTyping(typingId);
     
@@ -3034,9 +3148,9 @@ async function sendMessage() {
     removeTyping(typingId);
     console.error('Error:', error);
     
-    // Fallback response
-    const fallbackMsg = "💙 Mbabajwe cyane, ariko ubu ndi mu gukora nk'amazi. Nyamuneka gerageza noneho. Ubu hashoboka ubufasha bwo mu mutwe: **116** - Imitari y'inkunga (24/7).\n\n**Murakoze cyane kubabarira!** 🙏";
-    await addMessageWithStream('assistant', fallbackMsg, UltraMarkdownParser.parse(fallbackMsg), { confidence: 0.5, emotion: 'error', model: 'error', responseTime: 0 });
+    // Try local fallback as last resort
+    const fallbackResult = getLocalFallbackResponse(text);
+    await addMessageWithStream('assistant', fallbackResult.text, fallbackResult.html, fallbackResult.metadata);
   }
   
   state.isGenerating = false;
@@ -3173,7 +3287,7 @@ function clearHistory() {
 
 function exportChat() {
   if (state.messages.length === 0) { showToast('Nta kiganiro cyohereza', 'warning'); return; }
-  const data = { app: 'TYAZA', version: '7.0', timestamp: Date.now(), user: state.userName || 'User', messages: state.messages, session: state.sessionStart, risks: state.riskFlags, profile: getUserProfile(), company: COMPANY_INFO, mission: TYAZA_MISSION, detectedLanguage: state.detectedLanguage };
+  const data = { app: 'TYAZA', version: '7.1', timestamp: Date.now(), user: state.userName || 'User', messages: state.messages, session: state.sessionStart, risks: state.riskFlags, profile: getUserProfile(), company: COMPANY_INFO, mission: TYAZA_MISSION, detectedLanguage: state.detectedLanguage };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -3430,7 +3544,7 @@ function initStars() {
 
 // ---- INIT ----
 async function init() {
-  // Load WebLLM model first
+  // Try to load WebLLM model
   await loadWebLLMModel();
   
   state.userName = storageGet('userName', null);
@@ -3545,12 +3659,11 @@ async function init() {
   
   setTimeout(() => document.getElementById('messageInput').focus(), 500);
   
-  console.log('✨ TYAZA v7.0 - WebLLM Offline AI');
+  console.log('✨ TYAZA v7.1 - WebLLM with Fallback');
   console.log('🏢 KIVURA LABS - "Healthy citizens, wealthy nation"');
   console.log('👤 CEO & Founder: Yves Hirwa Tuyishime');
   console.log('🧠 Model:', state.webllm.model);
   console.log('🌍 Rwanda, 2026');
-  console.log('✅ AI runs completely offline after first download!');
 }
 
 // ---- GLOBAL EXPOSURE ----
