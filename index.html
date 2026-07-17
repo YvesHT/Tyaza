@@ -988,8 +988,34 @@ body {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.message.user { align-self: flex-end; flex-direction: row-reverse; }
-.message.assistant { align-self: flex-start; }
+/* User message - with bubble */
+.message.user { 
+  align-self: flex-end; 
+  flex-direction: row-reverse; 
+}
+
+.message.user .msg-bubble {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl) var(--radius-xl) 4px var(--radius-xl);
+}
+
+/* AI message - NO BUBBLE, just free text */
+.message.assistant { 
+  align-self: flex-start; 
+  max-width: 90%;
+}
+
+.message.assistant .msg-bubble {
+  background: transparent !important;
+  border: none !important;
+  padding: 4px 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  color: var(--text-primary);
+  line-height: 1.8;
+}
 
 .msg-avatar {
   width: 32px;
@@ -1045,19 +1071,6 @@ body {
   backdrop-filter: blur(15px);
   position: relative;
   font-size: 0.9rem;
-}
-
-.message.user .msg-bubble {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl) var(--radius-xl) 4px var(--radius-xl);
-}
-
-.message.assistant .msg-bubble {
-  background: rgba(25, 18, 50, 0.5);
-  border: 1px solid rgba(167, 139, 250, 0.12);
-  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-xl) 4px;
-  box-shadow: var(--shadow-md);
 }
 
 .msg-metadata {
@@ -2326,7 +2339,7 @@ const TYAZA_DATASET = {
     "Ubupfura": "Imyitwarire myiza iranga umuntu",
     "Ubunyamwuga": "Gukora ibintu neza nk'umwuga",
     "Uburere gakondo": "Uburere bwa kinyarwanda bwa kera",
-    "Gucura umugambi": "Gutegura ibintu mu ibanga",
+    "Gucura umugambi": " Gutegura ibintu mu ibanga",
     "Gushyira mu gaciro": "Gutekereza neza",
     "Kwirara mu bandi": "Kutigira ahubwo ugashingira ku bandi",
     "Gucisha make": "Kugabanya ibintu bucece",
@@ -3770,7 +3783,10 @@ function renderHistory() {
       </div>
     `).join('');
   list.querySelectorAll('.history-item').forEach(item => {
-    item.addEventListener('click', () => loadChat(item.dataset.id));
+    item.addEventListener('click', (e) => {
+      e.stopPropagation();
+      loadChat(item.dataset.id);
+    });
     item.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       if (confirm('Hanagura iki kiganiro?')) {
@@ -3801,7 +3817,10 @@ function escapeHtml(text) {
 function loadChat(id) {
   const convs = storageGetAll('conversations');
   const chat = convs.find(c => c.id === id);
-  if (!chat) return;
+  if (!chat) {
+    showToast('Ikiganiro ntikiboneka', 'error');
+    return;
+  }
   state.currentId = chat.id;
   state.messages = chat.messages || [];
   if (chat.language) state.detectedLanguage = chat.language;
