@@ -988,7 +988,6 @@ body {
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* User message - with bubble */
 .message.user { 
   align-self: flex-end; 
   flex-direction: row-reverse; 
@@ -1000,7 +999,6 @@ body {
   border-radius: var(--radius-xl) var(--radius-xl) 4px var(--radius-xl);
 }
 
-/* AI message - NO BUBBLE, just free text */
 .message.assistant { 
   align-self: flex-start; 
   max-width: 90%;
@@ -2247,6 +2245,9 @@ body {
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
+// ============================================================
+// 1. DATA LAYER - TYAZA Knowledge Base
+// ============================================================
 const TYAZA_MISSION = {
   reason: `TYAZA yashinzwe kugira ngo:
 1. Guhuza icyuho kiri hagati y'abagezweho n'ikoranabuhanga n'abasigaye inyuma naryo.
@@ -2339,7 +2340,7 @@ const TYAZA_DATASET = {
     "Ubupfura": "Imyitwarire myiza iranga umuntu",
     "Ubunyamwuga": "Gukora ibintu neza nk'umwuga",
     "Uburere gakondo": "Uburere bwa kinyarwanda bwa kera",
-    "Gucura umugambi": " Gutegura ibintu mu ibanga",
+    "Gucura umugambi": "Gutegura ibintu mu ibanga",
     "Gushyira mu gaciro": "Gutekereza neza",
     "Kwirara mu bandi": "Kutigira ahubwo ugashingira ku bandi",
     "Gucisha make": "Kugabanya ibintu bucece",
@@ -2642,6 +2643,9 @@ const TYAZA_DATASET = {
   ]
 };
 
+// ============================================================
+// 2. UTILITY CLASSES
+// ============================================================
 class UltraMarkdownParser {
   static parse(text) {
     if (!text) return '';
@@ -2837,6 +2841,9 @@ class AIResponseFormatter {
   }
 }
 
+// ============================================================
+// 3. STATE MANAGEMENT
+// ============================================================
 let state = {
   messages: [],
   currentId: 'chat_' + Date.now(),
@@ -2867,9 +2874,13 @@ let state = {
   messageCount: 0,
   detectedLanguage: 'rw',
   openAIModel: 'gpt-4o',
-  modelFallbackIndex: 0
+  modelFallbackIndex: 0,
+  isInitialized: false
 };
 
+// ============================================================
+// 4. STORAGE HELPERS
+// ============================================================
 function storageGet(key, fallback = null) {
   try { const data = localStorage.getItem('tyaza_' + key); return data ? JSON.parse(data) : fallback; } catch { return fallback; }
 }
@@ -2891,12 +2902,35 @@ function storageDelete(key, id) {
 }
 function storageClear(key) { storageSet(key, []); }
 
+// ============================================================
+// 5. UI HELPERS
+// ============================================================
 function showToast(message, type = 'info') {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
   toast.innerHTML = `<span>${message}</span>`;
-  document.getElementById('toastContainer').appendChild(toast);
+  container.appendChild(toast);
   setTimeout(() => toast.remove(), 3500);
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function formatTime(timestamp) {
+  const diff = Date.now() - timestamp;
+  const mins = Math.floor(diff / 60000);
+  const hrs = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+  if (mins < 1) return 'ubu';
+  if (mins < 60) return `${mins} min`;
+  if (hrs < 24) return `${hrs} h`;
+  if (days < 7) return `${days} d`;
+  return new Date(timestamp).toLocaleDateString('rw-RW');
 }
 
 function detectLanguage(text) {
@@ -2971,6 +3005,7 @@ function analyzeRisks(text) {
 
 function updateRiskIndicators(risks) {
   const container = document.getElementById('riskIndicators');
+  if (!container) return;
   const activeRisks = Object.entries(risks).filter(([k, v]) => v).map(([k]) => k);
   if (activeRisks.length === 0) {
     container.classList.remove('visible');
@@ -3040,12 +3075,18 @@ function getUserProfile() {
 
 function updateMemoryStats() {
   const profile = getUserProfile();
-  document.getElementById('statSessions').textContent = profile.sessionCount;
-  document.getElementById('statMoods').textContent = profile.moodEntries;
-  document.getElementById('statActiveDays').textContent = profile.activeDays;
-  const riskCount = Object.values(state.riskFlags).filter(v => v).length;
-  const riskEmoji = riskCount === 0 ? '✅' : riskCount === 1 ? '⚠️' : '🚨';
-  document.getElementById('statRiskLevel').textContent = riskEmoji;
+  const statSessions = document.getElementById('statSessions');
+  const statMoods = document.getElementById('statMoods');
+  const statActiveDays = document.getElementById('statActiveDays');
+  const statRiskLevel = document.getElementById('statRiskLevel');
+  if (statSessions) statSessions.textContent = profile.sessionCount;
+  if (statMoods) statMoods.textContent = profile.moodEntries;
+  if (statActiveDays) statActiveDays.textContent = profile.activeDays;
+  if (statRiskLevel) {
+    const riskCount = Object.values(state.riskFlags).filter(v => v).length;
+    const riskEmoji = riskCount === 0 ? '✅' : riskCount === 1 ? '⚠️' : '🚨';
+    statRiskLevel.textContent = riskEmoji;
+  }
 }
 
 function detectEmotion(text) {
@@ -3098,6 +3139,9 @@ function detectEmotion(text) {
   return null;
 }
 
+// ============================================================
+// 6. RESPONSE GENERATION
+// ============================================================
 function generateResponse(userInput) {
   const detection = detectEmotion(userInput);
   const startTime = performance.now();
@@ -3376,6 +3420,9 @@ INTEKO:
     }
 }
 
+// ============================================================
+// 7. VOICE & SPEECH
+// ============================================================
 function loadVoices() {
   state.voices = state.speechSynthesis.getVoices();
   if (state.speechSynthesis.onvoiceschanged) {
@@ -3441,34 +3488,49 @@ function initSpeechRecognition() {
 }
 const hasSpeech = initSpeechRecognition();
 
+// ============================================================
+// 8. CORE UI FUNCTIONS
+// ============================================================
 function updateWelcome() {
   const name = state.userName || '';
   const lang = state.detectedLanguage || 'rw';
   const content = getLangContent(lang);
-  document.getElementById('welcomeGreeting').textContent = name ? `${content.greeting}, ${name}` : content.greeting;
-  document.getElementById('welcomeGreeting').style.opacity = '1';
-  document.getElementById('messageInput').placeholder = content.placeholder;
-  document.getElementById('scrollBottom').innerHTML = `<i class="fas fa-arrow-down"></i> ${content.scrollBottom}`;
-  document.getElementById('statusText').textContent = content.status;
+  const greetingEl = document.getElementById('welcomeGreeting');
+  const inputEl = document.getElementById('messageInput');
+  const scrollEl = document.getElementById('scrollBottom');
+  const statusEl = document.getElementById('statusText');
+  
+  if (greetingEl) {
+    greetingEl.textContent = name ? `${content.greeting}, ${name}` : content.greeting;
+    greetingEl.style.opacity = '1';
+  }
+  if (inputEl) inputEl.placeholder = content.placeholder;
+  if (scrollEl) scrollEl.innerHTML = `<i class="fas fa-arrow-down"></i> ${content.scrollBottom}`;
+  if (statusEl) statusEl.textContent = content.status;
 }
 
 function handleInput() {
-  const val = document.getElementById('messageInput').value.trim();
-  document.getElementById('sendBtn').disabled = !val || state.isGenerating;
-  document.getElementById('messageInput').style.height = 'auto';
-  document.getElementById('messageInput').style.height = Math.min(document.getElementById('messageInput').scrollHeight, 120) + 'px';
+  const input = document.getElementById('messageInput');
+  if (!input) return;
+  const val = input.value.trim();
+  const sendBtn = document.getElementById('sendBtn');
+  if (sendBtn) sendBtn.disabled = !val || state.isGenerating;
+  input.style.height = 'auto';
+  input.style.height = Math.min(input.scrollHeight, 120) + 'px';
 }
 
 function scrollToBottom() {
   const messages = document.getElementById('messages');
-  messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+  if (messages) messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
 }
 
 function handleScroll() {
   const messages = document.getElementById('messages');
+  if (!messages) return;
   const { scrollTop, scrollHeight, clientHeight } = messages;
   const atBottom = scrollHeight - scrollTop - clientHeight < 150;
-  document.getElementById('scrollBottom').classList.toggle('visible', !atBottom);
+  const scrollBtn = document.getElementById('scrollBottom');
+  if (scrollBtn) scrollBtn.classList.toggle('visible', !atBottom);
 }
 
 function showTyping() {
@@ -3486,8 +3548,11 @@ function showTyping() {
       <span class="typing-dot"></span>
     </div>
   `;
-  document.getElementById('messages').appendChild(el);
-  scrollToBottom();
+  const messages = document.getElementById('messages');
+  if (messages) {
+    messages.appendChild(el);
+    scrollToBottom();
+  }
   return id;
 }
 
@@ -3498,10 +3563,6 @@ function removeTyping(id) {
 
 function streamText(element, html, speed = 8) {
   return new Promise((resolve) => {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = html;
-    const fullText = tempDiv.textContent || tempDiv.innerText;
-
     element.innerHTML = '';
     let i = 0;
     const chunkSize = 3;
@@ -3558,8 +3619,16 @@ function buildMetadataHTML(metadata) {
   `;
 }
 
+// ============================================================
+// 9. MESSAGE HANDLING
+// ============================================================
 function addMessage(role, content, htmlContent = null, metadata = null) {
-  document.getElementById('welcome').style.display = 'none';
+  const welcome = document.getElementById('welcome');
+  if (welcome) welcome.style.display = 'none';
+  
+  const messages = document.getElementById('messages');
+  if (!messages) return;
+  
   const msg = document.createElement('div');
   msg.className = `message ${role}`;
   const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
@@ -3590,7 +3659,8 @@ function addMessage(role, content, htmlContent = null, metadata = null) {
       </div>
     </div>
   `;
-  document.getElementById('messages').appendChild(msg);
+  messages.appendChild(msg);
+  
   state.messages.push({ 
     role, 
     content, 
@@ -3607,84 +3677,13 @@ function addMessage(role, content, htmlContent = null, metadata = null) {
   updateMemoryStats();
 }
 
-async function sendMessage() {
-  const input = document.getElementById('messageInput');
-  const text = input.value.trim();
-  if (!text || state.isGenerating) return;
-
-  input.value = '';
-  input.style.height = 'auto';
-  document.getElementById('sendBtn').disabled = true;
-
-  state.detectedLanguage = detectLanguage(text);
-  updateWelcome();
-
-  const risks = analyzeRisks(text);
-  state.riskFlags = risks;
-  updateRiskIndicators(risks);
-
-  const detection = detectEmotion(text);
-  if (detection && detection.type === 'crisis') {
-    const result = generateResponse(text);
-    addMessage('user', text);
-    await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
-    showCrisisModal();
-    document.getElementById('sendBtn').disabled = false;
-    return;
-  }
-
-  if (detection && detection.type === 'name') {
-    const result = generateResponse(text);
-    if (result.userName) {
-      state.userName = result.userName;
-      storageSet('userName', state.userName);
-      updateWelcome();
-      updateMemoryStats();
-    }
-    addMessage('user', text);
-    await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
-    showToast(`✨ Murakaza neza, ${state.userName}!`, 'success');
-    document.getElementById('sendBtn').disabled = false;
-    return;
-  }
-
-  if (detection && detection.type === 'rare_word') {
-    const result = generateResponse(text);
-    addMessage('user', text);
-    await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
-    document.getElementById('sendBtn').disabled = false;
-    return;
-  }
-  
-  addMessage('user', text);
-
-  const typingId = showTyping();
-  state.isGenerating = true;
-  document.getElementById('statusText').textContent = 'TYAZA irategura...';
-
-  let result;
-
-  if (state.useAI && typeof puter !== 'undefined') {
-    result = await getPuterAIResponse(text);
-  }
-
-  if (!result) {
-    result = generateResponse(text);
-  }
-
-  removeTyping(typingId);
-
-  await addMessageWithStream('assistant', result.text || result.markdown, result.html, result.metadata);
-
-  state.isGenerating = false;
-  document.getElementById('sendBtn').disabled = false;
-  document.getElementById('statusText').textContent = getLangContent(state.detectedLanguage).status;
-  updateMemoryStats();
-  document.getElementById('messageInput').focus();
-}
-
 async function addMessageWithStream(role, content, htmlContent, metadata) {
-  document.getElementById('welcome').style.display = 'none';
+  const welcome = document.getElementById('welcome');
+  if (welcome) welcome.style.display = 'none';
+  
+  const messages = document.getElementById('messages');
+  if (!messages) return;
+  
   const msg = document.createElement('div');
   msg.className = `message ${role}`;
   const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
@@ -3715,11 +3714,12 @@ async function addMessageWithStream(role, content, htmlContent, metadata) {
       </div>
     </div>
   `;
-  document.getElementById('messages').appendChild(msg);
+  messages.appendChild(msg);
 
   const bubble = msg.querySelector('.msg-bubble');
-  
-  await streamText(bubble, displayContent, 6);
+  if (bubble) {
+    await streamText(bubble, displayContent, 6);
+  }
 
   state.messages.push({ 
     role, 
@@ -3737,15 +3737,101 @@ async function addMessageWithStream(role, content, htmlContent, metadata) {
   updateMemoryStats();
 }
 
+// ============================================================
+// 10. SEND MESSAGE
+// ============================================================
+async function sendMessage() {
+  const input = document.getElementById('messageInput');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text || state.isGenerating) return;
+
+  input.value = '';
+  input.style.height = 'auto';
+  const sendBtn = document.getElementById('sendBtn');
+  if (sendBtn) sendBtn.disabled = true;
+
+  state.detectedLanguage = detectLanguage(text);
+  updateWelcome();
+
+  const risks = analyzeRisks(text);
+  state.riskFlags = risks;
+  updateRiskIndicators(risks);
+
+  const detection = detectEmotion(text);
+  if (detection && detection.type === 'crisis') {
+    const result = generateResponse(text);
+    addMessage('user', text);
+    await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
+    showCrisisModal();
+    if (sendBtn) sendBtn.disabled = false;
+    return;
+  }
+
+  if (detection && detection.type === 'name') {
+    const result = generateResponse(text);
+    if (result.userName) {
+      state.userName = result.userName;
+      storageSet('userName', state.userName);
+      updateWelcome();
+      updateMemoryStats();
+    }
+    addMessage('user', text);
+    await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
+    showToast(`✨ Murakaza neza, ${state.userName}!`, 'success');
+    if (sendBtn) sendBtn.disabled = false;
+    return;
+  }
+
+  if (detection && detection.type === 'rare_word') {
+    const result = generateResponse(text);
+    addMessage('user', text);
+    await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
+    if (sendBtn) sendBtn.disabled = false;
+    return;
+  }
+  
+  addMessage('user', text);
+
+  const typingId = showTyping();
+  state.isGenerating = true;
+  const statusText = document.getElementById('statusText');
+  if (statusText) statusText.textContent = 'TYAZA irategura...';
+
+  let result;
+
+  if (state.useAI && typeof puter !== 'undefined') {
+    result = await getPuterAIResponse(text);
+  }
+
+  if (!result) {
+    result = generateResponse(text);
+  }
+
+  removeTyping(typingId);
+
+  await addMessageWithStream('assistant', result.text || result.markdown, result.html, result.metadata);
+
+  state.isGenerating = false;
+  if (sendBtn) sendBtn.disabled = false;
+  if (statusText) statusText.textContent = getLangContent(state.detectedLanguage).status;
+  updateMemoryStats();
+  input.focus();
+}
+
+// ============================================================
+// 11. CONVERSATION HISTORY
+// ============================================================
 function saveConversation() {
   if (state.messages.length === 0) return;
   const title = state.messages[0]?.content?.slice(0, 40) || 'Ikiganiro';
   const conv = {
     id: state.currentId,
     title: title,
-    messages: state.messages.slice(-20),
+    messages: state.messages.slice(-50), // Keep more history
     timestamp: Date.now(),
-    language: state.detectedLanguage
+    language: state.detectedLanguage,
+    messageCount: state.messages.length
   };
   const convs = storageGetAll('conversations');
   const existing = convs.findIndex(c => c.id === state.currentId);
@@ -3754,6 +3840,11 @@ function saveConversation() {
   } else {
     convs.push(conv);
   }
+  // Keep only last 100 conversations
+  if (convs.length > 100) {
+    convs.sort((a, b) => b.timestamp - a.timestamp);
+    convs.length = 100;
+  }
   storageSet('conversations', convs);
   renderHistory();
 }
@@ -3761,6 +3852,8 @@ function saveConversation() {
 function renderHistory() {
   const convs = storageGetAll('conversations');
   const list = document.getElementById('historyList');
+  if (!list) return;
+  
   if (convs.length === 0) {
     list.innerHTML = `
       <div class="history-empty">
@@ -3770,9 +3863,10 @@ function renderHistory() {
     `;
     return;
   }
+  
   list.innerHTML = convs
     .sort((a, b) => b.timestamp - a.timestamp)
-    .slice(0, 20)
+    .slice(0, 30)
     .map(c => `
       <div class="history-item ${c.id === state.currentId ? 'active' : ''}" data-id="${c.id}">
         <div class="history-title">${escapeHtml(c.title || 'Ikiganiro')}</div>
@@ -3782,36 +3876,21 @@ function renderHistory() {
         </div>
       </div>
     `).join('');
+    
   list.querySelectorAll('.history-item').forEach(item => {
     item.addEventListener('click', (e) => {
       e.stopPropagation();
-      loadChat(item.dataset.id);
+      const id = item.dataset.id;
+      if (id) loadChat(id);
     });
     item.addEventListener('contextmenu', (e) => {
       e.preventDefault();
-      if (confirm('Hanagura iki kiganiro?')) {
-        deleteChat(item.dataset.id);
+      const id = item.dataset.id;
+      if (id && confirm('Hanagura iki kiganiro?')) {
+        deleteChat(id);
       }
     });
   });
-}
-
-function formatTime(timestamp) {
-  const diff = Date.now() - timestamp;
-  const mins = Math.floor(diff / 60000);
-  const hrs = Math.floor(diff / 3600000);
-  const days = Math.floor(diff / 86400000);
-  if (mins < 1) return 'ubu';
-  if (mins < 60) return `${mins} min`;
-  if (hrs < 24) return `${hrs} h`;
-  if (days < 7) return `${days} d`;
-  return new Date(timestamp).toLocaleDateString('rw-RW');
-}
-
-function escapeHtml(text) {
-  const div = document.createElement('div');
-  div.textContent = text;
-  return div.innerHTML;
 }
 
 function loadChat(id) {
@@ -3821,16 +3900,24 @@ function loadChat(id) {
     showToast('Ikiganiro ntikiboneka', 'error');
     return;
   }
+  
   state.currentId = chat.id;
   state.messages = chat.messages || [];
   if (chat.language) state.detectedLanguage = chat.language;
+  if (chat.userName) state.userName = chat.userName;
 
   const messagesContainer = document.getElementById('messages');
+  if (!messagesContainer) return;
+  
+  // Clear messages
   while (messagesContainer.firstChild) {
     messagesContainer.removeChild(messagesContainer.firstChild);
   }
-  document.getElementById('welcome').style.display = 'none';
+  
+  const welcome = document.getElementById('welcome');
+  if (welcome) welcome.style.display = 'none';
 
+  // Re-render messages
   state.messages.forEach(msg => {
     const role = msg.role || 'assistant';
     const content = msg.content || '';
@@ -3873,12 +3960,16 @@ function loadChat(id) {
   updateMemoryStats();
   updateWelcome();
   closeSidebar();
+  showToast(`📜 ${chat.title || 'Ikiganiro'} yatangiye`, 'info');
 }
 
 function deleteChat(id) {
   storageDelete('conversations', id);
-  if (state.currentId === id) newChat();
-  renderHistory();
+  if (state.currentId === id) {
+    newChat();
+  } else {
+    renderHistory();
+  }
   showToast('Ikiganiro kihanaguwe', 'success');
 }
 
@@ -3888,16 +3979,33 @@ function newChat() {
   state.currentId = 'chat_' + Date.now();
   state.riskFlags = { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false };
   updateRiskIndicators(state.riskFlags);
+  
   const messagesContainer = document.getElementById('messages');
-  while (messagesContainer.firstChild) {
-    messagesContainer.removeChild(messagesContainer.firstChild);
+  if (messagesContainer) {
+    while (messagesContainer.firstChild) {
+      messagesContainer.removeChild(messagesContainer.firstChild);
+    }
   }
-  document.getElementById('welcome').style.display = 'flex';
+  
+  const welcome = document.getElementById('welcome');
+  if (welcome) welcome.style.display = 'flex';
+  
   updateWelcome();
   renderHistory();
   updateMemoryStats();
   closeSidebar();
-  document.getElementById('messageInput').focus();
+  
+  const input = document.getElementById('messageInput');
+  if (input) {
+    input.value = '';
+    input.focus();
+    input.style.height = 'auto';
+  }
+  
+  const sendBtn = document.getElementById('sendBtn');
+  if (sendBtn) sendBtn.disabled = true;
+  
+  showToast('✨ Ikiganiro gishya', 'success');
 }
 
 function clearHistory() {
@@ -3937,23 +4045,36 @@ function exportChat() {
   showToast('Ikiganiro cyoherejwe ✨', 'success');
 }
 
+// ============================================================
+// 12. SIDEBAR FUNCTIONS
+// ============================================================
 function toggleSidebar() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('sidebarOverlay').classList.toggle('active');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  if (sidebar) sidebar.classList.toggle('open');
+  if (overlay) overlay.classList.toggle('active');
 }
 function closeSidebar() {
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('sidebarOverlay').classList.remove('active');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  if (sidebar) sidebar.classList.remove('open');
+  if (overlay) overlay.classList.remove('active');
 }
 
+// ============================================================
+// 13. MOOD FUNCTIONS
+// ============================================================
 function openMoodModal() {
-  document.getElementById('moodModal').classList.add('active');
+  const modal = document.getElementById('moodModal');
+  if (modal) modal.classList.add('active');
   renderMoodCalendar();
 }
 function closeMoodModal() {
-  document.getElementById('moodModal').classList.remove('active');
+  const modal = document.getElementById('moodModal');
+  if (modal) modal.classList.remove('active');
   document.querySelectorAll('#moodScale .mood-btn').forEach(b => b.classList.remove('selected'));
-  document.getElementById('moodNotes').value = '';
+  const notes = document.getElementById('moodNotes');
+  if (notes) notes.value = '';
 }
 function saveMood() {
   const selected = document.querySelector('#moodScale .mood-btn.selected');
@@ -3962,8 +4083,9 @@ function saveMood() {
     return;
   }
   const mood = parseInt(selected.dataset.mood);
-  const notes = document.getElementById('moodNotes').value.trim();
-  storageAdd('moodData', { mood, notes, timestamp: Date.now(), language: state.detectedLanguage });
+  const notes = document.getElementById('moodNotes');
+  const notesText = notes ? notes.value.trim() : '';
+  storageAdd('moodData', { mood, notes: notesText, timestamp: Date.now(), language: state.detectedLanguage });
   showToast('Byabitswe! ✨', 'success');
   closeMoodModal();
   renderMoodCalendar();
@@ -3992,27 +4114,36 @@ function renderMoodCalendar() {
     const avg = dayMoods.length ? Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods.length) : 0;
     html += `<div class="mood-day mood-level-${avg}" title="${date.toLocaleDateString('rw-RW')}">${date.getDate()}</div>`;
   }
-  document.getElementById('moodCalendar').innerHTML = html;
+  const calendar = document.getElementById('moodCalendar');
+  if (calendar) calendar.innerHTML = html;
 }
 
+// ============================================================
+// 14. CRISIS MODAL
+// ============================================================
 function showCrisisModal() {
-  document.getElementById('crisisModal').classList.add('active');
+  const modal = document.getElementById('crisisModal');
+  if (modal) modal.classList.add('active');
 }
 function closeCrisisModal() {
-  document.getElementById('crisisModal').classList.remove('active');
+  const modal = document.getElementById('crisisModal');
+  if (modal) modal.classList.remove('active');
 }
 
+// ============================================================
+// 15. VOICE CONTROLS
+// ============================================================
 function toggleVoice() {
   if (!hasSpeech) {
     showVoiceDialog();
     return;
   }
   if (state.isListening) {
-    state.speechRecognition.stop();
+    if (state.speechRecognition) state.speechRecognition.stop();
     return;
   }
   try {
-    state.speechRecognition.start();
+    if (state.speechRecognition) state.speechRecognition.start();
   } catch {
     showVoiceDialog();
   }
@@ -4038,48 +4169,63 @@ function showVoiceDialog() {
   const input = document.getElementById('voiceFallbackInput');
   const submit = document.getElementById('voiceFallbackSubmit');
   const cancel = document.getElementById('voiceFallbackCancel');
-  submit.onclick = () => {
-    if (input.value.trim()) {
-      document.getElementById('messageInput').value = input.value;
-      handleInput();
-      sendMessage();
-      dialog.remove();
-    }
-  };
-  cancel.onclick = () => dialog.remove();
-  input.onkeydown = (e) => {
-    if (e.key === 'Enter') { e.preventDefault(); submit.click(); }
-    if (e.key === 'Escape') dialog.remove();
-  };
-  setTimeout(() => input.focus(), 300);
+  if (submit) {
+    submit.onclick = () => {
+      if (input && input.value.trim()) {
+        const msgInput = document.getElementById('messageInput');
+        if (msgInput) {
+          msgInput.value = input.value;
+          handleInput();
+          sendMessage();
+        }
+        dialog.remove();
+      }
+    };
+  }
+  if (cancel) cancel.onclick = () => dialog.remove();
+  if (input) {
+    input.onkeydown = (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); if (submit) submit.click(); }
+      if (e.key === 'Escape') dialog.remove();
+    };
+    setTimeout(() => input.focus(), 300);
+  }
   dialog.addEventListener('click', (e) => {
     if (e.target === dialog) dialog.remove();
   });
 }
 async function testMic() {
   const btn = document.getElementById('micTestBtn');
+  if (!btn) return;
   btn.innerHTML = '⏳ ndategura...';
   try {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     stream.getTracks().forEach(t => t.stop());
     btn.innerHTML = '✅ yiteguye';
-    document.getElementById('voiceStatus').textContent = '✅ Mikorofoni yiteguye';
+    const status = document.getElementById('voiceStatus');
+    if (status) status.textContent = '✅ Mikorofoni yiteguye';
     showToast('Mikorofoni yiteguye! 🎤', 'success');
     setTimeout(() => {
       btn.innerHTML = '🎤 Gerageza mikorofoni';
-      document.getElementById('voiceStatus').textContent = '';
+      if (status) status.textContent = '';
     }, 2000);
   } catch {
     btn.innerHTML = '❌ emerera';
-    document.getElementById('voiceStatus').textContent = '❌ Emera mikorofoni';
+    const status = document.getElementById('voiceStatus');
+    if (status) status.textContent = '❌ Emera mikorofoni';
     showToast('Emerge mikorofoni kugira ngo ukoreshe ijwi.', 'error');
   }
 }
 
+// ============================================================
+// 16. PROFILE MODAL
+// ============================================================
 function showProfileModal() {
   const profile = getUserProfile();
   const modal = document.getElementById('profileModal');
   const content = document.getElementById('profileContent');
+  if (!modal || !content) return;
+  
   const moodEmojis = ['😢', '😔', '😐', '🙂', '😊'];
   const avgMoodText = profile.avgMood > 0 ?
     `${moodEmojis[Math.round(profile.avgMood) - 1] || '😐'} ${profile.avgMood.toFixed(1)}/5` :
@@ -4091,6 +4237,7 @@ function showProfileModal() {
       <span style="font-size:0.8rem;">${moodEmojis[m.mood - 1] || '😐'} ${m.mood}/5</span>
     </div>`;
   }).join('');
+  
   content.innerHTML = `
     <div style="display:grid;gap:10px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
@@ -4158,6 +4305,9 @@ function showProfileModal() {
   modal.classList.add('active');
 }
 
+// ============================================================
+// 17. BACKGROUND EFFECTS
+// ============================================================
 function initNeuralBackground() {
   const canvas = document.getElementById('neuralCanvas');
   if (!canvas) return;
@@ -4237,6 +4387,9 @@ function initStars() {
   }
 }
 
+// ============================================================
+// 18. INITIALIZATION
+// ============================================================
 async function testOpenAI() {
     try {
         showToast('🧪 Testing OpenAI via Puter...', 'info');
@@ -4268,126 +4421,271 @@ async function testOpenAI() {
 }
 
 function init() {
-  if (typeof puter !== 'undefined') {
-    state.puterReady = true;
-    showToast('✅ TYAZA yiteguye na OpenAI ✨', 'success');
-    setTimeout(() => testOpenAI(), 1000);
-  } else {
-    showToast('⚠️ TYAZA ikora mu buryo bwa gahunda', 'warning');
-    state.useAI = false;
-  }
-
+  if (state.isInitialized) return;
+  state.isInitialized = true;
+  
+  // Load saved data
   state.userName = storageGet('userName', null);
   state.settings = storageGet('settings', state.settings);
   state.moodData = storageGetAll('moodData');
+  
+  // Restore last conversation if exists
+  const convs = storageGetAll('conversations');
+  if (convs.length > 0) {
+    const lastConv = convs.sort((a, b) => b.timestamp - a.timestamp)[0];
+    if (lastConv && lastConv.messages && lastConv.messages.length > 0) {
+      state.currentId = lastConv.id;
+      state.messages = lastConv.messages;
+      state.detectedLanguage = lastConv.language || 'rw';
+      // Render messages
+      const messagesContainer = document.getElementById('messages');
+      if (messagesContainer) {
+        while (messagesContainer.firstChild) {
+          messagesContainer.removeChild(messagesContainer.firstChild);
+        }
+        const welcome = document.getElementById('welcome');
+        if (welcome) welcome.style.display = 'none';
+        
+        state.messages.forEach(msg => {
+          const role = msg.role || 'assistant';
+          const content = msg.content || '';
+          const htmlContent = msg.html || UltraMarkdownParser.parse(content);
+          const metadata = msg.metadata || null;
+          if (content) {
+            const msgEl = document.createElement('div');
+            msgEl.className = `message ${role}`;
+            const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
+            const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
+            const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
+            msgEl.innerHTML = `
+              <div class="msg-avatar">${avatarContent}</div>
+              <div class="msg-content">
+                <div class="msg-bubble">${htmlContent}</div>
+                ${metadataHTML}
+                <div class="msg-meta">
+                  <span>${time}</span>
+                  <div class="msg-actions">
+                    ${role === 'assistant' ? `
+                    <button class="msg-action" onclick="speakText(this.closest('.message').querySelector('.msg-bubble').textContent)">
+                      <i class="fas fa-volume-up"></i>
+                    </button>
+                    ` : ''}
+                    <button class="msg-action" onclick="navigator.clipboard.writeText(this.closest('.message').querySelector('.msg-bubble').textContent); showToast('Ibyakiriwe!', 'success')">
+                      <i class="fas fa-copy"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `;
+            messagesContainer.appendChild(msgEl);
+          }
+        });
+        scrollToBottom();
+      }
+    }
+  }
 
-  document.getElementById('voiceSelect').value = state.settings.voice;
-  document.getElementById('rateSlider').value = state.settings.rate;
-  document.getElementById('pitchSlider').value = state.settings.pitch;
-  document.getElementById('rateValue').textContent = state.settings.rate;
-  document.getElementById('pitchValue').textContent = state.settings.pitch;
+  // Set UI values
+  const voiceSelect = document.getElementById('voiceSelect');
+  const rateSlider = document.getElementById('rateSlider');
+  const pitchSlider = document.getElementById('pitchSlider');
+  const rateValue = document.getElementById('rateValue');
+  const pitchValue = document.getElementById('pitchValue');
+  
+  if (voiceSelect) voiceSelect.value = state.settings.voice;
+  if (rateSlider) rateSlider.value = state.settings.rate;
+  if (pitchSlider) pitchSlider.value = state.settings.pitch;
+  if (rateValue) rateValue.textContent = state.settings.rate;
+  if (pitchValue) pitchValue.textContent = state.settings.pitch;
 
   renderHistory();
   updateMemoryStats();
   updateWelcome();
 
+  // AI toggle
   const aiBtn = document.getElementById('aiToggleBtn');
-  aiBtn.innerHTML = state.useAI ? '<i class="fas fa-brain"></i> AI' : '<i class="fas fa-microchip"></i> Gahunda';
-  aiBtn.classList.toggle('btn-primary', state.useAI);
-  aiBtn.classList.toggle('btn-secondary', !state.useAI);
+  if (aiBtn) {
+    aiBtn.innerHTML = state.useAI ? '<i class="fas fa-brain"></i> AI' : '<i class="fas fa-microchip"></i> Gahunda';
+    aiBtn.classList.toggle('btn-primary', state.useAI);
+    aiBtn.classList.toggle('btn-secondary', !state.useAI);
+  }
 
-  document.getElementById('sendBtn').disabled = false;
-  document.getElementById('messageInput').addEventListener('input', handleInput);
-  document.getElementById('messageInput').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      const btn = document.getElementById('sendBtn');
-      if (!btn.disabled) sendMessage();
-    }
-  });
-  document.getElementById('sendBtn').addEventListener('click', sendMessage);
-  document.getElementById('voiceBtn').addEventListener('click', toggleVoice);
-  document.getElementById('voiceSelect').addEventListener('change', (e) => {
-    state.settings.voice = e.target.value;
-    storageSet('settings', state.settings);
-  });
-  document.getElementById('rateSlider').addEventListener('input', (e) => {
-    document.getElementById('rateValue').textContent = e.target.value;
-    state.settings.rate = parseFloat(e.target.value);
-  });
-  document.getElementById('rateSlider').addEventListener('change', () => storageSet('settings', state.settings));
-  document.getElementById('pitchSlider').addEventListener('input', (e) => {
-    document.getElementById('pitchValue').textContent = e.target.value;
-    state.settings.pitch = parseFloat(e.target.value);
-  });
-  document.getElementById('pitchSlider').addEventListener('change', () => storageSet('settings', state.settings));
-  document.getElementById('micTestBtn').addEventListener('click', testMic);
-  document.getElementById('aiToggleBtn').addEventListener('click', () => {
-    state.useAI = !state.useAI;
-    const btn = document.getElementById('aiToggleBtn');
-    btn.innerHTML = state.useAI ? '<i class="fas fa-brain"></i> AI' : '<i class="fas fa-microchip"></i> Gahunda';
-    btn.classList.toggle('btn-primary', state.useAI);
-    btn.classList.toggle('btn-secondary', !state.useAI);
-    showToast(state.useAI ? 'OpenAI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
-  });
-  document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
-  document.getElementById('sidebarClose').addEventListener('click', closeSidebar);
-  document.getElementById('sidebarOverlay').addEventListener('click', closeSidebar);
-  document.getElementById('newChatBtn').addEventListener('click', newChat);
-  document.getElementById('clearChatBtn').addEventListener('click', () => {
-    if (state.messages.length === 0) return;
-    if (confirm('Hanagura iki kiganiro?')) newChat();
-  });
-  document.getElementById('clearHistoryBtn').addEventListener('click', clearHistory);
-  document.getElementById('exportBtn').addEventListener('click', exportChat);
-  document.getElementById('viewProfileBtn').addEventListener('click', showProfileModal);
-  document.getElementById('profileModalClose').addEventListener('click', () => {
-    document.getElementById('profileModal').classList.remove('active');
-  });
-  document.getElementById('profileModal').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('profileModal')) {
-      document.getElementById('profileModal').classList.remove('active');
-    }
-  });
-  document.getElementById('messages').addEventListener('scroll', handleScroll);
-  document.getElementById('scrollBottom').addEventListener('click', scrollToBottom);
+  // Enable send button
+  const sendBtn = document.getElementById('sendBtn');
+  if (sendBtn) sendBtn.disabled = false;
+
+  // ============================================================
+  // 19. EVENT LISTENERS
+  // ============================================================
+  const input = document.getElementById('messageInput');
+  if (input) {
+    input.addEventListener('input', handleInput);
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        const btn = document.getElementById('sendBtn');
+        if (btn && !btn.disabled) sendMessage();
+      }
+    });
+  }
+  
+  if (sendBtn) sendBtn.addEventListener('click', sendMessage);
+  
+  const voiceBtn = document.getElementById('voiceBtn');
+  if (voiceBtn) voiceBtn.addEventListener('click', toggleVoice);
+  
+  if (voiceSelect) {
+    voiceSelect.addEventListener('change', (e) => {
+      state.settings.voice = e.target.value;
+      storageSet('settings', state.settings);
+    });
+  }
+  
+  if (rateSlider) {
+    rateSlider.addEventListener('input', (e) => {
+      if (rateValue) rateValue.textContent = e.target.value;
+      state.settings.rate = parseFloat(e.target.value);
+    });
+    rateSlider.addEventListener('change', () => storageSet('settings', state.settings));
+  }
+  
+  if (pitchSlider) {
+    pitchSlider.addEventListener('input', (e) => {
+      if (pitchValue) pitchValue.textContent = e.target.value;
+      state.settings.pitch = parseFloat(e.target.value);
+    });
+    pitchSlider.addEventListener('change', () => storageSet('settings', state.settings));
+  }
+  
+  const micTestBtn = document.getElementById('micTestBtn');
+  if (micTestBtn) micTestBtn.addEventListener('click', testMic);
+  
+  if (aiBtn) {
+    aiBtn.addEventListener('click', () => {
+      state.useAI = !state.useAI;
+      aiBtn.innerHTML = state.useAI ? '<i class="fas fa-brain"></i> AI' : '<i class="fas fa-microchip"></i> Gahunda';
+      aiBtn.classList.toggle('btn-primary', state.useAI);
+      aiBtn.classList.toggle('btn-secondary', !state.useAI);
+      showToast(state.useAI ? 'OpenAI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
+    });
+  }
+  
+  const menuToggle = document.getElementById('menuToggle');
+  if (menuToggle) menuToggle.addEventListener('click', toggleSidebar);
+  
+  const sidebarClose = document.getElementById('sidebarClose');
+  if (sidebarClose) sidebarClose.addEventListener('click', closeSidebar);
+  
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+  
+  const newChatBtn = document.getElementById('newChatBtn');
+  if (newChatBtn) newChatBtn.addEventListener('click', newChat);
+  
+  const clearChatBtn = document.getElementById('clearChatBtn');
+  if (clearChatBtn) {
+    clearChatBtn.addEventListener('click', () => {
+      if (state.messages.length === 0) return;
+      if (confirm('Hanagura iki kiganiro?')) newChat();
+    });
+  }
+  
+  const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+  if (clearHistoryBtn) clearHistoryBtn.addEventListener('click', clearHistory);
+  
+  const exportBtn = document.getElementById('exportBtn');
+  if (exportBtn) exportBtn.addEventListener('click', exportChat);
+  
+  const viewProfileBtn = document.getElementById('viewProfileBtn');
+  if (viewProfileBtn) viewProfileBtn.addEventListener('click', showProfileModal);
+  
+  const profileModalClose = document.getElementById('profileModalClose');
+  if (profileModalClose) {
+    profileModalClose.addEventListener('click', () => {
+      const modal = document.getElementById('profileModal');
+      if (modal) modal.classList.remove('active');
+    });
+  }
+  
+  const profileModal = document.getElementById('profileModal');
+  if (profileModal) {
+    profileModal.addEventListener('click', (e) => {
+      if (e.target === profileModal) profileModal.classList.remove('active');
+    });
+  }
+  
+  const messagesContainer = document.getElementById('messages');
+  if (messagesContainer) {
+    messagesContainer.addEventListener('scroll', handleScroll);
+  }
+  
+  const scrollBottom = document.getElementById('scrollBottom');
+  if (scrollBottom) scrollBottom.addEventListener('click', scrollToBottom);
+  
   document.querySelectorAll('.suggestion-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.getElementById('messageInput').value = btn.dataset.prompt;
-      handleInput();
-      document.getElementById('messageInput').focus();
-      setTimeout(() => {
-        if (document.getElementById('messageInput').value.trim()) sendMessage();
-      }, 300);
+      const inputEl = document.getElementById('messageInput');
+      if (inputEl) {
+        inputEl.value = btn.dataset.prompt;
+        handleInput();
+        inputEl.focus();
+        setTimeout(() => {
+          if (inputEl.value.trim()) sendMessage();
+        }, 300);
+      }
     });
   });
-  document.getElementById('openMoodModal').addEventListener('click', openMoodModal);
-  document.getElementById('moodModalClose').addEventListener('click', closeMoodModal);
-  document.getElementById('moodModal').addEventListener('click', (e) => {
-    if (e.target === document.getElementById('moodModal')) closeMoodModal();
-  });
+  
+  const openMoodModalBtn = document.getElementById('openMoodModal');
+  if (openMoodModalBtn) openMoodModalBtn.addEventListener('click', openMoodModal);
+  
+  const moodModalClose = document.getElementById('moodModalClose');
+  if (moodModalClose) moodModalClose.addEventListener('click', closeMoodModal);
+  
+  const moodModal = document.getElementById('moodModal');
+  if (moodModal) {
+    moodModal.addEventListener('click', (e) => {
+      if (e.target === moodModal) closeMoodModal();
+    });
+  }
+  
   document.querySelectorAll('#moodScale .mood-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('#moodScale .mood-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
     });
   });
-  document.getElementById('saveMoodBtn').addEventListener('click', saveMood);
+  
+  const saveMoodBtn = document.getElementById('saveMoodBtn');
+  if (saveMoodBtn) saveMoodBtn.addEventListener('click', saveMood);
+  
   document.querySelectorAll('#moodQuick .mood-btn-small').forEach(btn => {
     btn.addEventListener('click', () => {
       quickMood(btn.dataset.mood);
     });
   });
-  document.getElementById('crisisBtn').addEventListener('click', showCrisisModal);
-  document.getElementById('crisisModalClose').addEventListener('click', closeCrisisModal);
-  document.getElementById('crisisLater').addEventListener('click', closeCrisisModal);
-  document.getElementById('crisisNow').addEventListener('click', () => {
-    window.location.href = 'tel:116';
-  });
+  
+  const crisisBtn = document.getElementById('crisisBtn');
+  if (crisisBtn) crisisBtn.addEventListener('click', showCrisisModal);
+  
+  const crisisModalClose = document.getElementById('crisisModalClose');
+  if (crisisModalClose) crisisModalClose.addEventListener('click', closeCrisisModal);
+  
+  const crisisLater = document.getElementById('crisisLater');
+  if (crisisLater) crisisLater.addEventListener('click', closeCrisisModal);
+  
+  const crisisNow = document.getElementById('crisisNow');
+  if (crisisNow) {
+    crisisNow.addEventListener('click', () => {
+      window.location.href = 'tel:116';
+    });
+  }
+
   document.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
-      document.getElementById('messageInput').focus();
+      const inputEl = document.getElementById('messageInput');
+      if (inputEl) inputEl.focus();
     }
     if (e.key === 'Escape') {
       closeSidebar();
@@ -4397,12 +4695,29 @@ function init() {
     }
   });
 
+  // Check Puter
+  if (typeof puter !== 'undefined') {
+    state.puterReady = true;
+    showToast('✅ TYAZA yiteguye na OpenAI ✨', 'success');
+    setTimeout(() => testOpenAI(), 1000);
+  } else {
+    showToast('⚠️ TYAZA ikora mu buryo bwa gahunda', 'warning');
+    state.useAI = false;
+  }
+
   initStars();
   initNeuralBackground();
 
-  setTimeout(() => document.getElementById('messageInput').focus(), 500);
+  // Focus input after load
+  setTimeout(() => {
+    const inputEl = document.getElementById('messageInput');
+    if (inputEl) inputEl.focus();
+  }, 500);
 }
 
+// ============================================================
+// 20. EXPOSE GLOBALS
+// ============================================================
 window.TYAZA_DATASET = TYAZA_DATASET;
 window.COMPANY_INFO = COMPANY_INFO;
 window.TYAZA_MISSION = TYAZA_MISSION;
@@ -4431,6 +4746,9 @@ window.detectEmotion = detectEmotion;
 window.detectLanguage = detectLanguage;
 window.testOpenAI = testOpenAI;
 
+// ============================================================
+// 21. START APP
+// ============================================================
 document.addEventListener('DOMContentLoaded', init);
 </script>
 
