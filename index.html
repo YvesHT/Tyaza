@@ -1071,6 +1071,47 @@ body {
   font-size: 0.9rem;
 }
 
+.msg-bubble .file-attachment {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  margin: 6px 0;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.msg-bubble .file-attachment:hover {
+  background: var(--glass-hover);
+  border-color: var(--primary);
+}
+
+.msg-bubble .file-attachment .file-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.msg-bubble .file-attachment .file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.msg-bubble .file-attachment .file-name {
+  font-weight: 500;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msg-bubble .file-attachment .file-size {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
 .msg-metadata {
   display: flex;
   align-items: center;
@@ -1303,6 +1344,23 @@ body {
   70% { box-shadow: 0 0 0 16px rgba(244, 114, 182, 0); }
 }
 
+.attach-btn {
+  background: rgba(96, 165, 250, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.2);
+  color: var(--tertiary);
+}
+
+.attach-btn:hover { 
+  background: rgba(96, 165, 250, 0.2);
+  transform: scale(1.06);
+}
+
+.attach-btn.has-file {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
 .send-btn {
   background: linear-gradient(135deg, var(--primary), var(--secondary));
   color: white;
@@ -1329,6 +1387,39 @@ body {
   min-height: 18px;
   margin-top: 6px;
   font-weight: 500;
+}
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+}
+
+.file-preview .file-name {
+  flex: 1;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-preview .file-remove {
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color 0.3s;
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.file-preview .file-remove:hover {
+  color: var(--error);
 }
 
 .scroll-bottom {
@@ -1696,6 +1787,117 @@ body {
 .toast-info { border-left-color: var(--primary); }
 .toast-warning { border-left-color: var(--warning); }
 
+/* Voice Interaction Modal */
+.voice-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 0, 20, 0.95);
+  backdrop-filter: blur(30px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 600;
+  animation: fadeUp 0.3s var(--ease-spring);
+}
+
+.voice-modal-content {
+  background: var(--surface-2);
+  backdrop-filter: blur(30px) saturate(180%);
+  border: 2px solid var(--secondary);
+  border-radius: var(--radius-xl);
+  padding: 30px;
+  max-width: 90vw;
+  width: 440px;
+  text-align: center;
+  box-shadow: var(--shadow-glow-intense);
+}
+
+.voice-modal-content .voice-visualizer {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.2), transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.voice-modal-content .voice-visualizer .mic-icon {
+  font-size: 3rem;
+  color: var(--secondary);
+  animation: voicePulse 1.5s ease-in-out infinite;
+}
+
+@keyframes voicePulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+
+.voice-modal-content .voice-visualizer .wave-ring {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 2px solid var(--secondary);
+  opacity: 0.3;
+  animation: waveRing 2s ease-out infinite;
+}
+
+@keyframes waveRing {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.voice-modal-content h3 {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.voice-modal-content .voice-subtitle {
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.voice-modal-content .voice-transcript {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 14px;
+  min-height: 60px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  margin-bottom: 16px;
+  text-align: left;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.voice-modal-content .voice-transcript .interim {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+.voice-modal-content .voice-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.voice-modal-content .voice-controls .btn {
+  min-width: 100px;
+}
+
+.voice-modal-content .voice-timer {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  margin-top: 12px;
+}
+
+/* Voice dialog fallback */
 .voice-dialog {
   position: fixed;
   inset: 0;
@@ -1932,6 +2134,7 @@ body {
   .suggestion-btn { width: 100%; max-width: 260px; }
 
   .chat-header { padding: 0 14px; }
+  .voice-modal-content { padding: 20px; width: 95vw; }
 }
 
 @media (max-width: 480px) {
@@ -2137,11 +2340,13 @@ body {
       <div class="input-container">
         <textarea id="messageInput" placeholder="Sangiza icyo utekereza..." rows="1"></textarea>
         <div class="input-actions">
-          <button class="input-btn voice-btn" id="voiceBtn"><i class="fas fa-microphone"></i></button>
+          <button class="input-btn voice-btn" id="voiceBtn" title="Kuvuga"><i class="fas fa-microphone"></i></button>
+          <button class="input-btn attach-btn" id="attachBtn" title="Ongeraho dosiye"><i class="fas fa-paperclip"></i></button>
           <button class="input-btn send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
         </div>
       </div>
       <div class="voice-status" id="voiceStatus"></div>
+      <div id="filePreviewContainer"></div>
     </div>
   </main>
 </div>
@@ -2875,7 +3080,32 @@ let state = {
   detectedLanguage: 'rw',
   openAIModel: 'gpt-4o',
   modelFallbackIndex: 0,
-  isInitialized: false
+  isInitialized: false,
+  attachedFile: null
+};
+
+// Allowed file types for Puter AI
+const ALLOWED_FILE_TYPES = {
+  'text/plain': '.txt',
+  'text/markdown': '.md',
+  'text/csv': '.csv',
+  'application/json': '.json',
+  'application/pdf': '.pdf',
+  'application/msword': '.doc',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': '.docx',
+  'application/vnd.ms-excel': '.xls',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': '.xlsx',
+  'application/vnd.ms-powerpoint': '.ppt',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation': '.pptx',
+  'image/jpeg': '.jpg',
+  'image/png': '.png',
+  'image/gif': '.gif',
+  'image/webp': '.webp',
+  'audio/mpeg': '.mp3',
+  'audio/wav': '.wav',
+  'audio/ogg': '.ogg',
+  'video/mp4': '.mp4',
+  'video/webm': '.webm'
 };
 
 // ============================================================
@@ -2931,6 +3161,38 @@ function formatTime(timestamp) {
   if (hrs < 24) return `${hrs} h`;
   if (days < 7) return `${days} d`;
   return new Date(timestamp).toLocaleDateString('rw-RW');
+}
+
+function getFileIcon(mimeType) {
+  const iconMap = {
+    'text/plain': 'fa-file-alt',
+    'text/markdown': 'fa-file-code',
+    'text/csv': 'fa-file-csv',
+    'application/json': 'fa-file-code',
+    'application/pdf': 'fa-file-pdf',
+    'application/msword': 'fa-file-word',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': 'fa-file-word',
+    'application/vnd.ms-excel': 'fa-file-excel',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': 'fa-file-excel',
+    'application/vnd.ms-powerpoint': 'fa-file-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation': 'fa-file-powerpoint',
+    'image/jpeg': 'fa-file-image',
+    'image/png': 'fa-file-image',
+    'image/gif': 'fa-file-image',
+    'image/webp': 'fa-file-image',
+    'audio/mpeg': 'fa-file-audio',
+    'audio/wav': 'fa-file-audio',
+    'audio/ogg': 'fa-file-audio',
+    'video/mp4': 'fa-file-video',
+    'video/webm': 'fa-file-video'
+  };
+  return iconMap[mimeType] || 'fa-file';
+}
+
+function formatFileSize(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / 1048576).toFixed(1) + ' MB';
 }
 
 function detectLanguage(text) {
@@ -3489,7 +3751,281 @@ function initSpeechRecognition() {
 const hasSpeech = initSpeechRecognition();
 
 // ============================================================
-// 8. CORE UI FUNCTIONS
+// 8. VOICE MODAL - Enhanced Voice Interaction
+// ============================================================
+let voiceModalActive = false;
+let voiceTranscript = '';
+let voiceTimer = 0;
+let voiceTimerInterval = null;
+
+function openVoiceModal() {
+  if (voiceModalActive) return;
+  voiceModalActive = true;
+  voiceTranscript = '';
+  voiceTimer = 0;
+  
+  const modal = document.createElement('div');
+  modal.className = 'voice-modal';
+  modal.id = 'voiceModal';
+  modal.innerHTML = `
+    <div class="voice-modal-content">
+      <div class="voice-visualizer">
+        <div class="wave-ring"></div>
+        <div class="wave-ring" style="animation-delay: 0.5s;"></div>
+        <div class="wave-ring" style="animation-delay: 1s;"></div>
+        <div class="mic-icon">🎤</div>
+      </div>
+      <h3>Kuvuga na TYAZA</h3>
+      <p class="voice-subtitle">Vuga mu ijwi ryawe, TYAZA izakumva</p>
+      <div class="voice-transcript" id="voiceTranscript">
+        <span class="interim">Uretse... ndi kukwitaho...</span>
+      </div>
+      <div class="voice-controls">
+        <button class="btn btn-secondary" id="voiceModalCancel">
+          <i class="fas fa-times"></i> Hagarika
+        </button>
+        <button class="btn btn-primary" id="voiceModalSend" disabled>
+          <i class="fas fa-paper-plane"></i> Ohereza
+        </button>
+      </div>
+      <div class="voice-timer" id="voiceTimer">⏱ 0:00</div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  
+  // Start listening
+  if (state.speechRecognition) {
+    try {
+      state.speechRecognition.continuous = true;
+      state.speechRecognition.interimResults = true;
+      
+      state.speechRecognition.onstart = () => {
+        state.isListening = true;
+        document.getElementById('voiceBtn').classList.add('listening');
+        document.getElementById('voiceStatus').textContent = '🎤 Mvuga none...';
+        updateVoiceTranscript('Kuvuga... ndi kukwitaho...');
+        // Start timer
+        voiceTimerInterval = setInterval(() => {
+          voiceTimer++;
+          const mins = Math.floor(voiceTimer / 60);
+          const secs = voiceTimer % 60;
+          const timerEl = document.getElementById('voiceTimer');
+          if (timerEl) timerEl.textContent = `⏱ ${mins}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
+      };
+      
+      state.speechRecognition.onend = () => {
+        state.isListening = false;
+        document.getElementById('voiceBtn').classList.remove('listening');
+        document.getElementById('voiceStatus').textContent = '';
+        if (voiceTimerInterval) {
+          clearInterval(voiceTimerInterval);
+          voiceTimerInterval = null;
+        }
+      };
+      
+      state.speechRecognition.onresult = (e) => {
+        let final = '';
+        let interim = '';
+        for (let i = 0; i < e.results.length; i++) {
+          if (e.results[i].isFinal) {
+            final += e.results[i][0].transcript;
+          } else {
+            interim += e.results[i][0].transcript;
+          }
+        }
+        if (final) {
+          voiceTranscript = final;
+          updateVoiceTranscript(voiceTranscript);
+          const sendBtn = document.getElementById('voiceModalSend');
+          if (sendBtn) sendBtn.disabled = false;
+        } else if (interim) {
+          updateVoiceTranscript(interim, true);
+        }
+      };
+      
+      state.speechRecognition.onerror = () => {
+        updateVoiceTranscript('❌ Mikorofoni yanze. Gerageza kuvuga cyangwa andika.', false);
+        const sendBtn = document.getElementById('voiceModalSend');
+        if (sendBtn) sendBtn.disabled = false;
+      };
+      
+      state.speechRecognition.start();
+    } catch (e) {
+      updateVoiceTranscript('⚠️ Emera mikorofoni kugira ngo ukoreshe ijwi.', false);
+      const sendBtn = document.getElementById('voiceModalSend');
+      if (sendBtn) sendBtn.disabled = false;
+    }
+  } else {
+    updateVoiceTranscript('⚠️ Ijwi ryawe ntirishoboka muri iyi browser.', false);
+  }
+  
+  // Event listeners
+  document.getElementById('voiceModalCancel').addEventListener('click', closeVoiceModal);
+  document.getElementById('voiceModalSend').addEventListener('click', sendVoiceInput);
+  
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeVoiceModal();
+  });
+  
+  document.addEventListener('keydown', voiceModalKeyHandler);
+}
+
+function updateVoiceTranscript(text, interim = false) {
+  const el = document.getElementById('voiceTranscript');
+  if (!el) return;
+  if (interim) {
+    el.innerHTML = `<span class="interim">${escapeHtml(text)}</span>`;
+  } else {
+    el.innerHTML = escapeHtml(text);
+  }
+}
+
+function closeVoiceModal() {
+  voiceModalActive = false;
+  if (state.speechRecognition) {
+    try {
+      state.speechRecognition.continuous = false;
+      state.speechRecognition.stop();
+    } catch (e) {}
+  }
+  if (voiceTimerInterval) {
+    clearInterval(voiceTimerInterval);
+    voiceTimerInterval = null;
+  }
+  state.isListening = false;
+  document.getElementById('voiceBtn').classList.remove('listening');
+  document.getElementById('voiceStatus').textContent = '';
+  const modal = document.getElementById('voiceModal');
+  if (modal) modal.remove();
+  document.removeEventListener('keydown', voiceModalKeyHandler);
+}
+
+function voiceModalKeyHandler(e) {
+  if (e.key === 'Escape') closeVoiceModal();
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    const sendBtn = document.getElementById('voiceModalSend');
+    if (sendBtn && !sendBtn.disabled) sendVoiceInput();
+  }
+}
+
+function sendVoiceInput() {
+  if (!voiceTranscript.trim()) {
+    showToast('Nta kintu wavuze', 'warning');
+    return;
+  }
+  const input = document.getElementById('messageInput');
+  if (input) {
+    input.value = voiceTranscript;
+    handleInput();
+  }
+  closeVoiceModal();
+  setTimeout(() => {
+    if (document.getElementById('messageInput').value.trim()) {
+      sendMessage();
+    }
+  }, 300);
+}
+
+// ============================================================
+// 9. FILE ATTACHMENT
+// ============================================================
+function attachFile() {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = Object.keys(ALLOWED_FILE_TYPES).join(',');
+  input.onchange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    // Check if file type is supported
+    if (!ALLOWED_FILE_TYPES[file.type]) {
+      showToast(`❌ Dosiye ya ${file.type} ntishoboka.`, 'error');
+      return;
+    }
+    
+    // Check file size (max 25MB)
+    if (file.size > 25 * 1024 * 1024) {
+      showToast('❌ Dosiye nini cyane (>25MB).', 'error');
+      return;
+    }
+    
+    state.attachedFile = file;
+    showFilePreview(file);
+    showToast(`📎 ${file.name} yongewe`, 'success');
+  };
+  input.click();
+}
+
+function showFilePreview(file) {
+  const container = document.getElementById('filePreviewContainer');
+  if (!container) return;
+  const icon = getFileIcon(file.type);
+  const size = formatFileSize(file.size);
+  container.innerHTML = `
+    <div class="file-preview">
+      <i class="fas ${icon}" style="color:var(--tertiary);"></i>
+      <span class="file-name">${escapeHtml(file.name)} (${size})</span>
+      <button class="file-remove" onclick="removeFile()">&times;</button>
+    </div>
+  `;
+  document.querySelector('.attach-btn').classList.add('has-file');
+}
+
+function removeFile() {
+  state.attachedFile = null;
+  const container = document.getElementById('filePreviewContainer');
+  if (container) container.innerHTML = '';
+  document.querySelector('.attach-btn').classList.remove('has-file');
+  showToast('Dosiye yakuwe', 'info');
+}
+
+async function processAttachedFile(file) {
+  try {
+    // Read file as text for text-based files
+    const textTypes = ['text/plain', 'text/markdown', 'text/csv', 'application/json'];
+    if (textTypes.includes(file.type)) {
+      const text = await file.text();
+      return {
+        type: 'text',
+        content: text,
+        name: file.name
+      };
+    }
+    
+    // For images, audio, video - return as data URL or file info
+    const mediaTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 
+                        'audio/mpeg', 'audio/wav', 'audio/ogg', 'video/mp4', 'video/webm'];
+    if (mediaTypes.includes(file.type)) {
+      const dataUrl = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      });
+      return {
+        type: 'media',
+        content: dataUrl,
+        name: file.name,
+        mimeType: file.type
+      };
+    }
+    
+    // For PDF, DOC, etc - return file info
+    return {
+      type: 'document',
+      name: file.name,
+      mimeType: file.type,
+      size: file.size
+    };
+  } catch (error) {
+    console.error('File processing error:', error);
+    return null;
+  }
+}
+
+// ============================================================
+// 10. CORE UI FUNCTIONS
 // ============================================================
 function updateWelcome() {
   const name = state.userName || '';
@@ -3514,7 +4050,7 @@ function handleInput() {
   if (!input) return;
   const val = input.value.trim();
   const sendBtn = document.getElementById('sendBtn');
-  if (sendBtn) sendBtn.disabled = !val || state.isGenerating;
+  if (sendBtn) sendBtn.disabled = !val && !state.attachedFile;
   input.style.height = 'auto';
   input.style.height = Math.min(input.scrollHeight, 120) + 'px';
 }
@@ -3620,9 +4156,9 @@ function buildMetadataHTML(metadata) {
 }
 
 // ============================================================
-// 9. MESSAGE HANDLING
+// 11. MESSAGE HANDLING
 // ============================================================
-function addMessage(role, content, htmlContent = null, metadata = null) {
+function addMessage(role, content, htmlContent = null, metadata = null, fileData = null) {
   const welcome = document.getElementById('welcome');
   if (welcome) welcome.style.display = 'none';
   
@@ -3638,11 +4174,62 @@ function addMessage(role, content, htmlContent = null, metadata = null) {
     `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
 
   const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
+  
+  // Build file attachment HTML if present
+  let fileHTML = '';
+  if (fileData && role === 'user') {
+    const icon = getFileIcon(fileData.type || fileData.mimeType || '');
+    const size = fileData.size ? formatFileSize(fileData.size) : '';
+    const isMedia = fileData.type === 'media' || fileData.mimeType?.startsWith('image/') || fileData.mimeType?.startsWith('audio/') || fileData.mimeType?.startsWith('video/');
+    
+    if (isMedia && fileData.content) {
+      if (fileData.mimeType?.startsWith('image/')) {
+        fileHTML = `<div class="file-attachment" style="flex-direction:column;align-items:stretch;padding:8px;">
+          <img src="${fileData.content}" style="max-width:100%;max-height:300px;border-radius:8px;object-fit:contain;" alt="${escapeHtml(fileData.name)}">
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:0.7rem;color:var(--text-tertiary);">
+            <i class="fas ${icon}"></i>
+            <span>${escapeHtml(fileData.name)}</span>
+            ${size ? `<span>${size}</span>` : ''}
+          </div>
+        </div>`;
+      } else if (fileData.mimeType?.startsWith('audio/')) {
+        fileHTML = `<div class="file-attachment" style="flex-direction:column;align-items:stretch;padding:8px;">
+          <audio controls style="width:100%;">
+            <source src="${fileData.content}" type="${fileData.mimeType}">
+          </audio>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:0.7rem;color:var(--text-tertiary);">
+            <i class="fas ${icon}"></i>
+            <span>${escapeHtml(fileData.name)}</span>
+            ${size ? `<span>${size}</span>` : ''}
+          </div>
+        </div>`;
+      } else if (fileData.mimeType?.startsWith('video/')) {
+        fileHTML = `<div class="file-attachment" style="flex-direction:column;align-items:stretch;padding:8px;">
+          <video controls style="width:100%;max-height:300px;border-radius:8px;">
+            <source src="${fileData.content}" type="${fileData.mimeType}">
+          </video>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:0.7rem;color:var(--text-tertiary);">
+            <i class="fas ${icon}"></i>
+            <span>${escapeHtml(fileData.name)}</span>
+            ${size ? `<span>${size}</span>` : ''}
+          </div>
+        </div>`;
+      }
+    } else {
+      fileHTML = `<div class="file-attachment">
+        <div class="file-icon"><i class="fas ${icon}"></i></div>
+        <div class="file-info">
+          <div class="file-name">${escapeHtml(fileData.name)}</div>
+          <div class="file-size">${size || 'Dosiye'}</div>
+        </div>
+      </div>`;
+    }
+  }
 
   msg.innerHTML = `
     <div class="msg-avatar">${avatarContent}</div>
     <div class="msg-content">
-      <div class="msg-bubble">${displayContent}</div>
+      <div class="msg-bubble">${fileHTML}${displayContent}</div>
       ${metadataHTML}
       <div class="msg-meta">
         <span>${time}</span>
@@ -3666,6 +4253,7 @@ function addMessage(role, content, htmlContent = null, metadata = null) {
     content, 
     html: htmlContent,
     metadata,
+    file: fileData ? { name: fileData.name, type: fileData.type || fileData.mimeType } : null,
     timestamp: Date.now() 
   });
   state.messageCount++;
@@ -3677,7 +4265,7 @@ function addMessage(role, content, htmlContent = null, metadata = null) {
   updateMemoryStats();
 }
 
-async function addMessageWithStream(role, content, htmlContent, metadata) {
+async function addMessageWithStream(role, content, htmlContent, metadata, fileData = null) {
   const welcome = document.getElementById('welcome');
   if (welcome) welcome.style.display = 'none';
   
@@ -3693,11 +4281,62 @@ async function addMessageWithStream(role, content, htmlContent, metadata) {
     `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
 
   const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
+  
+  // Build file attachment HTML if present
+  let fileHTML = '';
+  if (fileData && role === 'user') {
+    const icon = getFileIcon(fileData.type || fileData.mimeType || '');
+    const size = fileData.size ? formatFileSize(fileData.size) : '';
+    const isMedia = fileData.type === 'media' || fileData.mimeType?.startsWith('image/') || fileData.mimeType?.startsWith('audio/') || fileData.mimeType?.startsWith('video/');
+    
+    if (isMedia && fileData.content) {
+      if (fileData.mimeType?.startsWith('image/')) {
+        fileHTML = `<div class="file-attachment" style="flex-direction:column;align-items:stretch;padding:8px;">
+          <img src="${fileData.content}" style="max-width:100%;max-height:300px;border-radius:8px;object-fit:contain;" alt="${escapeHtml(fileData.name)}">
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:0.7rem;color:var(--text-tertiary);">
+            <i class="fas ${icon}"></i>
+            <span>${escapeHtml(fileData.name)}</span>
+            ${size ? `<span>${size}</span>` : ''}
+          </div>
+        </div>`;
+      } else if (fileData.mimeType?.startsWith('audio/')) {
+        fileHTML = `<div class="file-attachment" style="flex-direction:column;align-items:stretch;padding:8px;">
+          <audio controls style="width:100%;">
+            <source src="${fileData.content}" type="${fileData.mimeType}">
+          </audio>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:0.7rem;color:var(--text-tertiary);">
+            <i class="fas ${icon}"></i>
+            <span>${escapeHtml(fileData.name)}</span>
+            ${size ? `<span>${size}</span>` : ''}
+          </div>
+        </div>`;
+      } else if (fileData.mimeType?.startsWith('video/')) {
+        fileHTML = `<div class="file-attachment" style="flex-direction:column;align-items:stretch;padding:8px;">
+          <video controls style="width:100%;max-height:300px;border-radius:8px;">
+            <source src="${fileData.content}" type="${fileData.mimeType}">
+          </video>
+          <div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:0.7rem;color:var(--text-tertiary);">
+            <i class="fas ${icon}"></i>
+            <span>${escapeHtml(fileData.name)}</span>
+            ${size ? `<span>${size}</span>` : ''}
+          </div>
+        </div>`;
+      }
+    } else {
+      fileHTML = `<div class="file-attachment">
+        <div class="file-icon"><i class="fas ${icon}"></i></div>
+        <div class="file-info">
+          <div class="file-name">${escapeHtml(fileData.name)}</div>
+          <div class="file-size">${size || 'Dosiye'}</div>
+        </div>
+      </div>`;
+    }
+  }
 
   msg.innerHTML = `
     <div class="msg-avatar">${avatarContent}</div>
     <div class="msg-content">
-      <div class="msg-bubble"></div>
+      <div class="msg-bubble">${fileHTML}<span></span></div>
       ${metadataHTML}
       <div class="msg-meta">
         <span>${time}</span>
@@ -3716,7 +4355,7 @@ async function addMessageWithStream(role, content, htmlContent, metadata) {
   `;
   messages.appendChild(msg);
 
-  const bubble = msg.querySelector('.msg-bubble');
+  const bubble = msg.querySelector('.msg-bubble span');
   if (bubble) {
     await streamText(bubble, displayContent, 6);
   }
@@ -3726,6 +4365,7 @@ async function addMessageWithStream(role, content, htmlContent, metadata) {
     content, 
     html: htmlContent,
     metadata,
+    file: fileData ? { name: fileData.name, type: fileData.type || fileData.mimeType } : null,
     timestamp: Date.now() 
   });
   state.messageCount++;
@@ -3738,13 +4378,14 @@ async function addMessageWithStream(role, content, htmlContent, metadata) {
 }
 
 // ============================================================
-// 10. SEND MESSAGE
+// 12. SEND MESSAGE
 // ============================================================
 async function sendMessage() {
   const input = document.getElementById('messageInput');
   if (!input) return;
   const text = input.value.trim();
-  if (!text || state.isGenerating) return;
+  if (!text && !state.attachedFile) return;
+  if (state.isGenerating) return;
 
   input.value = '';
   input.style.height = 'auto';
@@ -3758,40 +4399,55 @@ async function sendMessage() {
   state.riskFlags = risks;
   updateRiskIndicators(risks);
 
-  const detection = detectEmotion(text);
-  if (detection && detection.type === 'crisis') {
-    const result = generateResponse(text);
-    addMessage('user', text);
-    await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
-    showCrisisModal();
-    if (sendBtn) sendBtn.disabled = false;
-    return;
-  }
-
-  if (detection && detection.type === 'name') {
-    const result = generateResponse(text);
-    if (result.userName) {
-      state.userName = result.userName;
-      storageSet('userName', state.userName);
-      updateWelcome();
-      updateMemoryStats();
+  // Process attached file if any
+  let fileData = null;
+  if (state.attachedFile) {
+    fileData = await processAttachedFile(state.attachedFile);
+    // Add file info to user message
+    addMessage('user', text || `📎 ${state.attachedFile.name}`, null, null, {
+      name: state.attachedFile.name,
+      type: state.attachedFile.type,
+      size: state.attachedFile.size,
+      content: fileData?.content,
+      mimeType: state.attachedFile.type
+    });
+    removeFile();
+  } else if (text) {
+    const detection = detectEmotion(text);
+    if (detection && detection.type === 'crisis') {
+      const result = generateResponse(text);
+      addMessage('user', text);
+      await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
+      showCrisisModal();
+      if (sendBtn) sendBtn.disabled = false;
+      return;
     }
-    addMessage('user', text);
-    await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
-    showToast(`✨ Murakaza neza, ${state.userName}!`, 'success');
-    if (sendBtn) sendBtn.disabled = false;
-    return;
-  }
 
-  if (detection && detection.type === 'rare_word') {
-    const result = generateResponse(text);
+    if (detection && detection.type === 'name') {
+      const result = generateResponse(text);
+      if (result.userName) {
+        state.userName = result.userName;
+        storageSet('userName', state.userName);
+        updateWelcome();
+        updateMemoryStats();
+      }
+      addMessage('user', text);
+      await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
+      showToast(`✨ Murakaza neza, ${state.userName}!`, 'success');
+      if (sendBtn) sendBtn.disabled = false;
+      return;
+    }
+
+    if (detection && detection.type === 'rare_word') {
+      const result = generateResponse(text);
+      addMessage('user', text);
+      await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
+      if (sendBtn) sendBtn.disabled = false;
+      return;
+    }
+    
     addMessage('user', text);
-    await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
-    if (sendBtn) sendBtn.disabled = false;
-    return;
   }
-  
-  addMessage('user', text);
 
   const typingId = showTyping();
   state.isGenerating = true;
@@ -3801,7 +4457,14 @@ async function sendMessage() {
   let result;
 
   if (state.useAI && typeof puter !== 'undefined') {
-    result = await getPuterAIResponse(text);
+    // If there's a file, include it in the context
+    let userMessage = text || '';
+    if (fileData && fileData.type === 'text') {
+      userMessage += `\n\n[DOSIYE: ${fileData.name}]\n${fileData.content}`;
+    } else if (fileData) {
+      userMessage += `\n\n[DOSIYE: ${fileData.name}] - ${fileData.mimeType || fileData.type || 'unknown type'}`;
+    }
+    result = await getPuterAIResponse(userMessage || text);
   }
 
   if (!result) {
@@ -3820,7 +4483,7 @@ async function sendMessage() {
 }
 
 // ============================================================
-// 11. CONVERSATION HISTORY
+// 13. CONVERSATION HISTORY
 // ============================================================
 function saveConversation() {
   if (state.messages.length === 0) return;
@@ -3828,10 +4491,11 @@ function saveConversation() {
   const conv = {
     id: state.currentId,
     title: title,
-    messages: state.messages.slice(-50), // Keep more history
+    messages: state.messages.slice(-50),
     timestamp: Date.now(),
     language: state.detectedLanguage,
-    messageCount: state.messages.length
+    messageCount: state.messages.length,
+    userName: state.userName
   };
   const convs = storageGetAll('conversations');
   const existing = convs.findIndex(c => c.id === state.currentId);
@@ -3840,7 +4504,6 @@ function saveConversation() {
   } else {
     convs.push(conv);
   }
-  // Keep only last 100 conversations
   if (convs.length > 100) {
     convs.sort((a, b) => b.timestamp - a.timestamp);
     convs.length = 100;
@@ -3909,7 +4572,6 @@ function loadChat(id) {
   const messagesContainer = document.getElementById('messages');
   if (!messagesContainer) return;
   
-  // Clear messages
   while (messagesContainer.firstChild) {
     messagesContainer.removeChild(messagesContainer.firstChild);
   }
@@ -3917,12 +4579,12 @@ function loadChat(id) {
   const welcome = document.getElementById('welcome');
   if (welcome) welcome.style.display = 'none';
 
-  // Re-render messages
   state.messages.forEach(msg => {
     const role = msg.role || 'assistant';
     const content = msg.content || '';
     const htmlContent = msg.html || UltraMarkdownParser.parse(content);
     const metadata = msg.metadata || null;
+    const fileData = msg.file || null;
 
     if (content) {
       const msgEl = document.createElement('div');
@@ -3930,11 +4592,23 @@ function loadChat(id) {
       const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
       const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
       const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
+      
+      let fileHTML = '';
+      if (fileData && role === 'user') {
+        const icon = getFileIcon(fileData.type || '');
+        fileHTML = `<div class="file-attachment">
+          <div class="file-icon"><i class="fas ${icon}"></i></div>
+          <div class="file-info">
+            <div class="file-name">${escapeHtml(fileData.name || 'Dosiye')}</div>
+            <div class="file-size">Dosiye</div>
+          </div>
+        </div>`;
+      }
 
       msgEl.innerHTML = `
         <div class="msg-avatar">${avatarContent}</div>
         <div class="msg-content">
-          <div class="msg-bubble">${htmlContent}</div>
+          <div class="msg-bubble">${fileHTML}${htmlContent}</div>
           ${metadataHTML}
           <div class="msg-meta">
             <span>${time}</span>
@@ -3979,6 +4653,7 @@ function newChat() {
   state.currentId = 'chat_' + Date.now();
   state.riskFlags = { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false };
   updateRiskIndicators(state.riskFlags);
+  removeFile();
   
   const messagesContainer = document.getElementById('messages');
   if (messagesContainer) {
@@ -4046,7 +4721,7 @@ function exportChat() {
 }
 
 // ============================================================
-// 12. SIDEBAR FUNCTIONS
+// 14. SIDEBAR FUNCTIONS
 // ============================================================
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
@@ -4062,7 +4737,7 @@ function closeSidebar() {
 }
 
 // ============================================================
-// 13. MOOD FUNCTIONS
+// 15. MOOD FUNCTIONS
 // ============================================================
 function openMoodModal() {
   const modal = document.getElementById('moodModal');
@@ -4119,7 +4794,7 @@ function renderMoodCalendar() {
 }
 
 // ============================================================
-// 14. CRISIS MODAL
+// 16. CRISIS MODAL
 // ============================================================
 function showCrisisModal() {
   const modal = document.getElementById('crisisModal');
@@ -4131,7 +4806,7 @@ function closeCrisisModal() {
 }
 
 // ============================================================
-// 15. VOICE CONTROLS
+// 17. VOICE CONTROLS
 // ============================================================
 function toggleVoice() {
   if (!hasSpeech) {
@@ -4142,12 +4817,10 @@ function toggleVoice() {
     if (state.speechRecognition) state.speechRecognition.stop();
     return;
   }
-  try {
-    if (state.speechRecognition) state.speechRecognition.start();
-  } catch {
-    showVoiceDialog();
-  }
+  // Open enhanced voice modal
+  openVoiceModal();
 }
+
 function showVoiceDialog() {
   const dialog = document.createElement('div');
   dialog.className = 'voice-dialog';
@@ -4194,6 +4867,7 @@ function showVoiceDialog() {
     if (e.target === dialog) dialog.remove();
   });
 }
+
 async function testMic() {
   const btn = document.getElementById('micTestBtn');
   if (!btn) return;
@@ -4218,7 +4892,7 @@ async function testMic() {
 }
 
 // ============================================================
-// 16. PROFILE MODAL
+// 18. PROFILE MODAL
 // ============================================================
 function showProfileModal() {
   const profile = getUserProfile();
@@ -4306,7 +4980,7 @@ function showProfileModal() {
 }
 
 // ============================================================
-// 17. BACKGROUND EFFECTS
+// 19. BACKGROUND EFFECTS
 // ============================================================
 function initNeuralBackground() {
   const canvas = document.getElementById('neuralCanvas');
@@ -4388,7 +5062,7 @@ function initStars() {
 }
 
 // ============================================================
-// 18. INITIALIZATION
+// 20. INITIALIZATION
 // ============================================================
 async function testOpenAI() {
     try {
@@ -4424,12 +5098,11 @@ function init() {
   if (state.isInitialized) return;
   state.isInitialized = true;
   
-  // Load saved data
   state.userName = storageGet('userName', null);
   state.settings = storageGet('settings', state.settings);
   state.moodData = storageGetAll('moodData');
   
-  // Restore last conversation if exists
+  // Restore last conversation
   const convs = storageGetAll('conversations');
   if (convs.length > 0) {
     const lastConv = convs.sort((a, b) => b.timestamp - a.timestamp)[0];
@@ -4437,7 +5110,8 @@ function init() {
       state.currentId = lastConv.id;
       state.messages = lastConv.messages;
       state.detectedLanguage = lastConv.language || 'rw';
-      // Render messages
+      state.userName = lastConv.userName || state.userName;
+      
       const messagesContainer = document.getElementById('messages');
       if (messagesContainer) {
         while (messagesContainer.firstChild) {
@@ -4451,16 +5125,31 @@ function init() {
           const content = msg.content || '';
           const htmlContent = msg.html || UltraMarkdownParser.parse(content);
           const metadata = msg.metadata || null;
+          const fileData = msg.file || null;
+          
           if (content) {
             const msgEl = document.createElement('div');
             msgEl.className = `message ${role}`;
             const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
             const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
             const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
+            
+            let fileHTML = '';
+            if (fileData && role === 'user') {
+              const icon = getFileIcon(fileData.type || '');
+              fileHTML = `<div class="file-attachment">
+                <div class="file-icon"><i class="fas ${icon}"></i></div>
+                <div class="file-info">
+                  <div class="file-name">${escapeHtml(fileData.name || 'Dosiye')}</div>
+                  <div class="file-size">Dosiye</div>
+                </div>
+              </div>`;
+            }
+            
             msgEl.innerHTML = `
               <div class="msg-avatar">${avatarContent}</div>
               <div class="msg-content">
-                <div class="msg-bubble">${htmlContent}</div>
+                <div class="msg-bubble">${fileHTML}${htmlContent}</div>
                 ${metadataHTML}
                 <div class="msg-meta">
                   <span>${time}</span>
@@ -4510,12 +5199,11 @@ function init() {
     aiBtn.classList.toggle('btn-secondary', !state.useAI);
   }
 
-  // Enable send button
   const sendBtn = document.getElementById('sendBtn');
-  if (sendBtn) sendBtn.disabled = false;
+  if (sendBtn) sendBtn.disabled = true;
 
   // ============================================================
-  // 19. EVENT LISTENERS
+  // 21. EVENT LISTENERS
   // ============================================================
   const input = document.getElementById('messageInput');
   if (input) {
@@ -4533,6 +5221,9 @@ function init() {
   
   const voiceBtn = document.getElementById('voiceBtn');
   if (voiceBtn) voiceBtn.addEventListener('click', toggleVoice);
+  
+  const attachBtn = document.getElementById('attachBtn');
+  if (attachBtn) attachBtn.addEventListener('click', attachFile);
   
   if (voiceSelect) {
     voiceSelect.addEventListener('change', (e) => {
@@ -4688,6 +5379,10 @@ function init() {
       if (inputEl) inputEl.focus();
     }
     if (e.key === 'Escape') {
+      if (voiceModalActive) {
+        closeVoiceModal();
+        return;
+      }
       closeSidebar();
       closeMoodModal();
       closeCrisisModal();
@@ -4695,7 +5390,6 @@ function init() {
     }
   });
 
-  // Check Puter
   if (typeof puter !== 'undefined') {
     state.puterReady = true;
     showToast('✅ TYAZA yiteguye na OpenAI ✨', 'success');
@@ -4708,7 +5402,6 @@ function init() {
   initStars();
   initNeuralBackground();
 
-  // Focus input after load
   setTimeout(() => {
     const inputEl = document.getElementById('messageInput');
     if (inputEl) inputEl.focus();
@@ -4716,7 +5409,7 @@ function init() {
 }
 
 // ============================================================
-// 20. EXPOSE GLOBALS
+// 22. EXPOSE GLOBALS
 // ============================================================
 window.TYAZA_DATASET = TYAZA_DATASET;
 window.COMPANY_INFO = COMPANY_INFO;
@@ -4745,9 +5438,13 @@ window.generateResponse = generateResponse;
 window.detectEmotion = detectEmotion;
 window.detectLanguage = detectLanguage;
 window.testOpenAI = testOpenAI;
+window.attachFile = attachFile;
+window.removeFile = removeFile;
+window.openVoiceModal = openVoiceModal;
+window.closeVoiceModal = closeVoiceModal;
 
 // ============================================================
-// 21. START APP
+// 23. START APP
 // ============================================================
 document.addEventListener('DOMContentLoaded', init);
 </script>
