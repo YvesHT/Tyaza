@@ -38,7 +38,6 @@
             --success: #10b981;
             --error: #ef4444;
             --warning: #f59e0b;
-            --info: #3b82f6;
             --radius-sm: 6px;
             --radius-md: 10px;
             --radius-lg: 14px;
@@ -175,7 +174,7 @@
             z-index: 10;
         }
         .sidebar {
-            width: 300px;
+            width: 280px;
             height: 100vh;
             height: 100dvh;
             background: var(--surface-1);
@@ -433,39 +432,6 @@
         .btn-block {
             width: 100%;
         }
-        .memory-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-            margin-top: 8px;
-        }
-        .memory-stat {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md);
-            padding: 8px;
-            text-align: center;
-            transition: all 0.3s var(--ease-smooth);
-        }
-        .memory-stat:hover {
-            background: var(--glass-hover);
-            transform: translateY(-1px);
-        }
-        .memory-stat .stat-value {
-            font-size: 1rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .memory-stat .stat-label {
-            font-size: 0.55rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 2px;
-        }
         .history-list {
             flex: 1;
             overflow-y: auto;
@@ -537,6 +503,11 @@
             display: flex;
             align-items: center;
             gap: 6px;
+        }
+        .info-card-title img {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
         }
 
         /* ----- CHAT MAIN ----- */
@@ -665,8 +636,8 @@
         }
         .risk-badge.high {
             background: rgba(239, 68, 68, 0.15);
-            color: var(--risk-high);
-            border: 1px solid var(--risk-high);
+            color: #ef4444;
+            border: 1px solid #ef4444;
         }
         .header-actions {
             display: flex;
@@ -1018,12 +989,12 @@
         }
         .crisis-box {
             background: rgba(239, 68, 68, 0.12);
-            border-left: 3px solid var(--error);
+            border-left: 3px solid #ef4444;
             padding: 10px 14px;
             margin: 8px 0;
             border-radius: var(--radius-md);
             font-weight: 600;
-            color: var(--error);
+            color: #ef4444;
             font-size: 0.85rem;
         }
         .insight-box {
@@ -1129,7 +1100,7 @@
             }
         }
 
-        /* ----- INPUT AREA (ADD BUTTON LEFT, MIC+SEND RIGHT) ----- */
+        /* ----- INPUT AREA (ADD LEFT, MIC+SEND RIGHT) ----- */
         .input-area {
             padding: 12px 20px 20px;
             background: linear-gradient(to top, var(--bg-deep) 60%, transparent);
@@ -1474,13 +1445,13 @@
         }
         .mood-level-1 {
             background: rgba(239, 68, 68, 0.25);
-            color: var(--error);
-            border-color: var(--error);
+            color: #ef4444;
+            border-color: #ef4444;
         }
         .mood-level-2 {
             background: rgba(245, 158, 11, 0.25);
-            color: var(--warning);
-            border-color: var(--warning);
+            color: #f59e0b;
+            border-color: #f59e0b;
         }
         .mood-level-3 {
             background: rgba(234, 179, 8, 0.25);
@@ -1515,7 +1486,7 @@
             transition: all 0.3s var(--ease-smooth);
         }
         .crisis-resource:hover {
-            border-color: var(--error);
+            border-color: #ef4444;
             transform: translateX(4px);
             box-shadow: var(--shadow-md);
         }
@@ -1542,7 +1513,7 @@
         .crisis-resource .crisis-number {
             font-size: 1.05rem;
             font-weight: 700;
-            color: var(--error);
+            color: #ef4444;
             letter-spacing: -0.02em;
         }
         .crisis-resource .crisis-desc {
@@ -1556,7 +1527,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--error);
+            background: #ef4444;
             color: white;
             border-radius: 50%;
             text-decoration: none;
@@ -1576,7 +1547,7 @@
             width: 48px;
             height: 48px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--error), #dc2626);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
             border: none;
             cursor: pointer;
@@ -1595,7 +1566,7 @@
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: var(--error);
+            background: #ef4444;
             opacity: 0.4;
             animation: crisisPulse 2s ease-out infinite;
         }
@@ -1661,13 +1632,13 @@
             border-left-color: var(--success);
         }
         .toast-error {
-            border-left-color: var(--error);
+            border-left-color: #ef4444;
         }
         .toast-info {
             border-left-color: var(--primary);
         }
         .toast-warning {
-            border-left-color: var(--warning);
+            border-left-color: #f59e0b;
         }
 
         /* ----- SCROLL BOTTOM ----- */
@@ -1703,6 +1674,24 @@
             background: var(--glass-hover);
             border-color: var(--primary);
             transform: translateY(-2px);
+        }
+
+        /* ----- SIDEBAR OVERLAY ----- */
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            z-index: 15;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s var(--ease-smooth);
+            pointer-events: none;
+        }
+        .sidebar-overlay.active {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
         }
 
         /* ----- RESPONSIVE ----- */
@@ -1774,11 +1763,13 @@
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <div class="app">
-        <!-- SIDEBAR -->
+        <!-- SIDEBAR (cleaned up - only essentials) -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
-                    <div class="logo-icon">🧠</div>
+                    <div class="logo-icon">
+                        <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">
+                    </div>
                     <div class="logo-text">
                         <div class="title">TYAZA</div>
                         <div class="subtitle">Umuvugizi w'Umutima</div>
@@ -1790,6 +1781,8 @@
                 <button class="new-chat-btn" id="newChatBtn">
                     <i class="fas fa-sparkles"></i> <span>Ikiganiro Gishya</span>
                 </button>
+
+                <!-- Mood quick entry -->
                 <div>
                     <div class="sidebar-section-title">Uko wumva</div>
                     <div class="settings-card">
@@ -1805,31 +1798,26 @@
                         </button>
                     </div>
                 </div>
-                <div>
-                    <div class="sidebar-section-title">🧠 Memory Engine</div>
-                    <div class="settings-card" id="memoryStats">
-                        <div class="memory-stats">
-                            <div class="memory-stat"><div class="stat-value" id="statSessions">0</div><div class="stat-label">Ibikorwa</div></div>
-                            <div class="memory-stat"><div class="stat-value" id="statMoods">0</div><div class="stat-label">Mood</div></div>
-                            <div class="memory-stat"><div class="stat-value" id="statActiveDays">0</div><div class="stat-label">Iminsi</div></div>
-                            <div class="memory-stat"><div class="stat-value" id="statRiskLevel">✅</div><div class="stat-label">Ibyago</div></div>
-                        </div>
-                        <button class="btn btn-secondary btn-block btn-sm" style="margin-top:8px;" id="viewProfileBtn">
-                            <i class="fas fa-user"></i> Reba User Profile
-                        </button>
+
+                <!-- History -->
+                <div style="flex:1;min-height:0;">
+                    <div class="sidebar-section-title" style="display:flex;justify-content:space-between;">
+                        <span>📜 Amateka</span>
+                        <button class="btn btn-ghost btn-sm" id="clearHistoryBtn">Hanagura</button>
                     </div>
-                </div>
-                <div>
-                    <div class="sidebar-section-title">📜 Amateka</div>
                     <div class="history-list" id="historyList">
                         <div class="history-empty"><i class="fas fa-history"></i><span>Nta mateka</span></div>
                     </div>
-                    <button class="btn btn-ghost btn-sm" id="clearHistoryBtn" style="margin-top:4px;">Hanagura yose</button>
                 </div>
+
+                <!-- Company info -->
                 <div class="info-card">
-                    <div class="info-card-title">🧠 KIVURA LABS</div>
+                    <div class="info-card-title">
+                        <img src="tyaza-logo.png" alt="KIVURA LABS" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">
+                        KIVURA LABS
+                    </div>
                     <div style="font-weight:600;color:var(--secondary);">"Healthy citizens, wealthy nation"</div>
-                    <div style="font-size:0.65rem;margin-top:6px;color:var(--text-muted);">Yves HIRWA TUYISHIME - CEO & Founder</div>
+                    <div style="font-size:0.65rem;margin-top:6px;color:var(--text-muted);">Yves HIRWA TUYISHIME · CEO</div>
                     <div style="font-size:0.6rem;color:var(--text-muted);margin-top:4px;">© 2026 Kivura Labs · Rwanda</div>
                 </div>
             </div>
@@ -1840,7 +1828,9 @@
             <header class="chat-header">
                 <div class="header-left">
                     <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-                    <div class="chat-avatar">🧠</div>
+                    <div class="chat-avatar">
+                        <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">
+                    </div>
                     <div class="chat-info">
                         <h1>TYAZA</h1>
                         <div class="chat-status"><span class="status-dot"></span><span id="statusText">Igisubizo kindimo</span></div>
@@ -1848,7 +1838,6 @@
                 </div>
                 <div class="header-actions">
                     <div class="risk-indicators" id="riskIndicators"></div>
-                    <button class="btn btn-primary btn-sm" id="aiToggleBtn"><i class="fas fa-brain"></i> AI</button>
                     <button class="btn btn-icon btn-ghost" id="exportBtn" title="Export"><i class="fas fa-download"></i></button>
                     <button class="btn btn-icon btn-ghost" id="clearChatBtn" title="Clear"><i class="fas fa-trash-alt"></i></button>
                 </div>
@@ -1856,7 +1845,9 @@
 
             <div class="messages" id="messages">
                 <div class="welcome" id="welcome">
-                    <div class="welcome-icon">🧠</div>
+                    <div class="welcome-icon">
+                        <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">
+                    </div>
                     <h1 class="welcome-title">TYAZA</h1>
                     <p class="welcome-subtitle">Umuvugizi w'Umutima</p>
                     <div class="welcome-quote"><em>"TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda."</em></div>
@@ -1875,13 +1866,10 @@
 
             <div class="input-area">
                 <div class="input-container">
-                    <!-- ADD BUTTON (LEFT) -->
                     <div class="input-actions input-actions-left">
                         <button class="input-btn plus-btn" id="plusBtn" title="Ongeraho dosiye"><i class="fas fa-plus"></i></button>
                     </div>
-                    <!-- TEXT INPUT -->
                     <textarea id="messageInput" placeholder="Sangiza icyo utekereza..." rows="1"></textarea>
-                    <!-- MIC + SEND (RIGHT) -->
                     <div class="input-actions input-actions-right">
                         <button class="input-btn voice-btn" id="voiceBtn" title="Kuvuga"><i class="fas fa-microphone"></i></button>
                         <button class="input-btn send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
@@ -1927,9 +1915,9 @@
     </div>
 
     <div class="modal-backdrop" id="crisisModal">
-        <div class="modal" style="max-width:480px;border-color:var(--error);">
-            <div class="modal-header" style="border-bottom-color:var(--error);">
-                <h3 class="modal-title" style="color:var(--error);">⚠️ Ukeneye ubufasha bwihutirwa?</h3>
+        <div class="modal" style="max-width:480px;border-color:#ef4444;">
+            <div class="modal-header" style="border-bottom-color:#ef4444;">
+                <h3 class="modal-title" style="color:#ef4444;">⚠️ Ukeneye ubufasha bwihutirwa?</h3>
                 <button class="modal-close" id="crisisModalClose">&times;</button>
             </div>
             <div style="margin:18px 0;">
@@ -2879,7 +2867,6 @@
                         extracted: true };
                 }
                 if (ext === pdfType) {
-                    // simple placeholder: we skip actual PDF.js for brevity, but we keep the structure
                     return { type: 'text', content: '[PDF: ibintu byakuwe]', name: file.name, mimeType: file.type,
                         size: file.size, extracted: true, fromPDF: true };
                 }
@@ -2944,7 +2931,7 @@
             el.id = id;
             el.className = 'typing';
             el.innerHTML =
-                `<div class="msg-avatar">🧠</div><div class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+                `<div class="msg-avatar"><img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'"></div><div class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
             const messages = document.getElementById('messages');
             if (messages) { messages.appendChild(el);
                 scrollToBottom(); }
@@ -3008,7 +2995,8 @@
             msg.className = `message ${role}`;
             const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
             const displayContent = htmlContent || UltraMarkdownParser.parse(content);
-            const avatarContent = role === 'user' ? '👤' : '🧠';
+            const avatarContent = role === 'user' ? '👤' :
+                `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
             const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
             let fileHTML = '';
             if (fileData && role === 'user') {
@@ -3071,7 +3059,8 @@
             msg.className = `message ${role}`;
             const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
             const displayContent = htmlContent || UltraMarkdownParser.parse(content);
-            const avatarContent = role === 'user' ? '👤' : '🧠';
+            const avatarContent = role === 'user' ? '👤' :
+                `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
             const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
             let fileHTML = '';
             if (fileData && role === 'user') {
@@ -3127,7 +3116,7 @@
         }
 
         // ------------------------------------------------------------------
-        // 10. SEND MESSAGE + OpenAI via Puter (optional)
+        // 10. SEND MESSAGE (AI responding)
         // ------------------------------------------------------------------
         async function sendMessage() {
             const input = document.getElementById('messageInput');
@@ -3198,7 +3187,7 @@
             } else if (fileData) {
                 userMessage += `\n\n[DOSIYE: ${fileData.name}]`;
             }
-            // Use local generation (no external API)
+            // Generate AI response
             result = generateResponse(userMessage || text);
             removeTyping(typingId);
             await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
@@ -3274,7 +3263,8 @@
                     msgEl.className = `message ${role}`;
                     const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('rw-RW', { hour: '2-digit',
                         minute: '2-digit' });
-                    const avatarContent = role === 'user' ? '👤' : '🧠';
+                    const avatarContent = role === 'user' ? '👤' :
+                        `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
                     const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
                     let fileHTML = '';
                     if (fileData && role === 'user') {
@@ -3601,7 +3591,8 @@
                                 const time = new Date(msg.timestamp || Date.now())
                                     .toLocaleTimeString('rw-RW', { hour: '2-digit',
                                         minute: '2-digit' });
-                                const avatarContent = role === 'user' ? '👤' : '🧠';
+                                const avatarContent = role === 'user' ? '👤' :
+                                    `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
                                 const metadataHTML = role === 'assistant' ? buildMetadataHTML(
                                     metadata) : '';
                                 let fileHTML = '';
@@ -3632,24 +3623,12 @@
                     }
                 }
             }
-            // UI settings
-            document.getElementById('voiceSelect').value = state.settings.voice;
-            document.getElementById('rateSlider').value = state.settings.rate;
-            document.getElementById('pitchSlider').value = state.settings.pitch;
-            document.getElementById('rateValue').textContent = state.settings.rate;
-            document.getElementById('pitchValue').textContent = state.settings.pitch;
+            // UI settings - no voice settings in sidebar anymore, but we keep the state
 
             renderHistory();
             updateMemoryStats();
             updateWelcome();
 
-            const aiBtn = document.getElementById('aiToggleBtn');
-            if (aiBtn) {
-                aiBtn.innerHTML = state.useAI ? '<i class="fas fa-brain"></i> AI' :
-                '<i class="fas fa-microchip"></i> Gahunda';
-                aiBtn.classList.toggle('btn-primary', state.useAI);
-                aiBtn.classList.toggle('btn-secondary', !state.useAI);
-            }
             document.getElementById('sendBtn').disabled = true;
 
             // ---- EVENT LISTENERS ----
@@ -3664,34 +3643,6 @@
             document.getElementById('sendBtn').addEventListener('click', sendMessage);
             document.getElementById('voiceBtn').addEventListener('click', toggleVoice);
             document.getElementById('plusBtn').addEventListener('click', attachFile);
-
-            document.getElementById('voiceSelect').addEventListener('change', (e) => {
-                state.settings.voice = e.target.value;
-                storageSet('settings', state.settings);
-            });
-            document.getElementById('rateSlider').addEventListener('input', (e) => {
-                document.getElementById('rateValue').textContent = e.target.value;
-                state.settings.rate = parseFloat(e.target.value);
-            });
-            document.getElementById('rateSlider').addEventListener('change', () => storageSet('settings', state.settings));
-            document.getElementById('pitchSlider').addEventListener('input', (e) => {
-                document.getElementById('pitchValue').textContent = e.target.value;
-                state.settings.pitch = parseFloat(e.target.value);
-            });
-            document.getElementById('pitchSlider').addEventListener('change', () => storageSet('settings', state.settings));
-
-            document.getElementById('micTestBtn').addEventListener('click', testMic);
-
-            if (aiBtn) {
-                aiBtn.addEventListener('click', () => {
-                    state.useAI = !state.useAI;
-                    aiBtn.innerHTML = state.useAI ? '<i class="fas fa-brain"></i> AI' :
-                        '<i class="fas fa-microchip"></i> Gahunda';
-                    aiBtn.classList.toggle('btn-primary', state.useAI);
-                    aiBtn.classList.toggle('btn-secondary', !state.useAI);
-                    showToast(state.useAI ? 'OpenAI ikoreshwa ✨' : 'Gahunda ikoreshwa', 'info');
-                });
-            }
 
             document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
             document.getElementById('sidebarClose').addEventListener('click', closeSidebar);
@@ -3751,17 +3702,6 @@
                     closeCrisisModal(); if (state.isListening) toggleVoice(); }
             });
 
-            // Voice fallback for mic test
-            if (!document.getElementById('micTestBtn')) {
-                const micBtn = document.createElement('button');
-                micBtn.id = 'micTestBtn';
-                micBtn.className = 'btn btn-secondary btn-block';
-                micBtn.textContent = '🎤 Gerageza mikorofoni';
-                micBtn.style.marginTop = '8px';
-                document.querySelector('.settings-card:last-child .settings-row')?.appendChild(micBtn);
-                micBtn.addEventListener('click', testMic);
-            }
-
             initStars();
             initNeuralBackground();
             setTimeout(() => { document.getElementById('messageInput').focus(); }, 500);
@@ -3788,7 +3728,6 @@
         window.openMoodModal = openMoodModal;
         window.closeMoodModal = closeMoodModal;
         window.addMessage = addMessage;
-        window.testMic = testMic;
         window.analyzeRisks = analyzeRisks;
         window.getUserProfile = getUserProfile;
         window.showProfileModal = showProfileModal;
