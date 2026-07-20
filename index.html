@@ -4377,7 +4377,7 @@ async function addMessageWithStream(role, content, htmlContent, metadata, fileDa
 }
 
 // ============================================================
-// 12. SEND MESSAGE
+// 12. SEND MESSAGE - Using OpenAI GPT-4o via Puter
 // ============================================================
 async function sendMessage() {
   const input = document.getElementById('messageInput');
@@ -4413,7 +4413,6 @@ async function sendMessage() {
         fromImage: fileData.fromImage,
         fromPDF: fileData.fromPDF
       };
-      // Add user message with file
       const userContent = text || `📎 ${fileData.name}`;
       addMessage('user', userContent, null, null, fileDisplayData);
     } else {
@@ -4472,10 +4471,12 @@ async function sendMessage() {
     userMessage += `\n\n[DOSIYE: ${fileData.name}]`;
   }
 
+  // Use OpenAI GPT-4o via Puter if available
   if (state.useAI && typeof puter !== 'undefined' && userMessage.trim()) {
     result = await getPuterAIResponse(userMessage);
   }
 
+  // Fallback to local response if OpenAI fails or is disabled
   if (!result) {
     result = generateResponse(userMessage || text);
   }
@@ -4491,6 +4492,9 @@ async function sendMessage() {
   input.focus();
 }
 
+// ============================================================
+// OpenAI via Puter - Using GPT-4o with fallback chain
+// ============================================================
 async function getPuterAIResponse(userInput) {
     const startTime = performance.now();
     try {
@@ -4548,11 +4552,12 @@ INTEKO:
             { role: 'user', content: userInput }
         ];
         
+        // Model options - GPT-4o is primary with fallback chain
         const modelOptions = [
-            'gpt-4o',
-            'gpt-4.1-nano',
-            'gpt-4-turbo',
-            'gpt-3.5-turbo'
+            'gpt-4o',           // Primary model - OpenAI's most advanced
+            'gpt-4.1-nano',     // Fallback 1
+            'gpt-4-turbo',      // Fallback 2
+            'gpt-3.5-turbo'     // Fallback 3
         ];
         
         const startIndex = Math.min(state.modelFallbackIndex, modelOptions.length - 1);
@@ -4560,6 +4565,7 @@ INTEKO:
         let text = '';
         let workingModel = modelOptions[startIndex];
         
+        // Try each model in order until one works
         for (let i = startIndex; i < modelOptions.length; i++) {
             const model = modelOptions[i];
             try {
@@ -4585,6 +4591,7 @@ INTEKO:
                 }
             } catch (modelError) {
                 lastError = modelError;
+                console.warn(`Model ${model} failed:`, modelError);
             }
         }
         
@@ -5527,6 +5534,7 @@ function init() {
     }
   });
 
+  // Check if Puter SDK is loaded
   if (typeof puter !== 'undefined') {
     state.puterReady = true;
     showToast('✅ TYAZA yiteguye na OpenAI ✨', 'success');
