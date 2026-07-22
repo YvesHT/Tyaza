@@ -10,272 +10,2100 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <script src="https://js.puter.com/v2/"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--primary:#a78bfa;--primary-glow:#8b5cf6;--secondary:#f472b6;--accent:#34d399;--tertiary:#60a5fa;--bg-deep:#030014;--bg-base:#0a0618;--surface-1:rgba(15,10,35,0.55);--surface-2:rgba(25,18,50,0.45);--surface-3:rgba(40,30,70,0.35);--surface-4:rgba(60,45,100,0.25);--glass:rgba(255,255,255,0.025);--glass-border:rgba(255,255,255,0.07);--glass-hover:rgba(255,255,255,0.05);--text-primary:#f8fafc;--text-secondary:#e2e8f0;--text-tertiary:#94a3b8;--text-muted:#64748b;--success:#10b981;--error:#ef4444;--warning:#f59e0b;--risk-high:#ef4444;--risk-medium:#f59e0b;--risk-low:#10b981;--radius-sm:6px;--radius-md:10px;--radius-lg:14px;--radius-xl:20px;--radius-full:9999px;--shadow-sm:0 2px 8px rgba(0,0,0,0.3);--shadow-md:0 8px 24px rgba(0,0,0,0.4);--shadow-lg:0 16px 48px rgba(0,0,0,0.5);--shadow-glow:0 0 30px rgba(167,139,250,0.2);--shadow-glow-intense:0 0 60px rgba(167,139,250,0.35);--ease-spring:cubic-bezier(0.34,1.56,0.64,1);--ease-smooth:cubic-bezier(0.4,0,0.2,1)}
-html{font-size:14px}
-body{font-family:'Inter',sans-serif;background:var(--bg-deep);color:var(--text-primary);min-height:100vh;overflow:hidden;-webkit-font-smoothing:antialiased;font-size:14px;line-height:1.5}
-::-webkit-scrollbar{width:6px;height:6px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--surface-4);border-radius:var(--radius-full)}
-::-webkit-scrollbar-thumb:hover{background:var(--primary)}
-.neural-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.neural-bg canvas{width:100%;height:100%;opacity:0.35}
-.aurora-blob{position:absolute;border-radius:50%;filter:blur(100px);opacity:0.35;animation:auroraFloat 25s ease-in-out infinite}
-.aurora-blob:nth-child(1){width:500px;height:500px;background:radial-gradient(circle,var(--primary-glow)0%,transparent 70%);top:-15%;left:-10%}
-.aurora-blob:nth-child(2){width:400px;height:400px;background:radial-gradient(circle,var(--secondary)0%,transparent 70%);bottom:-10%;right:-10%;animation-delay:-8s}
-.aurora-blob:nth-child(3){width:350px;height:350px;background:radial-gradient(circle,var(--accent)0%,transparent 70%);top:40%;left:40%;animation-delay:-16s}
-@keyframes auroraFloat{0%,100%{transform:translate(0,0)scale(1);opacity:0.3}25%{transform:translate(4%,2%)scale(1.08);opacity:0.45}50%{transform:translate(-2%,4%)scale(0.95);opacity:0.35}75%{transform:translate(2%,-2%)scale(1.03);opacity:0.4}}
-.stars{position:fixed;inset:0;z-index:0;pointer-events:none}
-.star{position:absolute;width:1.5px;height:1.5px;background:white;border-radius:50%;animation:twinkle 4s ease-in-out infinite}
-@keyframes twinkle{0%,100%{opacity:0.2;transform:scale(1)}50%{opacity:0.8;transform:scale(1.3)}}
-.app{display:flex;width:100vw;height:100vh;position:relative;overflow:hidden}
-.sidebar{width:300px;height:100vh;background:var(--surface-1);backdrop-filter:blur(30px)saturate(180%);border-right:1px solid var(--glass-border);display:flex;flex-direction:column;position:relative;z-index:20;transition:transform 0.4s var(--ease-spring);flex-shrink:0}
-.sidebar-header{padding:14px 16px;border-bottom:1px solid var(--glass-border);display:flex;align-items:center;justify-content:space-between;background:var(--surface-2);backdrop-filter:blur(20px);flex-shrink:0}
-.logo{display:flex;align-items:center;gap:10px;cursor:pointer;transition:transform 0.3s var(--ease-spring)}
-.logo:hover{transform:translateX(3px)}
-.logo-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:var(--radius-md);font-size:1.1rem;box-shadow:var(--shadow-glow);flex-shrink:0;transition:all 0.4s var(--ease-spring);overflow:hidden;position:relative}
-.logo-icon::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,0.2)50%,transparent 70%);animation:shimmer 3s ease-in-out infinite}
-@keyframes shimmer{0%,100%{transform:translateX(-100%)}50%{transform:translateX(100%)}}
-.logo-icon img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
-.logo:hover .logo-icon{transform:rotate(-6deg)scale(1.06);box-shadow:var(--shadow-glow-intense)}
-.logo-text .title{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.02em}
-.logo-text .subtitle{font-size:0.6rem;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.12em;font-weight:500;margin-top:1px}
-.sidebar-close{display:none;width:32px;height:32px;border:none;background:var(--glass);backdrop-filter:blur(10px);border-radius:var(--radius-md);color:var(--text-secondary);cursor:pointer;align-items:center;justify-content:center;transition:all 0.3s var(--ease-smooth)}
-.sidebar-close:hover{background:var(--glass-hover);color:var(--text-primary);transform:rotate(90deg)}
-.sidebar-content{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:12px}
-.sidebar-section-title{font-size:0.65rem;font-weight:600;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:0.1em;padding:0 6px;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-.new-chat-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:12px;background:linear-gradient(135deg,rgba(167,139,250,0.12),rgba(244,114,182,0.08));border:1px solid rgba(244,114,182,0.2);border-radius:var(--radius-lg);color:var(--text-primary);font-family:inherit;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.3s var(--ease-spring);position:relative;overflow:hidden}
-.new-chat-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--primary),var(--secondary));opacity:0;transition:opacity 0.3s}
-.new-chat-btn:hover::before{opacity:0.12}
-.new-chat-btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-glow);border-color:var(--primary)}
-.new-chat-btn>*{position:relative;z-index:1}
-.settings-card{background:var(--glass);backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:var(--radius-lg);padding:12px;transition:all 0.3s var(--ease-smooth)}
-.settings-card:hover{background:var(--glass-hover);border-color:rgba(255,255,255,0.1)}
-.mood-quick{display:flex;justify-content:space-between;gap:4px}
-.mood-btn-small{width:36px;height:36px;border-radius:50%;background:var(--glass);border:1px solid var(--glass-border);color:var(--text-secondary);font-size:1.05rem;cursor:pointer;transition:all 0.3s var(--ease-spring);display:flex;align-items:center;justify-content:center}
-.mood-btn-small:hover{transform:scale(1.12)translateY(-2px);border-color:var(--primary);box-shadow:0 6px 18px rgba(167,139,250,0.25)}
-.mood-btn-small.active{border-color:var(--primary);background:rgba(167,139,250,0.18);box-shadow:var(--shadow-glow)}
-.history-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px;min-height:60px;max-height:200px}
-.history-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;color:var(--text-tertiary);text-align:center;gap:6px;font-size:0.75rem}
-.history-item{display:flex;flex-direction:column;gap:3px;padding:10px 12px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-md);cursor:pointer;transition:all 0.3s var(--ease-smooth)}
-.history-item:hover{background:var(--glass-hover);border-color:var(--primary);transform:translateX(4px)}
-.history-item.active{background:rgba(244,114,182,0.1);border-color:var(--secondary);border-left:2px solid var(--secondary)}
-.history-title{font-size:0.8rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.history-meta{display:flex;align-items:center;justify-content:space-between;font-size:0.65rem;color:var(--text-tertiary)}
-.info-card{background:linear-gradient(135deg,rgba(167,139,250,0.06),rgba(244,114,182,0.04));border:1px solid rgba(167,139,250,0.12);border-radius:var(--radius-lg);padding:12px;font-size:0.7rem;color:var(--text-tertiary)}
-.info-card-title{font-size:0.8rem;font-weight:600;color:var(--secondary);margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.info-card-title img{width:20px;height:20px;border-radius:4px}
-.chat-main{flex:1;display:flex;flex-direction:column;min-width:0;position:relative;background:var(--bg-deep)}
-.chat-header{height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--surface-1);backdrop-filter:blur(30px)saturate(180%);border-bottom:1px solid var(--glass-border);flex-shrink:0;gap:10px}
-.header-left{display:flex;align-items:center;gap:12px;min-width:0}
-.menu-toggle{display:none;width:36px;height:36px;border:none;background:var(--glass);backdrop-filter:blur(10px);color:var(--text-secondary);font-size:1rem;cursor:pointer;border-radius:var(--radius-md);transition:all 0.3s var(--ease-smooth)}
-.menu-toggle:hover{background:var(--glass-hover);transform:scale(1.05)}
-.chat-avatar{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:var(--radius-md);font-weight:700;font-size:1rem;flex-shrink:0;overflow:hidden;box-shadow:var(--shadow-glow);position:relative}
-.chat-avatar::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,0.2)50%,transparent 70%);animation:shimmer 3s ease-in-out infinite}
-.chat-avatar img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
-.chat-info h1{font-size:0.95rem;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:-0.02em}
-.chat-status{display:flex;align-items:center;gap:6px;font-size:0.65rem;color:var(--text-tertiary);font-weight:500}
-.status-dot{width:6px;height:6px;background:var(--success);border-radius:50%;animation:pulse 2s ease-in-out infinite;box-shadow:0 0 8px var(--success)}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.6;transform:scale(1.2)}}
-.risk-indicators{display:none;gap:4px;align-items:center}
-.risk-indicators.visible{display:flex}
-.risk-badge{font-size:0.55rem;padding:3px 8px;border-radius:var(--radius-full);font-weight:600;text-transform:uppercase;letter-spacing:0.05em;backdrop-filter:blur(10px)}
-.risk-badge.high{background:rgba(239,68,68,0.15);color:var(--risk-high);border:1px solid var(--risk-high)}
-.header-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:7px 14px;font-family:inherit;font-size:0.8rem;font-weight:600;border:1px solid transparent;border-radius:var(--radius-md);cursor:pointer;transition:all 0.3s var(--ease-spring);position:relative;overflow:hidden}
-.btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,0.1)50%,transparent 70%);transform:translateX(-100%);transition:transform 0.6s}
-.btn:hover::before{transform:translateX(100%)}
-.btn:active{transform:scale(0.96)}
-.btn-primary{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;box-shadow:var(--shadow-glow)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow-glow-intense)}
-.btn-secondary{background:var(--glass);backdrop-filter:blur(10px);border-color:var(--glass-border);color:var(--text-primary)}
-.btn-secondary:hover{background:var(--glass-hover);transform:translateY(-1px);border-color:var(--primary)}
-.btn-ghost{background:transparent;color:var(--text-secondary)}
-.btn-ghost:hover{background:var(--glass);color:var(--text-primary)}
-.btn-danger{background:var(--error);color:white;box-shadow:0 0 20px rgba(239,68,68,0.25)}
-.btn-danger:hover{transform:translateY(-1px);box-shadow:0 0 30px rgba(239,68,68,0.4)}
-.btn-icon{width:36px;height:36px;padding:0;border-radius:var(--radius-md)}
-.btn-sm{padding:5px 10px;font-size:0.7rem}
-.btn-block{width:100%}
-.messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px}
-.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;gap:16px;animation:fadeUp 0.8s var(--ease-spring)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.welcome-icon{width:100px;height:100px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:40% 60% 70% 30%/40% 50% 60% 50%;font-size:2.8rem;box-shadow:var(--shadow-glow-intense);animation:morph 12s ease-in-out infinite,float 6s ease-in-out infinite;overflow:hidden;position:relative}
-.welcome-icon::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,0.3)50%,transparent 70%);animation:shimmer 3s ease-in-out infinite}
-.welcome-icon img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
-@keyframes morph{0%,100%{border-radius:40% 60% 70% 30%/40% 50% 60% 50%}33%{border-radius:70% 30% 50% 50%/30% 60% 40% 70%}66%{border-radius:30% 70% 40% 60%/60% 30% 70% 40%}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.welcome-title{font-family:'Space Grotesk',sans-serif;font-size:2.5rem;font-weight:800;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-0.03em;line-height:1.1}
-.welcome-subtitle{font-family:'Crimson Pro',serif;font-size:1.05rem;font-style:italic;color:var(--text-tertiary);font-weight:400}
-.welcome-quote{font-family:'Crimson Pro',serif;font-size:0.95rem;color:var(--text-tertiary);max-width:480px;line-height:1.7;padding:16px 24px;background:var(--glass);backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:var(--radius-xl);position:relative}
-.welcome-quote::before{content:'"';position:absolute;top:-6px;left:14px;font-size:2.5rem;color:var(--primary);opacity:0.3;font-family:serif}
-.welcome-greeting-container{opacity:0;transform:translateY(10px);transition:all 0.8s var(--ease-spring)}
-.welcome-greeting-container.visible{opacity:1;transform:translateY(0)}
-.suggestions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:560px}
-.suggestion-btn{padding:8px 16px;background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glass-border);border-radius:var(--radius-full);color:var(--text-secondary);font-family:inherit;font-size:0.8rem;font-weight:500;cursor:pointer;transition:all 0.3s var(--ease-spring)}
-.suggestion-btn:hover{background:rgba(167,139,250,0.12);border-color:var(--primary);color:var(--text-primary);transform:translateY(-2px);box-shadow:var(--shadow-glow)}
-.message{display:flex;gap:12px;max-width:85%;animation:slideMsg 0.4s var(--ease-spring)}
-@keyframes slideMsg{from{opacity:0;transform:translateY(12px)scale(0.97)}to{opacity:1;transform:translateY(0)scale(1)}}
-.message.user{align-self:flex-end;flex-direction:row-reverse}
-.message.user .msg-bubble{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-xl)var(--radius-xl)4px var(--radius-xl)}
-.message.assistant{align-self:flex-start;max-width:92%}
-.message.assistant .msg-bubble{background:transparent !important;border:none !important;padding:4px 0 !important;border-radius:0 !important;box-shadow:none !important;backdrop-filter:none !important;color:var(--text-primary);line-height:1.8}
-.msg-avatar{width:32px;height:32px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--primary),var(--secondary));flex-shrink:0;font-size:0.95rem;overflow:hidden;box-shadow:var(--shadow-glow);position:relative}
-.msg-avatar::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,0.2)50%,transparent 70%);animation:shimmer 3s ease-in-out infinite}
-.msg-avatar img{width:100%;height:100%;object-fit:cover;position:relative;z-index:1}
-.message.user .msg-avatar{background:var(--surface-3);border:1px solid var(--glass-border);box-shadow:var(--shadow-md)}
-.msg-content{display:flex;flex-direction:column;gap:4px;min-width:0;max-width:100%}
-.msg-bubble{padding:12px 16px;border-radius:var(--radius-xl);line-height:1.65;word-wrap:break-word;max-width:100%;backdrop-filter:blur(15px);position:relative;font-size:0.9rem}
-.msg-metadata{display:flex;align-items:center;gap:8px;padding:0 4px;font-size:0.65rem;color:var(--text-muted);margin-top:2px;flex-wrap:wrap}
-.msg-metadata-item{display:inline-flex;align-items:center;gap:3px;padding:2px 6px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-full);font-weight:500}
-.msg-metadata-item.confidence-high{color:var(--success)}
-.msg-metadata-item.confidence-medium{color:var(--warning)}
-.msg-metadata-item.confidence-low{color:var(--text-muted)}
-.msg-meta{display:flex;align-items:center;gap:8px;padding:0 4px;font-size:0.65rem;color:var(--text-tertiary);margin-top:2px}
-.msg-actions{display:flex;gap:4px;opacity:0;transition:opacity 0.3s var(--ease-smooth)}
-.message:hover .msg-actions{opacity:1}
-.msg-action{width:24px;height:24px;border-radius:var(--radius-sm);border:1px solid var(--glass-border);background:var(--glass);backdrop-filter:blur(10px);color:var(--text-tertiary);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.65rem;transition:all 0.3s var(--ease-spring)}
-.msg-action:hover{background:var(--glass-hover);color:var(--text-primary);transform:scale(1.1);border-color:var(--primary)}
-.streaming-cursor{display:inline-block;width:2px;height:1em;background:var(--primary);margin-left:2px;animation:blink 1s ease-in-out infinite;vertical-align:middle}
-@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-.typing{display:flex;align-items:center;gap:12px;animation:slideMsg 0.4s var(--ease-spring)}
-.typing-dots{display:flex;gap:5px;padding:12px 16px;background:rgba(25,18,50,0.5);backdrop-filter:blur(15px);border:1px solid rgba(167,139,250,0.12);border-radius:var(--radius-xl)}
-.typing-dot{width:8px;height:8px;border-radius:50%;animation:bounce 1.4s ease-in-out infinite}
-.typing-dot:nth-child(1){background:var(--primary)}
-.typing-dot:nth-child(2){background:var(--secondary);animation-delay:0.2s}
-.typing-dot:nth-child(3){background:var(--accent);animation-delay:0.4s}
-@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:0.4}30%{transform:translateY(-10px);opacity:1}}
-.input-area{padding:12px 20px 20px;background:linear-gradient(to top,var(--bg-deep)60%,transparent);flex-shrink:0}
-.input-container{max-width:800px;margin:0 auto;background:var(--glass);backdrop-filter:blur(30px)saturate(180%);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:6px;display:flex;align-items:center;gap:4px;transition:all 0.3s var(--ease-smooth);box-shadow:var(--shadow-lg)}
-.input-container:focus-within{border-color:var(--primary);box-shadow:var(--shadow-glow),var(--shadow-lg);background:var(--glass-hover)}
-.input-container textarea{flex:1;background:transparent;border:none;outline:none;color:var(--text-primary);font-family:inherit;font-size:0.9rem;padding:10px 0 10px 12px;resize:none;max-height:120px;min-height:20px;line-height:1.5}
-.input-container textarea::placeholder{color:var(--text-tertiary)}
-.input-actions{display:flex;gap:4px;padding:0 4px;align-items:center;flex-shrink:0}
-.input-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.3s var(--ease-spring);border:none;font-size:0.95rem;position:relative;overflow:hidden;flex-shrink:0}
-.input-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,0.2)50%,transparent 70%);transform:translateX(-100%);transition:transform 0.6s}
-.input-btn:hover::before{transform:translateX(100%)}
-.plus-btn{background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.15);color:var(--primary);font-size:1.2rem;font-weight:300}
-.plus-btn:hover{background:rgba(167,139,250,0.18);transform:scale(1.06);border-color:var(--primary)}
-.plus-btn.has-file{background:var(--accent);color:white;border-color:var(--accent)}
-.voice-btn{background:rgba(167,139,250,0.12);border:1px solid rgba(244,114,182,0.2);color:var(--secondary)}
-.voice-btn:hover{background:rgba(167,139,250,0.2);transform:scale(1.06)}
-.voice-btn.listening{background:var(--secondary);color:white;animation:micPulse 1.5s infinite}
-@keyframes micPulse{0%{box-shadow:0 0 0 0 rgba(244,114,182,0.5)}70%{box-shadow:0 0 0 16px rgba(244,114,182,0)}}
-.send-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));color:white;box-shadow:var(--shadow-glow);min-width:40px;min-height:40px}
-.send-btn:hover:not(:disabled){transform:scale(1.06);box-shadow:var(--shadow-glow-intense)}
-.send-btn:disabled{opacity:0.4;cursor:not-allowed;transform:none !important}
-.voice-status{text-align:center;font-size:0.75rem;color:var(--text-tertiary);min-height:18px;margin-top:6px;font-weight:500}
-.file-preview{display:flex;align-items:center;gap:10px;padding:6px 12px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-md);margin:6px 0 0 0;font-size:0.8rem;max-width:800px;margin-left:auto;margin-right:auto}
-.file-preview .file-name{flex:1;color:var(--text-secondary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.file-preview .file-remove{cursor:pointer;color:var(--text-muted);transition:color 0.3s;background:none;border:none;font-size:0.9rem}
-.file-preview .file-remove:hover{color:var(--error)}
-.scroll-bottom{position:absolute;bottom:100px;right:24px;display:flex;align-items:center;gap:6px;padding:8px 14px;background:var(--glass);backdrop-filter:blur(15px);border:1px solid var(--glass-border);border-radius:var(--radius-full);color:var(--text-secondary);font-size:0.75rem;font-weight:500;cursor:pointer;opacity:0;visibility:hidden;transform:translateY(10px);transition:all 0.3s var(--ease-smooth);z-index:40;box-shadow:var(--shadow-md)}
-.scroll-bottom.visible{opacity:1;visibility:visible;transform:translateY(0)}
-.scroll-bottom:hover{background:var(--glass-hover);border-color:var(--primary);transform:translateY(-2px)}
-.crisis-btn{position:fixed;bottom:100px;left:20px;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--error),#dc2626);color:white;border:none;cursor:pointer;font-size:1.2rem;box-shadow:0 6px 24px rgba(239,68,68,0.35);z-index:100;transition:all 0.3s var(--ease-spring);animation:crisisFloat 3s ease-in-out infinite}
-.crisis-btn:hover{transform:scale(1.1);box-shadow:0 8px 32px rgba(239,68,68,0.5)}
-.crisis-pulse{position:absolute;width:100%;height:100%;border-radius:50%;background:var(--error);opacity:0.4;animation:crisisPulse 2s ease-out infinite}
-@keyframes crisisPulse{0%{transform:scale(1);opacity:0.4}70%{transform:scale(1.8);opacity:0}100%{transform:scale(1.8);opacity:0}}
-@keyframes crisisFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-.modal-backdrop{position:fixed;inset:0;background:rgba(3,0,20,0.85);backdrop-filter:blur(10px);z-index:500;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all 0.3s var(--ease-smooth)}
-.modal-backdrop.active{opacity:1;visibility:visible}
-.modal{background:var(--surface-2);backdrop-filter:blur(30px)saturate(180%);border:1px solid var(--glass-border);border-radius:var(--radius-xl);padding:24px;max-width:90vw;max-height:90vh;overflow-y:auto;transform:scale(0.92);transition:transform 0.4s var(--ease-spring);width:100%;box-shadow:var(--shadow-lg)}
-.modal-backdrop.active .modal{transform:scale(1)}
-.modal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--glass-border)}
-.modal-title{font-size:1.1rem;font-weight:700;letter-spacing:-0.02em}
-.modal-close{width:28px;height:28px;display:flex;align-items:center;justify-content:center;background:var(--glass);backdrop-filter:blur(10px);border:1px solid var(--glass-border);color:var(--text-tertiary);cursor:pointer;border-radius:var(--radius-md);font-size:1.2rem;transition:all 0.3s var(--ease-smooth)}
-.modal-close:hover{background:var(--glass-hover);color:var(--text-primary);transform:rotate(90deg)}
-.mood-scale{display:flex;justify-content:space-between;gap:6px;margin:18px 0;flex-wrap:wrap}
-.mood-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px;background:var(--glass);border:2px solid var(--glass-border);border-radius:var(--radius-lg);cursor:pointer;transition:all 0.3s var(--ease-spring);min-width:50px}
-.mood-btn:hover{border-color:var(--primary);transform:translateY(-3px);box-shadow:var(--shadow-glow)}
-.mood-btn.selected{border-color:var(--primary);background:rgba(167,139,250,0.18);box-shadow:var(--shadow-glow-intense)}
-.mood-btn .mood-emoji{font-size:1.4rem}
-.mood-btn .mood-label{font-size:0.65rem;color:var(--text-tertiary);font-weight:500}
-.mood-notes{width:100%;padding:12px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-lg);color:var(--text-primary);font-family:inherit;font-size:0.85rem;resize:vertical;min-height:80px;margin-bottom:14px;transition:all 0.3s var(--ease-smooth)}
-.mood-notes:focus{border-color:var(--primary);box-shadow:0 0 0 2px rgba(167,139,250,0.12);outline:none}
-.mood-calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:10px}
-.mood-day-label{text-align:center;font-size:0.6rem;color:var(--text-tertiary);padding:4px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
-.mood-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-sm);font-size:0.65rem;font-weight:600;cursor:default;background:var(--glass);color:var(--text-secondary);border:1px solid var(--glass-border);transition:all 0.3s var(--ease-smooth)}
-.mood-day:hover{transform:scale(1.1);z-index:1}
-.mood-level-1{background:rgba(239,68,68,0.25);color:var(--error);border-color:var(--error)}
-.mood-level-2{background:rgba(245,158,11,0.25);color:var(--warning);border-color:var(--warning)}
-.mood-level-3{background:rgba(234,179,8,0.25);color:#ca8a04;border-color:#ca8a04}
-.mood-level-4{background:rgba(34,197,94,0.25);color:var(--success);border-color:var(--success)}
-.mood-level-5{background:rgba(16,185,129,0.25);color:#059669;border-color:#059669}
-.crisis-resources{display:flex;flex-direction:column;gap:10px}
-.crisis-resource{display:flex;align-items:center;gap:10px;padding:12px;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-lg);transition:all 0.3s var(--ease-smooth)}
-.crisis-resource:hover{border-color:var(--error);transform:translateX(4px);box-shadow:var(--shadow-md)}
-.crisis-resource .crisis-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-md);font-size:1.1rem;flex-shrink:0}
-.crisis-resource .crisis-info{flex:1}
-.crisis-resource .crisis-name{font-weight:600;font-size:0.8rem;margin-bottom:1px}
-.crisis-resource .crisis-number{font-size:1.05rem;font-weight:700;color:var(--error);letter-spacing:-0.02em}
-.crisis-resource .crisis-desc{font-size:0.65rem;color:var(--text-tertiary);margin-top:1px}
-.crisis-resource .crisis-call{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:var(--error);color:white;border-radius:50%;text-decoration:none;transition:all 0.3s var(--ease-spring);flex-shrink:0;box-shadow:0 3px 12px rgba(239,68,68,0.25)}
-.crisis-resource .crisis-call:hover{transform:scale(1.12);box-shadow:0 4px 18px rgba(239,68,68,0.4)}
-.toast-container{position:fixed;bottom:20px;right:20px;z-index:800;display:flex;flex-direction:column;gap:8px;max-width:90vw}
-.toast{background:var(--surface-2);backdrop-filter:blur(30px)saturate(180%);border:1px solid var(--glass-border);border-left:3px solid;border-radius:var(--radius-lg);padding:12px 16px;box-shadow:var(--shadow-lg);animation:toastIn 0.4s var(--ease-spring);max-width:320px;font-weight:500;font-size:0.8rem}
-@keyframes toastIn{from{opacity:0;transform:translateX(100%)scale(0.9)}to{opacity:1;transform:translateX(0)scale(1)}}
-.toast-success{border-left-color:var(--success)}
-.toast-error{border-left-color:var(--error)}
-.toast-info{border-left-color:var(--primary)}
-.toast-warning{border-left-color:var(--warning)}
-.voice-modal{position:fixed;inset:0;background:rgba(3,0,20,0.96);backdrop-filter:blur(40px);display:flex;align-items:center;justify-content:center;z-index:600;animation:fadeUp 0.4s var(--ease-spring)}
-.voice-modal-content{background:var(--surface-2);backdrop-filter:blur(30px)saturate(180%);border:2px solid var(--secondary);border-radius:var(--radius-xl);padding:35px;max-width:90vw;width:500px;text-align:center;box-shadow:var(--shadow-glow-intense);position:relative;overflow:hidden}
-.voice-modal-content::before{content:'';position:absolute;inset:-50%;background:conic-gradient(from 0deg,transparent,rgba(167,139,250,0.05),transparent,rgba(244,114,182,0.05),transparent);animation:rotateBg 10s linear infinite;pointer-events:none}
-@keyframes rotateBg{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-.voice-modal-content>*{position:relative;z-index:1}
-.voice-modal-content .voice-visualizer{width:160px;height:160px;margin:0 auto 16px;border-radius:50%;background:radial-gradient(circle,rgba(167,139,250,0.15),transparent 70%);display:flex;align-items:center;justify-content:center;position:relative}
-.voice-modal-content .voice-visualizer .mic-icon{font-size:4rem;color:var(--secondary);animation:voicePulse 1.5s ease-in-out infinite;z-index:2}
-@keyframes voicePulse{0%,100%{transform:scale(1);opacity:0.7}50%{transform:scale(1.15);opacity:1}}
-.voice-modal-content .voice-visualizer .wave-ring{position:absolute;border-radius:50%;border:2px solid var(--secondary);opacity:0;animation:waveRing 2.5s ease-out infinite}
-.voice-modal-content .voice-visualizer .wave-ring:nth-child(1){animation-delay:0s}
-.voice-modal-content .voice-visualizer .wave-ring:nth-child(2){animation-delay:0.5s}
-.voice-modal-content .voice-visualizer .wave-ring:nth-child(3){animation-delay:1s}
-.voice-modal-content .voice-visualizer .wave-ring:nth-child(4){animation-delay:1.5s}
-@keyframes waveRing{0%{transform:scale(0.8);opacity:0.5}100%{transform:scale(1.8);opacity:0}}
-.voice-modal-content .audio-spectrum{width:100%;height:70px;margin:4px 0 8px;display:flex;align-items:center;justify-content:center;gap:3px;padding:0 10px}
-.voice-modal-content .audio-spectrum .bar{width:4px;background:linear-gradient(180deg,var(--primary),var(--secondary));border-radius:2px;transition:height 0.08s ease;height:3px;min-height:2px;max-height:60px}
-.voice-modal-content .voice-level{width:100%;height:3px;background:var(--surface-4);border-radius:var(--radius-full);margin:2px 0 10px;overflow:hidden;position:relative}
-.voice-modal-content .voice-level .level-bar{height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary),var(--accent));border-radius:var(--radius-full);transition:width 0.05s ease;width:0%}
-.voice-modal-content h3{color:var(--text-primary);font-size:1.2rem;font-weight:700;margin-bottom:2px}
-.voice-modal-content .voice-subtitle{color:var(--text-tertiary);font-size:0.8rem;margin-bottom:8px}
-.voice-modal-content .voice-transcript{background:var(--glass);border:1px solid var(--glass-border);border-radius:var(--radius-lg);padding:12px 16px;min-height:70px;color:var(--text-primary);font-size:0.95rem;margin-bottom:10px;text-align:left;max-height:130px;overflow-y:auto;line-height:1.6}
-.voice-modal-content .voice-transcript .interim{color:var(--text-tertiary);font-style:italic}
-.voice-modal-content .voice-transcript .final{color:var(--text-primary)}
-.voice-modal-content .voice-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
-.voice-modal-content .voice-controls .btn{min-width:100px;padding:10px 20px}
-.voice-modal-content .voice-timer{font-size:0.75rem;color:var(--text-tertiary);margin-top:8px}
-.voice-modal-content .voice-status-text{font-size:0.7rem;color:var(--text-muted);margin-top:4px;min-height:18px}
-.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:15;opacity:0;visibility:hidden;transition:all 0.3s var(--ease-smooth);pointer-events:none}
-.sidebar-overlay.active{opacity:1;visibility:visible;pointer-events:auto}
-.elite-response{font-size:0.9rem;line-height:1.8}
-.elite-response .core{font-size:1.05rem;font-weight:700;color:var(--text-primary);margin-bottom:6px;letter-spacing:-0.02em}
-.elite-response .core .icon{margin-right:6px}
-.elite-response .bullet-list{margin:4px 0 6px 0;padding-left:0;list-style:none}
-.elite-response .bullet-list li{margin-bottom:3px;padding-left:16px;position:relative;color:var(--text-secondary);font-size:0.85rem}
-.elite-response .bullet-list li::before{content:'•';position:absolute;left:0;color:var(--primary);font-weight:700}
-.elite-response .separator{border:none;border-top:1px solid var(--glass-border);margin:6px 0 8px 0;opacity:0.5}
-.elite-response .insight-block{margin:6px 0 4px 0;padding:6px 12px;background:rgba(167,139,250,0.05);border-left:2px solid var(--primary);border-radius:0 var(--radius-sm)var(--radius-sm)0}
-.elite-response .insight-block .label{font-weight:600;color:var(--accent);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em}
-.elite-response .insight-block .text{color:var(--text-secondary);font-size:0.85rem}
-.elite-response .action-block{margin:4px 0 6px 0;padding:6px 12px;background:rgba(244,114,182,0.06);border-left:2px solid var(--secondary);border-radius:0 var(--radius-sm)var(--radius-sm)0}
-.elite-response .action-block .label{font-weight:600;color:var(--secondary);font-size:0.7rem;text-transform:uppercase;letter-spacing:0.05em}
-.elite-response .action-block .text{color:var(--text-secondary);font-size:0.85rem}
-.elite-response .proverb-block{margin:6px 0 4px 0;padding:8px 14px;background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(244,114,182,0.04));border-left:3px solid var(--primary);border-radius:0 var(--radius-md)var(--radius-md)0}
-.elite-response .proverb-block .proverb-text{color:var(--text-secondary);font-size:0.95rem;font-family:'Crimson Pro',serif;font-style:italic}
-.elite-response .proverb-block .proverb-meaning{color:var(--text-tertiary);font-size:0.75rem;font-style:normal;margin-top:2px}
-.elite-response .depth-toggle{display:inline-flex;align-items:center;gap:4px;background:none;border:none;color:var(--text-tertiary);font-size:0.7rem;cursor:pointer;padding:4px 8px;border-radius:var(--radius-sm);transition:all 0.3s var(--ease-smooth);font-family:inherit}
-.elite-response .depth-toggle:hover{color:var(--text-primary);background:var(--glass)}
-.elite-response .depth-content{margin-top:6px;padding:8px 12px;background:var(--glass);border-radius:var(--radius-md);border:1px solid var(--glass-border);font-size:0.82rem;color:var(--text-tertiary);line-height:1.7;display:none}
-.elite-response .depth-content.open{display:block}
-@media(max-width:768px){html{font-size:13px}.sidebar{position:fixed;left:0;top:0;bottom:0;transform:translateX(-100%);z-index:500;box-shadow:8px 0 48px rgba(0,0,0,0.8);pointer-events:none;transition:transform 0.4s var(--ease-spring),pointer-events 0s 0.4s;width:280px}.sidebar.open{transform:translateX(0);pointer-events:auto;transition:transform 0.4s var(--ease-spring),pointer-events 0s 0s}.sidebar-close{display:flex !important}.menu-toggle{display:flex !important}.welcome-title{font-size:2rem}.welcome-icon{width:80px;height:80px;font-size:2.2rem}.welcome-quote{padding:14px 18px;font-size:0.85rem}.message{max-width:92%}.messages{padding:14px}.input-area{padding:10px 14px 16px}.crisis-btn{width:44px;height:44px;font-size:1.1rem;bottom:90px;left:14px}.modal{padding:18px}.mood-scale{flex-wrap:wrap;justify-content:center}.mood-btn{min-width:50px;flex:0 1 auto}.suggestions{flex-direction:column;align-items:center}.suggestion-btn{width:100%;max-width:260px}.chat-header{padding:0 14px}.voice-modal-content{padding:20px;width:95vw}.voice-modal-content .voice-visualizer{width:120px;height:120px}.voice-modal-content .voice-visualizer .mic-icon{font-size:3rem}}
-@media(max-width:480px){html{font-size:12.5px}.welcome-title{font-size:1.8rem}.welcome-subtitle{font-size:0.9rem}.input-btn{width:36px;height:36px;font-size:0.85rem}}
-@media(prefers-reduced-motion:reduce){*{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important}.welcome-icon{animation:none !important}.crisis-btn{animation:none !important}.aurora-blob{animation:none !important}}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --primary: #a78bfa;
+  --primary-glow: #8b5cf6;
+  --secondary: #f472b6;
+  --accent: #34d399;
+  --tertiary: #60a5fa;
+  --bg-deep: #030014;
+  --bg-base: #0a0618;
+  --surface-1: rgba(15, 10, 35, 0.55);
+  --surface-2: rgba(25, 18, 50, 0.45);
+  --surface-3: rgba(40, 30, 70, 0.35);
+  --surface-4: rgba(60, 45, 100, 0.25);
+  --glass: rgba(255, 255, 255, 0.025);
+  --glass-border: rgba(255, 255, 255, 0.07);
+  --glass-hover: rgba(255, 255, 255, 0.05);
+  --text-primary: #f8fafc;
+  --text-secondary: #e2e8f0;
+  --text-tertiary: #94a3b8;
+  --text-muted: #64748b;
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+  --risk-high: #ef4444;
+  --risk-medium: #f59e0b;
+  --risk-low: #10b981;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 30px rgba(167, 139, 250, 0.2);
+  --shadow-glow-intense: 0 0 60px rgba(167, 139, 250, 0.35);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+html { font-size: 14px; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.005em;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { 
+  background: var(--surface-4); 
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+.neural-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.neural-bg canvas {
+  width: 100%;
+  height: 100%;
+  opacity: 0.35;
+}
+
+.aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.35;
+  animation: auroraFloat 25s ease-in-out infinite;
+}
+
+.aurora-blob:nth-child(1) {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+  top: -15%;
+  left: -10%;
+}
+
+.aurora-blob:nth-child(2) {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, var(--secondary) 0%, transparent 70%);
+  bottom: -10%;
+  right: -10%;
+  animation-delay: -8s;
+}
+
+.aurora-blob:nth-child(3) {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+  top: 40%;
+  left: 40%;
+  animation-delay: -16s;
+}
+
+@keyframes auroraFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+  25% { transform: translate(4%, 2%) scale(1.08); opacity: 0.45; }
+  50% { transform: translate(-2%, 4%) scale(0.95); opacity: 0.35; }
+  75% { transform: translate(2%, -2%) scale(1.03); opacity: 0.4; }
+}
+
+.stars {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.star {
+  position: absolute;
+  width: 1.5px;
+  height: 1.5px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.3); }
+}
+
+.app {
+  display: flex;
+  width: 100vw;
+  width: 100dvw;
+  height: 100vh;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar {
+  width: 300px;
+  height: 100vh;
+  height: 100dvh;
+  background: var(--surface-1);
+  backdrop-filter: blur(30px) saturate(180%);
+  -webkit-backdrop-filter: blur(30px) saturate(180%);
+  border-right: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 20;
+  transition: transform 0.4s var(--ease-spring);
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--surface-2);
+  backdrop-filter: blur(20px);
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.logo:hover { transform: translateX(3px); }
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  box-shadow: var(--shadow-glow);
+  flex-shrink: 0;
+  transition: all 0.4s var(--ease-spring);
+  overflow: hidden;
+  position: relative;
+}
+
+.logo-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
+.logo-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+
+.logo:hover .logo-icon {
+  transform: rotate(-6deg) scale(1.06);
+  box-shadow: var(--shadow-glow-intense);
+}
+
+.logo-text .title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+.logo-text .subtitle {
+  font-size: 0.6rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+  margin-top: 1px;
+}
+
+.sidebar-close {
+  display: none;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.sidebar-close:hover { 
+  background: var(--glass-hover); 
+  color: var(--text-primary);
+  transform: rotate(90deg);
+}
+
+.sidebar-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-section-title {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.new-chat-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.12), rgba(244, 114, 182, 0.08));
+  border: 1px solid rgba(244, 114, 182, 0.2);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-spring);
+  position: relative;
+  overflow: hidden;
+}
+
+.new-chat-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.new-chat-btn:hover::before { opacity: 0.12; }
+
+.new-chat-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+  border-color: var(--primary);
+}
+
+.new-chat-btn > * { position: relative; z-index: 1; }
+
+.settings-card {
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.settings-card:hover {
+  background: var(--glass-hover);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.mood-quick {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.mood-btn-small {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-spring);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mood-btn-small:hover {
+  transform: scale(1.12) translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: 0 6px 18px rgba(167, 139, 250, 0.25);
+}
+
+.mood-btn-small.active {
+  border-color: var(--primary);
+  background: rgba(167, 139, 250, 0.18);
+  box-shadow: var(--shadow-glow);
+}
+
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 60px;
+  max-height: 200px;
+}
+
+.history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  color: var(--text-tertiary);
+  text-align: center;
+  gap: 6px;
+  font-size: 0.75rem;
+}
+
+.history-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.history-item:hover {
+  background: var(--glass-hover);
+  border-color: var(--primary);
+  transform: translateX(4px);
+}
+
+.history-item.active {
+  background: rgba(244, 114, 182, 0.1);
+  border-color: var(--secondary);
+  border-left: 2px solid var(--secondary);
+}
+
+.history-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+}
+
+.info-card {
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.06), rgba(244, 114, 182, 0.04));
+  border: 1px solid rgba(167, 139, 250, 0.12);
+  border-radius: var(--radius-lg);
+  padding: 12px;
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+.info-card-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--secondary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.info-card-title img {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.chat-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  position: relative;
+  background: var(--bg-deep);
+}
+
+.chat-header {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: var(--surface-1);
+  backdrop-filter: blur(30px) saturate(180%);
+  border-bottom: 1px solid var(--glass-border);
+  flex-shrink: 0;
+  gap: 10px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.menu-toggle {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  color: var(--text-secondary);
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.menu-toggle:hover { 
+  background: var(--glass-hover);
+  transform: scale(1.05);
+}
+
+.chat-avatar {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: var(--shadow-glow);
+  position: relative;
+}
+
+.chat-avatar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.chat-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+
+.chat-info h1 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: -0.02em;
+}
+
+.chat-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--success);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 8px var(--success);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.2); }
+}
+
+.risk-indicators {
+  display: none;
+  gap: 4px;
+  align-items: center;
+}
+
+.risk-indicators.visible { display: flex; }
+
+.risk-badge {
+  font-size: 0.55rem;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(10px);
+}
+
+.risk-badge.high { 
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--risk-high);
+  border: 1px solid var(--risk-high);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-spring);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.btn:hover::before { transform: translateX(100%); }
+.btn:active { transform: scale(0.96); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  box-shadow: var(--shadow-glow);
+}
+
+.btn-primary:hover { 
+  transform: translateY(-1px); 
+  box-shadow: var(--shadow-glow-intense);
+}
+
+.btn-secondary {
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border-color: var(--glass-border);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover { 
+  background: var(--glass-hover);
+  transform: translateY(-1px);
+  border-color: var(--primary);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover { 
+  background: var(--glass);
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  background: var(--error);
+  color: white;
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.25);
+}
+
+.btn-danger:hover { 
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(239, 68, 68, 0.4);
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: var(--radius-md);
+}
+
+.btn-sm { padding: 5px 10px; font-size: 0.7rem; }
+.btn-block { width: 100%; }
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.welcome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  gap: 16px;
+  animation: fadeUp 0.8s var(--ease-spring);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.welcome-icon {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  font-size: 2.8rem;
+  box-shadow: var(--shadow-glow-intense);
+  animation: morph 12s ease-in-out infinite, float 6s ease-in-out infinite;
+  overflow: hidden;
+  position: relative;
+}
+
+.welcome-icon::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.welcome-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes morph {
+  0%, 100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+  33% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
+  66% { border-radius: 30% 70% 40% 60% / 60% 30% 70% 40%; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+.welcome-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.welcome-subtitle {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--text-tertiary);
+  font-weight: 400;
+}
+
+.welcome-quote {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.95rem;
+  color: var(--text-tertiary);
+  max-width: 480px;
+  line-height: 1.7;
+  padding: 16px 24px;
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  position: relative;
+}
+
+.welcome-quote::before {
+  content: '"';
+  position: absolute;
+  top: -6px;
+  left: 14px;
+  font-size: 2.5rem;
+  color: var(--primary);
+  opacity: 0.3;
+  font-family: serif;
+}
+
+.welcome-greeting-container {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.8s var(--ease-spring);
+}
+
+.welcome-greeting-container.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  max-width: 560px;
+}
+
+.suggestion-btn {
+  padding: 8px 16px;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-spring);
+}
+
+.suggestion-btn:hover {
+  background: rgba(167, 139, 250, 0.12);
+  border-color: var(--primary);
+  color: var(--text-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.message {
+  display: flex;
+  gap: 12px;
+  max-width: 80%;
+  animation: slideMsg 0.4s var(--ease-spring);
+}
+
+@keyframes slideMsg {
+  from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.message.user { 
+  align-self: flex-end; 
+  flex-direction: row-reverse; 
+}
+
+.message.user .msg-bubble {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl) var(--radius-xl) 4px var(--radius-xl);
+}
+
+.message.assistant { 
+  align-self: flex-start; 
+  max-width: 90%;
+}
+
+.message.assistant .msg-bubble {
+  background: transparent !important;
+  border: none !important;
+  padding: 4px 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  color: var(--text-primary);
+  line-height: 1.8;
+}
+
+.msg-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  flex-shrink: 0;
+  font-size: 0.95rem;
+  overflow: hidden;
+  box-shadow: var(--shadow-glow);
+  position: relative;
+}
+
+.msg-avatar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.msg-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+
+.message.user .msg-avatar { 
+  background: var(--surface-3);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-md);
+}
+
+.msg-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.msg-bubble {
+  padding: 12px 16px;
+  border-radius: var(--radius-xl);
+  line-height: 1.65;
+  word-wrap: break-word;
+  max-width: 100%;
+  backdrop-filter: blur(15px);
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.msg-bubble .file-attachment {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  margin: 6px 0;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.msg-bubble .file-attachment:hover {
+  background: var(--glass-hover);
+  border-color: var(--primary);
+}
+
+.msg-bubble .file-attachment .file-icon {
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+
+.msg-bubble .file-attachment .file-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.msg-bubble .file-attachment .file-name {
+  font-weight: 500;
+  font-size: 0.85rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.msg-bubble .file-attachment .file-size {
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+}
+
+.msg-bubble .file-attachment .file-extracted-text {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  background: var(--glass);
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  margin-top: 6px;
+  max-height: 150px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+}
+
+.msg-metadata {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+  flex-wrap: wrap;
+}
+
+.msg-metadata-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 6px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  font-weight: 500;
+}
+
+.msg-metadata-item.confidence-high { color: var(--success); }
+.msg-metadata-item.confidence-medium { color: var(--warning); }
+.msg-metadata-item.confidence-low { color: var(--text-muted); }
+
+.msg-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 4px;
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  margin-top: 2px;
+}
+
+.msg-actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-smooth);
+}
+
+.message:hover .msg-actions { opacity: 1; }
+
+.msg-action {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--glass-border);
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  color: var(--text-tertiary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.65rem;
+  transition: all 0.3s var(--ease-spring);
+}
+
+.msg-action:hover { 
+  background: var(--glass-hover);
+  color: var(--text-primary);
+  transform: scale(1.1);
+  border-color: var(--primary);
+}
+
+.streaming-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  background: var(--primary);
+  margin-left: 2px;
+  animation: blink 1s ease-in-out infinite;
+  vertical-align: middle;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideMsg 0.4s var(--ease-spring);
+}
+
+.typing-dots {
+  display: flex;
+  gap: 5px;
+  padding: 12px 16px;
+  background: rgba(25, 18, 50, 0.5);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(167, 139, 250, 0.12);
+  border-radius: var(--radius-xl);
+}
+
+.typing-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: bounce 1.4s ease-in-out infinite;
+}
+
+.typing-dot:nth-child(1) { background: var(--primary); }
+.typing-dot:nth-child(2) { background: var(--secondary); animation-delay: 0.2s; }
+.typing-dot:nth-child(3) { background: var(--accent); animation-delay: 0.4s; }
+
+@keyframes bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-10px); opacity: 1; }
+}
+
+.input-area {
+  padding: 12px 20px 20px;
+  background: linear-gradient(to top, var(--bg-deep) 60%, transparent);
+  flex-shrink: 0;
+}
+
+.input-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--glass);
+  backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.3s var(--ease-smooth);
+  box-shadow: var(--shadow-lg);
+}
+
+.input-container:focus-within {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-glow), var(--shadow-lg);
+  background: var(--glass-hover);
+}
+
+.input-container textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 10px 0 10px 12px;
+  resize: none;
+  max-height: 120px;
+  min-height: 20px;
+  line-height: 1.5;
+}
+
+.input-container textarea::placeholder { 
+  color: var(--text-tertiary);
+}
+
+.input-actions {
+  display: flex;
+  gap: 4px;
+  padding: 0 4px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.input-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s var(--ease-spring);
+  border: none;
+  font-size: 0.95rem;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.input-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.input-btn:hover::before { transform: translateX(100%); }
+
+.plus-btn {
+  background: rgba(167, 139, 250, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.15);
+  color: var(--primary);
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+.plus-btn:hover { 
+  background: rgba(167, 139, 250, 0.18);
+  transform: scale(1.06);
+  border-color: var(--primary);
+}
+
+.plus-btn.has-file {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+.voice-btn {
+  background: rgba(167, 139, 250, 0.12);
+  border: 1px solid rgba(244, 114, 182, 0.2);
+  color: var(--secondary);
+}
+
+.voice-btn:hover { 
+  background: rgba(167, 139, 250, 0.2);
+  transform: scale(1.06);
+}
+
+.voice-btn.listening {
+  background: var(--secondary);
+  color: white;
+  animation: micPulse 1.5s infinite;
+}
+
+@keyframes micPulse {
+  0% { box-shadow: 0 0 0 0 rgba(244, 114, 182, 0.5); }
+  70% { box-shadow: 0 0 0 16px rgba(244, 114, 182, 0); }
+}
+
+.send-btn {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  box-shadow: var(--shadow-glow);
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.send-btn:hover:not(:disabled) { 
+  transform: scale(1.06);
+  box-shadow: var(--shadow-glow-intense);
+}
+
+.send-btn:disabled { 
+  opacity: 0.4; 
+  cursor: not-allowed; 
+  transform: none !important;
+}
+
+.voice-status {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  min-height: 18px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.file-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  margin: 6px 0 0 0;
+  font-size: 0.8rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.file-preview .file-name {
+  flex: 1;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-preview .file-remove {
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color 0.3s;
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.file-preview .file-remove:hover {
+  color: var(--error);
+}
+
+.scroll-bottom {
+  position: absolute;
+  bottom: 100px;
+  right: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--glass);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.3s var(--ease-smooth);
+  z-index: 40;
+  box-shadow: var(--shadow-md);
+}
+
+.scroll-bottom.visible { 
+  opacity: 1; 
+  visibility: visible; 
+  transform: translateY(0);
+}
+
+.scroll-bottom:hover {
+  background: var(--glass-hover);
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.crisis-btn {
+  position: fixed;
+  bottom: 100px;
+  left: 20px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--error), #dc2626);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  box-shadow: 0 6px 24px rgba(239, 68, 68, 0.35);
+  z-index: 100;
+  transition: all 0.3s var(--ease-spring);
+  animation: crisisFloat 3s ease-in-out infinite;
+}
+
+.crisis-btn:hover { 
+  transform: scale(1.1);
+  box-shadow: 0 8px 32px rgba(239, 68, 68, 0.5);
+}
+
+.crisis-pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--error);
+  opacity: 0.4;
+  animation: crisisPulse 2s ease-out infinite;
+}
+
+@keyframes crisisPulse {
+  0% { transform: scale(1); opacity: 0.4; }
+  70% { transform: scale(1.8); opacity: 0; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@keyframes crisisFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 0, 20, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.modal-backdrop.active { opacity: 1; visibility: visible; }
+
+.modal {
+  background: var(--surface-2);
+  backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.92);
+  transition: transform 0.4s var(--ease-spring);
+  width: 100%;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-backdrop.active .modal { transform: scale(1); }
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.modal-title { 
+  font-size: 1.1rem; 
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.modal-close {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+  color: var(--text-tertiary);
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  font-size: 1.2rem;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.modal-close:hover { 
+  background: var(--glass-hover);
+  color: var(--text-primary);
+  transform: rotate(90deg);
+}
+
+.mood-scale {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  margin: 18px 0;
+  flex-wrap: wrap;
+}
+
+.mood-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px;
+  background: var(--glass);
+  border: 2px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all 0.3s var(--ease-spring);
+  min-width: 50px;
+}
+
+.mood-btn:hover { 
+  border-color: var(--primary);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-glow);
+}
+
+.mood-btn.selected {
+  border-color: var(--primary);
+  background: rgba(167, 139, 250, 0.18);
+  box-shadow: var(--shadow-glow-intense);
+}
+
+.mood-btn .mood-emoji { font-size: 1.4rem; }
+.mood-btn .mood-label { 
+  font-size: 0.65rem; 
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.mood-notes {
+  width: 100%;
+  padding: 12px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.85rem;
+  resize: vertical;
+  min-height: 80px;
+  margin-bottom: 14px;
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.mood-notes:focus { 
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.12);
+  outline: none;
+}
+
+.mood-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-top: 10px;
+}
+
+.mood-day-label {
+  text-align: center;
+  font-size: 0.6rem;
+  color: var(--text-tertiary);
+  padding: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mood-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  font-size: 0.65rem;
+  font-weight: 600;
+  cursor: default;
+  background: var(--glass);
+  color: var(--text-secondary);
+  border: 1px solid var(--glass-border);
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.mood-day:hover {
+  transform: scale(1.1);
+  z-index: 1;
+}
+
+.mood-level-1 { background: rgba(239, 68, 68, 0.25); color: var(--error); border-color: var(--error); }
+.mood-level-2 { background: rgba(245, 158, 11, 0.25); color: var(--warning); border-color: var(--warning); }
+.mood-level-3 { background: rgba(234, 179, 8, 0.25); color: #ca8a04; border-color: #ca8a04; }
+.mood-level-4 { background: rgba(34, 197, 94, 0.25); color: var(--success); border-color: var(--success); }
+.mood-level-5 { background: rgba(16, 185, 129, 0.25); color: #059669; border-color: #059669; }
+
+.crisis-resources {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.crisis-resource {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  transition: all 0.3s var(--ease-smooth);
+}
+
+.crisis-resource:hover { 
+  border-color: var(--error);
+  transform: translateX(4px);
+  box-shadow: var(--shadow-md);
+}
+
+.crisis-resource .crisis-icon {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.crisis-resource .crisis-info { flex: 1; }
+.crisis-resource .crisis-name { 
+  font-weight: 600; 
+  font-size: 0.8rem;
+  margin-bottom: 1px;
+}
+.crisis-resource .crisis-number { 
+  font-size: 1.05rem; 
+  font-weight: 700; 
+  color: var(--error);
+  letter-spacing: -0.02em;
+}
+.crisis-resource .crisis-desc { 
+  font-size: 0.65rem; 
+  color: var(--text-tertiary);
+  margin-top: 1px;
+}
+
+.crisis-resource .crisis-call {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--error);
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.3s var(--ease-spring);
+  flex-shrink: 0;
+  box-shadow: 0 3px 12px rgba(239, 68, 68, 0.25);
+}
+
+.crisis-resource .crisis-call:hover { 
+  transform: scale(1.12);
+  box-shadow: 0 4px 18px rgba(239, 68, 68, 0.4);
+}
+
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 800;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 90vw;
+}
+
+.toast {
+  background: var(--surface-2);
+  backdrop-filter: blur(30px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-left: 3px solid;
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  box-shadow: var(--shadow-lg);
+  animation: toastIn 0.4s var(--ease-spring);
+  max-width: 320px;
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+@keyframes toastIn {
+  from { opacity: 0; transform: translateX(100%) scale(0.9); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+.toast-success { border-left-color: var(--success); }
+.toast-error { border-left-color: var(--error); }
+.toast-info { border-left-color: var(--primary); }
+.toast-warning { border-left-color: var(--warning); }
+
+/* Voice Modal - Siri-like Audio Spectrum */
+.voice-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 0, 20, 0.96);
+  backdrop-filter: blur(40px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 600;
+  animation: fadeUp 0.4s var(--ease-spring);
+}
+
+.voice-modal-content {
+  background: var(--surface-2);
+  backdrop-filter: blur(30px) saturate(180%);
+  border: 2px solid var(--secondary);
+  border-radius: var(--radius-xl);
+  padding: 35px;
+  max-width: 90vw;
+  width: 500px;
+  text-align: center;
+  box-shadow: var(--shadow-glow-intense);
+  position: relative;
+  overflow: hidden;
+}
+
+.voice-modal-content::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background: conic-gradient(from 0deg, transparent, rgba(167, 139, 250, 0.05), transparent, rgba(244, 114, 182, 0.05), transparent);
+  animation: rotateBg 10s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes rotateBg {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.voice-modal-content > * {
+  position: relative;
+  z-index: 1;
+}
+
+.voice-modal-content .voice-visualizer {
+  width: 160px;
+  height: 160px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.15), transparent 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.voice-modal-content .voice-visualizer .mic-icon {
+  font-size: 4rem;
+  color: var(--secondary);
+  animation: voicePulse 1.5s ease-in-out infinite;
+  z-index: 2;
+}
+
+@keyframes voicePulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
+}
+
+.voice-modal-content .voice-visualizer .wave-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--secondary);
+  opacity: 0;
+  animation: waveRing 2.5s ease-out infinite;
+}
+
+.voice-modal-content .voice-visualizer .wave-ring:nth-child(1) { animation-delay: 0s; }
+.voice-modal-content .voice-visualizer .wave-ring:nth-child(2) { animation-delay: 0.5s; }
+.voice-modal-content .voice-visualizer .wave-ring:nth-child(3) { animation-delay: 1s; }
+.voice-modal-content .voice-visualizer .wave-ring:nth-child(4) { animation-delay: 1.5s; }
+
+@keyframes waveRing {
+  0% { transform: scale(0.8); opacity: 0.5; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.voice-modal-content .audio-spectrum {
+  width: 100%;
+  height: 70px;
+  margin: 4px 0 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 0 10px;
+}
+
+.voice-modal-content .audio-spectrum .bar {
+  width: 4px;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  border-radius: 2px;
+  transition: height 0.08s ease;
+  height: 3px;
+  min-height: 2px;
+  max-height: 60px;
+}
+
+.voice-modal-content .voice-level {
+  width: 100%;
+  height: 3px;
+  background: var(--surface-4);
+  border-radius: var(--radius-full);
+  margin: 2px 0 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.voice-modal-content .voice-level .level-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+  border-radius: var(--radius-full);
+  transition: width 0.05s ease;
+  width: 0%;
+}
+
+.voice-modal-content h3 {
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.voice-modal-content .voice-subtitle {
+  color: var(--text-tertiary);
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.voice-modal-content .voice-transcript {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  min-height: 70px;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  margin-bottom: 10px;
+  text-align: left;
+  max-height: 130px;
+  overflow-y: auto;
+  line-height: 1.6;
+}
+
+.voice-modal-content .voice-transcript .interim {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+.voice-modal-content .voice-transcript .final {
+  color: var(--text-primary);
+}
+
+.voice-modal-content .voice-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.voice-modal-content .voice-controls .btn {
+  min-width: 100px;
+  padding: 10px 20px;
+}
+
+.voice-modal-content .voice-timer {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 8px;
+}
+
+.voice-modal-content .voice-status-text {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+  min-height: 18px;
+}
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 15;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s var(--ease-smooth);
+  pointer-events: none;
+}
+
+.sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Elite Bullet Response Styles */
+.elite-response {
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.elite-response .core {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+
+.elite-response .core .icon { margin-right: 6px; }
+
+.elite-response .bullet-list {
+  margin: 4px 0 6px 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.elite-response .bullet-list li {
+  margin-bottom: 3px;
+  padding-left: 16px;
+  position: relative;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.elite-response .bullet-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.elite-response .separator {
+  border: none;
+  border-top: 1px solid var(--glass-border);
+  margin: 6px 0 8px 0;
+  opacity: 0.5;
+}
+
+.elite-response .insight-block {
+  margin: 6px 0 4px 0;
+  padding: 6px 12px;
+  background: rgba(167, 139, 250, 0.05);
+  border-left: 2px solid var(--primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.elite-response .insight-block .label {
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.elite-response .insight-block .text {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.elite-response .action-block {
+  margin: 4px 0 6px 0;
+  padding: 6px 12px;
+  background: rgba(244, 114, 182, 0.06);
+  border-left: 2px solid var(--secondary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.elite-response .action-block .label {
+  font-weight: 600;
+  color: var(--secondary);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.elite-response .action-block .text {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.elite-response .proverb-block {
+  margin: 6px 0 4px 0;
+  padding: 6px 12px;
+  background: rgba(167, 139, 250, 0.06);
+  border-left: 2px solid var(--primary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-style: italic;
+}
+
+.elite-response .proverb-block .proverb-text {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-family: 'Crimson Pro', serif;
+}
+
+.elite-response .proverb-block .proverb-meaning {
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+  font-style: normal;
+  margin-top: 2px;
+}
+
+.elite-response .depth-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 0.7rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s var(--ease-smooth);
+  font-family: inherit;
+}
+
+.elite-response .depth-toggle:hover {
+  color: var(--text-primary);
+  background: var(--glass);
+}
+
+.elite-response .depth-content {
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: var(--glass);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  line-height: 1.7;
+  display: none;
+}
+
+.elite-response .depth-content.open { display: block; }
+
+@media (max-width: 768px) {
+  html { font-size: 13px; }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    transform: translateX(-100%);
+    z-index: 500;
+    box-shadow: 8px 0 48px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    transition: transform 0.4s var(--ease-spring), pointer-events 0s 0.4s;
+    width: 280px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+    pointer-events: auto;
+    transition: transform 0.4s var(--ease-spring), pointer-events 0s 0s;
+  }
+
+  .sidebar-close { display: flex !important; }
+  .menu-toggle { display: flex !important; }
+
+  .welcome-title { font-size: 2rem; }
+  .welcome-icon { width: 80px; height: 80px; font-size: 2.2rem; }
+  .welcome-quote { padding: 14px 18px; font-size: 0.85rem; }
+
+  .message { max-width: 90%; }
+  .messages { padding: 14px; }
+  .input-area { padding: 10px 14px 16px; }
+
+  .crisis-btn { 
+    width: 44px; 
+    height: 44px; 
+    font-size: 1.1rem;
+    bottom: 90px;
+    left: 14px;
+  }
+
+  .modal { padding: 18px; }
+  .mood-scale { flex-wrap: wrap; justify-content: center; }
+  .mood-btn { min-width: 50px; flex: 0 1 auto; }
+
+  .suggestions { flex-direction: column; align-items: center; }
+  .suggestion-btn { width: 100%; max-width: 260px; }
+
+  .chat-header { padding: 0 14px; }
+  .voice-modal-content { padding: 20px; width: 95vw; }
+  .voice-modal-content .voice-visualizer { width: 120px; height: 120px; }
+  .voice-modal-content .voice-visualizer .mic-icon { font-size: 3rem; }
+}
+
+@media (max-width: 480px) {
+  html { font-size: 12.5px; }
+  .welcome-title { font-size: 1.8rem; }
+  .welcome-subtitle { font-size: 0.9rem; }
+  .input-btn { width: 36px; height: 36px; font-size: 0.85rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { 
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .welcome-icon { animation: none !important; }
+  .crisis-btn { animation: none !important; }
+  .aurora-blob { animation: none !important; }
+}
 </style>
 </head>
 <body>
-
 <div class="neural-bg" aria-hidden="true">
   <canvas id="neuralCanvas"></canvas>
   <div class="aurora-blob"></div>
@@ -288,8 +2116,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg-deep);color:var(--text-p
 <div class="app">
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <div class="logo" onclick="closeSidebar()">
-        <div class="logo-icon">🧠</div>
+      <div class="logo">
+        <div class="logo-icon">
+          <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">
+        </div>
         <div class="logo-text">
           <div class="title">TYAZA</div>
           <div class="subtitle">Umuvugizi w'Umutima</div>
@@ -297,11 +2127,13 @@ body{font-family:'Inter',sans-serif;background:var(--bg-deep);color:var(--text-p
       </div>
       <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
     </div>
+
     <div class="sidebar-content">
       <button class="new-chat-btn" id="newChatBtn">
         <i class="fas fa-sparkles"></i>
         <span>Ikiganiro Gishya</span>
       </button>
+
       <div>
         <div class="sidebar-section-title">Uko wumva</div>
         <div class="settings-card">
@@ -317,19 +2149,27 @@ body{font-family:'Inter',sans-serif;background:var(--bg-deep);color:var(--text-p
           </button>
         </div>
       </div>
+
       <div style="flex:1;">
-        <div class="sidebar-section-title" style="display:flex;justify-content:space-between;">
+        <div class="sidebar-section-title" style="display:flex; justify-content:space-between;">
           <span>📜 Amateka</span>
           <button class="btn btn-ghost btn-sm" id="clearHistoryBtn">Hanagura</button>
         </div>
         <div class="history-list" id="historyList">
-          <div class="history-empty"><i class="fas fa-history"></i><span>Nta mateka</span></div>
+          <div class="history-empty">
+            <i class="fas fa-history"></i>
+            <span>Nta mateka</span>
+          </div>
         </div>
       </div>
+
       <div class="info-card">
-        <div class="info-card-title">🧠 KIVURA LABS</div>
+        <div class="info-card-title">
+          <img src="tyaza-logo.png" alt="KIVURA LABS" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠 KIVURA LABS'">
+          KIVURA LABS
+        </div>
         <div style="font-weight:600;color:var(--secondary);">"Healthy citizens, wealthy nation"</div>
-        <div style="font-size:0.65rem;margin-top:6px;color:var(--text-muted);">Yves Hirwa Tuyishime — CEO & Founder</div>
+        <div style="font-size:0.65rem;margin-top:6px;color:var(--text-muted);">Yves HIRWA TUYISHIME - CEO & Founder</div>
         <div style="font-size:0.6rem;color:var(--text-muted);margin-top:4px;">© 2026 Kivura Labs · Rwanda</div>
       </div>
     </div>
@@ -339,7 +2179,9 @@ body{font-family:'Inter',sans-serif;background:var(--bg-deep);color:var(--text-p
     <header class="chat-header">
       <div class="header-left">
         <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-        <div class="chat-avatar">🧠</div>
+        <div class="chat-avatar">
+          <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">
+        </div>
         <div class="chat-info">
           <h1>TYAZA</h1>
           <div class="chat-status">
@@ -358,14 +2200,18 @@ body{font-family:'Inter',sans-serif;background:var(--bg-deep);color:var(--text-p
 
     <div class="messages" id="messages">
       <div class="welcome" id="welcome">
-        <div class="welcome-icon">🧠</div>
+        <div class="welcome-icon">
+          <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">
+        </div>
         <h1 class="welcome-title">TYAZA</h1>
         <p class="welcome-subtitle">Umuvugizi w'Umutima</p>
         <div class="welcome-quote">
           <em>"TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda."</em>
         </div>
         <div class="welcome-greeting-container" id="welcomeGreetingContainer">
-          <div id="welcomeGreeting" style="font-size:1.1rem;color:var(--secondary);font-weight:600;margin-bottom:6px;">✨ Murakaza neza kwa TYAZA</div>
+          <div id="welcomeGreeting" style="font-size:1.1rem;color:var(--secondary);font-weight:600;margin-bottom:6px;">
+            ✨ Murakaza neza kwa TYAZA
+          </div>
           <div style="font-size:0.85rem;color:var(--text-tertiary);max-width:400px;line-height:1.6;">
             Ndi hano kugira ngo mbafashe gusobanukirwa ibiri ku mutima wawe.<br>
             <span style="font-family:'Crimson Pro',serif;font-style:italic;color:var(--text-secondary);">
@@ -434,6 +2280,16 @@ body{font-family:'Inter',sans-serif;background:var(--bg-deep);color:var(--text-p
   </div>
 </div>
 
+<div class="modal-backdrop" id="profileModal">
+  <div class="modal" style="max-width:480px;">
+    <div class="modal-header">
+      <h3 class="modal-title">🧠 User Profile</h3>
+      <button class="modal-close" id="profileModalClose">&times;</button>
+    </div>
+    <div id="profileContent" style="color:var(--text-secondary);"></div>
+  </div>
+</div>
+
 <div class="modal-backdrop" id="crisisModal">
   <div class="modal" style="max-width:480px;border-color:var(--error);">
     <div class="modal-header" style="border-bottom-color:var(--error);">
@@ -450,7 +2306,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg-deep);color:var(--text-p
           <div class="crisis-info">
             <div class="crisis-name">Imitari y'inkunga</div>
             <div class="crisis-number">116</div>
-            <div class="crisis-desc">24/7 — Bafasha mu bihe by'ihungabana</div>
+            <div class="crisis-desc">24/7 - Bafasha mu bihe by'ihungabana</div>
           </div>
           <a href="tel:116" class="crisis-call"><i class="fas fa-phone-alt"></i></a>
         </div>
@@ -494,125 +2350,125 @@ body{font-family:'Inter',sans-serif;background:var(--bg-deep);color:var(--text-p
 
 <script>
 // ============================================================
-// ⚡ TYAZA ELITE ENGINE — 10/10
+// DATA LAYER - TYAZA Knowledge Base
 // ============================================================
+const TYAZA_MISSION = {
+  reason: `TYAZA yashinzwe kugira ngo guhuza icyuho kiri hagati y'abagezweho n'ikoranabuhanga n'abasigaye inyuma naryo.`,
+  mission: `Gutanga ubwenge bw'ikoranabuhanga bwimbitse, bufite ubumuntu, bufasha abantu gusobanukirwa amarangamutima yabo.`,
+  vision: `Kubaka sisitemu ihuriweho y'ubwenge ishobora gutekereza, kumva, kurinda, no gufasha abantu.`,
+  values: ["Ubumuntu", "Ukuri n'ubunyangamugayo", "Kurengera ubuzima", "Kubaha umuco", "Gufasha nta kurobanura"],
+  tagline: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda."
+};
 
-// ============================================================
-// 1. DATA LAYER — Complete Knowledge Base
-// ============================================================
-const TYAZA = {
-  mission: {
-    reason: "TYAZA yashinzwe kugira ngo guhuza icyuho kiri hagati y'abagezweho n'ikoranabuhanga n'abasigaye inyuma naryo.",
-    mission: "Gutanga ubwenge bw'ikoranabuhanga bwimbitse, bufite ubumuntu, bufasha abantu gusobanukirwa amarangamutima yabo.",
-    vision: "Kubaka sisitemu ihuriweho y'ubwenge ishobora gutekereza, kumva, kurinda, no gufasha abantu.",
-    values: ["Ubumuntu", "Ukuri n'ubunyangamugayo", "Kurengera ubuzima", "Kubaha umuco", "Gufasha nta kurobanura"],
-    tagline: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda."
-  },
-  company: {
-    name: "KIVURA LABS",
-    founder: "Yves Hirwa Tuyishime",
-    ceo: "Yves Hirwa Tuyishime",
-    quote: "Healthy citizens, wealthy nation",
-    product: "TYAZA",
-    tagline: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda.",
-    founded: 2024,
-    location: "Rwanda"
-  },
-  proverbs: {
-    "Ijoro ribara uwariraye": "Abariraye ni bo bumva iby'ijoro — ushobora kumva ibintu byimbitse cyane",
-    "Buhoro buhoro ni rwo rugendo": "Kugenda buhoro ni uburyo bwo kugera kure — kwihangana bituma ugenda neza",
-    "Uwitonze arusha uwihuta kugera kure": "Kwihangana bituma ugera ku ntsinzi irambye — nta kwihuta",
-    "Nta gahinda gahoraho": "Ibibazo birashira uko igihe kigenda — ibihe bibi ntibihoraho",
-    "Uko ubiba ni ko usarura": "Ibyo ukora ni byo bigena ibizakugeraho — ibyiza uvuna ibyiza",
-    "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ngombwa kugira ngo wige — nubwo bitagenda neza, urabyumva",
-    "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi — amagambo meza afite agaciro",
-    "Ujya inama n'abakuru ntayoba": "Gusaba inama ku bakuru ni byiza — ubwenge buva ku bageze",
-    "Umuti w'ibibazo ni ukwihangana": "Kwihangana ni bwo buryo bwo gukemura ibibazo — ntihute",
-    "Uwihanganye aratsinda": "Kwihangana bituma utsinda — ntacyo kidashoboka",
-    "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira — hari ibyiza biri imbere",
-    "Imana itanga ibishoboka": "Imana itanga ibishoboka, nta mpamvu yo guhangayika — wibuke ko hari ubufasha",
-    "Uburere si amagambo ni ingiro": "Uburere bugaragarira mu bikorwa — ibikorwa biruta amagambo",
-    "Uwubaha abandi ariyubaha": "Kubaha abandi ni ukwiyubaha — ubaha abandi ubaha n'umutima wawe",
-    "Icyubahiro kiraharanirwa ntigitangwa gusa": "Icyubahiro kirashakwa — ugomba kugikorera",
-    "Ijwi ry'imbere ntiribeshya": "Intuition ifite agaciro — umutima wawe urazi",
-    "Umutima usumbya amagambo": "Ibyo wumva bifite uburemere kuruta ibyo uvuga — amarangamutima ni agaciro",
-    "Uwiga ntiyigira ubusa": "Ubumenyi bufite akamaro — buri gihe ubumenyi ni byiza",
-    "Uwanga inama yanga n'ingaruka": "Kwanga kumva bigira ingaruka — kwumva ni byiza",
-    "Amazi atuje aba ari maremare": "Utuje ashobora kuba afite imbaraga — ntukarengane",
-    "Imizi y'igiti ni yo ikomeza amababi": "Iby'ibanze ni byo byubaka ibindi — shinga imizi",
-    "Uwanga gutangira ntiyiga kurangiza": "Intangiriro ni ingenzi — gutangira ni intambwe ya mbere",
-    "Icyo utwaye mu mutima kigera ku maguru": "Ibyo wiyumvamo bigira ingaruka ku bikorwa — umutima uyobora",
-    "Uwanga kureba kure yisanga hafi": "Kutategura bigusubiza inyuma — tekereza imbere",
-    "Icyo uciyeho ni cyo kikubaka": "Ibibazo ni byo bitwigisha — ibyago ni isomo",
-    "Ujya kubaka abanza gutekereza": "Gahunda ibanza ibikorwa — tekereza mbere",
-    "Uwiga guceceka amenya kuvuga": "Kwifata bituma uvuga neza — rimwe na rimwe guceceka ni byiza",
-    "Umenya kubura ni we umenya kubona": "Kubura biguha agaciro k'ibintu — uko wabuze ni ko ubona",
-    "Uwihangana yubaka igihe": "Kwihangana bifasha gutsinda — umuntu wihangana aratsinda",
-    "Icyo ushaka kigutwara igihe": "Ibyiza bisaba kwihangana — ntihute",
-    "Nta mpamvu yo kwiyahura, umunsi mwiza urahari": "Buri munsi ni umugisha — nta mpamvu yo kurenganya ubuzima"
-  },
-  rareWords: {
-    "Urwangano": "Urwango rwinshi rurenze urugero",
-    "Ubwirasi": "Kwiyemera gukabije",
-    "Ubwoba bw'igicucu": "Gutinya ibintu bidafite ishingiro",
-    "Ubugugu": "Kutagira umutima wo gutanga",
-    "Ubusambo bw'umutima": "Gukunda iby'abandi cyane",
-    "Uburiganya": "Uburiganya bukomeye, bw'amayeri",
-    "Ubugome": "Kugira umutima mubi cyane",
-    "Ihungabana": "Guhungabana k'umutima n'ibitekerezo",
-    "Agahinda kenshi": "Intimba irenze urugero",
-    "Ikiruhuko cy'umutima": "Amahoro yo mu mutima",
-    "Umutima uhagaze": "Umuntu ufite impagarara",
-    "Ikiniga cy'umutima": "Kubura aho uhurira n'amarangamutima",
-    "Umubabaro w'ituze": "Kubabara ariko ucecetse",
-    "Indyarya": "Umuntu wiyoberanya",
-    "Indyamirizi": "Umuntu ukunda guteza ibibazo",
-    "Inkotanyi": "Intwari idatinya",
-    "Ishyano": "Ibyago bikomeye cyane",
-    "Ubugabo butisubira": "Ubutwari bukabije",
-    "Ikinyoma cy'amaso": "Kubeshya ugaragara neza",
-    "Ubukene bukabije": "Ubukene bwo hasi cyane",
-    "Ubusabirizi": "Gusabiriza ubuzima",
-    "Ubupfura": "Imyitwarire myiza iranga umuntu",
-    "Ubunyamwuga": "Gukora ibintu neza nk'umwuga",
-    "Uburere gakondo": "Uburere bwa kinyarwanda bwa kera",
-    "Gucura umugambi": "Gutegura ibintu mu ibanga",
-    "Gushyira mu gaciro": "Gutekereza neza",
-    "Kwirara mu bandi": "Kutigira ahubwo ugashingira ku bandi",
-    "Gucisha make": "Kugabanya ibintu bucece",
-    "Kwigunga": "Kwitandukanya n'abandi",
-    "Umutima-muke": "Kutihangana cyangwa kugira ubwoba",
-    "Umutima-munini": "Kugira impuhwe n'ubuntu bwinshi",
-    "Umunyamahane": "Umuntu ukunda kurakara cyane",
-    "Umunyabigwi": "Umuntu uvugwa cyane kubera ibikorwa",
-    "Umunyabwenge nyakuri": "Utekereza kure kandi neza",
-    "Umunyacyubahiro": "Umuntu wubahwa cyane",
-    "Ubunyamaswa": "Imyitwarire idafite ubumuntu",
-    "Ubusuzugurano": "Kwirengagiza abandi ubona nk'abatagira agaciro",
-    "Ubuswa": "Kutamenya n'ibigaragara",
-    "Umunyempuhwe nke": "Utita ku bandi",
-    "Umunyagitugu": "Ukunda gutegeka abandi ku gahato",
-    "Umunyanduranziza": "Utangira ibintu neza ariko akabisoza nabi",
-    "Ubupfura nyabwo": "Imyitwarire myiza ishingiye ku muco",
-    "Uburere bw'ikirenga": "Uburere burenze ibisanzwe",
-    "Ubumuntu busesuye": "Kugira umutima wita ku bandi by'ukuri",
-    "Ubugwaneza": "Gutuza no kugirira abandi neza",
-    "Ubutwari bwuje ituze": "Ubutwari budafite urusaku",
-    "Icyubahiro ndengakamere": "Kubahwa cyane mu bandi",
-    "Umunyabuntu": "Umuntu ugira impuhwe n'ubugwaneza",
-    "Umuco gakondo": "Imigenzo ya kera iranga Abanyarwanda"
-  }
+const COMPANY_INFO = {
+  name: "KIVURA LABS",
+  founder: "Yves Hirwa Tuyishime",
+  ceo: "Yves Hirwa Tuyishime",
+  quote: "Healthy citizens, wealthy nation",
+  product: "TYAZA",
+  tagline: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda.",
+  founded: 2024,
+  location: "Rwanda"
+};
+
+const TYAZA_PROVERBS = {
+  "Ijoro ribara uwariraye": "Abariraye ni bo bumva iby'ijoro — ushobora kumva ibintu byimbitse cyane",
+  "Buhoro buhoro ni rwo rugendo": "Kugenda buhoro ni uburyo bwo kugera kure — kwihangana bituma ugenda neza",
+  "Uwitonze arusha uwihuta kugera kure": "Kwihangana bituma ugera ku ntsinzi irambye — nta kwihuta",
+  "Nta gahinda gahoraho": "Ibibazo birashira uko igihe kigenda — ibihe bibi ntibihoraho",
+  "Uko ubiba ni ko usarura": "Ibyo ukora ni byo bigena ibizakugeraho — ibyiza uvuna ibyiza",
+  "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ngombwa kugira ngo wige — nubwo bitagenda neza, urabyumva",
+  "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi — amagambo meza afite agaciro",
+  "Ujya inama n'abakuru ntayoba": "Gusaba inama ku bakuru ni byiza — ubwenge buva ku bageze",
+  "Umuti w'ibibazo ni ukwihangana": "Kwihangana ni bwo buryo bwo gukemura ibibazo — ntihute",
+  "Uwihanganye aratsinda": "Kwihangana bituma utsinda — ntacyo kidashoboka",
+  "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira — hari ibyiza biri imbere",
+  "Imana itanga ibishoboka": "Imana itanga ibishoboka, nta mpamvu yo guhangayika — wibuke ko hari ubufasha",
+  "Uburere si amagambo ni ingiro": "Uburere bugaragarira mu bikorwa — ibikorwa biruta amagambo",
+  "Uwubaha abandi ariyubaha": "Kubaha abandi ni ukwiyubaha — ubaha abandi ubaha n'umutima wawe",
+  "Icyubahiro kiraharanirwa ntigitangwa gusa": "Icyubahiro kirashakwa — ugomba kugikorera",
+  "Ijwi ry'imbere ntiribeshya": "Intuition ifite agaciro — umutima wawe urazi",
+  "Umutima usumbya amagambo": "Ibyo wumva bifite uburemere kuruta ibyo uvuga — amarangamutima ni agaciro",
+  "Uwiga ntiyigira ubusa": "Ubumenyi bufite akamaro — buri gihe ubumenyi ni byiza",
+  "Uwanga inama yanga n'ingaruka": "Kwanga kumva bigira ingaruka — kwumva ni byiza",
+  "Amazi atuje aba ari maremare": "Utuje ashobora kuba afite imbaraga — ntukarengane",
+  "Imizi y'igiti ni yo ikomeza amababi": "Iby'ibanze ni byo byubaka ibindi — shinga imizi",
+  "Uwanga gutangira ntiyiga kurangiza": "Intangiriro ni ingenzi — gutangira ni intambwe ya mbere",
+  "Icyo utwaye mu mutima kigera ku maguru": "Ibyo wiyumvamo bigira ingaruka ku bikorwa — umutima uyobora",
+  "Uwanga kureba kure yisanga hafi": "Kutategura bigusubiza inyuma — tekereza imbere",
+  "Icyo uciyeho ni cyo kikubaka": "Ibibazo ni byo bitwigisha — ibyago ni isomo",
+  "Ujya kubaka abanza gutekereza": "Gahunda ibanza ibikorwa — tekereza mbere",
+  "Uwiga guceceka amenya kuvuga": "Kwifata bituma uvuga neza — rimwe na rimwe guceceka ni byiza",
+  "Umenya kubura ni we umenya kubona": "Kubura biguha agaciro k'ibintu — uko wabuze ni ko ubona",
+  "Uwihangana yubaka igihe": "Kwihangana bifasha gutsinda — umuntu wihangana aratsinda",
+  "Icyo ushaka kigutwara igihe": "Ibyiza bisaba kwihangana — ntihute"
+};
+
+const TYAZA_RARE_WORDS = {
+  "Urwangano": "Urwango rwinshi rurenze urugero",
+  "Ubwirasi": "Kwiyemera gukabije",
+  "Ubwoba bw'igicucu": "Gutinya ibintu bidafite ishingiro",
+  "Ubugugu": "Kutagira umutima wo gutanga",
+  "Ubusambo bw'umutima": "Gukunda iby'abandi cyane",
+  "Uburiganya": "Uburiganya bukomeye, bw'amayeri",
+  "Ubugome": "Kugira umutima mubi cyane",
+  "Ihungabana": "Guhungabana k'umutima n'ibitekerezo",
+  "Agahinda kenshi": "Intimba irenze urugero",
+  "Ikiruhuko cy'umutima": "Amahoro yo mu mutima",
+  "Umutima uhagaze": "Umuntu ufite impagarara",
+  "Ikiniga cy'umutima": "Kubura aho uhurira n'amarangamutima",
+  "Umubabaro w'ituze": "Kubabara ariko ucecetse",
+  "Indyarya": "Umuntu wiyoberanya",
+  "Indyamirizi": "Umuntu ukunda guteza ibibazo",
+  "Inkotanyi": "Intwari idatinya (mu mvugo ya kera)",
+  "Ishyano": "Ibyago bikomeye cyane",
+  "Ubugabo butisubira": "Ubutwari bukabije",
+  "Ikinyoma cy'amaso": "Kubeshya ugaragara neza",
+  "Ubukene bukabije": "Ubukene bwo hasi cyane",
+  "Ubusabirizi": "Gusabiriza ubuzima",
+  "Ubupfura": "Imyitwarire myiza iranga umuntu",
+  "Ubunyamwuga": "Gukora ibintu neza nk'umwuga",
+  "Uburere gakondo": "Uburere bwa kinyarwanda bwa kera",
+  "Gucura umugambi": "Gutegura ibintu mu ibanga",
+  "Gushyira mu gaciro": "Gutekereza neza",
+  "Kwirara mu bandi": "Kutigira ahubwo ugashingira ku bandi",
+  "Gucisha make": "Kugabanya ibintu bucece",
+  "Kwigunga": "Kwitandukanya n'abandi",
+  "Umutima-muke": "Kutihangana cyangwa kugira ubwoba",
+  "Umutima-munini": "Kugira impuhwe n'ubuntu bwinshi",
+  "Umunyamahane": "Umuntu ukunda kurakara cyane",
+  "Umunyabigwi": "Umuntu uvugwa cyane kubera ibikorwa",
+  "Umunyabwenge nyakuri": "Utekereza kure kandi neza",
+  "Umunyacyubahiro": "Umuntu wubahwa cyane",
+  "Ubunyamaswa": "Imyitwarire idafite ubumuntu",
+  "Ubusuzugurano": "Kwirengagiza abandi ubona nk'abatagira agaciro",
+  "Ubuswa": "Kutamenya n'ibigaragara",
+  "Umunyempuhwe nke": "Utita ku bandi",
+  "Umunyagitugu": "Ukunda gutegeka abandi ku gahato",
+  "Umunyanduranziza": "Utangira ibintu neza ariko akabisoza nabi",
+  "Ubupfura nyabwo": "Imyitwarire myiza ishingiye ku muco",
+  "Uburere bw'ikirenga": "Uburere burenze ibisanzwe",
+  "Ubumuntu busesuye": "Kugira umutima wita ku bandi by'ukuri",
+  "Ubugwaneza": "Gutuza no kugirira abandi neza",
+  "Ubutwari bwuje ituze": "Ubutwari budafite urusaku",
+  "Icyubahiro ndengakamere": "Kubahwa cyane mu bandi",
+  "Umunyabuntu": "Umuntu ugira impuhwe n'ubugwaneza",
+  "Umuco gakondo": "Imigenzo ya kera iranga Abanyarwanda"
 };
 
 // ============================================================
-// 2. STATE MANAGEMENT — With FULL Memory
+// STATE MANAGEMENT
 // ============================================================
-const state = {
+let state = {
   messages: [],
   currentId: 'chat_' + Date.now(),
   isGenerating: false,
   userName: null,
-  settings: { voice: 'Google UK English Female', rate: 0.9, pitch: 1.0 },
+  settings: {
+    voice: 'Google UK English Female',
+    rate: 0.9,
+    pitch: 1.0
+  },
   moodData: [],
   conversations: [],
   isListening: false,
@@ -621,27 +2477,27 @@ const state = {
   speechSynthesis: window.speechSynthesis,
   voices: [],
   sessionStart: Date.now(),
-  riskFlags: { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false },
+  riskFlags: {
+    suicide: false,
+    selfHarm: false,
+    violence: false,
+    ptsd: false,
+    abuse: false,
+    genocideTrauma: false
+  },
   puterReady: false,
   messageCount: 0,
   detectedLanguage: 'rw',
+  openAIModel: 'gpt-4o',
+  modelFallbackIndex: 0,
   isInitialized: false,
   attachedFile: null,
   voiceSilenceTimer: null,
-  isVoiceModalActive: false,
-  // FULL MEMORY — remembers everything
-  conversationMemory: {
-    userGoals: [],
-    userEmotions: [],
-    keyTopics: [],
-    lastMood: null,
-    sessionCount: 0,
-    totalInteractions: 0
-  }
+  isVoiceModalActive: false
 };
 
 // ============================================================
-// 3. STORAGE HELPERS
+// STORAGE HELPERS
 // ============================================================
 function storageGet(key, fallback = null) {
   try { const data = localStorage.getItem('tyaza_' + key); return data ? JSON.parse(data) : fallback; } catch { return fallback; }
@@ -665,7 +2521,7 @@ function storageDelete(key, id) {
 function storageClear(key) { storageSet(key, []); }
 
 // ============================================================
-// 4. UI HELPERS
+// UI HELPERS
 // ============================================================
 function showToast(message, type = 'info') {
   const container = document.getElementById('toastContainer');
@@ -718,11 +2574,17 @@ function formatFileSize(bytes) {
 
 function detectLanguage(text) {
   const lower = text.toLowerCase();
-  const frenchPatterns = ['bonjour', 'salut', 'comment', 'je', 'tu', 'il', 'elle', 'nous', 'vous', 'français', 'merci', 'oui', 'non', 'triste', 'peine', 'heureux', 'joie', 'en colère', 'fâché', 'anxieux', 'peur', 'seul', 'solitaire', 'fatigué', 'épuisé', 'génocide', 'trauma'];
+  const frenchPatterns = ['bonjour', 'salut', 'comment', 'je', 'tu', 'il', 'elle', 'nous', 'vous',
+    'français', 'merci', 'oui', 'non', 'triste', 'peine', 'heureux', 'joie', 'en colère', 'fâché',
+    'anxieux', 'peur', 'seul', 'solitaire', 'fatigué', 'épuisé', 'génocide', 'trauma'];
   for (const pattern of frenchPatterns) {
     if (lower.includes(pattern)) return 'fr';
   }
-  const englishPatterns = ['hello', 'hi', 'hey', 'how', 'are', 'you', 'i', 'me', 'my', 'am', 'is', 'was', 'were', 'have', 'has', 'had', 'do', 'does', 'did', 'sad', 'happy', 'angry', 'afraid', 'scared', 'anxious', 'worried', 'alone', 'lonely', 'tired', 'exhausted', 'genocide', 'trauma', 'please', 'thank', 'thanks', 'okay', 'ok', 'yes', 'no'];
+  const englishPatterns = ['hello', 'hi', 'hey', 'how', 'are', 'you', 'i', 'me', 'my', 'am',
+    'is', 'was', 'were', 'have', 'has', 'had', 'do', 'does', 'did',
+    'sad', 'happy', 'angry', 'afraid', 'scared', 'anxious', 'worried',
+    'alone', 'lonely', 'tired', 'exhausted', 'genocide', 'trauma',
+    'please', 'thank', 'thanks', 'okay', 'ok', 'yes', 'no'];
   for (const pattern of englishPatterns) {
     if (lower.includes(pattern)) return 'en';
   }
@@ -731,23 +2593,51 @@ function detectLanguage(text) {
 
 function getLangContent(lang) {
   const content = {
-    rw: { greeting: "✨ Murakaza neza", subtitle: "Umuvugizi w'Umutima", status: "Igisubizo kindimo", placeholder: "Sangiza icyo utekereza...", scrollBottom: "subira hasi" },
-    fr: { greeting: "✨ Bienvenue", subtitle: "La Voix du Cœur", status: "En attente de réponse", placeholder: "Partagez ce que vous ressentez...", scrollBottom: "descendre" },
-    en: { greeting: "✨ Welcome", subtitle: "The Voice of the Heart", status: "Awaiting response", placeholder: "Share what's on your mind...", scrollBottom: "scroll down" }
+    rw: {
+      greeting: "✨ Murakaza neza",
+      subtitle: "Umuvugizi w'Umutima",
+      status: "Igisubizo kindimo",
+      placeholder: "Sangiza icyo utekereza...",
+      scrollBottom: "subira hasi"
+    },
+    fr: {
+      greeting: "✨ Bienvenue",
+      subtitle: "La Voix du Cœur",
+      status: "En attente de réponse",
+      placeholder: "Partagez ce que vous ressentez...",
+      scrollBottom: "descendre"
+    },
+    en: {
+      greeting: "✨ Welcome",
+      subtitle: "The Voice of the Heart",
+      status: "Awaiting response",
+      placeholder: "Share what's on your mind...",
+      scrollBottom: "scroll down"
+    }
   };
   return content[lang] || content.rw;
 }
 
 function analyzeRisks(text) {
   const lower = text.toLowerCase();
-  const risks = { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false };
-  const crisisPatterns = ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa', 'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye', 'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'];
+  const risks = {
+    suicide: false, selfHarm: false, violence: false,
+    ptsd: false, abuse: false, genocideTrauma: false
+  };
+  const crisisPatterns = ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
+    'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye',
+    'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'];
   const genocidePatterns = ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 'génocide', 'genocide'];
   for (const pattern of crisisPatterns) {
-    if (lower.includes(pattern.toLowerCase())) { risks.suicide = true; risks.selfHarm = true; }
+    if (lower.includes(pattern.toLowerCase())) {
+      risks.suicide = true;
+      risks.selfHarm = true;
+    }
   }
   for (const pattern of genocidePatterns) {
-    if (lower.includes(pattern.toLowerCase())) { risks.genocideTrauma = true; }
+    if (lower.includes(pattern.toLowerCase())) {
+      risks.genocideTrauma = true;
+    }
   }
   return risks;
 }
@@ -762,8 +2652,17 @@ function updateRiskIndicators(risks) {
     return;
   }
   container.classList.add('visible');
-  const labels = { suicide: '⚠️ Kwiyahura', selfHarm: '⚠️ Kwikomeretsa', violence: '⚠️ Umujinya', ptsd: '⚠️ Trauma', abuse: '⚠️ Guhohoterwa', genocideTrauma: '🕊️ Jenoside' };
-  container.innerHTML = activeRisks.map(risk => `<span class="risk-badge high">${labels[risk] || risk}</span>`).join('');
+  const labels = {
+    suicide: '⚠️ Kwiyahura',
+    selfHarm: '⚠️ Kwikomeretsa',
+    violence: '⚠️ Umujinya',
+    ptsd: '⚠️ Trauma',
+    abuse: '⚠️ Guhohoterwa',
+    genocideTrauma: '🕊️ Jenoside'
+  };
+  container.innerHTML = activeRisks.map(risk => {
+    return `<span class="risk-badge high">${labels[risk] || risk}</span>`;
+  }).join('');
 }
 
 function getUserProfile() {
@@ -779,7 +2678,9 @@ function getUserProfile() {
     }
   });
   const triggerWords = ['byibura', 'guhangayika', 'ubwoba', 'umujinya', 'agahinda', 'stress', 'trauma', 'ptsd', 'jenoside', '1994'];
-  const triggers = triggerWords.filter(word => allUserMessages.some(msg => msg.toLowerCase().includes(word)));
+  const triggers = triggerWords.filter(word =>
+    allUserMessages.some(msg => msg.toLowerCase().includes(word))
+  );
   const goalPatterns = ['ngomba', 'ndashaka', 'nshaka', 'nifuza', 'nzageraho'];
   const goals = [];
   allUserMessages.forEach(msg => {
@@ -794,14 +2695,21 @@ function getUserProfile() {
   });
   const cutoff = Date.now() - (30 * 86400000);
   const recentMoods = moodData.filter(m => m.timestamp >= cutoff);
-  const avgMood = recentMoods.length > 0 ? recentMoods.reduce((a, b) => a + b.mood, 0) / recentMoods.length : 0;
+  const avgMood = recentMoods.length > 0 ?
+    recentMoods.reduce((a, b) => a + b.mood, 0) / recentMoods.length : 0;
   const uniqueDays = new Set();
-  moodData.forEach(m => { uniqueDays.add(new Date(m.timestamp).toDateString()); });
+  moodData.forEach(m => {
+    uniqueDays.add(new Date(m.timestamp).toDateString());
+  });
   const activeDays = uniqueDays.size;
   const sessionCount = conversations.length || 1;
   const totalMessages = conversations.reduce((acc, c) => acc + (c.messages ? c.messages.length : 0), 0);
   const engagement = totalMessages > 0 ? Math.min(totalMessages / 5, 100) : 0;
-  return { userName, sessionCount, moodEntries: moodData.length, activeDays, avgMood, triggers, goals: goals.slice(0, 5), totalMessages, engagement: Math.round(engagement), recentMoods: recentMoods.slice(-7) };
+  return {
+    userName, sessionCount, moodEntries: moodData.length, activeDays,
+    avgMood, triggers, goals: goals.slice(0, 5), totalMessages,
+    engagement: Math.round(engagement), recentMoods: recentMoods.slice(-7)
+  };
 }
 
 function updateMemoryStats() {
@@ -820,54 +2728,53 @@ function updateMemoryStats() {
   }
 }
 
-// ============================================================
-// 5. EMOTION DETECTION — Enhanced with Memory
-// ============================================================
 function detectEmotion(text) {
   const lower = text.toLowerCase();
   
   // Crisis
-  const crisisPatterns = ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa', 'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye', 'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'];
+  const crisisPatterns = ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
+    'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye',
+    'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'];
   for (const pattern of crisisPatterns) {
-    if (lower.includes(pattern.toLowerCase())) return { type: 'crisis', intensity: 10 };
+    if (lower.includes(pattern.toLowerCase())) return { type: 'crisis' };
   }
   
   // Genocide
   const genocidePatterns = ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 'génocide', 'genocide'];
   for (const pattern of genocidePatterns) {
-    if (lower.includes(pattern.toLowerCase())) return { type: 'genocide', intensity: 9 };
+    if (lower.includes(pattern.toLowerCase())) return { type: 'genocide' };
   }
   
   // Company
   const companyPatterns = ['kivura labs', 'kivura', 'kampani', 'company', 'uruganda'];
   for (const pattern of companyPatterns) {
-    if (lower.includes(pattern.toLowerCase())) return { type: 'about_company', intensity: 1 };
+    if (lower.includes(pattern.toLowerCase())) return { type: 'about_company' };
   }
   
   // CEO
   const ceoPatterns = ['yves', 'hirwa', 'tuyishime', 'washinze', 'founder', 'ceo', 'umuyobozi'];
   for (const pattern of ceoPatterns) {
-    if (lower.includes(pattern.toLowerCase())) return { type: 'about_ceo', intensity: 1 };
+    if (lower.includes(pattern.toLowerCase())) return { type: 'about_ceo' };
   }
   
   // Greeting
   const greetingPatterns = ['muraho', 'hello', 'hi', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'bonjour', 'hey'];
   for (const pattern of greetingPatterns) {
-    if (lower.includes(pattern.toLowerCase())) return { type: 'greeting', intensity: 1 };
+    if (lower.includes(pattern.toLowerCase())) return { type: 'greeting' };
   }
   
   // Emotions
   const emotionMap = {
-    sadness: { patterns: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'nariraye', 'triste', 'peine'], intensity: 6 },
-    joy: { patterns: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo', 'heureux', 'joy'], intensity: 2 },
-    anger: { patterns: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'en colère', 'fâché'], intensity: 7 },
-    anxiety: { patterns: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'anxieux', 'peur', 'stress'], intensity: 5 },
-    loneliness: { patterns: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'seul', 'alone'], intensity: 6 },
-    fatigue: { patterns: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'fatigué', 'tired'], intensity: 4 }
+    sadness: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'nariraye', 'triste', 'peine'],
+    joy: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo', 'heureux', 'joy'],
+    anger: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'en colère', 'fâché'],
+    anxiety: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'anxieux', 'peur', 'stress'],
+    loneliness: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'seul', 'alone'],
+    fatigue: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'fatigué', 'tired']
   };
-  for (const [emotion, data] of Object.entries(emotionMap)) {
-    for (const pattern of data.patterns) {
-      if (lower.includes(pattern.toLowerCase())) return { type: emotion, intensity: data.intensity };
+  for (const [emotion, patterns] of Object.entries(emotionMap)) {
+    for (const pattern of patterns) {
+      if (lower.includes(pattern.toLowerCase())) return { type: emotion };
     }
   }
   
@@ -875,59 +2782,85 @@ function detectEmotion(text) {
   const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye|jewe|je m'appelle|je suis|mon nom est)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
   if (nameMatch) {
     const name = nameMatch[1].trim();
-    const excludedNames = ['having', 'have', 'has', 'had', 'ptsd', 'trauma', 'stress', 'anxiety', 'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy', 'good', 'bad', 'fine', 'okay', 'ok', 'great', 'terrible', 'wonderful', 'horrible', 'amazing', 'awful', 'well', 'hello', 'hi', 'muraho', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'neza', 'cyane', 'rwanda', 'kivura', 'labs', 'tyaza', 'murakoze', 'ndabashimiye', 'ndishimiye', 'mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima', 'ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'tyaza', 'uri', 'ndi'];
+    const excludedNames = ['having', 'have', 'has', 'had', 'ptsd', 'trauma', 'stress', 'anxiety',
+      'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy', 'good', 'bad', 'fine', 'okay', 'ok',
+      'great', 'terrible', 'wonderful', 'horrible', 'amazing', 'awful', 'well', 'hello', 'hi',
+      'muraho', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'neza', 'cyane', 'rwanda', 'kivura',
+      'labs', 'tyaza', 'murakoze', 'ndabashimiye', 'ndishimiye', 'mbabaye', 'agahinda', 'ndababaye',
+      'ndumva nabi', 'umutima', 'ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'ubwoba',
+      'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'kwigunga', 'ndi njyenyine', 'nta muntu',
+      'wenyine', 'ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'tyaza', 'uri', 'ndi'];
     if (name.length >= 2 && !excludedNames.includes(name.toLowerCase())) {
-      return { type: 'name', name: name, intensity: 1 };
+      return { type: 'name', name: name };
     }
   }
   
   // Rare words
-  for (const word of Object.keys(TYAZA.rareWords)) {
+  for (const word of Object.keys(TYAZA_RARE_WORDS)) {
     if (lower.includes(word.toLowerCase())) {
-      return { type: 'rare_word', word: word, intensity: 2 };
+      return { type: 'rare_word', word: word };
     }
   }
-  
-  // If nothing else, check if it's a question
-  if (text.includes('?') || text.toLowerCase().includes('ki') || text.toLowerCase().includes('gute')) {
-    return { type: 'question', intensity: 1 };
-  }
-  
   return null;
 }
 
 // ============================================================
-// 6. ELITE RESPONSE FORMATTER — 100% Human-like
+// ELITE BULLET RESPONSE FORMATTER
 // ============================================================
-class EliteResponse {
+class EliteBulletFormatter {
   constructor() {
-    this.metadata = { confidence: 0.85, emotion: 'neutral', responseTime: 0, tokens: 0, model: 'local' };
+    this.metadata = {
+      confidence: 0.85,
+      emotion: 'neutral',
+      responseTime: 0,
+      tokens: 0,
+      model: 'local'
+    };
     this.depthContent = null;
     this.proverb = null;
     this.proverbMeaning = null;
-    this.core = '';
-    this.bullets = [];
-    this.insight = '';
-    this.action = '';
-    this.extraWarmth = '';
   }
 
-  setCore(text) { this.core = text; return this; }
-  addBullets(bullets) { this.bullets = bullets.slice(0, 5); return this; }
-  setInsight(text) { this.insight = text; return this; }
-  setAction(text) { this.action = text; return this; }
-  setDepth(text) { this.depthContent = text; return this; }
-  addWarmth(text) { this.extraWarmth = text; return this; }
-  addProverb(proverb, meaning) { this.proverb = proverb; this.proverbMeaning = meaning; return this; }
-  setMetadata(key, value) { this.metadata[key] = value; return this; }
+  setCore(text) {
+    this.core = text;
+    return this;
+  }
+
+  addBullets(bullets) {
+    this.bullets = bullets.slice(0, 5);
+    return this;
+  }
+
+  setInsight(text) {
+    this.insight = text;
+    return this;
+  }
+
+  setAction(text) {
+    this.action = text;
+    return this;
+  }
+
+  setDepth(text) {
+    this.depthContent = text;
+    return this;
+  }
+
+  addProverb(proverb, meaning) {
+    this.proverb = proverb;
+    this.proverbMeaning = meaning;
+    return this;
+  }
+
+  setMetadata(key, value) {
+    this.metadata[key] = value;
+    return this;
+  }
 
   renderHTML() {
     let html = `<div class="elite-response">`;
     if (this.core) {
       html += `<div class="core"><span class="icon">🧠</span>${this.core}</div>`;
-    }
-    if (this.extraWarmth) {
-      html += `<div style="color:var(--text-secondary);font-size:0.9rem;margin:4px 0 6px 0;">${this.extraWarmth}</div>`;
     }
     if (this.bullets && this.bullets.length > 0) {
       html += `<ul class="bullet-list">`;
@@ -945,19 +2878,19 @@ class EliteResponse {
     html += `<hr class="separator">`;
     if (this.insight) {
       html += `<div class="insight-block">
-        <div class="label">💡 Icy'ukuri</div>
+        <div class="label">💡 Insight</div>
         <div class="text">${this.insight}</div>
       </div>`;
     }
     if (this.action) {
       html += `<div class="action-block">
-        <div class="label">⚡ Igikorwa</div>
+        <div class="label">⚡ Action</div>
         <div class="text">${this.action}</div>
       </div>`;
     }
     if (this.depthContent) {
       const depthId = 'depth-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
-      html += `<button class="depth-toggle" onclick="window.toggleDepth('${depthId}')">
+      html += `<button class="depth-toggle" onclick="toggleDepth('${depthId}')">
         <i class="fas fa-chevron-right"></i> <span>🧭 Kureba byinshi</span>
       </button>
       <div class="depth-content" id="${depthId}">${this.depthContent}</div>`;
@@ -969,7 +2902,6 @@ class EliteResponse {
   renderMarkdown() {
     let md = '';
     if (this.core) md += `🧠 ${this.core}\n\n`;
-    if (this.extraWarmth) md += `${this.extraWarmth}\n\n`;
     if (this.bullets && this.bullets.length > 0) {
       for (const bullet of this.bullets) {
         md += `• ${bullet}\n`;
@@ -987,7 +2919,11 @@ class EliteResponse {
   }
 
   build() {
-    return { html: this.renderHTML(), markdown: this.renderMarkdown(), metadata: this.metadata };
+    return {
+      html: this.renderHTML(),
+      markdown: this.renderMarkdown(),
+      metadata: this.metadata
+    };
   }
 }
 
@@ -1002,175 +2938,125 @@ function toggleDepth(id) {
     }
   }
 }
-window.toggleDepth = toggleDepth;
 
 // ============================================================
-// 7. INTELLIGENT RESPONSE GENERATION — With FULL Memory
+// RESPONSE GENERATION
 // ============================================================
-function generateResponse(userInput, conversationMemory = null) {
+function generateResponse(userInput) {
   const detection = detectEmotion(userInput);
   const startTime = performance.now();
-  const f = new EliteResponse();
-  
-  // Use memory if provided
-  const memory = conversationMemory || state.conversationMemory;
-  
-  // Get a proverb
+  const f = new EliteBulletFormatter();
+
   const getProverb = () => {
-    const keys = Object.keys(TYAZA.proverbs);
+    const keys = Object.keys(TYAZA_PROVERBS);
     const key = keys[Math.floor(Math.random() * keys.length)];
-    return { proverb: key, meaning: TYAZA.proverbs[key] };
+    return { proverb: key, meaning: TYAZA_PROVERBS[key] };
   };
-  
-  // Check if we have a name from memory
-  const userName = state.userName || '';
-  
-  // ---- CRISIS ----
+
+  // Crisis
   if (detection && detection.type === 'crisis') {
     const p = getProverb();
-    f.setCore(`⚠️ Ukeneye ubufasha bwihutirwa — ndumva ibyo uvuga bikomeye`)
-      .addBullets([
-        `Nturi wenyine muri ibi — abantu benshi barabyumva`,
-        `Ubufasha buri hafi yawe — wita ku buzima bwawe`,
-        `Nta mpamvu yo kwihanganira ibi wenyine`
-      ])
-      .addWarmth(`${userName ? userName + ', ' : ''}Ndumva ibyo uvuga ni ibintu bikomeye. Ni byiza ko wabivuze — ni intambwe ya mbere.`)
-      .setInsight("Ibyo wumva ni by'ukuri, ariko ubufasha buriho. Nta muntu ugomba kwihanganira ibi yonyine.")
-      .setAction("Kanda kuri 116 cyangwa uhamagara umuntu wizeye ubu. Ntukarinda.")
-      .setDepth("Niba ufite ibitekerezo byo kwiyahura, ni ingenzi ko wita ku buzima bwawe. Hamagara 116, 3029, cyangwa 112 ubu. Ubu ni ubwihutirwa.")
+    f.setCore("⚠️ Ukeneye ubufasha bwihutirwa")
+      .addBullets(["Ibi bikomeye — ndumva ubabaye cyane", "Nturi wenyine muri ibi", "Ubufasha buri hafi yawe"])
+      .setInsight("Ibyo wumva ni by'ukuri, ariko ubufasha buriho.")
+      .setAction("Kanda kuri 116 cyangwa uhamagara umuntu wizeye ubu")
+      .setDepth("Niba ufite ibitekerezo byo kwiyahura, ni ingenzi ko wita ku buzima bwawe. Hamagara 116, 3029, cyangwa 112 ubu.")
       .addProverb(p.proverb, p.meaning)
       .setMetadata('confidence', 1.0).setMetadata('emotion', 'crisis');
     return f.build();
   }
-  
-  // ---- GENOCIDE TRAUMA ----
+
+  // Genocide
   if (detection && detection.type === 'genocide') {
     const p = getProverb();
-    f.setCore(`🕊️ Ibyo wavuze ni ibintu bikomeye — nta muntu ugomba kwihanganira ibyo yonyine`)
-      .addBullets([
-        `Jenoside yakorewe Abatutsi mu 1994 yasize ibyago byinshi`,
-        `Nturi wenyine mu kwibuka — abantu benshi barabyumva`,
-        `Ubufasha buri hafi yawe — nta mpamvu yo kwihanganira wenyine`
-      ])
-      .addWarmth(`${userName ? userName + ', ' : ''}Ndumva ibyo uvuga. Kwibuka ni ngombwa, ariko nta muntu ugomba kwihanganira ibyago yonyine.`)
-      .setInsight("Kubaho mu gihe cya jenoside bikomeye, ariko ubu hari ubufasha. Ntugomba kwihanganira byose wenyine.")
-      .setAction("Hamagara 116 cyangwa 3029 kugira ngo ubone ubufasha. Ubu ni ubwihutirwa.")
-      .setDepth("Abari bafite ihungabana rya jenoside babona inkunga ihoraho. Vugana n'umuntu wizeye. Ntugomba kwihanganira byose wenyine.")
+    f.setCore("🕊️ Ibyo wavuze ni ibintu bikomeye")
+      .addBullets(["Jenoside yakorewe Abatutsi mu 1994 yasize ibyago", "Nta muntu ugomba kwihanganira ibyago yonyine", "Ubufasha buri hafi yawe"])
+      .setInsight("Kubaho mu gihe cya jenoside bikomeye, ariko ubu hari ubufasha.")
+      .setAction("Hamagara 116 cyangwa 3029 kugira ngo ubone ubufasha")
+      .setDepth("Abari bafite ihungabana rya jenoside babona inkunga ihoraho. Vugana n'umuntu wizeye.")
       .addProverb(p.proverb, p.meaning)
       .setMetadata('confidence', 0.95).setMetadata('emotion', 'somber');
     return f.build();
   }
-  
-  // ---- NAME DETECTION ----
+
+  // Name
   if (detection && detection.type === 'name') {
     state.userName = detection.name;
     storageSet('userName', state.userName);
     const p = getProverb();
     f.setCore(`✨ Muraho, ${detection.name}! Ndi TYAZA, umuvugizi w'umutima`)
-      .addBullets([
-        `Ndi hano kugira ngo mbafashe kumva ibiri ku mutima wawe`,
-        `TYAZA yakozwe na KIVURA LABS — "Healthy citizens, wealthy nation"`,
-        `Nta mpamvu yo kwihanganira ibyo wumva wenyine`
-      ])
-      .addWarmth(`${detection.name}, ni byiza ko waje. Gutangira ikiganiro ni intambwe ya mbere yo kwitaho.`)
-      .setInsight("Gutangira ikiganiro ni intambwe ya mbere yo kwitaho. Ndi hano ngo nkumve.")
-      .setAction("Ubu wumva ute? Sangiza icyo utekereza — ndi hano ngo nkumve.")
-      .setDepth("TYAZA ni AI ivuga mu Kinyarwanda, yakozwe kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo. Nta mpamvu yo kwihanganira wenyine.")
+      .addBullets(["Ndi hano kugira ngo mbafashe kumva ibiri ku mutima", "TYAZA yakozwe na KIVURA LABS", `"${COMPANY_INFO.quote}"`])
+      .setInsight("Gutangira ikiganiro ni intambwe ya mbere yo kwitaho")
+      .setAction("Ubu wumva ute? Sangiza icyo utekereza")
+      .setDepth("TYAZA ni AI ivuga mu Kinyarwanda, yakozwe kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo.")
       .addProverb(p.proverb, p.meaning)
       .setMetadata('confidence', 0.98).setMetadata('emotion', 'welcoming');
     return f.build();
   }
-  
-  // ---- RARE WORD ----
+
+  // Rare word
   if (detection && detection.type === 'rare_word') {
     const word = detection.word;
-    const meaning = TYAZA.rareWords[word] || "ikintu cyihariye";
+    const meaning = TYAZA_RARE_WORDS[word] || "ikintu cyihariye";
     const p = getProverb();
-    f.setCore(`📖 "${word}" — ijambo ry'ikinyarwanda gikomeye`)
-      .addBullets([
-        `Sobanura: ${meaning}`,
-        `Ni jambo ry'ikinyarwanda gikomeye ry'umuco nyarwanda`,
-        `Rikoreshwa n'abanyabwenge n'abashakashatsi`
-      ])
-      .addWarmth(`${userName ? userName + ', ' : ''}Iri jambo ni ikintu cyihariye mu mvugo y'ikinyarwanda. Ni byiza ko wakunze.`)
-      .setInsight("Iyi mvugo ikubiyemo ubwenge n'umuco by'Abanyarwanda. Ni ikintu kidasanzwe.")
-      .setAction("Waba ufite ikindi ushaka kuvuga? Ndi hano ngo nkumve.")
-      .setDepth(`Iri jambo rikoreshwa n'abanyabwenge n'abashakashatsi mu mvugo ya kinyarwanda. Ni ikintu cy'umuco nyarwanda.`)
+    f.setCore(`📖 "${word}"`)
+      .addBullets([`Sobanura: ${meaning}`, "Ni jambo ry'ikinyarwanda gikomeye", "Rikoreshwa mu mvugo y'umuco nyarwanda"])
+      .setInsight("Iyi mvugo ikubiyemo ubwenge n'umuco by'Abanyarwanda.")
+      .setAction("Waba ufite ikindi ushaka kuvuga?")
+      .setDepth(`Iri jambo rikoreshwa n'abanyabwenge n'abashakashatsi mu mvugo ya kinyarwanda.`)
       .addProverb(p.proverb, p.meaning)
       .setMetadata('confidence', 0.95).setMetadata('emotion', 'insightful');
     return f.build();
   }
-  
-  // ---- COMPANY ----
+
+  // Company
   if (detection && detection.type === 'about_company') {
     const p = getProverb();
-    f.setCore(`🏢 ${TYAZA.company.name} — Uruganda rw'ikoranabuhanga mu Rwanda`)
-      .addBullets([
-        `Yashinzwe na ${TYAZA.company.founder} mu 2024`,
-        `Product: ${TYAZA.company.product} — "Healthy citizens, wealthy nation"`,
-        `${TYAZA.company.name} ifite intego yo kugeza ikoranabuhanga ku banyarwanda bose`
-      ])
-      .addWarmth(`${userName ? userName + ', ' : ''}${TYAZA.company.name} ni uruganda rushinzwe mu Rwanda, rugamije gukora AI ivuga mu Kinyarwanda.`)
-      .setInsight(`${TYAZA.company.name} ifite intego yo kugeza ikoranabuhanga ku banyarwanda bose, nta muntu usigaye inyuma.`)
-      .setAction("Wifuza kumenya byinshi kuri TYAZA cyangwa KIVURA LABS?")
-      .setDepth(`${TYAZA.company.name} ni uruganda rushinzwe mu Rwanda, rugamije gukora AI ivuga mu Kinyarwanda. Yashinzwe na ${TYAZA.company.founder}, ufite intego yo gufasha abantu.`)
+    f.setCore(`🏢 ${COMPANY_INFO.name} — Uruganda rw'ikoranabuhanga mu Rwanda`)
+      .addBullets([`Yashinzwe na ${COMPANY_INFO.founder} mu 2024`, `Product: ${COMPANY_INFO.product}`, `"${COMPANY_INFO.quote}"`])
+      .setInsight(`${COMPANY_INFO.name} ifite intego yo kugeza ikoranabuhanga ku banyarwanda bose.`)
+      .setAction("Wifuza kumenya byinshi kuri TYAZA?")
+      .setDepth(`${COMPANY_INFO.name} ni uruganda rushinzwe mu Rwanda, rugamije gukora AI ivuga mu Kinyarwanda.`)
       .addProverb(p.proverb, p.meaning)
       .setMetadata('confidence', 0.98).setMetadata('emotion', 'informative');
     return f.build();
   }
-  
-  // ---- CEO ----
+
+  // CEO
   if (detection && detection.type === 'about_ceo') {
     const p = getProverb();
-    f.setCore(`👤 ${TYAZA.company.founder} — CEO & Founder wa ${TYAZA.company.name}`)
-      .addBullets([
-        `Yashinze ${TYAZA.company.name} mu 2024`,
-        `Ijambo rye: "${TYAZA.company.quote}"`,
-        `Ni umunyabwenge ukora ikoranabuhanga, afite intego yo gufasha abantu`
-      ])
-      .addWarmth(`${userName ? userName + ', ' : ''}${TYAZA.company.founder} ni umunyarwanda ukora ikoranabuhanga, yashinze TYAZA kugira ngo ifashe abantu.`)
-      .setInsight("Yashinze TYAZA kugira ngo ifashe abantu mu buzima bwo mu mutwe. Ni ikintu gikomeye.")
-      .setAction("Wifuza kumenya byinshi kuri TYAZA?")
-      .setDepth(`${TYAZA.company.founder} ni umunyarwanda ukora ikoranabuhanga, afite intego yo gufasha abantu mu buzima bwo mu mutwe.`)
+    f.setCore(`👤 ${COMPANY_INFO.founder} — CEO & Founder wa ${COMPANY_INFO.name}`)
+      .addBullets([`Yashinze ${COMPANY_INFO.name} mu 2024`, `"${COMPANY_INFO.quote}"`, "Ni umunyabwenge ukora ikoranabuhanga"])
+      .setInsight("Yashinze TYAZA kugira ngo ifashe abantu mu buzima bwo mu mutwe.")
+      .setAction("Wifuza kumenya byinshi?")
+      .setDepth(`${COMPANY_INFO.founder} ni umunyarwanda ukora ikoranabuhanga.`)
       .addProverb(p.proverb, p.meaning)
       .setMetadata('confidence', 0.98).setMetadata('emotion', 'informative');
     return f.build();
   }
-  
-  // ---- GREETING ----
-  if (detection && detection.type === 'greeting') {
-    const p = getProverb();
-    const name = state.userName || '';
-    f.setCore(name ? `✨ Muraho, ${name}! Ndi TYAZA, umuvugizi w'umutima` : "✨ Muraho! Ndi TYAZA, umuvugizi w'umutima")
-      .addBullets([
-        "Ndi hano kugira ngo mbafashe kumva ibiri ku mutima wawe",
-        "TYAZA yakozwe na KIVURA LABS — 'Healthy citizens, wealthy nation'",
-        "Nta mpamvu yo kwihanganira ibyo wumva wenyine"
-      ])
-      .addWarmth("Ni byiza ko waje. Gutangira ikiganiro ni intambwe ya mbere yo kwitaho.")
-      .setInsight("Gutangira ikiganiro ni intambwe ya mbere yo kwitaho. Ndi hano ngo nkumve.")
-      .setAction("Ubu wumva ute? Sangiza icyo utekereza.")
-      .setDepth("TYAZA ni AI ivuga mu Kinyarwanda, yakozwe kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo.")
-      .addProverb(p.proverb, p.meaning)
-      .setMetadata('confidence', 0.92).setMetadata('emotion', 'welcoming');
-    return f.build();
-  }
-  
-  // ---- SPECIFIC EMOTIONS ----
+
+  // Emotion responses
   const emotionResponses = {
+    greeting: () => {
+      const p = getProverb();
+      const name = state.userName || '';
+      f.setCore(name ? `✨ Muraho, ${name}! Ndi TYAZA` : "✨ Muraho! Ndi TYAZA")
+        .addBullets(["Ndi hano ngo mbafashe", "TYAZA yakozwe na KIVURA LABS", `"${COMPANY_INFO.quote}"`])
+        .setInsight("Gutangira ikiganiro ni intambwe ya mbere yo kwitaho")
+        .setAction("Ubu wumva ute?")
+        .setDepth("TYAZA ni AI ivuga mu Kinyarwanda, ifasha mu buzima bwo mu mutwe.")
+        .addProverb(p.proverb, p.meaning)
+        .setMetadata('confidence', 0.92).setMetadata('emotion', 'welcoming');
+      return f.build();
+    },
     sadness: () => {
       const p = getProverb();
       const name = state.userName || '';
       f.setCore(`💙 Mbabajwe no kumva ko ubabaye${name ? ', ' + name : ''}`)
-        .addBullets([
-          "Agahinda ni ibisanzwe — nta muntu ugomba kwihanganira byose wenyine",
-          "Ndumva ibyo wumva — ndi hano ngo nkumve",
-          "Uwihanganye aratsinda — kwihangana bituma utsinda"
-        ])
-        .addWarmth(`${name ? name + ', ' : ''}Ndumva ibyo uvuga. Agahinda ni ikintu gikomeye, ariko nta muntu ugomba kwihanganira byose wenyine.`)
-        .setInsight("Kubabara ni ikimenyetso ko ukumva ibintu byimbitse. Ni ikintu gisanzwe.")
-        .setAction("Wambwira byinshi kuri byo? Ndi hano ngo nkumve, nta mpaka.")
-        .setDepth("Ibihe bibi birashira, ariko nta muntu ugomba kwihanganira byose yonyine. Nta mpamvu yo kwihanganira wenyine.")
+        .addBullets(["Agahinda ni ibisanzwe", "Ntugomba kwihanganira byose wenyine", "Ndumva ibyo wumva"])
+        .setInsight("Kubabara ni ikimenyetso ko ukumva ibintu byimbitse.")
+        .setAction("Wambwira byinshi kuri byo? Ndi hano ngo nkumve")
+        .setDepth("Ibihe bibi birashira, ariko nta muntu ugomba kwihanganira byose yonyine.")
         .addProverb(p.proverb, p.meaning)
         .setMetadata('confidence', 0.88).setMetadata('emotion', 'sadness');
       return f.build();
@@ -1179,15 +3065,10 @@ function generateResponse(userInput, conversationMemory = null) {
       const p = getProverb();
       const name = state.userName || '';
       f.setCore(`✨ Ni byiza kumva wishimye${name ? ', ' + name : ''}`)
-        .addBullets([
-          "Ibyishimo ni impamvu yo gukomeza — birakubera byiza",
-          "Gukomeza gutanga ibyishimo ni byiza",
-          "Birakwiriye kwishimira ibyiza n'ibintu byoroshye"
-        ])
-        .addWarmth(`${name ? name + ', ' : ''}Ni byiza kumva ko wishimye! Ibyishimo ni ikintu cy'ingenzi mu buzima.`)
-        .setInsight("Ibyishimo byo mu mutima bitera imbaraga no gukomeza. Ni ikintu cy'ingenzi.")
-        .setAction("Ni iki cyaguteye ibyishimo uyu munsi? Wambwira byinshi?")
-        .setDepth("Ibyishimo ni ikintu gikwiriye gusangirwa. Ni ikintu cy'ingenzi mu buzima.")
+        .addBullets(["Ibyishimo ni impamvu yo gukomeza", "Birakwiriye kwishimira ibyiza", "Gukomeza gutanga ibyishimo ni byiza"])
+        .setInsight("Ibyishimo byo mu mutima bitera imbaraga no gukomeza.")
+        .setAction("Ni iki cyaguteye ibyishimo uyu munsi?")
+        .setDepth("Ibyishimo ni ikintu gikwiriye gusangirwa.")
         .addProverb(p.proverb, p.meaning)
         .setMetadata('confidence', 0.88).setMetadata('emotion', 'joy');
       return f.build();
@@ -1196,14 +3077,9 @@ function generateResponse(userInput, conversationMemory = null) {
       const p = getProverb();
       const name = state.userName || '';
       f.setCore(`🔥 Birumvikana ko urakaye${name ? ', ' + name : ''}`)
-        .addBullets([
-          "Kurakara ni ibisanzwe — nta muntu ugomba kwihanganira byose wenyine",
-          "Ni byiza kubivugaho — kwumva ni intambwe ya mbere",
-          "Nta mpamvu yo kwihanganira ibyo wumva wenyine"
-        ])
-        .addWarmth(`${name ? name + ', ' : ''}Ndumva ibyo uvuga. Uburakari ni ikintu gikomeye, ariko nta muntu ugomba kwihanganira byose wenyine.`)
-        .setInsight("Uburakari ni ikimenyetso ko hari ikintu kiri nabi. Ni byiza kukivuga.")
-        .setAction("Ni iki cyaguteye uburakari? Vuga byinshi — ndi hano ngo nkumve.")
+        .addBullets(["Kurakara ni ibisanzwe", "Ariko ni byiza kubivugaho", "Nta mpamvu yo kwihanganira byose wenyine"])
+        .setInsight("Uburakari ni ikimenyetso ko hari ikintu kiri nabi.")
+        .setAction("Ni iki cyaguteye uburakari? Vuga byinshi")
         .setDepth("Uburakari bushobora kuba ikimenyetso cy'ikintu kiri nabi. Ni byiza kuvugana n'umuntu wizeye.")
         .addProverb(p.proverb, p.meaning)
         .setMetadata('confidence', 0.88).setMetadata('emotion', 'anger');
@@ -1213,15 +3089,10 @@ function generateResponse(userInput, conversationMemory = null) {
       const p = getProverb();
       const name = state.userName || '';
       f.setCore(`😰 Ndumva ufite ubwoba${name ? ', ' + name : ''}`)
-        .addBullets([
-          "Gutekereza ku hazaza bishobora gutera ubwoba — ni ibisanzwe",
-          "Nturi wenyine muri ibi — abantu benshi barabyumva",
-          "Ndi hano kugira nkumve — nta mpaka"
-        ])
-        .addWarmth(`${name ? name + ', ' : ''}Ndumva ubwoba. Ni ikintu gikomeye, ariko nta muntu ugomba kwihanganira wenyine.`)
+        .addBullets(["Gutekereza ku hazaza bishobora gutera ubwoba", "Nturi wenyine muri ibi", "Ndi hano kugira nkumve"])
         .setInsight("Ubwoba ni ikimenyetso ko uri umuntu, ariko ntugomba kwihanganira byose wenyine.")
-        .setAction("Ni iki kiguteye ubwoba? Vuga byinshi — ndi hano ngo nkumve.")
-        .setDepth("Gerageza guhumeka buhoro, unganye imyumvire yawe. Nta mpamvu yo kwihanganira wenyine.")
+        .setAction("Ni iki kiguteye ubwoba? Vuga byinshi")
+        .setDepth("Gerageza guhumeka buhoro, unganye imyumvire yawe.")
         .addProverb(p.proverb, p.meaning)
         .setMetadata('confidence', 0.88).setMetadata('emotion', 'anxiety');
       return f.build();
@@ -1230,15 +3101,10 @@ function generateResponse(userInput, conversationMemory = null) {
       const p = getProverb();
       const name = state.userName || '';
       f.setCore(`🕊️ Kumva uri wenyine biraremereye${name ? ', ' + name : ''}`)
-        .addBullets([
-          "Nta muntu ugomba kwihanganira ibyago yonyine",
-          "Nturi wenyine — ndi hano ngo nkumve",
-          "Nta mpamvu yo kwihanganira ibyo wumva wenyine"
-        ])
-        .addWarmth(`${name ? name + ', ' : ''}Ndumva ibyo uvuga. Kwigunga ni ikintu gikomeye, ariko nta muntu ugomba kwihanganira byose wenyine.`)
-        .setInsight("Kwigunga bikomeye, ariko ubufasha buri hafi. Nta muntu ugomba kwihanganira wenyine.")
-        .setAction("Waba wifuza kuganira n'umuntu cyangwa gusangira ibyo wumva? Ndi hano.")
-        .setDepth("Nta muntu ugomba kwihanganira ibyago yonyine. Hamagara umuntu wizeye cyangwa uganire n'umuntu wumva.")
+        .addBullets(["Nta muntu ugomba kwihanganira ibyago yonyine", "Nturi wenyine — ndi hano", "Ndi hano ngo nkumve"])
+        .setInsight("Kwigunga bikomeye, ariko ubufasha buri hafi.")
+        .setAction("Waba wifuza kuganira n'umuntu cyangwa gusangira ibyo wumva?")
+        .setDepth("Nta muntu ugomba kwihanganira ibyago yonyine. Hamagara umuntu wizeye.")
         .addProverb(p.proverb, p.meaning)
         .setMetadata('confidence', 0.88).setMetadata('emotion', 'loneliness');
       return f.build();
@@ -1247,67 +3113,40 @@ function generateResponse(userInput, conversationMemory = null) {
       const p = getProverb();
       const name = state.userName || '';
       f.setCore(`😓 Ndumva ufite umunaniro${name ? ', ' + name : ''}`)
-        .addBullets([
-          "Birashoboka ko ukeneye kuruhuka — ni ibisanzwe",
-          "Gutekereza ku bintu byinshi birakuremereye",
-          "Ntugomba gukora byose wenyine — nta mpamvu"
-        ])
-        .addWarmth(`${name ? name + ', ' : ''}Ndumva umunaniro. Ni ikintu gikomeye, ariko nta muntu ugomba kwihanganira wenyine.`)
+        .addBullets(["Birashoboka ko ukeneye kuruhuka", "Gutekereza ku bintu byinshi birakuremereye", "Ntugomba gukora byose wenyine"])
         .setInsight("Umunaniro ni ikimenyetso ko ugomba gufata umwanya wo kwitaho.")
-        .setAction("Gerageza guhumeka buhoro no kuruhuka. Nta mpamvu yo gukora byose wenyine.")
-        .setDepth("Umunaniro ushobora guterwa n'ibintu byinshi. Gerageza gusinzira bihagije no kwitaho.")
+        .setAction("Gerageza guhumeka buhoro no kuruhuka")
+        .setDepth("Umunaniro ushobora guterwa n'ibintu byinshi. Gerageza gusinzira bihagije.")
         .addProverb(p.proverb, p.meaning)
         .setMetadata('confidence', 0.88).setMetadata('emotion', 'fatigue');
       return f.build();
-    },
-    question: () => {
-      const p = getProverb();
-      const name = state.userName || '';
-      f.setCore(`❓ ${name ? name + ', ' : ''}Urabaza ikintu cyiza — ndi hano ngo nkusubize`)
-        .addBullets([
-          "TYAZA ni AI ivuga mu Kinyarwanda, yakozwe na KIVURA LABS",
-          `Ijambo ryacu: "${TYAZA.company.quote}"`,
-          "Nta mpamvu yo kwihanganira ibyo wumva wenyine"
-        ])
-        .addWarmth(`${name ? name + ', ' : ''}Ni byiza ko wabajije. Ndi hano ngo nkugirire inama.`)
-        .setInsight("Kubaza ni intambwe ya mbere yo kumenya. Nta mpamvu yo kwihanganira wenyine.")
-        .setAction("Wifuza kumenya byinshi? Sangiza icyo utekereza.")
-        .setDepth("TYAZA yashinzwe kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo. Nta mpamvu yo kwihanganira wenyine.")
-        .addProverb(p.proverb, p.meaning)
-        .setMetadata('confidence', 0.78).setMetadata('emotion', 'curious');
-      return f.build();
     }
   };
-  
+
   if (detection && detection.type && emotionResponses[detection.type]) {
     const result = emotionResponses[detection.type]();
     result.metadata.responseTime = Math.round(performance.now() - startTime);
     result.metadata.model = 'local';
     return result;
   }
-  
-  // ---- DEFAULT ----
+
+  // Default
   const p = getProverb();
   const name = state.userName || '';
   f.setCore(`💙 ${name ? name + ', ' : ''}Urakoze kundekera. Ndumva ibyo uvuga.`)
-    .addBullets([
-      "TYAZA ni AI ivuga mu Kinyarwanda, yakozwe na KIVURA LABS",
-      `Ijambo ryacu: "${TYAZA.company.quote}"`,
-      "Nta mpamvu yo kwihanganira ibyo wumva wenyine"
-    ])
-    .addWarmth(`${name ? name + ', ' : ''}Ndumva ibyo uvuga. Ndi hano ngo nkumve.`)
-    .setInsight("Kuvuga ibyo wumva ni intambwe ya mbere yo kwitaho. Nta mpamvu yo kwihanganira wenyine.")
+    .addBullets(["TYAZA ni AI ivuga mu Kinyarwanda", "Yakozwe na KIVURA LABS", `"${COMPANY_INFO.quote}"`])
+    .setInsight("Kuvuga ibyo wumva ni intambwe ya mbere yo kwitaho.")
     .setAction("Wambwira byinshi? Wumva ute ubu?")
-    .setDepth("TYAZA yashinzwe kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo. Nta mpamvu yo kwihanganira wenyine.")
+    .setDepth("TYAZA yashinzwe kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo.")
     .addProverb(p.proverb, p.meaning)
     .setMetadata('confidence', 0.72).setMetadata('emotion', 'neutral')
     .setMetadata('responseTime', Math.round(performance.now() - startTime)).setMetadata('model', 'local');
-  
+
   return f.build();
 }
 
 // ============================================================
-// 8. VOICE & SPEECH
+// VOICE & SPEECH
 // ============================================================
 function loadVoices() {
   state.voices = state.speechSynthesis.getVoices();
@@ -1334,7 +3173,7 @@ function speakText(text) {
 }
 
 // ============================================================
-// 9. VOICE MODAL
+// VOICE MODAL - Siri-like Audio Spectrum
 // ============================================================
 let voiceModalActive = false;
 let voiceTranscript = '';
@@ -1491,6 +3330,7 @@ function startVoiceWithSpectrum(spectrum) {
     state.speechRecognition.start();
   }
 
+  // Audio spectrum
   try {
     navigator.mediaDevices.getUserMedia({ audio: true, video: false })
       .then(stream => {
@@ -1672,7 +3512,7 @@ function sendVoiceInput() {
 }
 
 // ============================================================
-// 10. FILE ATTACHMENT
+// FILE ATTACHMENT
 // ============================================================
 function attachFile() {
   const input = document.createElement('input');
@@ -1723,7 +3563,7 @@ function removeFile() {
 }
 
 // ============================================================
-// 11. CORE UI FUNCTIONS
+// CORE UI FUNCTIONS
 // ============================================================
 function updateWelcome() {
   const name = state.userName || '';
@@ -1774,7 +3614,9 @@ function showTyping() {
   el.id = id;
   el.className = 'typing';
   el.innerHTML = `
-    <div class="msg-avatar">🧠</div>
+    <div class="msg-avatar">
+      <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">
+    </div>
     <div class="typing-dots">
       <span class="typing-dot"></span>
       <span class="typing-dot"></span>
@@ -1794,7 +3636,7 @@ function removeTyping(id) {
   if (el) el.remove();
 }
 
-function streamText(element, html, speed = 6) {
+function streamText(element, html, speed = 8) {
   return new Promise((resolve) => {
     element.innerHTML = '';
     let i = 0;
@@ -1849,7 +3691,7 @@ function buildMetadataHTML(metadata) {
 }
 
 // ============================================================
-// 12. MESSAGE HANDLING — With FULL Memory
+// MESSAGE HANDLING
 // ============================================================
 function addMessage(role, content, htmlContent = null, metadata = null, fileData = null) {
   const welcome = document.getElementById('welcome');
@@ -1862,7 +3704,7 @@ function addMessage(role, content, htmlContent = null, metadata = null, fileData
   msg.className = `message ${role}`;
   const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
   const displayContent = htmlContent || content;
-  const avatarContent = role === 'user' ? '👤' : '🧠';
+  const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
   const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
   
   let fileHTML = '';
@@ -1919,7 +3761,7 @@ async function addMessageWithStream(role, content, htmlContent, metadata, fileDa
   msg.className = `message ${role}`;
   const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
   const displayContent = htmlContent || content;
-  const avatarContent = role === 'user' ? '👤' : '🧠';
+  const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
   const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
   
   let fileHTML = '';
@@ -1970,7 +3812,7 @@ async function addMessageWithStream(role, content, htmlContent, metadata, fileDa
 }
 
 // ============================================================
-// 13. SEND MESSAGE — With AI Integration
+// SEND MESSAGE
 // ============================================================
 async function sendMessage() {
   const input = document.getElementById('messageInput');
@@ -2025,7 +3867,7 @@ async function sendMessage() {
   const statusText = document.getElementById('statusText');
   if (statusText) statusText.textContent = 'TYAZA irategura...';
 
-  let result = generateResponse(text || '', state.conversationMemory);
+  let result = generateResponse(text || '');
 
   // Try OpenAI if available
   if (state.useAI && typeof puter !== 'undefined' && text) {
@@ -2048,14 +3890,14 @@ async function sendMessage() {
 }
 
 // ============================================================
-// 14. OPENAI VIA PUTER
+// OPENAI VIA PUTER
 // ============================================================
 async function getPuterAIResponse(userInput) {
   try {
     if (typeof puter === 'undefined') throw new Error('Puter not loaded');
     const detection = detectEmotion(userInput);
     const lang = state.detectedLanguage || 'rw';
-    const langInstruction = lang === 'rw' ? 'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe. Koresha imigani y\'ikinyarwanda.' :
+    const langInstruction = lang === 'rw' ? 'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe.' :
                             lang === 'fr' ? 'Répondez en Français, avec empathie.' :
                             'Respond in English, with empathy.';
     
@@ -2065,11 +3907,9 @@ PERSONALITY: Ufite impuhwe, uri umunyabwenge, kandi wita ku muntu.
 Ukoresha ikinyarwanda kiboneye, gishyuha.
 IBANZE - KIVURA LABS: Yashinzwe na Yves Hirwa Tuyishime (CEO & Founder). Ijambo rye: "Healthy citizens, wealthy nation".
 Product: TYAZA - AI ivuga mu Kinyarwanda.
-Tagline: "${TYAZA.mission.tagline}"
+Tagline: "${TYAZA_MISSION.tagline}"
 INTEKO: Ntukavuge ko uri umuntu - uri AI. Koresha imigani y'ikinyarwanda.
-Subiza mu buryo bw'umwimerere nk'umuntu w'ukuri.
-Wibuka ibyavuzwe mbere.
-Nta mpamvu yo kwihanganira ibyo wumva wenyine.`;
+Subiza mu buryo bw'umwimerere nk'umuntu w'ukuri.`;
 
     const messages = [
       { role: 'system', content: systemContext },
@@ -2089,8 +3929,9 @@ Nta mpamvu yo kwihanganira ibyo wumva wenyine.`;
     const confidence = detection ? 0.85 : 0.78;
     const emotion = detection?.type || 'neutral';
     
+    // Try to format with EliteBulletFormatter
     try {
-      const f = new EliteResponse();
+      const f = new EliteBulletFormatter();
       const lines = text.split('\n').filter(l => l.trim());
       let core = lines.find(l => l.includes('🧠') || l.includes('💙') || l.includes('✨')) || lines[0] || '🧠 Ndumva ibyo uvuga.';
       const bullets = lines.filter(l => l.trim().startsWith('•') || l.trim().startsWith('-')).slice(0, 4);
@@ -2121,7 +3962,7 @@ Nta mpamvu yo kwihanganira ibyo wumva wenyine.`;
 }
 
 // ============================================================
-// 15. CONVERSATION HISTORY
+// CONVERSATION HISTORY
 // ============================================================
 function saveConversation() {
   if (state.messages.length === 0) return;
@@ -2200,7 +4041,7 @@ function loadChat(id) {
       const msgEl = document.createElement('div');
       msgEl.className = `message ${role}`;
       const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
-      const avatarContent = role === 'user' ? '👤' : '🧠';
+      const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
       const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
       let fileHTML = '';
       if (fileData && role === 'user') {
@@ -2229,7 +4070,7 @@ function loadChat(id) {
   updateMemoryStats();
   updateWelcome();
   closeSidebar();
-  showToast(`📜 ${chat.title || 'Ikiganiro'} yatangiwe`, 'info');
+  showToast(`📜 ${chat.title || 'Ikiganiro'} yatangiye`, 'info');
 }
 
 function deleteChat(id) {
@@ -2272,7 +4113,7 @@ function clearHistory() {
 
 function exportChat() {
   if (state.messages.length === 0) { showToast('Nta kiganiro cyohereza', 'warning'); return; }
-  const data = { app: 'TYAZA', version: '5.0', timestamp: Date.now(), user: state.userName || 'User', messages: state.messages, session: state.sessionStart, risks: state.riskFlags, profile: getUserProfile(), company: TYAZA.company, mission: TYAZA.mission, detectedLanguage: state.detectedLanguage };
+  const data = { app: 'TYAZA', version: '5.0', timestamp: Date.now(), user: state.userName || 'User', messages: state.messages, session: state.sessionStart, risks: state.riskFlags, profile: getUserProfile(), company: COMPANY_INFO, mission: TYAZA_MISSION, detectedLanguage: state.detectedLanguage };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -2286,7 +4127,7 @@ function exportChat() {
 }
 
 // ============================================================
-// 16. SIDEBAR FUNCTIONS
+// SIDEBAR FUNCTIONS
 // ============================================================
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
@@ -2302,7 +4143,7 @@ function closeSidebar() {
 }
 
 // ============================================================
-// 17. MOOD FUNCTIONS
+// MOOD FUNCTIONS
 // ============================================================
 function openMoodModal() {
   const modal = document.getElementById('moodModal');
@@ -2356,7 +4197,7 @@ function renderMoodCalendar() {
 }
 
 // ============================================================
-// 18. CRISIS MODAL
+// CRISIS MODAL
 // ============================================================
 function showCrisisModal() {
   const modal = document.getElementById('crisisModal');
@@ -2368,7 +4209,7 @@ function closeCrisisModal() {
 }
 
 // ============================================================
-// 19. VOICE CONTROLS
+// VOICE CONTROLS
 // ============================================================
 function toggleVoice() {
   if (voiceModalActive) { closeVoiceModal(); return; }
@@ -2402,7 +4243,64 @@ async function testMic() {
 }
 
 // ============================================================
-// 20. BACKGROUND EFFECTS
+// PROFILE MODAL
+// ============================================================
+function showProfileModal() {
+  const profile = getUserProfile();
+  const modal = document.getElementById('profileModal');
+  const content = document.getElementById('profileContent');
+  if (!modal || !content) return;
+  const moodEmojis = ['😢', '😔', '😐', '🙂', '😊'];
+  const avgMoodText = profile.avgMood > 0 ? `${moodEmojis[Math.round(profile.avgMood) - 1] || '😐'} ${profile.avgMood.toFixed(1)}/5` : 'Nta data';
+  const recentMoodsHtml = profile.recentMoods.map(m => {
+    const date = new Date(m.timestamp).toLocaleDateString('rw-RW');
+    return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--glass-border);">
+      <span style="font-size:0.8rem;">${date}</span>
+      <span style="font-size:0.8rem;">${moodEmojis[m.mood - 1] || '😐'} ${m.mood}/5</span>
+    </div>`;
+  }).join('');
+  content.innerHTML = `
+    <div style="display:grid;gap:10px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+        <div style="background:var(--glass);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--glass-border);">
+          <div style="font-size:1.2rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${profile.sessionCount}</div>
+          <div style="font-size:0.6rem;color:var(--text-tertiary);text-transform:uppercase;">Ibikorwa</div>
+        </div>
+        <div style="background:var(--glass);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--glass-border);">
+          <div style="font-size:1.2rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${profile.moodEntries}</div>
+          <div style="font-size:0.6rem;color:var(--text-tertiary);text-transform:uppercase;">Mood</div>
+        </div>
+        <div style="background:var(--glass);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--glass-border);">
+          <div style="font-size:1.2rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${profile.activeDays}</div>
+          <div style="font-size:0.6rem;color:var(--text-tertiary);text-transform:uppercase;">Iminsi</div>
+        </div>
+        <div style="background:var(--glass);padding:10px;border-radius:8px;text-align:center;border:1px solid var(--glass-border);">
+          <div style="font-size:1.2rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">${avgMoodText}</div>
+          <div style="font-size:0.6rem;color:var(--text-tertiary);text-transform:uppercase;">Uko yumva</div>
+        </div>
+      </div>
+      ${profile.userName ? `<div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);"><div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">👤 Izina</div><div style="color:var(--text);font-size:0.85rem;">${profile.userName}</div></div>` : ''}
+      ${profile.triggers.length > 0 ? `<div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);"><div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">⚠️ Ibimubangamira</div><div style="color:var(--text);font-size:0.8rem;">${profile.triggers.join(', ')}</div></div>` : ''}
+      ${profile.goals.length > 0 ? `<div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);"><div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">🎯 Intego</div><div style="color:var(--text);font-size:0.8rem;">${profile.goals.map(g => `• ${g}`).join('<br>')}</div></div>` : ''}
+      ${recentMoodsHtml ? `<div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);"><div style="font-weight:600;color:var(--text-secondary);margin-bottom:6px;font-size:0.8rem;">📊 Imimerere iheruka</div>${recentMoodsHtml}</div>` : ''}
+      <div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);"><div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">📊 Ingirakamaro</div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:4px;">
+          <div style="flex:1;height:6px;background:var(--surface-4);border-radius:3px;overflow:hidden;"><div style="width:${profile.engagement}%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:3px;"></div></div>
+          <span style="font-size:0.75rem;font-weight:600;color:var(--primary);">${profile.engagement}%</span>
+        </div>
+      </div>
+      <div style="background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(244,114,182,0.05));padding:10px;border-radius:8px;border:1px solid rgba(167,139,250,0.15);">
+        <div style="font-weight:600;color:var(--secondary);font-size:0.8rem;">🏢 KIVURA LABS</div>
+        <div style="font-size:0.7rem;color:var(--text-secondary);margin-top:3px;"><strong>CEO & Founder:</strong> Yves Hirwa Tuyishime</div>
+        <div style="font-size:0.7rem;color:var(--text-tertiary);font-style:italic;">"Healthy citizens, wealthy nation"</div>
+      </div>
+    </div>
+  `;
+  modal.classList.add('active');
+}
+
+// ============================================================
+// BACKGROUND EFFECTS
 // ============================================================
 function initNeuralBackground() {
   const canvas = document.getElementById('neuralCanvas');
@@ -2457,7 +4355,7 @@ function initStars() {
 }
 
 // ============================================================
-// 21. INITIALIZATION — The Elite Engine
+// INITIALIZATION
 // ============================================================
 function init() {
   if (state.isInitialized) return;
@@ -2493,7 +4391,7 @@ function init() {
             const msgEl = document.createElement('div');
             msgEl.className = `message ${role}`;
             const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
-            const avatarContent = role === 'user' ? '👤' : '🧠';
+            const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
             const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
             let fileHTML = '';
             if (fileData && role === 'user') {
@@ -2592,6 +4490,23 @@ function init() {
   const exportBtn = document.getElementById('exportBtn');
   if (exportBtn) exportBtn.addEventListener('click', exportChat);
   
+  const viewProfileBtn = document.getElementById('viewProfileBtn');
+  if (viewProfileBtn) viewProfileBtn.addEventListener('click', showProfileModal);
+  
+  const profileModalClose = document.getElementById('profileModalClose');
+  if (profileModalClose) {
+    profileModalClose.addEventListener('click', () => {
+      const modal = document.getElementById('profileModal');
+      if (modal) modal.classList.remove('active');
+    });
+  }
+  const profileModal = document.getElementById('profileModal');
+  if (profileModal) {
+    profileModal.addEventListener('click', (e) => {
+      if (e.target === profileModal) profileModal.classList.remove('active');
+    });
+  }
+  
   const messagesContainer = document.getElementById('messages');
   if (messagesContainer) messagesContainer.addEventListener('scroll', handleScroll);
   
@@ -2684,9 +4599,12 @@ function init() {
 }
 
 // ============================================================
-// 22. EXPOSE GLOBALS
+// EXPOSE GLOBALS
 // ============================================================
-window.TYAZA = TYAZA;
+window.TYAZA_PROVERBS = TYAZA_PROVERBS;
+window.COMPANY_INFO = COMPANY_INFO;
+window.TYAZA_MISSION = TYAZA_MISSION;
+window.EliteBulletFormatter = EliteBulletFormatter;
 window.showToast = showToast;
 window.speakText = speakText;
 window.sendMessage = sendMessage;
@@ -2703,6 +4621,7 @@ window.closeMoodModal = closeMoodModal;
 window.testMic = testMic;
 window.analyzeRisks = analyzeRisks;
 window.getUserProfile = getUserProfile;
+window.showProfileModal = showProfileModal;
 window.generateResponse = generateResponse;
 window.detectEmotion = detectEmotion;
 window.detectLanguage = detectLanguage;
@@ -2715,7 +4634,7 @@ window.toggleSidebar = toggleSidebar;
 window.closeSidebar = closeSidebar;
 
 // ============================================================
-// 23. START APP
+// START APP
 // ============================================================
 document.addEventListener('DOMContentLoaded', init);
 </script>
