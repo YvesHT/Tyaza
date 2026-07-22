@@ -10,9 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <script src="https://js.puter.com/v2/"></script>
-<!-- PDF.js for PDF text extraction -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<!-- Tesseract.js for OCR -->
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -413,78 +411,6 @@ body {
   box-shadow: var(--shadow-glow);
 }
 
-.voice-controls {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 8px;
-}
-
-.voice-control-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.voice-control-label {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.65rem;
-  color: var(--text-tertiary);
-}
-
-.voice-control-value {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-.slider {
-  appearance: none;
-  width: 100%;
-  height: 4px;
-  background: var(--surface-3);
-  border-radius: var(--radius-full);
-  outline: none;
-  cursor: pointer;
-}
-
-.slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 14px;
-  height: 14px;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 2px 10px rgba(167, 139, 250, 0.4);
-  transition: all 0.3s var(--ease-spring);
-}
-
-.slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
-
-.select {
-  appearance: none;
-  width: 100%;
-  padding: 8px 12px;
-  font-family: inherit;
-  font-size: 0.8rem;
-  color: var(--text-primary);
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-md);
-  outline: none;
-  cursor: pointer;
-  transition: all 0.3s var(--ease-smooth);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-}
-
-.select:hover { border-color: var(--primary); }
-.select:focus { 
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.12);
-}
-
 .history-list {
   flex: 1;
   overflow-y: auto;
@@ -570,44 +496,6 @@ body {
   width: 20px;
   height: 20px;
   border-radius: 4px;
-}
-
-.memory-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.memory-stat {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-md);
-  padding: 8px;
-  text-align: center;
-  transition: all 0.3s var(--ease-smooth);
-}
-
-.memory-stat:hover {
-  background: var(--glass-hover);
-  transform: translateY(-1px);
-}
-
-.memory-stat .stat-value {
-  font-size: 1rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.memory-stat .stat-label {
-  font-size: 0.55rem;
-  color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 2px;
 }
 
 .chat-main {
@@ -1814,7 +1702,7 @@ body {
 .toast-info { border-left-color: var(--primary); }
 .toast-warning { border-left-color: var(--warning); }
 
-/* Voice Interaction Modal - Advanced */
+/* Voice Modal - Audio Spectrum */
 .voice-modal {
   position: fixed;
   inset: 0;
@@ -1861,8 +1749,8 @@ body {
 }
 
 .voice-modal-content .voice-visualizer {
-  width: 140px;
-  height: 140px;
+  width: 160px;
+  height: 160px;
   margin: 0 auto 20px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(167, 139, 250, 0.15), transparent 70%);
@@ -1873,7 +1761,7 @@ body {
 }
 
 .voice-modal-content .voice-visualizer .mic-icon {
-  font-size: 3.5rem;
+  font-size: 4rem;
   color: var(--secondary);
   animation: voicePulse 1.5s ease-in-out infinite;
   z-index: 2;
@@ -1881,7 +1769,7 @@ body {
 
 @keyframes voicePulse {
   0%, 100% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.2); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 1; }
 }
 
 .voice-modal-content .voice-visualizer .wave-ring {
@@ -1902,12 +1790,30 @@ body {
   100% { transform: scale(1.8); opacity: 0; }
 }
 
+.voice-modal-content .audio-spectrum {
+  width: 100%;
+  height: 60px;
+  margin: 6px 0 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+}
+
+.voice-modal-content .audio-spectrum .bar {
+  width: 6px;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  border-radius: 3px;
+  transition: height 0.1s ease;
+  height: 4px;
+}
+
 .voice-modal-content .voice-level {
   width: 100%;
   height: 4px;
   background: var(--surface-4);
   border-radius: var(--radius-full);
-  margin: 10px 0 16px;
+  margin: 6px 0 12px;
   overflow: hidden;
   position: relative;
 }
@@ -1916,7 +1822,7 @@ body {
   height: 100%;
   background: linear-gradient(90deg, var(--primary), var(--secondary));
   border-radius: var(--radius-full);
-  transition: width 0.1s ease;
+  transition: width 0.15s ease;
   width: 0%;
 }
 
@@ -1930,7 +1836,7 @@ body {
 .voice-modal-content .voice-subtitle {
   color: var(--text-tertiary);
   font-size: 0.85rem;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .voice-modal-content .voice-transcript {
@@ -1941,7 +1847,7 @@ body {
   min-height: 80px;
   color: var(--text-primary);
   font-size: 1rem;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   text-align: left;
   max-height: 150px;
   overflow-y: auto;
@@ -1955,16 +1861,6 @@ body {
 
 .voice-modal-content .voice-transcript .final {
   color: var(--text-primary);
-}
-
-.voice-modal-content .voice-transcript .thinking-indicator {
-  display: inline-block;
-  animation: dotPulse 1.4s ease-in-out infinite;
-}
-
-@keyframes dotPulse {
-  0%, 60%, 100% { opacity: 0.3; transform: scale(0.8); }
-  30% { opacity: 1; transform: scale(1.2); }
 }
 
 .voice-modal-content .voice-controls {
@@ -1982,64 +1878,14 @@ body {
 .voice-modal-content .voice-timer {
   font-size: 0.8rem;
   color: var(--text-tertiary);
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .voice-modal-content .voice-status-text {
   font-size: 0.75rem;
   color: var(--text-muted);
-  margin-top: 8px;
+  margin-top: 6px;
   min-height: 20px;
-}
-
-/* Voice dialog fallback */
-.voice-dialog {
-  position: fixed;
-  inset: 0;
-  background: rgba(3, 0, 20, 0.95);
-  backdrop-filter: blur(20px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 600;
-  animation: fadeUp 0.3s var(--ease-spring);
-}
-
-.voice-dialog-content {
-  background: var(--surface-2);
-  backdrop-filter: blur(30px) saturate(180%);
-  border: 2px solid var(--secondary);
-  border-radius: var(--radius-xl);
-  padding: 24px;
-  max-width: 90vw;
-  width: 380px;
-  box-shadow: var(--shadow-lg);
-}
-
-.voice-dialog-content h3 {
-  color: var(--text-primary);
-  margin-bottom: 14px;
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.voice-dialog-content input {
-  width: 100%;
-  padding: 12px;
-  border-radius: var(--radius-lg);
-  background: var(--glass);
-  color: white;
-  border: 1px solid var(--glass-border);
-  font-size: 0.95rem;
-  margin-bottom: 12px;
-  transition: all 0.3s var(--ease-smooth);
-}
-
-.voice-dialog-content input:focus { 
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.12);
-  outline: none;
 }
 
 .sidebar-overlay {
@@ -2060,125 +1906,126 @@ body {
   pointer-events: auto;
 }
 
-.proverb-box {
-  background: rgba(167, 139, 250, 0.08);
-  border-left: 3px solid var(--primary);
-  padding: 10px 14px;
-  margin: 10px 0;
-  border-radius: var(--radius-md);
-  display: block;
-  width: 100%;
-}
-
-.proverb-box .proverb-text {
-  font-family: 'Crimson Pro', serif;
-  font-style: italic;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-  line-height: 1.6;
-}
-
-.proverb-box .proverb-meaning {
-  color: var(--text-tertiary);
-  font-size: 0.75rem;
-  margin-top: 4px;
-  font-style: normal;
-  font-family: 'Inter', sans-serif;
-}
-
-.crisis-box {
-  background: rgba(239, 68, 68, 0.12);
-  border-left: 3px solid var(--error);
-  padding: 10px 14px;
-  margin: 8px 0;
-  border-radius: var(--radius-md);
-  font-weight: 600;
-  color: var(--error);
-  font-size: 0.85rem;
-}
-
-.insight-box {
-  background: rgba(52, 211, 153, 0.08);
-  border-left: 3px solid var(--accent);
-  padding: 10px 14px;
-  margin: 10px 0;
-  border-radius: var(--radius-md);
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-}
-
-.insight-box .insight-title {
-  font-weight: 600;
-  color: var(--accent);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 4px;
-}
-
-.code-block {
-  background: rgba(0, 0, 0, 0.4);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-md);
-  padding: 10px 12px;
-  margin: 8px 0;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-  overflow-x: auto;
-  white-space: pre-wrap;
-}
-
-.msg-bubble h1, .msg-bubble h2, .msg-bubble h3 {
-  font-family: 'Space Grotesk', sans-serif;
-  margin: 6px 0 8px 0;
-  letter-spacing: -0.02em;
-}
-
-.msg-bubble h1 { font-size: 1.15rem; }
-.msg-bubble h2 { font-size: 1rem; }
-.msg-bubble h3 { font-size: 0.9rem; }
-
-.msg-bubble p {
-  margin: 6px 0;
-  line-height: 1.65;
-}
-
-.msg-bubble ul, .msg-bubble ol {
-  margin: 6px 0 10px 18px;
+/* Elite Bullet Response Styles */
+.elite-response {
+  font-size: 0.9rem;
   line-height: 1.7;
 }
 
-.msg-bubble li {
-  margin-bottom: 4px;
+.elite-response .core {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
 }
 
-.msg-bubble strong {
-  color: var(--secondary);
-  font-weight: 600;
+.elite-response .core .icon { margin-right: 6px; }
+
+.elite-response .bullet-list {
+  margin: 4px 0 6px 0;
+  padding-left: 0;
+  list-style: none;
 }
 
-.msg-bubble em {
-  color: var(--text-tertiary);
-  font-style: italic;
+.elite-response .bullet-list li {
+  margin-bottom: 3px;
+  padding-left: 16px;
+  position: relative;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
 }
 
-.msg-bubble code {
-  background: rgba(0, 0, 0, 0.3);
-  padding: 1px 5px;
-  border-radius: 4px;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.8em;
-  color: var(--accent);
+.elite-response .bullet-list li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+  font-weight: 700;
 }
 
-.msg-bubble blockquote {
+.elite-response .separator {
+  border: none;
+  border-top: 1px solid var(--glass-border);
+  margin: 6px 0 8px 0;
+  opacity: 0.5;
+}
+
+.elite-response .insight-block {
+  margin: 6px 0 4px 0;
+  padding: 6px 12px;
+  background: rgba(167, 139, 250, 0.05);
   border-left: 2px solid var(--primary);
-  padding-left: 10px;
-  margin: 8px 0;
-  color: var(--text-tertiary);
-  font-style: italic;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
+
+.elite-response .insight-block .label {
+  font-weight: 600;
+  color: var(--accent);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.elite-response .insight-block .text {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.elite-response .action-block {
+  margin: 4px 0 6px 0;
+  padding: 6px 12px;
+  background: rgba(244, 114, 182, 0.06);
+  border-left: 2px solid var(--secondary);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.elite-response .action-block .label {
+  font-weight: 600;
+  color: var(--secondary);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.elite-response .action-block .text {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+.elite-response .depth-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  font-size: 0.7rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s var(--ease-smooth);
+  font-family: inherit;
+}
+
+.elite-response .depth-toggle:hover {
+  color: var(--text-primary);
+  background: var(--glass);
+}
+
+.elite-response .depth-content {
+  margin-top: 6px;
+  padding: 8px 12px;
+  background: var(--glass);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border);
+  font-size: 0.82rem;
+  color: var(--text-tertiary);
+  line-height: 1.7;
+  display: none;
+}
+
+.elite-response .depth-content.open { display: block; }
 
 @media (max-width: 768px) {
   html { font-size: 13px; }
@@ -2230,8 +2077,8 @@ body {
 
   .chat-header { padding: 0 14px; }
   .voice-modal-content { padding: 20px; width: 95vw; }
-  .voice-modal-content .voice-visualizer { width: 100px; height: 100px; }
-  .voice-modal-content .voice-visualizer .mic-icon { font-size: 2.5rem; }
+  .voice-modal-content .voice-visualizer { width: 120px; height: 120px; }
+  .voice-modal-content .voice-visualizer .mic-icon { font-size: 3rem; }
 }
 
 @media (max-width: 480px) {
@@ -2297,64 +2144,6 @@ body {
           <button class="btn btn-secondary btn-block btn-sm" style="margin-top:8px;" id="openMoodModal">
             <i class="fas fa-chart-line"></i> Reba imimerere
           </button>
-        </div>
-      </div>
-
-      <div>
-        <div class="sidebar-section-title">🧠 Memory Engine</div>
-        <div class="settings-card" id="memoryStats">
-          <div class="memory-stats">
-            <div class="memory-stat">
-              <div class="stat-value" id="statSessions">0</div>
-              <div class="stat-label">Ibikorwa</div>
-            </div>
-            <div class="memory-stat">
-              <div class="stat-value" id="statMoods">0</div>
-              <div class="stat-label">Mood Entries</div>
-            </div>
-            <div class="memory-stat">
-              <div class="stat-value" id="statActiveDays">0</div>
-              <div class="stat-label">Iminsi ikora</div>
-            </div>
-            <div class="memory-stat">
-              <div class="stat-value" id="statRiskLevel">✅</div>
-              <div class="stat-label">Ibyago</div>
-            </div>
-          </div>
-          <button class="btn btn-secondary btn-block btn-sm" style="margin-top:8px;" id="viewProfileBtn">
-            <i class="fas fa-user"></i> Reba User Profile
-          </button>
-        </div>
-      </div>
-
-      <div>
-        <div class="sidebar-section-title">Amajwi</div>
-        <div class="settings-card">
-          <button class="btn btn-secondary btn-block" id="micTestBtn">🎤 Gerageza mikorofoni</button>
-          <div class="settings-row" style="margin-top:8px;">
-            <label class="settings-label" for="voiceSelect">Ijwi</label>
-            <select class="select" id="voiceSelect">
-              <option value="Google UK English Female">Umugore (UK)</option>
-              <option value="Google UK English Male">Umugabo (UK)</option>
-              <option value="Samantha">Samantha</option>
-            </select>
-          </div>
-          <div class="voice-controls">
-            <div class="voice-control-item">
-              <div class="voice-control-label">
-                <span>Umuvuduko</span>
-                <span class="voice-control-value" id="rateValue">0.9</span>
-              </div>
-              <input type="range" class="slider" id="rateSlider" min="0.5" max="1.5" step="0.05" value="0.9">
-            </div>
-            <div class="voice-control-item">
-              <div class="voice-control-label">
-                <span>Ibarura</span>
-                <span class="voice-control-value" id="pitchValue">1.0</span>
-              </div>
-              <input type="range" class="slider" id="pitchSlider" min="0.5" max="2" step="0.05" value="1.0">
-            </div>
-          </div>
         </div>
       </div>
 
@@ -2435,9 +2224,11 @@ body {
 
     <div class="input-area">
       <div class="input-container">
-        <textarea id="messageInput" placeholder="Sangiza icyo utekereza..." rows="1"></textarea>
-        <div class="input-actions">
+        <div class="input-actions" style="order:0;">
           <button class="input-btn plus-btn" id="plusBtn" title="Ongeraho dosiye"><i class="fas fa-plus"></i></button>
+        </div>
+        <textarea id="messageInput" placeholder="Sangiza icyo utekereza..." rows="1" style="order:1;"></textarea>
+        <div class="input-actions" style="order:2;">
           <button class="input-btn voice-btn" id="voiceBtn" title="Kuvuga"><i class="fas fa-microphone"></i></button>
           <button class="input-btn send-btn" id="sendBtn"><i class="fas fa-paper-plane"></i></button>
         </div>
@@ -3003,7 +2794,10 @@ class UltraMarkdownParser {
   }
 }
 
-class AIResponseFormatter {
+// ============================================================
+// 3. ELITE BULLET RESPONSE FORMATTER
+// ============================================================
+class EliteBulletFormatter {
   constructor() {
     this.sections = [];
     this.metadata = {
@@ -3013,138 +2807,135 @@ class AIResponseFormatter {
       tokens: 0,
       model: 'local'
     };
+    this.depthContent = null;
   }
 
-  addTitle(text) {
-    this.sections.push({ type: "title", content: text });
+  setCore(text) {
+    this.core = text;
     return this;
   }
-  addParagraph(text) {
-    this.sections.push({ type: "paragraph", content: text });
+
+  addBullets(bullets) {
+    this.bullets = bullets.slice(0, 5);
     return this;
   }
-  addList(items) {
-    this.sections.push({ type: "list", content: items });
+
+  setInsight(text) {
+    this.insight = text;
     return this;
   }
-  addEmphasis(text, style = "bold") {
-    this.sections.push({ type: "emphasis", style: style, content: text });
+
+  setAction(text) {
+    this.action = text;
     return this;
   }
-  addProverb(proverb, meaning) {
-    this.sections.push({ type: "proverb", proverb: proverb, meaning: meaning });
+
+  setDepth(text) {
+    this.depthContent = text;
     return this;
   }
-  addCrisis(text) {
-    this.sections.push({ type: "crisis", content: text });
-    return this;
-  }
-  addInsight(title, text) {
-    this.sections.push({ type: "insight", title: title, content: text });
-    return this;
-  }
-  addDivider() {
-    this.sections.push({ type: "divider" });
-    return this;
-  }
+
   setMetadata(key, value) {
     this.metadata[key] = value;
     return this;
   }
-  build() {
-    return this.sections;
-  }
-
-  renderMarkdownToHTML(text) {
-    if (!text) return '';
-    let result = text;
-    result = result.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em style="color:var(--secondary);">$1</em></strong>');
-    result = result.replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--secondary);">$1</strong>');
-    result = result.replace(/\*(.*?)\*/g, '<em style="color:var(--text-tertiary);">$1</em>');
-    return result;
-  }
 
   renderHTML() {
-    let output = '';
-    for (const sec of this.sections) {
-      switch (sec.type) {
-        case "title":
-          output += `<h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;background:linear-gradient(135deg,var(--primary),var(--secondary));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:4px 0 8px 0;">${this.renderMarkdownToHTML(sec.content)}</h3>`;
-          break;
-        case "paragraph":
-          output += `<p style="margin:5px 0;line-height:1.65;">${this.renderMarkdownToHTML(sec.content)}</p>`;
-          break;
-        case "list":
-          output += `<ul style="margin:6px 0 10px 18px;line-height:1.7;">`;
-          for (const item of sec.content) {
-            output += `<li style="margin-bottom:3px;">${this.renderMarkdownToHTML(item)}</li>`;
-          }
-          output += `</ul>`;
-          break;
-        case "emphasis":
-          if (sec.style === "bold") {
-            output += `<strong style="color:var(--secondary);">${sec.content}</strong>`;
-          } else if (sec.style === "italic") {
-            output += `<em style="color:var(--text-tertiary);">${sec.content}</em>`;
-          } else {
-            output += sec.content;
-          }
-          break;
-        case "proverb":
-          output += `<div class="proverb-box">`;
-          output += `<div class="proverb-text">"${this.renderMarkdownToHTML(sec.proverb)}"</div>`;
-          output += `<div class="proverb-meaning">→ ${this.renderMarkdownToHTML(sec.meaning)}</div>`;
-          output += `</div>`;
-          break;
-        case "crisis":
-          output += `<div class="crisis-box">⚠️ ${this.renderMarkdownToHTML(sec.content)}</div>`;
-          break;
-        case "insight":
-          output += `<div class="insight-box">`;
-          output += `<div class="insight-title">${sec.title}</div>`;
-          output += `<div>${this.renderMarkdownToHTML(sec.content)}</div>`;
-          output += `</div>`;
-          break;
-        case "divider":
-          output += `<hr style="border:none;border-top:1px solid var(--glass-border);margin:10px 0;">`;
-          break;
-        default:
-          output += sec.content || '';
-      }
+    let html = `<div class="elite-response">`;
+    
+    // Core
+    if (this.core) {
+      html += `<div class="core"><span class="icon">🧠</span>${this.core}</div>`;
     }
-    return output;
+    
+    // Bullets
+    if (this.bullets && this.bullets.length > 0) {
+      html += `<ul class="bullet-list">`;
+      for (const bullet of this.bullets) {
+        html += `<li>${bullet}</li>`;
+      }
+      html += `</ul>`;
+    }
+    
+    // Separator
+    html += `<hr class="separator">`;
+    
+    // Insight
+    if (this.insight) {
+      html += `<div class="insight-block">
+        <div class="label">💡 Insight</div>
+        <div class="text">${this.insight}</div>
+      </div>`;
+    }
+    
+    // Action
+    if (this.action) {
+      html += `<div class="action-block">
+        <div class="label">⚡ Action</div>
+        <div class="text">${this.action}</div>
+      </div>`;
+    }
+    
+    // Depth (collapsible)
+    if (this.depthContent) {
+      const depthId = 'depth-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
+      html += `<button class="depth-toggle" onclick="toggleDepth('${depthId}')">
+        <i class="fas fa-chevron-right"></i> <span>🧭 Kureba byinshi</span>
+      </button>
+      <div class="depth-content" id="${depthId}">${this.depthContent}</div>`;
+    }
+    
+    html += `</div>`;
+    return html;
   }
 
   renderMarkdown() {
-    let output = '';
-    for (const sec of this.sections) {
-      switch (sec.type) {
-        case "title": output += `# ${sec.content}\n\n`; break;
-        case "paragraph": output += `${sec.content}\n\n`; break;
-        case "list":
-          for (const item of sec.content) output += `- ${item}\n`;
-          output += `\n`;
-          break;
-        case "emphasis":
-          if (sec.style === "bold") output += `**${sec.content}**\n\n`;
-          else if (sec.style === "italic") output += `*${sec.content}*\n\n`;
-          else output += `${sec.content}\n\n`;
-          break;
-        case "proverb":
-          output += `> "${sec.proverb}"\n> *${sec.meaning}*\n\n`;
-          break;
-        case "crisis": output += `⚠️ **CRISIS:** ${sec.content}\n\n`; break;
-        case "insight": output += `💡 **${sec.title}:** ${sec.content}\n\n`; break;
-        case "divider": output += `---\n\n`; break;
-        default: output += sec.content || '';
+    let md = '';
+    if (this.core) md += `🧠 ${this.core}\n\n`;
+    if (this.bullets && this.bullets.length > 0) {
+      for (const bullet of this.bullets) {
+        md += `• ${bullet}\n`;
       }
+      md += `\n`;
     }
-    return output;
+    md += `───\n\n`;
+    if (this.insight) md += `💡 ${this.insight}\n\n`;
+    if (this.action) md += `⚡ ${this.action}\n\n`;
+    if (this.depthContent) md += `🧭 ${this.depthContent}`;
+    return md.trim();
+  }
+
+  build() {
+    return {
+      html: this.renderHTML(),
+      markdown: this.renderMarkdown(),
+      metadata: this.metadata,
+      sections: [
+        { type: 'core', content: this.core },
+        { type: 'bullets', content: this.bullets },
+        { type: 'insight', content: this.insight },
+        { type: 'action', content: this.action },
+        { type: 'depth', content: this.depthContent }
+      ]
+    };
+  }
+}
+
+// Toggle depth content
+function toggleDepth(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.toggle('open');
+    const btn = el.parentElement.querySelector('.depth-toggle');
+    if (btn) {
+      const icon = btn.querySelector('i');
+      if (icon) icon.className = el.classList.contains('open') ? 'fas fa-chevron-down' : 'fas fa-chevron-right';
+    }
   }
 }
 
 // ============================================================
-// 3. STATE MANAGEMENT
+// 4. STATE MANAGEMENT
 // ============================================================
 let state = {
   messages: [],
@@ -3178,10 +2969,11 @@ let state = {
   openAIModel: 'gpt-4o',
   modelFallbackIndex: 0,
   isInitialized: false,
-  attachedFile: null
+  attachedFile: null,
+  voiceSilenceTimer: null,
+  isVoiceModalActive: false
 };
 
-// Allowed file types for Puter AI
 const ALLOWED_FILE_TYPES = {
   'text/plain': '.txt',
   'text/markdown': '.md',
@@ -3195,7 +2987,7 @@ const ALLOWED_FILE_TYPES = {
 };
 
 // ============================================================
-// 4. STORAGE HELPERS
+// 5. STORAGE HELPERS
 // ============================================================
 function storageGet(key, fallback = null) {
   try { const data = localStorage.getItem('tyaza_' + key); return data ? JSON.parse(data) : fallback; } catch { return fallback; }
@@ -3219,7 +3011,7 @@ function storageDelete(key, id) {
 function storageClear(key) { storageSet(key, []); }
 
 // ============================================================
-// 5. UI HELPERS
+// 6. UI HELPERS
 // ============================================================
 function showToast(message, type = 'info') {
   const container = document.getElementById('toastContainer');
@@ -3477,160 +3269,246 @@ function detectEmotion(text) {
 }
 
 // ============================================================
-// 6. RESPONSE GENERATION
+// 7. RESPONSE GENERATION - with Elite Bullet Formatter
 // ============================================================
-function generateResponse(userInput) {
+function generateEliteResponse(userInput) {
   const detection = detectEmotion(userInput);
   const startTime = performance.now();
 
-  if (detection && detection.type === 'rare_word') {
-    const word = detection.word;
-    const meaning = TYAZA_DATASET.rareWords[word] || "ikintu cyihariye";
-    const f = new AIResponseFormatter();
-    f.addTitle(`📖 "**${word}**"`);
-    f.addParagraph(`Iryo jambo risobanura: *${meaning}*.`);
-    f.addParagraph("Ni jambo ry'ikinyarwanda gikomeye, rikoreshwa mu mvugo y'umuco nyarwanda.");
-    const proverbs = Object.keys(TYAZA_DATASET.proverbs);
-    const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-    f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
-    f.addParagraph("Waba ufite ikindi ushaka kuvuga?");
-    f.setMetadata('confidence', 0.95);
-    f.setMetadata('emotion', 'insightful');
-    f.setMetadata('model', 'local');
-    f.setMetadata('responseTime', Math.round(performance.now() - startTime));
-    return {
-      sections: f.build(),
-      html: f.renderHTML(),
-      markdown: f.renderMarkdown(),
-      metadata: f.metadata,
-      userName: null
-    };
+  // Crisis detection
+  if (detection && detection.type === 'crisis') {
+    const f = new EliteBulletFormatter();
+    f.setCore("⚠️ Ukeneye ubufasha bwihutirwa")
+      .addBullets([
+        "Ibi bikomeye — ndumva ubabaye",
+        "Nturi wenyine muri ibi",
+        "Ubufasha buri hafi yawe"
+      ])
+      .setInsight("Ibyo wumva ni by'ukuri, ariko ubufasha buriho")
+      .setAction("Kanda kuri 116 cyangwa ugerageze guhamagara umuntu wizeye")
+      .setDepth("Niba ufite ibitekerezo byo kwiyahura, ni ingenzi ko wita ku buzima bwawe. Hamagara 116, 3029, cyangwa 112 ubu.")
+      .setMetadata('confidence', 1.0)
+      .setMetadata('emotion', 'crisis')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
+    return f.build();
   }
 
+  // Genocide trauma
+  if (detection && detection.type === 'genocide') {
+    const f = new EliteBulletFormatter();
+    f.setCore("🕊️ Ibyo wavuze ni ibintu bikomeye")
+      .addBullets([
+        "Jenoside yakorewe Abatutsi mu 1994 yasize ibyago",
+        "Nta muntu ugomba kwihanganira ibyago yonyine",
+        "Ubufasha buri hafi yawe"
+      ])
+      .setInsight("Kubaho mu gihe cya jenoside bikomeye, ariko ubu hari ubufasha")
+      .setAction("Hamagara 116 cyangwa 3029 kugira ngo ubone ubufasha")
+      .setDepth("Abari bafite ihungabana rya jenoside babona inkunga ihoraho. Vugana n'umuntu wizeye cyangwa ujye kwa muganga.")
+      .setMetadata('confidence', 0.95)
+      .setMetadata('emotion', 'somber')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
+    return f.build();
+  }
+
+  // Name detection
   if (detection && detection.type === 'name') {
     state.userName = detection.name;
     storageSet('userName', state.userName);
-    const f = TYAZA_DATASET.emotions.greeting.generate();
-    f.setMetadata('confidence', 0.98);
-    f.setMetadata('emotion', 'welcoming');
-    f.setMetadata('model', 'local');
-    f.setMetadata('responseTime', Math.round(performance.now() - startTime));
-    return {
-      sections: f.build(),
-      html: f.renderHTML(),
-      markdown: f.renderMarkdown(),
-      metadata: f.metadata,
-      userName: detection.name
-    };
+    const f = new EliteBulletFormatter();
+    f.setCore(`✨ Muraho, ${detection.name}! Ndi TYAZA, umuvugizi w'umutima`)
+      .addBullets([
+        "Ndi hano kugira ngo mbafashe kumva ibiri ku mutima wawe",
+        "TYAZA yakozwe na KIVURA LABS na Yves Hirwa Tuyishime",
+        `"${COMPANY_INFO.quote}"`
+      ])
+      .setInsight("Gutangira ikiganiro ni intambwe ya mbere yo kwitaho")
+      .setAction("Ubu wumva ute? Sangiza icyo utekereza")
+      .setDepth("KIVURA LABS ni uruganda rw'ikoranabuhanga rushinzwe mu Rwanda, rugamije gukora AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.")
+      .setMetadata('confidence', 0.98)
+      .setMetadata('emotion', 'welcoming')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
+    return f.build();
   }
 
-  if (detection && detection.type === 'crisis') {
-    const f = TYAZA_DATASET.crisis.generate();
-    f.setMetadata('confidence', 1.0);
-    f.setMetadata('emotion', 'crisis');
-    f.setMetadata('model', 'local');
-    f.setMetadata('responseTime', Math.round(performance.now() - startTime));
-    return {
-      sections: f.build(),
-      html: f.renderHTML(),
-      markdown: f.renderMarkdown(),
-      metadata: f.metadata,
-      userName: null
-    };
+  // Rare word
+  if (detection && detection.type === 'rare_word') {
+    const word = detection.word;
+    const meaning = TYAZA_DATASET.rareWords[word] || "ikintu cyihariye";
+    const f = new EliteBulletFormatter();
+    f.setCore(`📖 "${word}"`)
+      .addBullets([
+        `Sobanura: ${meaning}`,
+        "Ni jambo ry'ikinyarwanda gikomeye",
+        "Rikoreshwa mu mvugo y'umuco nyarwanda"
+      ])
+      .setInsight("Iyi mvugo ikubiyemo ubwenge n'umuco by'Abanyarwanda")
+      .setAction("Waba ufite ikindi ushaka kuvuga?")
+      .setDepth(`Iri jambo rikoreshwa n'abanyabwenge n'abashakashatsi mu mvugo ya kinyarwanda. Ni jambo rifite ubwimbitse.`)
+      .setMetadata('confidence', 0.95)
+      .setMetadata('emotion', 'insightful')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
+    return f.build();
   }
 
-  if (detection && detection.type === 'genocide') {
-    const f = TYAZA_DATASET.genocide.generate();
-    f.setMetadata('confidence', 0.95);
-    f.setMetadata('emotion', 'somber');
-    f.setMetadata('model', 'local');
-    f.setMetadata('responseTime', Math.round(performance.now() - startTime));
-    return {
-      sections: f.build(),
-      html: f.renderHTML(),
-      markdown: f.renderMarkdown(),
-      metadata: f.metadata,
-      userName: null
-    };
-  }
-
+  // Company info
   if (detection && detection.type === 'about_company') {
-    const f = TYAZA_DATASET.emotions.about_company.generate();
-    f.setMetadata('confidence', 0.98);
-    f.setMetadata('emotion', 'informative');
-    f.setMetadata('model', 'local');
-    f.setMetadata('responseTime', Math.round(performance.now() - startTime));
-    return {
-      sections: f.build(),
-      html: f.renderHTML(),
-      markdown: f.renderMarkdown(),
-      metadata: f.metadata,
-      userName: null
-    };
+    const f = new EliteBulletFormatter();
+    f.setCore(`🏢 ${COMPANY_INFO.name}`)
+      .addBullets([
+        `Yashinzwe na ${COMPANY_INFO.founder} mu Rwanda`,
+        `Product: ${COMPANY_INFO.product} - AI ivuga mu Kinyarwanda`,
+        `"${COMPANY_INFO.quote}"`
+      ])
+      .setInsight(`${COMPANY_INFO.name} ni uruganda rushinzwe mu 2024 rugamije gukora AI ivuga mu Kinyarwanda`)
+      .setAction("Wifuza kumenya byinshi kuri TYAZA?")
+      .setDepth(`${COMPANY_INFO.name} ifite intego yo kugeza ikoranabuhanga ku banyarwanda bose, no guteza imbere ururimi n'umuco nyarwanda.`)
+      .setMetadata('confidence', 0.98)
+      .setMetadata('emotion', 'informative')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
+    return f.build();
   }
 
+  // CEO info
   if (detection && detection.type === 'about_ceo') {
-    const f = TYAZA_DATASET.emotions.about_ceo.generate();
-    f.setMetadata('confidence', 0.98);
-    f.setMetadata('emotion', 'informative');
-    f.setMetadata('model', 'local');
-    f.setMetadata('responseTime', Math.round(performance.now() - startTime));
-    return {
-      sections: f.build(),
-      html: f.renderHTML(),
-      markdown: f.renderMarkdown(),
-      metadata: f.metadata,
-      userName: null
-    };
+    const f = new EliteBulletFormatter();
+    f.setCore(`👤 ${COMPANY_INFO.founder}`)
+      .addBullets([
+        `CEO & Founder wa ${COMPANY_INFO.name}`,
+        `Yashinze ${COMPANY_INFO.name} mu 2024`,
+        `"${COMPANY_INFO.quote}"`
+      ])
+      .setInsight("Ni umunyabwenge ukora ikoranabuhanga, yashinze uruganda rukora AI ivuga mu Kinyarwanda")
+      .setAction("Wifuza kumenya byinshi kuri TYAZA?")
+      .setDepth(`${COMPANY_INFO.founder} ni umunyarwanda ukora ikoranabuhanga, afite intego yo gukora AI ifasha abantu mu buzima bwo mu mutwe.`)
+      .setMetadata('confidence', 0.98)
+      .setMetadata('emotion', 'informative')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
+    return f.build();
   }
 
+  // Emotion-specific response
   if (detection && detection.type && TYAZA_DATASET.emotions[detection.type]) {
-    const f = TYAZA_DATASET.emotions[detection.type].generate();
-    f.setMetadata('confidence', 0.88);
-    f.setMetadata('emotion', detection.type);
-    f.setMetadata('model', 'local');
-    f.setMetadata('responseTime', Math.round(performance.now() - startTime));
-    return {
-      sections: f.build(),
-      html: f.renderHTML(),
-      markdown: f.renderMarkdown(),
-      metadata: f.metadata,
-      userName: null
-    };
+    const emotionData = TYAZA_DATASET.emotions[detection.type];
+    const f = new EliteBulletFormatter();
+    const userName = state.userName || '';
+    const namePrefix = userName ? `${userName}, ` : '';
+    
+    let core = "💙 ";
+    let bullets = [];
+    let insight = "";
+    let action = "Wambwira byinshi kuri byo?";
+    let depth = "";
+
+    switch (detection.type) {
+      case 'sadness':
+        core = `💙 Mbabajwe no kumva ko ubabaye, ${namePrefix}`;
+        bullets = ["Agahinda ni ibisanzwe", "Ntugomba kwihanganira byose wenyine", "Ndumva ibyo wumva"];
+        insight = "Kubabara ni ikimenyetso ko ukumva ibintu byimbitse";
+        action = "Vuga byinshi kuri byo — ndi hano ngo nkumve";
+        depth = "Ibihe bibi birashira, ariko nta muntu ugomba kwihanganira byose yonyine. Vugana n'umuntu wizeye cyangwa ujye kwa muganga.";
+        break;
+      case 'joy':
+        core = `✨ Ni byiza kumva wishimye, ${namePrefix}`;
+        bullets = ["Ibyishimo ni impamvu yo gukomeza", "Birakwiriye kwishimira ibyiza", "Gukomeza gutanga ibyishimo ni byiza"];
+        insight = "Ibyishimo byo mu mutima bitera imbaraga no gukomeza";
+        action = "Ni iki cyaguteye ibyishimo uyu munsi?";
+        depth = "Ibyishimo ni ikintu gikwiriye gusangirwa. Gerageza kwandika ibintu byiza byabaye ku munsi wawe.";
+        break;
+      case 'anger':
+        core = `🔥 Birumvikana ko urakaye, ${namePrefix}`;
+        bullets = ["Kurakara ni ibisanzwe", "Ariko ni byiza kubivugaho", "Nta mpamvu yo kwihanganira byose"];
+        insight = "Uburakari buriho, ariko ni byiza kubugenzura";
+        action = "Ni iki cyaguteye uburakari? Vuga byinshi";
+        depth = "Uburakari bushobora kuba ikimenyetso cy'ikintu kiri nabi. Ni byiza kuvugana n'umuntu wizeye kugira ngo ubone igisubizo.";
+        break;
+      case 'anxiety':
+        core = `😰 Ndumva ufite ubwoba, ${namePrefix}`;
+        bullets = ["Gutekereza ku hazaza bishobora gutera ubwoba", "Nturi wenyine", "Ndi hano kugira nkumve"];
+        insight = "Ubwoba ni ikimenyetso ko uri umuntu, ariko ntugomba kwihanganira byose wenyine";
+        action = "Ni iki kiguteye ubwoba? Vuga byinshi";
+        depth = "Gerageza guhumeka buhoro, unganye imyumvire yawe. Ubufasha buri hafi yawe.";
+        break;
+      case 'loneliness':
+        core = `🕊️ Kumva uri wenyine biraremereye, ${namePrefix}`;
+        bullets = ["Nta muntu ugomba kwihanganira ibyago yonyine", "Nturi wenyine", "Ndi hano ngo nkumve"];
+        insight = "Kwigunga bikomeye, ariko ubufasha buri hafi";
+        action = "Waba wifuza kuganira n'umuntu cyangwa gusangira ibyo wumva?";
+        depth = "Nta muntu ugomba kwihanganira ibyago yonyine. Hamagara umuntu wizeye cyangwa ujye kwa muganga.";
+        break;
+      case 'fatigue':
+        core = `😓 Ndumva ufite umunaniro, ${namePrefix}`;
+        bullets = ["Mbirashoboka ko ukeneye kuruhuka", "Gutekereza ku bintu byinshi birakuremereye", "Ntugomba gukora byose wenyine"];
+        insight = "Umunaniro ni ikimenyetso ko ugomba gufata umwanya wo kwitaho";
+        action = "Gerageza guhumeka buhoro no kuruhuka";
+        depth = "Umunaniro ushobora guterwa n'ibintu byinshi. Gerageza gusinzira bihagije, kurya neza, no kuvugana n'umuntu wizeye.";
+        break;
+      default:
+        core = `💙 ${namePrefix}Ndumva ibyo uvuga`;
+        bullets = ["TYAZA ni AI ivuga mu Kinyarwanda", "Ndi hano ngo nkumve", "Wambwira byinshi?"];
+        insight = "Kuvuga ibyo wumva ni intambwe ya mbere yo kwitaho";
+        action = "Wambwira byinshi kuri byo?";
+        depth = "TYAZA yakozwe na KIVURA LABS kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo.";
+    }
+
+    f.setCore(core)
+      .addBullets(bullets)
+      .setInsight(insight)
+      .setAction(action)
+      .setDepth(depth)
+      .setMetadata('confidence', 0.88)
+      .setMetadata('emotion', detection.type)
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
+    return f.build();
   }
 
-  const f = new AIResponseFormatter();
+  // Default response with elite bullet format
+  const f = new EliteBulletFormatter();
   const userName = state.userName || '';
   const namePrefix = userName ? `${userName}, ` : '';
-  f.addTitle("💙 Urakoze kundekera");
-  f.addParagraph(`${namePrefix}Ndumva ibyo uvuga. TYAZA ni AI ivuga, yumva, kandi ikafasha mu Kinyarwanda.`);
-  f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**. Ijambo rye ni: *"${COMPANY_INFO.quote}"*.`);
-  f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
   const proverbs = Object.keys(TYAZA_DATASET.proverbs);
   const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-  f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
-  let questions = ["Wumva ute ubu?", "Wambwira byinshi kuri byo?"];
-  if (state.messages.length > 3) {
-    const followUps = TYAZA_DATASET.followUpQuestions;
-    const randomFollowUp = followUps[Math.floor(Math.random() * followUps.length)];
-    questions.push(randomFollowUp);
-  }
-  f.addList(questions);
-  f.setMetadata('confidence', 0.72);
-  f.setMetadata('emotion', 'neutral');
-  f.setMetadata('model', 'local');
-  f.setMetadata('responseTime', Math.round(performance.now() - startTime));
+  const proverbMeaning = TYAZA_DATASET.proverbs[randomProverb];
+
+  f.setCore(`💙 ${namePrefix}Urakoze kundekera. Ndumva ibyo uvuga.`)
+    .addBullets([
+      `TYAZA ni AI ivuga mu Kinyarwanda, ifasha mu buzima bwo mu mutwe`,
+      `Yakozwe na KIVURA LABS na Yves Hirwa Tuyishime`,
+      `"${COMPANY_INFO.quote}"`,
+      `${randomProverb} — ${proverbMeaning}`
+    ])
+    .setInsight("Kuvuga ibyo wumva ni intambwe ya mbere yo kwitaho. TYAZA iri hano ngo ikumve.")
+    .setAction("Wambwira byinshi? Wumva ute ubu?")
+    .setDepth(`TYAZA yashinzwe kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo, no kubona ibisubizo bifatika mu buzima.`)
+    .setMetadata('confidence', 0.72)
+    .setMetadata('emotion', 'neutral')
+    .setMetadata('responseTime', Math.round(performance.now() - startTime))
+    .setMetadata('model', 'local');
+
+  return f.build();
+}
+
+// Legacy compatibility
+function generateResponse(userInput) {
+  const result = generateEliteResponse(userInput);
   return {
-    sections: f.build(),
-    html: f.renderHTML(),
-    markdown: f.renderMarkdown(),
-    metadata: f.metadata,
+    sections: result.sections,
+    html: result.html,
+    markdown: result.markdown,
+    metadata: result.metadata,
     userName: null
   };
 }
 
 // ============================================================
-// 7. VOICE & SPEECH
+// 8. VOICE & SPEECH
 // ============================================================
 function loadVoices() {
   state.voices = state.speechSynthesis.getVoices();
@@ -3658,59 +3536,55 @@ function speakText(text) {
   state.speechSynthesis.speak(utterance);
 }
 
-function initSpeechRecognition() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return false;
-  state.speechRecognition = new SR();
-  state.speechRecognition.continuous = false;
-  state.speechRecognition.interimResults = true;
-  state.speechRecognition.lang = 'rw-RW';
-  state.speechRecognition.onstart = () => {
-    state.isListening = true;
-    document.getElementById('voiceBtn').classList.add('listening');
-    document.getElementById('voiceStatus').textContent = '🎤 Mvuga none...';
-  };
-  state.speechRecognition.onend = () => {
-    state.isListening = false;
-    document.getElementById('voiceBtn').classList.remove('listening');
-    document.getElementById('voiceStatus').textContent = '';
-  };
-  state.speechRecognition.onresult = (e) => {
-    let transcript = '';
-    for (let i = 0; i < e.results.length; i++) {
-      transcript += e.results[i][0].transcript;
-    }
-    document.getElementById('messageInput').value = transcript;
-    handleInput();
-    if (e.results[0].isFinal) {
-      setTimeout(() => {
-        if (document.getElementById('messageInput').value.trim()) sendMessage();
-      }, 500);
-    }
-  };
-  state.speechRecognition.onerror = () => {
-    state.isListening = false;
-    document.getElementById('voiceBtn').classList.remove('listening');
-    document.getElementById('voiceStatus').textContent = '❌ Mikorofoni yanze.';
-  };
-  return true;
+// ============================================================
+// 9. VOICE MODAL - Audio Spectrum + Auto-Send
+// ============================================================
+function createAudioSpectrum(container) {
+  const bars = 24;
+  const spectrum = document.createElement('div');
+  spectrum.className = 'audio-spectrum';
+  for (let i = 0; i < bars; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.height = '4px';
+    spectrum.appendChild(bar);
+  }
+  container.appendChild(spectrum);
+  return spectrum;
 }
-const hasSpeech = initSpeechRecognition();
 
-// ============================================================
-// 8. VOICE MODAL - Enhanced Voice Interaction
-// ============================================================
+function animateSpectrum(spectrum, level) {
+  const bars = spectrum.querySelectorAll('.bar');
+  const maxHeight = 50;
+  const minHeight = 2;
+  const baseHeight = 4;
+  bars.forEach((bar, i) => {
+    const offset = Math.sin(i / bars.length * Math.PI * 2 + Date.now() / 200) * 0.3 + 0.7;
+    const h = Math.max(minHeight, Math.min(maxHeight, level * 0.8 + Math.random() * level * 0.4));
+    bar.style.height = (baseHeight + h * offset * 0.5) + 'px';
+  });
+}
+
 let voiceModalActive = false;
 let voiceTranscript = '';
 let voiceTimer = 0;
 let voiceTimerInterval = null;
+let voiceSpectrumInterval = null;
+let voiceSilenceCheck = null;
+let voiceLastActivity = Date.now();
+let voiceAudioContext = null;
+let voiceAnalyser = null;
+let voiceDataArray = null;
+let voiceStream = null;
 
 function openVoiceModal() {
   if (voiceModalActive) return;
   voiceModalActive = true;
+  state.isVoiceModalActive = true;
   voiceTranscript = '';
   voiceTimer = 0;
-  
+  voiceLastActivity = Date.now();
+
   const modal = document.createElement('div');
   modal.className = 'voice-modal';
   modal.id = 'voiceModal';
@@ -3723,11 +3597,12 @@ function openVoiceModal() {
         <div class="wave-ring" style="animation-delay: 1.5s;"></div>
         <div class="mic-icon">🎤</div>
       </div>
+      <div id="spectrumContainer"></div>
       <div class="voice-level">
         <div class="level-bar" id="voiceLevelBar"></div>
       </div>
       <h3>Kuvuga na TYAZA</h3>
-      <p class="voice-subtitle">Vuga mu ijwi ryawe, TYAZA izakumva</p>
+      <p class="voice-subtitle">Vuga mu ijwi ryawe — TYAZA izakumva igasubiza</p>
       <div class="voice-transcript" id="voiceTranscript">
         <span class="interim">Uretse... ndi kukwitaho...</span>
       </div>
@@ -3744,20 +3619,40 @@ function openVoiceModal() {
     </div>
   `;
   document.body.appendChild(modal);
-  
-  // Start listening
+
+  // Create spectrum
+  const spectrumContainer = document.getElementById('spectrumContainer');
+  const spectrum = createAudioSpectrum(spectrumContainer);
+
+  // Start voice recognition + audio
+  startVoiceWithSpectrum(spectrum);
+
+  // Event listeners
+  document.getElementById('voiceModalCancel').addEventListener('click', closeVoiceModal);
+  document.getElementById('voiceModalSend').addEventListener('click', sendVoiceInput);
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeVoiceModal();
+  });
+
+  document.addEventListener('keydown', voiceModalKeyHandler);
+}
+
+function startVoiceWithSpectrum(spectrum) {
+  // Start speech recognition
   if (state.speechRecognition) {
     try {
       state.speechRecognition.continuous = true;
       state.speechRecognition.interimResults = true;
-      
+      state.speechRecognition.lang = 'rw-RW';
+
       state.speechRecognition.onstart = () => {
         state.isListening = true;
         document.getElementById('voiceBtn').classList.add('listening');
         document.getElementById('voiceStatus').textContent = '🎤 Mvuga none...';
         updateVoiceTranscript('Kuvuga... ndi kukwitaho...');
         document.getElementById('voiceStatusText').textContent = '🎤 Uretse... ndi kukwitaho...';
-        // Start timer
+
         voiceTimerInterval = setInterval(() => {
           voiceTimer++;
           const mins = Math.floor(voiceTimer / 60);
@@ -3766,7 +3661,7 @@ function openVoiceModal() {
           if (timerEl) timerEl.textContent = `⏱ ${mins}:${secs.toString().padStart(2, '0')}`;
         }, 1000);
       };
-      
+
       state.speechRecognition.onend = () => {
         state.isListening = false;
         document.getElementById('voiceBtn').classList.remove('listening');
@@ -3775,9 +3670,20 @@ function openVoiceModal() {
           clearInterval(voiceTimerInterval);
           voiceTimerInterval = null;
         }
-        document.getElementById('voiceStatusText').textContent = '⏹ Urakoze kuvuga.';
+        // Check if we have transcript to auto-send
+        if (voiceTranscript.trim().length > 2) {
+          document.getElementById('voiceStatusText').textContent = '⏹ Urakoze kuvuga. Kohereza...';
+          setTimeout(() => {
+            sendVoiceInput();
+          }, 300);
+        } else {
+          document.getElementById('voiceStatusText').textContent = '⏹ Nta kintu wavuze. Gerageza none.';
+          setTimeout(() => {
+            closeVoiceModal();
+          }, 1500);
+        }
       };
-      
+
       state.speechRecognition.onresult = (e) => {
         let final = '';
         let interim = '';
@@ -3793,45 +3699,116 @@ function openVoiceModal() {
           updateVoiceTranscript(voiceTranscript);
           const sendBtn = document.getElementById('voiceModalSend');
           if (sendBtn) sendBtn.disabled = false;
-          document.getElementById('voiceStatusText').textContent = '✅ Byabonetse! Kanda "Ohereza" cyangwa utange ikindi.';
+          document.getElementById('voiceStatusText').textContent = '✅ Byabonetse! Uretse...';
+          voiceLastActivity = Date.now();
         } else if (interim) {
           updateVoiceTranscript(interim, true);
           document.getElementById('voiceStatusText').textContent = '🎤 Ndi kukwitaho...';
-          // Simulate voice level
-          const level = Math.min(100, Math.random() * 80 + 20);
-          const bar = document.getElementById('voiceLevelBar');
-          if (bar) bar.style.width = level + '%';
+          voiceLastActivity = Date.now();
         }
       };
-      
+
       state.speechRecognition.onerror = () => {
         updateVoiceTranscript('❌ Mikorofoni yanze. Gerageza kuvuga cyangwa andika.', false);
         const sendBtn = document.getElementById('voiceModalSend');
         if (sendBtn) sendBtn.disabled = false;
         document.getElementById('voiceStatusText').textContent = '❌ Mikorofoni yanze. Andika cyangwa gerageza none.';
+        setTimeout(() => {
+          closeVoiceModal();
+        }, 2000);
       };
-      
+
       state.speechRecognition.start();
     } catch (e) {
       updateVoiceTranscript('⚠️ Emera mikorofoni kugira ngo ukoreshe ijwi.', false);
       const sendBtn = document.getElementById('voiceModalSend');
       if (sendBtn) sendBtn.disabled = false;
       document.getElementById('voiceStatusText').textContent = '⚠️ Emera mikorofoni.';
+      setTimeout(() => {
+        closeVoiceModal();
+      }, 2000);
     }
-  } else {
-    updateVoiceTranscript('⚠️ Ijwi ryawe ntirishoboka muri iyi browser.', false);
-    document.getElementById('voiceStatusText').textContent = '⚠️ Browser ntishobora ijwi.';
   }
-  
-  // Event listeners
-  document.getElementById('voiceModalCancel').addEventListener('click', closeVoiceModal);
-  document.getElementById('voiceModalSend').addEventListener('click', sendVoiceInput);
-  
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeVoiceModal();
-  });
-  
-  document.addEventListener('keydown', voiceModalKeyHandler);
+
+  // Start audio spectrum visualization
+  startAudioSpectrum(spectrum);
+}
+
+function startAudioSpectrum(spectrum) {
+  try {
+    navigator.mediaDevices.getUserMedia({ audio: true })
+      .then(stream => {
+        voiceStream = stream;
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        voiceAudioContext = audioContext;
+        const source = audioContext.createMediaStreamSource(stream);
+        const analyser = audioContext.createAnalyser();
+        analyser.fftSize = 256;
+        source.connect(analyser);
+        voiceAnalyser = analyser;
+        voiceDataArray = new Uint8Array(analyser.frequencyBinCount);
+
+        voiceSpectrumInterval = setInterval(() => {
+          if (!voiceAnalyser) return;
+          voiceAnalyser.getByteFrequencyData(voiceDataArray);
+          let sum = 0;
+          for (let i = 0; i < voiceDataArray.length; i++) {
+            sum += voiceDataArray[i];
+          }
+          const avg = sum / voiceDataArray.length;
+          const level = Math.min(1, avg / 100);
+          
+          // Update spectrum bars
+          animateSpectrum(spectrum, level);
+          
+          // Update level bar
+          const levelBar = document.getElementById('voiceLevelBar');
+          if (levelBar) {
+            levelBar.style.width = (level * 100) + '%';
+          }
+          
+          // Silence detection - auto send after 2.5s of silence
+          if (voiceTranscript.trim().length > 2) {
+            if (level < 0.05) {
+              if (!voiceSilenceCheck) {
+                voiceSilenceCheck = setTimeout(() => {
+                  if (voiceTranscript.trim().length > 2 && voiceModalActive) {
+                    document.getElementById('voiceStatusText').textContent = '⏳ Kohereza...';
+                    sendVoiceInput();
+                  }
+                }, 2500);
+              }
+            } else {
+              if (voiceSilenceCheck) {
+                clearTimeout(voiceSilenceCheck);
+                voiceSilenceCheck = null;
+              }
+            }
+          }
+        }, 100);
+      })
+      .catch(() => {
+        // Fallback: animated spectrum without audio
+        voiceSpectrumInterval = setInterval(() => {
+          const level = 0.2 + Math.random() * 0.6;
+          animateSpectrum(spectrum, level);
+          const levelBar = document.getElementById('voiceLevelBar');
+          if (levelBar) {
+            levelBar.style.width = (level * 100) + '%';
+          }
+        }, 100);
+      });
+  } catch (e) {
+    // Fallback
+    voiceSpectrumInterval = setInterval(() => {
+      const level = 0.2 + Math.random() * 0.6;
+      animateSpectrum(spectrum, level);
+      const levelBar = document.getElementById('voiceLevelBar');
+      if (levelBar) {
+        levelBar.style.width = (level * 100) + '%';
+      }
+    }, 100);
+  }
 }
 
 function updateVoiceTranscript(text, interim = false) {
@@ -3846,19 +3823,48 @@ function updateVoiceTranscript(text, interim = false) {
 
 function closeVoiceModal() {
   voiceModalActive = false;
+  state.isVoiceModalActive = false;
+  
+  if (voiceSilenceCheck) {
+    clearTimeout(voiceSilenceCheck);
+    voiceSilenceCheck = null;
+  }
+  if (voiceSpectrumInterval) {
+    clearInterval(voiceSpectrumInterval);
+    voiceSpectrumInterval = null;
+  }
+  if (voiceTimerInterval) {
+    clearInterval(voiceTimerInterval);
+    voiceTimerInterval = null;
+  }
+  
   if (state.speechRecognition) {
     try {
       state.speechRecognition.continuous = false;
       state.speechRecognition.stop();
     } catch (e) {}
   }
-  if (voiceTimerInterval) {
-    clearInterval(voiceTimerInterval);
-    voiceTimerInterval = null;
+  
+  if (voiceStream) {
+    try {
+      voiceStream.getTracks().forEach(t => t.stop());
+    } catch (e) {}
+    voiceStream = null;
   }
+  
+  if (voiceAudioContext) {
+    try {
+      voiceAudioContext.close();
+    } catch (e) {}
+    voiceAudioContext = null;
+  }
+  voiceAnalyser = null;
+  voiceDataArray = null;
+  
   state.isListening = false;
   document.getElementById('voiceBtn').classList.remove('listening');
   document.getElementById('voiceStatus').textContent = '';
+  
   const modal = document.getElementById('voiceModal');
   if (modal) modal.remove();
   document.removeEventListener('keydown', voiceModalKeyHandler);
@@ -3892,7 +3898,7 @@ function sendVoiceInput() {
 }
 
 // ============================================================
-// 9. FILE ATTACHMENT
+// 10. FILE ATTACHMENT
 // ============================================================
 function attachFile() {
   const input = document.createElement('input');
@@ -3903,7 +3909,6 @@ function attachFile() {
     const file = e.target.files[0];
     if (!file) return;
     
-    // Check if file type is supported
     const ext = '.' + file.name.split('.').pop().toLowerCase();
     const supportedExts = ['.txt', '.md', '.csv', '.json', '.pdf', '.jpg', '.jpeg', '.png', '.gif', '.webp'];
     if (!supportedExts.includes(ext)) {
@@ -3911,7 +3916,6 @@ function attachFile() {
       return;
     }
     
-    // Check file size (max 25MB)
     if (file.size > 25 * 1024 * 1024) {
       showToast('❌ Dosiye nini cyane (>25MB).', 'error');
       return;
@@ -4044,7 +4048,7 @@ async function processAttachedFile(file) {
 }
 
 // ============================================================
-// 10. CORE UI FUNCTIONS
+// 11. CORE UI FUNCTIONS
 // ============================================================
 function updateWelcome() {
   const name = state.userName || '';
@@ -4175,7 +4179,7 @@ function buildMetadataHTML(metadata) {
 }
 
 // ============================================================
-// 11. MESSAGE HANDLING
+// 12. MESSAGE HANDLING
 // ============================================================
 function addMessage(role, content, htmlContent = null, metadata = null, fileData = null) {
   const welcome = document.getElementById('welcome');
@@ -4194,7 +4198,6 @@ function addMessage(role, content, htmlContent = null, metadata = null, fileData
 
   const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
   
-  // Build file attachment HTML if present
   let fileHTML = '';
   if (fileData && role === 'user') {
     const icon = getFileIcon(fileData.mimeType || fileData.type || '');
@@ -4291,7 +4294,6 @@ async function addMessageWithStream(role, content, htmlContent, metadata, fileDa
 
   const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
   
-  // Build file attachment HTML if present
   let fileHTML = '';
   if (fileData && role === 'user') {
     const icon = getFileIcon(fileData.mimeType || fileData.type || '');
@@ -4377,7 +4379,7 @@ async function addMessageWithStream(role, content, htmlContent, metadata, fileDa
 }
 
 // ============================================================
-// 12. SEND MESSAGE - Using OpenAI GPT-4o via Puter
+// 13. SEND MESSAGE - Using OpenAI via Puter
 // ============================================================
 async function sendMessage() {
   const input = document.getElementById('messageInput');
@@ -4398,7 +4400,6 @@ async function sendMessage() {
   state.riskFlags = risks;
   updateRiskIndicators(risks);
 
-  // Process attached file if any
   let fileData = null;
   let fileDisplayData = null;
   if (state.attachedFile) {
@@ -4463,7 +4464,6 @@ async function sendMessage() {
 
   let result;
 
-  // Build user message with file content if available
   let userMessage = text || '';
   if (fileData && fileData.extracted && fileData.content) {
     userMessage += `\n\n[DOSIYE: ${fileData.name}]\n${fileData.content.substring(0, 3000)}${fileData.content.length > 3000 ? '...' : ''}`;
@@ -4471,12 +4471,10 @@ async function sendMessage() {
     userMessage += `\n\n[DOSIYE: ${fileData.name}]`;
   }
 
-  // Use OpenAI GPT-4o via Puter if available
   if (state.useAI && typeof puter !== 'undefined' && userMessage.trim()) {
     result = await getPuterAIResponse(userMessage);
   }
 
-  // Fallback to local response if OpenAI fails or is disabled
   if (!result) {
     result = generateResponse(userMessage || text);
   }
@@ -4493,7 +4491,7 @@ async function sendMessage() {
 }
 
 // ============================================================
-// OpenAI via Puter - Using GPT-4o with fallback chain
+// 14. OpenAI via Puter
 // ============================================================
 async function getPuterAIResponse(userInput) {
     const startTime = performance.now();
@@ -4517,6 +4515,7 @@ async function getPuterAIResponse(userInput) {
             role: m.role,
             content: m.content
         }));
+        
         const systemContext = `Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
 ${emotionContext}
 ${langInstruction}
@@ -4545,19 +4544,20 @@ INTEKO:
 - Koresha imigani nk'ubuhanga bw'umuco nyarwanda
 - Subiza mu buryo bw'umwimerere, nk'uko umuntu w'ukuri yavuga
 - Koresha markdown: **bold**, *italic*, - lists, > quotes
-- Subiza mu buryo bugufi kandi bufite ishingiro (nturemere cyane)`;
+- Subiza mu buryo bugufi kandi bufite ishingiro (nturemere cyane)
+- Koresha Elite Bullet Formatter: 🧠 core idea, • bullets (≤12 words), 💡 Insight, ⚡ Action, 🧭 optional depth`;
+
         const messages = [
             { role: 'system', content: systemContext },
             ...recentMessages,
             { role: 'user', content: userInput }
         ];
         
-        // Model options - GPT-4o is primary with fallback chain
         const modelOptions = [
-            'gpt-4o',           // Primary model - OpenAI's most advanced
-            'gpt-4.1-nano',     // Fallback 1
-            'gpt-4-turbo',      // Fallback 2
-            'gpt-3.5-turbo'     // Fallback 3
+            'gpt-4o',
+            'gpt-4.1-nano',
+            'gpt-4-turbo',
+            'gpt-3.5-turbo'
         ];
         
         const startIndex = Math.min(state.modelFallbackIndex, modelOptions.length - 1);
@@ -4565,7 +4565,6 @@ INTEKO:
         let text = '';
         let workingModel = modelOptions[startIndex];
         
-        // Try each model in order until one works
         for (let i = startIndex; i < modelOptions.length; i++) {
             const model = modelOptions[i];
             try {
@@ -4627,7 +4626,7 @@ INTEKO:
 }
 
 // ============================================================
-// 13. CONVERSATION HISTORY
+// 15. CONVERSATION HISTORY
 // ============================================================
 function saveConversation() {
   if (state.messages.length === 0) return;
@@ -4865,7 +4864,7 @@ function exportChat() {
 }
 
 // ============================================================
-// 14. SIDEBAR FUNCTIONS
+// 16. SIDEBAR FUNCTIONS
 // ============================================================
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
@@ -4881,7 +4880,7 @@ function closeSidebar() {
 }
 
 // ============================================================
-// 15. MOOD FUNCTIONS
+// 17. MOOD FUNCTIONS
 // ============================================================
 function openMoodModal() {
   const modal = document.getElementById('moodModal');
@@ -4938,7 +4937,7 @@ function renderMoodCalendar() {
 }
 
 // ============================================================
-// 16. CRISIS MODAL
+// 18. CRISIS MODAL
 // ============================================================
 function showCrisisModal() {
   const modal = document.getElementById('crisisModal');
@@ -4950,66 +4949,24 @@ function closeCrisisModal() {
 }
 
 // ============================================================
-// 17. VOICE CONTROLS
+// 19. VOICE CONTROLS
 // ============================================================
 function toggleVoice() {
-  if (!hasSpeech) {
-    showVoiceDialog();
+  if (voiceModalActive) {
+    closeVoiceModal();
     return;
   }
   if (state.isListening) {
     if (state.speechRecognition) state.speechRecognition.stop();
     return;
   }
-  // Open enhanced voice modal
+  // Check if speech recognition is available
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) {
+    showToast('⚠️ Ijwi ryawe ntirishoboka muri iyi browser', 'warning');
+    return;
+  }
   openVoiceModal();
-}
-
-function showVoiceDialog() {
-  const dialog = document.createElement('div');
-  dialog.className = 'voice-dialog';
-  dialog.innerHTML = `
-    <div class="voice-dialog-content">
-      <h3>🎤 Vuga cyangwa andika</h3>
-      <input type="text" id="voiceFallbackInput" placeholder="Andika cyangwa vuga..." autofocus>
-      <div style="display:flex;gap:8px;">
-        <button class="btn btn-primary" id="voiceFallbackSubmit" style="flex:1;">
-          <i class="fas fa-paper-plane"></i> Ohereza
-        </button>
-        <button class="btn btn-secondary" id="voiceFallbackCancel">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(dialog);
-  const input = document.getElementById('voiceFallbackInput');
-  const submit = document.getElementById('voiceFallbackSubmit');
-  const cancel = document.getElementById('voiceFallbackCancel');
-  if (submit) {
-    submit.onclick = () => {
-      if (input && input.value.trim()) {
-        const msgInput = document.getElementById('messageInput');
-        if (msgInput) {
-          msgInput.value = input.value;
-          handleInput();
-          sendMessage();
-        }
-        dialog.remove();
-      }
-    };
-  }
-  if (cancel) cancel.onclick = () => dialog.remove();
-  if (input) {
-    input.onkeydown = (e) => {
-      if (e.key === 'Enter') { e.preventDefault(); if (submit) submit.click(); }
-      if (e.key === 'Escape') dialog.remove();
-    };
-    setTimeout(() => input.focus(), 300);
-  }
-  dialog.addEventListener('click', (e) => {
-    if (e.target === dialog) dialog.remove();
-  });
 }
 
 async function testMic() {
@@ -5036,7 +4993,7 @@ async function testMic() {
 }
 
 // ============================================================
-// 18. PROFILE MODAL
+// 20. PROFILE MODAL
 // ============================================================
 function showProfileModal() {
   const profile = getUserProfile();
@@ -5124,7 +5081,7 @@ function showProfileModal() {
 }
 
 // ============================================================
-// 19. BACKGROUND EFFECTS
+// 21. BACKGROUND EFFECTS
 // ============================================================
 function initNeuralBackground() {
   const canvas = document.getElementById('neuralCanvas');
@@ -5206,7 +5163,7 @@ function initStars() {
 }
 
 // ============================================================
-// 20. INITIALIZATION
+// 22. INITIALIZATION
 // ============================================================
 async function testOpenAI() {
     try {
@@ -5246,7 +5203,6 @@ function init() {
   state.settings = storageGet('settings', state.settings);
   state.moodData = storageGetAll('moodData');
   
-  // Restore last conversation
   const convs = storageGetAll('conversations');
   if (convs.length > 0) {
     const lastConv = convs.sort((a, b) => b.timestamp - a.timestamp)[0];
@@ -5318,24 +5274,10 @@ function init() {
     }
   }
 
-  // Set UI values
-  const voiceSelect = document.getElementById('voiceSelect');
-  const rateSlider = document.getElementById('rateSlider');
-  const pitchSlider = document.getElementById('pitchSlider');
-  const rateValue = document.getElementById('rateValue');
-  const pitchValue = document.getElementById('pitchValue');
-  
-  if (voiceSelect) voiceSelect.value = state.settings.voice;
-  if (rateSlider) rateSlider.value = state.settings.rate;
-  if (pitchSlider) pitchSlider.value = state.settings.pitch;
-  if (rateValue) rateValue.textContent = state.settings.rate;
-  if (pitchValue) pitchValue.textContent = state.settings.pitch;
-
   renderHistory();
   updateMemoryStats();
   updateWelcome();
 
-  // AI toggle
   const aiBtn = document.getElementById('aiToggleBtn');
   if (aiBtn) {
     aiBtn.innerHTML = state.useAI ? '<i class="fas fa-brain"></i> AI' : '<i class="fas fa-microchip"></i> Gahunda';
@@ -5347,7 +5289,7 @@ function init() {
   if (sendBtn) sendBtn.disabled = true;
 
   // ============================================================
-  // 21. EVENT LISTENERS
+  // 23. EVENT LISTENERS
   // ============================================================
   const input = document.getElementById('messageInput');
   if (input) {
@@ -5368,32 +5310,6 @@ function init() {
   
   const plusBtn = document.getElementById('plusBtn');
   if (plusBtn) plusBtn.addEventListener('click', attachFile);
-  
-  if (voiceSelect) {
-    voiceSelect.addEventListener('change', (e) => {
-      state.settings.voice = e.target.value;
-      storageSet('settings', state.settings);
-    });
-  }
-  
-  if (rateSlider) {
-    rateSlider.addEventListener('input', (e) => {
-      if (rateValue) rateValue.textContent = e.target.value;
-      state.settings.rate = parseFloat(e.target.value);
-    });
-    rateSlider.addEventListener('change', () => storageSet('settings', state.settings));
-  }
-  
-  if (pitchSlider) {
-    pitchSlider.addEventListener('input', (e) => {
-      if (pitchValue) pitchValue.textContent = e.target.value;
-      state.settings.pitch = parseFloat(e.target.value);
-    });
-    pitchSlider.addEventListener('change', () => storageSet('settings', state.settings));
-  }
-  
-  const micTestBtn = document.getElementById('micTestBtn');
-  if (micTestBtn) micTestBtn.addEventListener('click', testMic);
   
   if (aiBtn) {
     aiBtn.addEventListener('click', () => {
@@ -5534,7 +5450,6 @@ function init() {
     }
   });
 
-  // Check if Puter SDK is loaded
   if (typeof puter !== 'undefined') {
     state.puterReady = true;
     showToast('✅ TYAZA yiteguye na OpenAI ✨', 'success');
@@ -5554,12 +5469,12 @@ function init() {
 }
 
 // ============================================================
-// 22. EXPOSE GLOBALS
+// 24. EXPOSE GLOBALS
 // ============================================================
 window.TYAZA_DATASET = TYAZA_DATASET;
 window.COMPANY_INFO = COMPANY_INFO;
 window.TYAZA_MISSION = TYAZA_MISSION;
-window.AIResponseFormatter = AIResponseFormatter;
+window.EliteBulletFormatter = EliteBulletFormatter;
 window.UltraMarkdownParser = UltraMarkdownParser;
 window.showToast = showToast;
 window.speakText = speakText;
@@ -5587,9 +5502,10 @@ window.attachFile = attachFile;
 window.removeFile = removeFile;
 window.openVoiceModal = openVoiceModal;
 window.closeVoiceModal = closeVoiceModal;
+window.toggleDepth = toggleDepth;
 
 // ============================================================
-// 23. START APP
+// 25. START APP
 // ============================================================
 document.addEventListener('DOMContentLoaded', init);
 </script>
