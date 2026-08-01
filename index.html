@@ -361,6 +361,23 @@ body {
   border-color: rgba(255, 255, 255, 0.1);
 }
 
+.settings-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.settings-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.65rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
 .mood-quick {
   display: flex;
   justify-content: space-between;
@@ -821,17 +838,6 @@ body {
   font-family: serif;
 }
 
-.welcome-greeting-container {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.8s var(--ease-spring);
-}
-
-.welcome-greeting-container.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .suggestions {
   display: flex;
   flex-wrap: wrap;
@@ -1093,6 +1099,22 @@ body {
 @keyframes blink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
+
+.thinking-block {
+  background: rgba(167, 139, 250, 0.05);
+  border-left: 2px solid var(--primary);
+  padding: 8px 12px;
+  margin: 8px 0;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.thinking-block::before {
+  content: '💭 ';
 }
 
 .typing {
@@ -1680,7 +1702,7 @@ body {
 .toast-info { border-left-color: var(--primary); }
 .toast-warning { border-left-color: var(--warning); }
 
-/* Voice Modal - Siri-like Audio Spectrum */
+/* Voice Modal - Audio Spectrum */
 .voice-modal {
   position: fixed;
   inset: 0;
@@ -1729,7 +1751,7 @@ body {
 .voice-modal-content .voice-visualizer {
   width: 160px;
   height: 160px;
-  margin: 0 auto 16px;
+  margin: 0 auto 20px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(167, 139, 250, 0.15), transparent 70%);
   display: flex;
@@ -1770,40 +1792,37 @@ body {
 
 .voice-modal-content .audio-spectrum {
   width: 100%;
-  height: 70px;
-  margin: 4px 0 8px;
+  height: 60px;
+  margin: 6px 0 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 3px;
-  padding: 0 10px;
 }
 
 .voice-modal-content .audio-spectrum .bar {
-  width: 4px;
+  width: 6px;
   background: linear-gradient(180deg, var(--primary), var(--secondary));
-  border-radius: 2px;
-  transition: height 0.08s ease;
-  height: 3px;
-  min-height: 2px;
-  max-height: 60px;
+  border-radius: 3px;
+  transition: height 0.1s ease;
+  height: 4px;
 }
 
 .voice-modal-content .voice-level {
   width: 100%;
-  height: 3px;
+  height: 4px;
   background: var(--surface-4);
   border-radius: var(--radius-full);
-  margin: 2px 0 10px;
+  margin: 6px 0 12px;
   overflow: hidden;
   position: relative;
 }
 
 .voice-modal-content .voice-level .level-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
   border-radius: var(--radius-full);
-  transition: width 0.05s ease;
+  transition: width 0.15s ease;
   width: 0%;
 }
 
@@ -1811,26 +1830,26 @@ body {
   color: var(--text-primary);
   font-size: 1.2rem;
   font-weight: 700;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .voice-modal-content .voice-subtitle {
   color: var(--text-tertiary);
-  font-size: 0.8rem;
-  margin-bottom: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 10px;
 }
 
 .voice-modal-content .voice-transcript {
   background: var(--glass);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
-  padding: 12px 16px;
-  min-height: 70px;
+  padding: 14px 18px;
+  min-height: 80px;
   color: var(--text-primary);
-  font-size: 0.95rem;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  margin-bottom: 12px;
   text-align: left;
-  max-height: 130px;
+  max-height: 150px;
   overflow-y: auto;
   line-height: 1.6;
 }
@@ -1857,16 +1876,16 @@ body {
 }
 
 .voice-modal-content .voice-timer {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--text-tertiary);
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 .voice-modal-content .voice-status-text {
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: var(--text-muted);
-  margin-top: 4px;
-  min-height: 18px;
+  margin-top: 6px;
+  min-height: 20px;
 }
 
 .sidebar-overlay {
@@ -1972,28 +1991,6 @@ body {
 .elite-response .action-block .text {
   color: var(--text-secondary);
   font-size: 0.85rem;
-}
-
-.elite-response .proverb-block {
-  margin: 6px 0 4px 0;
-  padding: 6px 12px;
-  background: rgba(167, 139, 250, 0.06);
-  border-left: 2px solid var(--primary);
-  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-  font-style: italic;
-}
-
-.elite-response .proverb-block .proverb-text {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  font-family: 'Crimson Pro', serif;
-}
-
-.elite-response .proverb-block .proverb-meaning {
-  color: var(--text-tertiary);
-  font-size: 0.75rem;
-  font-style: normal;
-  margin-top: 2px;
 }
 
 .elite-response .depth-toggle {
@@ -2208,23 +2205,15 @@ body {
         <div class="welcome-quote">
           <em>"TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda."</em>
         </div>
-        <div class="welcome-greeting-container" id="welcomeGreetingContainer">
-          <div id="welcomeGreeting" style="font-size:1.1rem;color:var(--secondary);font-weight:600;margin-bottom:6px;">
-            ✨ Murakaza neza kwa TYAZA
-          </div>
-          <div style="font-size:0.85rem;color:var(--text-tertiary);max-width:400px;line-height:1.6;">
-            Ndi hano kugira ngo mbafashe gusobanukirwa ibiri ku mutima wawe.<br>
-            <span style="font-family:'Crimson Pro',serif;font-style:italic;color:var(--text-secondary);">
-              "Ijambo ryiza riruta zahabu" — Kuvuga neza birusha ubutunzi
-            </span>
-          </div>
-        </div>
         <div class="suggestions">
           <button class="suggestion-btn" data-prompt="Ndashaka kuvuga">💬 Ndashaka kuvuga</button>
           <button class="suggestion-btn" data-prompt="Mfite ibibazo">😔 Mfite ibibazo</button>
           <button class="suggestion-btn" data-prompt="Ngomba inkunga">🤝 Ngomba inkunga</button>
           <button class="suggestion-btn" data-prompt="Narushijeho">🌟 Narushijeho</button>
           <button class="suggestion-btn" data-prompt="Nitwa Jean">👤 Nitwa Jean</button>
+        </div>
+        <div id="welcomeGreeting" style="font-size:0.95rem;color:var(--secondary);opacity:0;transition:opacity 0.8s;font-weight:600;">
+          ✨ Murakaza neza
         </div>
       </div>
     </div>
@@ -2350,13 +2339,23 @@ body {
 
 <script>
 // ============================================================
-// DATA LAYER - TYAZA Knowledge Base
+// 1. DATA LAYER - TYAZA Knowledge Base
 // ============================================================
 const TYAZA_MISSION = {
-  reason: `TYAZA yashinzwe kugira ngo guhuza icyuho kiri hagati y'abagezweho n'ikoranabuhanga n'abasigaye inyuma naryo.`,
-  mission: `Gutanga ubwenge bw'ikoranabuhanga bwimbitse, bufite ubumuntu, bufasha abantu gusobanukirwa amarangamutima yabo.`,
-  vision: `Kubaka sisitemu ihuriweho y'ubwenge ishobora gutekereza, kumva, kurinda, no gufasha abantu.`,
-  values: ["Ubumuntu", "Ukuri n'ubunyangamugayo", "Kurengera ubuzima", "Kubaha umuco", "Gufasha nta kurobanura"],
+  reason: `TYAZA yashinzwe kugira ngo:
+1. Guhuza icyuho kiri hagati y'abagezweho n'ikoranabuhanga n'abasigaye inyuma naryo.
+2. Gutanga ubufasha ku buzima bwo mu mutwe ku buryo bworoshye kandi ku buntu.
+3. Gutuma buri muntu abasha kubona uwo avugisha umwumva mu rurimi rwe bwite.
+4. Kubungabunga no guteza imbere ururimi rwacu rw'umubyeyi (Ikinyarwanda).`,
+  mission: `Gutanga ubwenge bw'ikoranabuhanga bwimbitse, bufite ubumuntu, bufasha abantu gusobanukirwa amarangamutima yabo, kumenya ibibazo hakiri kare, no kubona ibisubizo bifatika mu buzima bwa buri munsi.`,
+  vision: `Kubaka sisitemu ihuriweho y'ubwenge ishobora gutekereza, kumva, kurinda, no gufasha abantu mu buryo bujyanye n'umuco n'ururimi rwabo.`,
+  values: [
+    "Ubumuntu (Human-centered intelligence)",
+    "Ukuri n'ubunyangamugayo",
+    "Kurengera ubuzima n'umutekano w'umuntu",
+    "Kubaha umuco n'ururimi",
+    "Gufasha nta kurobanura"
+  ],
   tagline: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda."
 };
 
@@ -2367,97 +2366,576 @@ const COMPANY_INFO = {
   quote: "Healthy citizens, wealthy nation",
   product: "TYAZA",
   tagline: "TYAZA — Ubwenge bukumva, bufasha, kandi burengera buri Munyarwanda.",
+  description: "KIVURA LABS ni uruganda rw'ikoranabuhanga rushinzwe na Yves Hirwa Tuyishime, rukora TYAZA, AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.",
   founded: 2024,
   location: "Rwanda"
 };
 
-const TYAZA_PROVERBS = {
-  "Ijoro ribara uwariraye": "Abariraye ni bo bumva iby'ijoro — ushobora kumva ibintu byimbitse cyane",
-  "Buhoro buhoro ni rwo rugendo": "Kugenda buhoro ni uburyo bwo kugera kure — kwihangana bituma ugenda neza",
-  "Uwitonze arusha uwihuta kugera kure": "Kwihangana bituma ugera ku ntsinzi irambye — nta kwihuta",
-  "Nta gahinda gahoraho": "Ibibazo birashira uko igihe kigenda — ibihe bibi ntibihoraho",
-  "Uko ubiba ni ko usarura": "Ibyo ukora ni byo bigena ibizakugeraho — ibyiza uvuna ibyiza",
-  "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ngombwa kugira ngo wige — nubwo bitagenda neza, urabyumva",
-  "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi — amagambo meza afite agaciro",
-  "Ujya inama n'abakuru ntayoba": "Gusaba inama ku bakuru ni byiza — ubwenge buva ku bageze",
-  "Umuti w'ibibazo ni ukwihangana": "Kwihangana ni bwo buryo bwo gukemura ibibazo — ntihute",
-  "Uwihanganye aratsinda": "Kwihangana bituma utsinda — ntacyo kidashoboka",
-  "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira — hari ibyiza biri imbere",
-  "Imana itanga ibishoboka": "Imana itanga ibishoboka, nta mpamvu yo guhangayika — wibuke ko hari ubufasha",
-  "Uburere si amagambo ni ingiro": "Uburere bugaragarira mu bikorwa — ibikorwa biruta amagambo",
-  "Uwubaha abandi ariyubaha": "Kubaha abandi ni ukwiyubaha — ubaha abandi ubaha n'umutima wawe",
-  "Icyubahiro kiraharanirwa ntigitangwa gusa": "Icyubahiro kirashakwa — ugomba kugikorera",
-  "Ijwi ry'imbere ntiribeshya": "Intuition ifite agaciro — umutima wawe urazi",
-  "Umutima usumbya amagambo": "Ibyo wumva bifite uburemere kuruta ibyo uvuga — amarangamutima ni agaciro",
-  "Uwiga ntiyigira ubusa": "Ubumenyi bufite akamaro — buri gihe ubumenyi ni byiza",
-  "Uwanga inama yanga n'ingaruka": "Kwanga kumva bigira ingaruka — kwumva ni byiza",
-  "Amazi atuje aba ari maremare": "Utuje ashobora kuba afite imbaraga — ntukarengane",
-  "Imizi y'igiti ni yo ikomeza amababi": "Iby'ibanze ni byo byubaka ibindi — shinga imizi",
-  "Uwanga gutangira ntiyiga kurangiza": "Intangiriro ni ingenzi — gutangira ni intambwe ya mbere",
-  "Icyo utwaye mu mutima kigera ku maguru": "Ibyo wiyumvamo bigira ingaruka ku bikorwa — umutima uyobora",
-  "Uwanga kureba kure yisanga hafi": "Kutategura bigusubiza inyuma — tekereza imbere",
-  "Icyo uciyeho ni cyo kikubaka": "Ibibazo ni byo bitwigisha — ibyago ni isomo",
-  "Ujya kubaka abanza gutekereza": "Gahunda ibanza ibikorwa — tekereza mbere",
-  "Uwiga guceceka amenya kuvuga": "Kwifata bituma uvuga neza — rimwe na rimwe guceceka ni byiza",
-  "Umenya kubura ni we umenya kubona": "Kubura biguha agaciro k'ibintu — uko wabuze ni ko ubona",
-  "Uwihangana yubaka igihe": "Kwihangana bifasha gutsinda — umuntu wihangana aratsinda",
-  "Icyo ushaka kigutwara igihe": "Ibyiza bisaba kwihangana — ntihute"
-};
-
-const TYAZA_RARE_WORDS = {
-  "Urwangano": "Urwango rwinshi rurenze urugero",
-  "Ubwirasi": "Kwiyemera gukabije",
-  "Ubwoba bw'igicucu": "Gutinya ibintu bidafite ishingiro",
-  "Ubugugu": "Kutagira umutima wo gutanga",
-  "Ubusambo bw'umutima": "Gukunda iby'abandi cyane",
-  "Uburiganya": "Uburiganya bukomeye, bw'amayeri",
-  "Ubugome": "Kugira umutima mubi cyane",
-  "Ihungabana": "Guhungabana k'umutima n'ibitekerezo",
-  "Agahinda kenshi": "Intimba irenze urugero",
-  "Ikiruhuko cy'umutima": "Amahoro yo mu mutima",
-  "Umutima uhagaze": "Umuntu ufite impagarara",
-  "Ikiniga cy'umutima": "Kubura aho uhurira n'amarangamutima",
-  "Umubabaro w'ituze": "Kubabara ariko ucecetse",
-  "Indyarya": "Umuntu wiyoberanya",
-  "Indyamirizi": "Umuntu ukunda guteza ibibazo",
-  "Inkotanyi": "Intwari idatinya (mu mvugo ya kera)",
-  "Ishyano": "Ibyago bikomeye cyane",
-  "Ubugabo butisubira": "Ubutwari bukabije",
-  "Ikinyoma cy'amaso": "Kubeshya ugaragara neza",
-  "Ubukene bukabije": "Ubukene bwo hasi cyane",
-  "Ubusabirizi": "Gusabiriza ubuzima",
-  "Ubupfura": "Imyitwarire myiza iranga umuntu",
-  "Ubunyamwuga": "Gukora ibintu neza nk'umwuga",
-  "Uburere gakondo": "Uburere bwa kinyarwanda bwa kera",
-  "Gucura umugambi": "Gutegura ibintu mu ibanga",
-  "Gushyira mu gaciro": "Gutekereza neza",
-  "Kwirara mu bandi": "Kutigira ahubwo ugashingira ku bandi",
-  "Gucisha make": "Kugabanya ibintu bucece",
-  "Kwigunga": "Kwitandukanya n'abandi",
-  "Umutima-muke": "Kutihangana cyangwa kugira ubwoba",
-  "Umutima-munini": "Kugira impuhwe n'ubuntu bwinshi",
-  "Umunyamahane": "Umuntu ukunda kurakara cyane",
-  "Umunyabigwi": "Umuntu uvugwa cyane kubera ibikorwa",
-  "Umunyabwenge nyakuri": "Utekereza kure kandi neza",
-  "Umunyacyubahiro": "Umuntu wubahwa cyane",
-  "Ubunyamaswa": "Imyitwarire idafite ubumuntu",
-  "Ubusuzugurano": "Kwirengagiza abandi ubona nk'abatagira agaciro",
-  "Ubuswa": "Kutamenya n'ibigaragara",
-  "Umunyempuhwe nke": "Utita ku bandi",
-  "Umunyagitugu": "Ukunda gutegeka abandi ku gahato",
-  "Umunyanduranziza": "Utangira ibintu neza ariko akabisoza nabi",
-  "Ubupfura nyabwo": "Imyitwarire myiza ishingiye ku muco",
-  "Uburere bw'ikirenga": "Uburere burenze ibisanzwe",
-  "Ubumuntu busesuye": "Kugira umutima wita ku bandi by'ukuri",
-  "Ubugwaneza": "Gutuza no kugirira abandi neza",
-  "Ubutwari bwuje ituze": "Ubutwari budafite urusaku",
-  "Icyubahiro ndengakamere": "Kubahwa cyane mu bandi",
-  "Umunyabuntu": "Umuntu ugira impuhwe n'ubugwaneza",
-  "Umuco gakondo": "Imigenzo ya kera iranga Abanyarwanda"
+const TYAZA_DATASET = {
+  proverbs: {
+    "Ijoro ribara uwariraye": "Abariraye ni bo bumva iby'ijoro",
+    "Buhoro buhoro ni rwo rugendo": "Kugenda buhoro ni uburyo bwo kugera kure",
+    "Uwitonze arusha uwihuta kugera kure": "Kwihangana bituma ugera ku ntsinzi irambye",
+    "Nta gahinda gahoraho": "Ibibazo birashira uko igihe kigenda",
+    "Uko ubiba ni ko usarura": "Ibyo ukora ni byo bigena ibizakugeraho",
+    "Akanyoni katagurutse ntikamenya iyo bweze": "Kugerageza ni ngombwa kugira ngo wige",
+    "Ijambo ryiza riruta zahabu": "Kuvuga neza birusha ubutunzi",
+    "Ujya inama n'abakuru ntayoba": "Gusaba inama ku bakuru ni byiza",
+    "Umuti w'ibibazo ni ukwihangana": "Kwihangana ni bwo buryo bwo gukemura ibibazo",
+    "Uwihanganye aratsinda": "Kwihangana bituma utsinda",
+    "Nyuma y'ibihe bibi haza ibyiza": "Ibihe bibi birashira",
+    "Imana itanga ibishoboka": "Imana itanga ibishoboka, nta mpamvu yo guhangayika",
+    "Inkoni y'umubyeyi ntiyica umwana": "Guhana bifite intego yo kubaka",
+    "Uburere si amagambo ni ingiro": "Uburere bugaragarira mu bikorwa",
+    "Uwubaha abandi ariyubaha": "Kubaha abandi ni ukwiyubaha",
+    "Icyubahiro kiraharanirwa ntigitangwa gusa": "Icyubahiro kirashakwa",
+    "Ijwi ry'imbere ntiribeshya": "Intuition ifite agaciro",
+    "Umutima usumbya amagambo": "Ibyo wumva bifite uburemere kuruta ibyo uvuga",
+    "Uwiga ntiyigira ubusa": "Ubumenyi bufite akamaro",
+    "Uwanga inama yanga n'ingaruka": "Kwanga kumva bigira ingaruka",
+    "Ijoro rirarenga ariko rikitwara ibitekerezo": "Ibihe bibi bishira ariko bigasiga isomo",
+    "Amazi atuje aba ari maremare": "Utuje ashobora kuba afite imbaraga",
+    "Imizi y'igiti ni yo ikomeza amababi": "Iby'ibanze ni byo byubaka ibindi",
+    "Uwanga gutangira ntiyiga kurangiza": "Intangiriro ni ingenzi",
+    "Icyo utwaye mu mutima kigera ku maguru": "Ibyo wiyumvamo bigira ingaruka ku bikorwa",
+    "Uwanga kureba kure yisanga hafi": "Kutategura bigusubiza inyuma",
+    "Icyo uciyeho ni cyo kikubaka": "Ibibazo ni byo bitwigisha",
+    "Ujya kubaka abanza gutekereza": "Gahunda ibanza ibikorwa",
+    "Uwiga guceceka amenya kuvuga": "Kwifata bituma uvuga neza",
+    "Umenya kubura ni we umenya kubona": "Kubura biguha agaciro k'ibintu",
+    "Uwihangana yubaka igihe": "Kwihangana bifasha gutsinda",
+    "Icyo ushaka kigutwara igihe": "Ibyiza bisaba kwihangana"
+  },
+  companyInfo: COMPANY_INFO,
+  mission: TYAZA_MISSION,
+  rareWords: {
+    "Urwangano": "Urwango rwinshi rurenze urugero",
+    "Ubwirasi": "Kwiyemera gukabije",
+    "Ubwoba bw'igicucu": "Gutinya ibintu bidafite ishingiro",
+    "Ubugugu": "Kutagira umutima wo gutanga",
+    "Ubusambo bw'umutima": "Gukunda iby'abandi cyane",
+    "Uburiganya": "Uburiganya bukomeye, bw'amayeri",
+    "Ubugome": "Kugira umutima mubi cyane",
+    "Ihungabana": "Guhungabana k'umutima n'ibitekerezo",
+    "Agahinda kenshi": "Intimba irenze urugero",
+    "Ikiruhuko cy'umutima": "Amahoro yo mu mutima",
+    "Umutima uhagaze": "Umuntu ufite impagarara",
+    "Ikiniga cy'umutima": "Kubura aho uhurira n'amarangamutima",
+    "Umubabaro w'ituze": "Kubabara ariko ucecetse",
+    "Indyarya": "Umuntu wiyoberanya",
+    "Indyamirizi": "Umuntu ukunda guteza ibibazo",
+    "Inkotanyi": "Intwari idatinya (mu mvugo ya kera)",
+    "Ishyano": "Ibyago bikomeye cyane",
+    "Ubugabo butisubira": "Ubutwari bukabije",
+    "Ikinyoma cy'amaso": "Kubeshya ugaragara neza",
+    "Ubukene bukabije": "Ubukene bwo hasi cyane",
+    "Ubusabirizi": "Gusabiriza ubuzima",
+    "Ubupfura": "Imyitwarire myiza iranga umuntu",
+    "Ubunyamwuga": "Gukora ibintu neza nk'umwuga",
+    "Uburere gakondo": "Uburere bwa kinyarwanda bwa kera",
+    "Gucura umugambi": "Gutegura ibintu mu ibanga",
+    "Gushyira mu gaciro": "Gutekereza neza",
+    "Kwirara mu bandi": "Kutigira ahubwo ugashingira ku bandi",
+    "Gucisha make": "Kugabanya ibintu bucece",
+    "Kwigunga": "Kwitandukanya n'abandi",
+    "Umutima-muke": "Kutihangana cyangwa kugira ubwoba",
+    "Umutima-munini": "Kugira impuhwe n'ubuntu bwinshi",
+    "Umunyamahane": "Umuntu ukunda kurakara cyane",
+    "Umunyabigwi": "Umuntu uvugwa cyane kubera ibikorwa",
+    "Umunyabwenge nyakuri": "Utekereza kure kandi neza",
+    "Umunyacyubahiro": "Umuntu wubahwa cyane",
+    "Ubunyamaswa": "Imyitwarire idafite ubumuntu",
+    "Ubusuzugurano": "Kwirengagiza abandi ubona nk'abatagira agaciro",
+    "Ubuswa": "Kutamenya n'ibigaragara",
+    "Umunyempuhwe nke": "Utita ku bandi",
+    "Umunyagitugu": "Ukunda gutegeka abandi ku gahato",
+    "Umunyanduranziza": "Utangira ibintu neza ariko akabisoza nabi",
+    "Ubupfura nyabwo": "Imyitwarire myiza ishingiye ku muco",
+    "Uburere bw'ikirenga": "Uburere burenze ibisanzwe",
+    "Ubumuntu busesuye": "Kugira umutima wita ku bandi by'ukuri",
+    "Ubugwaneza": "Gutuza no kugirira abandi neza",
+    "Ubutwari bwuje ituze": "Ubutwari budafite urusaku",
+    "Icyubahiro ndengakamere": "Kubahwa cyane mu bandi",
+    "Umunyabuntu": "Umuntu ugira impuhwe n'ubugwaneza",
+    "Umuco gakondo": "Imigenzo ya kera iranga Abanyarwanda",
+    "Uruhererekane rw'imico": "Uburyo umuco uhererekanywa",
+    "Indangagaciro z'umuco": "Iby'ingenzi bigize umuco",
+    "Ubushishozi buhanitse": "Ubushobozi bwo kubona kure cyane",
+    "Gucengera ibintu": "Kumva ibintu byimbitse",
+    "Gusesengura mu mizi": "Gusobanukirwa ibintu mu buryo bwagutse",
+    "Gutandukanya ukuri n'ikinyoma": "Kumenya neza icy'ukuri",
+    "Gufata icyemezo gitekerejweho": "Kudahubuka",
+    "Guhuza ibitekerezo": "Gutunganya logic",
+    "Kwagura imitekerereze": "Gutekereza hanze y'ibisanzwe",
+    "Gushyira mu gaciro nyabwo": "Gutekereza neza nta kubogama",
+    "Gusesa ibitekerezo bitari byo": "Gukosora imyumvire",
+    "Kugaragaza ishingiro": "Gusobanura impamvu y'ikintu",
+    "Kurya iminwa": "Kwifata ngo utavuga",
+    "Guca ku ruhande": "Kwirinda ikibazo",
+    "Gushyira umutima hamwe": "Gufatanya n'abandi",
+    "Guterera agati mu ryinyo": "Kugira icyo utanga mu kiganiro",
+    "Gushyira ku munzani": "Gupima ibintu neza",
+    "Kurenga imbibi": "Gukora ibirenze ibiteganyijwe",
+    "Gukubita agatoki ku kandi": "Kwicuza",
+    "Gushyira hasi umutima": "Koroherwa",
+    "Gufata bugwate amarangamutima": "Kugenzura uko wiyumva",
+    "Gushyira mu mucyo": "Gusobanura neza",
+    "Icyizere gishengutse": "Icyizere cyapfuye",
+    "Umutima utagira aho ubarizwa": "Kumva utazi aho uri mu buzima",
+    "Ijwi rituje ry'umutima": "Kumva ijwi ry'imbere muri wowe",
+    "Imbaraga z'ituze": "Imbaraga zidafite urusaku",
+    "Umwijima w'amarangamutima": "Kumva ubuzima bwijimye",
+    "Irumuri ry'imbere": "Ibyiringiro byo mu mutima",
+    "Umutima uremerewe": "Kumva ufite ibibazo byinshi",
+    "Ikinyoma cyuje ukuri": "Ikintu kigaragara nk'ukuri ariko atari ko",
+    "Ubugingo bucecetse": "Kubaho utagaragaza ibiri imbere",
+    "Imirindi y'ibitekerezo": "Ibitekerezo byinshi byiruka mu mutwe",
+    "Ubugome bushukana": "Gukora nabi ubigize neza inyuma",
+    "Ubusumbane bw'imitekerereze": "Kutangana mu buryo bwo gutekereza",
+    "Ubwibone": "Kwishyira hejuru utekereza ko uri hejuru y'abandi",
+    "Umunyagasuzuguro": "Usuzugura buri wese",
+    "Umunyagihagararo": "Ufite imyitwarire igaragaza uburemere n'icyubahiro",
+    "Umunyabitekerezo bicumbagira": "Utekereza uhindagurika",
+    "Umunyamahane ucecetse": "Urakara ariko ntubigaragaze",
+    "Umunyamakenga": "Uhora atekereza ko hari ikitagenda neza",
+    "Ubugome ndengakamere": "Ubugome burenze ibisanzwe",
+    "Ubusumbane": "Kutangana (social imbalance)",
+    "Ubusugire": "Kudahinduka, kuba kizima",
+    "Ubukangarane": "Gukangarana cyane / gutungurwa bikabije",
+    "Ubuhanya": "Ubwenge bwo kwirinda no kwitwararika",
+    "Ubugenge": "Ubwitonzi bujyanye n'uburambe",
+    "Ubugengebuke": "Kubura ubushishozi",
+    "Ubugaragara": "Imiterere igaragara y'ikintu",
+    "Ubwitange": "Sacrifice",
+    "Ubufatanye": "Cooperation",
+    "Ubudahemuka": "Loyalty",
+    "Ubutabera": "Justice",
+    "Ubugwari": "Kubura ubutwari no guhunga inshingano",
+    "Uburangare ndengakamere": "Kutita ku bintu by'ingenzi ku rwego rwo hejuru"
+  },
+  emotions: {
+    greeting: {
+      patterns: ['muraho', 'hello', 'hi', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'bonjour', 'hey'],
+      generate: function() {
+        const f = new AIResponseFormatter();
+        const userName = state.userName || null;
+        if (userName) {
+          f.addTitle(`✨ Muraho, ${userName}!`);
+        } else {
+          f.addTitle("✨ Muraho!");
+        }
+        f.addParagraph("Murakaza neza kuri **TYAZA**, umuvugizi w'umutima.");
+        f.addParagraph(`TYAZA yakozwe na **KIVURA LABS**, uruganda rushinzwe na **Yves Hirwa Tuyishime**. Ijambo rye ni: *"${COMPANY_INFO.quote}"*.`);
+        f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
+        f.addParagraph("Ndi hano kugira ngo mbafashe kumva neza ibiri ku mutima wanyu.");
+        const proverbs = Object.keys(TYAZA_DATASET.proverbs);
+        const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+        f.addProverb(randomProverb, TYAZA_DATASET.proverbs[randomProverb]);
+        if (!userName) {
+          f.addParagraph("Niba ushaka, wambwira izina ryawe kugira ngo tubane mu buryo bw'umuntu ku muntu?");
+        }
+        f.addList([
+          "Ubu wumva ute?",
+          "Ni iki kiri ku mutima wawe?",
+          "Hari ikintu ushaka kuganiraho?"
+        ]);
+        f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+        return f;
+      }
+    },
+    about_company: {
+      patterns: ['kivura labs', 'kivura', 'kampani', 'company', 'uruganda'],
+      generate: function() {
+        const f = new AIResponseFormatter();
+        f.addTitle("🏢 KIVURA LABS");
+        f.addParagraph(`**${COMPANY_INFO.name}** ni uruganda rw'ikoranabuhanga rushinzwe na **${COMPANY_INFO.founder}** mu Rwanda.`);
+        f.addParagraph(`Ijambo rye rikomeye: *"${COMPANY_INFO.quote}"*.`);
+        f.addParagraph(`${COMPANY_INFO.name} yakoreye **${COMPANY_INFO.product}**, AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.`);
+        f.addParagraph(`**${TYAZA_MISSION.tagline}**`);
+        f.addList([
+          `👤 **CEO & Founder:** ${COMPANY_INFO.founder}`,
+          `📅 **Yashinzwe:** 2024`,
+          `🌍 **Aho iri:** Rwanda`,
+          `💡 **Intego:** Guteza imbere AI mu Kinyarwanda no gufasha abantu mu buzima bwo mu mutwe`,
+          `📌 **Tagline:** ${TYAZA_MISSION.tagline}`
+        ]);
+        f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
+        return f;
+      }
+    },
+    about_ceo: {
+      patterns: ['yves', 'hirwa', 'tuyishime', 'washinze', 'founder', 'ceo', 'umuyobozi'],
+      generate: function() {
+        const f = new AIResponseFormatter();
+        f.addTitle("👤 Yves Hirwa Tuyishime");
+        f.addParagraph(`**${COMPANY_INFO.founder}** ni we washinze **${COMPANY_INFO.name}** kandi ni CEO wacyo.`);
+        f.addParagraph(`Ijambo rye rikomeye: *"${COMPANY_INFO.quote}"*.`);
+        f.addParagraph(`Yashinze ${COMPANY_INFO.name} mu 2024 mu Rwanda, agamije gukora AI ivuga mu Kinyarwanda ifasha abantu mu buzima bwo mu mutwe.`);
+        f.addList([
+          `👤 **Izina:** ${COMPANY_INFO.founder}`,
+          `🏢 **Position:** CEO & Founder wa ${COMPANY_INFO.name}`,
+          `💡 **Product:** ${COMPANY_INFO.product}`,
+          `📌 **Quote:** "${COMPANY_INFO.quote}"`,
+          `🌍 **Aho akorera:** Rwanda`
+        ]);
+        f.addProverb("Ujya inama n'abakuru ntayoba", "Gusaba inama ku bakuru ni byiza");
+        return f;
+      }
+    },
+    sadness: {
+      patterns: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'nariraye', 'triste', 'peine'],
+      generate: function() {
+        const f = new AIResponseFormatter();
+        const userName = state.userName || '';
+        const namePrefix = userName ? `${userName}, ` : '';
+        f.addTitle("💙 Mbabajwe no kumva ko ubabaye.");
+        f.addParagraph(`${namePrefix}Ndumva ufite agahinda. Ni iki cyaguteye kumva utyo?`);
+        f.addProverb("Nta gahinda gahoraho", "Ibibazo birashira uko igihe kigenda");
+        f.addList([
+          "Wambwira byinshi kuri byo?",
+          "Ni iki gishobora kugufasha kumva neza?"
+        ]);
+        f.addEmphasis("Ndi hano kugira nkugire.", "italic");
+        return f;
+      }
+    },
+    joy: {
+      patterns: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo', 'heureux', 'joy'],
+      generate: function() {
+        const f = new AIResponseFormatter();
+        const userName = state.userName || '';
+        const namePrefix = userName ? `${userName}, ` : '';
+        f.addTitle("✨ Ni byiza cyane kumva wishimye!");
+        f.addParagraph(`${namePrefix}Ibyishimo ni impamvu yo gukomeza mu buzima.`);
+        f.addProverb("Ijambo ryiza riruta zahabu", "Kuvuga neza birusha ubutunzi");
+        f.addList([
+          "Ni iki cyaguteye ibyishimo?",
+          "Wifuza kubiganiraho byinshi?"
+        ]);
+        return f;
+      }
+    },
+    anger: {
+      patterns: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'en colère', 'fâché'],
+      generate: function() {
+        const f = new AIResponseFormatter();
+        const userName = state.userName || '';
+        const namePrefix = userName ? `${userName}, ` : '';
+        f.addTitle("🔥 Birumvikana ko urakaye.");
+        f.addParagraph(`${namePrefix}Kurakara ni ibisanzwe, ariko ni byiza kubivugaho.`);
+        f.addProverb("Uwitonze arusha uwihuta kugera kure", "Kwihangana bituma ugera ku ntsinzi irambye");
+        f.addList([
+          "Ni iki cyaguteye uburakari?",
+          "Waba wifuza kuvuga byinshi kuri byo?"
+        ]);
+        return f;
+      }
+    },
+    anxiety: {
+      patterns: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'anxieux', 'peur', 'stress'],
+      generate: function() {
+        const f = new AIResponseFormatter();
+        const userName = state.userName || '';
+        const namePrefix = userName ? `${userName}, ` : '';
+        f.addTitle("😰 Ndumva ufite ubwoba.");
+        f.addParagraph(`${namePrefix}Gutekereza ku hazaza bishobora gutera ubwoba.`);
+        f.addProverb("Buhoro buhoro ni rwo rugendo", "Kugenda buhoro ni uburyo bwo kugera kure");
+        f.addList([
+          "Ni iki kiguteye ubwoba?",
+          "Hari ikintu cyihariye kiguhangayikishije?"
+        ]);
+        f.addEmphasis("Nturi wenyine muri ibi.", "bold");
+        return f;
+      }
+    },
+    loneliness: {
+      patterns: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'seul', 'alone'],
+      generate: function() {
+        const f = new AIResponseFormatter();
+        const userName = state.userName || '';
+        const namePrefix = userName ? `${userName}, ` : '';
+        f.addTitle("🕊️ Kumva uri wenyine biraremereye.");
+        f.addParagraph(`${namePrefix}Nta muntu ugomba kwihanganira ibyago yonyine.`);
+        f.addProverb("Ijoro ribara uwariraye", "Abariraye ni bo bumva iby'ijoro");
+        f.addList([
+          "Waba wifuza kuganira n'umuntu?",
+          "Cyangwa gusangira ibyo wumva?"
+        ]);
+        f.addEmphasis("Nturi wenyine. Ndi hano.", "bold");
+        return f;
+      }
+    },
+    fatigue: {
+      patterns: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'fatigué', 'tired'],
+      generate: function() {
+        const f = new AIResponseFormatter();
+        const userName = state.userName || '';
+        const namePrefix = userName ? `${userName}, ` : '';
+        f.addTitle("😓 Ndumva ufite umunaniro.");
+        f.addParagraph(`${namePrefix}Birashoboka ko ukeneye kuruhuka.`);
+        f.addProverb("Buhoro buhoro ni rwo rugendo", "Kugenda buhoro ni uburyo bwo kugera kure");
+        f.addList([
+          "Ni iki cyaguteye kurambirwa?",
+          "Waba wararuhutse bihagije?"
+        ]);
+        return f;
+      }
+    }
+  },
+  crisis: {
+    patterns: ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
+      'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye',
+      'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'],
+    generate: function() {
+      const f = new AIResponseFormatter();
+      f.addTitle("⚠️ Ukeneye ubufasha bwihutirwa");
+      f.addCrisis("Ibi ni ibintu bikomeye cyane. Mbabajwe cyane no kumva utyo.");
+      f.addParagraph("Ni ingenzi cyane ko wabona ubufasha bwihuse.");
+      f.addList([
+        "📞 **116** - Imitari y'inkunga (24/7)",
+        "📞 **3029** - Isange One Stop",
+        "🏥 Kwa muganga wawe",
+        "🤝 Vugana n'umuntu wizeye"
+      ]);
+      f.addEmphasis("Nturi wenyine. Ubu hashoboka ubufasha.", "bold");
+      return f;
+    }
+  },
+  genocide: {
+    patterns: ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 'génocide', 'genocide'],
+    generate: function() {
+      const f = new AIResponseFormatter();
+      f.addTitle("🕊️ Ibyo wavuze ni ibintu bikomeye");
+      f.addParagraph("TYAZA yumva neza ko jenoside yakorewe Abatutsi mu 1994 yasize ibyago byinshi.");
+      f.addParagraph("Nta muntu ugomba kwihanganira ibyago yonyine.");
+      f.addProverb("Ijoro ribara uwariraye", "Abariraye ni bo bumva iby'ijoro");
+      f.addList([
+        "📞 **116** - Bafasha abahangayikishijwe na jenoside",
+        "📞 **3029** - Isange One Stop",
+        "🤝 Vugana n'umuntu wizeye"
+      ]);
+      return f;
+    }
+  },
+  followUpQuestions: [
+    "Hari ikintu cyihariye wifuza kuganiraho uyu munsi?",
+    "Waba ufite ikibazo gikomeye kiri ku mutima?",
+    "Ni iki cyagufasha kumva neza ubu?",
+    "Umutima wawe uvuze iki ubu?",
+    "Hari ibyo wifuza ko twongera kubiganiraho?"
+  ],
+  calmingTechniques: [
+    "Gerageza guhumeka buhoro: winjiza umwuka, uwusohore buhoro.",
+    "Fata umwanya w'ituze utekereze ku bintu byiza.",
+    "Andika ibyo wumva mu gitabo.",
+    "Ganira n'umuntu wizeye.",
+    "Jya gutembera mu kirere cyiza.",
+    "Reka nkugirire icyifuzo: guhumeka buhoro nibura inshuro eshatu.",
+    "Imana itanga ibishoboka, nta mpamvu yo guhangayika.",
+    "Buri munsi ni urugendo rushya."
+  ]
 };
 
 // ============================================================
-// STATE MANAGEMENT
+// 2. UTILITY CLASSES
+// ============================================================
+class UltraMarkdownParser {
+  static parse(text) {
+    if (!text) return '';
+    let html = text;
+    html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, (match, lang, code) => {
+      return `<div class="code-block">${this.escapeHtml(code.trim())}</div>`;
+    });
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+    html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+    html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+    html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+    html = html.replace(/_(.+?)_/g, '<em>$1</em>');
+    html = html.replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>');
+    html = html.replace(/(?:^|\n)((?:[-•*] .+(?:\n|$))+)/g, (match, listBlock) => {
+      const items = listBlock.trim().split('\n').map(line => 
+        `<li>${line.replace(/^[-•*] /, '').trim()}</li>`
+      ).join('');
+      return `<ul>${items}</ul>`;
+    });
+    html = html.replace(/(?:^|\n)((?:\d+\. .+(?:\n|$))+)/g, (match, listBlock) => {
+      const items = listBlock.trim().split('\n').map(line => 
+        `<li>${line.replace(/^\d+\. /, '').trim()}</li>`
+      ).join('');
+      return `<ol>${items}</ol>`;
+    });
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+    html = html.split('\n\n').map(block => {
+      block = block.trim();
+      if (!block) return '';
+      if (block.startsWith('<h') || block.startsWith('<ul') || block.startsWith('<ol') || 
+          block.startsWith('<blockquote') || block.startsWith('<div class="code-block')) {
+        return block;
+      }
+      if (block.startsWith('<p>')) return block;
+      return `<p>${block.replace(/\n/g, '<br>')}</p>`;
+    }).join('\n');
+    return html;
+  }
+
+  static escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  static stripHtml(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+  }
+}
+
+// ============================================================
+// 3. ELITE BULLET RESPONSE FORMATTER
+// ============================================================
+class EliteBulletFormatter {
+  constructor() {
+    this.sections = [];
+    this.metadata = {
+      confidence: 0.85,
+      emotion: 'neutral',
+      responseTime: 0,
+      tokens: 0,
+      model: 'local'
+    };
+    this.depthContent = null;
+  }
+
+  setCore(text) {
+    this.core = text;
+    return this;
+  }
+
+  addBullets(bullets) {
+    this.bullets = bullets.slice(0, 5);
+    return this;
+  }
+
+  setInsight(text) {
+    this.insight = text;
+    return this;
+  }
+
+  setAction(text) {
+    this.action = text;
+    return this;
+  }
+
+  setDepth(text) {
+    this.depthContent = text;
+    return this;
+  }
+
+  setMetadata(key, value) {
+    this.metadata[key] = value;
+    return this;
+  }
+
+  renderHTML() {
+    let html = `<div class="elite-response">`;
+    
+    // Core
+    if (this.core) {
+      html += `<div class="core"><span class="icon">🧠</span>${this.core}</div>`;
+    }
+    
+    // Bullets
+    if (this.bullets && this.bullets.length > 0) {
+      html += `<ul class="bullet-list">`;
+      for (const bullet of this.bullets) {
+        html += `<li>${bullet}</li>`;
+      }
+      html += `</ul>`;
+    }
+    
+    // Separator
+    html += `<hr class="separator">`;
+    
+    // Insight
+    if (this.insight) {
+      html += `<div class="insight-block">
+        <div class="label">💡 Insight</div>
+        <div class="text">${this.insight}</div>
+      </div>`;
+    }
+    
+    // Action
+    if (this.action) {
+      html += `<div class="action-block">
+        <div class="label">⚡ Action</div>
+        <div class="text">${this.action}</div>
+      </div>`;
+    }
+    
+    // Depth (collapsible)
+    if (this.depthContent) {
+      const depthId = 'depth-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
+      html += `<button class="depth-toggle" onclick="toggleDepth('${depthId}')">
+        <i class="fas fa-chevron-right"></i> <span>🧭 Kureba byinshi</span>
+      </button>
+      <div class="depth-content" id="${depthId}">${this.depthContent}</div>`;
+    }
+    
+    html += `</div>`;
+    return html;
+  }
+
+  renderMarkdown() {
+    let md = '';
+    if (this.core) md += `🧠 ${this.core}\n\n`;
+    if (this.bullets && this.bullets.length > 0) {
+      for (const bullet of this.bullets) {
+        md += `• ${bullet}\n`;
+      }
+      md += `\n`;
+    }
+    md += `───\n\n`;
+    if (this.insight) md += `💡 ${this.insight}\n\n`;
+    if (this.action) md += `⚡ ${this.action}\n\n`;
+    if (this.depthContent) md += `🧭 ${this.depthContent}`;
+    return md.trim();
+  }
+
+  build() {
+    return {
+      html: this.renderHTML(),
+      markdown: this.renderMarkdown(),
+      metadata: this.metadata,
+      sections: [
+        { type: 'core', content: this.core },
+        { type: 'bullets', content: this.bullets },
+        { type: 'insight', content: this.insight },
+        { type: 'action', content: this.action },
+        { type: 'depth', content: this.depthContent }
+      ]
+    };
+  }
+}
+
+// Toggle depth content
+function toggleDepth(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.toggle('open');
+    const btn = el.parentElement.querySelector('.depth-toggle');
+    if (btn) {
+      const icon = btn.querySelector('i');
+      if (icon) icon.className = el.classList.contains('open') ? 'fas fa-chevron-down' : 'fas fa-chevron-right';
+    }
+  }
+}
+
+// ============================================================
+// 4. STATE MANAGEMENT
 // ============================================================
 let state = {
   messages: [],
@@ -2496,8 +2974,20 @@ let state = {
   isVoiceModalActive: false
 };
 
+const ALLOWED_FILE_TYPES = {
+  'text/plain': '.txt',
+  'text/markdown': '.md',
+  'text/csv': '.csv',
+  'application/json': '.json',
+  'application/pdf': '.pdf',
+  'image/jpeg': '.jpg',
+  'image/png': '.png',
+  'image/gif': '.gif',
+  'image/webp': '.webp'
+};
+
 // ============================================================
-// STORAGE HELPERS
+// 5. STORAGE HELPERS
 // ============================================================
 function storageGet(key, fallback = null) {
   try { const data = localStorage.getItem('tyaza_' + key); return data ? JSON.parse(data) : fallback; } catch { return fallback; }
@@ -2521,7 +3011,7 @@ function storageDelete(key, id) {
 function storageClear(key) { storageSet(key, []); }
 
 // ============================================================
-// UI HELPERS
+// 6. UI HELPERS
 // ============================================================
 function showToast(message, type = 'info') {
   const container = document.getElementById('toastContainer');
@@ -2624,19 +3114,19 @@ function analyzeRisks(text) {
     suicide: false, selfHarm: false, violence: false,
     ptsd: false, abuse: false, genocideTrauma: false
   };
-  const crisisPatterns = ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
-    'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye',
-    'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'];
-  const genocidePatterns = ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 'génocide', 'genocide'];
-  for (const pattern of crisisPatterns) {
+  const allCrisisPatterns = [
+    ...TYAZA_DATASET.crisis.patterns,
+    ...TYAZA_DATASET.genocide.patterns
+  ];
+  for (const pattern of allCrisisPatterns) {
     if (lower.includes(pattern.toLowerCase())) {
-      risks.suicide = true;
-      risks.selfHarm = true;
-    }
-  }
-  for (const pattern of genocidePatterns) {
-    if (lower.includes(pattern.toLowerCase())) {
-      risks.genocideTrauma = true;
+      if (TYAZA_DATASET.crisis.patterns.includes(pattern)) {
+        risks.suicide = true;
+        risks.selfHarm = true;
+      }
+      if (TYAZA_DATASET.genocide.patterns.includes(pattern)) {
+        risks.genocideTrauma = true;
+      }
     }
   }
   return risks;
@@ -2730,73 +3220,47 @@ function updateMemoryStats() {
 
 function detectEmotion(text) {
   const lower = text.toLowerCase();
-  
-  // Crisis
-  const crisisPatterns = ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
-    'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye',
-    'sinakomeza', 'nta mpamvu yo kubaho', 'ntakibazo', 'je veux mourir', 'me tuer'];
-  for (const pattern of crisisPatterns) {
+  for (const pattern of TYAZA_DATASET.crisis.patterns) {
     if (lower.includes(pattern.toLowerCase())) return { type: 'crisis' };
   }
-  
-  // Genocide
-  const genocidePatterns = ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 'génocide', 'genocide'];
-  for (const pattern of genocidePatterns) {
+  for (const pattern of TYAZA_DATASET.genocide.patterns) {
     if (lower.includes(pattern.toLowerCase())) return { type: 'genocide' };
   }
-  
-  // Company
-  const companyPatterns = ['kivura labs', 'kivura', 'kampani', 'company', 'uruganda'];
-  for (const pattern of companyPatterns) {
+  for (const pattern of TYAZA_DATASET.emotions.about_company.patterns) {
     if (lower.includes(pattern.toLowerCase())) return { type: 'about_company' };
   }
-  
-  // CEO
-  const ceoPatterns = ['yves', 'hirwa', 'tuyishime', 'washinze', 'founder', 'ceo', 'umuyobozi'];
-  for (const pattern of ceoPatterns) {
+  for (const pattern of TYAZA_DATASET.emotions.about_ceo.patterns) {
     if (lower.includes(pattern.toLowerCase())) return { type: 'about_ceo' };
   }
-  
-  // Greeting
-  const greetingPatterns = ['muraho', 'hello', 'hi', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'bonjour', 'hey'];
-  for (const pattern of greetingPatterns) {
+  for (const pattern of TYAZA_DATASET.emotions.greeting.patterns) {
     if (lower.includes(pattern.toLowerCase())) return { type: 'greeting' };
   }
-  
-  // Emotions
-  const emotionMap = {
-    sadness: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'nariraye', 'triste', 'peine'],
-    joy: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo', 'heureux', 'joy'],
-    anger: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'en colère', 'fâché'],
-    anxiety: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'anxieux', 'peur', 'stress'],
-    loneliness: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'seul', 'alone'],
-    fatigue: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'fatigué', 'tired']
-  };
-  for (const [emotion, patterns] of Object.entries(emotionMap)) {
-    for (const pattern of patterns) {
+  for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
+    if (emotion === 'greeting' || emotion === 'about_company' || emotion === 'about_ceo') continue;
+    for (const pattern of data.patterns) {
       if (lower.includes(pattern.toLowerCase())) return { type: emotion };
     }
   }
-  
-  // Name detection
   const nameMatch = text.match(/^(?:ndi|nitwa|izina ryanjye|my name is|i'?m|i am|jye|jewe|je m'appelle|je suis|mon nom est)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
   if (nameMatch) {
     const name = nameMatch[1].trim();
-    const excludedNames = ['having', 'have', 'has', 'had', 'ptsd', 'trauma', 'stress', 'anxiety',
-      'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy', 'good', 'bad', 'fine', 'okay', 'ok',
-      'great', 'terrible', 'wonderful', 'horrible', 'amazing', 'awful', 'well', 'hello', 'hi',
-      'muraho', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'neza', 'cyane', 'rwanda', 'kivura',
-      'labs', 'tyaza', 'murakoze', 'ndabashimiye', 'ndishimiye', 'mbabaye', 'agahinda', 'ndababaye',
-      'ndumva nabi', 'umutima', 'ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'ubwoba',
-      'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'kwigunga', 'ndi njyenyine', 'nta muntu',
-      'wenyine', 'ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'tyaza', 'uri', 'ndi'];
+    const excludedNames = [
+      'having', 'havings', 'have', 'has', 'had', 'ptsd', 'trauma', 'stress', 'anxiety',
+      'depression', 'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy', 'good', 'bad',
+      'fine', 'okay', 'ok', 'great', 'terrible', 'wonderful', 'horrible', 'amazing', 'awful',
+      'well', 'hello', 'hi', 'muraho', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'neza',
+      'cyane', 'rwanda', 'kivura', 'labs', 'tyaza', 'murakoze', 'ndabashimiye', 'ndishimiye',
+      'mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima', 'ndarakaye', 'uburakari',
+      'ndarakajwe', 'umujinya', 'ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya',
+      'kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'ndushye', 'ndarambiwe', 'umunaniro',
+      'ndacitse intege', 'naniwe', 'tyaza', 'uri', 'ndi'
+    ];
     if (name.length >= 2 && !excludedNames.includes(name.toLowerCase())) {
       return { type: 'name', name: name };
     }
   }
-  
-  // Rare words
-  for (const word of Object.keys(TYAZA_RARE_WORDS)) {
+  const rareWords = Object.keys(TYAZA_DATASET.rareWords);
+  for (const word of rareWords) {
     if (lower.includes(word.toLowerCase())) {
       return { type: 'rare_word', word: word };
     }
@@ -2805,348 +3269,246 @@ function detectEmotion(text) {
 }
 
 // ============================================================
-// ELITE BULLET RESPONSE FORMATTER
+// 7. RESPONSE GENERATION - with Elite Bullet Formatter
 // ============================================================
-class EliteBulletFormatter {
-  constructor() {
-    this.metadata = {
-      confidence: 0.85,
-      emotion: 'neutral',
-      responseTime: 0,
-      tokens: 0,
-      model: 'local'
-    };
-    this.depthContent = null;
-    this.proverb = null;
-    this.proverbMeaning = null;
-  }
-
-  setCore(text) {
-    this.core = text;
-    return this;
-  }
-
-  addBullets(bullets) {
-    this.bullets = bullets.slice(0, 5);
-    return this;
-  }
-
-  setInsight(text) {
-    this.insight = text;
-    return this;
-  }
-
-  setAction(text) {
-    this.action = text;
-    return this;
-  }
-
-  setDepth(text) {
-    this.depthContent = text;
-    return this;
-  }
-
-  addProverb(proverb, meaning) {
-    this.proverb = proverb;
-    this.proverbMeaning = meaning;
-    return this;
-  }
-
-  setMetadata(key, value) {
-    this.metadata[key] = value;
-    return this;
-  }
-
-  renderHTML() {
-    let html = `<div class="elite-response">`;
-    if (this.core) {
-      html += `<div class="core"><span class="icon">🧠</span>${this.core}</div>`;
-    }
-    if (this.bullets && this.bullets.length > 0) {
-      html += `<ul class="bullet-list">`;
-      for (const bullet of this.bullets) {
-        html += `<li>${bullet}</li>`;
-      }
-      html += `</ul>`;
-    }
-    if (this.proverb && this.proverbMeaning) {
-      html += `<div class="proverb-block">
-        <div class="proverb-text">"${this.proverb}"</div>
-        <div class="proverb-meaning">→ ${this.proverbMeaning}</div>
-      </div>`;
-    }
-    html += `<hr class="separator">`;
-    if (this.insight) {
-      html += `<div class="insight-block">
-        <div class="label">💡 Insight</div>
-        <div class="text">${this.insight}</div>
-      </div>`;
-    }
-    if (this.action) {
-      html += `<div class="action-block">
-        <div class="label">⚡ Action</div>
-        <div class="text">${this.action}</div>
-      </div>`;
-    }
-    if (this.depthContent) {
-      const depthId = 'depth-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6);
-      html += `<button class="depth-toggle" onclick="toggleDepth('${depthId}')">
-        <i class="fas fa-chevron-right"></i> <span>🧭 Kureba byinshi</span>
-      </button>
-      <div class="depth-content" id="${depthId}">${this.depthContent}</div>`;
-    }
-    html += `</div>`;
-    return html;
-  }
-
-  renderMarkdown() {
-    let md = '';
-    if (this.core) md += `🧠 ${this.core}\n\n`;
-    if (this.bullets && this.bullets.length > 0) {
-      for (const bullet of this.bullets) {
-        md += `• ${bullet}\n`;
-      }
-      md += `\n`;
-    }
-    if (this.proverb && this.proverbMeaning) {
-      md += `> "${this.proverb}"\n> *${this.proverbMeaning}*\n\n`;
-    }
-    md += `───\n\n`;
-    if (this.insight) md += `💡 ${this.insight}\n\n`;
-    if (this.action) md += `⚡ ${this.action}\n\n`;
-    if (this.depthContent) md += `🧭 ${this.depthContent}`;
-    return md.trim();
-  }
-
-  build() {
-    return {
-      html: this.renderHTML(),
-      markdown: this.renderMarkdown(),
-      metadata: this.metadata
-    };
-  }
-}
-
-function toggleDepth(id) {
-  const el = document.getElementById(id);
-  if (el) {
-    el.classList.toggle('open');
-    const btn = el.parentElement.querySelector('.depth-toggle');
-    if (btn) {
-      const icon = btn.querySelector('i');
-      if (icon) icon.className = el.classList.contains('open') ? 'fas fa-chevron-down' : 'fas fa-chevron-right';
-    }
-  }
-}
-
-// ============================================================
-// RESPONSE GENERATION
-// ============================================================
-function generateResponse(userInput) {
+function generateEliteResponse(userInput) {
   const detection = detectEmotion(userInput);
   const startTime = performance.now();
-  const f = new EliteBulletFormatter();
 
-  const getProverb = () => {
-    const keys = Object.keys(TYAZA_PROVERBS);
-    const key = keys[Math.floor(Math.random() * keys.length)];
-    return { proverb: key, meaning: TYAZA_PROVERBS[key] };
-  };
-
-  // Crisis
+  // Crisis detection
   if (detection && detection.type === 'crisis') {
-    const p = getProverb();
+    const f = new EliteBulletFormatter();
     f.setCore("⚠️ Ukeneye ubufasha bwihutirwa")
-      .addBullets(["Ibi bikomeye — ndumva ubabaye cyane", "Nturi wenyine muri ibi", "Ubufasha buri hafi yawe"])
-      .setInsight("Ibyo wumva ni by'ukuri, ariko ubufasha buriho.")
-      .setAction("Kanda kuri 116 cyangwa uhamagara umuntu wizeye ubu")
+      .addBullets([
+        "Ibi bikomeye — ndumva ubabaye",
+        "Nturi wenyine muri ibi",
+        "Ubufasha buri hafi yawe"
+      ])
+      .setInsight("Ibyo wumva ni by'ukuri, ariko ubufasha buriho")
+      .setAction("Kanda kuri 116 cyangwa ugerageze guhamagara umuntu wizeye")
       .setDepth("Niba ufite ibitekerezo byo kwiyahura, ni ingenzi ko wita ku buzima bwawe. Hamagara 116, 3029, cyangwa 112 ubu.")
-      .addProverb(p.proverb, p.meaning)
-      .setMetadata('confidence', 1.0).setMetadata('emotion', 'crisis');
+      .setMetadata('confidence', 1.0)
+      .setMetadata('emotion', 'crisis')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
     return f.build();
   }
 
-  // Genocide
+  // Genocide trauma
   if (detection && detection.type === 'genocide') {
-    const p = getProverb();
+    const f = new EliteBulletFormatter();
     f.setCore("🕊️ Ibyo wavuze ni ibintu bikomeye")
-      .addBullets(["Jenoside yakorewe Abatutsi mu 1994 yasize ibyago", "Nta muntu ugomba kwihanganira ibyago yonyine", "Ubufasha buri hafi yawe"])
-      .setInsight("Kubaho mu gihe cya jenoside bikomeye, ariko ubu hari ubufasha.")
+      .addBullets([
+        "Jenoside yakorewe Abatutsi mu 1994 yasize ibyago",
+        "Nta muntu ugomba kwihanganira ibyago yonyine",
+        "Ubufasha buri hafi yawe"
+      ])
+      .setInsight("Kubaho mu gihe cya jenoside bikomeye, ariko ubu hari ubufasha")
       .setAction("Hamagara 116 cyangwa 3029 kugira ngo ubone ubufasha")
-      .setDepth("Abari bafite ihungabana rya jenoside babona inkunga ihoraho. Vugana n'umuntu wizeye.")
-      .addProverb(p.proverb, p.meaning)
-      .setMetadata('confidence', 0.95).setMetadata('emotion', 'somber');
+      .setDepth("Abari bafite ihungabana rya jenoside babona inkunga ihoraho. Vugana n'umuntu wizeye cyangwa ujye kwa muganga.")
+      .setMetadata('confidence', 0.95)
+      .setMetadata('emotion', 'somber')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
     return f.build();
   }
 
-  // Name
+  // Name detection
   if (detection && detection.type === 'name') {
     state.userName = detection.name;
     storageSet('userName', state.userName);
-    const p = getProverb();
+    const f = new EliteBulletFormatter();
     f.setCore(`✨ Muraho, ${detection.name}! Ndi TYAZA, umuvugizi w'umutima`)
-      .addBullets(["Ndi hano kugira ngo mbafashe kumva ibiri ku mutima", "TYAZA yakozwe na KIVURA LABS", `"${COMPANY_INFO.quote}"`])
+      .addBullets([
+        "Ndi hano kugira ngo mbafashe kumva ibiri ku mutima wawe",
+        "TYAZA yakozwe na KIVURA LABS na Yves Hirwa Tuyishime",
+        `"${COMPANY_INFO.quote}"`
+      ])
       .setInsight("Gutangira ikiganiro ni intambwe ya mbere yo kwitaho")
       .setAction("Ubu wumva ute? Sangiza icyo utekereza")
-      .setDepth("TYAZA ni AI ivuga mu Kinyarwanda, yakozwe kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo.")
-      .addProverb(p.proverb, p.meaning)
-      .setMetadata('confidence', 0.98).setMetadata('emotion', 'welcoming');
+      .setDepth("KIVURA LABS ni uruganda rw'ikoranabuhanga rushinzwe mu Rwanda, rugamije gukora AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.")
+      .setMetadata('confidence', 0.98)
+      .setMetadata('emotion', 'welcoming')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
     return f.build();
   }
 
   // Rare word
   if (detection && detection.type === 'rare_word') {
     const word = detection.word;
-    const meaning = TYAZA_RARE_WORDS[word] || "ikintu cyihariye";
-    const p = getProverb();
+    const meaning = TYAZA_DATASET.rareWords[word] || "ikintu cyihariye";
+    const f = new EliteBulletFormatter();
     f.setCore(`📖 "${word}"`)
-      .addBullets([`Sobanura: ${meaning}`, "Ni jambo ry'ikinyarwanda gikomeye", "Rikoreshwa mu mvugo y'umuco nyarwanda"])
-      .setInsight("Iyi mvugo ikubiyemo ubwenge n'umuco by'Abanyarwanda.")
+      .addBullets([
+        `Sobanura: ${meaning}`,
+        "Ni jambo ry'ikinyarwanda gikomeye",
+        "Rikoreshwa mu mvugo y'umuco nyarwanda"
+      ])
+      .setInsight("Iyi mvugo ikubiyemo ubwenge n'umuco by'Abanyarwanda")
       .setAction("Waba ufite ikindi ushaka kuvuga?")
-      .setDepth(`Iri jambo rikoreshwa n'abanyabwenge n'abashakashatsi mu mvugo ya kinyarwanda.`)
-      .addProverb(p.proverb, p.meaning)
-      .setMetadata('confidence', 0.95).setMetadata('emotion', 'insightful');
+      .setDepth(`Iri jambo rikoreshwa n'abanyabwenge n'abashakashatsi mu mvugo ya kinyarwanda. Ni jambo rifite ubwimbitse.`)
+      .setMetadata('confidence', 0.95)
+      .setMetadata('emotion', 'insightful')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
     return f.build();
   }
 
-  // Company
+  // Company info
   if (detection && detection.type === 'about_company') {
-    const p = getProverb();
-    f.setCore(`🏢 ${COMPANY_INFO.name} — Uruganda rw'ikoranabuhanga mu Rwanda`)
-      .addBullets([`Yashinzwe na ${COMPANY_INFO.founder} mu 2024`, `Product: ${COMPANY_INFO.product}`, `"${COMPANY_INFO.quote}"`])
-      .setInsight(`${COMPANY_INFO.name} ifite intego yo kugeza ikoranabuhanga ku banyarwanda bose.`)
+    const f = new EliteBulletFormatter();
+    f.setCore(`🏢 ${COMPANY_INFO.name}`)
+      .addBullets([
+        `Yashinzwe na ${COMPANY_INFO.founder} mu Rwanda`,
+        `Product: ${COMPANY_INFO.product} - AI ivuga mu Kinyarwanda`,
+        `"${COMPANY_INFO.quote}"`
+      ])
+      .setInsight(`${COMPANY_INFO.name} ni uruganda rushinzwe mu 2024 rugamije gukora AI ivuga mu Kinyarwanda`)
       .setAction("Wifuza kumenya byinshi kuri TYAZA?")
-      .setDepth(`${COMPANY_INFO.name} ni uruganda rushinzwe mu Rwanda, rugamije gukora AI ivuga mu Kinyarwanda.`)
-      .addProverb(p.proverb, p.meaning)
-      .setMetadata('confidence', 0.98).setMetadata('emotion', 'informative');
+      .setDepth(`${COMPANY_INFO.name} ifite intego yo kugeza ikoranabuhanga ku banyarwanda bose, no guteza imbere ururimi n'umuco nyarwanda.`)
+      .setMetadata('confidence', 0.98)
+      .setMetadata('emotion', 'informative')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
     return f.build();
   }
 
-  // CEO
+  // CEO info
   if (detection && detection.type === 'about_ceo') {
-    const p = getProverb();
-    f.setCore(`👤 ${COMPANY_INFO.founder} — CEO & Founder wa ${COMPANY_INFO.name}`)
-      .addBullets([`Yashinze ${COMPANY_INFO.name} mu 2024`, `"${COMPANY_INFO.quote}"`, "Ni umunyabwenge ukora ikoranabuhanga"])
-      .setInsight("Yashinze TYAZA kugira ngo ifashe abantu mu buzima bwo mu mutwe.")
-      .setAction("Wifuza kumenya byinshi?")
-      .setDepth(`${COMPANY_INFO.founder} ni umunyarwanda ukora ikoranabuhanga.`)
-      .addProverb(p.proverb, p.meaning)
-      .setMetadata('confidence', 0.98).setMetadata('emotion', 'informative');
+    const f = new EliteBulletFormatter();
+    f.setCore(`👤 ${COMPANY_INFO.founder}`)
+      .addBullets([
+        `CEO & Founder wa ${COMPANY_INFO.name}`,
+        `Yashinze ${COMPANY_INFO.name} mu 2024`,
+        `"${COMPANY_INFO.quote}"`
+      ])
+      .setInsight("Ni umunyabwenge ukora ikoranabuhanga, yashinze uruganda rukora AI ivuga mu Kinyarwanda")
+      .setAction("Wifuza kumenya byinshi kuri TYAZA?")
+      .setDepth(`${COMPANY_INFO.founder} ni umunyarwanda ukora ikoranabuhanga, afite intego yo gukora AI ifasha abantu mu buzima bwo mu mutwe.`)
+      .setMetadata('confidence', 0.98)
+      .setMetadata('emotion', 'informative')
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
     return f.build();
   }
 
-  // Emotion responses
-  const emotionResponses = {
-    greeting: () => {
-      const p = getProverb();
-      const name = state.userName || '';
-      f.setCore(name ? `✨ Muraho, ${name}! Ndi TYAZA` : "✨ Muraho! Ndi TYAZA")
-        .addBullets(["Ndi hano ngo mbafashe", "TYAZA yakozwe na KIVURA LABS", `"${COMPANY_INFO.quote}"`])
-        .setInsight("Gutangira ikiganiro ni intambwe ya mbere yo kwitaho")
-        .setAction("Ubu wumva ute?")
-        .setDepth("TYAZA ni AI ivuga mu Kinyarwanda, ifasha mu buzima bwo mu mutwe.")
-        .addProverb(p.proverb, p.meaning)
-        .setMetadata('confidence', 0.92).setMetadata('emotion', 'welcoming');
-      return f.build();
-    },
-    sadness: () => {
-      const p = getProverb();
-      const name = state.userName || '';
-      f.setCore(`💙 Mbabajwe no kumva ko ubabaye${name ? ', ' + name : ''}`)
-        .addBullets(["Agahinda ni ibisanzwe", "Ntugomba kwihanganira byose wenyine", "Ndumva ibyo wumva"])
-        .setInsight("Kubabara ni ikimenyetso ko ukumva ibintu byimbitse.")
-        .setAction("Wambwira byinshi kuri byo? Ndi hano ngo nkumve")
-        .setDepth("Ibihe bibi birashira, ariko nta muntu ugomba kwihanganira byose yonyine.")
-        .addProverb(p.proverb, p.meaning)
-        .setMetadata('confidence', 0.88).setMetadata('emotion', 'sadness');
-      return f.build();
-    },
-    joy: () => {
-      const p = getProverb();
-      const name = state.userName || '';
-      f.setCore(`✨ Ni byiza kumva wishimye${name ? ', ' + name : ''}`)
-        .addBullets(["Ibyishimo ni impamvu yo gukomeza", "Birakwiriye kwishimira ibyiza", "Gukomeza gutanga ibyishimo ni byiza"])
-        .setInsight("Ibyishimo byo mu mutima bitera imbaraga no gukomeza.")
-        .setAction("Ni iki cyaguteye ibyishimo uyu munsi?")
-        .setDepth("Ibyishimo ni ikintu gikwiriye gusangirwa.")
-        .addProverb(p.proverb, p.meaning)
-        .setMetadata('confidence', 0.88).setMetadata('emotion', 'joy');
-      return f.build();
-    },
-    anger: () => {
-      const p = getProverb();
-      const name = state.userName || '';
-      f.setCore(`🔥 Birumvikana ko urakaye${name ? ', ' + name : ''}`)
-        .addBullets(["Kurakara ni ibisanzwe", "Ariko ni byiza kubivugaho", "Nta mpamvu yo kwihanganira byose wenyine"])
-        .setInsight("Uburakari ni ikimenyetso ko hari ikintu kiri nabi.")
-        .setAction("Ni iki cyaguteye uburakari? Vuga byinshi")
-        .setDepth("Uburakari bushobora kuba ikimenyetso cy'ikintu kiri nabi. Ni byiza kuvugana n'umuntu wizeye.")
-        .addProverb(p.proverb, p.meaning)
-        .setMetadata('confidence', 0.88).setMetadata('emotion', 'anger');
-      return f.build();
-    },
-    anxiety: () => {
-      const p = getProverb();
-      const name = state.userName || '';
-      f.setCore(`😰 Ndumva ufite ubwoba${name ? ', ' + name : ''}`)
-        .addBullets(["Gutekereza ku hazaza bishobora gutera ubwoba", "Nturi wenyine muri ibi", "Ndi hano kugira nkumve"])
-        .setInsight("Ubwoba ni ikimenyetso ko uri umuntu, ariko ntugomba kwihanganira byose wenyine.")
-        .setAction("Ni iki kiguteye ubwoba? Vuga byinshi")
-        .setDepth("Gerageza guhumeka buhoro, unganye imyumvire yawe.")
-        .addProverb(p.proverb, p.meaning)
-        .setMetadata('confidence', 0.88).setMetadata('emotion', 'anxiety');
-      return f.build();
-    },
-    loneliness: () => {
-      const p = getProverb();
-      const name = state.userName || '';
-      f.setCore(`🕊️ Kumva uri wenyine biraremereye${name ? ', ' + name : ''}`)
-        .addBullets(["Nta muntu ugomba kwihanganira ibyago yonyine", "Nturi wenyine — ndi hano", "Ndi hano ngo nkumve"])
-        .setInsight("Kwigunga bikomeye, ariko ubufasha buri hafi.")
-        .setAction("Waba wifuza kuganira n'umuntu cyangwa gusangira ibyo wumva?")
-        .setDepth("Nta muntu ugomba kwihanganira ibyago yonyine. Hamagara umuntu wizeye.")
-        .addProverb(p.proverb, p.meaning)
-        .setMetadata('confidence', 0.88).setMetadata('emotion', 'loneliness');
-      return f.build();
-    },
-    fatigue: () => {
-      const p = getProverb();
-      const name = state.userName || '';
-      f.setCore(`😓 Ndumva ufite umunaniro${name ? ', ' + name : ''}`)
-        .addBullets(["Birashoboka ko ukeneye kuruhuka", "Gutekereza ku bintu byinshi birakuremereye", "Ntugomba gukora byose wenyine"])
-        .setInsight("Umunaniro ni ikimenyetso ko ugomba gufata umwanya wo kwitaho.")
-        .setAction("Gerageza guhumeka buhoro no kuruhuka")
-        .setDepth("Umunaniro ushobora guterwa n'ibintu byinshi. Gerageza gusinzira bihagije.")
-        .addProverb(p.proverb, p.meaning)
-        .setMetadata('confidence', 0.88).setMetadata('emotion', 'fatigue');
-      return f.build();
-    }
-  };
+  // Emotion-specific response
+  if (detection && detection.type && TYAZA_DATASET.emotions[detection.type]) {
+    const emotionData = TYAZA_DATASET.emotions[detection.type];
+    const f = new EliteBulletFormatter();
+    const userName = state.userName || '';
+    const namePrefix = userName ? `${userName}, ` : '';
+    
+    let core = "💙 ";
+    let bullets = [];
+    let insight = "";
+    let action = "Wambwira byinshi kuri byo?";
+    let depth = "";
 
-  if (detection && detection.type && emotionResponses[detection.type]) {
-    const result = emotionResponses[detection.type]();
-    result.metadata.responseTime = Math.round(performance.now() - startTime);
-    result.metadata.model = 'local';
-    return result;
+    switch (detection.type) {
+      case 'sadness':
+        core = `💙 Mbabajwe no kumva ko ubabaye, ${namePrefix}`;
+        bullets = ["Agahinda ni ibisanzwe", "Ntugomba kwihanganira byose wenyine", "Ndumva ibyo wumva"];
+        insight = "Kubabara ni ikimenyetso ko ukumva ibintu byimbitse";
+        action = "Vuga byinshi kuri byo — ndi hano ngo nkumve";
+        depth = "Ibihe bibi birashira, ariko nta muntu ugomba kwihanganira byose yonyine. Vugana n'umuntu wizeye cyangwa ujye kwa muganga.";
+        break;
+      case 'joy':
+        core = `✨ Ni byiza kumva wishimye, ${namePrefix}`;
+        bullets = ["Ibyishimo ni impamvu yo gukomeza", "Birakwiriye kwishimira ibyiza", "Gukomeza gutanga ibyishimo ni byiza"];
+        insight = "Ibyishimo byo mu mutima bitera imbaraga no gukomeza";
+        action = "Ni iki cyaguteye ibyishimo uyu munsi?";
+        depth = "Ibyishimo ni ikintu gikwiriye gusangirwa. Gerageza kwandika ibintu byiza byabaye ku munsi wawe.";
+        break;
+      case 'anger':
+        core = `🔥 Birumvikana ko urakaye, ${namePrefix}`;
+        bullets = ["Kurakara ni ibisanzwe", "Ariko ni byiza kubivugaho", "Nta mpamvu yo kwihanganira byose"];
+        insight = "Uburakari buriho, ariko ni byiza kubugenzura";
+        action = "Ni iki cyaguteye uburakari? Vuga byinshi";
+        depth = "Uburakari bushobora kuba ikimenyetso cy'ikintu kiri nabi. Ni byiza kuvugana n'umuntu wizeye kugira ngo ubone igisubizo.";
+        break;
+      case 'anxiety':
+        core = `😰 Ndumva ufite ubwoba, ${namePrefix}`;
+        bullets = ["Gutekereza ku hazaza bishobora gutera ubwoba", "Nturi wenyine", "Ndi hano kugira nkumve"];
+        insight = "Ubwoba ni ikimenyetso ko uri umuntu, ariko ntugomba kwihanganira byose wenyine";
+        action = "Ni iki kiguteye ubwoba? Vuga byinshi";
+        depth = "Gerageza guhumeka buhoro, unganye imyumvire yawe. Ubufasha buri hafi yawe.";
+        break;
+      case 'loneliness':
+        core = `🕊️ Kumva uri wenyine biraremereye, ${namePrefix}`;
+        bullets = ["Nta muntu ugomba kwihanganira ibyago yonyine", "Nturi wenyine", "Ndi hano ngo nkumve"];
+        insight = "Kwigunga bikomeye, ariko ubufasha buri hafi";
+        action = "Waba wifuza kuganira n'umuntu cyangwa gusangira ibyo wumva?";
+        depth = "Nta muntu ugomba kwihanganira ibyago yonyine. Hamagara umuntu wizeye cyangwa ujye kwa muganga.";
+        break;
+      case 'fatigue':
+        core = `😓 Ndumva ufite umunaniro, ${namePrefix}`;
+        bullets = ["Mbirashoboka ko ukeneye kuruhuka", "Gutekereza ku bintu byinshi birakuremereye", "Ntugomba gukora byose wenyine"];
+        insight = "Umunaniro ni ikimenyetso ko ugomba gufata umwanya wo kwitaho";
+        action = "Gerageza guhumeka buhoro no kuruhuka";
+        depth = "Umunaniro ushobora guterwa n'ibintu byinshi. Gerageza gusinzira bihagije, kurya neza, no kuvugana n'umuntu wizeye.";
+        break;
+      default:
+        core = `💙 ${namePrefix}Ndumva ibyo uvuga`;
+        bullets = ["TYAZA ni AI ivuga mu Kinyarwanda", "Ndi hano ngo nkumve", "Wambwira byinshi?"];
+        insight = "Kuvuga ibyo wumva ni intambwe ya mbere yo kwitaho";
+        action = "Wambwira byinshi kuri byo?";
+        depth = "TYAZA yakozwe na KIVURA LABS kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo.";
+    }
+
+    f.setCore(core)
+      .addBullets(bullets)
+      .setInsight(insight)
+      .setAction(action)
+      .setDepth(depth)
+      .setMetadata('confidence', 0.88)
+      .setMetadata('emotion', detection.type)
+      .setMetadata('responseTime', Math.round(performance.now() - startTime))
+      .setMetadata('model', 'local');
+    return f.build();
   }
 
-  // Default
-  const p = getProverb();
-  const name = state.userName || '';
-  f.setCore(`💙 ${name ? name + ', ' : ''}Urakoze kundekera. Ndumva ibyo uvuga.`)
-    .addBullets(["TYAZA ni AI ivuga mu Kinyarwanda", "Yakozwe na KIVURA LABS", `"${COMPANY_INFO.quote}"`])
-    .setInsight("Kuvuga ibyo wumva ni intambwe ya mbere yo kwitaho.")
+  // Default response with elite bullet format
+  const f = new EliteBulletFormatter();
+  const userName = state.userName || '';
+  const namePrefix = userName ? `${userName}, ` : '';
+  const proverbs = Object.keys(TYAZA_DATASET.proverbs);
+  const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
+  const proverbMeaning = TYAZA_DATASET.proverbs[randomProverb];
+
+  f.setCore(`💙 ${namePrefix}Urakoze kundekera. Ndumva ibyo uvuga.`)
+    .addBullets([
+      `TYAZA ni AI ivuga mu Kinyarwanda, ifasha mu buzima bwo mu mutwe`,
+      `Yakozwe na KIVURA LABS na Yves Hirwa Tuyishime`,
+      `"${COMPANY_INFO.quote}"`,
+      `${randomProverb} — ${proverbMeaning}`
+    ])
+    .setInsight("Kuvuga ibyo wumva ni intambwe ya mbere yo kwitaho. TYAZA iri hano ngo ikumve.")
     .setAction("Wambwira byinshi? Wumva ute ubu?")
-    .setDepth("TYAZA yashinzwe kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo.")
-    .addProverb(p.proverb, p.meaning)
-    .setMetadata('confidence', 0.72).setMetadata('emotion', 'neutral')
-    .setMetadata('responseTime', Math.round(performance.now() - startTime)).setMetadata('model', 'local');
+    .setDepth(`TYAZA yashinzwe kugira ngo ifashe abantu gusobanukirwa amarangamutima yabo, no kubona ibisubizo bifatika mu buzima.`)
+    .setMetadata('confidence', 0.72)
+    .setMetadata('emotion', 'neutral')
+    .setMetadata('responseTime', Math.round(performance.now() - startTime))
+    .setMetadata('model', 'local');
 
   return f.build();
 }
 
+// Legacy compatibility
+function generateResponse(userInput) {
+  const result = generateEliteResponse(userInput);
+  return {
+    sections: result.sections,
+    html: result.html,
+    markdown: result.markdown,
+    metadata: result.metadata,
+    userName: null
+  };
+}
+
 // ============================================================
-// VOICE & SPEECH
+// 8. VOICE & SPEECH
 // ============================================================
 function loadVoices() {
   state.voices = state.speechSynthesis.getVoices();
@@ -3161,45 +3523,59 @@ loadVoices();
 function speakText(text) {
   if (!state.speechSynthesis || !text) return;
   state.speechSynthesis.cancel();
-  const cleanText = text.replace(/[^\w\s.,!?;:()'-]/g, '').slice(0, 500);
+  const cleanText = UltraMarkdownParser.stripHtml(text).replace(/[^\w\s.,!?;:()'-]/g, '').slice(0, 500);
   if (!cleanText) return;
   const utterance = new SpeechSynthesisUtterance(cleanText);
-  const voice = state.voices.find(v => v.name.includes('Google UK English Female'));
+  const voiceName = state.settings.voice;
+  const voice = state.voices.find(v => v.name.includes(voiceName.split(' ')[0]));
   if (voice) utterance.voice = voice;
   utterance.rate = state.settings.rate;
   utterance.pitch = state.settings.pitch;
-  utterance.lang = 'rw-RW';
+  const langMap = { rw: 'rw-RW', fr: 'fr-FR', en: 'en-US' };
+  utterance.lang = langMap[state.detectedLanguage] || 'rw-RW';
   state.speechSynthesis.speak(utterance);
 }
 
 // ============================================================
-// VOICE MODAL - Siri-like Audio Spectrum
+// 9. VOICE MODAL - Audio Spectrum + Auto-Send
 // ============================================================
+function createAudioSpectrum(container) {
+  const bars = 24;
+  const spectrum = document.createElement('div');
+  spectrum.className = 'audio-spectrum';
+  for (let i = 0; i < bars; i++) {
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.height = '4px';
+    spectrum.appendChild(bar);
+  }
+  container.appendChild(spectrum);
+  return spectrum;
+}
+
+function animateSpectrum(spectrum, level) {
+  const bars = spectrum.querySelectorAll('.bar');
+  const maxHeight = 50;
+  const minHeight = 2;
+  const baseHeight = 4;
+  bars.forEach((bar, i) => {
+    const offset = Math.sin(i / bars.length * Math.PI * 2 + Date.now() / 200) * 0.3 + 0.7;
+    const h = Math.max(minHeight, Math.min(maxHeight, level * 0.8 + Math.random() * level * 0.4));
+    bar.style.height = (baseHeight + h * offset * 0.5) + 'px';
+  });
+}
+
 let voiceModalActive = false;
 let voiceTranscript = '';
 let voiceTimer = 0;
 let voiceTimerInterval = null;
 let voiceSpectrumInterval = null;
 let voiceSilenceCheck = null;
+let voiceLastActivity = Date.now();
 let voiceAudioContext = null;
 let voiceAnalyser = null;
 let voiceDataArray = null;
 let voiceStream = null;
-let voiceSpectrum = null;
-
-function createAudioSpectrum(container) {
-  const bars = 32;
-  const spectrum = document.createElement('div');
-  spectrum.className = 'audio-spectrum';
-  for (let i = 0; i < bars; i++) {
-    const bar = document.createElement('div');
-    bar.className = 'bar';
-    bar.style.height = '3px';
-    spectrum.appendChild(bar);
-  }
-  container.appendChild(spectrum);
-  return spectrum;
-}
 
 function openVoiceModal() {
   if (voiceModalActive) return;
@@ -3207,6 +3583,7 @@ function openVoiceModal() {
   state.isVoiceModalActive = true;
   voiceTranscript = '';
   voiceTimer = 0;
+  voiceLastActivity = Date.now();
 
   const modal = document.createElement('div');
   modal.className = 'voice-modal';
@@ -3227,7 +3604,7 @@ function openVoiceModal() {
       <h3>Kuvuga na TYAZA</h3>
       <p class="voice-subtitle">Vuga mu ijwi ryawe — TYAZA izakumva igasubiza</p>
       <div class="voice-transcript" id="voiceTranscript">
-        <span class="interim">🎤 Ndi kukwitaho... vuga ubu</span>
+        <span class="interim">Uretse... ndi kukwitaho...</span>
       </div>
       <div class="voice-controls">
         <button class="btn btn-secondary" id="voiceModalCancel">
@@ -3238,16 +3615,19 @@ function openVoiceModal() {
         </button>
       </div>
       <div class="voice-timer" id="voiceTimer">⏱ 0:00</div>
-      <div class="voice-status-text" id="voiceStatusText">🎤 Ndi kukwitaho...</div>
+      <div class="voice-status-text" id="voiceStatusText">🎤 Uretse... ndi kukwitaho...</div>
     </div>
   `;
   document.body.appendChild(modal);
 
+  // Create spectrum
   const spectrumContainer = document.getElementById('spectrumContainer');
-  voiceSpectrum = createAudioSpectrum(spectrumContainer);
+  const spectrum = createAudioSpectrum(spectrumContainer);
 
-  startVoiceWithSpectrum(voiceSpectrum);
+  // Start voice recognition + audio
+  startVoiceWithSpectrum(spectrum);
 
+  // Event listeners
   document.getElementById('voiceModalCancel').addEventListener('click', closeVoiceModal);
   document.getElementById('voiceModalSend').addEventListener('click', sendVoiceInput);
 
@@ -3259,88 +3639,111 @@ function openVoiceModal() {
 }
 
 function startVoiceWithSpectrum(spectrum) {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (SR) {
-    state.speechRecognition = new SR();
-    state.speechRecognition.continuous = true;
-    state.speechRecognition.interimResults = true;
-    state.speechRecognition.lang = 'rw-RW';
+  // Start speech recognition
+  if (state.speechRecognition) {
+    try {
+      state.speechRecognition.continuous = true;
+      state.speechRecognition.interimResults = true;
+      state.speechRecognition.lang = 'rw-RW';
 
-    state.speechRecognition.onstart = () => {
-      state.isListening = true;
-      document.getElementById('voiceBtn').classList.add('listening');
-      document.getElementById('voiceStatus').textContent = '🎤 Mvuga none...';
-      updateVoiceTranscript('🎤 Ndi kukwitaho... vuga ubu');
-      document.getElementById('voiceStatusText').textContent = '🎤 Ndi kukwitaho...';
+      state.speechRecognition.onstart = () => {
+        state.isListening = true;
+        document.getElementById('voiceBtn').classList.add('listening');
+        document.getElementById('voiceStatus').textContent = '🎤 Mvuga none...';
+        updateVoiceTranscript('Kuvuga... ndi kukwitaho...');
+        document.getElementById('voiceStatusText').textContent = '🎤 Uretse... ndi kukwitaho...';
 
-      voiceTimerInterval = setInterval(() => {
-        voiceTimer++;
-        const mins = Math.floor(voiceTimer / 60);
-        const secs = voiceTimer % 60;
-        const timerEl = document.getElementById('voiceTimer');
-        if (timerEl) timerEl.textContent = `⏱ ${mins}:${secs.toString().padStart(2, '0')}`;
-      }, 1000);
-    };
+        voiceTimerInterval = setInterval(() => {
+          voiceTimer++;
+          const mins = Math.floor(voiceTimer / 60);
+          const secs = voiceTimer % 60;
+          const timerEl = document.getElementById('voiceTimer');
+          if (timerEl) timerEl.textContent = `⏱ ${mins}:${secs.toString().padStart(2, '0')}`;
+        }, 1000);
+      };
 
-    state.speechRecognition.onend = () => {
-      state.isListening = false;
-      document.getElementById('voiceBtn').classList.remove('listening');
-      document.getElementById('voiceStatus').textContent = '';
-      if (voiceTimerInterval) {
-        clearInterval(voiceTimerInterval);
-        voiceTimerInterval = null;
-      }
-      if (voiceTranscript.trim().length > 2) {
-        document.getElementById('voiceStatusText').textContent = '⏹ Urakoze kuvuga. Kohereza...';
-        setTimeout(() => sendVoiceInput(), 300);
-      } else {
-        document.getElementById('voiceStatusText').textContent = '⏹ Nta kintu wavuze. Gerageza none.';
-        setTimeout(() => closeVoiceModal(), 1500);
-      }
-    };
-
-    state.speechRecognition.onresult = (e) => {
-      let final = '';
-      let interim = '';
-      for (let i = 0; i < e.results.length; i++) {
-        if (e.results[i].isFinal) {
-          final += e.results[i][0].transcript;
-        } else {
-          interim += e.results[i][0].transcript;
+      state.speechRecognition.onend = () => {
+        state.isListening = false;
+        document.getElementById('voiceBtn').classList.remove('listening');
+        document.getElementById('voiceStatus').textContent = '';
+        if (voiceTimerInterval) {
+          clearInterval(voiceTimerInterval);
+          voiceTimerInterval = null;
         }
-      }
-      if (final) {
-        voiceTranscript = final;
-        updateVoiceTranscript(voiceTranscript);
-        document.getElementById('voiceModalSend').disabled = false;
-        document.getElementById('voiceStatusText').textContent = '✅ Byabonetse! Uretse...';
-      } else if (interim) {
-        updateVoiceTranscript(interim, true);
-        document.getElementById('voiceStatusText').textContent = '🎤 Ndi kukwitaho...';
-      }
-    };
+        // Check if we have transcript to auto-send
+        if (voiceTranscript.trim().length > 2) {
+          document.getElementById('voiceStatusText').textContent = '⏹ Urakoze kuvuga. Kohereza...';
+          setTimeout(() => {
+            sendVoiceInput();
+          }, 300);
+        } else {
+          document.getElementById('voiceStatusText').textContent = '⏹ Nta kintu wavuze. Gerageza none.';
+          setTimeout(() => {
+            closeVoiceModal();
+          }, 1500);
+        }
+      };
 
-    state.speechRecognition.onerror = () => {
-      updateVoiceTranscript('❌ Mikorofoni yanze.', false);
-      document.getElementById('voiceModalSend').disabled = false;
-      document.getElementById('voiceStatusText').textContent = '❌ Mikorofoni yanze. Andika cyangwa gerageza none.';
-      setTimeout(() => closeVoiceModal(), 2000);
-    };
+      state.speechRecognition.onresult = (e) => {
+        let final = '';
+        let interim = '';
+        for (let i = 0; i < e.results.length; i++) {
+          if (e.results[i].isFinal) {
+            final += e.results[i][0].transcript;
+          } else {
+            interim += e.results[i][0].transcript;
+          }
+        }
+        if (final) {
+          voiceTranscript = final;
+          updateVoiceTranscript(voiceTranscript);
+          const sendBtn = document.getElementById('voiceModalSend');
+          if (sendBtn) sendBtn.disabled = false;
+          document.getElementById('voiceStatusText').textContent = '✅ Byabonetse! Uretse...';
+          voiceLastActivity = Date.now();
+        } else if (interim) {
+          updateVoiceTranscript(interim, true);
+          document.getElementById('voiceStatusText').textContent = '🎤 Ndi kukwitaho...';
+          voiceLastActivity = Date.now();
+        }
+      };
 
-    state.speechRecognition.start();
+      state.speechRecognition.onerror = () => {
+        updateVoiceTranscript('❌ Mikorofoni yanze. Gerageza kuvuga cyangwa andika.', false);
+        const sendBtn = document.getElementById('voiceModalSend');
+        if (sendBtn) sendBtn.disabled = false;
+        document.getElementById('voiceStatusText').textContent = '❌ Mikorofoni yanze. Andika cyangwa gerageza none.';
+        setTimeout(() => {
+          closeVoiceModal();
+        }, 2000);
+      };
+
+      state.speechRecognition.start();
+    } catch (e) {
+      updateVoiceTranscript('⚠️ Emera mikorofoni kugira ngo ukoreshe ijwi.', false);
+      const sendBtn = document.getElementById('voiceModalSend');
+      if (sendBtn) sendBtn.disabled = false;
+      document.getElementById('voiceStatusText').textContent = '⚠️ Emera mikorofoni.';
+      setTimeout(() => {
+        closeVoiceModal();
+      }, 2000);
+    }
   }
 
-  // Audio spectrum
+  // Start audio spectrum visualization
+  startAudioSpectrum(spectrum);
+}
+
+function startAudioSpectrum(spectrum) {
   try {
-    navigator.mediaDevices.getUserMedia({ audio: true, video: false })
+    navigator.mediaDevices.getUserMedia({ audio: true })
       .then(stream => {
         voiceStream = stream;
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         voiceAudioContext = audioContext;
         const source = audioContext.createMediaStreamSource(stream);
         const analyser = audioContext.createAnalyser();
-        analyser.fftSize = 512;
-        analyser.smoothingTimeConstant = 0.8;
+        analyser.fftSize = 256;
         source.connect(analyser);
         voiceAnalyser = analyser;
         voiceDataArray = new Uint8Array(analyser.frequencyBinCount);
@@ -3350,80 +3753,61 @@ function startVoiceWithSpectrum(spectrum) {
           voiceAnalyser.getByteFrequencyData(voiceDataArray);
           let sum = 0;
           for (let i = 0; i < voiceDataArray.length; i++) {
-            sum += voiceDataArray[i] * voiceDataArray[i];
+            sum += voiceDataArray[i];
           }
-          const rms = Math.sqrt(sum / voiceDataArray.length);
-          const level = Math.min(1, rms / 50);
+          const avg = sum / voiceDataArray.length;
+          const level = Math.min(1, avg / 100);
           
-          updateSpectrumBars(spectrum, voiceDataArray);
+          // Update spectrum bars
+          animateSpectrum(spectrum, level);
           
+          // Update level bar
           const levelBar = document.getElementById('voiceLevelBar');
           if (levelBar) {
             levelBar.style.width = (level * 100) + '%';
           }
           
-          if (voiceTranscript.trim().length > 2 && level < 0.03) {
-            if (!voiceSilenceCheck) {
-              voiceSilenceCheck = setTimeout(() => {
-                if (voiceTranscript.trim().length > 2 && voiceModalActive) {
-                  document.getElementById('voiceStatusText').textContent = '⏳ Kohereza...';
-                  sendVoiceInput();
-                }
-              }, 2000);
-            }
-          } else {
-            if (voiceSilenceCheck) {
-              clearTimeout(voiceSilenceCheck);
-              voiceSilenceCheck = null;
+          // Silence detection - auto send after 2.5s of silence
+          if (voiceTranscript.trim().length > 2) {
+            if (level < 0.05) {
+              if (!voiceSilenceCheck) {
+                voiceSilenceCheck = setTimeout(() => {
+                  if (voiceTranscript.trim().length > 2 && voiceModalActive) {
+                    document.getElementById('voiceStatusText').textContent = '⏳ Kohereza...';
+                    sendVoiceInput();
+                  }
+                }, 2500);
+              }
+            } else {
+              if (voiceSilenceCheck) {
+                clearTimeout(voiceSilenceCheck);
+                voiceSilenceCheck = null;
+              }
             }
           }
-        }, 80);
+        }, 100);
       })
       .catch(() => {
+        // Fallback: animated spectrum without audio
         voiceSpectrumInterval = setInterval(() => {
-          const level = 0.15 + Math.random() * 0.5;
-          updateSpectrumBarsFallback(spectrum, level);
+          const level = 0.2 + Math.random() * 0.6;
+          animateSpectrum(spectrum, level);
           const levelBar = document.getElementById('voiceLevelBar');
           if (levelBar) {
             levelBar.style.width = (level * 100) + '%';
           }
-        }, 80);
+        }, 100);
       });
   } catch (e) {
+    // Fallback
     voiceSpectrumInterval = setInterval(() => {
-      const level = 0.15 + Math.random() * 0.5;
-      updateSpectrumBarsFallback(spectrum, level);
+      const level = 0.2 + Math.random() * 0.6;
+      animateSpectrum(spectrum, level);
       const levelBar = document.getElementById('voiceLevelBar');
       if (levelBar) {
         levelBar.style.width = (level * 100) + '%';
       }
-    }, 80);
-  }
-}
-
-function updateSpectrumBars(spectrum, dataArray) {
-  const bars = spectrum.querySelectorAll('.bar');
-  const len = Math.min(dataArray.length, bars.length);
-  const maxHeight = 60;
-  const minHeight = 2;
-  for (let i = 0; i < len; i++) {
-    const value = dataArray[i] / 255;
-    const height = Math.max(minHeight, value * maxHeight * 0.8);
-    bars[i].style.height = Math.min(maxHeight, height + minHeight) + 'px';
-    bars[i].style.opacity = 0.5 + 0.5 * (height / maxHeight);
-  }
-}
-
-function updateSpectrumBarsFallback(spectrum, level) {
-  const bars = spectrum.querySelectorAll('.bar');
-  const maxHeight = 60;
-  const minHeight = 2;
-  const time = Date.now() / 200;
-  for (let i = 0; i < bars.length; i++) {
-    const offset = Math.sin(i / bars.length * Math.PI * 2 + time) * 0.4 + 0.6;
-    const height = Math.max(minHeight, level * maxHeight * (0.2 + 0.8 * offset));
-    bars[i].style.height = Math.min(maxHeight, height + minHeight) + 'px';
-    bars[i].style.opacity = 0.4 + 0.6 * (height / maxHeight);
+    }, 100);
   }
 }
 
@@ -3453,18 +3837,21 @@ function closeVoiceModal() {
     clearInterval(voiceTimerInterval);
     voiceTimerInterval = null;
   }
+  
   if (state.speechRecognition) {
     try {
       state.speechRecognition.continuous = false;
       state.speechRecognition.stop();
     } catch (e) {}
   }
+  
   if (voiceStream) {
     try {
       voiceStream.getTracks().forEach(t => t.stop());
     } catch (e) {}
     voiceStream = null;
   }
+  
   if (voiceAudioContext) {
     try {
       voiceAudioContext.close();
@@ -3473,7 +3860,6 @@ function closeVoiceModal() {
   }
   voiceAnalyser = null;
   voiceDataArray = null;
-  voiceSpectrum = null;
   
   state.isListening = false;
   document.getElementById('voiceBtn').classList.remove('listening');
@@ -3512,7 +3898,7 @@ function sendVoiceInput() {
 }
 
 // ============================================================
-// FILE ATTACHMENT
+// 10. FILE ATTACHMENT
 // ============================================================
 function attachFile() {
   const input = document.createElement('input');
@@ -3522,16 +3908,19 @@ function attachFile() {
   input.onchange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+    
     const ext = '.' + file.name.split('.').pop().toLowerCase();
     const supportedExts = ['.txt', '.md', '.csv', '.json', '.pdf', '.jpg', '.jpeg', '.png', '.gif', '.webp'];
     if (!supportedExts.includes(ext)) {
       showToast(`❌ Dosiye ya ${ext} ntishoboka.`, 'error');
       return;
     }
+    
     if (file.size > 25 * 1024 * 1024) {
       showToast('❌ Dosiye nini cyane (>25MB).', 'error');
       return;
     }
+    
     state.attachedFile = file;
     showFilePreview(file);
     showToast(`📎 ${file.name} yongewe`, 'success');
@@ -3562,23 +3951,118 @@ function removeFile() {
   showToast('Dosiye yakuwe', 'info');
 }
 
+async function extractTextFromPDF(file) {
+  try {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+    let text = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const strings = content.items.map(item => item.str);
+      text += strings.join(' ') + '\n';
+    }
+    return text.trim() || '[PDF: nta makuru yabonetse]';
+  } catch (error) {
+    console.error('PDF extraction error:', error);
+    return '[PDF: nta makuru yabonetse]';
+  }
+}
+
+async function extractTextFromImage(file) {
+  try {
+    const imageUrl = URL.createObjectURL(file);
+    const result = await Tesseract.recognize(imageUrl, 'kin+eng+fra', {
+      logger: m => console.log(m)
+    });
+    URL.revokeObjectURL(imageUrl);
+    return result.data.text.trim() || '[Image: nta makuru yabonetse]';
+  } catch (error) {
+    console.error('OCR error:', error);
+    return '[Image: nta makuru yabonetse]';
+  }
+}
+
+async function processAttachedFile(file) {
+  try {
+    const ext = '.' + file.name.split('.').pop().toLowerCase();
+    const textTypes = ['.txt', '.md', '.csv', '.json'];
+    const imageTypes = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+    const pdfType = '.pdf';
+    
+    if (textTypes.includes(ext)) {
+      const text = await file.text();
+      return {
+        type: 'text',
+        content: text,
+        name: file.name,
+        mimeType: file.type,
+        size: file.size,
+        extracted: true
+      };
+    }
+    
+    if (ext === pdfType) {
+      const text = await extractTextFromPDF(file);
+      return {
+        type: 'text',
+        content: text,
+        name: file.name,
+        mimeType: file.type,
+        size: file.size,
+        extracted: true,
+        fromPDF: true
+      };
+    }
+    
+    if (imageTypes.includes(ext)) {
+      const text = await extractTextFromImage(file);
+      const dataUrl = await new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.readAsDataURL(file);
+      });
+      return {
+        type: 'image_text',
+        content: text,
+        imageData: dataUrl,
+        name: file.name,
+        mimeType: file.type,
+        size: file.size,
+        extracted: true,
+        fromImage: true
+      };
+    }
+    
+    return {
+      type: 'unknown',
+      name: file.name,
+      mimeType: file.type,
+      size: file.size,
+      extracted: false
+    };
+  } catch (error) {
+    console.error('File processing error:', error);
+    return null;
+  }
+}
+
 // ============================================================
-// CORE UI FUNCTIONS
+// 11. CORE UI FUNCTIONS
 // ============================================================
 function updateWelcome() {
   const name = state.userName || '';
   const lang = state.detectedLanguage || 'rw';
   const content = getLangContent(lang);
   const greetingEl = document.getElementById('welcomeGreeting');
-  const container = document.getElementById('welcomeGreetingContainer');
   const inputEl = document.getElementById('messageInput');
   const scrollEl = document.getElementById('scrollBottom');
   const statusEl = document.getElementById('statusText');
   
   if (greetingEl) {
     greetingEl.textContent = name ? `${content.greeting}, ${name}` : content.greeting;
+    greetingEl.style.opacity = '1';
   }
-  if (container) container.classList.add('visible');
   if (inputEl) inputEl.placeholder = content.placeholder;
   if (scrollEl) scrollEl.innerHTML = `<i class="fas fa-arrow-down"></i> ${content.scrollBottom}`;
   if (statusEl) statusEl.textContent = content.status;
@@ -3641,6 +4125,7 @@ function streamText(element, html, speed = 8) {
     element.innerHTML = '';
     let i = 0;
     const chunkSize = 3;
+
     function addChunk() {
       if (i >= html.length) {
         element.innerHTML = html;
@@ -3655,11 +4140,13 @@ function streamText(element, html, speed = 8) {
         const nextClose = html.indexOf('>', cutPoint);
         if (nextClose !== -1) cutPoint = nextClose + 1;
       }
+
       element.innerHTML = html.substring(0, cutPoint) + '<span class="streaming-cursor"></span>';
       i = cutPoint;
       scrollToBottom();
       setTimeout(addChunk, speed);
     }
+
     addChunk();
   });
 }
@@ -3668,6 +4155,7 @@ function buildMetadataHTML(metadata) {
   if (!metadata) return '';
   const confidenceClass = metadata.confidence >= 0.85 ? 'confidence-high' : 
                           metadata.confidence >= 0.7 ? 'confidence-medium' : 'confidence-low';
+
   return `
     <div class="msg-metadata">
       <span class="msg-metadata-item ${confidenceClass}">
@@ -3691,7 +4179,7 @@ function buildMetadataHTML(metadata) {
 }
 
 // ============================================================
-// MESSAGE HANDLING
+// 12. MESSAGE HANDLING
 // ============================================================
 function addMessage(role, content, htmlContent = null, metadata = null, fileData = null) {
   const welcome = document.getElementById('welcome');
@@ -3703,21 +4191,51 @@ function addMessage(role, content, htmlContent = null, metadata = null, fileData
   const msg = document.createElement('div');
   msg.className = `message ${role}`;
   const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
-  const displayContent = htmlContent || content;
-  const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
+  const displayContent = htmlContent || UltraMarkdownParser.parse(content);
+  const avatarContent = role === 'user' ?
+    '👤' :
+    `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
+
   const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
   
   let fileHTML = '';
   if (fileData && role === 'user') {
-    const icon = getFileIcon(fileData.mimeType || '');
+    const icon = getFileIcon(fileData.mimeType || fileData.type || '');
     const size = fileData.size ? formatFileSize(fileData.size) : '';
-    fileHTML = `<div class="file-attachment">
-      <div class="file-icon"><i class="fas ${icon}"></i></div>
-      <div class="file-info">
-        <div class="file-name">${escapeHtml(fileData.name)}</div>
-        <div class="file-size">${size || 'Dosiye'}</div>
-      </div>
-    </div>`;
+    const extractedText = fileData.content || '';
+    const isImage = fileData.fromImage && fileData.imageData;
+    const isPDF = fileData.fromPDF;
+    
+    if (isImage) {
+      fileHTML = `<div class="file-attachment" style="flex-direction:column;align-items:stretch;padding:8px;">
+        <img src="${fileData.imageData}" style="max-width:100%;max-height:300px;border-radius:8px;object-fit:contain;" alt="${escapeHtml(fileData.name)}">
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:0.7rem;color:var(--text-tertiary);">
+          <i class="fas ${icon}"></i>
+          <span>${escapeHtml(fileData.name)}</span>
+          ${size ? `<span>${size}</span>` : ''}
+        </div>
+        ${extractedText ? `<div class="file-extracted-text">📝 ${escapeHtml(extractedText.substring(0, 500))}${extractedText.length > 500 ? '...' : ''}</div>` : ''}
+      </div>`;
+    } else if (extractedText) {
+      fileHTML = `<div class="file-attachment" style="flex-direction:column;align-items:stretch;padding:8px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="file-icon"><i class="fas ${icon}"></i></div>
+          <div class="file-info">
+            <div class="file-name">${escapeHtml(fileData.name)}</div>
+            <div class="file-size">${size || 'Dosiye'} ${isPDF ? '📄 PDF' : '📄'}</div>
+          </div>
+        </div>
+        ${extractedText ? `<div class="file-extracted-text">📝 ${escapeHtml(extractedText.substring(0, 500))}${extractedText.length > 500 ? '...' : ''}</div>` : ''}
+      </div>`;
+    } else {
+      fileHTML = `<div class="file-attachment">
+        <div class="file-icon"><i class="fas ${icon}"></i></div>
+        <div class="file-info">
+          <div class="file-name">${escapeHtml(fileData.name)}</div>
+          <div class="file-size">${size || 'Dosiye'}</div>
+        </div>
+      </div>`;
+    }
   }
 
   msg.innerHTML = `
@@ -3742,10 +4260,19 @@ function addMessage(role, content, htmlContent = null, metadata = null, fileData
   `;
   messages.appendChild(msg);
   
-  state.messages.push({ role, content, html: htmlContent, metadata, file: fileData ? { name: fileData.name, type: fileData.mimeType } : null, timestamp: Date.now() });
+  state.messages.push({ 
+    role, 
+    content, 
+    html: htmlContent,
+    metadata,
+    file: fileData ? { name: fileData.name, type: fileData.mimeType || fileData.type } : null,
+    timestamp: Date.now() 
+  });
   state.messageCount++;
   scrollToBottom();
-  if (state.messages.length > 100) state.messages.splice(0, 50);
+  if (state.messages.length > 100) {
+    state.messages.splice(0, 50);
+  }
   saveConversation();
   updateMemoryStats();
 }
@@ -3760,21 +4287,51 @@ async function addMessageWithStream(role, content, htmlContent, metadata, fileDa
   const msg = document.createElement('div');
   msg.className = `message ${role}`;
   const time = new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
-  const displayContent = htmlContent || content;
-  const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
+  const displayContent = htmlContent || UltraMarkdownParser.parse(content);
+  const avatarContent = role === 'user' ?
+    '👤' :
+    `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
+
   const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
   
   let fileHTML = '';
   if (fileData && role === 'user') {
-    const icon = getFileIcon(fileData.mimeType || '');
+    const icon = getFileIcon(fileData.mimeType || fileData.type || '');
     const size = fileData.size ? formatFileSize(fileData.size) : '';
-    fileHTML = `<div class="file-attachment">
-      <div class="file-icon"><i class="fas ${icon}"></i></div>
-      <div class="file-info">
-        <div class="file-name">${escapeHtml(fileData.name)}</div>
-        <div class="file-size">${size || 'Dosiye'}</div>
-      </div>
-    </div>`;
+    const extractedText = fileData.content || '';
+    const isImage = fileData.fromImage && fileData.imageData;
+    const isPDF = fileData.fromPDF;
+    
+    if (isImage) {
+      fileHTML = `<div class="file-attachment" style="flex-direction:column;align-items:stretch;padding:8px;">
+        <img src="${fileData.imageData}" style="max-width:100%;max-height:300px;border-radius:8px;object-fit:contain;" alt="${escapeHtml(fileData.name)}">
+        <div style="display:flex;align-items:center;gap:8px;margin-top:6px;font-size:0.7rem;color:var(--text-tertiary);">
+          <i class="fas ${icon}"></i>
+          <span>${escapeHtml(fileData.name)}</span>
+          ${size ? `<span>${size}</span>` : ''}
+        </div>
+        ${extractedText ? `<div class="file-extracted-text">📝 ${escapeHtml(extractedText.substring(0, 500))}${extractedText.length > 500 ? '...' : ''}</div>` : ''}
+      </div>`;
+    } else if (extractedText) {
+      fileHTML = `<div class="file-attachment" style="flex-direction:column;align-items:stretch;padding:8px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="file-icon"><i class="fas ${icon}"></i></div>
+          <div class="file-info">
+            <div class="file-name">${escapeHtml(fileData.name)}</div>
+            <div class="file-size">${size || 'Dosiye'} ${isPDF ? '📄 PDF' : '📄'}</div>
+          </div>
+        </div>
+        ${extractedText ? `<div class="file-extracted-text">📝 ${escapeHtml(extractedText.substring(0, 500))}${extractedText.length > 500 ? '...' : ''}</div>` : ''}
+      </div>`;
+    } else {
+      fileHTML = `<div class="file-attachment">
+        <div class="file-icon"><i class="fas ${icon}"></i></div>
+        <div class="file-info">
+          <div class="file-name">${escapeHtml(fileData.name)}</div>
+          <div class="file-size">${size || 'Dosiye'}</div>
+        </div>
+      </div>`;
+    }
   }
 
   msg.innerHTML = `
@@ -3804,15 +4361,25 @@ async function addMessageWithStream(role, content, htmlContent, metadata, fileDa
     await streamText(bubble, displayContent, 6);
   }
 
-  state.messages.push({ role, content, html: htmlContent, metadata, file: fileData ? { name: fileData.name, type: fileData.mimeType } : null, timestamp: Date.now() });
+  state.messages.push({ 
+    role, 
+    content, 
+    html: htmlContent,
+    metadata,
+    file: fileData ? { name: fileData.name, type: fileData.mimeType || fileData.type } : null,
+    timestamp: Date.now() 
+  });
   state.messageCount++;
-  if (state.messages.length > 100) state.messages.splice(0, 50);
+
+  if (state.messages.length > 100) {
+    state.messages.splice(0, 50);
+  }
   saveConversation();
   updateMemoryStats();
 }
 
 // ============================================================
-// SEND MESSAGE
+// 13. SEND MESSAGE - Using OpenAI via Puter
 // ============================================================
 async function sendMessage() {
   const input = document.getElementById('messageInput');
@@ -3836,10 +4403,22 @@ async function sendMessage() {
   let fileData = null;
   let fileDisplayData = null;
   if (state.attachedFile) {
-    fileData = { name: state.attachedFile.name, mimeType: state.attachedFile.type, size: state.attachedFile.size };
-    fileDisplayData = { name: state.attachedFile.name, mimeType: state.attachedFile.type, size: state.attachedFile.size };
-    const userContent = text || `📎 ${state.attachedFile.name}`;
-    addMessage('user', userContent, null, null, fileDisplayData);
+    fileData = await processAttachedFile(state.attachedFile);
+    if (fileData) {
+      fileDisplayData = {
+        name: fileData.name,
+        mimeType: fileData.mimeType,
+        size: fileData.size,
+        content: fileData.content,
+        imageData: fileData.imageData,
+        fromImage: fileData.fromImage,
+        fromPDF: fileData.fromPDF
+      };
+      const userContent = text || `📎 ${fileData.name}`;
+      addMessage('user', userContent, null, null, fileDisplayData);
+    } else {
+      addMessage('user', text || '📎 Dosiye');
+    }
     removeFile();
   } else if (text) {
     const detection = detectEmotion(text);
@@ -3851,14 +4430,30 @@ async function sendMessage() {
       if (sendBtn) sendBtn.disabled = false;
       return;
     }
+
     if (detection && detection.type === 'name') {
       const result = generateResponse(text);
+      if (result.userName) {
+        state.userName = result.userName;
+        storageSet('userName', state.userName);
+        updateWelcome();
+        updateMemoryStats();
+      }
       addMessage('user', text);
       await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
       showToast(`✨ Murakaza neza, ${state.userName}!`, 'success');
       if (sendBtn) sendBtn.disabled = false;
       return;
     }
+
+    if (detection && detection.type === 'rare_word') {
+      const result = generateResponse(text);
+      addMessage('user', text);
+      await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
+      if (sendBtn) sendBtn.disabled = false;
+      return;
+    }
+    
     addMessage('user', text);
   }
 
@@ -3867,20 +4462,26 @@ async function sendMessage() {
   const statusText = document.getElementById('statusText');
   if (statusText) statusText.textContent = 'TYAZA irategura...';
 
-  let result = generateResponse(text || '');
+  let result;
 
-  // Try OpenAI if available
-  if (state.useAI && typeof puter !== 'undefined' && text) {
-    try {
-      const openAIResult = await getPuterAIResponse(text);
-      if (openAIResult) result = openAIResult;
-    } catch (e) {
-      console.log('OpenAI failed, using local');
-    }
+  let userMessage = text || '';
+  if (fileData && fileData.extracted && fileData.content) {
+    userMessage += `\n\n[DOSIYE: ${fileData.name}]\n${fileData.content.substring(0, 3000)}${fileData.content.length > 3000 ? '...' : ''}`;
+  } else if (fileData) {
+    userMessage += `\n\n[DOSIYE: ${fileData.name}]`;
+  }
+
+  if (state.useAI && typeof puter !== 'undefined' && userMessage.trim()) {
+    result = await getPuterAIResponse(userMessage);
+  }
+
+  if (!result) {
+    result = generateResponse(userMessage || text);
   }
 
   removeTyping(typingId);
-  await addMessageWithStream('assistant', result.markdown, result.html, result.metadata);
+
+  await addMessageWithStream('assistant', result.text || result.markdown, result.html, result.metadata);
 
   state.isGenerating = false;
   if (sendBtn) sendBtn.disabled = false;
@@ -3890,79 +4491,142 @@ async function sendMessage() {
 }
 
 // ============================================================
-// OPENAI VIA PUTER
+// 14. OpenAI via Puter
 // ============================================================
 async function getPuterAIResponse(userInput) {
-  try {
-    if (typeof puter === 'undefined') throw new Error('Puter not loaded');
-    const detection = detectEmotion(userInput);
-    const lang = state.detectedLanguage || 'rw';
-    const langInstruction = lang === 'rw' ? 'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe.' :
-                            lang === 'fr' ? 'Répondez en Français, avec empathie.' :
-                            'Respond in English, with empathy.';
-    
-    const systemContext = `Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
-${langInstruction}
-PERSONALITY: Ufite impuhwe, uri umunyabwenge, kandi wita ku muntu.
-Ukoresha ikinyarwanda kiboneye, gishyuha.
-IBANZE - KIVURA LABS: Yashinzwe na Yves Hirwa Tuyishime (CEO & Founder). Ijambo rye: "Healthy citizens, wealthy nation".
-Product: TYAZA - AI ivuga mu Kinyarwanda.
-Tagline: "${TYAZA_MISSION.tagline}"
-INTEKO: Ntukavuge ko uri umuntu - uri AI. Koresha imigani y'ikinyarwanda.
-Subiza mu buryo bw'umwimerere nk'umuntu w'ukuri.`;
-
-    const messages = [
-      { role: 'system', content: systemContext },
-      { role: 'user', content: userInput }
-    ];
-
-    const response = await puter.ai.chat(messages, 'gpt-4o');
-    let text = '';
-    if (typeof response === 'string') text = response;
-    else if (response && typeof response === 'object') {
-      text = response.message?.content || response.text || response.response || '';
-    }
-    if (!text || text.length < 3) throw new Error('Empty response');
-    text = text.replace(/\bhaving\b/gi, '').replace(/\s{2,}/g, ' ').trim();
-    const html = text;
-    const responseTime = Math.round(performance.now() - 200);
-    const confidence = detection ? 0.85 : 0.78;
-    const emotion = detection?.type || 'neutral';
-    
-    // Try to format with EliteBulletFormatter
+    const startTime = performance.now();
     try {
-      const f = new EliteBulletFormatter();
-      const lines = text.split('\n').filter(l => l.trim());
-      let core = lines.find(l => l.includes('🧠') || l.includes('💙') || l.includes('✨')) || lines[0] || '🧠 Ndumva ibyo uvuga.';
-      const bullets = lines.filter(l => l.trim().startsWith('•') || l.trim().startsWith('-')).slice(0, 4);
-      const insight = lines.find(l => l.includes('💡')) || '';
-      const action = lines.find(l => l.includes('⚡')) || '';
-      const depth = lines.find(l => l.includes('🧭')) || '';
-      const proverb = lines.find(l => l.includes('"') && l.includes('—')) || '';
-      
-      f.setCore(core.replace(/[🧠💙✨]/g, '').trim());
-      if (bullets.length > 0) f.addBullets(bullets.map(b => b.replace(/^[•-]\s*/, '').trim()));
-      if (insight) f.setInsight(insight.replace('💡', '').trim());
-      if (action) f.setAction(action.replace('⚡', '').trim());
-      if (depth) f.setDepth(depth.replace('🧭', '').trim());
-      if (proverb) {
-        const parts = proverb.split('—');
-        if (parts.length > 1) f.addProverb(parts[0].replace(/["']/g, '').trim(), parts[1].trim());
-      }
-      f.setMetadata('confidence', confidence).setMetadata('emotion', emotion)
-        .setMetadata('responseTime', responseTime).setMetadata('model', 'openai');
-      return f.build();
-    } catch (e) {
-      return { text, html, markdown: text, metadata: { confidence, emotion, responseTime, model: 'openai' } };
+        if (typeof puter === 'undefined') {
+            throw new Error('Puter SDK not loaded');
+        }
+        const detection = detectEmotion(userInput);
+        let emotionContext = '';
+        if (detection && detection.type !== 'name') {
+            emotionContext = `Umukoresha arumva: ${detection.type}.`;
+        }
+        const lang = state.detectedLanguage || 'rw';
+        const langInstruction = lang === 'rw' ?
+            'Subiza mu Kinyarwanda gikomeye, gishyuha, kandi gifite impuhwe.' :
+            lang === 'fr' ? 'Répondez en Français, avec empathie et chaleur.' :
+            'Respond in English, with empathy and warmth.';
+        const rareWordsList = Object.keys(TYAZA_DATASET.rareWords).slice(0, 30).join(', ');
+        const proverbsList = Object.keys(TYAZA_DATASET.proverbs).slice(0, 20).join(', ');
+        const recentMessages = state.messages.slice(-6).map(m => ({
+            role: m.role,
+            content: m.content
+        }));
+        
+        const systemContext = `Uri TYAZA, umuvugizi w'umutima ukora muri KIVURA LABS mu Rwanda.
+${emotionContext}
+${langInstruction}
+PERSONALITY:
+- Ufite impuhwe zikomeye, uri umunyabwenge, kandi wita ku muntu
+- Ukoresha ikinyarwanda kiboneye, gishyuha
+- Ntutange inama z'ubuvuzi - ahubwo uyobora umuntu ku bafasha
+- Ukoresha imigani n'amagambo adasanzwe y'umuco nyarwanda
+- Usubiza mu buryo bwumvikana, butuje, kandi bufasha
+IBANZE - KIVURA LABS:
+- Yashinzwe na Yves Hirwa Tuyishime (CEO & Founder)
+- Ijambo rye: "Healthy citizens, wealthy nation"
+- Product: TYAZA - AI ivuga mu Kinyarwanda
+- Yashinzwe mu 2024 mu Rwanda
+- Tagline: "${TYAZA_MISSION.tagline}"
+MISSION: ${TYAZA_MISSION.mission}
+VISION: ${TYAZA_MISSION.vision}
+VALUES: ${TYAZA_MISSION.values.join(', ')}
+IMIGANI UZIKO: ${proverbsList}
+AMAGAMBO ADASANSWE: ${rareWordsList}
+${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}
+INTEKO:
+- Ntukavuge ko uri umuntu - uri AI ya KIVURA LABS
+- Ntukoreshe ijambo "having" mu bisubizo byawe
+- Sobanura amagambo adasanzwe ukoresha
+- Koresha imigani nk'ubuhanga bw'umuco nyarwanda
+- Subiza mu buryo bw'umwimerere, nk'uko umuntu w'ukuri yavuga
+- Koresha markdown: **bold**, *italic*, - lists, > quotes
+- Subiza mu buryo bugufi kandi bufite ishingiro (nturemere cyane)
+- Koresha Elite Bullet Formatter: 🧠 core idea, • bullets (≤12 words), 💡 Insight, ⚡ Action, 🧭 optional depth`;
+
+        const messages = [
+            { role: 'system', content: systemContext },
+            ...recentMessages,
+            { role: 'user', content: userInput }
+        ];
+        
+        const modelOptions = [
+            'gpt-4o',
+            'gpt-4.1-nano',
+            'gpt-4-turbo',
+            'gpt-3.5-turbo'
+        ];
+        
+        const startIndex = Math.min(state.modelFallbackIndex, modelOptions.length - 1);
+        let lastError = null;
+        let text = '';
+        let workingModel = modelOptions[startIndex];
+        
+        for (let i = startIndex; i < modelOptions.length; i++) {
+            const model = modelOptions[i];
+            try {
+                const response = await puter.ai.chat(messages, model);
+                
+                if (typeof response === 'string') {
+                    text = response;
+                } else if (response && typeof response === 'object') {
+                    text = response.message?.content || 
+                           response.text || 
+                           response.choices?.[0]?.message?.content || 
+                           response.output?.[0]?.text || 
+                           response.response ||
+                           '';
+                }
+                
+                if (text && text.length >= 3) {
+                    workingModel = model;
+                    state.modelFallbackIndex = i;
+                    break;
+                } else {
+                    throw new Error('Empty or too short response');
+                }
+            } catch (modelError) {
+                lastError = modelError;
+                console.warn(`Model ${model} failed:`, modelError);
+            }
+        }
+        
+        if (!text || text.length < 3) {
+            throw new Error(`All OpenAI models failed. Last error: ${lastError?.message || 'Unknown error'}`);
+        }
+        text = text.replace(/\bhaving\b/gi, '').replace(/\bhavings\b/gi, '');
+        text = text.replace(/\s{2,}/g, ' ').trim();
+        const html = UltraMarkdownParser.parse(text);
+        const responseTime = Math.round(performance.now() - startTime);
+        const tokens = text.split(/\s+/).length;
+        const confidence = detection ?
+            (detection.type === 'crisis' ? 0.95 :
+            detection.type === 'greeting' ? 0.92 : 0.85) : 0.78;
+        const emotion = detection?.type || 'neutral';
+        return {
+            text: text,
+            html: html,
+            metadata: {
+                confidence: confidence,
+                emotion: emotion,
+                responseTime: responseTime,
+                tokens: tokens,
+                model: 'openai',
+                openaiModel: workingModel
+            }
+        };
+    } catch (error) {
+        console.error('OpenAI via Puter Error:', error);
+        showToast('⚠️ OpenAI yanze. Turakoresha gahunda isanzwe.', 'warning');
+        return null;
     }
-  } catch (error) {
-    console.error('OpenAI Error:', error);
-    return null;
-  }
 }
 
 // ============================================================
-// CONVERSATION HISTORY
+// 15. CONVERSATION HISTORY
 // ============================================================
 function saveConversation() {
   if (state.messages.length === 0) return;
@@ -3978,8 +4642,11 @@ function saveConversation() {
   };
   const convs = storageGetAll('conversations');
   const existing = convs.findIndex(c => c.id === state.currentId);
-  if (existing >= 0) convs[existing] = conv;
-  else convs.push(conv);
+  if (existing >= 0) {
+    convs[existing] = conv;
+  } else {
+    convs.push(conv);
+  }
   if (convs.length > 100) {
     convs.sort((a, b) => b.timestamp - a.timestamp);
     convs.length = 100;
@@ -3992,16 +4659,30 @@ function renderHistory() {
   const convs = storageGetAll('conversations');
   const list = document.getElementById('historyList');
   if (!list) return;
+  
   if (convs.length === 0) {
-    list.innerHTML = `<div class="history-empty"><i class="fas fa-history"></i><span>Nta mateka</span></div>`;
+    list.innerHTML = `
+      <div class="history-empty">
+        <i class="fas fa-history"></i>
+        <span>Nta mateka</span>
+      </div>
+    `;
     return;
   }
-  list.innerHTML = convs.sort((a, b) => b.timestamp - a.timestamp).slice(0, 30).map(c => `
-    <div class="history-item ${c.id === state.currentId ? 'active' : ''}" data-id="${c.id}">
-      <div class="history-title">${escapeHtml(c.title || 'Ikiganiro')}</div>
-      <div class="history-meta"><span>${formatTime(c.timestamp)}</span><span>${c.messages ? c.messages.length : 0} ubutumwa</span></div>
-    </div>
-  `).join('');
+  
+  list.innerHTML = convs
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .slice(0, 30)
+    .map(c => `
+      <div class="history-item ${c.id === state.currentId ? 'active' : ''}" data-id="${c.id}">
+        <div class="history-title">${escapeHtml(c.title || 'Ikiganiro')}</div>
+        <div class="history-meta">
+          <span>${formatTime(c.timestamp)}</span>
+          <span>${c.messages ? c.messages.length : 0} ubutumwa</span>
+        </div>
+      </div>
+    `).join('');
+    
   list.querySelectorAll('.history-item').forEach(item => {
     item.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -4011,7 +4692,9 @@ function renderHistory() {
     item.addEventListener('contextmenu', (e) => {
       e.preventDefault();
       const id = item.dataset.id;
-      if (id && confirm('Hanagura iki kiganiro?')) deleteChat(id);
+      if (id && confirm('Hanagura iki kiganiro?')) {
+        deleteChat(id);
+      }
     });
   });
 }
@@ -4019,7 +4702,11 @@ function renderHistory() {
 function loadChat(id) {
   const convs = storageGetAll('conversations');
   const chat = convs.find(c => c.id === id);
-  if (!chat) { showToast('Ikiganiro ntikiboneka', 'error'); return; }
+  if (!chat) {
+    showToast('Ikiganiro ntikiboneka', 'error');
+    return;
+  }
+  
   state.currentId = chat.id;
   state.messages = chat.messages || [];
   if (chat.language) state.detectedLanguage = chat.language;
@@ -4027,37 +4714,56 @@ function loadChat(id) {
 
   const messagesContainer = document.getElementById('messages');
   if (!messagesContainer) return;
-  while (messagesContainer.firstChild) messagesContainer.removeChild(messagesContainer.firstChild);
+  
+  while (messagesContainer.firstChild) {
+    messagesContainer.removeChild(messagesContainer.firstChild);
+  }
+  
   const welcome = document.getElementById('welcome');
   if (welcome) welcome.style.display = 'none';
 
   state.messages.forEach(msg => {
     const role = msg.role || 'assistant';
     const content = msg.content || '';
-    const htmlContent = msg.html || content;
+    const htmlContent = msg.html || UltraMarkdownParser.parse(content);
     const metadata = msg.metadata || null;
     const fileData = msg.file || null;
+
     if (content) {
       const msgEl = document.createElement('div');
       msgEl.className = `message ${role}`;
       const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
       const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
       const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
+      
       let fileHTML = '';
       if (fileData && role === 'user') {
         const icon = getFileIcon(fileData.type || '');
-        fileHTML = `<div class="file-attachment"><div class="file-icon"><i class="fas ${icon}"></i></div>
-          <div class="file-info"><div class="file-name">${escapeHtml(fileData.name || 'Dosiye')}</div></div></div>`;
+        fileHTML = `<div class="file-attachment">
+          <div class="file-icon"><i class="fas ${icon}"></i></div>
+          <div class="file-info">
+            <div class="file-name">${escapeHtml(fileData.name || 'Dosiye')}</div>
+            <div class="file-size">Dosiye</div>
+          </div>
+        </div>`;
       }
+
       msgEl.innerHTML = `
         <div class="msg-avatar">${avatarContent}</div>
         <div class="msg-content">
           <div class="msg-bubble">${fileHTML}${htmlContent}</div>
           ${metadataHTML}
-          <div class="msg-meta"><span>${time}</span>
+          <div class="msg-meta">
+            <span>${time}</span>
             <div class="msg-actions">
-              ${role === 'assistant' ? `<button class="msg-action" onclick="speakText(this.closest('.message').querySelector('.msg-bubble').textContent)"><i class="fas fa-volume-up"></i></button>` : ''}
-              <button class="msg-action" onclick="navigator.clipboard.writeText(this.closest('.message').querySelector('.msg-bubble').textContent); showToast('Ibyakiriwe!', 'success')"><i class="fas fa-copy"></i></button>
+              ${role === 'assistant' ? `
+              <button class="msg-action" onclick="speakText(this.closest('.message').querySelector('.msg-bubble').textContent)">
+                <i class="fas fa-volume-up"></i>
+              </button>
+              ` : ''}
+              <button class="msg-action" onclick="navigator.clipboard.writeText(this.closest('.message').querySelector('.msg-bubble').textContent); showToast('Ibyakiriwe!', 'success')">
+                <i class="fas fa-copy"></i>
+              </button>
             </div>
           </div>
         </div>
@@ -4065,6 +4771,7 @@ function loadChat(id) {
       messagesContainer.appendChild(msgEl);
     }
   });
+
   scrollToBottom();
   renderHistory();
   updateMemoryStats();
@@ -4075,8 +4782,11 @@ function loadChat(id) {
 
 function deleteChat(id) {
   storageDelete('conversations', id);
-  if (state.currentId === id) newChat();
-  else renderHistory();
+  if (state.currentId === id) {
+    newChat();
+  } else {
+    renderHistory();
+  }
   showToast('Ikiganiro kihanaguwe', 'success');
 }
 
@@ -4087,20 +4797,32 @@ function newChat() {
   state.riskFlags = { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false };
   updateRiskIndicators(state.riskFlags);
   removeFile();
+  
   const messagesContainer = document.getElementById('messages');
   if (messagesContainer) {
-    while (messagesContainer.firstChild) messagesContainer.removeChild(messagesContainer.firstChild);
+    while (messagesContainer.firstChild) {
+      messagesContainer.removeChild(messagesContainer.firstChild);
+    }
   }
+  
   const welcome = document.getElementById('welcome');
   if (welcome) welcome.style.display = 'flex';
+  
   updateWelcome();
   renderHistory();
   updateMemoryStats();
   closeSidebar();
+  
   const input = document.getElementById('messageInput');
-  if (input) { input.value = ''; input.focus(); input.style.height = 'auto'; }
+  if (input) {
+    input.value = '';
+    input.focus();
+    input.style.height = 'auto';
+  }
+  
   const sendBtn = document.getElementById('sendBtn');
   if (sendBtn) sendBtn.disabled = true;
+  
   showToast('✨ Ikiganiro gishya', 'success');
 }
 
@@ -4112,8 +4834,23 @@ function clearHistory() {
 }
 
 function exportChat() {
-  if (state.messages.length === 0) { showToast('Nta kiganiro cyohereza', 'warning'); return; }
-  const data = { app: 'TYAZA', version: '5.0', timestamp: Date.now(), user: state.userName || 'User', messages: state.messages, session: state.sessionStart, risks: state.riskFlags, profile: getUserProfile(), company: COMPANY_INFO, mission: TYAZA_MISSION, detectedLanguage: state.detectedLanguage };
+  if (state.messages.length === 0) {
+    showToast('Nta kiganiro cyohereza', 'warning');
+    return;
+  }
+  const data = {
+    app: 'TYAZA',
+    version: '5.0',
+    timestamp: Date.now(),
+    user: state.userName || 'User',
+    messages: state.messages,
+    session: state.sessionStart,
+    risks: state.riskFlags,
+    profile: getUserProfile(),
+    company: COMPANY_INFO,
+    mission: TYAZA_MISSION,
+    detectedLanguage: state.detectedLanguage
+  };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -4127,7 +4864,7 @@ function exportChat() {
 }
 
 // ============================================================
-// SIDEBAR FUNCTIONS
+// 16. SIDEBAR FUNCTIONS
 // ============================================================
 function toggleSidebar() {
   const sidebar = document.getElementById('sidebar');
@@ -4143,7 +4880,7 @@ function closeSidebar() {
 }
 
 // ============================================================
-// MOOD FUNCTIONS
+// 17. MOOD FUNCTIONS
 // ============================================================
 function openMoodModal() {
   const modal = document.getElementById('moodModal');
@@ -4159,7 +4896,10 @@ function closeMoodModal() {
 }
 function saveMood() {
   const selected = document.querySelector('#moodScale .mood-btn.selected');
-  if (!selected) { showToast('Hitamo uko wumva', 'warning'); return; }
+  if (!selected) {
+    showToast('Hitamo uko wumva', 'warning');
+    return;
+  }
   const mood = parseInt(selected.dataset.mood);
   const notes = document.getElementById('moodNotes');
   const notesText = notes ? notes.value.trim() : '';
@@ -4197,7 +4937,7 @@ function renderMoodCalendar() {
 }
 
 // ============================================================
-// CRISIS MODAL
+// 18. CRISIS MODAL
 // ============================================================
 function showCrisisModal() {
   const modal = document.getElementById('crisisModal');
@@ -4209,16 +4949,23 @@ function closeCrisisModal() {
 }
 
 // ============================================================
-// VOICE CONTROLS
+// 19. VOICE CONTROLS
 // ============================================================
 function toggleVoice() {
-  if (voiceModalActive) { closeVoiceModal(); return; }
+  if (voiceModalActive) {
+    closeVoiceModal();
+    return;
+  }
   if (state.isListening) {
     if (state.speechRecognition) state.speechRecognition.stop();
     return;
   }
+  // Check if speech recognition is available
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) { showToast('⚠️ Ijwi ryawe ntirishoboka muri iyi browser', 'warning'); return; }
+  if (!SR) {
+    showToast('⚠️ Ijwi ryawe ntirishoboka muri iyi browser', 'warning');
+    return;
+  }
   openVoiceModal();
 }
 
@@ -4233,7 +4980,10 @@ async function testMic() {
     const status = document.getElementById('voiceStatus');
     if (status) status.textContent = '✅ Mikorofoni yiteguye';
     showToast('Mikorofoni yiteguye! 🎤', 'success');
-    setTimeout(() => { btn.innerHTML = '🎤 Gerageza mikorofoni'; if (status) status.textContent = ''; }, 2000);
+    setTimeout(() => {
+      btn.innerHTML = '🎤 Gerageza mikorofoni';
+      if (status) status.textContent = '';
+    }, 2000);
   } catch {
     btn.innerHTML = '❌ emerera';
     const status = document.getElementById('voiceStatus');
@@ -4243,15 +4993,18 @@ async function testMic() {
 }
 
 // ============================================================
-// PROFILE MODAL
+// 20. PROFILE MODAL
 // ============================================================
 function showProfileModal() {
   const profile = getUserProfile();
   const modal = document.getElementById('profileModal');
   const content = document.getElementById('profileContent');
   if (!modal || !content) return;
+  
   const moodEmojis = ['😢', '😔', '😐', '🙂', '😊'];
-  const avgMoodText = profile.avgMood > 0 ? `${moodEmojis[Math.round(profile.avgMood) - 1] || '😐'} ${profile.avgMood.toFixed(1)}/5` : 'Nta data';
+  const avgMoodText = profile.avgMood > 0 ?
+    `${moodEmojis[Math.round(profile.avgMood) - 1] || '😐'} ${profile.avgMood.toFixed(1)}/5` :
+    'Nta data';
   const recentMoodsHtml = profile.recentMoods.map(m => {
     const date = new Date(m.timestamp).toLocaleDateString('rw-RW');
     return `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--glass-border);">
@@ -4259,6 +5012,7 @@ function showProfileModal() {
       <span style="font-size:0.8rem;">${moodEmojis[m.mood - 1] || '😐'} ${m.mood}/5</span>
     </div>`;
   }).join('');
+  
   content.innerHTML = `
     <div style="display:grid;gap:10px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
@@ -4279,20 +5033,47 @@ function showProfileModal() {
           <div style="font-size:0.6rem;color:var(--text-tertiary);text-transform:uppercase;">Uko yumva</div>
         </div>
       </div>
-      ${profile.userName ? `<div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);"><div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">👤 Izina</div><div style="color:var(--text);font-size:0.85rem;">${profile.userName}</div></div>` : ''}
-      ${profile.triggers.length > 0 ? `<div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);"><div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">⚠️ Ibimubangamira</div><div style="color:var(--text);font-size:0.8rem;">${profile.triggers.join(', ')}</div></div>` : ''}
-      ${profile.goals.length > 0 ? `<div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);"><div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">🎯 Intego</div><div style="color:var(--text);font-size:0.8rem;">${profile.goals.map(g => `• ${g}`).join('<br>')}</div></div>` : ''}
-      ${recentMoodsHtml ? `<div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);"><div style="font-weight:600;color:var(--text-secondary);margin-bottom:6px;font-size:0.8rem;">📊 Imimerere iheruka</div>${recentMoodsHtml}</div>` : ''}
-      <div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);"><div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">📊 Ingirakamaro</div>
+      ${profile.userName ? `
+      <div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);">
+        <div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">👤 Izina</div>
+        <div style="color:var(--text);font-size:0.85rem;">${profile.userName}</div>
+      </div>
+      ` : ''}
+      ${profile.triggers.length > 0 ? `
+      <div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);">
+        <div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">⚠️ Ibimubangamira</div>
+        <div style="color:var(--text);font-size:0.8rem;">${profile.triggers.join(', ')}</div>
+      </div>
+      ` : ''}
+      ${profile.goals.length > 0 ? `
+      <div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);">
+        <div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">🎯 Intego</div>
+        <div style="color:var(--text);font-size:0.8rem;">${profile.goals.map(g => `• ${g}`).join('<br>')}</div>
+      </div>
+      ` : ''}
+      ${recentMoodsHtml ? `
+      <div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);">
+        <div style="font-weight:600;color:var(--text-secondary);margin-bottom:6px;font-size:0.8rem;">📊 Imimerere iheruka</div>
+        ${recentMoodsHtml}
+      </div>
+      ` : ''}
+      <div style="background:var(--glass);padding:10px;border-radius:8px;border:1px solid var(--glass-border);">
+        <div style="font-weight:600;color:var(--text-secondary);font-size:0.8rem;">📊 Ingirakamaro</div>
         <div style="display:flex;align-items:center;gap:10px;margin-top:4px;">
-          <div style="flex:1;height:6px;background:var(--surface-4);border-radius:3px;overflow:hidden;"><div style="width:${profile.engagement}%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:3px;"></div></div>
+          <div style="flex:1;height:6px;background:var(--surface-4);border-radius:3px;overflow:hidden;">
+            <div style="width:${profile.engagement}%;height:100%;background:linear-gradient(90deg,var(--primary),var(--secondary));border-radius:3px;"></div>
+          </div>
           <span style="font-size:0.75rem;font-weight:600;color:var(--primary);">${profile.engagement}%</span>
         </div>
       </div>
       <div style="background:linear-gradient(135deg,rgba(167,139,250,0.08),rgba(244,114,182,0.05));padding:10px;border-radius:8px;border:1px solid rgba(167,139,250,0.15);">
         <div style="font-weight:600;color:var(--secondary);font-size:0.8rem;">🏢 KIVURA LABS</div>
-        <div style="font-size:0.7rem;color:var(--text-secondary);margin-top:3px;"><strong>CEO & Founder:</strong> Yves Hirwa Tuyishime</div>
-        <div style="font-size:0.7rem;color:var(--text-tertiary);font-style:italic;">"Healthy citizens, wealthy nation"</div>
+        <div style="font-size:0.7rem;color:var(--text-secondary);margin-top:3px;">
+          <strong>CEO & Founder:</strong> Yves Hirwa Tuyishime
+        </div>
+        <div style="font-size:0.7rem;color:var(--text-tertiary);font-style:italic;">
+          "Healthy citizens, wealthy nation"
+        </div>
       </div>
     </div>
   `;
@@ -4300,24 +5081,44 @@ function showProfileModal() {
 }
 
 // ============================================================
-// BACKGROUND EFFECTS
+// 21. BACKGROUND EFFECTS
 // ============================================================
 function initNeuralBackground() {
   const canvas = document.getElementById('neuralCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
   resize();
   window.addEventListener('resize', resize);
+
   const nodes = [];
   const nodeCount = 50;
   const connectionDistance = 150;
+
   for (let i = 0; i < nodeCount; i++) {
-    nodes.push({ x: Math.random() * canvas.width, y: Math.random() * canvas.height, vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3, radius: Math.random() * 1.5 + 0.5 });
+    nodes.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      radius: Math.random() * 1.5 + 0.5
+    });
   }
+
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    nodes.forEach(node => { node.x += node.vx; node.y += node.vy; if (node.x < 0 || node.x > canvas.width) node.vx *= -1; if (node.y < 0 || node.y > canvas.height) node.vy *= -1; });
+
+    nodes.forEach(node => {
+      node.x += node.vx;
+      node.y += node.vy;
+      if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+      if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+    });
+
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
         const dx = nodes[i].x - nodes[j].x;
@@ -4334,7 +5135,14 @@ function initNeuralBackground() {
         }
       }
     }
-    nodes.forEach(node => { ctx.fillStyle = 'rgba(167, 139, 250, 0.6)'; ctx.beginPath(); ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2); ctx.fill(); });
+
+    nodes.forEach(node => {
+      ctx.fillStyle = 'rgba(167, 139, 250, 0.6)';
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+      ctx.fill();
+    });
+
     requestAnimationFrame(animate);
   }
   animate();
@@ -4355,8 +5163,38 @@ function initStars() {
 }
 
 // ============================================================
-// INITIALIZATION
+// 22. INITIALIZATION
 // ============================================================
+async function testOpenAI() {
+    try {
+        showToast('🧪 Testing OpenAI via Puter...', 'info');
+        const testMessages = [
+            { role: 'system', content: 'You are a helpful assistant. Respond in Kinyarwanda.' },
+            { role: 'user', content: 'Vuga "Muraho, TYAZA!"' }
+        ];
+        
+        const response = await puter.ai.chat(testMessages, 'gpt-4o');
+        
+        let text = '';
+        if (typeof response === 'string') {
+            text = response;
+        } else if (response && typeof response === 'object') {
+            text = response.message?.content || response.text || '';
+        }
+        
+        if (text && text.length > 0) {
+            showToast('✅ OpenAI yiteguye!', 'success');
+            return true;
+        } else {
+            throw new Error('Empty response');
+        }
+    } catch (error) {
+        console.error('OpenAI Test Failed:', error);
+        showToast('❌ OpenAI testera ikibazo', 'error');
+        return false;
+    }
+}
+
 function init() {
   if (state.isInitialized) return;
   state.isInitialized = true;
@@ -4364,8 +5202,6 @@ function init() {
   state.userName = storageGet('userName', null);
   state.settings = storageGet('settings', state.settings);
   state.moodData = storageGetAll('moodData');
-  
-  updateWelcome();
   
   const convs = storageGetAll('conversations');
   if (convs.length > 0) {
@@ -4378,36 +5214,54 @@ function init() {
       
       const messagesContainer = document.getElementById('messages');
       if (messagesContainer) {
-        while (messagesContainer.firstChild) messagesContainer.removeChild(messagesContainer.firstChild);
+        while (messagesContainer.firstChild) {
+          messagesContainer.removeChild(messagesContainer.firstChild);
+        }
         const welcome = document.getElementById('welcome');
         if (welcome) welcome.style.display = 'none';
+        
         state.messages.forEach(msg => {
           const role = msg.role || 'assistant';
           const content = msg.content || '';
-          const htmlContent = msg.html || content;
+          const htmlContent = msg.html || UltraMarkdownParser.parse(content);
           const metadata = msg.metadata || null;
           const fileData = msg.file || null;
+          
           if (content) {
             const msgEl = document.createElement('div');
             msgEl.className = `message ${role}`;
             const time = new Date(msg.timestamp || Date.now()).toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
             const avatarContent = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none'; this.parentElement.innerHTML='🧠'">`;
             const metadataHTML = role === 'assistant' ? buildMetadataHTML(metadata) : '';
+            
             let fileHTML = '';
             if (fileData && role === 'user') {
               const icon = getFileIcon(fileData.type || '');
-              fileHTML = `<div class="file-attachment"><div class="file-icon"><i class="fas ${icon}"></i></div>
-                <div class="file-info"><div class="file-name">${escapeHtml(fileData.name || 'Dosiye')}</div></div></div>`;
+              fileHTML = `<div class="file-attachment">
+                <div class="file-icon"><i class="fas ${icon}"></i></div>
+                <div class="file-info">
+                  <div class="file-name">${escapeHtml(fileData.name || 'Dosiye')}</div>
+                  <div class="file-size">Dosiye</div>
+                </div>
+              </div>`;
             }
+            
             msgEl.innerHTML = `
               <div class="msg-avatar">${avatarContent}</div>
               <div class="msg-content">
                 <div class="msg-bubble">${fileHTML}${htmlContent}</div>
                 ${metadataHTML}
-                <div class="msg-meta"><span>${time}</span>
+                <div class="msg-meta">
+                  <span>${time}</span>
                   <div class="msg-actions">
-                    ${role === 'assistant' ? `<button class="msg-action" onclick="speakText(this.closest('.message').querySelector('.msg-bubble').textContent)"><i class="fas fa-volume-up"></i></button>` : ''}
-                    <button class="msg-action" onclick="navigator.clipboard.writeText(this.closest('.message').querySelector('.msg-bubble').textContent); showToast('Ibyakiriwe!', 'success')"><i class="fas fa-copy"></i></button>
+                    ${role === 'assistant' ? `
+                    <button class="msg-action" onclick="speakText(this.closest('.message').querySelector('.msg-bubble').textContent)">
+                      <i class="fas fa-volume-up"></i>
+                    </button>
+                    ` : ''}
+                    <button class="msg-action" onclick="navigator.clipboard.writeText(this.closest('.message').querySelector('.msg-bubble').textContent); showToast('Ibyakiriwe!', 'success')">
+                      <i class="fas fa-copy"></i>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -4434,7 +5288,9 @@ function init() {
   const sendBtn = document.getElementById('sendBtn');
   if (sendBtn) sendBtn.disabled = true;
 
-  // EVENT LISTENERS
+  // ============================================================
+  // 23. EVENT LISTENERS
+  // ============================================================
   const input = document.getElementById('messageInput');
   if (input) {
     input.addEventListener('input', handleInput);
@@ -4446,6 +5302,7 @@ function init() {
       }
     });
   }
+  
   if (sendBtn) sendBtn.addEventListener('click', sendMessage);
   
   const voiceBtn = document.getElementById('voiceBtn');
@@ -4500,6 +5357,7 @@ function init() {
       if (modal) modal.classList.remove('active');
     });
   }
+  
   const profileModal = document.getElementById('profileModal');
   if (profileModal) {
     profileModal.addEventListener('click', (e) => {
@@ -4508,7 +5366,9 @@ function init() {
   }
   
   const messagesContainer = document.getElementById('messages');
-  if (messagesContainer) messagesContainer.addEventListener('scroll', handleScroll);
+  if (messagesContainer) {
+    messagesContainer.addEventListener('scroll', handleScroll);
+  }
   
   const scrollBottom = document.getElementById('scrollBottom');
   if (scrollBottom) scrollBottom.addEventListener('click', scrollToBottom);
@@ -4520,7 +5380,9 @@ function init() {
         inputEl.value = btn.dataset.prompt;
         handleInput();
         inputEl.focus();
-        setTimeout(() => { if (inputEl.value.trim()) sendMessage(); }, 300);
+        setTimeout(() => {
+          if (inputEl.value.trim()) sendMessage();
+        }, 300);
       }
     });
   });
@@ -4549,7 +5411,9 @@ function init() {
   if (saveMoodBtn) saveMoodBtn.addEventListener('click', saveMood);
   
   document.querySelectorAll('#moodQuick .mood-btn-small').forEach(btn => {
-    btn.addEventListener('click', () => { quickMood(btn.dataset.mood); });
+    btn.addEventListener('click', () => {
+      quickMood(btn.dataset.mood);
+    });
   });
   
   const crisisBtn = document.getElementById('crisisBtn');
@@ -4563,7 +5427,9 @@ function init() {
   
   const crisisNow = document.getElementById('crisisNow');
   if (crisisNow) {
-    crisisNow.addEventListener('click', () => { window.location.href = 'tel:116'; });
+    crisisNow.addEventListener('click', () => {
+      window.location.href = 'tel:116';
+    });
   }
 
   document.addEventListener('keydown', (e) => {
@@ -4573,7 +5439,10 @@ function init() {
       if (inputEl) inputEl.focus();
     }
     if (e.key === 'Escape') {
-      if (voiceModalActive) { closeVoiceModal(); return; }
+      if (voiceModalActive) {
+        closeVoiceModal();
+        return;
+      }
       closeSidebar();
       closeMoodModal();
       closeCrisisModal();
@@ -4584,6 +5453,7 @@ function init() {
   if (typeof puter !== 'undefined') {
     state.puterReady = true;
     showToast('✅ TYAZA yiteguye na OpenAI ✨', 'success');
+    setTimeout(() => testOpenAI(), 1000);
   } else {
     showToast('⚠️ TYAZA ikora mu buryo bwa gahunda', 'warning');
     state.useAI = false;
@@ -4599,12 +5469,13 @@ function init() {
 }
 
 // ============================================================
-// EXPOSE GLOBALS
+// 24. EXPOSE GLOBALS
 // ============================================================
-window.TYAZA_PROVERBS = TYAZA_PROVERBS;
+window.TYAZA_DATASET = TYAZA_DATASET;
 window.COMPANY_INFO = COMPANY_INFO;
 window.TYAZA_MISSION = TYAZA_MISSION;
 window.EliteBulletFormatter = EliteBulletFormatter;
+window.UltraMarkdownParser = UltraMarkdownParser;
 window.showToast = showToast;
 window.speakText = speakText;
 window.sendMessage = sendMessage;
@@ -4618,6 +5489,7 @@ window.toggleVoice = toggleVoice;
 window.quickMood = quickMood;
 window.openMoodModal = openMoodModal;
 window.closeMoodModal = closeMoodModal;
+window.addMessage = addMessage;
 window.testMic = testMic;
 window.analyzeRisks = analyzeRisks;
 window.getUserProfile = getUserProfile;
@@ -4625,16 +5497,15 @@ window.showProfileModal = showProfileModal;
 window.generateResponse = generateResponse;
 window.detectEmotion = detectEmotion;
 window.detectLanguage = detectLanguage;
+window.testOpenAI = testOpenAI;
 window.attachFile = attachFile;
 window.removeFile = removeFile;
 window.openVoiceModal = openVoiceModal;
 window.closeVoiceModal = closeVoiceModal;
 window.toggleDepth = toggleDepth;
-window.toggleSidebar = toggleSidebar;
-window.closeSidebar = closeSidebar;
 
 // ============================================================
-// START APP
+// 25. START APP
 // ============================================================
 document.addEventListener('DOMContentLoaded', init);
 </script>
