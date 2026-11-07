@@ -7,31 +7,45 @@
 <title>TYAZA · Inzira y'Isanomutima</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/stream-schema@1.0.3/dist/index.umd.js"></script>
 <style>
 /* ============================================================
    TYAZA v1 · Inzira y'Isanomutima
-   Warm earth tones, quiet UI, conversational responses
+   Generative UI · Streaming Components · Real Voice Stack
    ============================================================ */
 
 :root {
   --sand: #C4A882;
   --sand-light: #E8DFD0;
+  --sand-dark: #9C8262;
   --sage: #7D9B8A;
   --sage-light: #D4E0D8;
+  --sage-dark: #5A7A6A;
   --bg: #F5F0E8;
   --bg-card: #FDFBF7;
+  --bg-elevated: #FFFFFF;
   --text: #2C2825;
   --text-soft: #6B655E;
   --text-muted: #9C958D;
   --border: #E0D9CE;
+  --border-strong: #C9C0B2;
   --error: #B85C4A;
+  --error-light: #F5E6E2;
   --success: #6B8E6B;
+  --warning: #C49A3C;
+  --radius-sm: 8px;
   --radius: 12px;
   --radius-lg: 18px;
+  --radius-xl: 24px;
+  --shadow-sm: 0 1px 3px rgba(44,40,37,0.04);
+  --shadow-md: 0 4px 16px rgba(44,40,37,0.06);
+  --shadow-lg: 0 12px 40px rgba(44,40,37,0.08);
   --font-body: 'Source Serif 4', Georgia, serif;
   --font-ui: 'Inter', -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -47,17 +61,18 @@ body {
   overflow: hidden;
   line-height: 1.6;
   position: relative;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Paper grain texture — replaces the neural canvas */
+/* Paper grain texture */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.4;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
 }
 
 .app {
@@ -70,7 +85,9 @@ body::before {
   z-index: 1;
 }
 
-/* --- Sidebar --- */
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
 .sidebar {
   width: 280px;
   background: var(--bg-card);
@@ -78,7 +95,7 @@ body::before {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  transition: transform 0.35s ease;
+  transition: transform 0.35s var(--ease-out);
 }
 
 .sidebar-header {
@@ -93,23 +110,24 @@ body::before {
 }
 
 .logo-mark {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   background: linear-gradient(135deg, var(--sand), var(--sage));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: white;
   flex-shrink: 0;
+  box-shadow: var(--shadow-sm);
 }
 
 .logo-text .name {
   font-family: var(--font-ui);
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: -0.01em;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
 }
 
 .logo-text .sub {
@@ -138,7 +156,7 @@ body::before {
   border-radius: var(--radius);
   font-family: var(--font-ui);
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -151,13 +169,16 @@ body::before {
 
 .sidebar-section {
   font-family: var(--font-ui);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: var(--text-muted);
   padding: 0 4px;
   margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .mood-row {
@@ -167,12 +188,12 @@ body::before {
 }
 
 .mood-btn {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   border: 1px solid var(--border);
   background: var(--bg-card);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -183,6 +204,13 @@ body::before {
 .mood-btn:hover {
   border-color: var(--sage);
   background: var(--sage-light);
+  transform: scale(1.08);
+}
+
+.mood-btn.selected {
+  border-color: var(--sage);
+  background: var(--sage-light);
+  box-shadow: 0 0 0 2px var(--sage-light);
 }
 
 .history-list {
@@ -190,7 +218,7 @@ body::before {
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .history-item {
@@ -217,7 +245,7 @@ body::before {
 
 .history-item .meta {
   font-family: var(--font-ui);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   color: var(--text-muted);
   margin-top: 2px;
 }
@@ -229,24 +257,29 @@ body::before {
   font-size: 0.7rem;
   color: var(--text-muted);
   text-align: center;
+  line-height: 1.5;
 }
 
 .sidebar-footer .brand {
-  font-weight: 600;
-  color: var(--sage);
+  font-weight: 700;
+  color: var(--sage-dark);
+  font-size: 0.75rem;
 }
 
-/* --- Main chat --- */
+/* ============================================================
+   MAIN CHAT
+   ============================================================ */
 .chat-main {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 0;
   background: var(--bg);
+  position: relative;
 }
 
 .chat-header {
-  height: 60px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -272,34 +305,37 @@ body::before {
   cursor: pointer;
   align-items: center;
   justify-content: center;
+  color: var(--text-soft);
 }
 
 .chat-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
   background: linear-gradient(135deg, var(--sand), var(--sage));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: white;
   flex-shrink: 0;
 }
 
 .chat-title {
   font-family: var(--font-ui);
-  font-weight: 600;
+  font-weight: 700;
   font-size: 0.95rem;
+  letter-spacing: -0.01em;
 }
 
 .chat-status {
   font-family: var(--font-ui);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   display: flex;
   align-items: center;
   gap: 6px;
+  margin-top: 1px;
 }
 
 .status-dot {
@@ -307,11 +343,17 @@ body::before {
   height: 6px;
   background: var(--success);
   border-radius: 50%;
+  animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 .header-actions {
   display: flex;
-  gap: 8px;
+  gap: 6px;
 }
 
 .btn-icon {
@@ -326,14 +368,18 @@ body::before {
   justify-content: center;
   color: var(--text-soft);
   transition: all 0.2s;
+  font-size: 0.85rem;
 }
 
 .btn-icon:hover {
   border-color: var(--sage);
   color: var(--text);
+  background: var(--sage-light);
 }
 
-/* --- Messages --- */
+/* ============================================================
+   MESSAGES
+   ============================================================ */
 .messages {
   flex: 1;
   overflow-y: auto;
@@ -351,34 +397,41 @@ body::before {
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 16px;
+  gap: 12px;
   padding: 40px 20px;
+  animation: fadeUp 0.6s var(--ease-out);
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .welcome-mark {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  border-radius: 22px;
   background: linear-gradient(135deg, var(--sand), var(--sage));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
+  font-size: 2rem;
   color: white;
   margin-bottom: 8px;
+  box-shadow: var(--shadow-md);
 }
 
 .welcome-title {
   font-family: var(--font-ui);
-  font-size: 1.8rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 .welcome-sub {
   font-family: var(--font-body);
   font-style: italic;
-  font-size: 1rem;
+  font-size: 1.05rem;
   color: var(--text-soft);
 }
 
@@ -386,7 +439,7 @@ body::before {
   font-family: var(--font-body);
   font-size: 0.95rem;
   color: var(--text-muted);
-  max-width: 400px;
+  max-width: 420px;
   line-height: 1.7;
   margin-top: 8px;
 }
@@ -396,8 +449,8 @@ body::before {
   flex-wrap: wrap;
   gap: 8px;
   justify-content: center;
-  max-width: 480px;
-  margin-top: 8px;
+  max-width: 520px;
+  margin-top: 12px;
 }
 
 .suggestion {
@@ -415,18 +468,21 @@ body::before {
 .suggestion:hover {
   border-color: var(--sage);
   color: var(--text);
+  background: var(--sage-light);
+  transform: translateY(-1px);
 }
 
+/* Message bubbles */
 .message {
   display: flex;
   gap: 12px;
-  max-width: 75%;
-  animation: msgIn 0.3s ease;
+  max-width: 78%;
+  animation: msgIn 0.35s var(--ease-out);
 }
 
 @keyframes msgIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(10px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .message.user {
@@ -439,15 +495,15 @@ body::before {
 }
 
 .msg-avatar {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   flex-shrink: 0;
-  margin-top: 4px;
+  margin-top: 2px;
 }
 
 .message.assistant .msg-avatar {
@@ -457,20 +513,27 @@ body::before {
 
 .message.user .msg-avatar {
   background: var(--sand-light);
-  color: var(--text-soft);
+  color: var(--sand-dark);
+}
+
+.msg-content {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .msg-bubble {
-  padding: 12px 18px;
+  padding: 14px 18px;
   border-radius: var(--radius-lg);
   font-size: 0.95rem;
   line-height: 1.7;
+  word-wrap: break-word;
 }
 
 .message.assistant .msg-bubble {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-top-left-radius: 4px;
+  box-shadow: var(--shadow-sm);
 }
 
 .message.user .msg-bubble {
@@ -479,22 +542,11 @@ body::before {
   border-top-right-radius: 4px;
 }
 
-.msg-bubble p {
-  margin-bottom: 8px;
-}
-
-.msg-bubble p:last-child {
-  margin-bottom: 0;
-}
-
-.msg-bubble em {
-  font-style: italic;
-  color: inherit;
-}
-
-.msg-bubble strong {
-  font-weight: 600;
-}
+.msg-bubble p { margin-bottom: 8px; }
+.msg-bubble p:last-child { margin-bottom: 0; }
+.msg-bubble em { font-style: italic; }
+.msg-bubble strong { font-weight: 600; }
+.msg-bubble a { color: var(--sage-dark); }
 
 .msg-time {
   font-family: var(--font-ui);
@@ -504,26 +556,275 @@ body::before {
   padding: 0 4px;
 }
 
-.message.user .msg-time {
-  text-align: right;
+.message.user .msg-time { text-align: right; }
+
+/* ============================================================
+   GENERATIVE UI COMPONENTS
+   ============================================================ */
+
+/* Mood Chart Component */
+.gui-mood-chart {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 8px 0;
 }
 
-/* --- Typing --- */
+.gui-mood-chart .chart-title {
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.gui-mood-chart svg {
+  width: 100%;
+  height: 120px;
+}
+
+/* Breathing Exercise Component */
+.gui-breathing {
+  background: linear-gradient(135deg, var(--sage-light), var(--bg-elevated));
+  border: 1px solid var(--sage);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin: 8px 0;
+  text-align: center;
+}
+
+.gui-breathing .breath-title {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--sage-dark);
+  margin-bottom: 16px;
+}
+
+.gui-breathing .breath-circle {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--sage), var(--sage-light));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 1.5rem;
+  transition: transform 4s ease-in-out;
+  box-shadow: 0 0 0 8px rgba(125, 155, 138, 0.15);
+}
+
+.gui-breathing .breath-circle.inhale {
+  transform: scale(1.35);
+}
+
+.gui-breathing .breath-circle.exhale {
+  transform: scale(0.75);
+}
+
+.gui-breathing .breath-hint {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+}
+
+.gui-breathing .breath-controls {
+  margin-top: 16px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* Resource Card Component */
+.gui-resource {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin: 8px 0;
+  transition: border-color 0.2s;
+}
+
+.gui-resource:hover { border-color: var(--sage); }
+
+.gui-resource .res-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--sage-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: var(--sage-dark);
+  flex-shrink: 0;
+}
+
+.gui-resource .res-info { flex: 1; min-width: 0; }
+
+.gui-resource .res-name {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+
+.gui-resource .res-detail {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.gui-resource .res-action {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--text);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.gui-resource .res-action:hover { transform: scale(1.1); }
+
+/* Crisis Escalation Component */
+.gui-crisis {
+  background: var(--error-light);
+  border: 2px solid var(--error);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin: 8px 0;
+}
+
+.gui-crisis .crisis-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.gui-crisis .crisis-header i {
+  font-size: 1.3rem;
+  color: var(--error);
+}
+
+.gui-crisis .crisis-title {
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--error);
+}
+
+.gui-crisis .crisis-numbers {
+  display: grid;
+  gap: 8px;
+}
+
+.gui-crisis .crisis-number {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--text);
+  transition: background 0.2s;
+}
+
+.gui-crisis .crisis-number:hover { background: white; }
+
+.gui-crisis .crisis-number .num {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--error);
+}
+
+.gui-crisis .crisis-number .label {
+  font-family: var(--font-ui);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Assessment Scale Component */
+.gui-scale {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin: 8px 0;
+}
+
+.gui-scale .scale-title {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.gui-scale .scale-options {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.gui-scale .scale-option {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: var(--bg);
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.gui-scale .scale-option:hover {
+  border-color: var(--sage);
+  background: var(--sage-light);
+}
+
+.gui-scale .scale-option.selected {
+  background: var(--sage);
+  color: white;
+  border-color: var(--sage);
+}
+
+/* ============================================================
+   TYPING
+   ============================================================ */
 .typing {
   display: flex;
   gap: 12px;
   align-self: flex-start;
-  animation: msgIn 0.3s ease;
+  animation: msgIn 0.35s var(--ease-out);
 }
 
 .typing-dots {
-  padding: 14px 18px;
+  padding: 16px 20px;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   border-top-left-radius: 4px;
   display: flex;
   gap: 5px;
+  box-shadow: var(--shadow-sm);
 }
 
 .typing-dot {
@@ -542,7 +843,9 @@ body::before {
   30% { transform: translateY(-6px); opacity: 1; }
 }
 
-/* --- Input --- */
+/* ============================================================
+   INPUT
+   ============================================================ */
 .input-area {
   padding: 16px 24px 20px;
   background: var(--bg-card);
@@ -557,14 +860,15 @@ body::before {
   align-items: flex-end;
   gap: 8px;
   background: var(--bg);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
   padding: 6px;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .input-wrap:focus-within {
   border-color: var(--sage);
+  box-shadow: 0 0 0 3px rgba(125, 155, 138, 0.12);
 }
 
 .input-wrap textarea {
@@ -576,7 +880,7 @@ body::before {
   font-size: 0.95rem;
   color: var(--text);
   resize: none;
-  max-height: 120px;
+  max-height: 140px;
   min-height: 22px;
   line-height: 1.5;
   outline: none;
@@ -588,22 +892,22 @@ body::before {
 }
 
 .input-btn {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 1rem;
   flex-shrink: 0;
   transition: all 0.2s;
 }
 
 .voice-btn {
   background: var(--sage-light);
-  color: var(--sage);
+  color: var(--sage-dark);
 }
 
 .voice-btn:hover {
@@ -614,10 +918,10 @@ body::before {
 .voice-btn.listening {
   background: var(--error);
   color: white;
-  animation: pulse 1.5s infinite;
+  animation: pulse-mic 1.5s infinite;
 }
 
-@keyframes pulse {
+@keyframes pulse-mic {
   0% { box-shadow: 0 0 0 0 rgba(184, 92, 74, 0.4); }
   70% { box-shadow: 0 0 0 12px rgba(184, 92, 74, 0); }
 }
@@ -627,30 +931,26 @@ body::before {
   color: var(--bg);
 }
 
-.send-btn:hover:not(:disabled) {
-  opacity: 0.85;
-}
-
-.send-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
+.send-btn:hover:not(:disabled) { opacity: 0.85; }
+.send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
 .voice-status {
   text-align: center;
   font-family: var(--font-ui);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: var(--text-muted);
   min-height: 18px;
   margin-top: 6px;
 }
 
-/* --- Voice modal --- */
+/* ============================================================
+   VOICE MODAL
+   ============================================================ */
 .voice-modal {
   position: fixed;
   inset: 0;
-  background: rgba(245, 240, 232, 0.95);
-  backdrop-filter: blur(20px);
+  background: rgba(245, 240, 232, 0.92);
+  backdrop-filter: blur(24px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -666,18 +966,18 @@ body::before {
 .voice-card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 32px;
-  width: 420px;
+  border-radius: var(--radius-xl);
+  padding: 36px;
+  width: 440px;
   max-width: 90vw;
   text-align: center;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.08);
+  box-shadow: var(--shadow-lg);
 }
 
 .voice-visual {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 20px;
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 24px;
   border-radius: 50%;
   background: radial-gradient(circle, var(--sage-light), transparent 70%);
   display: flex;
@@ -687,7 +987,7 @@ body::before {
 }
 
 .voice-visual i {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   color: var(--sage);
   z-index: 1;
 }
@@ -711,8 +1011,8 @@ body::before {
 
 .voice-card h3 {
   font-family: var(--font-ui);
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.15rem;
+  font-weight: 700;
   margin-bottom: 4px;
 }
 
@@ -721,19 +1021,19 @@ body::before {
   font-style: italic;
   color: var(--text-soft);
   font-size: 0.85rem;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .voice-transcript {
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 14px;
-  min-height: 60px;
+  padding: 16px;
+  min-height: 70px;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 1rem;
   text-align: left;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   line-height: 1.6;
 }
 
@@ -744,49 +1044,44 @@ body::before {
 
 .voice-controls {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
 }
 
 .btn-secondary {
-  padding: 10px 20px;
+  padding: 10px 22px;
   background: var(--bg);
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-strong);
   border-radius: var(--radius);
   font-family: var(--font-ui);
   font-size: 0.85rem;
+  font-weight: 500;
   cursor: pointer;
   color: var(--text-soft);
   transition: all 0.2s;
 }
 
-.btn-secondary:hover {
-  border-color: var(--sage);
-  color: var(--text);
-}
+.btn-secondary:hover { border-color: var(--sage); color: var(--text); }
 
 .btn-primary {
-  padding: 10px 20px;
+  padding: 10px 22px;
   background: var(--text);
   border: none;
   border-radius: var(--radius);
   font-family: var(--font-ui);
   font-size: 0.85rem;
+  font-weight: 500;
   cursor: pointer;
   color: var(--bg);
   transition: opacity 0.2s;
 }
 
-.btn-primary:hover:not(:disabled) {
-  opacity: 0.85;
-}
+.btn-primary:hover:not(:disabled) { opacity: 0.85; }
+.btn-primary:disabled { opacity: 0.3; cursor: not-allowed; }
 
-.btn-primary:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
-}
-
-/* --- Mobile --- */
+/* ============================================================
+   MOBILE
+   ============================================================ */
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
@@ -795,36 +1090,16 @@ body::before {
     bottom: 0;
     transform: translateX(-100%);
     z-index: 200;
-    box-shadow: 4px 0 24px rgba(0,0,0,0.1);
+    box-shadow: 4px 0 24px rgba(44,40,37,0.1);
   }
 
-  .sidebar.open {
-    transform: translateX(0);
-  }
-
-  .menu-toggle {
-    display: flex;
-  }
-
-  .message {
-    max-width: 90%;
-  }
-
-  .messages {
-    padding: 16px;
-  }
-
-  .input-area {
-    padding: 12px 16px 16px;
-  }
-
-  .welcome-title {
-    font-size: 1.5rem;
-  }
-
-  .voice-card {
-    padding: 24px;
-  }
+  .sidebar.open { transform: translateX(0); }
+  .menu-toggle { display: flex; }
+  .message { max-width: 90%; }
+  .messages { padding: 16px; }
+  .input-area { padding: 12px 16px 16px; }
+  .welcome-title { font-size: 1.6rem; }
+  .voice-card { padding: 28px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -867,14 +1142,12 @@ body::before {
       </div>
 
       <div style="flex:1;">
-        <div class="sidebar-section" style="display:flex;justify-content:space-between;align-items:center;">
+        <div class="sidebar-section">
           <span>Amateka</span>
-          <button id="clearHistoryBtn" style="background:none;border:none;font-family:var(--font-ui);font-size:0.7rem;color:var(--text-muted);cursor:pointer;">Hanagura</button>
+          <button id="clearHistoryBtn" style="background:none;border:none;font-family:var(--font-ui);font-size:0.68rem;color:var(--text-muted);cursor:pointer;font-weight:500;">Hanagura</button>
         </div>
         <div class="history-list" id="historyList">
-          <div style="font-family:var(--font-ui);font-size:0.75rem;color:var(--text-muted);text-align:center;padding:20px;">
-            Nta mateka
-          </div>
+          <div style="font-family:var(--font-ui);font-size:0.75rem;color:var(--text-muted);text-align:center;padding:20px;">Nta mateka</div>
         </div>
       </div>
     </div>
@@ -963,24 +1236,22 @@ body::before {
 <script>
 // ============================================================
 // TYAZA v1 · Inzira y'Isanomutima
+// Generative UI · Streaming Components · Real Voice Stack
 // ============================================================
 
 const CONFIG = {
-  // DeepSeek API (OpenAI-compatible)
   deepseek: {
-    apiKey: 'YOUR_DEEPSEEK_API_KEY', // <-- replace
+    apiKey: 'YOUR_DEEPSEEK_API_KEY',
     baseUrl: 'https://api.deepseek.com',
-    model: 'deepseek-flash'
+    model: 'deepseek-v4.1-flash'
   },
-  // AltASR streaming endpoint (Python server)
   asr: {
-    endpoint: 'http://localhost:8001/stream', // <-- your AltASR server
+    endpoint: 'http://localhost:8001',
     language: 'rw',
     silenceMs: 800
   },
-  // KittenTTS endpoint (Python server)
   tts: {
-    endpoint: 'http://localhost:8002/generate', // <-- your KittenTTS server
+    endpoint: 'http://localhost:8002',
     voice: 'calm_female',
     emotion: 'calm'
   }
@@ -995,11 +1266,11 @@ const state = {
   isListening: false,
   voiceModalActive: false,
   transcript: '',
-  silenceTimer: null,
   recognition: null,
   streamRecognition: null,
-  useDeepSeek: true,
-  conversationHistory: []
+  conversationHistory: [],
+  currentMood: null,
+  moodData: []
 };
 
 // ---- Storage ----
@@ -1011,135 +1282,322 @@ function storageSet(key, val) {
   try { localStorage.setItem('tyaza_v1_' + key, JSON.stringify(val)); } catch {}
 }
 
-// ---- UI helpers ----
+// ---- Toast ----
 function showToast(msg) {
-  // Simple inline notification
   const el = document.createElement('div');
-  el.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:8px;font-family:var(--font-ui);font-size:0.8rem;z-index:999;animation:msgIn 0.3s ease;';
+  el.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:8px;font-family:var(--font-ui);font-size:0.8rem;font-weight:500;z-index:999;animation:msgIn 0.3s ease;box-shadow:var(--shadow-lg);';
   el.textContent = msg;
   document.body.appendChild(el);
   setTimeout(() => el.remove(), 2500);
 }
 
-function scrollToBottom() {
-  const m = document.getElementById('messages');
-  if (m) m.scrollTop = m.scrollHeight;
+// ============================================================
+// GENERATIVE UI — Component Registry
+// ============================================================
+
+const ComponentRegistry = {
+  text: (data) => {
+    return `<div class="gui-text">${parseMarkdown(data.content || '')}</div>`;
+  },
+
+  mood_chart: (data) => {
+    const scores = data.scores || [3, 2, 4, 3, 5, 4, 3];
+    const labels = data.labels || ['Ku', 'Ma', 'We', 'Ku', 'Ke', 'Sa', 'Ku'];
+    const w = 100, h = 100, pad = 10;
+    const stepX = (w - pad * 2) / (scores.length - 1);
+    const points = scores.map((s, i) => {
+      const x = pad + i * stepX;
+      const y = h - pad - ((s - 1) / 4) * (h - pad * 2);
+      return `${x},${y}`;
+    }).join(' ');
+
+    return `
+      <div class="gui-mood-chart">
+        <div class="chart-title">📊 Imimerere y'icyumweru</div>
+        <svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none">
+          <polyline points="${points}" fill="none" stroke="var(--sage)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          ${scores.map((s, i) => {
+            const x = pad + i * stepX;
+            const y = h - pad - ((s - 1) / 4) * (h - pad * 2);
+            return `<circle cx="${x}" cy="${y}" r="3" fill="var(--sage)"/>`;
+          }).join('')}
+        </svg>
+        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+          ${labels.map(l => `<span style="font-family:var(--font-ui);font-size:0.65rem;color:var(--text-muted);">${l}</span>`).join('')}
+        </div>
+      </div>
+    `;
+  },
+
+  breathing_exercise: (data) => {
+    const inhale = data.inhale || 4;
+    const hold = data.hold || 4;
+    const exhale = data.exhale || 6;
+    const id = 'breath-' + Date.now();
+    return `
+      <div class="gui-breathing" id="${id}">
+        <div class="breath-title">🌿 Reka duhumeke kanya</div>
+        <div class="breath-circle" id="${id}-circle">HUMURA</div>
+        <div class="breath-hint">${inhale}s winjiza · ${hold}s ufata · ${exhale}s usohora</div>
+        <div class="breath-controls">
+          <button class="btn-secondary" onclick="startBreathing('${id}', ${inhale}, ${hold}, ${exhale})" style="font-size:0.8rem;padding:8px 18px;">Tangira</button>
+        </div>
+      </div>
+    `;
+  },
+
+  resource_card: (data) => {
+    const items = data.items || [];
+    return items.map(item => `
+      <div class="gui-resource">
+        <div class="res-icon">${item.icon || '📞'}</div>
+        <div class="res-info">
+          <div class="res-name">${item.name || 'Ubufasha'}</div>
+          <div class="res-detail">${item.detail || ''}</div>
+        </div>
+        ${item.phone ? `<a href="tel:${item.phone}" class="res-action"><i class="fas fa-phone-alt"></i></a>` : ''}
+      </div>
+    `).join('');
+  },
+
+  crisis_escalation: (data) => {
+    return `
+      <div class="gui-crisis">
+        <div class="crisis-header">
+          <i class="fas fa-exclamation-triangle"></i>
+          <div class="crisis-title">Ukeneye ubufasha bwihutirwa</div>
+        </div>
+        <div class="crisis-numbers">
+          <a href="tel:116" class="crisis-number">
+            <span class="num">116</span>
+            <span class="label">Imitari y'inkunga · 24/7</span>
+          </a>
+          <a href="tel:3029" class="crisis-number">
+            <span class="num">3029</span>
+            <span class="label">Isange One Stop</span>
+          </a>
+          <a href="tel:112" class="crisis-number">
+            <span class="num">112</span>
+            <span class="label">Polisi · Umutekano</span>
+          </a>
+        </div>
+      </div>
+    `;
+  },
+
+  assessment_scale: (data) => {
+    const options = data.options || ['1', '2', '3', '4', '5'];
+    const id = 'scale-' + Date.now();
+    return `
+      <div class="gui-scale" id="${id}">
+        <div class="scale-title">${data.question || 'Ubu wumva ute?'}</div>
+        <div class="scale-options">
+          ${options.map(o => `
+            <button class="scale-option" onclick="selectScale('${id}', this, '${o}')">${o}</button>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+};
+
+// ---- Breathing Controller ----
+function startBreathing(id, inhale, hold, exhale) {
+  const circle = document.getElementById(id + '-circle');
+  if (!circle) return;
+
+  let phase = 'inhale';
+  let count = inhale;
+
+  function tick() {
+    if (phase === 'inhale') {
+      circle.textContent = count + 's';
+      circle.classList.add('inhale');
+      circle.classList.remove('exhale');
+      count--;
+      if (count < 0) { phase = 'hold'; count = hold; circle.textContent = 'FATA'; }
+    } else if (phase === 'hold') {
+      circle.textContent = count + 's';
+      count--;
+      if (count < 0) { phase = 'exhale'; count = exhale; circle.classList.remove('inhale'); circle.classList.add('exhale'); }
+    } else {
+      circle.textContent = count + 's';
+      count--;
+      if (count < 0) {
+        phase = 'inhale';
+        count = inhale;
+        circle.classList.remove('exhale');
+      }
+    }
+    setTimeout(tick, 1000);
+  }
+  tick();
 }
 
-function formatTime() {
-  return new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
+// ---- Scale Selection ----
+function selectScale(id, btn, value) {
+  const container = document.getElementById(id);
+  if (!container) return;
+  container.querySelectorAll('.scale-option').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  state.currentMood = parseInt(value);
+  showToast('Byabitswe: ' + value + '/5');
 }
 
 // ============================================================
-// RESPONSE GENERATION — Conversational, not bullet-list
+// RESPONSE PARSER — JSON parts → Components
+// ============================================================
+
+function renderParts(parts) {
+  if (!Array.isArray(parts)) return '';
+  return parts.map(part => {
+    const renderer = ComponentRegistry[part.type];
+    if (renderer) {
+      return renderer(part.data || {});
+    }
+    return `<div class="gui-text">${parseMarkdown(part.content || '')}</div>`;
+  }).join('');
+}
+
+// ============================================================
+// MARKDOWN PARSER (lightweight)
+// ============================================================
+
+function parseMarkdown(text) {
+  if (!text) return '';
+  let html = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  html = html.replace(/\n\n/g, '</p><p>');
+  html = html.replace(/\n/g, '<br>');
+  return `<p>${html}</p>`;
+}
+
+// ============================================================
+// INTENT DETECTION
 // ============================================================
 
 function detectIntent(text) {
   const lower = text.toLowerCase();
-  
   if (/kwiyahura|gupfa|kwiyica|nzishora|nta mpamvu yo kubaho|suicide|kill myself/i.test(lower))
     return { type: 'crisis' };
-  
   if (/jenoside|1994|guhigwa|babambuye|genocide/i.test(lower))
     return { type: 'genocide' };
-  
   if (/ndababaye|agahinda|mbabaye|ndumva nabi|sad|depressed/i.test(lower))
     return { type: 'sadness' };
-  
   if (/ndishimye|ibyishimo|ndanezerewe|happy|joy/i.test(lower))
     return { type: 'joy' };
-  
   if (/ndarakaye|uburakari|umujinya|angry/i.test(lower))
     return { type: 'anger' };
-  
   if (/ubwoba|guhangayika|ndatinya|anxious|scared/i.test(lower))
     return { type: 'anxiety' };
-  
   if (/ndi njyenyine|wenyine|lonely|alone/i.test(lower))
     return { type: 'loneliness' };
-  
   if (/ndushye|ndarambiwe|naniwe|tired|exhausted/i.test(lower))
     return { type: 'fatigue' };
-  
   const nameMatch = text.match(/(?:nitwa|ndi|my name is|i am|i'm)\s+([A-Za-zÀ-ÿ]{2,20})/i);
   if (nameMatch && !/ndababaye|ndishimye|ndarakaye|ndushye/i.test(nameMatch[1]))
     return { type: 'name', name: nameMatch[1] };
-  
   if (/muraho|hello|hi|mwaramutse|amakuru/i.test(lower))
     return { type: 'greeting' };
-  
   return { type: 'neutral' };
 }
 
-// Conversational response — short acknowledgment, naming, open question
-function generateLocalResponse(text) {
+// ============================================================
+// LOCAL RESPONSE GENERATOR (fallback, with component parts)
+// ============================================================
+
+function generateLocalParts(text) {
   const intent = detectIntent(text);
   const name = state.userName ? `${state.userName}, ` : '';
-  
+
   const responses = {
     crisis: {
-      text: `⚠️ Ibyo wavuze ni ibintu bikomeye. Ntabwo ndi kugusuzugura.\n\nNiba uri mu kaga, hamagara **116** (imitari y'inkunga) cyangwa **112** (polisi).\n\nNdi hano, ariko ubufasha bw'umuntu w'umubiri ni bwo bukomeye kuruta.`,
-      crisis: true
+      parts: [
+        { type: 'crisis_escalation', data: {} },
+        { type: 'text', data: { content: `${name}Ibyo wavuze ni ibintu bikomeye. Ntabwo ndi kugusuzugura.\n\nNiba uri mu kaga, hamagara **116** cyangwa **112** ubu.` } }
+      ]
     },
     genocide: {
-      text: `🕊️ Ibyo wavuze birahumbya. Jenoside yasize ibikomere byinshi.\n\nNta muntu ugomba kwihanganira ibyo wenyine. Hamagara **116** cyangwa vugana n'umuntu wizeye.\n\nWifuza kumbwira byinshi?`
+      parts: [
+        { type: 'text', data: { content: `🕊️ Ibyo wavuze birahumbya. Jenoside yasize ibikomere byinshi.\n\nNta muntu ugomba kwihanganira ibyo wenyine.` } },
+        { type: 'resource_card', data: { items: [
+          { icon: '📞', name: 'Imitari y\'inkunga', detail: '24/7 · abahangayikishijwe na jenoside', phone: '116' },
+          { icon: '🏥', name: 'Isange One Stop', detail: 'Ubufasha ku bahohotewe', phone: '3029' }
+        ] } }
+      ]
     },
     sadness: {
-      text: `${name}Ndumva agahinda mu magambo yawe. Ntabwo ari byoroshye.\n\nAgahinda ni ikimenyetso cy'uko ukomeye, ariko ntugomba kukihanganira wenyine.\n\nNi iki kiri ku mutima wawe ubu?`
+      parts: [
+        { type: 'text', data: { content: `${name}Ndumva agahinda mu magambo yawe. Ntabwo ari byoroshye.\n\nAgahinda ni ikimenyetso cy'uko ukomeye, ariko ntugomba kukihanganira wenyine.\n\nNi iki kiri ku mutima wawe ubu?` } },
+        { type: 'breathing_exercise', data: { inhale: 4, hold: 4, exhale: 6 } }
+      ]
     },
     joy: {
-      text: `${name}Nishimira kumva ko wishimye. Ni byiza kugira ibihe byiza.\n\nNi iki cyaguteye ibyishimo uyu munsi?`
+      parts: [
+        { type: 'text', data: { content: `${name}Nishimira kumva ko wishimye. Ni byiza kugira ibihe byiza.\n\nNi iki cyaguteye ibyishimo uyu munsi?` } }
+      ]
     },
     anger: {
-      text: `${name}Ndumva uburakari mu magambo yawe. Ni ibisanzwe.\n\nUburakari bushobora kuba ikimenyetso cy'ikintu kitagenda neza.\n\nNi iki cyaguteye umujinya?`
+      parts: [
+        { type: 'text', data: { content: `${name}Ndumva uburakari mu magambo yawe. Ni ibisanzwe.\n\nUburakari bushobora kuba ikimenyetso cy'ikintu kitagenda neza.\n\nNi iki cyaguteye umujinya?` } }
+      ]
     },
     anxiety: {
-      text: `${name}Ndumva ubwoba. Gutekereza kuri ejo hashobora gutera impagarara.\n\nReka duhumeke kanya. Ndi hano.\n\nNi iki kiguteye ubwoba ubu?`
+      parts: [
+        { type: 'text', data: { content: `${name}Ndumva ubwoba. Gutekereza kuri ejo hashobora gutera impagarara.\n\nReka duhumeke kanya. Ndi hano.\n\nNi iki kiguteye ubwoba ubu?` } },
+        { type: 'breathing_exercise', data: { inhale: 4, hold: 7, exhale: 8 } }
+      ]
     },
     loneliness: {
-      text: `${name}Kumva uri wenyine biraremereye. Ntabwo ari byiza.\n\nNdi hano ngo nkumve. Ntabwo ndi umuntu w'umubiri, ariko ndumva.\n\nWifuza kuvuga ku byo wumva?`
+      parts: [
+        { type: 'text', data: { content: `${name}Kumva uri wenyine biraremereye. Ntabwo ari byiza.\n\nNdi hano ngo nkumve. Ntabwo ndi umuntu w'umubiri, ariko ndumva.\n\nWifuza kuvuga ku byo wumva?` } }
+      ]
     },
     fatigue: {
-      text: `${name}Ndumva umunaniro. Birashoboka ko ukeneye kuruhuka.\n\nNtugomba gukora byose ubu.\n\nNi iki cyaguteye kurambirwa?`
+      parts: [
+        { type: 'text', data: { content: `${name}Ndumva umunaniro. Birashoboka ko ukeneye kuruhuka.\n\nNtugomba gukora byose ubu.\n\nNi iki cyaguteye kurambirwa?` } }
+      ]
     },
     greeting: {
-      text: `${name}Muraho. Ndi TYAZA.\n\nNdi hano kugira ngo nkumve. Nta gahato.\n\nUbu wumva ute?`
+      parts: [
+        { type: 'text', data: { content: `${name}Muraho. Ndi TYAZA.\n\nNdi hano kugira ngo nkumve. Nta gahato.\n\nUbu wumva ute?` } }
+      ]
     },
     name: {
-      text: `✨ Murakaza neza, ${intent.name}.\n\nNdi TYAZA, inzira y'isanomutima. Ndi hano kugira ngo nkumve.\n\nUbu wumva ute?`,
-      name: intent.name
+      parts: [
+        { type: 'text', data: { content: `✨ Murakaza neza, ${intent.name}.\n\nNdi TYAZA, inzira y'isanomutima. Ndi hano kugira ngo nkumve.\n\nUbu wumva ute?` } }
+      ]
     },
     neutral: {
-      text: `${name}Ndumva ibyo uvuga.\n\nNdi hano ngo nkumve. Ntukekeranye kuvuga ibiri ku mutima wawe.\n\nNi iki wifuza kuvuga?`
+      parts: [
+        { type: 'text', data: { content: `${name}Ndumva ibyo uvuga.\n\nNdi hano ngo nkumve. Ntukekeranye kuvuga ibiri ku mutima wawe.\n\nNi iki wifuza kuvuga?` } }
+      ]
     }
   };
-  
+
   const r = responses[intent.type] || responses.neutral;
-  
-  if (r.crisis) {
-    setTimeout(() => {
-      document.getElementById('voiceStatus').textContent = '⚠️ Hamagara 116 niba uri mu kaga';
-    }, 500);
+
+  if (intent.type === 'name') {
+    state.userName = intent.name;
+    storageSet('userName', intent.name);
   }
-  
-  if (r.name) {
-    state.userName = r.name;
-    storageSet('userName', r.name);
-  }
-  
-  return r.text;
+
+  return r.parts;
 }
 
 // ============================================================
-// DEEPSEEK API (OpenAI-compatible)
+// DEEPSEEK API — Returns JSON parts
 // ============================================================
 
 async function callDeepSeek(userMessage) {
   if (!CONFIG.deepseek.apiKey || CONFIG.deepseek.apiKey === 'YOUR_DEEPSEEK_API_KEY') {
-    console.warn('DeepSeek API key not set, using local response');
     return null;
   }
-  
+
   const systemPrompt = `Uri TYAZA, inzira y'isanomutima. Ukora muri KIVURA LABS mu Rwanda.
 
 AMABWIRIZA:
@@ -1149,6 +1607,19 @@ AMABWIRIZA:
 - Koresha imigani y'ikinyarwanda ijyanye n'ikiganiro.
 - Ntutange inama z'ubuvuzi. Yobora umuntu ku bafasha.
 - Niba umukoresha avuga ibyo kwiyahura, subiza uhereye ku bufasha bwihutirwa.
+
+SUBIZA MU JSON:
+{
+  "parts": [
+    { "type": "text", "data": { "content": "..." } },
+    { "type": "breathing_exercise", "data": { "inhale": 4, "hold": 7, "exhale": 8 } },
+    { "type": "resource_card", "data": { "items": [{ "icon": "📞", "name": "...", "detail": "...", "phone": "116" }] } },
+    { "type": "crisis_escalation", "data": {} },
+    { "type": "assessment_scale", "data": { "question": "...", "options": ["1","2","3","4","5"] } }
+  ]
+}
+
+Koresha gusa types: text, breathing_exercise, resource_card, crisis_escalation, assessment_scale, mood_chart.
 ${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}`;
 
   try {
@@ -1162,19 +1633,32 @@ ${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}`;
         model: CONFIG.deepseek.model,
         messages: [
           { role: 'system', content: systemPrompt },
-          ...state.conversationHistory.slice(-6),
+          ...state.conversationHistory.slice(-4),
           { role: 'user', content: userMessage }
         ],
         stream: false,
         temperature: 0.8,
-        max_tokens: 400
+        max_tokens: 500,
+        response_format: { type: 'json_object' }
       })
     });
-    
+
     if (!res.ok) throw new Error(`DeepSeek error: ${res.status}`);
-    
+
     const data = await res.json();
-    return data.choices?.[0]?.message?.content || null;
+    const content = data.choices?.[0]?.message?.content;
+    if (!content) return null;
+
+    try {
+      const parsed = JSON.parse(content);
+      if (parsed.parts && Array.isArray(parsed.parts)) {
+        return parsed.parts;
+      }
+    } catch (e) {
+      // Fallback: treat as text
+      return [{ type: 'text', data: { content } }];
+    }
+    return null;
   } catch (e) {
     console.error('DeepSeek call failed:', e);
     return null;
@@ -1185,44 +1669,41 @@ ${state.userName ? `Izina ry'umukoresha ni ${state.userName}.` : ''}`;
 // ALTASR STREAMING (with webkit fallback)
 // ============================================================
 
-async function startAltASR() {
-  // Try AltASR streaming endpoint first
+async function startASR() {
+  // Try AltASR server first
   try {
-    const res = await fetch(CONFIG.asr.endpoint.replace('/stream', '/health'), { method: 'GET' });
-    if (res.ok) {
-      // AltASR server is running — use WebSocket streaming
+    const health = await fetch(CONFIG.asr.endpoint + '/health', { method: 'GET', signal: AbortSignal.timeout(2000) });
+    if (health.ok) {
       return startWebSocketASR();
     }
   } catch (e) {
     // AltASR not available
   }
-  
-  // Fallback to webkitSpeechRecognition
   return startWebkitASR();
 }
 
 function startWebSocketASR() {
-  // AltASR streaming via WebSocket
-  // The Python server should accept audio chunks and return transcripts
   return new Promise((resolve, reject) => {
-    const ws = new WebSocket(CONFIG.asr.endpoint.replace('http', 'ws'));
-    
+    const ws = new WebSocket(CONFIG.asr.endpoint.replace('http', 'ws') + '/stream');
+
     ws.onopen = () => {
       state.streamRecognition = ws;
-      resolve({ type: 'altasr', ws });
+      resolve({ type: 'altasr' });
     };
-    
+
     ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.text) {
-        updateTranscript(data.text, data.is_final);
-        if (data.is_final) {
-          state.transcript = data.text;
-          document.getElementById('voiceSend').disabled = false;
+      try {
+        const data = JSON.parse(event.data);
+        if (data.text) {
+          updateTranscript(data.text, !data.is_final);
+          if (data.is_final) {
+            state.transcript = data.text;
+            document.getElementById('voiceSend').disabled = false;
+          }
         }
-      }
+      } catch (e) {}
     };
-    
+
     ws.onerror = () => {
       ws.close();
       reject(new Error('WebSocket failed'));
@@ -1234,12 +1715,12 @@ function startWebkitASR() {
   return new Promise((resolve, reject) => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SR) return reject(new Error('No speech recognition'));
-    
+
     const recognition = new SR();
     recognition.lang = 'rw-RW';
     recognition.continuous = true;
     recognition.interimResults = true;
-    
+
     recognition.onresult = (e) => {
       let final = '';
       let interim = '';
@@ -1255,15 +1736,14 @@ function startWebkitASR() {
         updateTranscript(interim, true);
       }
     };
-    
-    recognition.onerror = (e) => {
-      console.error('Speech error:', e);
+
+    recognition.onerror = () => {
       updateTranscript('Mikorofoni yanze. Andika mu buryo busanzwe.', false);
     };
-    
+
     recognition.start();
     state.recognition = recognition;
-    resolve({ type: 'webkit', recognition });
+    resolve({ type: 'webkit' });
   });
 }
 
@@ -1275,38 +1755,38 @@ function updateTranscript(text, interim) {
 
 function stopASR() {
   if (state.streamRecognition) {
-    try { state.streamRecognition.close(); } catch {}
+    try { state.streamRecognition.close(); } catch (e) {}
     state.streamRecognition = null;
   }
   if (state.recognition) {
-    try { state.recognition.stop(); } catch {}
+    try { state.recognition.stop(); } catch (e) {}
     state.recognition = null;
   }
 }
 
 // ============================================================
-// KITTENTTS 2 (with browser fallback)
+// KITTENTTS (with browser fallback)
 // ============================================================
 
 async function speakWithKitten(text, emotion = 'calm') {
   try {
-    const res = await fetch(CONFIG.tts.endpoint, {
+    const res = await fetch(CONFIG.tts.endpoint + '/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         text: `[${emotion}] ${text}`,
         voice: CONFIG.tts.voice,
         preset: 'expressive'
-      })
+      }),
+      signal: AbortSignal.timeout(5000)
     });
-    
+
     if (!res.ok) throw new Error('TTS failed');
-    
+
     const blob = await res.blob();
     const audio = new Audio(URL.createObjectURL(blob));
     audio.play();
   } catch (e) {
-    // Fallback to browser speechSynthesis
     fallbackTTS(text);
   }
 }
@@ -1323,48 +1803,98 @@ function fallbackTTS(text) {
 }
 
 // ============================================================
-// UI ACTIONS
+// MESSAGE RENDERING
 // ============================================================
 
-function addMessage(role, content) {
+function addMessage(role, parts) {
   const welcome = document.getElementById('welcome');
   if (welcome) welcome.style.display = 'none';
-  
+
   const messages = document.getElementById('messages');
   const msg = document.createElement('div');
   msg.className = `message ${role}`;
-  
+
   const avatar = role === 'user' ? '👤' : '🧠';
-  const html = parseMarkdown(content);
-  
+  const html = renderParts(parts);
+
   msg.innerHTML = `
     <div class="msg-avatar">${avatar}</div>
-    <div>
+    <div class="msg-content">
       <div class="msg-bubble">${html}</div>
       <div class="msg-time">${formatTime()}</div>
     </div>
   `;
-  
+
   messages.appendChild(msg);
   scrollToBottom();
-  
-  state.messages.push({ role, content, timestamp: Date.now() });
+
+  state.messages.push({ role, parts, timestamp: Date.now() });
 }
 
-function parseMarkdown(text) {
-  if (!text) return '';
-  let html = text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
-  
-  html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
-  html = html.replace(/\n\n/g, '</p><p>');
-  html = html.replace(/\n/g, '<br>');
-  html = `<p>${html}</p>`;
-  
-  return html;
+function streamParts(parts) {
+  return new Promise((resolve) => {
+    const messages = document.getElementById('messages');
+    const msg = document.createElement('div');
+    msg.className = 'message assistant';
+    msg.innerHTML = `
+      <div class="msg-avatar">🧠</div>
+      <div class="msg-content">
+        <div class="msg-bubble"></div>
+        <div class="msg-time">${formatTime()}</div>
+      </div>
+    `;
+    messages.appendChild(msg);
+
+    const bubble = msg.querySelector('.msg-bubble');
+    let currentPart = 0;
+    let currentText = '';
+    let charIndex = 0;
+
+    const textParts = parts.filter(p => p.type === 'text' || p.type === 'mood_chart' || p.type === 'breathing_exercise' || p.type === 'resource_card' || p.type === 'crisis_escalation' || p.type === 'assessment_scale');
+
+    function renderNext() {
+      if (currentPart >= parts.length) {
+        bubble.innerHTML = renderParts(parts);
+        scrollToBottom();
+        resolve();
+        return;
+      }
+
+      const part = parts[currentPart];
+
+      if (part.type === 'text' && part.data?.content) {
+        const content = part.data.content;
+        if (charIndex === 0) {
+          bubble.innerHTML += `<div class="gui-text" id="streaming-${currentPart}"></div>`;
+        }
+        const el = document.getElementById(`streaming-${currentPart}`);
+        if (el) {
+          charIndex += 3;
+          const html = parseMarkdown(content.substring(0, Math.min(charIndex, content.length)));
+          el.innerHTML = html + (charIndex < content.length ? '<span style="opacity:0.4;">|</span>' : '');
+        }
+        scrollToBottom();
+
+        if (charIndex < content.length) {
+          setTimeout(renderNext, 12);
+        } else {
+          currentPart++;
+          charIndex = 0;
+          setTimeout(renderNext, 50);
+        }
+      } else {
+        // Non-text component: render immediately
+        const componentHtml = ComponentRegistry[part.type]?.(part.data || {}) || '';
+        bubble.innerHTML += componentHtml;
+        scrollToBottom();
+        currentPart++;
+        setTimeout(renderNext, 150);
+      }
+    }
+
+    renderNext();
+    state.messages.push({ role: 'assistant', parts, timestamp: Date.now() });
+  });
 }
 
 function showTyping() {
@@ -1389,40 +1919,13 @@ function removeTyping() {
   if (el) el.remove();
 }
 
-function streamResponse(text) {
-  return new Promise((resolve) => {
-    const messages = document.getElementById('messages');
-    const msg = document.createElement('div');
-    msg.className = 'message assistant';
-    msg.innerHTML = `
-      <div class="msg-avatar">🧠</div>
-      <div>
-        <div class="msg-bubble"></div>
-        <div class="msg-time">${formatTime()}</div>
-      </div>
-    `;
-    messages.appendChild(msg);
-    
-    const bubble = msg.querySelector('.msg-bubble');
-    const html = parseMarkdown(text);
-    let i = 0;
-    
-    function addChunk() {
-      if (i >= html.length) {
-        bubble.innerHTML = html;
-        scrollToBottom();
-        resolve();
-        return;
-      }
-      i += 4;
-      bubble.innerHTML = html.substring(0, Math.min(i, html.length)) + '<span style="opacity:0.5;">|</span>';
-      scrollToBottom();
-      setTimeout(addChunk, 12);
-    }
-    addChunk();
-    
-    state.messages.push({ role: 'assistant', content: text, timestamp: Date.now() });
-  });
+function scrollToBottom() {
+  const m = document.getElementById('messages');
+  if (m) m.scrollTop = m.scrollHeight;
+}
+
+function formatTime() {
+  return new Date().toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
 }
 
 // ============================================================
@@ -1431,48 +1934,55 @@ function streamResponse(text) {
 
 async function sendMessage() {
   if (state.isGenerating) return;
-  
+
   const input = document.getElementById('messageInput');
   const text = input.value.trim();
   if (!text) return;
-  
+
   input.value = '';
   input.style.height = 'auto';
   document.getElementById('sendBtn').disabled = true;
   state.isGenerating = true;
-  
-  addMessage('user', text);
+
+  addMessage('user', [{ type: 'text', data: { content: text } }]);
   state.conversationHistory.push({ role: 'user', content: text });
-  
+
   showTyping();
   document.getElementById('statusText').textContent = 'Ndi gutekereza...';
-  
-  let response = null;
-  
-  // Try DeepSeek first
-  if (state.useDeepSeek) {
-    response = await callDeepSeek(text);
+
+  let parts = null;
+
+  // Try DeepSeek
+  try {
+    parts = await callDeepSeek(text);
+  } catch (e) {
+    console.warn('DeepSeek failed:', e);
   }
-  
+
   // Fallback to local
-  if (!response) {
-    response = generateLocalResponse(text);
+  if (!parts) {
+    parts = generateLocalParts(text);
   }
-  
+
   removeTyping();
-  
-  await streamResponse(response);
-  
-  state.conversationHistory.push({ role: 'assistant', content: response });
-  
-  // Speak the response
-  speakWithKitten(response.replace(/\*\*/g, ''));
-  
+  await streamParts(parts);
+
+  // Extract text for TTS
+  const textForTTS = parts
+    .filter(p => p.type === 'text')
+    .map(p => p.data?.content || '')
+    .join(' ')
+    .replace(/\*\*/g, '');
+
+  if (textForTTS) {
+    speakWithKitten(textForTTS, detectIntent(text).type === 'sadness' ? 'calm' : 'neutral');
+  }
+
   state.isGenerating = false;
   document.getElementById('sendBtn').disabled = false;
   document.getElementById('statusText').textContent = 'Ndi hano';
   input.focus();
-  
+
   saveConversation();
 }
 
@@ -1484,14 +1994,14 @@ async function openVoiceModal() {
   if (state.voiceModalActive) return;
   state.voiceModalActive = true;
   state.transcript = '';
-  
+
   const modal = document.getElementById('voiceModal');
   modal.style.display = 'flex';
   document.getElementById('voiceSend').disabled = true;
   updateTranscript('Reka nkumve...', true);
-  
+
   try {
-    await startAltASR();
+    await startASR();
   } catch (e) {
     updateTranscript('Mikorofoni ntishoboka. Andika mu buryo busanzwe.', false);
   }
@@ -1521,7 +2031,7 @@ function saveConversation() {
   const existing = convs.findIndex(c => c.id === state.currentId);
   const conv = {
     id: state.currentId,
-    title: state.messages[0]?.content?.slice(0, 40) || 'Ikiganiro',
+    title: state.messages[0]?.parts?.[0]?.data?.content?.slice(0, 40) || 'Ikiganiro',
     messages: state.messages.slice(-50),
     timestamp: Date.now(),
     userName: state.userName
@@ -1536,12 +2046,12 @@ function renderHistory() {
   const convs = storageGet('conversations', []);
   const list = document.getElementById('historyList');
   if (!list) return;
-  
+
   if (convs.length === 0) {
     list.innerHTML = '<div style="font-family:var(--font-ui);font-size:0.75rem;color:var(--text-muted);text-align:center;padding:20px;">Nta mateka</div>';
     return;
   }
-  
+
   list.innerHTML = convs
     .sort((a, b) => b.timestamp - a.timestamp)
     .slice(0, 20)
@@ -1551,7 +2061,7 @@ function renderHistory() {
         <div class="meta">${new Date(c.timestamp).toLocaleDateString('rw-RW')}</div>
       </div>
     `).join('');
-  
+
   list.querySelectorAll('.history-item').forEach(el => {
     el.addEventListener('click', () => loadChat(el.dataset.id));
   });
@@ -1561,18 +2071,18 @@ function loadChat(id) {
   const convs = storageGet('conversations', []);
   const chat = convs.find(c => c.id === id);
   if (!chat) return;
-  
+
   state.currentId = chat.id;
   state.messages = chat.messages || [];
   state.userName = chat.userName || state.userName;
-  
+
   const messages = document.getElementById('messages');
   messages.innerHTML = '';
-  
+
   chat.messages.forEach(msg => {
-    addMessage(msg.role, msg.content);
+    addMessage(msg.role, msg.parts || [{ type: 'text', data: { content: msg.content || '' } }]);
   });
-  
+
   document.getElementById('welcome').style.display = 'none';
   closeSidebar();
 }
@@ -1587,7 +2097,7 @@ function newChat() {
   state.messages = [];
   state.conversationHistory = [];
   state.currentId = 'chat_' + Date.now();
-  
+
   const messages = document.getElementById('messages');
   messages.innerHTML = `
     <div class="welcome" id="welcome">
@@ -1603,7 +2113,7 @@ function newChat() {
       </div>
     </div>
   `;
-  
+
   bindSuggestions();
   closeSidebar();
   document.getElementById('messageInput').focus();
@@ -1637,26 +2147,24 @@ function bindSuggestions() {
 
 function init() {
   state.userName = storageGet('userName', null);
-  
-  // Bind events
+
   const input = document.getElementById('messageInput');
   const sendBtn = document.getElementById('sendBtn');
-  
+
   input.addEventListener('input', () => {
     sendBtn.disabled = !input.value.trim();
     input.style.height = 'auto';
-    input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+    input.style.height = Math.min(input.scrollHeight, 140) + 'px';
   });
-  
+
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       if (!sendBtn.disabled) sendMessage();
     }
   });
-  
+
   sendBtn.addEventListener('click', sendMessage);
-  
   document.getElementById('voiceBtn').addEventListener('click', openVoiceModal);
   document.getElementById('voiceCancel').addEventListener('click', closeVoiceModal);
   document.getElementById('voiceSend').addEventListener('click', sendVoiceInput);
@@ -1680,23 +2188,25 @@ function init() {
     a.download = `tyaza-${new Date().toISOString().slice(0,10)}.json`;
     a.click();
   });
-  
+
   document.querySelectorAll('.mood-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const moods = storageGet('moods', []);
-      moods.push({ mood: parseInt(btn.dataset.mood), timestamp: Date.now() });
-      storageSet('moods', moods.slice(-100));
+      document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      state.currentMood = parseInt(btn.dataset.mood);
+      state.moodData.push({ mood: state.currentMood, timestamp: Date.now() });
+      storageSet('moods', state.moodData.slice(-100));
       showToast('Uko wumva byabitswe');
     });
   });
-  
+
   bindSuggestions();
   renderHistory();
-  
+
   if (state.userName) {
     showToast(`Murakaza neza, ${state.userName}`);
   }
-  
+
   input.focus();
 }
 
