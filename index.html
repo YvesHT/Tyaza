@@ -4,22 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#F5F0E8">
-<meta name="description" content="TYAZA — Inzira y'Isanomutima. AI ifasha mu buzima bwo mu mutwe mu Kinyarwanda.">
+<meta name="description" content="TYAZA — Inzira y'Isanamutima. AI ifasha mu buzima bwo mu mutwe mu Kinyarwanda.">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="format-detection" content="telephone=no">
-<title>TYAZA · Inzira y'Isanomutima</title>
+<title>TYAZA · Inzira y'Isanamutima</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 <style>
 /* ============================================================
-   TYAZA v1 · Inzira y'Isanomutima
+   TYAZA v1 · Inzira y'Isanamutima
    Design tokens — warm earth palette
    ============================================================ */
 :root {
-  /* Warm sand ramp */
   --sand-50:  #FAF7F1;
   --sand-100: #F2EBDE;
   --sand-200: #E8DFD0;
@@ -31,7 +30,6 @@
   --sand-800: #5A4A36;
   --sand-900: #3D3226;
 
-  /* Sage green ramp */
   --sage-50:  #EDF3EF;
   --sage-100: #D4E0D8;
   --sage-200: #B8CDBF;
@@ -43,7 +41,6 @@
   --sage-800: #3A5145;
   --sage-900: #2B3D33;
 
-  /* Ink (neutral) ramp */
   --ink-50:  #F5F3F0;
   --ink-100: #E8E4DE;
   --ink-200: #D1CBC2;
@@ -55,7 +52,6 @@
   --ink-800: #2C2825;
   --ink-900: #1A1815;
 
-  /* Semantic surfaces */
   --bg:            #F5F0E8;
   --bg-card:       #FDFBF7;
   --bg-elevated:   #FFFFFF;
@@ -63,19 +59,16 @@
   --bg-overlay:    rgba(44, 40, 37, 0.32);
   --bg-backdrop:   rgba(245, 240, 232, 0.92);
 
-  /* Semantic text */
   --text:          #2C2825;
   --text-soft:     #55504A;
   --text-muted:    #8C8378;
   --text-faint:    #B0A79B;
   --text-inverse:  #FDFBF7;
 
-  /* Borders */
   --border:        #E0D9CE;
   --border-strong: #C9C0B2;
   --border-focus:  #7D9B8A;
 
-  /* Accent + state */
   --accent:        #7D9B8A;
   --accent-soft:   #D4E0D8;
   --accent-dark:   #5A7A6A;
@@ -89,7 +82,6 @@
   --info:          #5B7FA6;
   --info-soft:     #E6EDF4;
 
-  /* Radii */
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius:    12px;
@@ -97,32 +89,27 @@
   --radius-xl: 24px;
   --radius-full: 9999px;
 
-  /* Shadows */
   --shadow-xs: 0 1px 2px rgba(44,40,37,0.04);
   --shadow-sm: 0 1px 3px rgba(44,40,37,0.05);
   --shadow-md: 0 4px 16px rgba(44,40,37,0.07);
   --shadow-lg: 0 12px 40px rgba(44,40,37,0.09);
   --shadow-xl: 0 24px 64px rgba(44,40,37,0.12);
 
-  /* Typography */
   --font-body: 'Source Serif 4', Georgia, serif;
   --font-ui:   'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 
-  /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --duration-fast: 150ms;
   --duration: 220ms;
   --duration-slow: 350ms;
 
-  /* Layout */
   --sidebar-width: 280px;
   --header-height: 64px;
   --content-max: 760px;
 }
 
-/* Dark theme */
 [data-theme="dark"] {
   --bg:            #1A1815;
   --bg-card:       #221F1B;
@@ -153,16 +140,7 @@
   --shadow-xl: 0 24px 64px rgba(0,0,0,0.6);
 }
 
-/* ============================================================
-   Reset + base
-   ============================================================ */
-*,
-*::before,
-*::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 html {
   font-size: 15px;
@@ -186,7 +164,6 @@ body {
   font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
 }
 
-/* Paper grain overlay */
 body::before {
   content: '';
   position: fixed;
@@ -199,7 +176,6 @@ body::before {
 
 [data-theme="dark"] body::before { opacity: 0.18; }
 
-/* Scrollbar */
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
@@ -210,7 +186,6 @@ body::before {
 }
 ::-webkit-scrollbar-thumb:hover { background: var(--text-faint); background-clip: padding-box; }
 
-/* Focus */
 :focus-visible {
   outline: 2px solid var(--border-focus);
   outline-offset: 2px;
@@ -220,7 +195,6 @@ body::before {
 button { font-family: inherit; }
 input, textarea { font-family: inherit; }
 
-/* Skip link for a11y */
 .skip-link {
   position: absolute;
   top: -100px;
@@ -238,9 +212,6 @@ input, textarea { font-family: inherit; }
 }
 .skip-link:focus { top: 16px; }
 
-/* ============================================================
-   Layout shell
-   ============================================================ */
 .app {
   display: flex;
   width: 100vw;
@@ -252,9 +223,6 @@ input, textarea { font-family: inherit; }
   overflow: hidden;
 }
 
-/* ============================================================
-   Sidebar
-   ============================================================ */
 .sidebar {
   width: var(--sidebar-width);
   background: var(--bg-card);
@@ -290,12 +258,17 @@ input, textarea { font-family: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
-  color: white;
   flex-shrink: 0;
   box-shadow: var(--shadow-sm);
   position: relative;
   overflow: hidden;
+}
+
+.logo-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
 }
 
 .logo-mark::after {
@@ -305,6 +278,7 @@ input, textarea { font-family: inherit; }
   background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%);
   transform: translateX(-100%);
   animation: shimmer 4s infinite;
+  pointer-events: none;
 }
 
 @keyframes shimmer {
@@ -413,7 +387,6 @@ input, textarea { font-family: inherit; }
   background: var(--error-soft);
 }
 
-/* Mood buttons */
 .mood-row {
   display: flex;
   justify-content: space-between;
@@ -453,7 +426,6 @@ input, textarea { font-family: inherit; }
   box-shadow: 0 0 0 2px var(--sage-800);
 }
 
-/* History */
 .history-list {
   flex: 1;
   overflow-y: auto;
@@ -572,9 +544,6 @@ input, textarea { font-family: inherit; }
   color: var(--text-faint);
 }
 
-/* ============================================================
-   Main chat area
-   ============================================================ */
 .chat-main {
   flex: 1;
   display: flex;
@@ -632,10 +601,16 @@ input, textarea { font-family: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.15rem;
-  color: white;
   flex-shrink: 0;
   box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.chat-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .chat-title-wrap { min-width: 0; }
@@ -714,9 +689,6 @@ input, textarea { font-family: inherit; }
   border-color: var(--text);
 }
 
-/* ============================================================
-   Messages
-   ============================================================ */
 .messages {
   flex: 1;
   overflow-y: auto;
@@ -754,12 +726,17 @@ input, textarea { font-family: inherit; }
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.2rem;
-  color: white;
   margin-bottom: 8px;
   box-shadow: var(--shadow-lg);
   position: relative;
   overflow: hidden;
+}
+
+.welcome-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
 }
 
 .welcome-mark::before {
@@ -767,6 +744,7 @@ input, textarea { font-family: inherit; }
   position: absolute;
   inset: 0;
   background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4), transparent 60%);
+  pointer-events: none;
 }
 
 .welcome-title {
@@ -825,7 +803,6 @@ input, textarea { font-family: inherit; }
 
 [data-theme="dark"] .suggestion:hover { background: var(--sage-800); }
 
-/* Messages */
 .message {
   display: flex;
   gap: 12px;
@@ -862,6 +839,13 @@ input, textarea { font-family: inherit; }
   background: linear-gradient(135deg, var(--sand-400), var(--sage-400));
   color: white;
   box-shadow: var(--shadow-sm);
+}
+
+.message.assistant .msg-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
 .message.user .msg-avatar {
@@ -976,7 +960,6 @@ input, textarea { font-family: inherit; }
   background: var(--bg-muted);
 }
 
-/* Streaming cursor */
 .streaming-cursor {
   display: inline-block;
   width: 2px;
@@ -992,7 +975,6 @@ input, textarea { font-family: inherit; }
   51%, 100% { opacity: 0; }
 }
 
-/* Typing indicator */
 .typing {
   display: flex;
   gap: 12px;
@@ -1027,9 +1009,6 @@ input, textarea { font-family: inherit; }
   30% { transform: translateY(-6px); opacity: 1; }
 }
 
-/* ============================================================
-   Generative UI components
-   ============================================================ */
 .gui {
   margin: 10px 0;
   animation: guiIn var(--duration) var(--ease-out);
@@ -1043,7 +1022,6 @@ input, textarea { font-family: inherit; }
 .gui:first-child { margin-top: 0; }
 .gui:last-child { margin-bottom: 0; }
 
-/* --- Mood chart --- */
 .gui-mood-chart {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
@@ -1098,7 +1076,6 @@ input, textarea { font-family: inherit; }
   text-align: center;
 }
 
-/* --- Breathing exercise --- */
 .gui-breathing {
   background: linear-gradient(135deg, var(--sage-50), var(--bg-elevated));
   border: 1px solid var(--sage-200);
@@ -1200,7 +1177,6 @@ input, textarea { font-family: inherit; }
   position: relative;
 }
 
-/* --- Resource card --- */
 .gui-resource {
   display: flex;
   align-items: center;
@@ -1271,7 +1247,6 @@ input, textarea { font-family: inherit; }
 
 .gui-resource:hover .res-action { transform: scale(1.1); }
 
-/* --- Crisis escalation --- */
 .gui-crisis {
   background: var(--error-soft);
   border: 2px solid var(--error);
@@ -1347,7 +1322,6 @@ input, textarea { font-family: inherit; }
   text-align: left;
 }
 
-/* --- Assessment scale --- */
 .gui-scale {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
@@ -1399,7 +1373,6 @@ input, textarea { font-family: inherit; }
   box-shadow: 0 0 0 2px var(--sage-100);
 }
 
-/* --- Grounding exercise --- */
 .gui-grounding {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
@@ -1455,7 +1428,6 @@ input, textarea { font-family: inherit; }
   color: var(--text-soft);
 }
 
-/* --- Check-in slider --- */
 .gui-checkin {
   background: var(--bg-elevated);
   border: 1px solid var(--border);
@@ -1518,7 +1490,6 @@ input, textarea { font-family: inherit; }
   margin-bottom: 8px;
 }
 
-/* --- Referral card --- */
 .gui-referral {
   background: linear-gradient(135deg, var(--info-soft), var(--bg-elevated));
   border: 1px solid var(--info);
@@ -1544,9 +1515,6 @@ input, textarea { font-family: inherit; }
   color: var(--text-soft);
 }
 
-/* ============================================================
-   Scroll-to-bottom button
-   ============================================================ */
 .scroll-bottom {
   position: absolute;
   bottom: 120px;
@@ -1581,9 +1549,6 @@ input, textarea { font-family: inherit; }
   color: var(--text);
 }
 
-/* ============================================================
-   Input area
-   ============================================================ */
 .input-area {
   padding: 16px 24px 20px;
   background: var(--bg-card);
@@ -1692,7 +1657,6 @@ input, textarea { font-family: inherit; }
 .voice-status.error { color: var(--error); }
 .voice-status.success { color: var(--success); }
 
-/* File preview */
 .file-preview {
   max-width: var(--content-max);
   margin: 8px auto 0;
@@ -1747,9 +1711,6 @@ input, textarea { font-family: inherit; }
   background: var(--error-soft);
 }
 
-/* ============================================================
-   Modals
-   ============================================================ */
 .modal-backdrop {
   position: fixed;
   inset: 0;
@@ -1835,7 +1796,6 @@ input, textarea { font-family: inherit; }
 
 .modal-body p { margin-bottom: 12px; }
 
-/* Mood scale in modal */
 .mood-scale {
   display: flex;
   gap: 8px;
@@ -1899,7 +1859,6 @@ input, textarea { font-family: inherit; }
 
 .mood-notes:focus { border-color: var(--sage-400); }
 
-/* Week calendar */
 .week-calendar {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -1938,7 +1897,6 @@ input, textarea { font-family: inherit; }
 .week-calendar .day-cell.mood-4 { background: var(--sage-50); color: var(--sage-600); border-color: var(--sage-300); }
 .week-calendar .day-cell.mood-5 { background: var(--success-soft); color: var(--success); border-color: var(--success); }
 
-/* Buttons in modal */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -1987,7 +1945,6 @@ input, textarea { font-family: inherit; }
 .btn-sm { padding: 8px 14px; font-size: 0.78rem; }
 .btn-lg { padding: 14px 24px; font-size: 0.92rem; }
 
-/* Crisis resources */
 .crisis-resources {
   display: flex;
   flex-direction: column;
@@ -2064,7 +2021,6 @@ input, textarea { font-family: inherit; }
 
 .crisis-resource:hover .res-call { transform: scale(1.1); }
 
-/* Profile modal */
 .profile-stats {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2098,9 +2054,6 @@ input, textarea { font-family: inherit; }
   font-weight: 600;
 }
 
-/* ============================================================
-   Voice modal
-   ============================================================ */
 .voice-modal {
   position: fixed;
   inset: 0;
@@ -2240,9 +2193,6 @@ input, textarea { font-family: inherit; }
   margin-top: 14px;
 }
 
-/* ============================================================
-   Toasts
-   ============================================================ */
 .toast-container {
   position: fixed;
   bottom: 20px;
@@ -2282,9 +2232,6 @@ input, textarea { font-family: inherit; }
 .toast.error { background: var(--error); }
 .toast.warning { background: var(--warning); }
 
-/* ============================================================
-   Crisis FAB
-   ============================================================ */
 .crisis-fab {
   position: fixed;
   bottom: 24px;
@@ -2325,17 +2272,12 @@ input, textarea { font-family: inherit; }
   100% { transform: scale(1.6); opacity: 0; }
 }
 
-/* ============================================================
-   Responsive
-   ============================================================ */
 @media (max-width: 900px) {
   :root { --sidebar-width: 260px; }
 }
 
 @media (max-width: 768px) {
-  :root {
-    --header-height: 60px;
-  }
+  :root { --header-height: 60px; }
 
   .sidebar {
     position: fixed;
@@ -2359,7 +2301,7 @@ input, textarea { font-family: inherit; }
   .chat-header { padding: 0 14px; }
 
   .welcome-title { font-size: 1.7rem; }
-  .welcome-mark { width: 72px; height: 72px; font-size: 1.8rem; }
+  .welcome-mark { width: 72px; height: 72px; }
   .welcome-prompt { font-size: 0.88rem; }
 
   .modal { padding: 22px; }
@@ -2390,44 +2332,21 @@ input, textarea { font-family: inherit; }
   .profile-stats { grid-template-columns: 1fr 1fr; }
 }
 
-/* ============================================================
-   Accessibility
-   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-
-  .logo-mark::after,
-  .crisis-fab::before,
-  .voice-ring,
-  .gui-breathing::before {
-    display: none;
-  }
+  .logo-mark::after, .crisis-fab::before, .voice-ring, .gui-breathing::before { display: none; }
 }
 
 @media (prefers-contrast: high) {
-  :root {
-    --border: #000;
-    --border-strong: #000;
-    --text-soft: #000;
-    --text-muted: #333;
-  }
-
-  [data-theme="dark"] {
-    --border: #fff;
-    --border-strong: #fff;
-    --text-soft: #fff;
-    --text-muted: #ccc;
-  }
+  :root { --border: #000; --border-strong: #000; --text-soft: #000; --text-muted: #333; }
+  [data-theme="dark"] { --border: #fff; --border-strong: #fff; --text-soft: #fff; --text-muted: #ccc; }
 }
 
-/* Screen-reader only */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -2440,51 +2359,12 @@ input, textarea { font-family: inherit; }
   border: 0;
 }
 
-/* Print */
 @media print {
-  .sidebar,
-  .chat-header,
-  .input-area,
-  .crisis-fab,
-  .scroll-bottom,
-  .msg-actions,
-  .msg-meta {
-    display: none !important;
-  }
-
-  body {
-    background: white;
-    color: black;
-  }
-
-  .messages {
-    padding: 0;
-    overflow: visible;
-  }
-
-  .message {
-    max-width: 100%;
-    page-break-inside: avoid;
-  }
-
-  .msg-bubble {
-    border: 1px solid #ccc !important;
-    background: white !important;
-    color: black !important;
-  }
-}
-
-/* Loading skeleton */
-.skeleton {
-  background: linear-gradient(90deg, var(--bg-muted) 25%, var(--bg) 50%, var(--bg-muted) 75%);
-  background-size: 200% 100%;
-  animation: skeleton-loading 1.5s infinite;
-  border-radius: var(--radius-sm);
-}
-
-@keyframes skeleton-loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  .sidebar, .chat-header, .input-area, .crisis-fab, .scroll-bottom, .msg-actions, .msg-meta { display: none !important; }
+  body { background: white; color: black; }
+  .messages { padding: 0; overflow: visible; }
+  .message { max-width: 100%; page-break-inside: avoid; }
+  .msg-bubble { border: 1px solid #ccc !important; background: white !important; color: black !important; }
 }
 </style>
 </head>
@@ -2493,14 +2373,15 @@ input, textarea { font-family: inherit; }
 <a href="#messages" class="skip-link">Simbuka ku biganiro</a>
 
 <div class="app">
-  <!-- ===================== SIDEBAR ===================== -->
   <aside class="sidebar" id="sidebar" aria-label="Ibikoresho">
     <div class="sidebar-header">
       <div class="logo">
-        <div class="logo-mark" aria-hidden="true">🧠</div>
+        <div class="logo-mark" aria-hidden="true">
+          <img src="tyaza-logo.png" alt="TYAZA logo" onerror="this.style.display='none';this.parentElement.innerHTML='🧠';">
+        </div>
         <div class="logo-text">
           <div class="name">TYAZA</div>
-          <div class="sub">Inzira y'Isanomutima</div>
+          <div class="sub">Inzira y'Isanamutima</div>
         </div>
       </div>
       <button class="sidebar-close" id="sidebarClose" aria-label="Funga ibikoresho">
@@ -2543,14 +2424,15 @@ input, textarea { font-family: inherit; }
     </div>
   </aside>
 
-  <!-- ===================== MAIN ===================== -->
   <main class="chat-main" id="chatMain">
     <header class="chat-header">
       <div class="header-left">
         <button class="menu-toggle" id="menuToggle" aria-label="Fungura ibikoresho">
           <i class="fas fa-bars"></i>
         </button>
-        <div class="chat-avatar" aria-hidden="true">🧠</div>
+        <div class="chat-avatar" aria-hidden="true">
+          <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none';this.parentElement.innerHTML='🧠';">
+        </div>
         <div class="chat-title-wrap">
           <div class="chat-title">TYAZA</div>
           <div class="chat-status">
@@ -2577,9 +2459,11 @@ input, textarea { font-family: inherit; }
 
     <div class="messages" id="messages" role="log" aria-live="polite" aria-label="Ibiganirwa">
       <div class="welcome" id="welcome">
-        <div class="welcome-mark" aria-hidden="true">🧠</div>
+        <div class="welcome-mark" aria-hidden="true">
+          <img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none';this.parentElement.innerHTML='🧠';">
+        </div>
         <h1 class="welcome-title">TYAZA</h1>
-        <p class="welcome-sub">Inzira y'Isanomutima</p>
+        <p class="welcome-sub">Inzira y'Isanamutima</p>
         <p class="welcome-prompt">
           Ndi hano kugira ngo nkumve. Nta gahato, nta gusuzugura.<br>
           Vuga icyo ushaka, mu buryo bwose.
@@ -2599,6 +2483,9 @@ input, textarea { font-family: inherit; }
 
     <div class="input-area">
       <div class="input-wrap">
+        <button class="input-btn" id="attachBtn" title="Ongeraho dosiye" aria-label="Ongeraho dosiye" type="button" style="background:var(--bg-muted);color:var(--text-soft);">
+          <i class="fas fa-paperclip"></i>
+        </button>
         <textarea id="messageInput" placeholder="Andika icyo utekereza..." rows="1" aria-label="Ubutumwa"></textarea>
         <button class="input-btn voice-btn" id="voiceBtn" title="Vuga" aria-label="Vuga" type="button">
           <i class="fas fa-microphone"></i>
@@ -2613,12 +2500,10 @@ input, textarea { font-family: inherit; }
   </main>
 </div>
 
-<!-- ===================== CRISIS FAB ===================== -->
 <button class="crisis-fab" id="crisisFab" aria-label="Ubufasha bwihutirwa" type="button">
   <i class="fas fa-phone-alt"></i>
 </button>
 
-<!-- ===================== VOICE MODAL ===================== -->
 <div class="voice-modal" id="voiceModal" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="voiceModalTitle">
   <div class="voice-card">
     <div class="voice-visual" aria-hidden="true">
@@ -2647,7 +2532,6 @@ input, textarea { font-family: inherit; }
   </div>
 </div>
 
-<!-- ===================== MOOD MODAL ===================== -->
 <div class="modal-backdrop" id="moodModal" role="dialog" aria-modal="true" aria-labelledby="moodModalTitle">
   <div class="modal">
     <div class="modal-header">
@@ -2675,7 +2559,6 @@ input, textarea { font-family: inherit; }
   </div>
 </div>
 
-<!-- ===================== PROFILE MODAL ===================== -->
 <div class="modal-backdrop" id="profileModal" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
   <div class="modal">
     <div class="modal-header">
@@ -2686,7 +2569,6 @@ input, textarea { font-family: inherit; }
   </div>
 </div>
 
-<!-- ===================== CRISIS MODAL ===================== -->
 <div class="modal-backdrop" id="crisisModal" role="dialog" aria-modal="true" aria-labelledby="crisisModalTitle">
   <div class="modal" style="border-color:var(--error);">
     <div class="modal-header" style="border-bottom-color:var(--error);">
@@ -2743,20 +2625,15 @@ input, textarea { font-family: inherit; }
   </div>
 </div>
 
-<!-- ===================== TOASTS ===================== -->
 <div class="toast-container" id="toastContainer" role="status" aria-live="polite"></div>
 
 <script>
 /* ============================================================
-   TYAZA v1 · Part 2
+   TYAZA v1 · PART 2
    Component Registry · Streaming Parser · Formatters · Utilities
    ============================================================ */
 
 'use strict';
-
-/* ============================================================
-   SECTION 1: UTILITIES
-   ============================================================ */
 
 const Utils = {
   escapeHtml(text) {
@@ -2765,7 +2642,6 @@ const Utils = {
     div.textContent = String(text);
     return div.innerHTML;
   },
-
   escapeAttr(text) {
     if (text == null) return '';
     return String(text)
@@ -2775,22 +2651,12 @@ const Utils = {
       .replace(/</g, '&lt;')
       .replace(/>/g, '&gt;');
   },
-
   formatTime(timestamp = Date.now()) {
-    return new Date(timestamp).toLocaleTimeString('rw-RW', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
+    return new Date(timestamp).toLocaleTimeString('rw-RW', { hour: '2-digit', minute: '2-digit' });
   },
-
   formatDate(timestamp = Date.now()) {
-    return new Date(timestamp).toLocaleDateString('rw-RW', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    });
+    return new Date(timestamp).toLocaleDateString('rw-RW', { day: 'numeric', month: 'short', year: 'numeric' });
   },
-
   relativeTime(timestamp) {
     const diff = Date.now() - timestamp;
     const mins = Math.floor(diff / 60000);
@@ -2802,116 +2668,54 @@ const Utils = {
     if (days < 7) return `${days} d`;
     return Utils.formatDate(timestamp);
   },
-
   debounce(fn, wait = 250) {
     let t;
-    return function (...args) {
-      clearTimeout(t);
-      t = setTimeout(() => fn.apply(this, args), wait);
-    };
+    return function (...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), wait); };
   },
-
   throttle(fn, wait = 100) {
     let last = 0;
     return function (...args) {
       const now = Date.now();
-      if (now - last >= wait) {
-        last = now;
-        fn.apply(this, args);
-      }
+      if (now - last >= wait) { last = now; fn.apply(this, args); }
     };
   },
-
-  uid(prefix = 'id') {
-    return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
-  },
-
-  clamp(val, min, max) {
-    return Math.max(min, Math.min(max, val));
-  },
-
-  sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  },
-
+  uid(prefix = 'id') { return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`; },
+  clamp(val, min, max) { return Math.max(min, Math.min(max, val)); },
+  sleep(ms) { return new Promise(r => setTimeout(r, ms)); },
   formatBytes(bytes) {
     if (bytes < 1024) return bytes + ' B';
     if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
     return (bytes / 1048576).toFixed(1) + ' MB';
   },
-
-  truncate(str, len = 60) {
-    if (!str) return '';
-    return str.length > len ? str.slice(0, len) + '…' : str;
-  },
-
+  truncate(str, len = 60) { if (!str) return ''; return str.length > len ? str.slice(0, len) + '…' : str; },
   copyToClipboard(text) {
-    if (navigator.clipboard) {
-      return navigator.clipboard.writeText(text);
-    }
+    if (navigator.clipboard) return navigator.clipboard.writeText(text);
     const ta = document.createElement('textarea');
-    ta.value = text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
     try { document.execCommand('copy'); } catch (e) {}
     document.body.removeChild(ta);
     return Promise.resolve();
   }
 };
 
-/* ============================================================
-   SECTION 2: STORAGE
-   ============================================================ */
-
 const Storage = {
   PREFIX: 'tyaza_v1_',
-
   get(key, fallback = null) {
     try {
       const d = localStorage.getItem(this.PREFIX + key);
       return d ? JSON.parse(d) : fallback;
-    } catch (e) {
-      return fallback;
-    }
+    } catch (e) { return fallback; }
   },
-
   set(key, val) {
-    try {
-      localStorage.setItem(this.PREFIX + key, JSON.stringify(val));
-      return true;
-    } catch (e) {
-      return false;
-    }
+    try { localStorage.setItem(this.PREFIX + key, JSON.stringify(val)); return true; }
+    catch (e) { return false; }
   },
-
-  remove(key) {
-    try { localStorage.removeItem(this.PREFIX + key); } catch (e) {}
-  },
-
-  getAll(key) {
-    return this.get(key, []);
-  },
-
-  add(key, item) {
-    const items = this.getAll(key);
-    items.push(item);
-    this.set(key, items);
-    return items;
-  },
-
-  deleteById(key, id) {
-    const items = this.getAll(key);
-    const filtered = items.filter(i => i.id !== id);
-    this.set(key, filtered);
-    return filtered;
-  },
-
-  clear(key) {
-    this.set(key, []);
-  },
-
+  remove(key) { try { localStorage.removeItem(this.PREFIX + key); } catch (e) {} },
+  getAll(key) { return this.get(key, []); },
+  add(key, item) { const items = this.getAll(key); items.push(item); this.set(key, items); return items; },
+  deleteById(key, id) { const items = this.getAll(key); const f = items.filter(i => i.id !== id); this.set(key, f); return f; },
+  clear(key) { this.set(key, []); },
   clearAll() {
     try {
       const keys = Object.keys(localStorage).filter(k => k.startsWith(this.PREFIX));
@@ -2920,74 +2724,32 @@ const Storage = {
   }
 };
 
-/* ============================================================
-   SECTION 3: ULTRA MARKDOWN PARSER
-   ============================================================ */
-
 class UltraMarkdownParser {
   static parse(text) {
     if (!text) return '';
     let html = String(text);
-
-    // Escape HTML first
     html = Utils.escapeHtml(html);
-
-    // Code blocks (```lang\n...\n```)
-    html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
-      return `<pre><code class="lang-${lang || 'text'}">${code.trim()}</code></pre>`;
-    });
-
-    // Inline code
+    html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => `<pre><code class="lang-${lang || 'text'}">${code.trim()}</code></pre>`);
     html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
-
-    // Headings
     html = html.replace(/^### (.+)$/gm, '<h4>$1</h4>');
     html = html.replace(/^## (.+)$/gm, '<h3>$1</h3>');
     html = html.replace(/^# (.+)$/gm, '<h2>$1</h2>');
-
-    // Bold + italic combos
     html = html.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
     html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
     html = html.replace(/(?<!\*)\*([^*\n]+?)\*(?!\*)/g, '<em>$1</em>');
     html = html.replace(/(?<!_)_([^_\n]+?)_(?!_)/g, '<em>$1</em>');
-
-    // Strikethrough
     html = html.replace(/~~(.+?)~~/g, '<del>$1</del>');
-
-    // Blockquotes
     html = html.replace(/^&gt; (.+)$/gm, '<blockquote>$1</blockquote>');
-
-    // Ordered list
     html = html.replace(/(?:^|\n)((?:\d+\. .+(?:\n|$))+)/g, (match, block) => {
-      const items = block.trim().split('\n').map(line => {
-        const content = line.replace(/^\d+\. /, '').trim();
-        return `<li>${content}</li>`;
-      }).join('');
+      const items = block.trim().split('\n').map(line => `<li>${line.replace(/^\d+\. /, '').trim()}</li>`).join('');
       return `<ol>${items}</ol>`;
     });
-
-    // Unordered list
     html = html.replace(/(?:^|\n)((?:[-•*] .+(?:\n|$))+)/g, (match, block) => {
-      const items = block.trim().split('\n').map(line => {
-        const content = line.replace(/^[-•*] /, '').trim();
-        return `<li>${content}</li>`;
-      }).join('');
+      const items = block.trim().split('\n').map(line => `<li>${line.replace(/^[-•*] /, '').trim()}</li>`).join('');
       return `<ul>${items}</ul>`;
     });
-
-    // Links [text](url)
-    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => {
-      const safe = Utils.escapeAttr(url);
-      return `<a href="${safe}" target="_blank" rel="noopener noreferrer">${text}</a>`;
-    });
-
-    // Auto-link bare URLs
-    html = html.replace(/(^|\s)(https?:\/\/[^\s<]+)/g, (_, pre, url) => {
-      const safe = Utils.escapeAttr(url);
-      return `${pre}<a href="${safe}" target="_blank" rel="noopener noreferrer">${url}</a>`;
-    });
-
-    // Paragraphs
+    html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) => `<a href="${Utils.escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${text}</a>`);
+    html = html.replace(/(^|\s)(https?:\/\/[^\s<]+)/g, (_, pre, url) => `${pre}<a href="${Utils.escapeAttr(url)}" target="_blank" rel="noopener noreferrer">${url}</a>`);
     const blocks = html.split(/\n\n+/).map(block => {
       block = block.trim();
       if (!block) return '';
@@ -2995,10 +2757,8 @@ class UltraMarkdownParser {
       if (/^<p>/.test(block)) return block;
       return `<p>${block.replace(/\n/g, '<br>')}</p>`;
     });
-
     return blocks.filter(Boolean).join('\n');
   }
-
   static strip(html) {
     const div = document.createElement('div');
     div.innerHTML = html;
@@ -3006,39 +2766,22 @@ class UltraMarkdownParser {
   }
 }
 
-/* ============================================================
-   SECTION 4: COMPONENT REGISTRY
-   ============================================================ */
-
 const ComponentRegistry = {
-  text: (data) => {
-    const content = data?.content || '';
-    const html = UltraMarkdownParser.parse(content);
-    return `<div class="gui gui-text">${html}</div>`;
-  },
+  text: (data) => `<div class="gui gui-text">${UltraMarkdownParser.parse(data?.content || '')}</div>`,
 
   mood_chart: (data) => {
     const scores = Array.isArray(data?.scores) && data.scores.length
       ? data.scores.map(s => Utils.clamp(Number(s) || 3, 1, 5))
       : [3, 2, 4, 3, 5, 4, 3];
     const labels = Array.isArray(data?.labels) && data.labels.length
-      ? data.labels
-      : ['Ku', 'Ma', 'We', 'Ku', 'Ke', 'Sa', 'Ku'];
+      ? data.labels : ['Ku', 'Ma', 'We', 'Ku', 'Ke', 'Sa', 'Ku'];
     const title = data?.title || "Imimerere y'icyumweru";
-
-    const W = 300;
-    const H = 130;
-    const padX = 16;
-    const padY = 14;
-    const innerW = W - padX * 2;
-    const innerH = H - padY * 2;
-
-    const points = scores.map((s, i) => {
-      const x = padX + (i / Math.max(1, scores.length - 1)) * innerW;
-      const y = padY + (1 - (s - 1) / 4) * innerH;
-      return { x, y, score: s };
-    });
-
+    const W = 300, H = 130, padX = 16, padY = 14;
+    const innerW = W - padX * 2, innerH = H - padY * 2;
+    const points = scores.map((s, i) => ({
+      x: padX + (i / Math.max(1, scores.length - 1)) * innerW,
+      y: padY + (1 - (s - 1) / 4) * innerH, score: s
+    }));
     let path = '';
     points.forEach((p, i) => {
       if (i === 0) path += `M ${p.x.toFixed(1)} ${p.y.toFixed(1)}`;
@@ -3049,42 +2792,27 @@ const ComponentRegistry = {
         path += ` T ${p.x.toFixed(1)} ${p.y.toFixed(1)}`;
       }
     });
-
     const areaPath = path + ` L ${points[points.length - 1].x.toFixed(1)} ${(H - padY).toFixed(1)} L ${points[0].x.toFixed(1)} ${(H - padY).toFixed(1)} Z`;
-
-    const circles = points.map(p =>
-      `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="var(--sage-500)" stroke="var(--bg-elevated)" stroke-width="1.5"/>`
-    ).join('');
-
-    const labelHtml = labels.map(l =>
-      `<span>${Utils.escapeHtml(l)}</span>`
-    ).join('');
-
+    const circles = points.map(p => `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="var(--sage-500)" stroke="var(--bg-elevated)" stroke-width="1.5"/>`).join('');
+    const labelHtml = labels.map(l => `<span>${Utils.escapeHtml(l)}</span>`).join('');
     const avg = (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1);
-
     return `
       <div class="gui gui-mood-chart">
         <div class="chart-head">
-          <div class="chart-title">
-            <i class="fas fa-chart-line" aria-hidden="true"></i>
-            ${Utils.escapeHtml(title)}
-          </div>
+          <div class="chart-title"><i class="fas fa-chart-line" aria-hidden="true"></i> ${Utils.escapeHtml(title)}</div>
           <div class="chart-range">Avg ${avg}/5</div>
         </div>
         <svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Mood chart">
-          <defs>
-            <linearGradient id="moodGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="var(--sage-400)" stop-opacity="0.25"/>
-              <stop offset="100%" stop-color="var(--sage-400)" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
+          <defs><linearGradient id="moodGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="var(--sage-400)" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="var(--sage-400)" stop-opacity="0"/>
+          </linearGradient></defs>
           <path d="${areaPath}" fill="url(#moodGrad)"/>
           <path d="${path}" fill="none" stroke="var(--sage-500)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
           ${circles}
         </svg>
         <div class="chart-labels">${labelHtml}</div>
-      </div>
-    `;
+      </div>`;
   },
 
   breathing_exercise: (data) => {
@@ -3093,28 +2821,19 @@ const ComponentRegistry = {
     const exhale = Utils.clamp(Number(data?.exhale) || 6, 2, 15);
     const title = data?.title || 'Reka duhumeke kanya';
     const id = Utils.uid('breath');
-
     return `
       <div class="gui gui-breathing" id="${id}">
-        <div class="breath-title">
-          <i class="fas fa-leaf" aria-hidden="true"></i>
-          ${Utils.escapeHtml(title)}
-        </div>
+        <div class="breath-title"><i class="fas fa-leaf" aria-hidden="true"></i> ${Utils.escapeHtml(title)}</div>
         <div class="breath-circle-wrap">
           <div class="breath-ring"></div>
           <div class="breath-circle" id="${id}-circle">Tangira</div>
         </div>
         <div class="breath-hint">${inhale}s winjiza · ${hold}s ufata · ${exhale}s usohora</div>
         <div class="breath-controls">
-          <button class="btn btn-primary btn-sm" onclick="BreathingController.start('${id}', ${inhale}, ${hold}, ${exhale})" type="button">
-            <i class="fas fa-play"></i> Tangira
-          </button>
-          <button class="btn btn-secondary btn-sm" onclick="BreathingController.stop('${id}')" type="button">
-            <i class="fas fa-stop"></i> Hagarika
-          </button>
+          <button class="btn btn-primary btn-sm" onclick="BreathingController.start('${id}', ${inhale}, ${hold}, ${exhale})" type="button"><i class="fas fa-play"></i> Tangira</button>
+          <button class="btn btn-secondary btn-sm" onclick="BreathingController.stop('${id}')" type="button"><i class="fas fa-stop"></i> Hagarika</button>
         </div>
-      </div>
-    `;
+      </div>`;
   },
 
   resource_card: (data) => {
@@ -3125,135 +2844,73 @@ const ComponentRegistry = {
       const name = item.name || 'Ubufasha';
       const detail = item.detail || '';
       const phone = item.phone || '';
-      const actionHtml = phone
-        ? `<a href="tel:${Utils.escapeAttr(phone)}" class="res-action" aria-label="Hamagara ${Utils.escapeAttr(phone)}"><i class="fas fa-phone-alt"></i></a>`
-        : '';
-      return `
-        <div class="gui">
-          <div class="gui-resource">
-            <div class="res-icon" aria-hidden="true">${icon}</div>
-            <div class="res-info">
-              <div class="res-name">${Utils.escapeHtml(name)}</div>
-              <div class="res-detail">${Utils.escapeHtml(detail)}</div>
-            </div>
-            ${actionHtml}
-          </div>
-        </div>
-      `;
+      const actionHtml = phone ? `<a href="tel:${Utils.escapeAttr(phone)}" class="res-action" aria-label="Hamagara ${Utils.escapeAttr(phone)}"><i class="fas fa-phone-alt"></i></a>` : '';
+      return `<div class="gui"><div class="gui-resource">
+        <div class="res-icon" aria-hidden="true">${icon}</div>
+        <div class="res-info"><div class="res-name">${Utils.escapeHtml(name)}</div><div class="res-detail">${Utils.escapeHtml(detail)}</div></div>
+        ${actionHtml}
+      </div></div>`;
     }).join('');
   },
 
   crisis_escalation: (data) => {
-    const numbers = Array.isArray(data?.numbers) && data.numbers.length
-      ? data.numbers
-      : [
-          { number: '116', label: "Imitari y'inkunga · 24/7" },
-          { number: '3029', label: 'Isange One Stop' },
-          { number: '112', label: 'Polisi · Umutekano' },
-          { number: '912', label: 'Ambulance' }
-        ];
-
+    const numbers = Array.isArray(data?.numbers) && data.numbers.length ? data.numbers : [
+      { number: '116', label: "Imitari y'inkunga · 24/7" },
+      { number: '3029', label: 'Isange One Stop' },
+      { number: '112', label: 'Polisi · Umutekano' },
+      { number: '912', label: 'Ambulance' }
+    ];
     const numHtml = numbers.map(n => `
       <a href="tel:${Utils.escapeAttr(n.number)}" class="crisis-number">
         <span class="num">${Utils.escapeHtml(n.number)}</span>
         <span class="label">${Utils.escapeHtml(n.label)}</span>
         <i class="fas fa-phone-alt" style="color:var(--error);font-size:0.85rem;"></i>
-      </a>
-    `).join('');
-
-    return `
-      <div class="gui gui-crisis" role="alert">
-        <div class="crisis-head">
-          <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
-          <div class="crisis-title">Ukeneye ubufasha bwihutirwa</div>
-        </div>
-        <div class="crisis-numbers">${numHtml}</div>
-      </div>
-    `;
+      </a>`).join('');
+    return `<div class="gui gui-crisis" role="alert">
+      <div class="crisis-head"><i class="fas fa-exclamation-triangle" aria-hidden="true"></i><div class="crisis-title">Ukeneye ubufasha bwihutirwa</div></div>
+      <div class="crisis-numbers">${numHtml}</div>
+    </div>`;
   },
 
   assessment_scale: (data) => {
     const question = data?.question || 'Ubu wumva ute?';
-    const options = Array.isArray(data?.options) && data.options.length
-      ? data.options
-      : ['1', '2', '3', '4', '5'];
+    const options = Array.isArray(data?.options) && data.options.length ? data.options : ['1','2','3','4','5'];
     const id = Utils.uid('scale');
-
-    const optsHtml = options.map(o => `
-      <button class="scale-option" onclick="AssessmentController.select('${id}', this, '${Utils.escapeAttr(o)}')" type="button">
-        ${Utils.escapeHtml(o)}
-      </button>
-    `).join('');
-
-    return `
-      <div class="gui gui-scale" id="${id}">
-        <div class="scale-title">${Utils.escapeHtml(question)}</div>
-        <div class="scale-options">${optsHtml}</div>
-      </div>
-    `;
+    const optsHtml = options.map(o => `<button class="scale-option" onclick="AssessmentController.select('${id}', this, '${Utils.escapeAttr(o)}')" type="button">${Utils.escapeHtml(o)}</button>`).join('');
+    return `<div class="gui gui-scale" id="${id}">
+      <div class="scale-title">${Utils.escapeHtml(question)}</div>
+      <div class="scale-options">${optsHtml}</div>
+    </div>`;
   },
 
   grounding_exercise: (data) => {
     const title = data?.title || '5-4-3-2-1 · Gufata ibintu';
-    const steps = Array.isArray(data?.steps) && data.steps.length
-      ? data.steps
-      : [
-          'Reba ibintu 5 uri kureba ubu',
-          'Umva amajwi 4 uri kumva ubu',
-          'Kora ibintu 3 uri gukora ubu',
-          'Humva ibintu 2 uri kumva impumuro',
-          'Shakisha ikintu 1 wumva mu kanwa'
-        ];
-
-    const stepsHtml = steps.map((step, i) => `
-      <div class="grounding-step">
-        <div class="grounding-num">${i + 1}</div>
-        <div class="grounding-text">${Utils.escapeHtml(step)}</div>
-      </div>
-    `).join('');
-
-    return `
-      <div class="gui gui-grounding">
-        <div class="grounding-title">
-          <i class="fas fa-hand-paper" aria-hidden="true"></i>
-          ${Utils.escapeHtml(title)}
-        </div>
-        ${stepsHtml}
-      </div>
-    `;
+    const steps = Array.isArray(data?.steps) && data.steps.length ? data.steps : [
+      'Reba ibintu 5 uri kureba ubu', 'Umva amajwi 4 uri kumva ubu',
+      'Kora ibintu 3 uri gukora ubu', 'Humva ibintu 2 uri kumva impumuro',
+      'Shakisha ikintu 1 wumva mu kanwa'
+    ];
+    const stepsHtml = steps.map((step, i) => `<div class="grounding-step"><div class="grounding-num">${i + 1}</div><div class="grounding-text">${Utils.escapeHtml(step)}</div></div>`).join('');
+    return `<div class="gui gui-grounding"><div class="grounding-title"><i class="fas fa-hand-paper" aria-hidden="true"></i> ${Utils.escapeHtml(title)}</div>${stepsHtml}</div>`;
   },
 
   checkin_slider: (data) => {
     const question = data?.question || 'Ubu wumva ute?';
-    const min = data?.min ?? 1;
-    const max = data?.max ?? 10;
+    const min = data?.min ?? 1, max = data?.max ?? 10;
     const id = Utils.uid('checkin');
-
-    return `
-      <div class="gui gui-checkin" id="${id}">
-        <div class="checkin-title">${Utils.escapeHtml(question)}</div>
-        <div class="checkin-value" id="${id}-value">${Math.floor((min + max) / 2)}</div>
-        <input type="range" class="checkin-slider" min="${min}" max="${max}" value="${Math.floor((min + max) / 2)}" id="${id}-slider" aria-label="${Utils.escapeAttr(question)}">
-        <div class="checkin-labels">
-          <span>${min}</span>
-          <span>${max}</span>
-        </div>
-      </div>
-    `;
+    const mid = Math.floor((min + max) / 2);
+    return `<div class="gui gui-checkin" id="${id}">
+      <div class="checkin-title">${Utils.escapeHtml(question)}</div>
+      <div class="checkin-value" id="${id}-value">${mid}</div>
+      <input type="range" class="checkin-slider" min="${min}" max="${max}" value="${mid}" id="${id}-slider" aria-label="${Utils.escapeAttr(question)}">
+      <div class="checkin-labels"><span>${min}</span><span>${max}</span></div>
+    </div>`;
   },
 
   referral_card: (data) => {
     const title = data?.title || 'Kwa muganga';
-    const body = data?.body || 'Niba ibi bikomeje, ni byiza kubonana n\'umuganga w\'indwara zo mu mutwe.';
-    return `
-      <div class="gui gui-referral">
-        <div class="referral-head">
-          <i class="fas fa-user-md" aria-hidden="true"></i>
-          ${Utils.escapeHtml(title)}
-        </div>
-        <div class="referral-body">${Utils.escapeHtml(body)}</div>
-      </div>
-    `;
+    const body = data?.body || "Niba ibi bikomeje, ni byiza kubonana n'umuganga w'indwara zo mu mutwe.";
+    return `<div class="gui gui-referral"><div class="referral-head"><i class="fas fa-user-md" aria-hidden="true"></i> ${Utils.escapeHtml(title)}</div><div class="referral-body">${Utils.escapeHtml(body)}</div></div>`;
   }
 };
 
@@ -3261,89 +2918,43 @@ function initCheckinSliders(root = document) {
   root.querySelectorAll('.gui-checkin').forEach(el => {
     const slider = el.querySelector('.checkin-slider');
     const value = el.querySelector('.checkin-value');
-    if (slider && value) {
-      slider.addEventListener('input', () => {
-        value.textContent = slider.value;
-      });
-    }
+    if (slider && value) slider.addEventListener('input', () => { value.textContent = slider.value; });
   });
 }
 
-/* ============================================================
-   SECTION 5: COMPONENT CONTROLLERS
-   ============================================================ */
-
 const BreathingController = {
   active: {},
-
   start(id, inhale, hold, exhale) {
     this.stop(id);
     const circle = document.getElementById(id + '-circle');
     if (!circle) return;
-
-    let phase = 'inhale';
-    let count = inhale;
-    let running = true;
-
-    const self = this;
-    this.active[id] = {
-      stop: () => { running = false; }
-    };
-
+    let phase = 'inhale', count = inhale, running = true;
+    this.active[id] = { stop: () => { running = false; } };
     circle.textContent = count + 's';
     circle.classList.add('inhale');
-
     function tick() {
       if (!running) return;
       count--;
       if (phase === 'inhale') {
         circle.textContent = count + 's';
-        if (count <= 0) {
-          phase = 'hold';
-          count = hold;
-          circle.classList.remove('inhale');
-          circle.classList.add('hold');
-          circle.textContent = count > 0 ? 'Fata ' + count : 'Fata';
-        }
+        if (count <= 0) { phase = 'hold'; count = hold; circle.classList.remove('inhale'); circle.classList.add('hold'); circle.textContent = count > 0 ? 'Fata ' + count : 'Fata'; }
       } else if (phase === 'hold') {
         circle.textContent = 'Fata ' + count;
-        if (count <= 0) {
-          phase = 'exhale';
-          count = exhale;
-          circle.classList.remove('hold');
-          circle.classList.add('exhale');
-          circle.textContent = count + 's';
-        }
+        if (count <= 0) { phase = 'exhale'; count = exhale; circle.classList.remove('hold'); circle.classList.add('exhale'); circle.textContent = count + 's'; }
       } else if (phase === 'exhale') {
         circle.textContent = count + 's';
-        if (count <= 0) {
-          phase = 'inhale';
-          count = inhale;
-          circle.classList.remove('exhale');
-          circle.classList.add('inhale');
-          circle.textContent = count + 's';
-        }
+        if (count <= 0) { phase = 'inhale'; count = inhale; circle.classList.remove('exhale'); circle.classList.add('inhale'); circle.textContent = count + 's'; }
       }
       setTimeout(tick, 1000);
     }
     setTimeout(tick, 1000);
   },
-
   stop(id) {
-    if (this.active[id]) {
-      this.active[id].stop();
-      delete this.active[id];
-    }
+    if (this.active[id]) { this.active[id].stop(); delete this.active[id]; }
     const circle = document.getElementById(id + '-circle');
-    if (circle) {
-      circle.classList.remove('inhale', 'hold', 'exhale');
-      circle.textContent = 'Tangira';
-    }
+    if (circle) { circle.classList.remove('inhale', 'hold', 'exhale'); circle.textContent = 'Tangira'; }
   },
-
-  stopAll() {
-    Object.keys(this.active).forEach(id => this.stop(id));
-  }
+  stopAll() { Object.keys(this.active).forEach(id => this.stop(id)); }
 };
 
 const AssessmentController = {
@@ -3352,14 +2963,9 @@ const AssessmentController = {
     if (!container) return;
     container.querySelectorAll('.scale-option').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
-    const evt = new CustomEvent('assessment-select', { detail: { id, value } });
-    document.dispatchEvent(evt);
+    document.dispatchEvent(new CustomEvent('assessment-select', { detail: { id, value } }));
   }
 };
-
-/* ============================================================
-   SECTION 6: COMPONENT RENDERER
-   ============================================================ */
 
 function renderParts(parts) {
   if (!Array.isArray(parts)) return '';
@@ -3367,411 +2973,175 @@ function renderParts(parts) {
     if (!part || typeof part !== 'object') return '';
     const renderer = ComponentRegistry[part.type];
     if (typeof renderer === 'function') {
-      try {
-        return renderer(part.data || {});
-      } catch (e) {
-        console.warn('Component render failed:', part.type, e);
-        return '';
-      }
+      try { return renderer(part.data || {}); }
+      catch (e) { console.warn('Component render failed:', part.type, e); return ''; }
     }
-    if (part.data?.content) {
-      return ComponentRegistry.text(part.data);
-    }
+    if (part.data?.content) return ComponentRegistry.text(part.data);
     return '';
   }).join('');
 }
 
-/* ============================================================
-   SECTION 7: STREAMING JSON PARSER
-   ============================================================ */
-
 class StreamingJSONParser {
   constructor(onPart, onError) {
-    this.buffer = '';
-    this.parts = [];
-    this.currentIndex = 0;
-    this.state = 'idle';
-    this.onPart = onPart || (() => {});
-    this.onError = onError || (() => {});
-    this.emitted = new Set();
+    this.buffer = ''; this.parts = []; this.currentIndex = 0;
+    this.state = 'idle'; this.onPart = onPart || (() => {}); this.onError = onError || (() => {}); this.emitted = new Set();
   }
-
-  push(chunk) {
-    this.buffer += chunk;
-    this.tryParse();
-  }
-
+  push(chunk) { this.buffer += chunk; this.tryParse(); }
   tryParse() {
     if (this.state === 'done') return;
-
     const partsMatch = this.buffer.match(/"parts"\s*:\s*\[/);
-    if (!partsMatch) {
-      if (/"parts"\s*:\s*\[/.test(this.buffer)) {
-        this.state = 'found_parts';
-      }
-      return;
-    }
-
-    if (this.state === 'idle') {
-      this.state = 'found_parts';
-    }
-
+    if (!partsMatch) return;
+    if (this.state === 'idle') this.state = 'found_parts';
     const startIdx = partsMatch.index + partsMatch[0].length - 1;
-    let depth = 0;
-    let endIdx = -1;
-
+    let depth = 0, endIdx = -1;
     for (let i = startIdx; i < this.buffer.length; i++) {
       const c = this.buffer[i];
       if (c === '[') depth++;
-      else if (c === ']') {
-        depth--;
-        if (depth === 0) { endIdx = i; break; }
-      }
+      else if (c === ']') { depth--; if (depth === 0) { endIdx = i; break; } }
     }
-
-    if (endIdx === -1) {
-      this.tryParsePartialParts(startIdx);
-      return;
-    }
-
+    if (endIdx === -1) { this.tryParsePartialParts(startIdx); return; }
     const arrText = this.buffer.substring(startIdx, endIdx + 1);
     try {
       const arr = JSON.parse(arrText);
       arr.forEach((part, i) => {
         const key = i + ':' + JSON.stringify(part).slice(0, 50);
-        if (!this.emitted.has(key)) {
-          this.emitted.add(key);
-          this.parts.push(part);
-          this.onPart(part, i);
-        }
+        if (!this.emitted.has(key)) { this.emitted.add(key); this.parts.push(part); this.onPart(part, i); }
       });
       this.state = 'done';
-    } catch (e) {
-      this.onError(e);
-    }
+    } catch (e) { this.onError(e); }
   }
-
   tryParsePartialParts(startIdx) {
     let i = startIdx + 1;
     while (i < this.buffer.length) {
       while (i < this.buffer.length && /\s/.test(this.buffer[i])) i++;
       if (i >= this.buffer.length || this.buffer[i] === ']') break;
       if (this.buffer[i] !== '{') break;
-
-      let depth = 0;
-      let end = -1;
-      let inStr = false;
-      let esc = false;
+      let depth = 0, end = -1, inStr = false, esc = false;
       for (let j = i; j < this.buffer.length; j++) {
         const c = this.buffer[j];
-        if (inStr) {
-          if (esc) { esc = false; }
-          else if (c === '\\') { esc = true; }
-          else if (c === '"') { inStr = false; }
-        } else {
-          if (c === '"') inStr = true;
-          else if (c === '{') depth++;
-          else if (c === '}') {
-            depth--;
-            if (depth === 0) { end = j; break; }
-          }
-        }
+        if (inStr) { if (esc) esc = false; else if (c === '\\') esc = true; else if (c === '"') inStr = false; }
+        else { if (c === '"') inStr = true; else if (c === '{') depth++; else if (c === '}') { depth--; if (depth === 0) { end = j; break; } } }
       }
       if (end === -1) break;
-
       const objText = this.buffer.substring(i, end + 1);
       try {
         const part = JSON.parse(objText);
         const key = this.currentIndex + ':' + objText.slice(0, 50);
-        if (!this.emitted.has(key)) {
-          this.emitted.add(key);
-          this.parts.push(part);
-          this.onPart(part, this.currentIndex);
-          this.currentIndex++;
-        }
-      } catch (e) {
-        break;
-      }
+        if (!this.emitted.has(key)) { this.emitted.add(key); this.parts.push(part); this.onPart(part, this.currentIndex); this.currentIndex++; }
+      } catch (e) { break; }
       i = end + 1;
     }
   }
-
-  getParts() {
-    return this.parts;
-  }
-
-  reset() {
-    this.buffer = '';
-    this.parts = [];
-    this.currentIndex = 0;
-    this.state = 'idle';
-    this.emitted = new Set();
-  }
+  getParts() { return this.parts; }
+  reset() { this.buffer = ''; this.parts = []; this.currentIndex = 0; this.state = 'idle'; this.emitted = new Set(); }
 }
-
-/* ============================================================
-   SECTION 8: ELITE RESPONSE FORMATTER
-   ============================================================ */
 
 class EliteResponseFormatter {
   constructor() {
     this.parts = [];
-    this.metadata = {
-      confidence: 0.85,
-      emotion: 'neutral',
-      intent: 'neutral',
-      model: 'local',
-      responseTime: 0
-    };
+    this.metadata = { confidence: 0.85, emotion: 'neutral', intent: 'neutral', model: 'local', responseTime: 0 };
   }
-
-  addText(content) {
-    if (!content) return this;
-    this.parts.push({ type: 'text', data: { content } });
-    return this;
-  }
-
-  addBreathing(inhale = 4, hold = 4, exhale = 6, title) {
-    this.parts.push({
-      type: 'breathing_exercise',
-      data: { inhale, hold, exhale, ...(title ? { title } : {}) }
-    });
-    return this;
-  }
-
-  addMoodChart(scores, labels, title) {
-    this.parts.push({
-      type: 'mood_chart',
-      data: { scores, labels, ...(title ? { title } : {}) }
-    });
-    return this;
-  }
-
-  addResource(items) {
-    this.parts.push({ type: 'resource_card', data: { items } });
-    return this;
-  }
-
-  addCrisis(numbers) {
-    this.parts.push({
-      type: 'crisis_escalation',
-      data: numbers ? { numbers } : {}
-    });
-    return this;
-  }
-
-  addScale(question, options) {
-    this.parts.push({
-      type: 'assessment_scale',
-      data: { question, options }
-    });
-    return this;
-  }
-
-  addGrounding(steps, title) {
-    this.parts.push({
-      type: 'grounding_exercise',
-      data: { steps, ...(title ? { title } : {}) }
-    });
-    return this;
-  }
-
-  addCheckin(question, min, max) {
-    this.parts.push({
-      type: 'checkin_slider',
-      data: { question, min, max }
-    });
-    return this;
-  }
-
-  addReferral(title, body) {
-    this.parts.push({ type: 'referral_card', data: { title, body } });
-    return this;
-  }
-
-  setMeta(key, value) {
-    this.metadata[key] = value;
-    return this;
-  }
-
-  build() {
-    return {
-      parts: this.parts,
-      metadata: { ...this.metadata }
-    };
-  }
-
-  toText() {
-    return this.parts
-      .filter(p => p.type === 'text')
-      .map(p => p.data?.content || '')
-      .join('\n\n');
-  }
+  addText(content) { if (!content) return this; this.parts.push({ type: 'text', data: { content } }); return this; }
+  addBreathing(inhale = 4, hold = 4, exhale = 6, title) { this.parts.push({ type: 'breathing_exercise', data: { inhale, hold, exhale, ...(title ? { title } : {}) } }); return this; }
+  addMoodChart(scores, labels, title) { this.parts.push({ type: 'mood_chart', data: { scores, labels, ...(title ? { title } : {}) } }); return this; }
+  addResource(items) { this.parts.push({ type: 'resource_card', data: { items } }); return this; }
+  addCrisis(numbers) { this.parts.push({ type: 'crisis_escalation', data: numbers ? { numbers } : {} }); return this; }
+  addScale(question, options) { this.parts.push({ type: 'assessment_scale', data: { question, options } }); return this; }
+  addGrounding(steps, title) { this.parts.push({ type: 'grounding_exercise', data: { steps, ...(title ? { title } : {}) } }); return this; }
+  addCheckin(question, min, max) { this.parts.push({ type: 'checkin_slider', data: { question, min, max } }); return this; }
+  addReferral(title, body) { this.parts.push({ type: 'referral_card', data: { title, body } }); return this; }
+  setMeta(key, value) { this.metadata[key] = value; return this; }
+  build() { return { parts: this.parts, metadata: { ...this.metadata } }; }
+  toText() { return this.parts.filter(p => p.type === 'text').map(p => p.data?.content || '').join('\n\n'); }
 }
-
-/* ============================================================
-   SECTION 9: TOAST SYSTEM
-   ============================================================ */
 
 const Toast = {
   container: null,
-
-  init() {
-    this.container = document.getElementById('toastContainer');
-  },
-
+  init() { this.container = document.getElementById('toastContainer'); },
   show(message, type = 'info', duration = 3200) {
     if (!this.container) this.init();
     if (!this.container) return;
-
     const el = document.createElement('div');
     el.className = `toast ${type}`;
     el.setAttribute('role', 'status');
-
-    const icons = {
-      success: 'fa-check-circle',
-      error: 'fa-exclamation-circle',
-      warning: 'fa-exclamation-triangle',
-      info: 'fa-info-circle'
-    };
-
-    el.innerHTML = `
-      <i class="fas ${icons[type] || icons.info}" aria-hidden="true"></i>
-      <span>${Utils.escapeHtml(message)}</span>
-    `;
-
+    const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle', info: 'fa-info-circle' };
+    el.innerHTML = `<i class="fas ${icons[type] || icons.info}" aria-hidden="true"></i><span>${Utils.escapeHtml(message)}</span>`;
     this.container.appendChild(el);
-
-    setTimeout(() => {
-      el.style.animation = 'toastIn 0.2s ease reverse';
-      setTimeout(() => el.remove(), 200);
-    }, duration);
+    setTimeout(() => { el.style.animation = 'toastIn 0.2s ease reverse'; setTimeout(() => el.remove(), 200); }, duration);
   },
-
   success(msg) { this.show(msg, 'success'); },
   error(msg) { this.show(msg, 'error'); },
   warning(msg) { this.show(msg, 'warning'); },
   info(msg) { this.show(msg, 'info'); }
 };
 
-/* ============================================================
-   SECTION 10: MODAL CONTROLLER
-   ============================================================ */
-
 const Modal = {
   open(id) {
     const el = document.getElementById(id);
     if (!el) return;
     el.classList.add('active');
-    const focusable = el.querySelector('button, [href], input, textarea, select');
-    if (focusable) setTimeout(() => focusable.focus(), 100);
+    const f = el.querySelector('button, [href], input, textarea, select');
+    if (f) setTimeout(() => f.focus(), 100);
     document.body.style.overflow = 'hidden';
   },
-
   close(id) {
     const el = document.getElementById(id);
     if (!el) return;
     el.classList.remove('active');
     document.body.style.overflow = '';
   },
-
   closeAll() {
-    document.querySelectorAll('.modal-backdrop.active').forEach(el => {
-      el.classList.remove('active');
-    });
+    document.querySelectorAll('.modal-backdrop.active').forEach(el => el.classList.remove('active'));
     document.body.style.overflow = '';
   },
-
   init() {
     document.addEventListener('click', (e) => {
       const closeBtn = e.target.closest('[data-close]');
-      if (closeBtn) {
-        this.close(closeBtn.dataset.close);
-        return;
-      }
-      if (e.target.classList.contains('modal-backdrop')) {
-        this.close(e.target.id);
-      }
+      if (closeBtn) { this.close(closeBtn.dataset.close); return; }
+      if (e.target.classList.contains('modal-backdrop')) this.close(e.target.id);
     });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') this.closeAll();
-    });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') this.closeAll(); });
   }
 };
 
-/* ============================================================
-   SECTION 11: THEME CONTROLLER
-   ============================================================ */
-
 const Theme = {
   current: 'light',
-
   init() {
     this.current = Storage.get('theme', 'light');
     this.apply(this.current);
   },
-
   apply(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     this.current = theme;
     Storage.set('theme', theme);
     const icon = document.getElementById('themeIcon');
-    if (icon) {
-      icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-    }
+    if (icon) icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) {
-      meta.content = theme === 'dark' ? '#1A1815' : '#F5F0E8';
-    }
+    if (meta) meta.content = theme === 'dark' ? '#1A1815' : '#F5F0E8';
   },
-
-  toggle() {
-    this.apply(this.current === 'dark' ? 'light' : 'dark');
-  }
+  toggle() { this.apply(this.current === 'dark' ? 'light' : 'dark'); }
 };
 
-/* ============================================================
-   SECTION 12: SCROLL MANAGER
-   ============================================================ */
-
 const ScrollManager = {
-  container: null,
-  button: null,
-  threshold: 150,
-
+  container: null, button: null, threshold: 150,
   init() {
     this.container = document.getElementById('messages');
     this.button = document.getElementById('scrollBottom');
     if (!this.container) return;
-
-    this.container.addEventListener('scroll', Utils.throttle(() => {
-      this.updateButton();
-    }, 100));
-
-    if (this.button) {
-      this.button.addEventListener('click', () => this.toBottom());
-    }
+    this.container.addEventListener('scroll', Utils.throttle(() => this.updateButton(), 100));
+    if (this.button) this.button.addEventListener('click', () => this.toBottom());
   },
-
   updateButton() {
     if (!this.container || !this.button) return;
     const { scrollTop, scrollHeight, clientHeight } = this.container;
     const atBottom = scrollHeight - scrollTop - clientHeight < this.threshold;
     this.button.classList.toggle('visible', !atBottom);
   },
-
   toBottom(smooth = true) {
     if (!this.container) return;
-    this.container.scrollTo({
-      top: this.container.scrollHeight,
-      behavior: smooth ? 'smooth' : 'auto'
-    });
+    this.container.scrollTo({ top: this.container.scrollHeight, behavior: smooth ? 'smooth' : 'auto' });
   }
 };
-
-/* ============================================================
-   SECTION 13: EXPORT
-   ============================================================ */
 
 window.TyazaUtils = Utils;
 window.TyazaStorage = Storage;
@@ -3789,50 +3159,26 @@ window.ScrollManager = ScrollManager;
 window.initCheckinSliders = initCheckinSliders;
 
 console.log('%cTYAZA v1 · Part 2 loaded', 'color:#7D9B8A;font-weight:600;font-size:13px;');
-console.log('Component registry:', Object.keys(ComponentRegistry));
 </script>
 
 <script>
 /* ============================================================
-   TYAZA v1 · Part 3
-   Emotion Engine · Dataset · Response Gen · LLM · Voice
+   TYAZA v1 · PART 3 (UPGRADED)
    ============================================================ */
 
 'use strict';
 
-/* ============================================================
-   SECTION 1: CONFIGURATION
-   ============================================================ */
-
 const CONFIG = {
   deepseek: {
-    apiKey: 'YOUR_DEEPSEEK_API_KEY',
+    apiKey: 'sk-6e67194c49564b17b6c44a6f5b692b97',
     baseUrl: 'https://api.deepseek.com',
-    model: 'deepseek-v4.1-flash',
+    model: 'deepseek-chat',
     timeout: 30000
   },
-  asr: {
-    endpoint: 'http://localhost:8001',
-    language: 'rw',
-    silenceMs: 800,
-    chunkMs: 100
-  },
-  tts: {
-    endpoint: 'http://localhost:8002',
-    voice: 'calm_female',
-    emotion: 'calm',
-    timeout: 8000
-  },
-  limits: {
-    maxMessages: 100,
-    maxConversations: 30,
-    maxHistoryShown: 20
-  }
+  asr: { endpoint: 'http://localhost:8001', language: 'rw', silenceMs: 800, chunkMs: 100 },
+  tts: { endpoint: 'http://localhost:8002', voice: 'calm_female', emotion: 'calm', timeout: 15000, enabled: true },
+  limits: { maxMessages: 100, maxConversations: 30, maxHistoryShown: 20 }
 };
-
-/* ============================================================
-   SECTION 2: COMPANY + MISSION
-   ============================================================ */
 
 const COMPANY_INFO = {
   name: 'KIVURA LABS',
@@ -3840,7 +3186,7 @@ const COMPANY_INFO = {
   ceo: 'Yves Hirwa Tuyishime',
   quote: 'Healthy citizens, wealthy nation',
   product: 'TYAZA',
-  tagline: "TYAZA — Inzira y'Isanomutima.",
+  tagline: "TYAZA — Inzira y'Isanamutima.",
   description: "KIVURA LABS ni uruganda rw'ikoranabuhanga rushinzwe na Yves Hirwa Tuyishime, rukora TYAZA, AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.",
   founded: 2024,
   location: 'Rwanda'
@@ -3854,19 +3200,9 @@ const TYAZA_MISSION = {
 4. Kubungabunga no guteza imbere ururimi rwacu rw'umubyeyi (Ikinyarwanda).`,
   mission: `Gutanga ubwenge bw'ikoranabuhanga bwimbitse, bufite ubumuntu, bufasha abantu gusobanukirwa amarangamutima yabo, kumenya ibibazo hakiri kare, no kubona ibisubizo bifatika mu buzima bwa buri munsi.`,
   vision: `Kubaka sisitemu ihuriweho y'ubwenge ishobora gutekereza, kumva, kurinda, no gufasha abantu mu buryo bujyanye n'umuco n'ururimi rwabo.`,
-  values: [
-    'Ubumuntu (Human-centered intelligence)',
-    "Ukuri n'ubunyangamugayo",
-    "Kurengera ubuzima n'umutekano w'umuntu",
-    "Kubaha umuco n'ururimi",
-    'Gufasha nta kurobanura'
-  ],
-  tagline: "TYAZA — Inzira y'Isanomutima."
+  values: ['Ubumuntu (Human-centered intelligence)', "Ukuri n'ubunyangamugayo", "Kurengera ubuzima n'umutekano w'umuntu", "Kubaha umuco n'ururimi", 'Gufasha nta kurobanura'],
+  tagline: "TYAZA — Inzira y'Isanamutima."
 };
-
-/* ============================================================
-   SECTION 3: TYAZA DATASET
-   ============================================================ */
 
 const TYAZA_DATASET = {
   proverbs: {
@@ -3901,286 +3237,113 @@ const TYAZA_DATASET = {
     'Umenya kubura ni we umenya kubona': "Kubura biguha agaciro k'ibintu",
     'Uwihangana yubaka igihe': 'Kwihangana bifasha gutsinda'
   },
-
   rareWords: {
-    'Urwangano': 'Urwango rwinshi rurenze urugero',
-    'Ubwirasi': 'Kwiyemera gukabije',
-    "Ubwoba bw'igicucu": 'Gutinya ibintu bidafite ishingiro',
-    'Ubugugu': 'Kutagira umutima wo gutanga',
-    "Ubusambo bw'umutima": "Gukunda iby'abandi cyane",
-    'Uburiganya': "Uburiganya bukomeye, bw'amayeri",
-    'Ubugome': 'Kugira umutima mubi cyane',
-    'Ihungabana': "Guhungabana k'umutima n'ibitekerezo",
-    'Agahinda kenshi': 'Intimba irenze urugero',
-    "Ikiruhuko cy'umutima": 'Amahoro yo mu mutima',
-    'Umutima uhagaze': 'Umuntu ufite impagarara',
-    "Ikiniga cy'umutima": 'Kubura aho uhurira n\'amarangamutima',
-    "Umubabaro w'ituze": 'Kubabara ariko ucecetse',
-    'Indyarya': 'Umuntu wiyoberanya',
-    'Indyamirizi': 'Umuntu ukunda guteza ibibazo',
-    'Inkotanyi': 'Intwari idatinya (mu mvugo ya kera)',
-    'Ishyano': 'Ibyago bikomeye cyane',
-    'Ubugabo butisubira': 'Ubutwari bukabije',
-    "Ikinyoma cy'amaso": 'Kubeshya ugaragara neza',
-    'Ubukene bukabije': 'Ubukene bwo hasi cyane',
-    'Ubusabirizi': 'Gusabiriza ubuzima',
-    'Ubupfura': 'Imyitwarire myiza iranga umuntu',
-    'Ubunyamwuga': "Gukora ibintu neza nk'umwuga",
-    'Uburere gakondo': 'Uburere bwa kinyarwanda bwa kera',
-    'Gucura umugambi': 'Gutegura ibintu mu ibanga',
-    'Gushyira mu gaciro': 'Gutekereza neza',
-    'Kwirara mu bandi': 'Kutigira ahubwo ugashingira ku bandi',
-    'Gucisha make': 'Kugabanya ibintu bucece',
-    'Kwigunga': "Kwitandukanya n'abandi",
-    'Umutima-muke': 'Kutihangana cyangwa kugira ubwoba',
-    'Umutima-munini': "Kugira impuhwe n'ubuntu bwinshi",
-    'Umunyamahane': 'Umuntu ukunda kurakara cyane',
-    'Umunyabigwi': 'Umuntu uvugwa cyane kubera ibikorwa',
-    'Ubunyamaswa': 'Imyitwarire idafite ubumuntu',
-    'Ubusuzugurano': "Kwirengagiza abandi ubona nk'abatagira agaciro",
-    'Ubuswa': "Kutamenya n'ibigaragara",
-    'Umunyempuhwe nke': 'Utita ku bandi',
-    'Umunyagitugu': 'Ukunda gutegeka abandi ku gahato',
-    'Ubupfura nyabwo': 'Imyitwarire myiza ishingiye ku muco',
-    'Ubumuntu busesuye': "Kugira umutima wita ku bandi by'ukuri",
-    'Ubugwaneza': 'Gutuza no kugirira abandi neza',
-    'Ubutwari bwuje ituze': 'Ubutwari budafite urusaku',
-    'Umunyabuntu': "Umuntu ugira impuhwe n'ubugwaneza",
-    'Umuco gakondo': 'Imigenzo ya kera iranga Abanyarwanda',
-    "Uruhererekane rw'imico": 'Uburyo umuco uhererekanywa',
-    "Indangagaciro z'umuco": "Iby'ingenzi bigize umuco",
-    'Ubushishozi buhanitse': 'Ubushobozi bwo kubona kure cyane',
-    'Gucengera ibintu': 'Kumva ibintu byimbitse',
-    'Gusesengura mu mizi': 'Gusobanukirwa ibintu mu buryo bwagutse',
-    "Gutandukanya ukuri n'ikinyoma": "Kumenya neza icy'ukuri",
-    'Gufata icyemezo gitekerejweho': 'Kudahubuka',
-    'Guhuza ibitekerezo': 'Gutunganya logic',
-    'Kwagura imitekerereze': "Gutekereza hanze y'ibisanzwe",
-    'Gushyira mu gaciro nyabwo': 'Gutekereza neza nta kubogama',
-    'Gusesa ibitekerezo bitari byo': 'Gukosora imyumvire',
-    'Kugaragaza ishingiro': "Gusobanura impamvu y'ikintu",
-    'Kurya iminwa': 'Kwifata ngo utavuga',
-    'Guca ku ruhande': 'Kwirinda ikibazo',
-    'Gushyira umutima hamwe': "Gufatanya n'abandi",
-    'Guterera agati mu ryinyo': 'Kugira icyo utanga mu kiganiro',
-    'Gushyira ku munzani': 'Gupima ibintu neza',
-    'Kurenga imbibi': 'Gukora ibirenze ibiteganyijwe',
-    'Gukubita agatoki ku kandi': 'Kwicuza',
-    'Gushyira hasi umutima': 'Koroherwa',
-    'Gufata bugwate amarangamutima': 'Kugenzura uko wiyumva',
-    'Gushyira mu mucyo': 'Gusobanura neza',
-    'Icyizere gishengutse': 'Icyizere cyapfuye',
-    'Umutima utagira aho ubarizwa': 'Kumva utazi aho uri mu buzima',
-    "Ijwi rituje ry'umutima": "Kumva ijwi ry'imbere muri wowe",
-    "Imbaraga z'ituze": 'Imbaraga zidafite urusaku',
-    "Umwijima w'amarangamutima": 'Kumva ubuzima bwijimye',
-    "Irumuri ry'imbere": 'Ibyiringiro byo mu mutima',
-    'Umutima uremerewe': 'Kumva ufite ibibazo byinshi',
-    'Ikinyoma cyuje ukuri': "Ikintu kigaragara nk'ukuri ariko atari ko",
-    'Ubugingo bucecetse': 'Kubaho utagaragaza ibiri imbere',
-    "Imirindi y'ibitekerezo": 'Ibitekerezo byinshi byiruka mu mutwe',
-    'Ubwibone': "Kwishyira hejuru utekereza ko uri hejuru y'abandi",
-    'Umunyagasuzuguro': 'Usuzugura buri wese',
-    'Ubugome bushukana': 'Gukora nabi ubigize neza inyuma',
-    'Ubusumbane': 'Kutangana (social imbalance)',
-    'Ubusugire': 'Kudahinduka, kuba kizima',
-    'Ubukangarane': 'Gukangarana cyane / gutungurwa bikabije',
-    'Ubuhanya': 'Ubwenge bwo kwirinda no kwitwararika',
-    'Ubugenge': "Ubwitonzi bujyanye n'uburambe",
-    'Ubugengebuke': 'Kubura ubushishozi',
-    'Ubugaragara': "Imiterere igaragara y'ikintu",
-    'Ubwitange': 'Kwitanga',
-    'Ubufatanye': 'Gufatanya',
-    'Ubudahemuka': 'Kunyarukira',
-    'Ubutabera': 'Ubutabera',
-    'Ubugwari': 'Kubura ubutwari no guhunga inshingano',
-    'Ubwitonzi': 'Kugenda buhoro utekereje',
-    'Ubudahangarwa': 'Kutihangana',
-    'Ubutwari': 'Kugira umutima ukomeye',
-    'Ubwoba nkuru': 'Gutinya cyane',
+    'Urwangano': 'Urwango rwinshi rurenze urugero', 'Ubwirasi': 'Kwiyemera gukabije',
+    'Ubugugu': 'Kutagira umutima wo gutanga', 'Uburiganya': "Uburiganya bukomeye, bw'amayeri",
+    'Ubugome': 'Kugira umutima mubi cyane', 'Ihungabana': "Guhungabana k'umutima n'ibitekerezo",
+    'Agahinda kenshi': 'Intimba irenze urugero', "Ikiruhuko cy'umutima": 'Amahoro yo mu mutima',
+    'Umutima uhagaze': 'Umuntu ufite impagarara', "Umubabaro w'ituze": 'Kubabara ariko ucecetse',
+    'Indyarya': 'Umuntu wiyoberanya', 'Indyamirizi': 'Umuntu ukunda guteza ibibazo',
+    'Inkotanyi': 'Intwari idatinya (mu mvugo ya kera)', 'Ishyano': 'Ibyago bikomeye cyane',
+    'Ubugabo butisubira': 'Ubutwari bukabije', 'Ubukene bukabije': 'Ubukene bwo hasi cyane',
+    'Ubusabirizi': 'Gusabiriza ubuzima', 'Ubupfura': 'Imyitwarire myiza iranga umuntu',
+    'Ubunyamwuga': "Gukora ibintu neza nk'umwuga", 'Uburere gakondo': 'Uburere bwa kinyarwanda bwa kera',
+    'Gucura umugambi': 'Gutegura ibintu mu ibanga', 'Gushyira mu gaciro': 'Gutekereza neza',
+    'Kwirara mu bandi': 'Kutigira ahubwo ugashingira ku bandi', 'Gucisha make': 'Kugabanya ibintu bucece',
+    'Kwigunga': "Kwitandukanya n'abandi", 'Umutima-muke': 'Kutihangana cyangwa kugira ubwoba',
+    'Umutima-munini': "Kugira impuhwe n'ubuntu bwinshi", 'Umunyamahane': 'Umuntu ukunda kurakara cyane',
+    'Umunyabigwi': 'Umuntu uvugwa cyane kubera ibikorwa', 'Ubunyamaswa': 'Imyitwarire idafite ubumuntu',
+    'Ubusuzugurano': "Kwirengagiza abandi ubona nk'abatagira agaciro", 'Ubuswa': "Kutamenya n'ibigaragara",
+    'Umunyempuhwe nke': 'Utita ku bandi', 'Umunyagitugu': 'Ukunda gutegeka abandi ku gahato',
+    'Ubumuntu busesuye': "Kugira umutima wita ku bandi by'ukuri", 'Ubugwaneza': 'Gutuza no kugirira abandi neza',
+    'Ubutwari bwuje ituze': 'Ubutwari budafite urusaku', 'Umunyabuntu': "Umuntu ugira impuhwe n'ubugwaneza",
+    'Umuco gakondo': 'Imigenzo ya kera iranga Abanyarwanda', 'Ubushishozi buhanitse': 'Ubushobozi bwo kubona kure cyane',
+    'Gucengera ibintu': 'Kumva ibintu byimbitse', 'Gusesengura mu mizi': 'Gusobanukirwa ibintu mu buryo bwagutse',
+    "Gutandukanya ukuri n'ikinyoma": "Kumenya neza icy'ukuri", 'Gufata icyemezo gitekerejweho': 'Kudahubuka',
+    'Guhuza ibitekerezo': 'Gutunganya logic', 'Kwagura imitekerereze': "Gutekereza hanze y'ibisanzwe",
+    'Gushyira mu gaciro nyabwo': 'Gutekereza neza nta kubogama', 'Gusesa ibitekerezo bitari byo': 'Gukosora imyumvire',
+    'Kugaragaza ishingiro': "Gusobanura impamvu y'ikintu", 'Kurya iminwa': 'Kwifata ngo utavuga',
+    'Guca ku ruhande': 'Kwirinda ikibazo', 'Gushyira umutima hamwe': "Gufatanya n'abandi",
+    'Guterera agati mu ryinyo': 'Kugira icyo utanga mu kiganiro', 'Gushyira ku munzani': 'Gupima ibintu neza',
+    'Kurenga imbibi': 'Gukora ibirenze ibiteganyijwe', 'Gukubita agatoki ku kandi': 'Kwicuza',
+    'Gushyira hasi umutima': 'Koroherwa', 'Gufata bugwate amarangamutima': 'Kugenzura uko wiyumva',
+    'Gushyira mu mucyo': 'Gusobanura neza', 'Icyizere gishengutse': 'Icyizere cyapfuye',
+    'Umutima utagira aho ubarizwa': 'Kumva utazi aho uri mu buzima', "Ijwi rituje ry'umutima": "Kumva ijwi ry'imbere muri wowe",
+    "Imbaraga z'ituze": 'Imbaraga zidafite urusaku', "Umwijima w'amarangamutima": 'Kumva ubuzima bwijimye',
+    "Irumuri ry'imbere": 'Ibyiringiro byo mu mutima', 'Umutima uremerewe': 'Kumva ufite ibibazo byinshi',
+    'Ubugingo bucecetse': 'Kubaho utagaragaza ibiri imbere', "Imirindi y'ibitekerezo": 'Ibitekerezo byinshi byiruka mu mutwe',
+    'Ubwibone': "Kwishyira hejuru utekereza ko uri hejuru y'abandi", 'Umunyagasuzuguro': 'Usuzugura buri wese',
+    'Ubugome bushukana': 'Gukora nabi ubigize neza inyuma', 'Ubusumbane': 'Kutangana (social imbalance)',
+    'Ubusugire': 'Kudahinduka, kuba kizima', 'Ubukangarane': 'Gukangarana cyane / gutungurwa bikabije',
+    'Ubuhanya': 'Ubwenge bwo kwirinda no kwitwararika', 'Ubugenge': "Ubwitonzi bujyanye n'uburambe",
+    'Ubugengebuke': 'Kubura ubushishozi', 'Ubugaragara': "Imiterere igaragara y'ikintu",
+    'Ubwitange': 'Kwitanga', 'Ubufatanye': 'Gufatanya', 'Ubudahemuka': 'Kunyarukira',
+    'Ubutabera': 'Ubutabera', 'Ubugwari': 'Kubura ubutwari no guhunga inshingano',
+    'Ubwitonzi': 'Kugenda buhoro utekereje', 'Ubudahangarwa': 'Kutihangana',
+    'Ubutwari': 'Kugira umutima ukomeye', 'Ubwoba nkuru': 'Gutinya cyane',
     'Ubuhemu': 'Kutubahiriza isezerano'
   },
-
   emotions: {
-    greeting: {
-      patterns: ['muraho', 'hello', 'hi', 'hey', 'mwaramutse', 'mwiriwe', 'amakuru', 'bite', 'sawubona', 'bonjour', 'salut']
-    },
-    about_company: {
-      patterns: ['kivura labs', 'kivura', 'kampani', 'company', 'uruganda', 'business', 'startup']
-    },
-    about_ceo: {
-      patterns: ['yves', 'hirwa', 'tuyishime', 'washinze', 'founder', 'ceo', 'umuyobozi', 'who made', 'who created']
-    },
-    sadness: {
-      patterns: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'ndariraye', 'triste', 'sad', 'depressed', 'depression', 'peine', 'gloomy', 'heartbroken', 'devastated']
-    },
-    joy: {
-      patterns: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo', 'heureux', 'happy', 'joy', 'joyful', 'excited', 'great', 'wonderful']
-    },
-    anger: {
-      patterns: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'en colère', 'angry', 'furious', 'mad', 'rage', 'irritated']
-    },
-    anxiety: {
-      patterns: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'anxieux', 'anxious', 'anxiety', 'scared', 'afraid', 'worry', 'worried', 'stress', 'panicked', 'nervous']
-    },
-    loneliness: {
-      patterns: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'seul', 'alone', 'lonely', 'loneliness', 'isolated']
-    },
-    fatigue: {
-      patterns: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'fatigué', 'tired', 'exhausted', 'drained', 'burnt out', 'burnout']
-    }
+    greeting: { patterns: ['muraho', 'hello', 'hi', 'hey', 'mwaramutse', 'mwiriwe', 'amakuru', 'bite', 'sawubona', 'bonjour', 'salut'] },
+    about_company: { patterns: ['kivura labs', 'kivura', 'kampani', 'company', 'uruganda', 'business', 'startup'] },
+    about_ceo: { patterns: ['yves', 'hirwa', 'tuyishime', 'washinze', 'founder', 'ceo', 'umuyobozi', 'who made', 'who created'] },
+    sadness: { patterns: ['mbabaye', 'agahinda', 'ndababaye', 'ndumva nabi', 'umutima ubabaye', 'ndariraye', 'triste', 'sad', 'depressed', 'depression', 'peine', 'gloomy', 'heartbroken', 'devastated'] },
+    joy: { patterns: ['ndishimye', 'ibyishimo', 'ndanezerewe', 'ndumva neza', 'mfite ibyishimo', 'heureux', 'happy', 'joy', 'joyful', 'excited', 'great', 'wonderful'] },
+    anger: { patterns: ['ndarakaye', 'uburakari', 'ndarakajwe', 'umujinya', 'en colère', 'angry', 'furious', 'mad', 'rage', 'irritated'] },
+    anxiety: { patterns: ['ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya', 'anxieux', 'anxious', 'anxiety', 'scared', 'afraid', 'worry', 'worried', 'stress', 'panicked', 'nervous'] },
+    loneliness: { patterns: ['kwigunga', 'ndi njyenyine', 'nta muntu', 'wenyine', 'seul', 'alone', 'lonely', 'loneliness', 'isolated'] },
+    fatigue: { patterns: ['ndushye', 'ndarambiwe', 'umunaniro', 'ndacitse intege', 'naniwe', 'fatigué', 'tired', 'exhausted', 'drained', 'burnt out', 'burnout'] }
   },
-
-  crisis: {
-    patterns: [
-      'kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa',
-      'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye',
-      'sinakomeza', 'nta mpamvu yo kubaho', 'je veux mourir', 'me tuer',
-      'end my life', 'want to die', 'self-harm', 'hurt myself'
-    ]
-  },
-
-  genocide: {
-    patterns: [
-      'jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka',
-      'babambuye', 'babice', 'génocide', 'genocide', 'tutsi', 'hutu', 'rwandan genocide'
-    ]
-  },
-
-  followUpQuestions: [
-    'Hari ikintu cyihariye wifuza kuganiraho uyu munsi?',
-    'Waba ufite ikibazo gikomeye kiri ku mutima?',
-    'Ni iki cyagufasha kumva neza ubu?',
-    'Umutima wawe uvuze iki ubu?',
-    'Hari ibyo wifuza ko twongera kubiganiraho?'
-  ],
-
-  calmingTechniques: [
-    'Gerageza guhumeka buhoro: winjiza umwuka, uwusohore buhoro.',
-    "Fata umwanya w'ituze utekereze ku bintu byiza.",
-    'Andika ibyo wumva mu gitabo.',
-    "Ganira n'umuntu wizeye.",
-    'Jya gutembera mu kirere cyiza.',
-    'Reka nkugirire icyifuzo: guhumeka buhoro nibura inshuro eshatu.'
-  ]
+  crisis: { patterns: ['kwiyahura', 'gupfa', 'kwiyica', 'nshaka gupfa', 'nzishora', 'nzikomeretsa', 'kill myself', 'suicide', 'die', 'ndashaka gupfa', 'byarangiye', 'sinashoboye', 'sinakomeza', 'nta mpamvu yo kubaho', 'je veux mourir', 'me tuer', 'end my life', 'want to die', 'self-harm', 'hurt myself'] },
+  genocide: { patterns: ['jenoside', '1994', 'guhigwa', 'ibyago', 'byabaye', 'nibuka', 'babambuye', 'babice', 'génocide', 'genocide', 'tutsi', 'hutu', 'rwandan genocide'] },
+  followUpQuestions: ['Hari ikintu cyihariye wifuza kuganiraho uyu munsi?', 'Waba ufite ikibazo gikomeye kiri ku mutima?', 'Ni iki cyagufasha kumva neza ubu?', 'Umutima wawe uvuze iki ubu?', 'Hari ibyo wifuza ko twongera kubiganiraho?'],
+  calmingTechniques: ['Gerageza guhumeka buhoro: winjiza umwuka, uwusohore buhoro.', "Fata umwanya w'ituze utekereze ku bintu byiza.", 'Andika ibyo wumva mu gitabo.', "Ganira n'umuntu wizeye.", 'Jya gutembera mu kirere cyiza.', 'Reka nkugirire icyifuzo: guhumeka buhoro nibura inshuro eshatu.']
 };
-
-/* ============================================================
-   SECTION 4: LANGUAGE DETECTION
-   ============================================================ */
 
 const Language = {
   detect(text) {
     if (!text) return 'rw';
     const lower = text.toLowerCase();
-
-    const frPatterns = ['bonjour', 'salut', 'comment', 'je ', 'tu ', 'il ', 'elle ', 'nous ', 'vous ',
-      'français', 'merci', 'oui', 'non', 'triste', 'peine', 'heureux', 'joie', 'colère',
-      'anxieux', 'peur', 'seul', 'fatigué', 'épuisé', 'génocide'];
-
-    const enPatterns = ['hello', 'hi ', 'hey', 'how', 'are you', 'i am', "i'm", 'my ',
-      'sad', 'happy', 'angry', 'afraid', 'scared', 'anxious', 'worried',
-      'alone', 'lonely', 'tired', 'exhausted', 'genocide', 'trauma',
-      'please', 'thank', 'okay', 'yes', 'no '];
-
+    const frPatterns = ['bonjour', 'salut', 'comment', 'je ', 'tu ', 'il ', 'elle ', 'nous ', 'vous ', 'français', 'merci', 'oui', 'non', 'triste', 'peine', 'heureux', 'joie', 'colère', 'anxieux', 'peur', 'seul', 'fatigué', 'épuisé', 'génocide'];
+    const enPatterns = ['hello', 'hi ', 'hey', 'how', 'are you', 'i am', "i'm", 'my ', 'sad', 'happy', 'angry', 'afraid', 'scared', 'anxious', 'worried', 'alone', 'lonely', 'tired', 'exhausted', 'genocide', 'trauma', 'please', 'thank', 'okay', 'yes', 'no '];
     for (const p of frPatterns) if (lower.includes(p)) return 'fr';
     for (const p of enPatterns) if (lower.includes(p)) return 'en';
     return 'rw';
   }
 };
 
-/* ============================================================
-   SECTION 5: INTENT DETECTION
-   ============================================================ */
-
 const IntentEngine = {
   detect(text) {
     if (!text) return { type: 'neutral' };
     const lower = text.toLowerCase();
-
-    for (const p of TYAZA_DATASET.crisis.patterns) {
-      if (lower.includes(p.toLowerCase())) return { type: 'crisis', confidence: 1.0 };
-    }
-
-    for (const p of TYAZA_DATASET.genocide.patterns) {
-      if (lower.includes(p.toLowerCase())) return { type: 'genocide', confidence: 0.95 };
-    }
-
-    for (const p of TYAZA_DATASET.emotions.about_company.patterns) {
-      if (lower.includes(p.toLowerCase())) return { type: 'about_company', confidence: 0.98 };
-    }
-
-    for (const p of TYAZA_DATASET.emotions.about_ceo.patterns) {
-      if (lower.includes(p.toLowerCase())) return { type: 'about_ceo', confidence: 0.98 };
-    }
-
-    const nameMatch = text.match(
-      /(?:nitwa|ndi|izina ryanjye ni|my name is|i'?m|i am|jye ni|jewe ni|je m'appelle|je suis|mon nom est)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i
-    );
+    for (const p of TYAZA_DATASET.crisis.patterns) if (lower.includes(p.toLowerCase())) return { type: 'crisis', confidence: 1.0 };
+    for (const p of TYAZA_DATASET.genocide.patterns) if (lower.includes(p.toLowerCase())) return { type: 'genocide', confidence: 0.95 };
+    for (const p of TYAZA_DATASET.emotions.about_company.patterns) if (lower.includes(p.toLowerCase())) return { type: 'about_company', confidence: 0.98 };
+    for (const p of TYAZA_DATASET.emotions.about_ceo.patterns) if (lower.includes(p.toLowerCase())) return { type: 'about_ceo', confidence: 0.98 };
+    const nameMatch = text.match(/(?:nitwa|ndi|izina ryanjye ni|my name is|i'?m|i am|jye ni|jewe ni|je m'appelle|je suis|mon nom est)\s+([A-Za-zÀ-ÖØ-öø-ÿ\-']{2,20})\b/i);
     if (nameMatch) {
       const name = nameMatch[1].trim();
-      const excluded = [
-        'having', 'have', 'has', 'had', 'ptsd', 'trauma', 'stress', 'anxiety',
-        'depression', 'sad', 'happy', 'angry', 'tired', 'hungry', 'sleepy', 'good', 'bad',
-        'fine', 'okay', 'ok', 'great', 'terrible', 'wonderful', 'horrible', 'amazing', 'awful',
-        'well', 'hello', 'hi', 'muraho', 'mwaramutse', 'amakuru', 'bite', 'sawubona', 'neza',
-        'cyane', 'rwanda', 'kivura', 'labs', 'tyaza', 'murakoze', 'ndabashimiye', 'ndishimiye',
-        'mbabaye', 'agahinda', 'ndababaye', 'ndumva', 'umutima', 'ndarakaye', 'uburakari',
-        'ndarakajwe', 'umujinya', 'ubwoba', 'guhangayika', 'ndatinya', 'ndahangayitse', 'gutinya',
-        'kwigunga', 'ndi', 'njyenyine', 'nta', 'muntu', 'wenyine', 'ndushye', 'ndarambiwe', 'umunaniro',
-        'ndacitse', 'intege', 'naniwe', 'uri'
-      ];
-      if (name.length >= 2 && !excluded.includes(name.toLowerCase())) {
-        return { type: 'name', name, confidence: 0.9 };
-      }
+      const excluded = ['having','have','has','had','ptsd','trauma','stress','anxiety','depression','sad','happy','angry','tired','hungry','sleepy','good','bad','fine','okay','ok','great','terrible','wonderful','horrible','amazing','awful','well','hello','hi','muraho','mwaramutse','amakuru','bite','sawubona','neza','cyane','rwanda','kivura','labs','tyaza','murakoze','ndabashimiye','ndishimiye','mbabaye','agahinda','ndababaye','ndumva','umutima','ndarakaye','uburakari','ndarakajwe','umujinya','ubwoba','guhangayika','ndatinya','ndahangayitse','gutinya','kwigunga','ndi','njyenyine','nta','muntu','wenyine','ndushye','ndarambiwe','umunaniro','ndacitse','intege','naniwe','uri'];
+      if (name.length >= 2 && !excluded.includes(name.toLowerCase())) return { type: 'name', name, confidence: 0.9 };
     }
-
-    for (const p of TYAZA_DATASET.emotions.greeting.patterns) {
-      if (lower.includes(p.toLowerCase())) return { type: 'greeting', confidence: 0.92 };
-    }
-
+    for (const p of TYAZA_DATASET.emotions.greeting.patterns) if (lower.includes(p.toLowerCase())) return { type: 'greeting', confidence: 0.92 };
     for (const [emotion, data] of Object.entries(TYAZA_DATASET.emotions)) {
       if (['greeting', 'about_company', 'about_ceo'].includes(emotion)) continue;
-      for (const p of data.patterns) {
-        if (lower.includes(p.toLowerCase())) return { type: emotion, confidence: 0.85 };
-      }
+      for (const p of data.patterns) if (lower.includes(p.toLowerCase())) return { type: emotion, confidence: 0.85 };
     }
-
     for (const word of Object.keys(TYAZA_DATASET.rareWords)) {
-      if (lower.includes(word.toLowerCase())) {
-        return { type: 'rare_word', word, confidence: 0.95 };
-      }
+      if (lower.includes(word.toLowerCase())) return { type: 'rare_word', word, confidence: 0.95 };
     }
-
     return { type: 'neutral', confidence: 0.6 };
   },
-
   analyzeRisks(text) {
-    const risks = {
-      suicide: false, selfHarm: false, violence: false,
-      ptsd: false, abuse: false, genocideTrauma: false
-    };
+    const risks = { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false };
     const lower = text.toLowerCase();
-
-    for (const p of TYAZA_DATASET.crisis.patterns) {
-      if (lower.includes(p.toLowerCase())) {
-        risks.suicide = true;
-        risks.selfHarm = true;
-      }
-    }
-    for (const p of TYAZA_DATASET.genocide.patterns) {
-      if (lower.includes(p.toLowerCase())) {
-        risks.genocideTrauma = true;
-        risks.ptsd = true;
-      }
-    }
+    for (const p of TYAZA_DATASET.crisis.patterns) if (lower.includes(p.toLowerCase())) { risks.suicide = true; risks.selfHarm = true; }
+    for (const p of TYAZA_DATASET.genocide.patterns) if (lower.includes(p.toLowerCase())) { risks.genocideTrauma = true; risks.ptsd = true; }
     return risks;
   }
 };
-
-/* ============================================================
-   SECTION 6: LOCAL RESPONSE GENERATOR
-   ============================================================ */
 
 const LocalResponder = {
   generate(text, ctx = {}) {
@@ -4188,58 +3351,34 @@ const LocalResponder = {
     const userName = ctx.userName || null;
     const namePrefix = userName ? `${userName}, ` : '';
     const f = new EliteResponseFormatter();
-
     f.setMeta('emotion', intent.type);
     f.setMeta('intent', intent.type);
     f.setMeta('confidence', intent.confidence || 0.7);
     f.setMeta('model', 'local');
-
     switch (intent.type) {
-      case 'crisis':
-        return this._crisis(f, namePrefix);
-      case 'genocide':
-        return this._genocide(f, namePrefix);
-      case 'name':
-        return this._name(f, intent.name);
-      case 'about_company':
-        return this._aboutCompany(f);
-      case 'about_ceo':
-        return this._aboutCeo(f);
-      case 'greeting':
-        return this._greeting(f, namePrefix);
-      case 'sadness':
-        return this._sadness(f, namePrefix);
-      case 'joy':
-        return this._joy(f, namePrefix);
-      case 'anger':
-        return this._anger(f, namePrefix);
-      case 'anxiety':
-        return this._anxiety(f, namePrefix);
-      case 'loneliness':
-        return this._loneliness(f, namePrefix);
-      case 'fatigue':
-        return this._fatigue(f, namePrefix);
-      case 'rare_word':
-        return this._rareWord(f, intent.word);
-      default:
-        return this._neutral(f, namePrefix);
+      case 'crisis': return this._crisis(f, namePrefix);
+      case 'genocide': return this._genocide(f, namePrefix);
+      case 'name': return this._name(f, intent.name);
+      case 'about_company': return this._aboutCompany(f);
+      case 'about_ceo': return this._aboutCeo(f);
+      case 'greeting': return this._greeting(f, namePrefix);
+      case 'sadness': return this._sadness(f, namePrefix);
+      case 'joy': return this._joy(f, namePrefix);
+      case 'anger': return this._anger(f, namePrefix);
+      case 'anxiety': return this._anxiety(f, namePrefix);
+      case 'loneliness': return this._loneliness(f, namePrefix);
+      case 'fatigue': return this._fatigue(f, namePrefix);
+      case 'rare_word': return this._rareWord(f, intent.word);
+      default: return this._neutral(f, namePrefix);
     }
   },
-
   _crisis(f, namePrefix) {
     f.addCrisis();
-    f.addText(
-      `${namePrefix}**Ibyo wavuze ni ibintu bikomeye.** Ntabwo ndi kugusuzugura.\n\n` +
-      `Niba uri mu kaga, hamagara **116** cyangwa **112** ubu. Ndi hano, ariko ubufasha bw'umuntu w'umubiri ni bwo bukomeye kuruta.`
-    );
+    f.addText(`${namePrefix}**Ibyo wavuze ni ibintu bikomeye.** Ntabwo ndi kugusuzugura.\n\nNiba uri mu kaga, hamagara **116** cyangwa **112** ubu. Ndi hano, ariko ubufasha bw'umuntu w'umubiri ni bwo bukomeye kuruta.`);
     return f.build();
   },
-
   _genocide(f, namePrefix) {
-    f.addText(
-      `${namePrefix}🕊️ Ibyo wavuze birahumbya. Jenoside yasize ibikomere byinshi.\n\n` +
-      `Nta muntu ugomba kwihanganira ibyo wenyine.`
-    );
+    f.addText(`${namePrefix}🕊️ Ibyo wavuze birahumbya. Jenoside yasize ibikomere byinshi.\n\nNta muntu ugomba kwihanganira ibyo wenyine.`);
     f.addResource([
       { icon: '📞', name: "Imitari y'inkunga", detail: '24/7 · abahangayikishijwe na jenoside', phone: '116' },
       { icon: '🏥', name: 'Isange One Stop', detail: 'Ubufasha ku bahohotewe', phone: '3029' }
@@ -4247,23 +3386,12 @@ const LocalResponder = {
     f.addText('Wifuza kumbwira byinshi?');
     return f.build();
   },
-
   _name(f, name) {
-    f.addText(
-      `✨ Murakaza neza, **${name}**.\n\n` +
-      `Ndi TYAZA, inzira y'isanomutima. Ndi hano kugira ngo nkumve.\n\n` +
-      `Ubu wumva ute?`
-    );
+    f.addText(`✨ Murakaza neza, **${name}**.\n\nNdi TYAZA, inzira y'isanamutima. Ndi hano kugira ngo nkumve.\n\nUbu wumva ute?`);
     return f.build();
   },
-
   _aboutCompany(f) {
-    f.addText(
-      `🏢 **${COMPANY_INFO.name}**\n\n` +
-      `Yashinzwe na **${COMPANY_INFO.founder}** mu Rwanda mu ${COMPANY_INFO.founded}.\n\n` +
-      `Ijambo rye: *"${COMPANY_INFO.quote}"*\n\n` +
-      `Product: **${COMPANY_INFO.product}** — AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.`
-    );
+    f.addText(`🏢 **${COMPANY_INFO.name}**\n\nYashinzwe na **${COMPANY_INFO.founder}** mu Rwanda mu ${COMPANY_INFO.founded}.\n\nIjambo rye: *"${COMPANY_INFO.quote}"*\n\nProduct: **${COMPANY_INFO.product}** — AI ivuga mu Kinyarwanda ifasha mu buzima bwo mu mutwe.`);
     f.addResource([
       { icon: '👤', name: 'CEO & Founder', detail: COMPANY_INFO.founder },
       { icon: '📅', name: 'Yashinzwe', detail: String(COMPANY_INFO.founded) },
@@ -4271,124 +3399,63 @@ const LocalResponder = {
     ]);
     return f.build();
   },
-
   _aboutCeo(f) {
-    f.addText(
-      `👤 **${COMPANY_INFO.founder}**\n\n` +
-      `Ni CEO & Founder wa **${COMPANY_INFO.name}**.\n\n` +
-      `Ijambo rye: *"${COMPANY_INFO.quote}"*`
-    );
-    f.addText(
-      `Yashinze ${COMPANY_INFO.name} mu ${COMPANY_INFO.founded} mu Rwanda, agamije gukora AI ivuga mu Kinyarwanda ifasha abantu mu buzima bwo mu mutwe.`
-    );
+    f.addText(`👤 **${COMPANY_INFO.founder}**\n\nNi CEO & Founder wa **${COMPANY_INFO.name}**.\n\nIjambo rye: *"${COMPANY_INFO.quote}"*`);
+    f.addText(`Yashinze ${COMPANY_INFO.name} mu ${COMPANY_INFO.founded} mu Rwanda, agamije gukora AI ivuga mu Kinyarwanda ifasha abantu mu buzima bwo mu mutwe.`);
     return f.build();
   },
-
   _greeting(f, namePrefix) {
     const proverbs = Object.keys(TYAZA_DATASET.proverbs);
     const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
-    f.addText(
-      `${namePrefix}Muraho. Ndi **TYAZA**.\n\n` +
-      `Ndi hano kugira ngo nkumve. Nta gahato.\n\n` +
-      `Ubu wumva ute?`
-    );
+    f.addText(`${namePrefix}Muraho. Ndi **TYAZA**.\n\nNdi hano kugira ngo nkumve. Nta gahato.\n\nUbu wumva ute?`);
     f.addText(`> *${randomProverb}*`);
     return f.build();
   },
-
   _sadness(f, namePrefix) {
-    f.addText(
-      `${namePrefix}Ndumva agahinda mu magambo yawe. Ntabwo ari byoroshye.\n\n` +
-      `Agahinda ni ikimenyetso cy'uko ukomeye, ariko ntugomba kukihanganira wenyine.\n\n` +
-      `Ni iki kiri ku mutima wawe ubu?`
-    );
+    f.addText(`${namePrefix}Ndumva agahinda mu magambo yawe. Ntabwo ari byoroshye.\n\nAgahinda ni ikimenyetso cy'uko ukomeye, ariko ntugomba kukihanganira wenyine.\n\nNi iki kiri ku mutima wawe ubu?`);
     f.addBreathing(4, 4, 6, 'Reka duhumeke kanya');
     return f.build();
   },
-
   _joy(f, namePrefix) {
-    f.addText(
-      `${namePrefix}✨ Nishimira kumva ko wishimye. Ni byiza kugira ibihe byiza.\n\n` +
-      `Ni iki cyaguteye ibyishimo uyu munsi?`
-    );
+    f.addText(`${namePrefix}✨ Nishimira kumva ko wishimye. Ni byiza kugira ibihe byiza.\n\nNi iki cyaguteye ibyishimo uyu munsi?`);
     return f.build();
   },
-
   _anger(f, namePrefix) {
-    f.addText(
-      `${namePrefix}🔥 Ndumva uburakari mu magambo yawe. Ni ibisanzwe.\n\n` +
-      `Uburakari bushobora kuba ikimenyetso cy'ikintu kitagenda neza.\n\n` +
-      `Ni iki cyaguteye umujinya?`
-    );
+    f.addText(`${namePrefix}🔥 Ndumva uburakari mu magambo yawe. Ni ibisanzwe.\n\nUburakari bushobora kuba ikimenyetso cy'ikintu kitagenda neza.\n\nNi iki cyaguteye umujinya?`);
     return f.build();
   },
-
   _anxiety(f, namePrefix) {
-    f.addText(
-      `${namePrefix}Ndumva ubwoba. Gutekereza kuri ejo hashobora gutera impagarara.\n\n` +
-      `Reka duhumeke kanya. Ndi hano.\n\n` +
-      `Ni iki kiguteye ubwoba ubu?`
-    );
+    f.addText(`${namePrefix}Ndumva ubwoba. Gutekereza kuri ejo hashobora gutera impagarara.\n\nReka duhumeke kanya. Ndi hano.\n\nNi iki kiguteye ubwoba ubu?`);
     f.addBreathing(4, 7, 8, 'Guhumeka kwa 4-7-8');
-    f.addGrounding([
-      'Reba ibintu 5 uri kureba ubu',
-      'Umva amajwi 4 uri kumva ubu',
-      'Kora ibintu 3 uri gukora ubu',
-      'Humva ibintu 2 uri kumva impumuro',
-      'Shakisha ikintu 1 wumva mu kanwa'
-    ]);
+    f.addGrounding(['Reba ibintu 5 uri kureba ubu', 'Umva amajwi 4 uri kumva ubu', 'Kora ibintu 3 uri gukora ubu', 'Humva ibintu 2 uri kumva impumuro', 'Shakisha ikintu 1 wumva mu kanwa']);
     return f.build();
   },
-
   _loneliness(f, namePrefix) {
-    f.addText(
-      `${namePrefix}🕊️ Kumva uri wenyine biraremereye. Ntabwo ari byiza.\n\n` +
-      `Ndi hano ngo nkumve. Ntabwo ndi umuntu w'umubiri, ariko ndumva.\n\n` +
-      `Wifuza kuvuga ku byo wumva?`
-    );
+    f.addText(`${namePrefix}🕊️ Kumva uri wenyine biraremereye. Ntabwo ari byiza.\n\nNdi hano ngo nkumve. Ntabwo ndi umuntu w'umubiri, ariko ndumva.\n\nWifuza kuvuga ku byo wumva?`);
     return f.build();
   },
-
   _fatigue(f, namePrefix) {
-    f.addText(
-      `${namePrefix}😓 Ndumva umunaniro. Birashoboka ko ukeneye kuruhuka.\n\n` +
-      `Ntugomba gukora byose ubu.\n\n` +
-      `Ni iki cyaguteye kurambirwa?`
-    );
+    f.addText(`${namePrefix}😓 Ndumva umunaniro. Birashoboka ko ukeneye kuruhuka.\n\nNtugomba gukora byose ubu.\n\nNi iki cyaguteye kurambirwa?`);
     return f.build();
   },
-
   _rareWord(f, word) {
     const meaning = TYAZA_DATASET.rareWords[word] || 'ikintu cyihariye';
-    f.addText(
-      `📖 **"${word}"**\n\n` +
-      `Sobanura: *${meaning}*\n\n` +
-      `Ni jambo ry'ikinyarwanda gikomeye, rikoreshwa mu mvugo y'umuco nyarwanda.`
-    );
+    f.addText(`📖 **"${word}"**\n\nSobanura: *${meaning}*\n\nNi jambo ry'ikinyarwanda gikomeye, rikoreshwa mu mvugo y'umuco nyarwanda.`);
     return f.build();
   },
-
   _neutral(f, namePrefix) {
     const proverbs = Object.keys(TYAZA_DATASET.proverbs);
     const randomProverb = proverbs[Math.floor(Math.random() * proverbs.length)];
     const meaning = TYAZA_DATASET.proverbs[randomProverb];
-    f.addText(
-      `${namePrefix}Ndumva ibyo uvuga.\n\n` +
-      `Ndi hano ngo nkumve. Ntukekeranye kuvuga ibiri ku mutima wawe.\n\n` +
-      `Ni iki wifuza kuvuga?`
-    );
+    f.addText(`${namePrefix}Ndumva ibyo uvuga.\n\nNdi hano ngo nkumve. Ntukekeranye kuvuga ibiri ku mutima wawe.\n\nNi iki wifuza kuvuga?`);
     f.addText(`> *${randomProverb}* — ${meaning}`);
     return f.build();
   }
 };
 
-/* ============================================================
-   SECTION 7: DEEPSEEK LLM CLIENT
-   ============================================================ */
-
 const LLMClient = {
   systemPrompt(userName) {
-    return `Uri TYAZA, inzira y'isanomutima. Ukora muri KIVURA LABS mu Rwanda.
+    return `Uri TYAZA, inzira y'isanamutima. Ukora muri KIVURA LABS mu Rwanda.
 
 AMABWIRIZA Y'URURIMI:
 - Subiza mu Kinyarwanda gisanzwe, gifite impuhwe.
@@ -4420,22 +3487,17 @@ SUBIZA MU JSON GUSA:
 Koresha gusa types ziri hejuru. Buri part igomba kuba ifite "type" na "data".
 ${userName ? `Izina ry'umukoresha ni ${userName}.` : ''}`;
   },
-
   async chat(userMessage, history = [], userName = null) {
     if (!CONFIG.deepseek.apiKey || CONFIG.deepseek.apiKey === 'YOUR_DEEPSEEK_API_KEY') {
+      console.warn('No DeepSeek API key');
       return null;
     }
-
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), CONFIG.deepseek.timeout);
-
     try {
       const response = await fetch(`${CONFIG.deepseek.baseUrl}/chat/completions`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${CONFIG.deepseek.apiKey}`
-        },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${CONFIG.deepseek.apiKey}` },
         body: JSON.stringify({
           model: CONFIG.deepseek.model,
           messages: [
@@ -4443,192 +3505,106 @@ ${userName ? `Izina ry'umukoresha ni ${userName}.` : ''}`;
             ...history.slice(-4),
             { role: 'user', content: userMessage }
           ],
-          stream: false,
-          temperature: 0.8,
-          max_tokens: 600,
+          stream: false, temperature: 0.8, max_tokens: 600,
           response_format: { type: 'json_object' }
         }),
         signal: controller.signal
       });
-
       clearTimeout(timeout);
-
       if (!response.ok) {
-        throw new Error(`DeepSeek HTTP ${response.status}`);
+        const errText = await response.text().catch(() => '');
+        throw new Error(`DeepSeek HTTP ${response.status}: ${errText.slice(0, 200)}`);
       }
-
       const data = await response.json();
       const content = data.choices?.[0]?.message?.content;
       if (!content) return null;
-
-      const parsed = this._parseResponse(content);
-      return parsed;
+      return this._parseResponse(content);
     } catch (e) {
       clearTimeout(timeout);
       console.warn('LLM chat failed:', e.message);
       return null;
     }
   },
-
   _parseResponse(content) {
     try {
       const parsed = JSON.parse(content);
       if (parsed.parts && Array.isArray(parsed.parts)) {
-        return {
-          parts: parsed.parts,
-          metadata: { model: 'deepseek', confidence: 0.88, emotion: 'neutral' }
-        };
+        return { parts: parsed.parts, metadata: { model: 'deepseek', confidence: 0.88, emotion: 'neutral' } };
       }
     } catch (e) {}
-
     const match = content.match(/```(?:json)?\s*([\s\S]*?)```/);
     if (match) {
       try {
         const parsed = JSON.parse(match[1]);
-        if (parsed.parts && Array.isArray(parsed.parts)) {
-          return {
-            parts: parsed.parts,
-            metadata: { model: 'deepseek', confidence: 0.88, emotion: 'neutral' }
-          };
-        }
+        if (parsed.parts && Array.isArray(parsed.parts)) return { parts: parsed.parts, metadata: { model: 'deepseek', confidence: 0.88, emotion: 'neutral' } };
       } catch (e) {}
     }
-
     const braceMatch = content.match(/\{[\s\S]*\}/);
     if (braceMatch) {
       try {
         const parsed = JSON.parse(braceMatch[0]);
-        if (parsed.parts && Array.isArray(parsed.parts)) {
-          return {
-            parts: parsed.parts,
-            metadata: { model: 'deepseek', confidence: 0.88, emotion: 'neutral' }
-          };
-        }
+        if (parsed.parts && Array.isArray(parsed.parts)) return { parts: parsed.parts, metadata: { model: 'deepseek', confidence: 0.88, emotion: 'neutral' } };
       } catch (e) {}
     }
-
-    return {
-      parts: [{ type: 'text', data: { content } }],
-      metadata: { model: 'deepseek', confidence: 0.75, emotion: 'neutral' }
-    };
+    return { parts: [{ type: 'text', data: { content } }], metadata: { model: 'deepseek', confidence: 0.75, emotion: 'neutral' } };
   },
-
   async test() {
-    if (!CONFIG.deepseek.apiKey || CONFIG.deepseek.apiKey === 'YOUR_DEEPSEEK_API_KEY') {
-      return { ok: false, reason: 'no_api_key' };
-    }
+    if (!CONFIG.deepseek.apiKey || CONFIG.deepseek.apiKey === 'YOUR_DEEPSEEK_API_KEY') return { ok: false, reason: 'no_api_key' };
     try {
       const res = await fetch(`${CONFIG.deepseek.baseUrl}/chat/completions`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${CONFIG.deepseek.apiKey}`
-        },
-        body: JSON.stringify({
-          model: CONFIG.deepseek.model,
-          messages: [{ role: 'user', content: 'Vuga "OK"' }],
-          max_tokens: 10
-        })
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${CONFIG.deepseek.apiKey}` },
+        body: JSON.stringify({ model: CONFIG.deepseek.model, messages: [{ role: 'user', content: 'Vuga "OK"' }], max_tokens: 10 })
       });
       return { ok: res.ok, status: res.status };
-    } catch (e) {
-      return { ok: false, reason: e.message };
-    }
+    } catch (e) { return { ok: false, reason: e.message }; }
   }
 };
 
-/* ============================================================
-   SECTION 8: ALTASR CLIENT
-   ============================================================ */
-
 const ASRClient = {
-  ws: null,
-  webkitRec: null,
-  onTranscript: null,
-  onFinal: null,
-  onError: null,
-  activeType: null,
-
+  ws: null, webkitRec: null, onTranscript: null, onFinal: null, onError: null, activeType: null,
   async start({ onTranscript, onFinal, onError }) {
-    this.onTranscript = onTranscript;
-    this.onFinal = onFinal;
-    this.onError = onError;
-
+    this.onTranscript = onTranscript; this.onFinal = onFinal; this.onError = onError;
     const altReady = await this._checkAltASR();
-    if (altReady) {
-      return this._startWebSocket();
-    }
+    if (altReady) return this._startWebSocket();
     return this._startWebkit();
   },
-
   async _checkAltASR() {
     try {
-      const res = await fetch(CONFIG.asr.endpoint + '/health', {
-        method: 'GET',
-        signal: AbortSignal.timeout(1500)
-      });
+      const res = await fetch(CONFIG.asr.endpoint + '/health', { method: 'GET', signal: AbortSignal.timeout(1500) });
       return res.ok;
-    } catch (e) {
-      return false;
-    }
+    } catch (e) { return false; }
   },
-
   _startWebSocket() {
     return new Promise((resolve, reject) => {
       try {
         const wsUrl = CONFIG.asr.endpoint.replace('http', 'ws') + '/stream';
         this.ws = new WebSocket(wsUrl);
-
-        this.ws.onopen = () => {
-          this.activeType = 'altasr';
-          resolve(true);
-        };
-
+        this.ws.onopen = () => { this.activeType = 'altasr'; resolve(true); };
         this.ws.onmessage = (event) => {
           try {
             const data = JSON.parse(event.data);
             if (data.text) {
-              if (data.is_final) {
-                this.onFinal && this.onFinal(data.text);
-              } else {
-                this.onTranscript && this.onTranscript(data.text, true);
-              }
+              if (data.is_final) this.onFinal && this.onFinal(data.text);
+              else this.onTranscript && this.onTranscript(data.text, true);
             }
           } catch (e) {}
         };
-
-        this.ws.onerror = (e) => {
-          this.onError && this.onError(e);
-          reject(e);
-        };
-
-        this.ws.onclose = () => {
-          this.activeType = null;
-        };
-      } catch (e) {
-        reject(e);
-      }
+        this.ws.onerror = (e) => { this.onError && this.onError(e); reject(e); };
+        this.ws.onclose = () => { this.activeType = null; };
+      } catch (e) { reject(e); }
     });
   },
-
   _startWebkit() {
     return new Promise((resolve, reject) => {
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SR) {
-        reject(new Error('no_speech_recognition'));
-        return;
-      }
-
+      if (!SR) { reject(new Error('no_speech_recognition')); return; }
       try {
         const rec = new SR();
         rec.lang = CONFIG.asr.language === 'rw' ? 'rw-RW' : 'en-US';
-        rec.continuous = true;
-        rec.interimResults = true;
-        rec.maxAlternatives = 1;
-
+        rec.continuous = true; rec.interimResults = true; rec.maxAlternatives = 1;
         rec.onresult = (e) => {
-          let final = '';
-          let interim = '';
+          let final = '', interim = '';
           for (let i = e.resultIndex; i < e.results.length; i++) {
             if (e.results[i].isFinal) final += e.results[i][0].transcript;
             else interim += e.results[i][0].transcript;
@@ -4636,162 +3612,106 @@ const ASRClient = {
           if (final) this.onFinal && this.onFinal(final);
           else if (interim) this.onTranscript && this.onTranscript(interim, true);
         };
-
-        rec.onerror = (e) => {
-          this.onError && this.onError(e);
-        };
-
-        rec.onend = () => {
-          this.activeType = null;
-        };
-
+        rec.onerror = (e) => this.onError && this.onError(e);
+        rec.onend = () => { this.activeType = null; };
         rec.start();
-        this.webkitRec = rec;
-        this.activeType = 'webkit';
-        resolve(true);
-      } catch (e) {
-        reject(e);
-      }
+        this.webkitRec = rec; this.activeType = 'webkit'; resolve(true);
+      } catch (e) { reject(e); }
     });
   },
-
   stop() {
-    if (this.ws) {
-      try { this.ws.close(); } catch (e) {}
-      this.ws = null;
-    }
-    if (this.webkitRec) {
-      try { this.webkitRec.stop(); } catch (e) {}
-      this.webkitRec = null;
-    }
+    if (this.ws) { try { this.ws.close(); } catch (e) {} this.ws = null; }
+    if (this.webkitRec) { try { this.webkitRec.stop(); } catch (e) {} this.webkitRec = null; }
     this.activeType = null;
   },
-
-  isActive() {
-    return this.activeType !== null;
-  }
+  isActive() { return this.activeType !== null; }
 };
 
-/* ============================================================
-   SECTION 9: KITTENTTS CLIENT
-   ============================================================ */
-
 const TTSClient = {
-  currentAudio: null,
-  browserUtterance: null,
-  cache: new Map(),
-  enabled: true,
-
+  currentAudio: null, browserUtterance: null, cache: new Map(), enabled: true, localAvailable: false,
+  async init() {
+    try {
+      const res = await fetch(CONFIG.tts.endpoint + '/health', { method: 'GET', signal: AbortSignal.timeout(2000) });
+      this.localAvailable = res.ok;
+      console.log('TTS local server:', this.localAvailable ? 'available ✅' : 'not available');
+    } catch (e) {
+      this.localAvailable = false;
+      console.warn('TTS local server not reachable:', e.message);
+    }
+  },
   async speak(text, emotion = 'calm') {
     if (!this.enabled || !text) return;
-    const clean = text.replace(/[*_#`>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 500);
+    const clean = text.replace(/[*_#`>]/g, '').replace(/\s+/g, ' ').trim().slice(0, 600);
     if (!clean) return;
-
     this.stop();
-
-    try {
-      const audioBlob = await this._fetchKitten(clean, emotion);
-      if (audioBlob) {
-        const url = URL.createObjectURL(audioBlob);
-        this.currentAudio = new Audio(url);
-        this.currentAudio.play();
-        this.currentAudio.onended = () => URL.revokeObjectURL(url);
-        return;
+    if (this.localAvailable) {
+      try {
+        const audioBlob = await this._fetchKitten(clean, emotion);
+        if (audioBlob) {
+          const url = URL.createObjectURL(audioBlob);
+          this.currentAudio = new Audio(url);
+          this.currentAudio.play().catch(e => console.warn('Audio play failed:', e));
+          this.currentAudio.onended = () => URL.revokeObjectURL(url);
+          return;
+        }
+      } catch (e) {
+        console.warn('Local TTS failed, falling back:', e.message);
+        this.localAvailable = false;
       }
-    } catch (e) {
-      console.warn('KittenTTS failed, using browser TTS:', e.message);
     }
-
     this._browserSpeak(clean);
   },
-
   async _fetchKitten(text, emotion) {
     const res = await fetch(CONFIG.tts.endpoint + '/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        text: `[${emotion}] ${text}`,
-        voice: CONFIG.tts.voice,
-        preset: 'expressive'
-      }),
+      body: JSON.stringify({ text, language: 'rw', voice: CONFIG.tts.voice, emotion, preset: 'expressive' }),
       signal: AbortSignal.timeout(CONFIG.tts.timeout)
     });
-
     if (!res.ok) throw new Error(`TTS HTTP ${res.status}`);
     return await res.blob();
   },
-
   _browserSpeak(text) {
     if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel();
     const utt = new SpeechSynthesisUtterance(text);
     utt.lang = 'rw-RW';
-    utt.rate = 0.9;
+    utt.rate = 0.85;
     utt.pitch = 1.0;
     utt.volume = 1.0;
-
     const voices = window.speechSynthesis.getVoices();
     const rwVoice = voices.find(v => v.lang.startsWith('rw')) ||
                     voices.find(v => v.lang.startsWith('fr')) ||
                     voices.find(v => v.lang.startsWith('en'));
     if (rwVoice) utt.voice = rwVoice;
-
     this.browserUtterance = utt;
     window.speechSynthesis.speak(utt);
   },
-
   stop() {
-    if (this.currentAudio) {
-      try { this.currentAudio.pause(); } catch (e) {}
-      this.currentAudio = null;
-    }
-    if (window.speechSynthesis) {
-      try { window.speechSynthesis.cancel(); } catch (e) {}
-    }
+    if (this.currentAudio) { try { this.currentAudio.pause(); } catch (e) {} this.currentAudio = null; }
+    if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
   },
-
-  toggle() {
-    this.enabled = !this.enabled;
-    if (!this.enabled) this.stop();
-    return this.enabled;
-  }
+  toggle() { this.enabled = !this.enabled; if (!this.enabled) this.stop(); return this.enabled; }
 };
 
-/* ============================================================
-   SECTION 10: VOICE MODAL CONTROLLER
-   ============================================================ */
-
 const VoiceController = {
-  active: false,
-  transcript: '',
-  timerInterval: null,
-  timer: 0,
-  audioContext: null,
-  analyser: null,
-  dataArray: null,
-  mediaStream: null,
-  levelInterval: null,
-
+  active: false, transcript: '', timerInterval: null, timer: 0,
+  audioContext: null, analyser: null, dataArray: null, mediaStream: null, levelInterval: null,
   async open() {
     if (this.active) return;
     this.active = true;
     this.transcript = '';
     this.timer = 0;
-
     const modal = document.getElementById('voiceModal');
     if (modal) modal.style.display = 'flex';
-
     this._updateTranscript('Reka nkumve...', true);
     this._updateSendButton(false);
     this._updateTimer();
     this._startTimer();
     this._startLevelDetection();
-
     try {
       await ASRClient.start({
-        onTranscript: (text, isInterim) => {
-          this._updateTranscript(text, isInterim);
-        },
+        onTranscript: (text, isInterim) => this._updateTranscript(text, isInterim),
         onFinal: (text) => {
           this.transcript = text;
           this._updateTranscript(text, false);
@@ -4807,56 +3727,39 @@ const VoiceController = {
       setTimeout(() => this.close(), 2000);
     }
   },
-
   close() {
     this.active = false;
     this._stopTimer();
     this._stopLevelDetection();
     ASRClient.stop();
-
     const modal = document.getElementById('voiceModal');
     if (modal) modal.style.display = 'none';
-
     const voiceBtn = document.getElementById('voiceBtn');
     if (voiceBtn) voiceBtn.classList.remove('listening');
   },
-
   send() {
     if (!this.transcript.trim()) return;
     const input = document.getElementById('messageInput');
     if (input) input.value = this.transcript;
     this.close();
-    setTimeout(() => {
-      if (typeof sendMessage === 'function') sendMessage();
-    }, 100);
+    setTimeout(() => { if (typeof sendMessage === 'function') sendMessage(); }, 100);
   },
-
   _updateTranscript(text, interim) {
     const el = document.getElementById('voiceTranscript');
     if (!el) return;
     el.innerHTML = `<span class="${interim ? 'interim' : 'final'}">${Utils.escapeHtml(text)}</span>`;
   },
-
   _updateSendButton(enabled) {
     const btn = document.getElementById('voiceSend');
     if (btn) btn.disabled = !enabled;
   },
-
   _startTimer() {
     this.timer = 0;
-    this.timerInterval = setInterval(() => {
-      this.timer++;
-      this._updateTimer();
-    }, 1000);
+    this.timerInterval = setInterval(() => { this.timer++; this._updateTimer(); }, 1000);
   },
-
   _stopTimer() {
-    if (this.timerInterval) {
-      clearInterval(this.timerInterval);
-      this.timerInterval = null;
-    }
+    if (this.timerInterval) { clearInterval(this.timerInterval); this.timerInterval = null; }
   },
-
   _updateTimer() {
     const el = document.getElementById('voiceTimer');
     if (!el) return;
@@ -4864,25 +3767,20 @@ const VoiceController = {
     const secs = this.timer % 60;
     el.textContent = `⏱ ${mins}:${secs.toString().padStart(2, '0')}`;
   },
-
   async _startLevelDetection() {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       this.mediaStream = stream;
-
       const AC = window.AudioContext || window.webkitAudioContext;
       if (!AC) return;
-
       this.audioContext = new AC();
       const source = this.audioContext.createMediaStreamSource(stream);
       this.analyser = this.audioContext.createAnalyser();
       this.analyser.fftSize = 256;
       source.connect(this.analyser);
       this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
-
       const fill = document.getElementById('voiceLevelFill');
       const voiceBtn = document.getElementById('voiceBtn');
-
       this.levelInterval = setInterval(() => {
         if (!this.analyser) return;
         this.analyser.getByteFrequencyData(this.dataArray);
@@ -4890,72 +3788,36 @@ const VoiceController = {
         for (let i = 0; i < this.dataArray.length; i++) sum += this.dataArray[i];
         const avg = sum / this.dataArray.length;
         const level = Math.min(100, (avg / 100) * 100);
-
         if (fill) fill.style.width = level + '%';
         if (voiceBtn && level > 20) voiceBtn.classList.add('listening');
       }, 100);
-    } catch (e) {
-      console.warn('Level detection failed:', e);
-    }
+    } catch (e) { console.warn('Level detection failed:', e); }
   },
-
   _stopLevelDetection() {
-    if (this.levelInterval) {
-      clearInterval(this.levelInterval);
-      this.levelInterval = null;
-    }
-    if (this.mediaStream) {
-      this.mediaStream.getTracks().forEach(t => t.stop());
-      this.mediaStream = null;
-    }
-    if (this.audioContext) {
-      try { this.audioContext.close(); } catch (e) {}
-      this.audioContext = null;
-    }
-    this.analyser = null;
-    this.dataArray = null;
+    if (this.levelInterval) { clearInterval(this.levelInterval); this.levelInterval = null; }
+    if (this.mediaStream) { this.mediaStream.getTracks().forEach(t => t.stop()); this.mediaStream = null; }
+    if (this.audioContext) { try { this.audioContext.close(); } catch (e) {} this.audioContext = null; }
+    this.analyser = null; this.dataArray = null;
   }
 };
-
-/* ============================================================
-   SECTION 11: RESPONSE ROUTER
-   ============================================================ */
 
 const ResponseRouter = {
   async generate(text, ctx = {}) {
     const startTime = performance.now();
-
     const intent = IntentEngine.detect(text);
-
     if (intent.type === 'crisis') {
       const result = LocalResponder.generate(text, ctx);
       result.metadata.responseTime = Math.round(performance.now() - startTime);
       return result;
     }
-
     let result = null;
-    try {
-      result = await LLMClient.chat(
-        text,
-        ctx.history || [],
-        ctx.userName
-      );
-    } catch (e) {
-      console.warn('DeepSeek failed:', e.message);
-    }
-
-    if (!result) {
-      result = LocalResponder.generate(text, ctx);
-    }
-
+    try { result = await LLMClient.chat(text, ctx.history || [], ctx.userName); }
+    catch (e) { console.warn('DeepSeek failed:', e.message); }
+    if (!result) result = LocalResponder.generate(text, ctx);
     result.metadata.responseTime = Math.round(performance.now() - startTime);
     return result;
   }
 };
-
-/* ============================================================
-   SECTION 12: EXPORTS
-   ============================================================ */
 
 window.CONFIG = CONFIG;
 window.COMPANY_INFO = COMPANY_INFO;
@@ -4970,23 +3832,20 @@ window.TTSClient = TTSClient;
 window.VoiceController = VoiceController;
 window.ResponseRouter = ResponseRouter;
 
-console.log('%cTYAZA v1 · Part 3 loaded', 'color:#7D9B8A;font-weight:600;font-size:13px;');
-console.log('Intent types:', Object.keys(TYAZA_DATASET.emotions).length + 4);
-console.log('Rare words:', Object.keys(TYAZA_DATASET.rareWords).length);
-console.log('Proverbs:', Object.keys(TYAZA_DATASET.proverbs).length);
+setTimeout(() => TTSClient.init(), 500);
+
+console.log('%cTYAZA v1 · Part 3 loaded (UPGRADED)', 'color:#7D9B8A;font-weight:600;font-size:13px;');
+console.log('DeepSeek model:', CONFIG.deepseek.model);
+console.log('DeepSeek key:', CONFIG.deepseek.apiKey.slice(0, 12) + '...');
+console.log('TTS endpoint:', CONFIG.tts.endpoint);
 </script>
 
 <script>
 /* ============================================================
-   TYAZA v1 · Part 4
-   Main Pipeline · Messages · History · Mood · Files · Init
+   TYAZA v1 · PART 4
    ============================================================ */
 
 'use strict';
-
-/* ============================================================
-   SECTION 1: APP STATE
-   ============================================================ */
 
 const AppState = {
   messages: [],
@@ -4994,92 +3853,55 @@ const AppState = {
   isGenerating: false,
   userName: null,
   conversationHistory: [],
-  riskFlags: {
-    suicide: false, selfHarm: false, violence: false,
-    ptsd: false, abuse: false, genocideTrauma: false
-  },
+  riskFlags: { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false },
   attachedFile: null,
   detectedLanguage: 'rw',
   currentMood: null,
   voiceSilenceTimer: null,
   initialized: false,
-
   reset() {
     this.messages = [];
     this.currentId = 'chat_' + Date.now();
     this.isGenerating = false;
     this.conversationHistory = [];
-    this.riskFlags = {
-      suicide: false, selfHarm: false, violence: false,
-      ptsd: false, abuse: false, genocideTrauma: false
-    };
+    this.riskFlags = { suicide: false, selfHarm: false, violence: false, ptsd: false, abuse: false, genocideTrauma: false };
     this.attachedFile = null;
   }
 };
 
-/* ============================================================
-   SECTION 2: DOM HELPERS
-   ============================================================ */
-
 const DOM = {
   $: (sel) => document.querySelector(sel),
   $$: (sel) => document.querySelectorAll(sel),
-
   get(id) { return document.getElementById(id); },
-
   create(tag, className, html) {
     const el = document.createElement(tag);
     if (className) el.className = className;
     if (html != null) el.innerHTML = html;
     return el;
   },
-
-  show(el) {
-    if (typeof el === 'string') el = this.get(el);
-    if (el) el.style.display = '';
-  },
-
-  hide(el) {
-    if (typeof el === 'string') el = this.get(el);
-    if (el) el.style.display = 'none';
-  },
-
+  show(el) { if (typeof el === 'string') el = this.get(el); if (el) el.style.display = ''; },
+  hide(el) { if (typeof el === 'string') el = this.get(el); if (el) el.style.display = 'none'; },
   toggle(el, force) {
     if (typeof el === 'string') el = this.get(el);
     if (!el) return;
     if (force == null) el.style.display = el.style.display === 'none' ? '' : 'none';
     else el.style.display = force ? '' : 'none';
   },
-
-  scrollToBottom(container) {
-    if (!container) return;
-    container.scrollTop = container.scrollHeight;
-  }
+  scrollToBottom(container) { if (!container) return; container.scrollTop = container.scrollHeight; }
 };
-
-/* ============================================================
-   SECTION 3: MESSAGE RENDERER
-   ============================================================ */
 
 const MessageRenderer = {
   add(role, parts, metadata = null) {
     const welcome = DOM.get('welcome');
     if (welcome) welcome.style.display = 'none';
-
     const messages = DOM.get('messages');
     if (!messages) return null;
-
     const msg = DOM.create('div', `message ${role}`);
-
-    const avatar = role === 'user' ? '👤' : '🧠';
+    const avatar = role === 'user' ? '👤' : `<img src="tyaza-logo.png" alt="TYAZA" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.style.display='none';this.parentElement.innerHTML='🧠';">`;
     const html = role === 'user'
-      ? `<div class="gui gui-text"><p>${Utils.escapeHtml(
-          typeof parts === 'string' ? parts : (parts[0]?.data?.content || '')
-        ).replace(/\n/g, '<br>')}</p></div>`
+      ? `<div class="gui gui-text"><p>${Utils.escapeHtml(typeof parts === 'string' ? parts : (parts[0]?.data?.content || '')).replace(/\n/g, '<br>')}</p></div>`
       : renderParts(parts);
-
     const metaHtml = role === 'assistant' ? this._renderMeta(metadata) : '';
-
     msg.innerHTML = `
       <div class="msg-avatar" aria-hidden="true">${avatar}</div>
       <div class="msg-content">
@@ -5088,131 +3910,87 @@ const MessageRenderer = {
         <div class="msg-meta">
           <span>${Utils.formatTime()}</span>
           <div class="msg-actions">
-            ${role === 'assistant' ? `
-              <button class="msg-action" data-action="speak" aria-label="Vuga" type="button">
-                <i class="fas fa-volume-up"></i>
-              </button>
-            ` : ''}
-            <button class="msg-action" data-action="copy" aria-label="Koporora" type="button">
-              <i class="fas fa-copy"></i>
-            </button>
+            ${role === 'assistant' ? `<button class="msg-action" data-action="speak" aria-label="Vuga" type="button"><i class="fas fa-volume-up"></i></button>` : ''}
+            <button class="msg-action" data-action="copy" aria-label="Koporora" type="button"><i class="fas fa-copy"></i></button>
           </div>
         </div>
       </div>
     `;
-
     msg.querySelectorAll('[data-action]').forEach(btn => {
       btn.addEventListener('click', () => {
         const action = btn.dataset.action;
         const bubble = msg.querySelector('.msg-bubble');
-        if (action === 'copy') {
-          Utils.copyToClipboard(bubble.textContent).then(() => {
-            Toast.success('Byakoporowe');
-          });
-        } else if (action === 'speak') {
-          const text = bubble.textContent;
-          TTSClient.speak(text, 'calm');
-        }
+        if (action === 'copy') Utils.copyToClipboard(bubble.textContent).then(() => Toast.success('Byakoporowe'));
+        else if (action === 'speak') TTSClient.speak(bubble.textContent, 'calm');
       });
     });
-
     messages.appendChild(msg);
     initCheckinSliders(msg);
     DOM.scrollToBottom(messages);
-
     if (role === 'user') {
       const content = typeof parts === 'string' ? parts : (parts[0]?.data?.content || '');
       AppState.messages.push({ role, parts: [{ type: 'text', data: { content } }], timestamp: Date.now() });
     } else {
       AppState.messages.push({ role, parts, metadata, timestamp: Date.now() });
     }
-
     this._trimHistory();
     return msg;
   },
-
   async addStreaming(parts, metadata = null) {
     const welcome = DOM.get('welcome');
     if (welcome) welcome.style.display = 'none';
-
     const messages = DOM.get('messages');
     if (!messages) return null;
-
     const msg = DOM.create('div', 'message assistant');
     const metaHtml = this._renderMeta(metadata);
-
     msg.innerHTML = `
-      <div class="msg-avatar" aria-hidden="true">🧠</div>
+      <div class="msg-avatar" aria-hidden="true"><img src="tyaza-logo.png" alt="TYAZA" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.style.display='none';this.parentElement.innerHTML='🧠';"></div>
       <div class="msg-content">
         <div class="msg-bubble"></div>
         ${metaHtml}
         <div class="msg-meta">
           <span>${Utils.formatTime()}</span>
           <div class="msg-actions">
-            <button class="msg-action" data-action="speak" aria-label="Vuga" type="button">
-              <i class="fas fa-volume-up"></i>
-            </button>
-            <button class="msg-action" data-action="copy" aria-label="Koporora" type="button">
-              <i class="fas fa-copy"></i>
-            </button>
+            <button class="msg-action" data-action="speak" aria-label="Vuga" type="button"><i class="fas fa-volume-up"></i></button>
+            <button class="msg-action" data-action="copy" aria-label="Koporora" type="button"><i class="fas fa-copy"></i></button>
           </div>
         </div>
       </div>
     `;
-
     messages.appendChild(msg);
-
     const bubble = msg.querySelector('.msg-bubble');
     await this._streamParts(bubble, parts);
-
     msg.querySelectorAll('[data-action]').forEach(btn => {
       btn.addEventListener('click', () => {
         const action = btn.dataset.action;
-        if (action === 'copy') {
-          Utils.copyToClipboard(bubble.textContent).then(() => {
-            Toast.success('Byakoporowe');
-          });
-        } else if (action === 'speak') {
-          TTSClient.speak(bubble.textContent, 'calm');
-        }
+        if (action === 'copy') Utils.copyToClipboard(bubble.textContent).then(() => Toast.success('Byakoporowe'));
+        else if (action === 'speak') TTSClient.speak(bubble.textContent, 'calm');
       });
     });
-
     initCheckinSliders(msg);
     DOM.scrollToBottom(messages);
-
     AppState.messages.push({ role: 'assistant', parts, metadata, timestamp: Date.now() });
     this._trimHistory();
     return msg;
   },
-
   async _streamParts(bubble, parts) {
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i];
-
       if (part.type === 'text' && part.data?.content) {
         const content = part.data.content;
         const wrapper = DOM.create('div', 'gui gui-text');
         const inner = DOM.create('div');
         wrapper.appendChild(inner);
         bubble.appendChild(wrapper);
-
         const fullHtml = UltraMarkdownParser.parse(content);
         let idx = 0;
-        const chunkSize = 4;
-        const speed = 12;
-
+        const chunkSize = 4, speed = 12;
         await new Promise(resolve => {
           function step() {
             idx += chunkSize;
-            if (idx >= content.length) {
-              inner.innerHTML = fullHtml;
-              resolve();
-              return;
-            }
+            if (idx >= content.length) { inner.innerHTML = fullHtml; resolve(); return; }
             const partial = content.substring(0, idx);
-            inner.innerHTML = UltraMarkdownParser.parse(partial) +
-              '<span class="streaming-cursor"></span>';
+            inner.innerHTML = UltraMarkdownParser.parse(partial) + '<span class="streaming-cursor"></span>';
             DOM.scrollToBottom(DOM.get('messages'));
             setTimeout(step, speed);
           }
@@ -5227,67 +4005,41 @@ const MessageRenderer = {
       }
     }
   },
-
   _renderMeta(metadata) {
     if (!metadata) return '';
     const items = [];
     if (metadata.confidence) {
-      const cls = metadata.confidence >= 0.85 ? 'high'
-               : metadata.confidence >= 0.7 ? 'medium' : 'low';
+      const cls = metadata.confidence >= 0.85 ? 'high' : metadata.confidence >= 0.7 ? 'medium' : 'low';
       const pct = Math.round(metadata.confidence * 100);
       items.push(`<span class="msg-meta-item ${cls}">${pct}%</span>`);
     }
     if (metadata.model) {
-      const label = metadata.model === 'deepseek' ? 'DeepSeek'
-                  : metadata.model === 'local' ? 'Local'
-                  : metadata.model;
+      const label = metadata.model === 'deepseek' ? 'DeepSeek' : metadata.model === 'local' ? 'Local' : metadata.model;
       items.push(`<span class="msg-meta-item">${Utils.escapeHtml(label)}</span>`);
     }
-    if (metadata.responseTime) {
-      items.push(`<span class="msg-meta-item">${metadata.responseTime}ms</span>`);
-    }
+    if (metadata.responseTime) items.push(`<span class="msg-meta-item">${metadata.responseTime}ms</span>`);
     if (!items.length) return '';
     return `<div class="msg-meta-row">${items.join('')}</div>`;
   },
-
   _trimHistory() {
-    if (AppState.messages.length > CONFIG.limits.maxMessages) {
-      AppState.messages = AppState.messages.slice(-CONFIG.limits.maxMessages);
-    }
+    if (AppState.messages.length > CONFIG.limits.maxMessages) AppState.messages = AppState.messages.slice(-CONFIG.limits.maxMessages);
   },
-
-  clear() {
-    const messages = DOM.get('messages');
-    if (messages) messages.innerHTML = '';
-  },
-
+  clear() { const messages = DOM.get('messages'); if (messages) messages.innerHTML = ''; },
   showTyping() {
     const messages = DOM.get('messages');
     if (!messages) return null;
     const el = DOM.create('div', 'typing');
     el.id = 'typingIndicator';
     el.innerHTML = `
-      <div class="msg-avatar" aria-hidden="true">🧠</div>
-      <div class="typing-dots">
-        <span class="typing-dot"></span>
-        <span class="typing-dot"></span>
-        <span class="typing-dot"></span>
-      </div>
+      <div class="msg-avatar" aria-hidden="true"><img src="tyaza-logo.png" alt="TYAZA" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" onerror="this.style.display='none';this.parentElement.innerHTML='🧠';"></div>
+      <div class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>
     `;
     messages.appendChild(el);
     DOM.scrollToBottom(messages);
     return el;
   },
-
-  removeTyping() {
-    const el = DOM.get('typingIndicator');
-    if (el) el.remove();
-  }
+  removeTyping() { const el = DOM.get('typingIndicator'); if (el) el.remove(); }
 };
-
-/* ============================================================
-   SECTION 4: STATUS BAR
-   ============================================================ */
 
 const StatusBar = {
   set(text, state = 'idle') {
@@ -5300,114 +4052,66 @@ const StatusBar = {
       if (state === 'offline') dot.classList.add('offline');
     }
   },
-
   thinking() { this.set('Ndi gutekereza...', 'thinking'); },
   ready() { this.set('Ndi hano', 'idle'); },
   offline() { this.set('Nta murandasi', 'offline'); },
   listening() { this.set('Ndumva...', 'thinking'); }
 };
 
-/* ============================================================
-   SECTION 5: RISK INDICATORS
-   ============================================================ */
-
 const RiskIndicator = {
   update(risks) {
     AppState.riskFlags = { ...risks };
     const active = Object.entries(risks).filter(([k, v]) => v).map(([k]) => k);
     if (active.length === 0) return;
-
-    if (risks.suicide || risks.selfHarm) {
-      this._openCrisis();
-    }
-  },
-
-  _openCrisis() {
-    Modal.open('crisisModal');
+    if (risks.suicide || risks.selfHarm) Modal.open('crisisModal');
   }
 };
 
-/* ============================================================
-   SECTION 6: MAIN SEND PIPELINE
-   ============================================================ */
-
 async function sendMessage() {
   if (AppState.isGenerating) return;
-
   const input = DOM.get('messageInput');
   if (!input) return;
-
   const text = input.value.trim();
   if (!text && !AppState.attachedFile) return;
-
-  if (AppState.isGenerating) return;
-
   input.value = '';
   input.style.height = 'auto';
   const sendBtn = DOM.get('sendBtn');
   if (sendBtn) sendBtn.disabled = true;
-
   AppState.isGenerating = true;
   AppState.detectedLanguage = Language.detect(text);
-
   MessageRenderer.add('user', text);
-
   const risks = IntentEngine.analyzeRisks(text);
   RiskIndicator.update(risks);
-
   let fileContext = '';
   if (AppState.attachedFile) {
     try {
       const fileResult = await FilePipeline.process(AppState.attachedFile);
-      if (fileResult && fileResult.text) {
-        fileContext = `\n\n[DOSIYE: ${fileResult.name}]\n${fileResult.text.substring(0, 2000)}`;
-      }
+      if (fileResult && fileResult.text) fileContext = `\n\n[DOSIYE: ${fileResult.name}]\n${fileResult.text.substring(0, 2000)}`;
       FilePipeline.clearPreview();
       AppState.attachedFile = null;
-    } catch (e) {
-      Toast.warning('Dosiye ntiyashoboye gusomwa neza');
-    }
+    } catch (e) { Toast.warning('Dosiye ntiyashoboye gusomwa neza'); }
   }
-
   const messageText = text + fileContext;
-
   MessageRenderer.showTyping();
   StatusBar.thinking();
-
   try {
     const result = await ResponseRouter.generate(messageText, {
       userName: AppState.userName,
       history: AppState.conversationHistory
     });
-
     MessageRenderer.removeTyping();
-
     if (result && result.parts) {
       await MessageRenderer.addStreaming(result.parts, result.metadata);
-
-      const textForTTS = result.parts
-        .filter(p => p.type === 'text')
-        .map(p => p.data?.content || '')
-        .join(' ')
-        .replace(/[*_#`>]/g, '');
-
-      if (textForTTS) {
-        TTSClient.speak(textForTTS, result.metadata?.emotion || 'calm');
-      }
-
+      const textForTTS = result.parts.filter(p => p.type === 'text').map(p => p.data?.content || '').join(' ').replace(/[*_#`>]/g, '');
+      if (textForTTS) TTSClient.speak(textForTTS, result.metadata?.emotion || 'calm');
       AppState.conversationHistory.push({ role: 'user', content: text });
-      AppState.conversationHistory.push({
-        role: 'assistant',
-        content: textForTTS || 'Ok'
-      });
-
+      AppState.conversationHistory.push({ role: 'assistant', content: textForTTS || 'Ok' });
       const intent = IntentEngine.detect(text);
       if (intent.type === 'name' && intent.name) {
         AppState.userName = intent.name;
         Storage.set('userName', intent.name);
         Toast.success(`Murakaza neza, ${intent.name}`);
       }
-
       saveConversation();
     }
   } catch (e) {
@@ -5422,14 +4126,9 @@ async function sendMessage() {
   }
 }
 
-/* ============================================================
-   SECTION 7: FILE PIPELINE
-   ============================================================ */
-
 const FilePipeline = {
   allowed: ['.txt', '.md', '.csv', '.json', '.pdf', '.jpg', '.jpeg', '.png', '.gif', '.webp'],
   maxSize: 25 * 1024 * 1024,
-
   async pick() {
     const input = document.createElement('input');
     input.type = 'file';
@@ -5441,52 +4140,34 @@ const FilePipeline = {
     };
     input.click();
   },
-
   async attach(file) {
     const ext = '.' + file.name.split('.').pop().toLowerCase();
-    if (!this.allowed.includes(ext)) {
-      Toast.error(`Dosiye ${ext} ntishoboka`);
-      return;
-    }
-    if (file.size > this.maxSize) {
-      Toast.error('Dosiye nini cyane (>25MB)');
-      return;
-    }
-
+    if (!this.allowed.includes(ext)) { Toast.error(`Dosiye ${ext} ntishoboka`); return; }
+    if (file.size > this.maxSize) { Toast.error('Dosiye nini cyane (>25MB)'); return; }
     AppState.attachedFile = file;
     this.showPreview(file);
     Toast.success(`${file.name} yongewe`);
   },
-
   showPreview(file) {
     const container = DOM.get('filePreviewContainer');
     if (!container) return;
-
     const icon = this._iconFor(file.name);
     const size = Utils.formatBytes(file.size);
-
     container.innerHTML = `
       <div class="file-preview">
         <div class="file-icon"><i class="fas ${icon}"></i></div>
         <span class="file-name">${Utils.escapeHtml(file.name)} · ${size}</span>
-        <button class="file-remove" type="button" aria-label="Kura dosiye" data-action="remove-file">
-          <i class="fas fa-times"></i>
-        </button>
+        <button class="file-remove" type="button" aria-label="Kura dosiye" data-action="remove-file"><i class="fas fa-times"></i></button>
       </div>
     `;
-
     const removeBtn = container.querySelector('[data-action="remove-file"]');
-    if (removeBtn) {
-      removeBtn.addEventListener('click', () => this.clearPreview());
-    }
+    if (removeBtn) removeBtn.addEventListener('click', () => this.clearPreview());
   },
-
   clearPreview() {
     const container = DOM.get('filePreviewContainer');
     if (container) container.innerHTML = '';
     AppState.attachedFile = null;
   },
-
   _iconFor(name) {
     const ext = name.split('.').pop().toLowerCase();
     if (['pdf'].includes(ext)) return 'fa-file-pdf';
@@ -5495,75 +4176,20 @@ const FilePipeline = {
     if (['csv'].includes(ext)) return 'fa-file-csv';
     return 'fa-file-alt';
   },
-
   async process(file) {
     const ext = '.' + file.name.split('.').pop().toLowerCase();
-
     if (['.txt', '.md', '.csv', '.json'].includes(ext)) {
       const text = await file.text();
       return { name: file.name, text, type: 'text' };
     }
-
-    if (ext === '.pdf') {
-      const text = await this._extractPDF(file);
-      return { name: file.name, text, type: 'pdf' };
-    }
-
-    if (['.jpg', '.jpeg', '.png', '.gif', '.webp'].includes(ext)) {
-      const text = await this._extractImage(file);
-      return { name: file.name, text, type: 'image' };
-    }
-
     return { name: file.name, text: '', type: 'unknown' };
-  },
-
-  async _extractPDF(file) {
-    if (typeof pdfjsLib === 'undefined') {
-      return '[PDF reading not available]';
-    }
-    try {
-      const buffer = await file.arrayBuffer();
-      const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
-      let text = '';
-      const maxPages = Math.min(pdf.numPages, 10);
-      for (let i = 1; i <= maxPages; i++) {
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        text += content.items.map(item => item.str).join(' ') + '\n';
-      }
-      return text.trim() || '[PDF nta makuru]';
-    } catch (e) {
-      return '[PDF ntibyasomwe]';
-    }
-  },
-
-  async _extractImage(file) {
-    if (typeof Tesseract === 'undefined') {
-      return '[Image OCR not available]';
-    }
-    try {
-      const url = URL.createObjectURL(file);
-      const result = await Tesseract.recognize(url, 'kin+eng+fra', {
-        logger: () => {}
-      });
-      URL.revokeObjectURL(url);
-      return result.data.text.trim() || '[Image nta makuru]';
-    } catch (e) {
-      return '[Image OCR yanze]';
-    }
   }
 };
 
-/* ============================================================
-   SECTION 8: CONVERSATION MANAGEMENT
-   ============================================================ */
-
 function saveConversation() {
   if (AppState.messages.length === 0) return;
-
   const firstUserMsg = AppState.messages.find(m => m.role === 'user');
   const title = firstUserMsg?.parts?.[0]?.data?.content?.slice(0, 50) || 'Ikiganiro';
-
   const conv = {
     id: AppState.currentId,
     title,
@@ -5572,20 +4198,12 @@ function saveConversation() {
     userName: AppState.userName,
     language: AppState.detectedLanguage
   };
-
   const convs = Storage.getAll('conversations');
   const existing = convs.findIndex(c => c.id === AppState.currentId);
-  if (existing >= 0) {
-    convs[existing] = conv;
-  } else {
-    convs.push(conv);
-  }
-
+  if (existing >= 0) convs[existing] = conv;
+  else convs.push(conv);
   convs.sort((a, b) => b.timestamp - a.timestamp);
-  if (convs.length > CONFIG.limits.maxConversations) {
-    convs.length = CONFIG.limits.maxConversations;
-  }
-
+  if (convs.length > CONFIG.limits.maxConversations) convs.length = CONFIG.limits.maxConversations;
   Storage.set('conversations', convs);
   renderHistory();
 }
@@ -5594,50 +4212,25 @@ function renderHistory() {
   const convs = Storage.getAll('conversations');
   const list = DOM.get('historyList');
   if (!list) return;
-
-  if (convs.length === 0) {
-    list.innerHTML = '<div class="history-empty">Nta mateka</div>';
-    return;
-  }
-
-  list.innerHTML = convs
-    .slice(0, CONFIG.limits.maxHistoryShown)
-    .map(c => `
-      <div class="history-item ${c.id === AppState.currentId ? 'active' : ''}"
-           data-id="${Utils.escapeAttr(c.id)}"
-           role="button"
-           tabindex="0">
-        <div class="title">${Utils.escapeHtml(c.title || 'Ikiganiro')}</div>
-        <div class="meta">
-          <span>${Utils.relativeTime(c.timestamp)}</span>
-          <span>${(c.messages || []).length} ubutumwa</span>
-        </div>
-        <button class="delete-btn" data-delete="${Utils.escapeAttr(c.id)}" aria-label="Hanagura" type="button">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-    `).join('');
-
+  if (convs.length === 0) { list.innerHTML = '<div class="history-empty">Nta mateka</div>'; return; }
+  list.innerHTML = convs.slice(0, CONFIG.limits.maxHistoryShown).map(c => `
+    <div class="history-item ${c.id === AppState.currentId ? 'active' : ''}" data-id="${Utils.escapeAttr(c.id)}" role="button" tabindex="0">
+      <div class="title">${Utils.escapeHtml(c.title || 'Ikiganiro')}</div>
+      <div class="meta"><span>${Utils.relativeTime(c.timestamp)}</span><span>${(c.messages || []).length} ubutumwa</span></div>
+      <button class="delete-btn" data-delete="${Utils.escapeAttr(c.id)}" aria-label="Hanagura" type="button"><i class="fas fa-times"></i></button>
+    </div>
+  `).join('');
   list.querySelectorAll('.history-item').forEach(el => {
-    el.addEventListener('click', (e) => {
-      if (e.target.closest('[data-delete]')) return;
-      loadChat(el.dataset.id);
-    });
+    el.addEventListener('click', (e) => { if (e.target.closest('[data-delete]')) return; loadChat(el.dataset.id); });
     el.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        loadChat(el.dataset.id);
-      }
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); loadChat(el.dataset.id); }
     });
   });
-
   list.querySelectorAll('[data-delete]').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
       const id = btn.dataset.delete;
-      if (confirm('Hanagura iki kiganiro?')) {
-        deleteChat(id);
-      }
+      if (confirm('Hanagura iki kiganiro?')) deleteChat(id);
     });
   });
 }
@@ -5646,30 +4239,20 @@ function loadChat(id) {
   const convs = Storage.getAll('conversations');
   const chat = convs.find(c => c.id === id);
   if (!chat) return;
-
   AppState.currentId = chat.id;
   AppState.messages = chat.messages || [];
   AppState.userName = chat.userName || AppState.userName;
-
-  AppState.conversationHistory = chat.messages
-    .map(m => ({
-      role: m.role,
-      content: m.parts?.filter(p => p.type === 'text').map(p => p.data?.content).join(' ') || ''
-    }))
-    .filter(m => m.content);
-
+  AppState.conversationHistory = chat.messages.map(m => ({
+    role: m.role,
+    content: m.parts?.filter(p => p.type === 'text').map(p => p.data?.content).join(' ') || ''
+  })).filter(m => m.content);
   MessageRenderer.clear();
   const welcome = DOM.get('welcome');
   if (welcome) welcome.style.display = 'none';
-
   (chat.messages || []).forEach(m => {
-    if (m.role === 'user') {
-      MessageRenderer.add('user', m.parts);
-    } else {
-      MessageRenderer.add('assistant', m.parts, m.metadata);
-    }
+    if (m.role === 'user') MessageRenderer.add('user', m.parts);
+    else MessageRenderer.add('assistant', m.parts, m.metadata);
   });
-
   DOM.scrollToBottom(DOM.get('messages'));
   renderHistory();
   closeSidebar();
@@ -5679,11 +4262,8 @@ function loadChat(id) {
 function deleteChat(id) {
   const convs = Storage.getAll('conversations');
   Storage.set('conversations', convs.filter(c => c.id !== id));
-  if (AppState.currentId === id) {
-    newChat();
-  } else {
-    renderHistory();
-  }
+  if (AppState.currentId === id) newChat();
+  else renderHistory();
   Toast.success('Ikiganiro kihanaguwe');
 }
 
@@ -5692,17 +4272,10 @@ function newChat() {
   MessageRenderer.clear();
   renderHistory();
   renderWelcome();
-
   const input = DOM.get('messageInput');
-  if (input) {
-    input.value = '';
-    input.focus();
-    input.style.height = 'auto';
-  }
-
+  if (input) { input.value = ''; input.focus(); input.style.height = 'auto'; }
   const sendBtn = DOM.get('sendBtn');
   if (sendBtn) sendBtn.disabled = true;
-
   closeSidebar();
   Toast.success('Ikiganiro gishya');
 }
@@ -5710,16 +4283,12 @@ function newChat() {
 function renderWelcome() {
   const messages = DOM.get('messages');
   if (!messages) return;
-
   messages.innerHTML = `
     <div class="welcome" id="welcome">
-      <div class="welcome-mark" aria-hidden="true">🧠</div>
+      <div class="welcome-mark" aria-hidden="true"><img src="tyaza-logo.png" alt="TYAZA" onerror="this.style.display='none';this.parentElement.innerHTML='🧠';"></div>
       <h1 class="welcome-title">TYAZA</h1>
-      <p class="welcome-sub">Inzira y'Isanomutima</p>
-      <p class="welcome-prompt">
-        Ndi hano kugira ngo nkumve. Nta gahato, nta gusuzugura.<br>
-        Vuga icyo ushaka, mu buryo bwose.
-      </p>
+      <p class="welcome-sub">Inzira y'Isanamutima</p>
+      <p class="welcome-prompt">Ndi hano kugira ngo nkumve. Nta gahato, nta gusuzugura.<br>Vuga icyo ushaka, mu buryo bwose.</p>
       <div class="suggestions" id="suggestions">
         <button class="suggestion" data-prompt="Ndumva nfite ubwoba" type="button">Mfite ubwoba</button>
         <button class="suggestion" data-prompt="Ndababaye" type="button">Ndababaye</button>
@@ -5728,76 +4297,47 @@ function renderWelcome() {
       </div>
     </div>
   `;
-
   bindSuggestions();
 }
 
-/* ============================================================
-   SECTION 9: MOOD TRACKING
-   ============================================================ */
-
 const MoodTracker = {
   save(mood, notes = '') {
-    const entry = {
-      id: Utils.uid('mood'),
-      mood: Utils.clamp(parseInt(mood) || 3, 1, 5),
-      notes,
-      timestamp: Date.now()
-    };
+    const entry = { id: Utils.uid('mood'), mood: Utils.clamp(parseInt(mood) || 3, 1, 5), notes, timestamp: Date.now() };
     const all = Storage.getAll('moodData');
     all.push(entry);
     if (all.length > 500) all.length = 500;
     Storage.set('moodData', all);
-
-    DOM.$$('.mood-btn').forEach(btn => {
-      btn.classList.toggle('selected', parseInt(btn.dataset.mood) === entry.mood);
-    });
-
+    DOM.$$('.mood-btn').forEach(btn => btn.classList.toggle('selected', parseInt(btn.dataset.mood) === entry.mood));
     Toast.success('Uko wumva byabitswe');
     this.renderWeek();
   },
-
   renderWeek() {
     const calendar = DOM.get('weekCalendar');
     if (!calendar) return;
-
     const moods = Storage.getAll('moodData');
     const dayLabels = ['Ku', 'Ma', 'We', 'Ku', 'Ke', 'Sa', 'Ku'];
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-
     let html = dayLabels.map(l => `<div class="day-label">${l}</div>`).join('');
-
     for (let i = 6; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(date.getDate() - i);
       const dayStart = date.getTime();
       const dayEnd = dayStart + 86400000;
-
       const dayMoods = moods.filter(m => m.timestamp >= dayStart && m.timestamp < dayEnd);
       let cls = 'day-cell';
       if (dayMoods.length > 0) {
         const avg = Math.round(dayMoods.reduce((a, b) => a + b.mood, 0) / dayMoods.length);
         cls += ` mood-${avg}`;
       }
-
       html += `<div class="${cls}">${date.getDate()}</div>`;
     }
-
     calendar.innerHTML = html;
   },
-
-  openModal() {
-    this.renderWeek();
-    Modal.open('moodModal');
-  },
-
+  openModal() { this.renderWeek(); Modal.open('moodModal'); },
   saveFromModal() {
     const selected = DOM.$('.mood-scale-btn.selected');
-    if (!selected) {
-      Toast.warning('Hitamo uko wumva');
-      return;
-    }
+    if (!selected) { Toast.warning('Hitamo uko wumva'); return; }
     const mood = parseInt(selected.dataset.mood);
     const notes = DOM.get('moodNotes')?.value.trim() || '';
     this.save(mood, notes);
@@ -5805,119 +4345,55 @@ const MoodTracker = {
   }
 };
 
-/* ============================================================
-   SECTION 10: PROFILE
-   ============================================================ */
-
 const Profile = {
   generate() {
     const moodData = Storage.getAll('moodData');
     const convs = Storage.getAll('conversations');
     const userName = AppState.userName || Storage.get('userName', null);
-
     const recentMoods = moodData.filter(m => m.timestamp >= Date.now() - 30 * 86400000);
-    const avgMood = recentMoods.length
-      ? (recentMoods.reduce((a, b) => a + b.mood, 0) / recentMoods.length).toFixed(1)
-      : '—';
-
-    const uniqueDays = new Set(
-      moodData.map(m => new Date(m.timestamp).toDateString())
-    ).size;
-
+    const avgMood = recentMoods.length ? (recentMoods.reduce((a, b) => a + b.mood, 0) / recentMoods.length).toFixed(1) : '—';
+    const uniqueDays = new Set(moodData.map(m => new Date(m.timestamp).toDateString())).size;
     const totalMessages = convs.reduce((acc, c) => acc + (c.messages?.length || 0), 0);
-
-    return {
-      userName,
-      sessionCount: convs.length,
-      moodEntries: moodData.length,
-      activeDays: uniqueDays,
-      avgMood,
-      totalMessages,
-      engagement: Math.min(100, Math.round(totalMessages / 5))
-    };
+    return { userName, sessionCount: convs.length, moodEntries: moodData.length, activeDays: uniqueDays, avgMood, totalMessages, engagement: Math.min(100, Math.round(totalMessages / 5)) };
   },
-
   show() {
     const data = this.generate();
     const content = DOM.get('profileContent');
     if (!content) return;
-
     const moodEmojis = { 1: '😢', 2: '😔', 3: '😐', 4: '🙂', 5: '😊' };
-
     content.innerHTML = `
       <div class="profile-stats">
-        <div class="profile-stat">
-          <div class="value">${data.sessionCount}</div>
-          <div class="label">Ibikorwa</div>
-        </div>
-        <div class="profile-stat">
-          <div class="value">${data.moodEntries}</div>
-          <div class="label">Mood</div>
-        </div>
-        <div class="profile-stat">
-          <div class="value">${data.activeDays}</div>
-          <div class="label">Iminsi</div>
-        </div>
-        <div class="profile-stat">
-          <div class="value">${moodEmojis[Math.round(parseFloat(data.avgMood))] || '—'} ${data.avgMood}</div>
-          <div class="label">Uko wumva</div>
-        </div>
+        <div class="profile-stat"><div class="value">${data.sessionCount}</div><div class="label">Ibikorwa</div></div>
+        <div class="profile-stat"><div class="value">${data.moodEntries}</div><div class="label">Mood</div></div>
+        <div class="profile-stat"><div class="value">${data.activeDays}</div><div class="label">Iminsi</div></div>
+        <div class="profile-stat"><div class="value">${moodEmojis[Math.round(parseFloat(data.avgMood))] || '—'} ${data.avgMood}</div><div class="label">Uko wumva</div></div>
       </div>
-
-      ${data.userName ? `
-        <div style="background:var(--bg);padding:14px;border-radius:var(--radius);margin-bottom:12px;">
-          <div style="font-family:var(--font-ui);font-size:0.75rem;color:var(--text-muted);margin-bottom:4px;">👤 IZINA</div>
-          <div style="font-family:var(--font-ui);font-weight:600;">${Utils.escapeHtml(data.userName)}</div>
-        </div>
-      ` : ''}
-
+      ${data.userName ? `<div style="background:var(--bg);padding:14px;border-radius:var(--radius);margin-bottom:12px;"><div style="font-family:var(--font-ui);font-size:0.75rem;color:var(--text-muted);margin-bottom:4px;">👤 IZINA</div><div style="font-family:var(--font-ui);font-weight:600;">${Utils.escapeHtml(data.userName)}</div></div>` : ''}
       <div style="background:var(--bg);padding:14px;border-radius:var(--radius);margin-bottom:12px;">
         <div style="font-family:var(--font-ui);font-size:0.75rem;color:var(--text-muted);margin-bottom:6px;">📊 INGIRAKAMARO</div>
         <div style="display:flex;align-items:center;gap:10px;">
-          <div style="flex:1;height:6px;background:var(--bg-muted);border-radius:3px;overflow:hidden;">
-            <div style="width:${data.engagement}%;height:100%;background:linear-gradient(90deg,var(--sage-400),var(--sage-600));"></div>
-          </div>
+          <div style="flex:1;height:6px;background:var(--bg-muted);border-radius:3px;overflow:hidden;"><div style="width:${data.engagement}%;height:100%;background:linear-gradient(90deg,var(--sage-400),var(--sage-600));"></div></div>
           <span style="font-family:var(--font-ui);font-weight:700;font-size:0.85rem;color:var(--sage-600);">${data.engagement}%</span>
         </div>
       </div>
-
       <div style="background:linear-gradient(135deg,var(--sage-50),var(--bg));padding:14px;border-radius:var(--radius);">
         <div style="font-family:var(--font-ui);font-weight:700;color:var(--sage-700);font-size:0.85rem;margin-bottom:4px;">🏢 KIVURA LABS</div>
-        <div style="font-family:var(--font-ui);font-size:0.75rem;color:var(--text-soft);margin-bottom:2px;">
-          <strong>CEO:</strong> ${COMPANY_INFO.founder}
-        </div>
-        <div style="font-family:var(--font-body);font-style:italic;font-size:0.75rem;color:var(--text-muted);">
-          "${COMPANY_INFO.quote}"
-        </div>
+        <div style="font-family:var(--font-ui);font-size:0.75rem;color:var(--text-soft);margin-bottom:2px;"><strong>CEO:</strong> ${COMPANY_INFO.founder}</div>
+        <div style="font-family:var(--font-body);font-style:italic;font-size:0.75rem;color:var(--text-muted);">"${COMPANY_INFO.quote}"</div>
       </div>
     `;
-
     Modal.open('profileModal');
   }
 };
 
-/* ============================================================
-   SECTION 11: EXPORT
-   ============================================================ */
-
 function exportChat() {
-  if (AppState.messages.length === 0) {
-    Toast.warning('Nta kiganiro cyohereza');
-    return;
-  }
-
+  if (AppState.messages.length === 0) { Toast.warning('Nta kiganiro cyohereza'); return; }
   const data = {
-    app: 'TYAZA v1',
-    version: '1.0.0',
-    tagline: TYAZA_MISSION.tagline,
-    company: COMPANY_INFO,
-    userName: AppState.userName,
-    messages: AppState.messages,
-    risks: AppState.riskFlags,
-    timestamp: Date.now(),
-    language: AppState.detectedLanguage
+    app: 'TYAZA v1', version: '1.0.0', tagline: TYAZA_MISSION.tagline,
+    company: COMPANY_INFO, userName: AppState.userName,
+    messages: AppState.messages, risks: AppState.riskFlags,
+    timestamp: Date.now(), language: AppState.detectedLanguage
   };
-
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
@@ -5930,23 +4406,8 @@ function exportChat() {
   Toast.success('Ikiganiro cyoherejwe');
 }
 
-/* ============================================================
-   SECTION 12: SIDEBAR
-   ============================================================ */
-
-function toggleSidebar() {
-  const sidebar = DOM.get('sidebar');
-  if (sidebar) sidebar.classList.toggle('open');
-}
-
-function closeSidebar() {
-  const sidebar = DOM.get('sidebar');
-  if (sidebar) sidebar.classList.remove('open');
-}
-
-/* ============================================================
-   SECTION 13: SUGGESTIONS
-   ============================================================ */
+function toggleSidebar() { const s = DOM.get('sidebar'); if (s) s.classList.toggle('open'); }
+function closeSidebar() { const s = DOM.get('sidebar'); if (s) s.classList.remove('open'); }
 
 function bindSuggestions() {
   DOM.$$('.suggestion').forEach(btn => {
@@ -5964,146 +4425,71 @@ function bindSuggestions() {
   });
 }
 
-/* ============================================================
-   SECTION 14: INPUT HANDLERS
-   ============================================================ */
-
 function initInput() {
   const input = DOM.get('messageInput');
   const sendBtn = DOM.get('sendBtn');
-
   if (!input) return;
-
   input.addEventListener('input', () => {
-    if (sendBtn) {
-      sendBtn.disabled = !input.value.trim() && !AppState.attachedFile;
-    }
+    if (sendBtn) sendBtn.disabled = !input.value.trim() && !AppState.attachedFile;
     input.style.height = 'auto';
     input.style.height = Math.min(input.scrollHeight, 160) + 'px';
   });
-
   input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      if (!sendBtn?.disabled) sendMessage();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if (!sendBtn?.disabled) sendMessage(); }
   });
-
-  if (sendBtn) {
-    sendBtn.addEventListener('click', sendMessage);
-  }
+  if (sendBtn) sendBtn.addEventListener('click', sendMessage);
 }
-
-/* ============================================================
-   SECTION 15: EVENT WIRING
-   ============================================================ */
 
 function initEvents() {
   DOM.get('menuToggle')?.addEventListener('click', toggleSidebar);
   DOM.get('sidebarClose')?.addEventListener('click', closeSidebar);
   DOM.get('newChatBtn')?.addEventListener('click', newChat);
-
   DOM.get('themeBtn')?.addEventListener('click', () => Theme.toggle());
   DOM.get('exportBtn')?.addEventListener('click', exportChat);
   DOM.get('profileBtn')?.addEventListener('click', () => Profile.show());
-  DOM.get('clearChatBtn')?.addEventListener('click', () => {
-    if (confirm('Siba iki kiganiro?')) newChat();
-  });
-
+  DOM.get('clearChatBtn')?.addEventListener('click', () => { if (confirm('Siba iki kiganiro?')) newChat(); });
   DOM.get('clearHistoryBtn')?.addEventListener('click', () => {
-    if (confirm('Hanagura amateka yose?')) {
-      Storage.set('conversations', []);
-      renderHistory();
-      Toast.success('Amateka yahanaguwe');
-    }
+    if (confirm('Hanagura amateka yose?')) { Storage.set('conversations', []); renderHistory(); Toast.success('Amateka yahanaguwe'); }
   });
-
-  DOM.$$('.mood-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const mood = parseInt(btn.dataset.mood);
-      MoodTracker.save(mood);
-    });
-  });
-
+  DOM.$$('.mood-btn').forEach(btn => btn.addEventListener('click', () => MoodTracker.save(parseInt(btn.dataset.mood))));
   DOM.$$('.mood-scale-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       DOM.$$('.mood-scale-btn').forEach(b => b.classList.remove('selected'));
       btn.classList.add('selected');
     });
   });
-
   DOM.get('saveMoodBtn')?.addEventListener('click', () => MoodTracker.saveFromModal());
-
   DOM.get('voiceBtn')?.addEventListener('click', () => VoiceController.open());
   DOM.get('voiceCancel')?.addEventListener('click', () => VoiceController.close());
   DOM.get('voiceSend')?.addEventListener('click', () => VoiceController.send());
-
-  const plusBtn = document.createElement('button');
-  plusBtn.className = 'input-btn';
-  plusBtn.type = 'button';
-  plusBtn.title = 'Ongeraho dosiye';
-  plusBtn.setAttribute('aria-label', 'Ongeraho dosiye');
-  plusBtn.innerHTML = '<i class="fas fa-paperclip"></i>';
-  plusBtn.style.background = 'var(--bg-muted)';
-  plusBtn.style.color = 'var(--text-soft)';
-  plusBtn.addEventListener('click', () => FilePipeline.pick());
-
-  const inputWrap = DOM.$('.input-wrap');
-  if (inputWrap) {
-    const voiceBtn = DOM.get('voiceBtn');
-    if (voiceBtn) inputWrap.insertBefore(plusBtn, voiceBtn);
-  }
-
+  DOM.get('attachBtn')?.addEventListener('click', () => FilePipeline.pick());
   DOM.get('crisisFab')?.addEventListener('click', () => Modal.open('crisisModal'));
-
-  document.addEventListener('assessment-select', (e) => {
-    const { value } = e.detail;
-    MoodTracker.save(parseInt(value));
-  });
-
+  document.addEventListener('assessment-select', (e) => MoodTracker.save(parseInt(e.detail.value)));
   document.addEventListener('keydown', (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-      e.preventDefault();
-      DOM.get('messageInput')?.focus();
-    }
-    if (e.key === 'Escape') {
-      if (VoiceController.active) VoiceController.close();
-      Modal.closeAll();
-      closeSidebar();
-    }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); DOM.get('messageInput')?.focus(); }
+    if (e.key === 'Escape') { if (VoiceController.active) VoiceController.close(); Modal.closeAll(); closeSidebar(); }
   });
 }
-
-/* ============================================================
-   SECTION 16: INIT
-   ============================================================ */
 
 async function init() {
   if (AppState.initialized) return;
   AppState.initialized = true;
-
   AppState.userName = Storage.get('userName', null);
-
   Theme.init();
   Modal.init();
   Toast.init();
   ScrollManager.init();
   initInput();
   initEvents();
-
   renderHistory();
   MoodTracker.renderWeek();
   bindSuggestions();
-
   setTimeout(async () => {
     const result = await LLMClient.test();
-    if (!result.ok) {
-      console.warn('LLM not available:', result.reason);
-    }
+    if (!result.ok) console.warn('LLM not available:', result.reason || result.status);
+    else console.log('✅ DeepSeek API reachable');
   }, 1500);
-
   setTimeout(() => DOM.get('messageInput')?.focus(), 300);
-
   console.log('%c✅ TYAZA v1 ready', 'color:#7D9B8A;font-weight:700;font-size:14px;');
   console.log('User:', AppState.userName || '(anonymous)');
   console.log('Conversations:', Storage.getAll('conversations').length);
@@ -6111,28 +4497,7 @@ async function init() {
 
 document.addEventListener('DOMContentLoaded', init);
 
-/* ============================================================
-   SECTION 17: GLOBAL EXPORTS
-   ============================================================ */
-
-window.TyazaApp = {
-  AppState,
-  sendMessage,
-  newChat,
-  loadChat,
-  deleteChat,
-  exportChat,
-  saveConversation,
-  renderHistory,
-  MoodTracker,
-  Profile,
-  FilePipeline,
-  MessageRenderer,
-  StatusBar,
-  RiskIndicator,
-  init
-};
-
+window.TyazaApp = { AppState, sendMessage, newChat, loadChat, deleteChat, exportChat, saveConversation, renderHistory, MoodTracker, Profile, FilePipeline, MessageRenderer, StatusBar, RiskIndicator, init };
 window.sendMessage = sendMessage;
 window.newChat = newChat;
 window.loadChat = loadChat;
